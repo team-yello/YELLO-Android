@@ -1,8 +1,10 @@
 <resources>
     <!-- Base application theme. -->
-    <style name="Base.Theme.YELLO" parent="Theme.Material3.DayNight.NoActionBar">
+    <style name="Base.Theme.YELLO" parent="Theme.Material3.Light.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <!-- Remove font padding. -->
+        <item name="android:includeFontPadding">false</item>
     </style>
 
     <style name="Theme.YELLO" parent="Base.Theme.YELLO" />

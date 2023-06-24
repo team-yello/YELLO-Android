@@ -1,0 +1,66 @@
+name: YELLO PR Checker
+
+on:
+  pull_request:
+    branches: [ develop, main ]
+
+defaults:
+  run:
+    shell: bash
+    working-directory: .
+
+jobs:
+  build:
+    name: PR Checker
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Gradle cache
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+      - name: set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: 17
+
+      - name: Change gradlew permissions
+        run: chmod +x ./gradlew
+
+      - name: Access Firebase Service
+        run: echo '${{ secrets.GOOGLE_SERVICES_JSON }}' > ./app/google-services.json
+
+      - name: Build debug APK
+        run: ./gradlew assembleDebug --stacktrace
+
+      - name: On Success
+        if: ${{ success() }}
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_COLOR: '#53A551'
+          SLACK_ICON: https://avatars.githubusercontent.com/u/137089215?s=48&v=4
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+          SLACK_TITLE: 'YELLO/PR Check S.U.C.C.E.S.S 🎉🎉🎉'
+          MSG_MINIMAL: true
+          SLACK_USERNAME: YELLO_ANDROID
+          SLACK_MESSAGE: 'P R 성 공!!! 🎉🎉🎉 조와~쒀'
+
+      - name: On Failed, Notify in Slack
+        if: ${{ failure() }}
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_COLOR: '#ff0000'
+          SLACK_ICON: https://avatars.githubusercontent.com/u/137089215?s=48&v=4
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+          SLACK_TITLE: 'YELLO/Android Debug build Fail❌'
+          MSG_MINIMAL: true
+          SLACK_USERNAME: YELLO_ANDROID
+          SLACK_MESSAGE: '에러ㅋㅋㅋㅋㅋ났네ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ'

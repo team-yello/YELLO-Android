@@ -27,7 +27,7 @@ android {
         dataBinding = true
         viewBinding = true
     }
-    namespace = "com.yello"
+    namespace = "com.yello.ui"
 }
 
 dependencies {

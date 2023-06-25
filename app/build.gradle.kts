@@ -40,6 +40,7 @@ android {
     }
 
     buildFeatures {
+        buildConfig = true
         dataBinding = true
         viewBinding = true
     }
@@ -95,6 +96,8 @@ dependencies {
         implementation(progressView)
         implementation(balloon)
         implementation(lottie)
+        debugImplementation(flipper)
+        debugImplementation(flipperNetwork)
         debugImplementation(flipperLeakCanary)
         debugImplementation(leakCanary)
         debugImplementation(soloader)

@@ -14,3 +14,4 @@ dependencyResolutionManagement {
 }
 rootProject.name = "YELLO"
 include(":app")
+include(":core-ui")

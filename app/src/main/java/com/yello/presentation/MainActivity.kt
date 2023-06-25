@@ -1,7 +1,8 @@
-package com.yello
+package com.yello.presentation
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.yello.R
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

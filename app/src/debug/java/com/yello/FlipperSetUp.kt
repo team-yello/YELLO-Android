@@ -1,7 +1,6 @@
 package com.yello
 
 import android.app.Application
-import com.facebook.flipper.BuildConfig
 import com.facebook.flipper.android.AndroidFlipperClient
 import com.facebook.flipper.android.utils.FlipperUtils
 import com.facebook.flipper.plugins.inspector.DescriptorMapping
@@ -15,7 +14,7 @@ import okhttp3.OkHttpClient
 private val flipperNetworkPlugin = NetworkFlipperPlugin()
 
 fun Application.setUpFlipper() {
-    if (com.yello.BuildConfig.DEBUG && FlipperUtils.shouldEnableFlipper(this)) {
+    if (BuildConfig.DEBUG && FlipperUtils.shouldEnableFlipper(this)) {
         SoLoader.init(this, false)
         val client = AndroidFlipperClient.getInstance(this).apply {
             addPlugin(InspectorFlipperPlugin(this@setUpFlipper, DescriptorMapping.withDefaults()))

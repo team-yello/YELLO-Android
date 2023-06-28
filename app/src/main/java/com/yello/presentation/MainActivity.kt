@@ -1,13 +1,12 @@
 package com.yello.presentation
 
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
+import com.example.ui.base.BindingActivity
 import com.yello.R
+import com.yello.databinding.ActivityMainBinding
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        
     }
 }

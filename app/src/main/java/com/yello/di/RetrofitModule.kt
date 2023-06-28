@@ -7,6 +7,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import javax.inject.Singleton
 import kotlinx.serialization.json.Json
 import okhttp3.Interceptor
 import okhttp3.MediaType.Companion.toMediaType
@@ -14,11 +15,12 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Converter
 import retrofit2.Retrofit
-import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
 object RetrofitModule {
+    private const val APPLICATION_JSON = "application/json"
+
     @Provides
     @Singleton
     fun provideJson(): Json = Json {
@@ -29,7 +31,7 @@ object RetrofitModule {
     @Provides
     @Singleton
     fun provideJsonConverter(json: Json): Converter.Factory =
-        json.asConverterFactory("application/json".toMediaType())
+        json.asConverterFactory(APPLICATION_JSON.toMediaType())
 
     @Provides
     @Singleton

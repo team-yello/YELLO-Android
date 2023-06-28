@@ -5,7 +5,7 @@ import androidx.recyclerview.widget.DiffUtil
 
 inline fun View.setOnSingleClickListener(
     delay: Long = 500L,
-    crossinline block: (View) -> Unit
+    crossinline block: (View) -> Unit,
 ) {
     var previousClickedTime = 0L
     setOnClickListener { view ->
@@ -19,13 +19,15 @@ inline fun View.setOnSingleClickListener(
 
 class ItemDiffCallback<T>(
     val onItemsTheSame: (T, T) -> Boolean,
-    val onContentsTheSame: (T, T) -> Boolean
+    val onContentsTheSame: (T, T) -> Boolean,
 ) : DiffUtil.ItemCallback<T>() {
     override fun areItemsTheSame(
-        oldItem: T, newItem: T
+        oldItem: T,
+        newItem: T,
     ): Boolean = onItemsTheSame(oldItem, newItem)
 
     override fun areContentsTheSame(
-        oldItem: T, newItem: T
+        oldItem: T,
+        newItem: T,
     ): Boolean = onContentsTheSame(oldItem, newItem)
 }

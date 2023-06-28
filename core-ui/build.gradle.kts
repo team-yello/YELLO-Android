@@ -34,6 +34,7 @@ dependencies {
     // Kotlin
     implementation(KotlinDependencies.kotlin)
 
+    // Lifecycle Ktx
     implementation(AndroidXDependencies.lifeCycleKtx)
 
     // Material Design

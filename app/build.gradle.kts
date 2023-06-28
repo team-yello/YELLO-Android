@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.konan.properties.Properties
+
 plugins {
     id("com.android.application")
     kotlin("android")
@@ -6,6 +8,9 @@ plugins {
     id("dagger.hilt.android.plugin")
     id("com.google.android.gms.oss-licenses-plugin")
 }
+
+val properties = Properties()
+properties.load(project.rootProject.file("local.properties").inputStream())
 
 android {
     namespace = Constants.packageName
@@ -17,6 +22,8 @@ android {
         targetSdk = Constants.targetSdk
         versionCode = Constants.versionCode
         versionName = Constants.versionName
+
+        buildConfigField("String", "BASE_URL", properties.getProperty("base.url"))
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }

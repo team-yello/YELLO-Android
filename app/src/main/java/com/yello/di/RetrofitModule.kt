@@ -1,12 +1,12 @@
 package com.yello.di
 
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
+import com.yello.BuildConfig.BASE_URL
 import com.yello.addFlipperNetworkPlugin
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import javax.inject.Singleton
 import kotlinx.serialization.json.Json
 import okhttp3.Interceptor
 import okhttp3.MediaType.Companion.toMediaType
@@ -14,6 +14,7 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Converter
 import retrofit2.Retrofit
+import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -55,7 +56,4 @@ object RetrofitModule {
         .client(client)
         .addConverterFactory(factory)
         .build()
-
-    // TODO 주소 나오면 변경
-    const val BASE_URL = ""
 }

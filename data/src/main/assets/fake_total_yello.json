@@ -1,0 +1,19 @@
+{
+  "status": 200,
+  "message": "조회 성공하였습니다.",
+  "data": {
+    "yelloCount": 2,
+    "yello": [
+      {
+        "id": 1,
+        "sex": "M",
+        "createdAt": "1시간 전"
+      },
+      {
+        "id": 2,
+        "sex": "F",
+        "createdAt": "5시간 전"
+      }
+    ]
+  }
+}

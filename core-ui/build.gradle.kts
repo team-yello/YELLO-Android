@@ -27,6 +27,7 @@ android {
         dataBinding = true
         viewBinding = true
     }
+
     namespace = "com.yello.ui"
 }
 

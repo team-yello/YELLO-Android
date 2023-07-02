@@ -3,6 +3,7 @@ package com.example.data.remote.interceptor
 import android.content.Context
 import com.example.data.model.response.auth.ResponseAuthToken
 import com.example.domain.YelloDataStore
+import com.yello.data.BuildConfig.BASE_URL
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.serialization.json.Json
 import okhttp3.Interceptor
@@ -71,8 +72,6 @@ class AuthInterceptor @Inject constructor(
         this.newBuilder().addHeader(HEADER_ACCESS_TOKEN, dataStore.userToken)
 
     companion object {
-        private const val BASE_URL = "null" // TODO: BASE_URL 불러오기
-
         private const val CODE_TOKEN_EXPIRED = 401
 
         private const val HEADER_ACCESS_TOKEN = "accessToken"

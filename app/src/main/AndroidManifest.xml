@@ -27,7 +27,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".presentation.yello.YelloActivity"
-            android:exported="false" />
+            android:exported="false" />z
     </application>
 
 </manifest>

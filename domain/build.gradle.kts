@@ -15,9 +15,11 @@ dependencies {
         implementation(coroutines)
         implementation(dateTime)
     }
+
     ThirdPartyDependencies.run {
         implementation(hiltCore)
     }
+
     KaptDependencies.run {
         kapt(hiltCompiler)
     }

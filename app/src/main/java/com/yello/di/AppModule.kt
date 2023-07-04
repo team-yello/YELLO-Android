@@ -15,6 +15,6 @@ object AppModule {
     @Provides
     @Singleton
     fun provideFileParser(
-        @ApplicationContext context: Context
+        @ApplicationContext context: Context,
     ): FileParser = FileParser(context)
 }

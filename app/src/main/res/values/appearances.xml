@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <style name="TextAppearance.Yello" parent="">
         <item name="android:textStyle">normal</item>
         <item name="android:textColor">?colorOnBackground</item>
@@ -89,5 +90,20 @@
         <item name="fontFamily">@font/font_pretendard_semibold</item>
         <item name="android:textSize">13sp</item>
         <item name="lineHeight">18sp</item>
+    </style>
+
+    <!-- Bottom Navigation View Custom TextAppearances. -->
+    <style name="TextAppearance.Yello.BnvItemActive">
+        <item name="fontFamily">@font/font_pretendard_bold</item>
+        <item name="android:textSize">10sp</item>
+        <item name="lineHeight">12sp</item>
+        <item name="android:textColor">@color/yello_main_500</item>
+    </style>
+
+    <style name="TextAppearance.Yello.BnvItemInactive">
+        <item name="fontFamily">@font/font_pretendard_medium</item>
+        <item name="android:textSize">10sp</item>
+        <item name="lineHeight">12sp</item>
+        <item name="android:textColor">@color/grayscales_600</item>
     </style>
 </resources>

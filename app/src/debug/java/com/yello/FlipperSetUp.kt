@@ -25,7 +25,6 @@ fun Application.setUpFlipper() {
     }
 }
 
-
 fun OkHttpClient.Builder.addFlipperNetworkPlugin(): OkHttpClient.Builder {
     return addNetworkInterceptor(FlipperOkhttpInterceptor(flipperNetworkPlugin))
 }

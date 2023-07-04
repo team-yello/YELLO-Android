@@ -100,7 +100,7 @@ val Compose = listOf(
     "androidx.lifecycle:lifecycle-viewmodel-compose:1.0.0-alpha07",
     "androidx.hilt:hilt-navigation-compose:1.0.0",
     "androidx.paging:paging-compose:1.0.0-alpha14",
-    "io.coil-kt:coil-compose:1.4.0"
+    "io.coil-kt:coil-compose:1.4.0",
 )
 
 object ComposeDependency {
@@ -108,5 +108,5 @@ object ComposeDependency {
 }
 
 val ComposeDebug = listOf(
-    "androidx.compose.ui:ui-tooling:${Versions.composeVersion}"
+    "androidx.compose.ui:ui-tooling:${Versions.composeVersion}",
 )

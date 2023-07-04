@@ -26,7 +26,8 @@ fun Fragment.stringOf(@StringRes resId: Int) = getString(resId)
 
 fun Fragment.colorOf(@ColorRes resId: Int) = ContextCompat.getColor(requireContext(), resId)
 
-fun Fragment.drawableOf(@DrawableRes resId: Int) = ContextCompat.getDrawable(requireContext(), resId)
+fun Fragment.drawableOf(@DrawableRes resId: Int) =
+    ContextCompat.getDrawable(requireContext(), resId)
 
 val Fragment.viewLifeCycle
     get() = viewLifecycleOwner.lifecycle

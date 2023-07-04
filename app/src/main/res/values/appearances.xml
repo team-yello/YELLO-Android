@@ -2,7 +2,7 @@
 <resources>
     <style name="TextAppearance.Yello" parent="">
         <item name="android:textStyle">normal</item>
-        <item name="android:textColor">?colorOnBackground</item>
+        <item name="android:textColor">@color/black</item>
         <item name="android:textAllCaps">false</item>
         <item name="android:includeFontPadding">false</item>
     </style>

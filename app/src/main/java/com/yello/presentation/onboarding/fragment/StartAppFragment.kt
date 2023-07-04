@@ -23,7 +23,7 @@ class StartAppFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        // 대부분의 로직은 여기에 구현합니다.
+        // TODO 대부분의 로직은 여기에 구현합니다.
     }
 
     override fun onDestroyView() {

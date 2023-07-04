@@ -29,7 +29,8 @@
         <activity android:name=".presentation.yello.YelloActivity"
             android:exported="false" />
         <activity android:name=".presentation.onboarding.Activity.OnBoardingActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

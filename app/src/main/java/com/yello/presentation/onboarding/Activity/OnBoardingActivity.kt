@@ -25,7 +25,7 @@ class OnBoardingActivity :
         super.onCreate(savedInstanceState)
         binding = ActivityOnboardingBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        castView()
+
         addToList()
         fragmentList.add(SchoolFragment())
         fragmentList.add(StudentIdFragment())
@@ -35,13 +35,10 @@ class OnBoardingActivity :
         fragmentList.add(CodeFragment())
         fragmentList.add(StartAppFragment())
 
-        viewPager.adapter = ViewPagerFragmentAdapter(this, fragmentList)
+        //viewPager.adapter = ViewPagerFragmentAdapter(this, fragmentList)
         viewPager.orientation = ViewPager2.ORIENTATION_HORIZONTAL
     }
 
-    private fun castView() {
-        viewPager = findViewById(R.id.view_pager2)
-    }
 
     private fun addToList() {
         for (item in 1..7) {

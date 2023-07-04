@@ -23,12 +23,10 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
-            android:id="@+id/gender_next"
+            android:id="@+id/btn_gendernext"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="댜음"
             app:layout_constraintBottom_toBottomOf="parent" />
-
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

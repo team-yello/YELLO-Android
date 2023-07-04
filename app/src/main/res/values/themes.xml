@@ -1,6 +1,9 @@
 <resources>
     <!-- Base application theme. -->
     <style name="Base.Theme.YELLO" parent="Theme.Material3.Light.NoActionBar">
+        <!-- Status bar color. -->
+        <!-- TODO : Status bar 투명하게 구현 -->
+        <item name="android:statusBarColor">@color/black</item>
         <!-- Remove font padding. -->
         <item name="android:includeFontPadding">false</item>
         <!-- Font theme. -->

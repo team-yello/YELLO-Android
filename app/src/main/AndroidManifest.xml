@@ -17,7 +17,7 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".presentation.MainActivity"
+            android:name=".presentation.onboarding.Activity.OnBoardingActivity"
             android:exported="true"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -27,8 +27,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".presentation.yello.YelloActivity"
-            android:exported="false" />
-        <activity android:name=".presentation.onboarding.Activity.OnBoardingActivity"
             android:exported="false" />
     </application>
 

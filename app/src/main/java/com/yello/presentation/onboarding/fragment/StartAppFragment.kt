@@ -1,4 +1,4 @@
-package com.yello.presentation.onboarding
+package com.yello.presentation.onboarding.fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,15 +6,15 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.ui.base.BindingFragment
 import com.yello.R
-import com.yello.databinding.FragmentSchoolBinding
+import com.yello.databinding.FragmentStartappBinding
 
-class SchoolFragment : BindingFragment<FragmentSchoolBinding>(R.layout.fragment_school) {
+class StartAppFragment : BindingFragment<FragmentStartappBinding>(R.layout.fragment_startapp) {
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View? {
-        return inflater.inflate(R.layout.fragment_school, container, false)
+        return inflater.inflate(R.layout.fragment_startapp, container, false)
     }
 }

@@ -1,19 +1,19 @@
-package com.yello.presentation.onboarding
+package com.yello.presentation.onboarding.fragment
+
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.ui.base.BindingFragment
 import com.yello.R
-import com.yello.databinding.FragmentGenderBinding
+import com.yello.databinding.FragmentNameIdBinding
 
-class GenderFragment : BindingFragment<FragmentGenderBinding>(R.layout.fragment_gender) {
-
+class NameIdFragment : BindingFragment<FragmentNameIdBinding>(R.layout.fragment_name_id) {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View? {
-        return inflater.inflate(R.layout.fragment_gender, container, false)
+        return inflater.inflate(R.layout.fragment_name_id, container, false)
     }
 }

@@ -1,4 +1,4 @@
-package com.yello.presentation.onboarding
+package com.yello.presentation.onboarding.fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater

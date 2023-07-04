@@ -5,6 +5,23 @@
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
         <!-- Remove font padding. -->
         <item name="android:includeFontPadding">false</item>
+        <!-- Font theme. -->
+        <item name="textAppearanceHeadline1">@style/TextAppearance.Yello.Headline01</item>
+        <item name="textAppearanceHeadline2">@style/TextAppearance.Yello.Headline02</item>
+        <item name="textAppearanceHeadline3">@style/TextAppearance.Yello.Headline03</item>
+        <item name="textAppearanceSubtitle1">@style/TextAppearance.Yello.Subtitle01</item>
+        <item name="textAppearanceSubtitle2">@style/TextAppearance.Yello.Subtitle02</item>
+        <!-- TODO: 명칭 수정 후 TextAppearance 등록
+        <item name="textAppearance">@style/TextAppearance.Yello.</item>
+        <item name="textAppearance">@style/TextAppearance.Yello.</item>
+        <item name="textAppearance">@style/TextAppearance.Yello.</item>
+        <item name="textAppearance">@style/TextAppearance.Yello.</item>
+        <item name="textAppearance">@style/TextAppearance.Yello.</item>
+        <item name="textAppearance">@style/TextAppearance.Yello.</item>
+        <item name="textAppearance">@style/TextAppearance.Yello.</item>
+        <item name="textAppearance">@style/TextAppearance.Yello.</item>
+        <item name="textAppearance">@style/TextAppearance.Yello.</item>
+        -->
     </style>
 
     <style name="Theme.YELLO" parent="Base.Theme.YELLO" />

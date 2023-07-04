@@ -37,55 +37,55 @@
         <item name="lineHeight">22sp</item>
     </style>
 
-    <style name="TextAppearance.Yello.Body01">
+    <style name="TextAppearance.Yello.BodyLarge">
         <item name="fontFamily">@font/font_pretendard_medium</item>
         <item name="android:textSize">16sp</item>
+        <item name="lineHeight">26sp</item>
+    </style>
+
+    <style name="TextAppearance.Yello.BodyMedium">
+        <item name="fontFamily">@font/font_pretendard_medium</item>
+        <item name="android:textSize">15sp</item>
         <item name="lineHeight">24sp</item>
     </style>
 
-    <style name="TextAppearance.Yello.Body02">
+    <style name="TextAppearance.Yello.BodySmall">
         <item name="fontFamily">@font/font_pretendard_medium</item>
-        <item name="android:textSize">15sp</item>
+        <item name="android:textSize">14sp</item>
         <item name="lineHeight">22sp</item>
     </style>
 
-    <style name="TextAppearance.Yello.Body03">
-        <item name="fontFamily">@font/font_pretendard_medium</item>
-        <item name="android:textSize">14sp</item>
-        <item name="lineHeight">20sp</item>
-    </style>
-
-    <style name="TextAppearance.Yello.Body04">
+    <style name="TextAppearance.Yello.Body02">
         <item name="fontFamily">@font/font_pretendard_regular</item>
         <item name="android:textSize">13sp</item>
-        <item name="lineHeight">20sp</item>
+        <item name="lineHeight">22sp</item>
     </style>
 
-    <style name="TextAppearance.Yello.Caption01">
+    <style name="TextAppearance.Yello.LabelLarge">
         <item name="fontFamily">@font/font_pretendard_medium</item>
         <item name="android:textSize">12sp</item>
         <item name="lineHeight">16sp</item>
     </style>
 
-    <style name="TextAppearance.Yello.Caption02">
+    <style name="TextAppearance.Yello.LabelMedium">
         <item name="fontFamily">@font/font_pretendard_medium</item>
         <item name="android:textSize">11sp</item>
         <item name="lineHeight">15sp</item>
     </style>
 
-    <style name="TextAppearance.Yello.Caption03">
+    <style name="TextAppearance.Yello.LabelSmall">
         <item name="fontFamily">@font/font_pretendard_medium</item>
         <item name="android:textSize">10sp</item>
         <item name="lineHeight">14sp</item>
     </style>
 
-    <style name="TextAppearance.Yello.Btn01">
+    <style name="TextAppearance.Yello.Body01">
         <item name="fontFamily">@font/font_pretendard_medium</item>
         <item name="android:textSize">15sp</item>
         <item name="lineHeight">24sp</item>
     </style>
 
-    <style name="TextAppearance.Yello.Btn02">
+    <style name="TextAppearance.Yello.Button">
         <item name="fontFamily">@font/font_pretendard_semibold</item>
         <item name="android:textSize">13sp</item>
         <item name="lineHeight">18sp</item>

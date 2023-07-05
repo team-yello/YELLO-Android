@@ -5,6 +5,21 @@
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
         <!-- Remove font padding. -->
         <item name="android:includeFontPadding">false</item>
+        <!-- Font theme. -->
+        <item name="textAppearanceHeadline1">@style/TextAppearance.Yello.Headline01</item>
+        <item name="textAppearanceHeadline2">@style/TextAppearance.Yello.Headline02</item>
+        <item name="textAppearanceHeadline3">@style/TextAppearance.Yello.Headline03</item>
+        <item name="textAppearanceSubtitle1">@style/TextAppearance.Yello.Subtitle01</item>
+        <item name="textAppearanceSubtitle2">@style/TextAppearance.Yello.Subtitle02</item>
+        <item name="textAppearanceBodyLarge">@style/TextAppearance.Yello.BodyLarge</item>
+        <item name="textAppearanceBodyMedium">@style/TextAppearance.Yello.BodyMedium</item>
+        <item name="textAppearanceBodySmall">@style/TextAppearance.Yello.BodySmall</item>
+        <item name="textAppearanceBody1">@style/TextAppearance.Yello.Body01</item>
+        <item name="textAppearanceBody2">@style/TextAppearance.Yello.Body02</item>
+        <item name="textAppearanceLabelLarge">@style/TextAppearance.Yello.LabelLarge</item>
+        <item name="textAppearanceLabelMedium">@style/TextAppearance.Yello.LabelMedium</item>
+        <item name="textAppearanceLabelSmall">@style/TextAppearance.Yello.LabelSmall</item>
+        <item name="textAppearanceButton">@style/TextAppearance.Yello.Button</item>
     </style>
 
     <style name="Theme.YELLO" parent="Base.Theme.YELLO" />

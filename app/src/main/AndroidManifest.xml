@@ -28,6 +28,8 @@
         </activity>
         <activity android:name=".presentation.yello.YelloActivity"
             android:exported="false" />
+        <activity android:name=".presentation.auth.SignInActivity"
+            android:exported="false" />
     </application>
 
 </manifest>

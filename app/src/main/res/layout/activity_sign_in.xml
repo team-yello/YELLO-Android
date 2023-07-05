@@ -11,28 +11,28 @@
         android:layout_height="match_parent">
 
         <LinearLayout
-            app:layout_constraintBottom_toTopOf="@id/img_sign_in"
-            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent">
+            android:orientation="vertical"
+            app:layout_constraintBottom_toTopOf="@id/img_sign_in"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Yell:o에 오신 걸 환영해요!"
-                android:textAppearance="?attr/textAppearanceHeadline3"
                 android:layout_marginBottom="8dp"
-                android:gravity="center"/>
+                android:gravity="center"
+                android:text="@string/tv_sign_in_title"
+                android:textAppearance="?attr/textAppearanceHeadline3" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="가입을 시작해볼까요?"
                 android:layout_marginBottom="6dp"
-                android:textAppearance="?attr/textAppearanceBodySmall"
-                android:gravity="center"/>
+                android:gravity="center"
+                android:text="@string/tv_sign_in_subtitle"
+                android:textAppearance="?attr/textAppearanceBodySmall" />
 
         </LinearLayout>
 
@@ -51,10 +51,10 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/btn_sign_in"
             android:layout_width="match_parent"
-            android:background="@drawable/bg_auth_kakao_button"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
             android:layout_marginHorizontal="16dp"
+            android:background="@drawable/bg_auth_kakao_button"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/img_sign_in">
@@ -62,34 +62,26 @@
             <ImageView
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                app:layout_constraintDimensionRatio="1"
                 android:padding="12dp"
                 android:src="@drawable/ic_kakao"
-                app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"/>
-
+                app:layout_constraintDimensionRatio="1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
+                style="@style/TextAppearance.Yello.BodyMedium"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                style="@style/TextAppearance.Yello.BodyMedium"
-                android:textColor="#D9000000"
                 android:layout_marginVertical="12dp"
-                android:text="카카오로 시작하기"
-                app:layout_constraintTop_toTopOf="parent"
+                android:text="@string/tv_sign_in_btn"
+                android:textColor="#D9000000"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"/>
-
-
-
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-
-
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

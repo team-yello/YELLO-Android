@@ -10,7 +10,7 @@ import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.DialogFragment
 
 abstract class BindingDialogFragment<T : ViewDataBinding>(
-    @LayoutRes private val layoutResId: Int
+    @LayoutRes private val layoutResId: Int,
 ) : DialogFragment() {
     private var _binding: T? = null
     protected val binding: T
@@ -19,7 +19,7 @@ abstract class BindingDialogFragment<T : ViewDataBinding>(
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View? {
         _binding = DataBindingUtil.inflate(inflater, layoutResId, container, false)
         return binding.root

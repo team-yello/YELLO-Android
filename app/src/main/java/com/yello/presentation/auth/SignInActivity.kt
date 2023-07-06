@@ -91,6 +91,7 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
     }
 
     // 카카오톡 앱 유무에 따라 로그인 진행
+    // TODO : Redirect URI 설정하고 나서 작동 확인하기
     private fun startKakaoLogin() {
         if (UserApiClient.instance.isKakaoTalkLoginAvailable(binding.root.context)) {
             loginWithAppCallback()

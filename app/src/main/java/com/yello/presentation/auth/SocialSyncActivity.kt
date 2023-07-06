@@ -19,6 +19,7 @@ class SocialSyncActivity :
         }
     }
 
+    // TODO : 서버 측에 어떤 친구목록 형식 보내줘야하는지 확인하고 저장시키기
     private fun getFriendsList() {
         TalkApiClient.instance.friends { friends, error ->
             if (error != null) {

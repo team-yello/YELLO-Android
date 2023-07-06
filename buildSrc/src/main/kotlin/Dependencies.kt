@@ -74,6 +74,7 @@ object ThirdPartyDependencies {
     const val lottieCompose = "com.airbnb.android:lottie-compose:${Versions.lottieVersion}"
     const val kakaoLogin = "com.kakao.sdk:v2-user:${Versions.kakaoVersion}"
     const val kakaoAuth = "com.kakao.sdk:v2-auth:${Versions.kakaoVersion}"
+    const val kakaoTalk = "com.kakao.sdk:v2-talk:${Versions.kakaoVersion}"
 }
 
 object ClassPathPlugins {

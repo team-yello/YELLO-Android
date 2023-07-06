@@ -2,7 +2,6 @@ package com.yello.presentation.auth
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import com.example.ui.base.BindingActivity
 import com.example.ui.view.setOnSingleClickListener
 import com.kakao.sdk.auth.model.OAuthToken
@@ -25,7 +24,7 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
 
         // TODO : 4명 키 해시 모두 받은 다음에 코드 지우기
         val keyHash = Utility.getKeyHash(this)
-        Log.d("signIn",keyHash)
+        Timber.tag("signIn").d(keyHash)
 
         binding.btnSignIn.setOnSingleClickListener {
             setServiceTerms()
@@ -39,7 +38,7 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
 
     // TODO : 카카오 로그인 동의 화면에 포함할 서비스 약관 항목 지정 (기획 측에서 필요 약관 확정해서 넘겨주기)
     private fun setServiceTerms() {
-        serviceTermsList = listOf("profile_nickname", "profile_image", "account_email", "age_range")
+        serviceTermsList = listOf("profile_nickname", "profile_image", "account_email", "age_range", "friends")
     }
 
     // 웹에서 계정 로그인 callback 구성
@@ -101,7 +100,7 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
     }
 
     private fun startSocialSyncActivity() {
-        val intent = Intent(binding.root.context, SocialSyncActivity::class.java)
+        val intent = Intent(this, SocialSyncActivity::class.java)
         startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
         finish()
     }

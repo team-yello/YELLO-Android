@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">YELLO</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!-- main -->
+    <string name="main_recommend">추천친구</string>
+    <string name="main_look">둘러보기</string>
+    <string name="main_yello">옐로하기</string>
+    <string name="main_my_yello">내 쪽지</string>
+    <string name="main_profile">프로필</string>
 </resources>

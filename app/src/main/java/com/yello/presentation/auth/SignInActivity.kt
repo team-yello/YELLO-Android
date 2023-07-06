@@ -1,6 +1,5 @@
 package com.yello.presentation.auth
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import com.example.ui.base.BindingActivity
@@ -17,6 +16,7 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
 
     private lateinit var appLoginCallback: (OAuthToken?, Throwable?) -> Unit
     private lateinit var accountLoginCallback: (OAuthToken?, Throwable?) -> Unit
+    private lateinit var serviceTermsList: List<String>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,9 +25,10 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
         binding.btnSignIn.setOnSingleClickListener {
             setAppLoginCallback()
             setAccountLoginCallback()
+            setServiceTerms()
             startKakaoLogin()
+            getUserInfo()
         }
-
     }
 
     // 계정 로그인 callback 구성
@@ -66,17 +67,25 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
         }
     }
 
-    // 상황 대응해서 로그인 진행
+    // 카카오 로그인 동의 화면에 포함할 서비스 약관을 지정
+    private fun setServiceTerms() {
+        serviceTermsList =
+            listOf("profile_nickname", "profile_image", "account_email", "gender", "age_range")
+    }
+
+    // 카카오톡 앱 유무에 따라 로그인 진행
     private fun startKakaoLogin() {
         if (UserApiClient.instance.isKakaoTalkLoginAvailable(binding.root.context)) {
             UserApiClient.instance.loginWithKakaoTalk(
-                binding.root.context,
-                callback = appLoginCallback
+                context = binding.root.context,
+                callback = appLoginCallback,
+                serviceTerms = serviceTermsList
             )
         } else {
             UserApiClient.instance.loginWithKakaoAccount(
-                binding.root.context,
-                callback = accountLoginCallback
+                context = binding.root.context,
+                callback = accountLoginCallback,
+                serviceTerms = serviceTermsList
             )
         }
     }
@@ -85,5 +94,11 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
         val intent = Intent(binding.root.context, SocialSyncActivity::class.java)
         startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
         finish()
+    }
+
+    private fun getUserInfo() {
+        UserApiClient.instance.me { user, error ->
+            user?.kakaoAccount?.profile?.nickname
+        }
     }
 }

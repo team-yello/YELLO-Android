@@ -29,7 +29,7 @@
         <activity android:name=".presentation.yello.YelloActivity"
             android:exported="false" />
         <activity android:name=".presentation.auth.SignInActivity"
-            android:exported="false" />
+            android:exported="true" />
 
         <activity
             android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"

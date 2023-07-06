@@ -70,7 +70,7 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
     // 카카오 로그인 동의 화면에 포함할 서비스 약관을 지정
     private fun setServiceTerms() {
         serviceTermsList =
-            listOf("profile_nickname", "profile_image", "account_email", "gender", "age_range")
+            listOf("profile_nickname", "profile_image", "account_email", "age_range")
     }
 
     // 카카오톡 앱 유무에 따라 로그인 진행
@@ -96,9 +96,10 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
         finish()
     }
 
+    // 유저 추가 정보 받아오기 - 보류중
     private fun getUserInfo() {
         UserApiClient.instance.me { user, error ->
-            user?.kakaoAccount?.profile?.nickname
+            var userNickname = user?.kakaoAccount?.profile?.nickname
         }
     }
 }

@@ -16,6 +16,8 @@ class SocialSyncActivity :
 
         binding.btnSignIn.setOnSingleClickListener {
             getFriendsList()
+
+            // TODO : 온보딩 뷰로 이동시키기
         }
     }
 

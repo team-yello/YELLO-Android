@@ -114,6 +114,7 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
     }
 
     // TODO : 카카오의 Access Token 보내는 서버통신 구현
+    // TODO : 서버통신 후 토큰 저장
     private fun postKakaoAccessToken(token: OAuthToken?) {
         var accessToken = token?.accessToken
         var refreshToken = token?.refreshToken

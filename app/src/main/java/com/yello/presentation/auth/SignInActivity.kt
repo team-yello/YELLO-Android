@@ -2,6 +2,7 @@ package com.yello.presentation.auth
 
 import android.os.Bundle
 import com.example.ui.base.BindingActivity
+import com.example.ui.view.setOnSingleClickListener
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.model.ClientError
 import com.kakao.sdk.common.model.ClientErrorCause
@@ -19,10 +20,23 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
         super.onCreate(savedInstanceState)
 
         // 로그인 진행
-        setAppLoginCallback()
-        setAccountLoginCallback()
-        startKakaoLogin()
+        binding.btnSignIn.setOnSingleClickListener {
+            setAppLoginCallback()
+            setAccountLoginCallback()
+            startKakaoLogin()
+        }
 
+    }
+
+    // 계정 로그인 callback 구성
+    private fun setAccountLoginCallback() {
+        accountLoginCallback = { token, error ->
+            if (error != null) {
+                Timber.tag("auth").e(error, "카카오계정으로 로그인 실패")
+            } else if (token != null) {
+                Timber.tag("auth").i("카카오계정으로 로그인 성공 %s", token.accessToken)
+            }
+        }
     }
 
     // 앱 로그인 callback 구성
@@ -44,17 +58,6 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
 
             } else if (token != null) {
                 Timber.tag("auth").i("카카오톡으로 로그인 성공 %s", token.accessToken)
-            }
-        }
-    }
-
-    // 계정 로그인 callback 구성
-    private fun setAccountLoginCallback() {
-        accountLoginCallback = { token, error ->
-            if (error != null) {
-                Timber.tag("auth").e(error, "카카오계정으로 로그인 실패")
-            } else if (token != null) {
-                Timber.tag("auth").i("카카오계정으로 로그인 성공 %s", token.accessToken)
             }
         }
     }

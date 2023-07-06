@@ -118,6 +118,7 @@ dependencies {
         implementation(balloon)
         implementation(lottie)
         implementation(kakaoLogin)
+        implementation(kakaoAuth)
         debugImplementation(flipper)
         debugImplementation(flipperNetwork)
         debugImplementation(flipperLeakCanary)

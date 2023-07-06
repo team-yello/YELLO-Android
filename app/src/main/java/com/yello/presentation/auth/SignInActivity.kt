@@ -1,5 +1,7 @@
 package com.yello.presentation.auth
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import com.example.ui.base.BindingActivity
 import com.example.ui.view.setOnSingleClickListener
@@ -35,6 +37,7 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
                 Timber.tag("auth").e(error, "카카오계정으로 로그인 실패")
             } else if (token != null) {
                 Timber.tag("auth").i("카카오계정으로 로그인 성공 %s", token.accessToken)
+                startSocialSyncActivity()
             }
         }
     }
@@ -58,6 +61,7 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
 
             } else if (token != null) {
                 Timber.tag("auth").i("카카오톡으로 로그인 성공 %s", token.accessToken)
+                startSocialSyncActivity()
             }
         }
     }
@@ -75,5 +79,11 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
                 callback = accountLoginCallback
             )
         }
+    }
+
+    private fun startSocialSyncActivity() {
+        val intent = Intent(binding.root.context, SocialSyncActivity::class.java)
+        startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
+        finish()
     }
 }

@@ -26,6 +26,14 @@ android {
             gradleLocalProperties(rootDir).getProperty("base.url"),
         )
 
+        buildConfigField(
+            "String",
+            "NATIVE_APP_KEY",
+            gradleLocalProperties(rootDir).getProperty("native.app.key"),
+        )
+
+        manifestPlaceholders["NATIVE_APP_KEY"] = gradleLocalProperties(rootDir).getProperty("native.app.key")
+
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 

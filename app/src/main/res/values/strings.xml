@@ -1,9 +1,14 @@
 <resources>
     <string name="app_name">YELLO</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 
-    <!-- main -->
+    <string name="tv_sign_in_title">Yell:o에 오신 걸 환영해요!</string>
+    <string name="tv_sign_in_subtitle">가입을 시작해볼까요?</string>
+    <string name="tv_sign_in_btn">카카오로 시작하기</string>
+  
+    <string name="tv_social_sync_title">나의 Yell:o 친구는 어디있을까?</string>
+    <string name="tv_social_sync_subtitle">친구 목록을 불러와봐요!</string>
+    <string name="tv_social_sync_btn">카카오톡 친구 연결하기</string>
+  
     <string name="main_recommend">추천친구</string>
     <string name="main_look">둘러보기</string>
     <string name="main_yello">옐로하기</string>

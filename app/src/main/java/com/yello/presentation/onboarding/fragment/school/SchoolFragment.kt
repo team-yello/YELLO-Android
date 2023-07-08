@@ -6,6 +6,7 @@ import com.example.ui.base.BindingFragment
 import com.example.ui.view.setOnSingleClickListener
 import com.yello.R
 import com.yello.databinding.FragmentSchoolBinding
+import com.yello.presentation.onboarding.fragment.school.schoollist.SearchDialogFragment
 
 class SchoolFragment : BindingFragment<FragmentSchoolBinding>(R.layout.fragment_school) {
 

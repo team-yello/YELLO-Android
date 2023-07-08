@@ -26,6 +26,15 @@ android {
             gradleLocalProperties(rootDir).getProperty("base.url"),
         )
 
+        buildConfigField(
+            "String",
+            "NATIVE_APP_KEY",
+            gradleLocalProperties(rootDir).getProperty("native.app.key"),
+        )
+
+        manifestPlaceholders["NATIVE_APP_KEY"] =
+            gradleLocalProperties(rootDir).getProperty("nativeAppKey")
+
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -108,6 +117,9 @@ dependencies {
         implementation(progressView)
         implementation(balloon)
         implementation(lottie)
+        implementation(kakaoLogin)
+        implementation(kakaoAuth)
+        implementation(kakaoTalk)
         debugImplementation(flipper)
         debugImplementation(flipperNetwork)
         debugImplementation(flipperLeakCanary)

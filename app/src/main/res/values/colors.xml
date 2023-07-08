@@ -52,4 +52,6 @@
     <color name="semantic_gender_f_500">#FFFF49C1</color>
     <color name="semantic_gender_m_100">#FFF0F6FF</color>
     <color name="semantic_gender_m_500">#FF367FEE</color>
+
+    <color name="kakao_yellow">#FFFEE500</color>
 </resources>

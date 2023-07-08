@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/menu_recommend"
+        android:icon="@drawable/sel_main_icon_bnv_recommend"
+        android:title="@string/main_recommend" />
+    <item
+        android:id="@+id/menu_look"
+        android:icon="@drawable/sel_main_icon_bnv_look"
+        android:title="@string/main_look" />
+    <item
+        android:id="@+id/menu_yello"
+        android:icon="@drawable/sel_main_icon_bnv_yello"
+        android:title="@string/main_yello" />
+    <item
+        android:id="@+id/menu_my_yello"
+        android:icon="@drawable/sel_main_icon_bnv_my_yello"
+        android:title="@string/main_my_yello" />
+    <item
+        android:id="@+id/menu_profile"
+        android:icon="@drawable/sel_main_icon_bnv_profile"
+        android:title="@string/main_profile" />
+</menu>

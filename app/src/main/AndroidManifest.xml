@@ -17,7 +17,7 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".presentation.MainActivity"
+            android:name=".presentation.main.MainActivity"
             android:exported="true"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -29,6 +29,7 @@
         <activity
             android:name=".presentation.yello.YelloActivity"
             android:exported="false" />
+      
         <activity
             android:name=".presentation.auth.SignInActivity"
             android:exported="false"
@@ -37,7 +38,7 @@
             android:name=".presentation.auth.SocialSyncActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
-
+      
         <activity
             android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"
             android:exported="true">
@@ -53,6 +54,9 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".presentation.onboarding.Activity.OnBoardingActivity"
+            android:exported="true"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

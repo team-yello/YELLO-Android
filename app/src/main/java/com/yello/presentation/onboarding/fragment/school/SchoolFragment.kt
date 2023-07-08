@@ -16,7 +16,7 @@ class SchoolFragment : BindingFragment<FragmentSchoolBinding>(R.layout.fragment_
     }
 
     private fun initSearchSchoolBtnClickListener() {
-        binding.etSchoolSearch.setOnSingleClickListener {
+        binding.tvSchoolSearch.setOnSingleClickListener {
             SearchDialogFragment().show(parentFragmentManager, this.tag)
         }
     }

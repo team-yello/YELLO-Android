@@ -15,10 +15,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="28dp"
+            android:fontFamily="@font/font_pretendard_bold"
             android:text="@string/onboarding_tv_search_school"
-            android:textSize="16sp"
             android:textColor="@color/black"
-           android:fontFamily="@font/font_pretendard_bold"
+            android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -44,9 +44,10 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="12dp"
             android:layout_marginEnd="16dp"
-            android:fontFamily="@font/font_pretendard_medium"
-            android:background="@drawable/shape_gray500_fill_8_rect"
+            android:background="@drawable/shape_grayscales500_fill_8_rect"
             android:drawableEnd="@drawable/ic_onboarding_search"
+            android:fontFamily="@font/font_pretendard_medium"
+            android:paddingHorizontal="20dp"
             android:paddingTop="16dp"
             android:paddingEnd="12dp"
             android:paddingBottom="16dp"
@@ -54,13 +55,15 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_dialog_school" />
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/tv_addschool"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="14dp"
+            android:layout_marginTop="0dp"
+            android:background="@null"
             android:fontFamily="@font/font_pretendard_medium"
             android:text="@string/onboarding_tv_add_school"
+            android:textColor="@color/grayscales_600"
             android:textSize="12sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -70,11 +73,11 @@
             android:id="@+id/rv_schoollist"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
             android:orientation="vertical"
-            app:layout_constraintTop_toBottomOf="@id/tv_addschool"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            tools:listitem="@layout/item_school_list"
-            android:layout_marginTop="20dp"/>
+            app:layout_constraintTop_toBottomOf="@id/tv_addschool"
+            tools:listitem="@layout/item_school_list" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

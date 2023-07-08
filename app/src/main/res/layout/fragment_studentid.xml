@@ -21,16 +21,15 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <EditText
+        <TextView
             android:id="@+id/et_department_search"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="12dp"
             android:layout_marginEnd="16dp"
-            android:background="@drawable/shape_gray500_fill_8_rect"
+            android:background="@drawable/shape_grayscales400_fill_8_rect"
             android:drawableEnd="@drawable/ic_onboarding_search"
-            android:focusable="false"
             android:paddingTop="16dp"
             android:paddingEnd="12dp"
             android:paddingBottom="16dp"
@@ -51,25 +50,26 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/et_department_search" />
 
-        <EditText
+        <TextView
             android:id="@+id/et_studentid_search"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="12dp"
-            android:hint="@string/onboarding_hint_select_studentid"
+            android:text="@string/onboarding_hint_select_studentid"
+            android:textColor="@color/grayscales_500"
             android:fontFamily="@font/font_pretendard_medium"
             android:layout_marginEnd="16dp"
-            android:background="@drawable/shape_gray500_fill_8_rect"
-            android:drawableEnd="@drawable/ic_onboarding_studentid_down"
-            android:focusable="false"
+            android:paddingHorizontal="20dp"
+            android:background="@drawable/shape_grayscales500_fill_8_rect"
             android:paddingTop="16dp"
             android:paddingEnd="12dp"
             android:textSize="16sp"
             android:paddingBottom="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_what_studentid" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_what_studentid"
+            app:drawableEndCompat="@drawable/ic_onboarding_studentid_down" />
 
         <android.widget.Button
             android:id="@+id/btn_stdentid_next"
@@ -79,7 +79,7 @@
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="34dp"
             android:fontFamily="@font/font_pretendard_medium"
-            android:background="@drawable/shape_8_rect"
+            android:background="@drawable/shape_white_fill_8_rect"
             android:backgroundTint="@color/black"
             android:paddingVertical="12dp"
             android:text="@string/onboarding_btn_next"

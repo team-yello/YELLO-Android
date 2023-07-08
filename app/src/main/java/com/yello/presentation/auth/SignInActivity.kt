@@ -104,16 +104,24 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
     // TODO : 유저 추가 정보 회원가입에 포함시키기
     private fun getUserInfo() {
         UserApiClient.instance.me { user, _ ->
-            var userKakaoEmail = user?.kakaoAccount?.email
-            var userThumbnailUri = user?.kakaoAccount?.profile?.thumbnailImageUrl
+            if (user != null) {
+                var userKakaoEmail = user.kakaoAccount?.email
+                var userThumbnailUri = user.kakaoAccount?.profile?.thumbnailImageUrl
+            } else {
+                Timber.tag(AUTH).d("카카오 유저 정보 받기 실패")
+            }
         }
     }
 
     // TODO : 카카오의 Access Token 보내는 서버통신 구현
     // TODO : 서버통신 후 토큰 저장
     private fun postKakaoAccessToken(token: OAuthToken?) {
-        var kakaoAccessToken = token?.accessToken
-        var kakaoRefreshToken = token?.refreshToken
+        if (token != null) {
+            var kakaoAccessToken = token.accessToken
+            var kakaoRefreshToken = token.refreshToken
+        } else {
+            Timber.tag(AUTH).d("카카오 토큰 받기 실패")
+        }
     }
 
     private companion object {

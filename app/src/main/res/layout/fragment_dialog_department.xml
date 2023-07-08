@@ -8,11 +8,9 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/layout_department_dialog"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:minHeight="400dp"
-        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+        android:minHeight="400dp">
 
 
         <TextView
@@ -36,14 +34,14 @@
             android:layout_marginBottom="13dp"
             android:background="@null"
             android:src="@drawable/ic_onboarding_x"
-            app:layout_constraintBottom_toTopOf="@+id/btn_departmentsearch"
+            app:layout_constraintBottom_toTopOf="@+id/btn_department_search"
             app:layout_constraintDimensionRatio="1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
 
         <EditText
-            android:id="@+id/btn_departmentsearch"
+            android:id="@+id/btn_department_search"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -63,14 +61,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="14dp"
-            android:text="찾는 과가 없다면 클릭하세요!"
+            android:text="@string/clickdepartment"
             android:textSize="12sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btn_departmentsearch" />
+            app:layout_constraintTop_toBottomOf="@+id/btn_department_search" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_departmentllist"
+            android:id="@+id/rv_department_list"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:orientation="vertical"

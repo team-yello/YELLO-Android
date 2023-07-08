@@ -3,9 +3,10 @@
     <string name="whereschool">학교가 어디인가요?</string>
     <string name="starttologin">옐로에 가입하기 위한 절차에요.</string>
     <string name="onboarding_next_btn">다음</string>
-    <string name="addschool">우리 학교가 없나요? 학교를 추가해보세요!</string>
+    <string name="addschool"><u>우리 학교가 없나요? 학교를 추가해보세요!</u></string>
     <string name="ourschoolsearch">우리 학교 검색하기</string>
     <string name="where_department">무슨 학과인가요?</string>
     <string name="what_studentid">몇 학번인가요?</string>
     <string name="search_department">학과 검색하기</string>
+    <string name="clickdepartment"><u>찾는 과가 없다면 클릭하세요!</u></string>
 </resources>

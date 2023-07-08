@@ -11,7 +11,6 @@ class SearchDialogFragment : BindingBottomSheetDialog<FragmentDialogSchoolBindin
     private var schoolAdpapter: SchoolAdpapter? = null
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         initSchoolAdapter()
     }
 

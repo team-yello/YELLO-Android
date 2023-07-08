@@ -8,12 +8,11 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/layout_addfreind"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <TextView
-            android:id="@+id/tv_where_department"
+            android:id="@+id/tv_what_department"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -39,10 +38,10 @@
             android:paddingBottom="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_where_department" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_what_department" />
 
         <TextView
-            android:id="@+id/tv_what_id"
+            android:id="@+id/tv_what_studentid"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -68,12 +67,12 @@
             android:paddingBottom="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_what_id" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_what_studentid" />
 
 
 
         <android.widget.Button
-            android:id="@+id/btn_department_next"
+            android:id="@+id/btn_stdentid_next"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"

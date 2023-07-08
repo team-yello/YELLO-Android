@@ -26,15 +26,17 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
         val keyHash = Utility.getKeyHash(this)
         Timber.tag(AUTH).d(keyHash)
 
+        setBtnSignInClickListener()
+    }
+
+    private fun setBtnSignInClickListener() {
         binding.btnSignIn.setOnSingleClickListener {
             setServiceTerms()
             setAppLoginCallback()
             setAccountLoginCallback()
             startKakaoLogin()
-            getUserInfo()
         }
     }
-
 
     private fun setServiceTerms() {
         serviceTermsList = listOf("profile_image", "account_email", "friends")
@@ -45,17 +47,16 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
         accountLoginCallback = { token, error ->
             if (error != null) {
                 Timber.tag(AUTH).e(error, "카카오계정으로 로그인 실패")
+
             } else if (token != null) {
                 postKakaoAccessToken(token)
+                getUserInfo()
                 startSocialSyncActivity()
+
+            } else {
+                Timber.tag(AUTH).d("빈 카카오 토큰")
             }
         }
-    }
-
-    private fun loginWithAccountCallback() {
-        UserApiClient.instance.loginWithKakaoAccount(
-            context = this, callback = accountLoginCallback, serviceTerms = serviceTermsList
-        )
     }
 
     // 카카오톡 앱 로그인 callback 구성
@@ -75,18 +76,30 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
 
             } else if (token != null) {
                 postKakaoAccessToken(token)
+                getUserInfo()
                 startSocialSyncActivity()
+
+            } else {
+                Timber.tag(AUTH).d("빈 카카오 토큰")
             }
         }
     }
 
+    // 웹 로그인 실행
+    private fun loginWithAccountCallback() {
+        UserApiClient.instance.loginWithKakaoAccount(
+            context = this, callback = accountLoginCallback, serviceTerms = serviceTermsList
+        )
+    }
+
+    // 앱 로그인 실행
     private fun loginWithAppCallback() {
         UserApiClient.instance.loginWithKakaoTalk(
             context = this, callback = appLoginCallback, serviceTerms = serviceTermsList
         )
     }
 
-    // 카카오톡 앱 유무에 따라 로그인 진행
+    // 카카오톡 앱 설치 유무에 따라 로그인 진행
     private fun startKakaoLogin() {
         if (UserApiClient.instance.isKakaoTalkLoginAvailable(this)) {
             loginWithAppCallback()
@@ -95,12 +108,14 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
         }
     }
 
+    // 다음 화면으로 전환
     private fun startSocialSyncActivity() {
         val intent = Intent(this, SocialSyncActivity::class.java)
         startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
         finish()
     }
 
+    // 사용자 정보 수집
     // TODO : 유저 추가 정보 회원가입에 포함시키기
     private fun getUserInfo() {
         UserApiClient.instance.me { user, _ ->
@@ -113,8 +128,8 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
         }
     }
 
+    // 토큰 교체 서버통신 후 서비스 토큰 저장
     // TODO : 카카오의 Access Token 보내는 서버통신 구현
-    // TODO : 서버통신 후 토큰 저장
     private fun postKakaoAccessToken(token: OAuthToken?) {
         if (token != null) {
             var kakaoAccessToken = token.accessToken

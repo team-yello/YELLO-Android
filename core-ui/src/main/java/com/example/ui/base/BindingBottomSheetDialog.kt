@@ -1,4 +1,4 @@
-package com.sopt.instagram.util.binding
+package com.example.ui.base
 
 import android.os.Bundle
 import android.view.LayoutInflater

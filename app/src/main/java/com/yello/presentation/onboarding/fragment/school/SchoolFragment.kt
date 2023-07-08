@@ -1,8 +1,9 @@
-package com.yello.presentation.onboarding.fragment
+package com.yello.presentation.onboarding.fragment.school
 
 import android.os.Bundle
 import android.view.View
 import com.example.ui.base.BindingFragment
+import com.example.ui.view.setOnSingleClickListener
 import com.yello.R
 import com.yello.databinding.FragmentSchoolBinding
 
@@ -10,6 +11,12 @@ class SchoolFragment : BindingFragment<FragmentSchoolBinding>(R.layout.fragment_
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        // TODO 대부분의 로직은 여기에 구현합니다.
+        initSearchTagBtnClickListener()
+    }
+
+    private fun initSearchTagBtnClickListener() {
+        binding.btnSchoolsearch.setOnSingleClickListener {
+            SearchDialogFragment().show(parentFragmentManager, this.tag)
+        }
     }
 }

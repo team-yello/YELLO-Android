@@ -12,21 +12,61 @@
         android:layout_height="match_parent">
 
         <TextView
-            android:id="@+id/viewpaggertitle"
-            android:layout_width="wrap_content"
+            android:id="@+id/tv_readytologin"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="학교 입력뷰"
-            android:textSize="30sp"
-            android:textStyle="bold"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="68dp"
+            android:layout_marginEnd="160dp"
+            android:text="@string/starttologin"
+            android:textAppearance="?textAppearanceBodyMedium"
+            android:textColor="@color/grayscales_600"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <TextView
+            android:id="@+id/tv_whereschool"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="26dp"
+            android:layout_marginEnd="182dp"
+            android:text="@string/whereschool"
+            android:textAppearance="?textAppearanceHeadline2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_readytologin" />
+
+        <EditText
+            android:id="@+id/btn_schoolsearch"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/shape_gray5_fill_8_rect"
+            android:drawableEnd="@drawable/ic_onboarding_search"
+            android:paddingTop="16dp"
+            android:paddingEnd="12dp"
+            android:paddingBottom="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_whereschool" />
+
+
         <Button
             android:id="@+id/btn_schoolnext"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="다음"
-            app:layout_constraintBottom_toBottomOf="parent" />
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:textSize="15sp"
+            android:layout_marginBottom="34dp"
+            android:background="@drawable/shape_black_fill_8_rect"
+            android:text="@string/onboarding_next_btn"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

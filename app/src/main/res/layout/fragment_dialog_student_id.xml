@@ -18,7 +18,7 @@
             android:text="15학번"
             android:paddingVertical="21dp"
             android:textAlignment="center"
-            android:textAppearance="?textAppearanceBodyLarge"
+            android:textAppearance="?textAppearanceBody2"
             android:textColor="@color/black"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"

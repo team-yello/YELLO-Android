@@ -9,4 +9,5 @@
     <string name="what_studentid">몇 학번인가요?</string>
     <string name="search_department">학과 검색하기</string>
     <string name="clickdepartment"><u>찾는 과가 없다면 클릭하세요!</u></string>
+    <string name="select_studentid">학번을 선택해주세요.</string>
 </resources>

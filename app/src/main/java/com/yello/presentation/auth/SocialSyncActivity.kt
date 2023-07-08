@@ -8,7 +8,7 @@ import com.kakao.sdk.talk.TalkApiClient
 import com.kakao.sdk.talk.model.Friend
 import com.yello.R
 import com.yello.databinding.ActivitySocialSyncBinding
-import com.yello.presentation.MainActivity
+import com.yello.presentation.main.MainActivity
 import timber.log.Timber
 
 class SocialSyncActivity :

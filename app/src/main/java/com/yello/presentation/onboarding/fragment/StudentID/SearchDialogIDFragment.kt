@@ -6,8 +6,8 @@ import com.example.ui.base.BindingBottomSheetDialog
 import com.yello.R
 import com.yello.databinding.FragmentDialogStudentIdBinding
 
-class SearchIDFragment :
-    BindingBottomSheetDialog<FragmentDialogStudentIdBinding>(R.layout.fragment_studentid) {
+class SearchDialogIDFragment :
+    BindingBottomSheetDialog<FragmentDialogStudentIdBinding>(R.layout.fragment_dialog_student_id) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -15,6 +15,6 @@ class SearchIDFragment :
 
     companion object {
         @JvmStatic
-        fun newInstance() = SearchIDFragment()
+        fun newInstance() = SearchDialogIDFragment()
     }
 }

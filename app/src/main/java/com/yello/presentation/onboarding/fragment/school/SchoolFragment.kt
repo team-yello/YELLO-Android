@@ -11,11 +11,11 @@ class SchoolFragment : BindingFragment<FragmentSchoolBinding>(R.layout.fragment_
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initSearchTagBtnClickListener()
+        initSearchSchoolBtnClickListener()
     }
 
-    private fun initSearchTagBtnClickListener() {
-        binding.btnSchoolsearch.setOnSingleClickListener {
+    private fun initSearchSchoolBtnClickListener() {
+        binding.etSchoolsearch.setOnSingleClickListener {
             SearchDialogFragment().show(parentFragmentManager, this.tag)
         }
     }

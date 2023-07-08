@@ -39,7 +39,7 @@
             app:layout_constraintTop_toBottomOf="@+id/tv_readytologin" />
 
         <EditText
-            android:id="@+id/btn_schoolsearch"
+            android:id="@+id/et_schoolsearch"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"

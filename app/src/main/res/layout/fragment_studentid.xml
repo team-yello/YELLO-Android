@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
@@ -12,21 +13,81 @@
         android:layout_height="match_parent">
 
         <TextView
-            android:id="@+id/viewpaggertitle"
-            android:layout_width="wrap_content"
+            android:id="@+id/tv_where_department"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="학과 학번 입력 뷰"
-            android:textSize="30sp"
-            android:textStyle="bold"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="182dp"
+            android:text="@string/where_department"
+            android:layout_marginTop="68dp"
+            android:textAppearance="?textAppearanceHeadline2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <Button
-            android:id="@+id/btn_studentIdnext"
-            android:layout_width="match_parent"
+        <EditText
+            android:id="@+id/et_department_search"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="다음"
-            app:layout_constraintBottom_toBottomOf="parent" />
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/shape_gray500_fill_8_rect"
+            android:drawableEnd="@drawable/ic_onboarding_search"
+            android:paddingTop="16dp"
+            android:paddingEnd="12dp"
+            android:paddingBottom="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_where_department" />
+
+        <TextView
+            android:id="@+id/tv_what_id"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="182dp"
+            android:text="@string/what_studentid"
+            android:layout_marginTop="76dp"
+            android:textAppearance="?textAppearanceHeadline2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/et_department_search" />
+
+        <EditText
+            android:id="@+id/et_studentid_search"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/shape_gray500_fill_8_rect"
+            android:drawableEnd="@drawable/ic_onboarding_studentid_down"
+            android:paddingTop="16dp"
+            android:paddingEnd="12dp"
+            android:paddingBottom="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_what_id" />
+
+
+
+        <android.widget.Button
+            android:id="@+id/btn_department_next"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="34dp"
+            android:paddingVertical="12dp"
+            android:background="@drawable/shape_8_rect"
+            android:backgroundTint="@color/black"
+            android:text="@string/onboarding_next_btn"
+            android:textColor="@color/yello_main_500"
+            android:textSize="15sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

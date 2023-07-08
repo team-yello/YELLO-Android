@@ -8,6 +8,7 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout_department_dialog"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:minHeight="400dp">
@@ -77,7 +78,5 @@
             app:layout_constraintStart_toStartOf="parent"
             tools:listitem="@layout/item_department_list"
             android:layout_marginTop="20dp"/>
-
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

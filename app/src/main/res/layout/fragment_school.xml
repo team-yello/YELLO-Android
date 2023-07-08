@@ -2,10 +2,7 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <data>
-
-    </data>
-
+    <data></data>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -44,6 +41,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="12dp"
             android:layout_marginEnd="16dp"
+            android:focusable="false"
             android:background="@drawable/shape_gray500_fill_8_rect"
             android:drawableEnd="@drawable/ic_onboarding_search"
             android:paddingTop="16dp"

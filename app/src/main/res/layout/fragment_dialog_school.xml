@@ -8,10 +8,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layout_school_dialog"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:minHeight="400dp"
-        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
-
+        android:layout_height="match_parent">
 
         <TextView
             android:id="@+id/tv_dialog_school"
@@ -38,7 +35,6 @@
             app:layout_constraintDimensionRatio="1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-
 
         <EditText
             android:id="@+id/et_school_search"
@@ -77,7 +73,5 @@
             app:layout_constraintStart_toStartOf="parent"
             tools:listitem="@layout/item_school_list"
             android:layout_marginTop="20dp"/>
-
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

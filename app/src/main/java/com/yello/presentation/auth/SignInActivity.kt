@@ -110,8 +110,10 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
 
     // 다음 화면으로 전환
     private fun startSocialSyncActivity() {
-        val intent = Intent(this, SocialSyncActivity::class.java)
-        startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
+        Intent(this, SocialSyncActivity::class.java).apply {
+            addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            startActivity(this)
+        }
         finish()
     }
 

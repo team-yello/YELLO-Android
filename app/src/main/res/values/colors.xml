@@ -2,7 +2,7 @@
 <resources>
     <!-- Basic -->
     <color name="white">#FFFFFFFF</color>
-    <color name="black">#FF000000</color>
+    <color name="black">#FF191919</color>
 
     <!-- Grayscales -->
     <color name="grayscales_50">#FFFBFBFB</color>

@@ -4,20 +4,26 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".presentation.main.recommend.RecommendFragment">
 
+    <data>
+
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layout_recommend"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/black">
 
-        <!-- TODO: Update blank fragment layout -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingVertical="10dp"
+            android:layout_marginStart="16dp"
             android:text="추천친구"
-            android:textAppearance="?textAppearanceHeadline1"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:textAppearance="?attr/textAppearanceHeadline3"
+            android:textColor="@color/white"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+        
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -24,7 +24,7 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
 
         // TODO : 4명 키 해시 모두 받은 다음에 코드 지우기
         val keyHash = Utility.getKeyHash(this)
-        Timber.tag("signIn").d(keyHash)
+        Timber.tag(AUTH).d(keyHash)
 
         binding.btnSignIn.setOnSingleClickListener {
             setServiceTerms()
@@ -35,7 +35,7 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
         }
     }
 
-    
+
     private fun setServiceTerms() {
         serviceTermsList = listOf("profile_image", "account_email", "friends")
     }
@@ -44,7 +44,7 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
     private fun setAccountLoginCallback() {
         accountLoginCallback = { token, error ->
             if (error != null) {
-                Timber.tag("signIn").e(error, "카카오계정으로 로그인 실패")
+                Timber.tag(AUTH).e(error, "카카오계정으로 로그인 실패")
             } else if (token != null) {
                 postKakaoAccessToken(token)
                 startSocialSyncActivity()
@@ -54,9 +54,7 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
 
     private fun loginWithAccountCallback() {
         UserApiClient.instance.loginWithKakaoAccount(
-            context = binding.root.context,
-            callback = appLoginCallback,
-            serviceTerms = serviceTermsList
+            context = this, callback = accountLoginCallback, serviceTerms = serviceTermsList
         )
     }
 
@@ -64,12 +62,13 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
     private fun setAppLoginCallback() {
         appLoginCallback = { token, error ->
             if (error != null) {
-                Timber.tag("signIn").e(error, "카카오톡으로 로그인 실패")
+                Timber.tag(AUTH).e(error, "카카오톡으로 로그인 실패")
 
                 // 뒤로가기 경우 예외 처리
                 if (error is ClientError && error.reason == ClientErrorCause.Cancelled) {
-                    Timber.tag("signIn").e(error, "유저가 로그인 취소")
+                    Timber.tag(AUTH).e(error, "유저가 로그인 취소")
                 } else {
+
                     // 카카오톡 연결 실패 시, 계정으로 로그인 시도
                     loginWithAccountCallback()
                 }
@@ -83,16 +82,13 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
 
     private fun loginWithAppCallback() {
         UserApiClient.instance.loginWithKakaoTalk(
-            context = binding.root.context,
-            callback = appLoginCallback,
-            serviceTerms = serviceTermsList
+            context = this, callback = appLoginCallback, serviceTerms = serviceTermsList
         )
     }
 
     // 카카오톡 앱 유무에 따라 로그인 진행
-    // TODO : Redirect URI 설정하고 나서 작동 확인하기
     private fun startKakaoLogin() {
-        if (UserApiClient.instance.isKakaoTalkLoginAvailable(binding.root.context)) {
+        if (UserApiClient.instance.isKakaoTalkLoginAvailable(this)) {
             loginWithAppCallback()
         } else {
             loginWithAccountCallback()
@@ -107,7 +103,7 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
 
     // TODO : 유저 추가 정보 회원가입에 포함시키기
     private fun getUserInfo() {
-        UserApiClient.instance.me { user, error ->
+        UserApiClient.instance.me { user, _ ->
             var userKakaoEmail = user?.kakaoAccount?.email
             var userThumbnailUri = user?.kakaoAccount?.profile?.thumbnailImageUrl
         }
@@ -118,5 +114,9 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
     private fun postKakaoAccessToken(token: OAuthToken?) {
         var kakaoAccessToken = token?.accessToken
         var kakaoRefreshToken = token?.refreshToken
+    }
+
+    private companion object {
+        const val AUTH = "authSignIn"
     }
 }

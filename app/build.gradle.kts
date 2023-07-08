@@ -33,7 +33,7 @@ android {
         )
 
         manifestPlaceholders["NATIVE_APP_KEY"] =
-            gradleLocalProperties(rootDir).getProperty("native.app.key")
+            gradleLocalProperties(rootDir).getProperty("nativeAppKey")
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }

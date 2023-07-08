@@ -26,11 +26,18 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".presentation.yello.YelloActivity"
-            android:exported="false" />
-        <activity android:name=".presentation.onboarding.Activity.OnBoardingActivity"
-            android:exported="true"
-            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".presentation.onboarding.Activity.OnBoardingActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".presentation.main.yello.vote.VoteActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".presentation.yello.YelloActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

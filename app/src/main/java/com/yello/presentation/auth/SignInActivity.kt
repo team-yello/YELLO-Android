@@ -35,10 +35,9 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
         }
     }
 
-
-    // TODO : 카카오 로그인 동의 화면에 포함할 서비스 약관 항목 지정 (기획 측에서 필요 약관 확정해서 넘겨주기)
+    
     private fun setServiceTerms() {
-        serviceTermsList = listOf("profile_nickname", "profile_image", "account_email", "age_range", "friends")
+        serviceTermsList = listOf("profile_image", "account_email", "friends")
     }
 
     // 웹에서 계정 로그인 callback 구성
@@ -106,17 +105,18 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
         finish()
     }
 
-    // TODO : 유저 추가 정보 받아오기 - 사용 여부 기획 측과 논의 중
+    // TODO : 유저 추가 정보 회원가입에 포함시키기
     private fun getUserInfo() {
         UserApiClient.instance.me { user, error ->
-            var userNickname: String = user?.kakaoAccount?.profile?.nickname.toString()
+            var userKakaoEmail = user?.kakaoAccount?.email
+            var userThumbnailUri = user?.kakaoAccount?.profile?.thumbnailImageUrl
         }
     }
 
     // TODO : 카카오의 Access Token 보내는 서버통신 구현
     // TODO : 서버통신 후 토큰 저장
     private fun postKakaoAccessToken(token: OAuthToken?) {
-        var accessToken = token?.accessToken
-        var refreshToken = token?.refreshToken
+        var kakaoAccessToken = token?.accessToken
+        var kakaoRefreshToken = token?.refreshToken
     }
 }

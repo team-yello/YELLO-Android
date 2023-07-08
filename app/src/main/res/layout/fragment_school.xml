@@ -45,7 +45,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="12dp"
             android:layout_marginEnd="16dp"
-            android:background="@drawable/shape_gray5_fill_8_rect"
+            android:background="@drawable/shape_gray500_fill_8_rect"
             android:drawableEnd="@drawable/ic_onboarding_search"
             android:paddingTop="16dp"
             android:paddingEnd="12dp"
@@ -62,12 +62,15 @@
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="34dp"
-            android:background="@drawable/shape_black_fill_8_rect"
+            android:paddingVertical="12dp"
+            android:background="@drawable/shape_8_rect"
+            android:backgroundTint="@color/black"
             android:text="@string/onboarding_next_btn"
             android:textColor="@color/yello_main_500"
             android:textSize="15sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

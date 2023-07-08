@@ -55,16 +55,17 @@
             app:layout_constraintTop_toBottomOf="@+id/tv_whereschool" />
 
 
-        <Button
+        <android.widget.Button
             android:id="@+id/btn_schoolnext"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
-            android:textSize="15sp"
             android:layout_marginBottom="34dp"
             android:background="@drawable/shape_black_fill_8_rect"
             android:text="@string/onboarding_next_btn"
+            android:textColor="@color/yello_main_500"
+            android:textSize="15sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />

@@ -40,8 +40,11 @@ jobs:
       - name: Access Local Properties
         env:
           base_url: ${{ secrets.BASE_URL }}
+          native_app_key: ${{ secrets.NATIVE_APP_KEY }}
         run: |
           echo base.url=\"$base_url\" >> local.properties
+          echo native.app.key=\"$native_app_key\" >> local.properties
+          echo nativeAppKey=$native_app_key >> local.properties
 
       - name: Build debug APK
         run: ./gradlew assembleDebug --stacktrace

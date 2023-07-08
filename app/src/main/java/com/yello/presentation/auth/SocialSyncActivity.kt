@@ -1,5 +1,6 @@
 package com.yello.presentation.auth
 
+import android.content.Intent
 import android.os.Bundle
 import com.example.ui.base.BindingActivity
 import com.example.ui.view.setOnSingleClickListener
@@ -7,6 +8,7 @@ import com.kakao.sdk.talk.TalkApiClient
 import com.kakao.sdk.talk.model.Friend
 import com.yello.R
 import com.yello.databinding.ActivitySocialSyncBinding
+import com.yello.presentation.MainActivity
 import timber.log.Timber
 
 class SocialSyncActivity :
@@ -16,12 +18,11 @@ class SocialSyncActivity :
 
         binding.btnSignIn.setOnSingleClickListener {
             getFriendsList()
+            startOnBoardingActivity()
 
-            // TODO : 온보딩 뷰로 이동시키기
         }
     }
 
-    // TODO : 서버 측에 어떤 친구목록 형식 보내줘야하는지 확인하고 저장시키기
     private fun getFriendsList() {
         TalkApiClient.instance.friends { friends, error ->
             if (error != null) {
@@ -30,8 +31,15 @@ class SocialSyncActivity :
                 val friendList: List<Friend>? = friends.elements
                 val friendIdList = friendList?.map { friend -> friend.id }
             } else {
-                Timber.tag("signIn").e("연동 가능한 카카오톡 친구 없음")
+                Timber.tag("signIn").d("연동 가능한 카카오톡 친구 없음")
             }
         }
+    }
+
+    // TODO : 온보딩 뷰로 이동시키기
+    private fun startOnBoardingActivity() {
+        val intent = Intent(this, MainActivity::class.java)
+        startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
+        finish()
     }
 }

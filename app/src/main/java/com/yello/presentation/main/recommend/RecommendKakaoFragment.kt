@@ -3,6 +3,7 @@ package com.yello.presentation.main.recommend
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
+import com.example.domain.entity.RecommendModel
 import com.example.ui.base.BindingFragment
 import com.example.ui.view.setOnSingleClickListener
 import com.yello.R
@@ -16,10 +17,9 @@ class RecommendKakaoFragment : BindingFragment<FragmentRecommendKakaoBinding>(R.
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.rvRecommendKakao.adapter = recommendAdapter
-
         viewModel.addListFromLocal()
         recommendAdapter.submitList(viewModel.recommendResult.value)
+        binding.rvRecommendKakao.adapter = recommendAdapter
 
         binding.layoutInviteFriend.setOnSingleClickListener {
 

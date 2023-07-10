@@ -59,6 +59,7 @@
         android:insetTop="0dp"
         android:insetBottom="0dp"
         android:minWidth="0dp"
+        android:minHeight="0dp"
         android:paddingHorizontal="13dp"
         android:text="친구추가"
         android:textAppearance="@style/TextAppearance.Yello.Button"
@@ -71,9 +72,9 @@
     <com.google.android.material.divider.MaterialDivider
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:dividerColor="@color/grayscales_800"
         android:layout_marginHorizontal="24dp"
+        app:dividerColor="@color/grayscales_800"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 

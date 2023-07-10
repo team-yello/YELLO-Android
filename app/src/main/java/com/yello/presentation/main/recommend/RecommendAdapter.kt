@@ -5,6 +5,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import com.example.domain.entity.RecommendModel
 import com.example.ui.view.ItemDiffCallback
+import com.example.ui.view.setOnSingleClickListener
+import com.yello.R
 import com.yello.databinding.ItemRecommendListBinding
 
 class RecommendAdapter :

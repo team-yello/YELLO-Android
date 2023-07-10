@@ -37,7 +37,7 @@ class RecommendAdapter(context: Context) : RecyclerView.Adapter<RecommendViewHol
         holder.binding.btnRecommendItemAdd.setOnSingleClickListener {
             CoroutineScope(Dispatchers.Main).launch {
                 changeToCheckIcon(holder)
-                delay(500)
+                delay(300)
                 removeItem(position)
             }
         }

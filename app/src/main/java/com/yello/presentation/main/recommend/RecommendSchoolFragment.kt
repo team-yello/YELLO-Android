@@ -16,7 +16,8 @@ class RecommendSchoolFragment :
     BindingFragment<FragmentRecommendSchoolBinding>(R.layout.fragment_recommend_school) {
 
     private val viewModel by viewModels<RecommendSchoolViewModel>()
-    private lateinit var friendsList : List<RecommendModel>
+    private lateinit var friendsList: List<RecommendModel>
+    private var recommendInviteDialog: RecommendInviteDialog = RecommendInviteDialog()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -29,7 +30,7 @@ class RecommendSchoolFragment :
         adapter.setItemList(friendsList)
 
         binding.layoutInviteFriend.setOnSingleClickListener {
-
+            recommendInviteDialog.show(parentFragmentManager, "Dialog")
         }
 
         binding.rvRecommendSchool.itemAnimator = object : DefaultItemAnimator() {

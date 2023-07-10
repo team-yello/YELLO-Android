@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_gravity="center">
@@ -9,14 +9,14 @@
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="30dp"
         app:cardCornerRadius="10dp"
         app:cardElevation="0dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="30dp"
             android:paddingBottom="50dp">
 
             <TextView
@@ -136,26 +136,26 @@
             </androidx.cardview.widget.CardView>
 
             <ImageView
-                android:id="@+id/iv_invite_kakao_btn"
+                android:id="@+id/btn_invite_kakao"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="8dp"
                 android:layout_marginTop="27dp"
                 android:src="@drawable/ic_kakao_share"
-                app:layout_constraintEnd_toStartOf="@id/iv_invite_link_btn"
+                app:layout_constraintEnd_toStartOf="@id/btn_invite_link"
                 app:layout_constraintHorizontal_chainStyle="packed"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/layout_recommend_invite_code" />
 
             <ImageView
-                android:id="@+id/iv_invite_link_btn"
+                android:id="@+id/btn_invite_link"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="8dp"
                 android:layout_marginTop="27dp"
                 android:src="@drawable/ic_link_share"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/iv_invite_kakao_btn"
+                app:layout_constraintStart_toEndOf="@id/btn_invite_kakao"
                 app:layout_constraintTop_toBottomOf="@id/layout_recommend_invite_code" />
 
             <androidx.constraintlayout.widget.ConstraintLayout

@@ -17,6 +17,7 @@ class RecommendKakaoFragment :
 
     private val viewModel by viewModels<RecommendKakaoViewModel>()
     private lateinit var friendsList : List<RecommendModel>
+    private var recommendInviteDialog: RecommendInviteDialog = RecommendInviteDialog()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -29,7 +30,7 @@ class RecommendKakaoFragment :
         adapter.setItemList(friendsList)
 
         binding.layoutInviteFriend.setOnSingleClickListener {
-
+            recommendInviteDialog.show(parentFragmentManager, "Dialog")
         }
 
         binding.rvRecommendKakao.itemAnimator = object : DefaultItemAnimator() {

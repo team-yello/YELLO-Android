@@ -11,7 +11,13 @@ import com.example.ui.view.ItemDiffCallback
 import com.example.ui.view.setOnSingleClickListener
 import com.yello.R
 import com.yello.databinding.ItemRecommendListBinding
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 
 
 class RecommendAdapter(context: Context) : RecyclerView.Adapter<RecommendViewHolder>() {
@@ -29,8 +35,11 @@ class RecommendAdapter(context: Context) : RecyclerView.Adapter<RecommendViewHol
         holder.onBind(itemList[position])
 
         holder.binding.btnRecommendItemAdd.setOnSingleClickListener {
-            changeToCheckIcon(holder)
-            removeItem(position)
+            CoroutineScope(Dispatchers.Main).launch {
+                changeToCheckIcon(holder)
+                delay(500)
+                removeItem(position)
+            }
         }
     }
 
@@ -55,12 +64,5 @@ class RecommendAdapter(context: Context) : RecyclerView.Adapter<RecommendViewHol
             iconPadding = dpToPx(holder.binding.root.context, -2)
             setPadding(dpToPx(holder.binding.root.context, 10))
         }
-    }
-
-    companion object {
-        private val diffUtil = ItemDiffCallback<RecommendModel>(
-            onItemsTheSame = { old, new -> old.id == new.id },
-            onContentsTheSame = { old, new -> old == new },
-        )
     }
 }

@@ -1,4 +1,4 @@
-package com.yello.presentation.onboarding.fragment.studentID.list
+package com.yello.presentation.onboarding.fragment.studentid.list
 
 import android.os.Bundle
 import android.view.View

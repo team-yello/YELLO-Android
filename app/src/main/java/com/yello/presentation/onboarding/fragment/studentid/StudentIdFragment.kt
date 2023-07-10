@@ -1,4 +1,4 @@
-package com.yello.presentation.onboarding.fragment.studentID
+package com.yello.presentation.onboarding.fragment.studentid
 
 import android.os.Bundle
 import android.view.View
@@ -6,8 +6,8 @@ import com.example.ui.base.BindingFragment
 import com.example.ui.view.setOnSingleClickListener
 import com.yello.R
 import com.yello.databinding.FragmentStudentidBinding
-import com.yello.presentation.onboarding.fragment.studentID.list.SearchDialogDepartmentFragment
-import com.yello.presentation.onboarding.fragment.studentID.list.SearchDialogidFragment
+import com.yello.presentation.onboarding.fragment.studentid.list.SearchDialogDepartmentFragment
+import com.yello.presentation.onboarding.fragment.studentid.list.SearchDialogidFragment
 
 class StudentIdFragment : BindingFragment<FragmentStudentidBinding>(R.layout.fragment_studentid) {
 

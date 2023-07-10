@@ -13,7 +13,6 @@
         android:layout_height="match_parent"
         android:minHeight="400dp">
 
-
         <TextView
             android:id="@+id/tv_department_dialog"
             android:layout_width="wrap_content"
@@ -40,20 +39,18 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-
         <EditText
             android:id="@+id/btn_department_search"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
             android:layout_marginTop="12dp"
-            android:background="@drawable/shape_grayscales400_fill_8_rect"
+            android:background="@drawable/shape_grayscales50_fill_grayscales400_line_8_rect"
             android:drawableEnd="@drawable/ic_onboarding_search"
             android:fontFamily="@font/font_pretendard_medium"
             android:paddingHorizontal="20dp"
-            android:paddingTop="16dp"
+            android:paddingVertical="16dp"
             android:paddingEnd="12dp"
-            android:paddingBottom="16dp"
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

@@ -33,5 +33,11 @@
     <string name="tv_id">아이디는</string>
     <string name="onboarding_tv_id_errror">인스타 아이디로 하면 친구들이 찾기 쉬워요! (최대 20자)</string>
     <string name="onboarding_et_id">insta_id</string>
+    <string name="onboarding_tv_gender">성별은</string>
+    <string name="onboarding_tv_code">추천인 코드</string>
+    <string name="onboarding_code_hint">추천인 아이디</string>
+    <string name="onboarding_tv_code_skip">없다면 건너뛰어도 돼요.</string>
+    <string name="onboarding_tv_code_error">추천인의 아이디를 입력해주세요.</string>
+    <string name="onboarding_btn_code_skip"><u>건너뛰기</u></string>
 
 </resources>

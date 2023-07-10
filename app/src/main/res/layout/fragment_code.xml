@@ -2,28 +2,108 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <data></data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layout_code"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <!-- TODO: Update blank fragment layout -->
         <TextView
-            android:id="@+id/viewpaggertitle"
-            android:layout_width="wrap_content"
+            android:id="@+id/tv_name"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="추천인 코드 입력 뷰"
-            android:textSize="30sp"
-            android:textStyle="bold"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="68dp"
+            android:text="@string/onboarding_tv_code"
+            android:textAppearance="?textAppearanceHeadline2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <Button
-            android:id="@+id/btn_codenext"
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/tv_code_warning"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="댜음"
-            app:layout_constraintBottom_toBottomOf="parent" />
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="4dp"
+            android:text="@string/onboarding_tv_code_skip"
+            android:textAppearance="?textAppearanceBodySmall"
+            android:textColor="@color/grayscales_600"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_name" />
+
+        <ImageView
+            android:id="@+id/iv_code_fix"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="36dp"
+            android:src="@drawable/ic_onboarding_id_fix"
+            android:translationZ="1dp"
+            app:layout_constraintBottom_toBottomOf="@+id/et_id"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/et_id" />
+
+        <EditText
+            android:id="@+id/et_id"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:background="@drawable/shape_white_fill_grayscales400_line_8_rect"
+            android:fontFamily="@font/font_pretendard_medium"
+            android:hint="@string/onboarding_code_hint"
+            android:inputType="text"
+            android:layout_marginTop="24dp"
+            android:maxLines="1"
+            android:paddingVertical="14dp"
+            android:paddingStart="39dp"
+            android:paddingEnd="20dp"
+            android:textColor="@color/grayscales_500"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_code_warning" />
+
+        <TextView
+            android:id="@+id/tv_id_error"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="28dp"
+            android:layout_marginTop="4dp"
+            android:text="@string/onboarding_tv_code_error"
+            android:textAppearance="?textAppearanceLabelLarge"
+            android:textColor="@color/grayscales_600"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/et_id" />
+
+        <TextView
+            android:id="@+id/tv_code_skip"
+            android:layout_width="0dp"
+            android:text="@string/onboarding_btn_code_skip"
+            android:layout_marginBottom="14sp"
+            android:gravity="center"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="@+id/btn_code_next"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <android.widget.Button
+            android:id="@+id/btn_code_next"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginBottom="34dp"
+            android:background="@drawable/shape_white_fill_grayscales400_line_8_rect"
+            android:backgroundTint="@color/black"
+            android:paddingVertical="12dp"
+            android:text="@string/onboarding_btn_next"
+            android:textAppearance="?textAppearanceBodyMedium"
+            android:textColor="@color/yello_main_500"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

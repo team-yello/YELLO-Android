@@ -1,4 +1,4 @@
-package com.yello.presentation.onboarding.fragment.StudentID
+package com.yello.presentation.onboarding.fragment.studentID
 
 import android.os.Bundle
 import android.view.View
@@ -6,8 +6,8 @@ import com.example.ui.base.BindingFragment
 import com.example.ui.view.setOnSingleClickListener
 import com.yello.R
 import com.yello.databinding.FragmentStudentidBinding
-import com.yello.presentation.onboarding.fragment.StudentID.list.SearchDialogDepartmentFragment
-import com.yello.presentation.onboarding.fragment.StudentID.list.SearchDialogIDFragment
+import com.yello.presentation.onboarding.fragment.studentID.list.SearchDialogDepartmentFragment
+import com.yello.presentation.onboarding.fragment.studentID.list.SearchDialogidFragment
 
 class StudentIdFragment : BindingFragment<FragmentStudentidBinding>(R.layout.fragment_studentid) {
 
@@ -19,7 +19,7 @@ class StudentIdFragment : BindingFragment<FragmentStudentidBinding>(R.layout.fra
 
     private fun initSearchIdBtnClickListener() {
         binding.etStudentidSearch.setOnSingleClickListener {
-            SearchDialogIDFragment().show(parentFragmentManager, this.tag)
+            SearchDialogidFragment().show(parentFragmentManager, this.tag)
         }
     }
 

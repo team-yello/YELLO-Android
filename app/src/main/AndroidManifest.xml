@@ -54,7 +54,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".presentation.onboarding.Activity.OnBoardingActivity"
+        <activity android:name=".presentation.onboarding.activity.OnBoardingActivity"
             android:exported="true"
             android:screenOrientation="portrait"/>
     </application>

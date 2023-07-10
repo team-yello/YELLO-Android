@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data></data>
 
@@ -29,6 +30,7 @@
             android:fontFamily="@font/font_pretendard_medium"
             android:textColor="@color/black"
             android:textSize="16sp"
+            tools:text="dsf"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@id/iv_search_department_profile"
             app:layout_constraintTop_toTopOf="parent" />

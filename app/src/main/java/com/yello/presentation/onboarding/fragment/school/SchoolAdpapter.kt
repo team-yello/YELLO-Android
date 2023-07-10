@@ -28,9 +28,9 @@ class SchoolAdpapter : ListAdapter<MySchool, SchoolAdpapter.SchoolViewHolder>(di
 
     class SchoolViewHolder(private val binding: ItemSchoolListBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun setlist(data: MySchool) {
-            Timber.d("set list : $data")
-            binding.data = data
+        fun setlist(school: MySchool) {
+            Timber.d("set list : $school")
+            binding.data = school
         }
     }
 

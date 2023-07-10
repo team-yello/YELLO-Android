@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data></data>
 
@@ -15,7 +16,6 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="68dp"
-            android:layout_marginEnd="160dp"
             android:text="@string/onboarding_tv_readyto_login"
             android:textAppearance="?textAppearanceBodyMedium"
             android:textColor="@color/grayscales_600"
@@ -39,9 +39,8 @@
             android:id="@+id/tv_school_search"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
+            android:layout_marginHorizontal="16dp"
             android:layout_marginTop="12dp"
-            android:layout_marginEnd="16dp"
             android:background="@drawable/shape_white_fill_8_rect"
             android:paddingTop="16dp"
             android:paddingEnd="12dp"
@@ -55,8 +54,7 @@
             android:id="@+id/btn_school_next"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
+            android:layout_marginHorizontal="16dp"
             android:layout_marginBottom="34dp"
             android:background="@drawable/shape_white_fill_8_rect"
             android:backgroundTint="@color/black"

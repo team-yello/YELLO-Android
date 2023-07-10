@@ -44,5 +44,9 @@
     <string name="onboarding_tv_start_yello">옐로하러 가기</string>
     <string name="onboarding_btn_gender_done">완료</string>
     <string name="onboarding_tv_gender_x">남자</string>
+    <string name="onboarding_tv_gender_y">여자</string>
+    <string name="onboarding_tv_addfriend">친구를 추가하세요!</string>
+    <string name="onboarding_btn_addfriend_next">친구추가 완료</string>
+    <string name="onboarding_tv_addfriend_how_many">선택된 친구</string>
 
 </resources>

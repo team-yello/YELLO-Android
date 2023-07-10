@@ -6,7 +6,7 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.yello.presentation.onboarding.fragment.AddFriendFragment
 import com.yello.presentation.onboarding.fragment.CodeFragment
 import com.yello.presentation.onboarding.fragment.GenderFragment
-import com.yello.presentation.onboarding.fragment.NameIdFragment
+import com.yello.presentation.onboarding.fragment.nameid.NameIdFragment
 import com.yello.presentation.onboarding.fragment.school.SchoolFragment
 import com.yello.presentation.onboarding.fragment.StartAppFragment
 import com.yello.presentation.onboarding.fragment.studentid.StudentIdFragment

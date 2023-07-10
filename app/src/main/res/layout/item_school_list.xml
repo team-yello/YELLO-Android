@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
         <variable
             name="data"
             type="com.example.domain.entity.MySchool" />
@@ -30,6 +31,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
+            android:fontFamily="@font/font_pretendard_medium"
             android:text="@{data.schoolname}"
             android:textColor="@color/black"
             android:textSize="16sp"

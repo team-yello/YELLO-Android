@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data></data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layout_school"
         android:layout_width="match_parent"
@@ -28,7 +29,6 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="26dp"
-            android:layout_marginEnd="182dp"
             android:text="@string/onboarding_tv_what_school"
             android:textAppearance="?textAppearanceHeadline2"
             app:layout_constraintEnd_toEndOf="parent"
@@ -46,10 +46,10 @@
             android:paddingTop="16dp"
             android:paddingEnd="12dp"
             android:paddingBottom="16dp"
+            app:drawableEndCompat="@drawable/ic_onboarding_search"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_school_where"
-            app:drawableEndCompat="@drawable/ic_onboarding_search" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_school_where" />
 
         <android.widget.Button
             android:id="@+id/btn_school_next"
@@ -58,12 +58,12 @@
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="34dp"
-            android:paddingVertical="12dp"
             android:background="@drawable/shape_white_fill_8_rect"
             android:backgroundTint="@color/black"
+            android:paddingVertical="12dp"
             android:text="@string/onboarding_btn_next"
+            android:textAppearance="?textAppearanceBodyMedium"
             android:textColor="@color/yello_main_500"
-            android:textSize="15sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />

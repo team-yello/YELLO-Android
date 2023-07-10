@@ -40,16 +40,18 @@ class RecommendInviteDialog :
         requireParentFragment().toast("링크가 복사되었습니다.")
     }
 
-    // TODO : 기획에서 제공해줄 템플릿에 맞춰서 추후 수정
+    // TODO : 기획에서 제공해줄 템플릿, 링크에 맞춰서 추후 수정
     private fun startKakaoInvite(context: Context) {
-        // 사용자 정의 메시지 ID
+
+        // 사용자 정의 템플릿 ID & 공유할 url
         val templateId = 95890.toLong()
+        val url = "http://locahost"
 
         // 카카오톡 설치여부 확인
         if (ShareClient.instance.isKakaoTalkSharingAvailable(context)) {
 
             // 카카오톡으로 공유
-            ShareClient.instance.shareCustom(context, templateId) { sharingResult, error ->
+            ShareClient.instance.shareScrap(context, url, templateId) { sharingResult, error ->
                 if (error != null) {
                     Timber.tag(SHARE).e(error, "카카오톡 공유 실패")
                 } else if (sharingResult != null) {
@@ -58,7 +60,7 @@ class RecommendInviteDialog :
             }
         } else {
             // 웹으로 공유
-            val sharerUrl = WebSharerClient.instance.makeCustomUrl(templateId)
+            val sharerUrl = WebSharerClient.instance.makeScrapUrl(url, templateId)
 
             // 1. CustomTabsServiceConnection 지원 브라우저 - Chrome, 삼성 인터넷 등
             try {

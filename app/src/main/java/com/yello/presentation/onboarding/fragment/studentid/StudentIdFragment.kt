@@ -6,8 +6,8 @@ import com.example.ui.base.BindingFragment
 import com.example.ui.view.setOnSingleClickListener
 import com.yello.R
 import com.yello.databinding.FragmentStudentidBinding
-import com.yello.presentation.onboarding.fragment.studentid.list.SearchDialogDepartmentFragment
-import com.yello.presentation.onboarding.fragment.studentid.list.SearchDialogidFragment
+import com.yello.presentation.onboarding.fragment.studentid.dialog.SearchDialogDepartmentFragment
+import com.yello.presentation.onboarding.fragment.studentid.dialog.SearchDialogidFragment
 
 class StudentIdFragment : BindingFragment<FragmentStudentidBinding>(R.layout.fragment_studentid) {
 

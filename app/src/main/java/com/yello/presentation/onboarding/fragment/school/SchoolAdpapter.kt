@@ -23,12 +23,12 @@ class SchoolAdpapter : ListAdapter<MySchool, SchoolAdpapter.SchoolViewHolder>(di
 
     override fun onBindViewHolder(holder: SchoolViewHolder, position: Int) {
         Timber.d("onBindViewHolder($position)")
-        holder.setlist(getItem(position))
+        holder.setschool(getItem(position))
     }
 
     class SchoolViewHolder(private val binding: ItemSchoolListBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun setlist(school: MySchool) {
+        fun setschool(school: MySchool) {
             Timber.d("set list : $school")
             binding.data = school
         }

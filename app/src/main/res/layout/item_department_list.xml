@@ -9,13 +9,13 @@
         android:id="@+id/layout_onboarding_departmentlist"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingHorizontal="24dp"
         android:paddingVertical="11dp">
 
         <ImageView
             android:id="@+id/iv_search_department_profile"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
             android:background="@drawable/ic_onboarding_schoollist_search"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintDimensionRatio="1:1"
@@ -26,9 +26,7 @@
             android:id="@+id/tv_department_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="8dp"
             android:layout_marginStart="8dp"
-            android:layout_marginEnd="16dp"
             android:fontFamily="@font/font_pretendard_medium"
             android:inputType="text"
             android:maxLines="1"

@@ -4,6 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".presentation.main.yello.vote.VoteActivity">
 
+    <data>
+
+        <variable
+            name="vm"
+            type="com.yello.presentation.main.yello.vote.VoteViewModel" />
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layout_vote"
         android:layout_width="match_parent"

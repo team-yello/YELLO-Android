@@ -4,9 +4,24 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".presentation.main.yello.vote.note.NoteFragment">
 
+    <data>
+
+        <variable
+            name="index"
+            type="Integer" />
+
+        <variable
+            name="bgIndex"
+            type="Integer" />
+
+        <variable
+            name="vm"
+            type="com.yello.presentation.main.yello.vote.VoteViewModel" />
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layout_note"
-        setVoteBackground="1"
+        setVoteBackground="@{bgIndex}"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:background="@drawable/shape_gradient_vote_bg_01">
@@ -26,10 +41,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
-                android:text="@string/note_index_of_vote"
+                android:text="@{@string/note_index_of_vote(index + 1)}"
                 android:textAppearance="?textAppearanceLabelLarge"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="@string/note_index_of_vote" />
 
             <!-- TODO : 타원 프로그래스 뷰 구현 -->
             <View
@@ -382,6 +398,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:background="@drawable/shape_white35_fill_100_rect"
+                android:onClick="@{()->vm.shuffle()}"
                 android:paddingVertical="13dp"
                 app:layout_constraintHorizontal_weight="37">
 
@@ -406,18 +423,20 @@
                     android:layout_marginStart="6dp"
                     android:fontFamily="@font/font_pretendard_bold"
                     android:lineHeight="16sp"
-                    android:text="@string/note_shuffle_count"
+                    android:text="@{@string/note_shuffle_count(vm.shuffleCount)}"
                     android:textColor="@color/black"
                     android:textSize="12sp"
                     app:layout_constraintBottom_toBottomOf="@id/tv_note_shuffle"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/tv_note_shuffle"
-                    app:layout_constraintTop_toTopOf="@id/tv_note_shuffle" />
+                    app:layout_constraintTop_toTopOf="@id/tv_note_shuffle"
+                    tools:text="@string/note_shuffle_count" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/btn_note_skip"
                 android:layout_width="0dp"
+                android:onClick="@{()->vm.shuffle()}"
                 android:layout_height="wrap_content"
                 android:background="@drawable/shape_white35_fill_100_rect"
                 android:paddingVertical="13dp"
@@ -428,6 +447,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:drawablePadding="4dp"
+                    android:onClick="@{()->vm.navigateToNextPage()}"
                     android:text="@string/note_skip"
                     android:textAppearance="?textAppearanceBodySmall"
                     app:drawableEndCompat="@drawable/ic_note_skip"

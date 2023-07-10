@@ -32,7 +32,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".presentation.main.yello.vote.VoteActivity"
-            android:exported="false"
+            android:exported="true"
             android:screenOrientation="portrait" />
         <activity
             android:name=".presentation.yello.YelloActivity"

@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:paddingVertical="8dp">
         <TextView
-            android:id="@+id/tv_school_name"
+            android:id="@+id/tv_studentid_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="15학번"

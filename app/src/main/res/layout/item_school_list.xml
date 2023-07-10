@@ -16,8 +16,8 @@
 
         <ImageView
             android:id="@+id/iv_search_school_profile"
-            android:layout_width="42dp"
-            android:layout_height="0dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
             android:background="@drawable/ic_onboarding_schoollist_search"
             app:layout_constraintBottom_toBottomOf="parent"

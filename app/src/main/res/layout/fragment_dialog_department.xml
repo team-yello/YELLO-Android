@@ -15,7 +15,7 @@
 
 
         <TextView
-            android:id="@+id/tv_dialog_department"
+            android:id="@+id/tv_department_dialog"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="28dp"
@@ -29,15 +29,15 @@
 
         <android.widget.ImageButton
             android:id="@+id/btn_back_dialog"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="29dp"
             android:layout_marginEnd="22dp"
             android:layout_marginBottom="13dp"
             android:background="@null"
             android:src="@drawable/ic_onboarding_x"
             app:layout_constraintBottom_toTopOf="@+id/btn_department_search"
-            app:layout_constraintDimensionRatio="1"
+            app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -59,10 +59,10 @@
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_dialog_department" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_department_dialog" />
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/tv_adddepartment"
+            android:id="@+id/tv_department_add"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="0dp"
@@ -83,7 +83,7 @@
             android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_adddepartment"
+            app:layout_constraintTop_toBottomOf="@id/tv_department_add"
             tools:listitem="@layout/item_department_list" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

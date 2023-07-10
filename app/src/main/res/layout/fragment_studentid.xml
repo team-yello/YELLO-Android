@@ -5,11 +5,12 @@
     <data></data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout_studentid"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <TextView
-            android:id="@+id/tv_what_department"
+            android:id="@+id/tv_department_where"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -35,10 +36,10 @@
             android:paddingBottom="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_what_department" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_department_where" />
 
         <TextView
-            android:id="@+id/tv_what_studentid"
+            android:id="@+id/tv_studentid_what"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -68,7 +69,7 @@
             android:paddingBottom="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_what_studentid"
+            app:layout_constraintTop_toBottomOf="@+id/tv_studentid_what"
             app:drawableEndCompat="@drawable/ic_onboarding_studentid_down" />
 
         <android.widget.Button

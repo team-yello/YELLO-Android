@@ -4,11 +4,12 @@
 
     <data></data>
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout_school"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <TextView
-            android:id="@+id/tv_ready_login"
+            android:id="@+id/tv_school_ready"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -22,7 +23,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/tv_what_school"
+            android:id="@+id/tv_school_where"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -32,7 +33,7 @@
             android:textAppearance="?textAppearanceHeadline2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_ready_login" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_school_ready" />
 
         <TextView
             android:id="@+id/tv_school_search"
@@ -47,7 +48,7 @@
             android:paddingBottom="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_what_school"
+            app:layout_constraintTop_toBottomOf="@+id/tv_school_where"
             app:drawableEndCompat="@drawable/ic_onboarding_search" />
 
         <android.widget.Button

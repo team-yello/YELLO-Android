@@ -13,17 +13,17 @@ class StudentIdFragment : BindingFragment<FragmentStudentidBinding>(R.layout.fra
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initSearchIDBtnClickListener()
-        initSearchDeaprtmentBtnClickListener()
+        initSearchIdBtnClickListener()
+        initSearchDepartmentBtnClickListener()
     }
 
-    private fun initSearchIDBtnClickListener() {
+    private fun initSearchIdBtnClickListener() {
         binding.etStudentidSearch.setOnSingleClickListener {
             SearchDialogIDFragment().show(parentFragmentManager, this.tag)
         }
     }
 
-    private fun initSearchDeaprtmentBtnClickListener() {
+    private fun initSearchDepartmentBtnClickListener() {
         binding.etDepartmentSearch.setOnSingleClickListener {
             SearchDialogDepartmentFragment().show(parentFragmentManager, this.tag)
         }

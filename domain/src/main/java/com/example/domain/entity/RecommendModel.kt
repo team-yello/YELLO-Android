@@ -4,5 +4,5 @@ data class RecommendModel(
     val id: Int,
     val name: String,
     val school: String,
-    val thumbnail: String
+    val thumbnail: String?
 )

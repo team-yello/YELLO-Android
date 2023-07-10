@@ -36,8 +36,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".presentation.yello.YelloActivity"
-            android:exported="false"
+            android:exported="true"
             android:screenOrientation="portrait" />
     </application>
-
 </manifest>

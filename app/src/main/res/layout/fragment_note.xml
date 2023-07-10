@@ -1,12 +1,453 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".presentation.main.yello.vote.note.NoteFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layout_note"
+        setVoteBackground="1"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        tools:background="@drawable/shape_gradient_vote_bg_01">
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_note_components"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="36dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/tv_note_index"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:text="@string/note_index_of_vote"
+                android:textAppearance="?textAppearanceLabelLarge"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <!-- TODO : 타원 프로그래스 뷰 구현 -->
+            <View
+                android:id="@+id/view_note_progress_todo"
+                android:layout_width="0dp"
+                android:layout_height="60dp"
+                android:layout_marginTop="4dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_note_index" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layout_note_question"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="8dp"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/shape_black_fill_32_rect"
+                android:paddingVertical="36dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/view_note_progress_todo">
+
+                <LinearLayout
+                    android:id="@+id/layout_note_first_sentence"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <!-- TODO : 동적 추가 구현 후 제거 -->
+                    <TextView
+                        android:id="@+id/tv_note_first_sentence"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/font_pretendard_bold"
+                        android:text="나는 ???이(가)"
+                        android:textColor="@color/white"
+                        android:textSize="24sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/layout_note_second_sentence"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="14dp"
+                    android:orientation="horizontal"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/layout_note_first_sentence">
+
+                    <!-- TODO : 동적 추가 구현 후 제거 -->
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/font_pretendard_bold"
+                        android:text="\??? 닮은 것 같아"
+                        android:textColor="@color/white"
+                        android:textSize="24sp" />
+                </LinearLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/btn_note_name1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/shape_black_fill_grayscales700_line_top32_rect"
+                android:paddingVertical="20dp"
+                app:layout_constraintHorizontal_weight="37">
+
+                <TextView
+                    android:id="@+id/tv_note_name1_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/font_pretendard_medium"
+                    android:lineHeight="16sp"
+                    android:text="김효원"
+                    android:textColor="@color/white"
+                    android:textSize="15sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_note_name1_id"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:fontFamily="@font/font_pretendard_medium"
+                    android:lineHeight="10sp"
+                    android:text="\@kev_hy1042"
+                    android:textColor="@color/grayscales_600"
+                    android:textSize="10sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_note_name1_name" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/btn_note_keyword1"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="-1dp"
+                android:background="@drawable/shape_black_fill_grayscales700_line_top32_rect"
+                app:layout_constraintBottom_toBottomOf="@id/btn_note_name1"
+                app:layout_constraintHorizontal_weight="49"
+                app:layout_constraintTop_toTopOf="@id/btn_note_name1">
+
+                <TextView
+                    android:id="@+id/tv_note_keyword1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="99대장 나선욱이랑"
+                    android:textAppearance="?textAppearanceBodyMedium"
+                    android:textColor="@color/white"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.helper.widget.Flow
+                android:id="@+id/flow_note_pick1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="8dp"
+                android:layout_marginTop="5dp"
+                app:constraint_referenced_ids="btn_note_name1,btn_note_keyword1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/layout_note_question" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/btn_note_name2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/shape_black_fill_grayscales700_line_rect"
+                android:paddingVertical="20dp"
+                app:layout_constraintHorizontal_weight="37">
+
+                <TextView
+                    android:id="@+id/tv_note_name2_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/font_pretendard_medium"
+                    android:lineHeight="16sp"
+                    android:text="권세훈"
+                    android:textColor="@color/white"
+                    android:textSize="15sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_note_name2_id"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:fontFamily="@font/font_pretendard_medium"
+                    android:lineHeight="10sp"
+                    android:text="\@hj__p_"
+                    android:textColor="@color/grayscales_600"
+                    android:textSize="10sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_note_name2_name" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/btn_note_keyword2"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="@drawable/shape_black_fill_grayscales700_line_rect"
+                app:layout_constraintBottom_toBottomOf="@id/btn_note_name2"
+                app:layout_constraintHorizontal_weight="49"
+                app:layout_constraintTop_toTopOf="@id/btn_note_name2">
+
+                <TextView
+                    android:id="@+id/tv_note_keyword2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/font_pretendard_medium"
+                    android:lineHeight="16sp"
+                    android:text="skkr하는 송민호랑"
+                    android:textColor="@color/white"
+                    android:textSize="15sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.helper.widget.Flow
+                android:id="@+id/flow_note_pick2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="8dp"
+                android:layout_marginTop="-1dp"
+                app:constraint_referenced_ids="btn_note_name2,btn_note_keyword2"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/flow_note_pick1" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/btn_note_name3"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/shape_black_fill_grayscales700_line_rect"
+                android:paddingVertical="20dp"
+                app:layout_constraintHorizontal_weight="37">
+
+                <TextView
+                    android:id="@+id/tv_note_name3_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/font_pretendard_medium"
+                    android:lineHeight="16sp"
+                    android:text="이강민"
+                    android:textColor="@color/white"
+                    android:textSize="15sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_note_name3_id"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:fontFamily="@font/font_pretendard_medium"
+                    android:lineHeight="10sp"
+                    android:text="\@_euije"
+                    android:textColor="@color/grayscales_600"
+                    android:textSize="10sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_note_name3_name" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/btn_note_keyword3"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="@drawable/shape_black_fill_grayscales700_line_rect"
+                app:layout_constraintBottom_toBottomOf="@id/btn_note_name3"
+                app:layout_constraintHorizontal_weight="49"
+                app:layout_constraintTop_toTopOf="@id/btn_note_name3">
+
+                <TextView
+                    android:id="@+id/tv_note_keyword3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/font_pretendard_medium"
+                    android:lineHeight="16sp"
+                    android:text="범죄도시 손석구랑"
+                    android:textColor="@color/white"
+                    android:textSize="15sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.helper.widget.Flow
+                android:id="@+id/flow_note_pick3"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="8dp"
+                android:layout_marginTop="-1dp"
+                app:constraint_referenced_ids="btn_note_name3,btn_note_keyword3"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/flow_note_pick2" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/btn_note_name4"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/shape_black_fill_grayscales700_line_bot32_rect"
+                android:paddingVertical="20dp"
+                app:layout_constraintHorizontal_weight="37">
+
+                <TextView
+                    android:id="@+id/tv_note_name4_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/font_pretendard_medium"
+                    android:lineHeight="16sp"
+                    android:text="이의제"
+                    android:textColor="@color/white"
+                    android:textSize="15sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_note_name4_id"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:fontFamily="@font/font_pretendard_medium"
+                    android:lineHeight="10sp"
+                    android:text="\@nahyunyou"
+                    android:textColor="@color/grayscales_600"
+                    android:textSize="10sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_note_name4_name" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/btn_note_keyword4"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="@drawable/shape_black_fill_grayscales700_line_bot32_rect"
+                app:layout_constraintBottom_toBottomOf="@id/btn_note_name4"
+                app:layout_constraintHorizontal_weight="49"
+                app:layout_constraintTop_toTopOf="@id/btn_note_name4">
+
+                <TextView
+                    android:id="@+id/tv_note_keyword4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/font_pretendard_medium"
+                    android:lineHeight="16sp"
+                    android:text="코딩하는 강동원이랑"
+                    android:textColor="@color/white"
+                    android:textSize="15sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.helper.widget.Flow
+                android:id="@+id/flow_note_pick4"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="8dp"
+                android:layout_marginTop="-1dp"
+                app:constraint_referenced_ids="btn_note_name4,btn_note_keyword4"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/flow_note_pick3" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/btn_note_shuffle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/shape_white35_fill_100_rect"
+                android:paddingVertical="13dp"
+                app:layout_constraintHorizontal_weight="37">
+
+                <TextView
+                    android:id="@+id/tv_note_shuffle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawablePadding="4dp"
+                    android:text="@string/note_friend_shuffle"
+                    android:textAppearance="?textAppearanceBodySmall"
+                    app:drawableStartCompat="@drawable/ic_note_shuffle"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/tv_note_shuffle_count"
+                    app:layout_constraintHorizontal_chainStyle="packed"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_note_shuffle_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="6dp"
+                    android:fontFamily="@font/font_pretendard_bold"
+                    android:lineHeight="16sp"
+                    android:text="@string/note_shuffle_count"
+                    android:textColor="@color/black"
+                    android:textSize="12sp"
+                    app:layout_constraintBottom_toBottomOf="@id/tv_note_shuffle"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/tv_note_shuffle"
+                    app:layout_constraintTop_toTopOf="@id/tv_note_shuffle" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/btn_note_skip"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/shape_white35_fill_100_rect"
+                android:paddingVertical="13dp"
+                app:layout_constraintHorizontal_weight="49">
+
+                <TextView
+                    android:id="@+id/tv_note_skip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawablePadding="4dp"
+                    android:text="@string/note_skip"
+                    android:textAppearance="?textAppearanceBodySmall"
+                    app:drawableEndCompat="@drawable/ic_note_skip"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.helper.widget.Flow
+                android:id="@+id/flow_note_option"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="8dp"
+                android:layout_marginTop="28dp"
+                app:constraint_referenced_ids="btn_note_shuffle,btn_note_skip"
+                app:flow_horizontalGap="4dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/flow_note_pick4" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

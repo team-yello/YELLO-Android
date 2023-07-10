@@ -2,4 +2,8 @@
     <string name="app_name">YELLO</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="note_index_of_vote">%d of 10</string>
+    <string name="note_friend_shuffle">친구 셔플</string>
+    <string name="note_shuffle_count">%d/3</string>
+    <string name="note_skip">이 질문 건너뛰기</string>
 </resources>

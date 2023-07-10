@@ -16,7 +16,7 @@ class RecommendKakaoFragment :
     BindingFragment<FragmentRecommendKakaoBinding>(R.layout.fragment_recommend_kakao) {
 
     private val viewModel by viewModels<RecommendKakaoViewModel>()
-    lateinit var friendsList : List<RecommendModel>
+    private lateinit var friendsList : List<RecommendModel>
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

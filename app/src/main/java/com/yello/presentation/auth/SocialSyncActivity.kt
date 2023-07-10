@@ -1,5 +1,4 @@
 package com.yello.presentation.auth
-
 import android.content.Intent
 import android.os.Bundle
 import com.example.ui.base.BindingActivity

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout_department_dialog"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:minHeight="400dp">
+
+        <TextView
+            android:id="@+id/tv_department_dialog"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="28dp"
+            android:text="@string/onboarding_tv_search_department"
+            android:textAppearance="?textAppearanceBodyLarge"
+            android:textColor="@color/black"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <android.widget.ImageButton
+            android:id="@+id/btn_back_dialog"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="29dp"
+            android:layout_marginEnd="22dp"
+            android:layout_marginBottom="13dp"
+            android:background="@null"
+            android:src="@drawable/ic_onboarding_x"
+            app:layout_constraintBottom_toTopOf="@+id/btn_department_search"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/btn_department_search"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/shape_grayscales50_fill_grayscales400_line_8_rect"
+            android:drawableEnd="@drawable/ic_onboarding_search"
+            android:drawablePadding="24dp"
+            android:fontFamily="@font/font_pretendard_medium"
+            android:inputType="text"
+            android:maxLines="1"
+            android:paddingVertical="16dp"
+            android:paddingStart="20dp"
+            android:paddingEnd="12dp"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_department_dialog"
+            tools:text="dddfdfdsfdnfkshfjdhjkhskjhfsdhjfksdhkfjshkjsdhjksdfhsdadasda" />
+
+        <TextView
+            android:id="@+id/tv_department_add"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="1dp"
+            android:background="@null"
+            android:text="@string/onboarding_btn_add_department"
+            android:textAppearance="?textAppearanceLabelLarge"
+            android:textColor="@color/grayscales_600"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btn_department_search" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_department_list"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_department_add"
+            tools:listitem="@layout/item_department_list" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

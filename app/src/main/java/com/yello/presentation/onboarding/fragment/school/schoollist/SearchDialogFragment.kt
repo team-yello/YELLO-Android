@@ -19,7 +19,7 @@ class SearchDialogFragment :
 
     private fun initSchoolAdapter() {
         schoolAdpapter = SchoolAdpapter()
-        binding.rvSchoollist.adapter = schoolAdpapter
+        binding.rvSchoolList.adapter = schoolAdpapter
     }
 
     companion object {

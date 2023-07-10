@@ -29,7 +29,6 @@ class SchoolAdpapter : ListAdapter<MySchool, SchoolAdpapter.SchoolViewHolder>(di
     class SchoolViewHolder(private val binding: ItemSchoolListBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun setlist(data: MySchool) {
-            //TODO:사용 후 팀버 삭제
             Timber.d("set list : $data")
             binding.data = data
         }

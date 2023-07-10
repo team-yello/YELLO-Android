@@ -30,10 +30,10 @@
             android:background="@drawable/shape_grayscales50_fill_grayscales400_line_8_rect"
             android:paddingVertical="16dp"
             android:paddingEnd="12dp"
+            app:drawableEndCompat="@drawable/ic_onboarding_search"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_department_where"
-            app:drawableEndCompat="@drawable/ic_onboarding_search" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_department_where" />
 
         <TextView
             android:id="@+id/tv_studentid_what"

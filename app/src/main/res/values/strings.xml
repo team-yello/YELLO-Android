@@ -22,7 +22,7 @@
     <string name="main_my_yello">내 쪽지</string>
     <string name="main_profile">프로필</string>
     <string name="onboarding_tv_search_school">우리 학교 검색하기</string>
-    <string name="onboarding_tv_add_school"><u>우리 학교가 없나요?학교를 추가해보세요!</u></string>
+    <string name="onboarding_tv_add_school"><u>우리 학교가 없나요? 학교를 추가해보세요!</u></string>
     <string name="onboarding_tv_readyto_login">옐로에 가입하기 위한 첫 절차에요.</string>
     <string name="onboarding_tv_what_school">학교가 어디인가요?</string>
     <string name="onboarding_tv_what_department">무슨 학과인가요?</string>

@@ -43,7 +43,7 @@
             android:layout_marginStart="4dp"
             android:layout_marginTop="78dp"
             android:fontFamily="@font/font_pretendard_bold"
-            android:text="40"
+            tools:text="40"
             android:textColor="@color/purple_sub_500"
             android:textSize="12sp"
             app:layout_constraintBottom_toBottomOf="@+id/tv_friend_howmany"
@@ -55,7 +55,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="78dp"
-            android:text="명"
+            android:text="@string/onboarding_tv_freind_end"
             android:textAppearance="@style/TextAppearance.Yello.LabelLarge"
             app:layout_constraintStart_toEndOf="@id/tv_friend_number"
             app:layout_constraintTop_toTopOf="parent" />

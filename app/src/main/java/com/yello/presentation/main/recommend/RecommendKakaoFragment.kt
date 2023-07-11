@@ -6,7 +6,6 @@ import android.view.animation.AnimationUtils
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.RecyclerView
-import com.example.domain.entity.RecommendModel
 import com.example.ui.base.BindingFragment
 import com.example.ui.view.setOnSingleClickListener
 import com.yello.R
@@ -16,7 +15,6 @@ class RecommendKakaoFragment :
     BindingFragment<FragmentRecommendKakaoBinding>(R.layout.fragment_recommend_kakao) {
 
     private val viewModel by viewModels<RecommendKakaoViewModel>()
-    private lateinit var friendsList: List<RecommendModel>
     private var recommendInviteDialog: RecommendInviteDialog = RecommendInviteDialog()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -27,6 +25,11 @@ class RecommendKakaoFragment :
         setDeleteAnimation()
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        dismissDialog()
+    }
+
     private fun initInviteButtonListener() {
         binding.layoutInviteFriend.setOnSingleClickListener {
             recommendInviteDialog.show(parentFragmentManager, "Dialog")
@@ -35,11 +38,10 @@ class RecommendKakaoFragment :
 
     private fun setListToAdapterFromLocal() {
         viewModel.addListFromLocal()
-        friendsList = viewModel.recommendResult.value ?: emptyList()
-
-        val adapter = RecommendAdapter(requireContext())
-        binding.rvRecommendKakao.adapter = adapter
-        adapter.setItemList(friendsList)
+        val friendsList = viewModel.recommendResult.value ?: emptyList()
+        binding.rvRecommendKakao.adapter = RecommendAdapter(requireContext()).apply {
+            setItemList(friendsList)
+        }
     }
 
     private fun setDeleteAnimation() {
@@ -50,5 +52,9 @@ class RecommendKakaoFragment :
                 return super.animateRemove(holder)
             }
         }
+    }
+
+    private fun dismissDialog() {
+        if (recommendInviteDialog.isAdded) recommendInviteDialog.dismiss()
     }
 }

@@ -1,5 +1,6 @@
 package com.yello.presentation.onboarding.fragment.school
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
@@ -8,7 +9,7 @@ import com.example.domain.entity.MySchool
 import com.example.ui.view.ItemDiffCallback
 import com.yello.databinding.ItemSchoolListBinding
 
-class SchoolAdapter : ListAdapter<MySchool, SchoolAdapter.SchoolViewHolder>(diffUtil) {
+class SchoolAdapter(requireContext: Context) : ListAdapter<MySchool, SchoolAdapter.SchoolViewHolder>(diffUtil) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SchoolViewHolder {
         return SchoolViewHolder(
             ItemSchoolListBinding.inflate(

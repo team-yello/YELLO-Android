@@ -56,6 +56,7 @@
 
         <activity android:name=".presentation.onboarding.activity.OnBoardingActivity"
             android:exported="true"
+            android:windowSoftInputMode="adjustNothing"
             android:screenOrientation="portrait"/>
 
     </application>

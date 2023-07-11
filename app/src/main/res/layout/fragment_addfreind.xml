@@ -73,7 +73,7 @@
             tools:listitem="@layout/item_addfriend" />
 
         <android.widget.Button
-            android:id="@+id/btn_gender_next"
+            android:id="@+id/btn_addfriend_next"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"

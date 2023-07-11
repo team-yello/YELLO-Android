@@ -65,14 +65,13 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_name_error" />
 
-        <TextView
+        <ImageView
             android:id="@+id/iv_nameid_fix"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="36dp"
             android:src="@drawable/ic_onboarding_id_fix"
             android:translationZ="1dp"
-            android:text="\@"
             app:layout_constraintBottom_toBottomOf="@+id/et_id"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/et_id" />

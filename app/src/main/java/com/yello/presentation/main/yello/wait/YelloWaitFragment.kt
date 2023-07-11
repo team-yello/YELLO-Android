@@ -1,4 +1,4 @@
-package com.yello.presentation.onboarding.fragment
+package com.yello.presentation.main.yello.wait
 
 import android.os.Bundle
 import android.view.View

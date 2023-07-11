@@ -38,4 +38,7 @@
     <string name="yello_start_description">누구에게 어떤 메시지를 보낼까?</string>
     <string name="yello_start_point_label">Point</string>
     <string name="yello_start_vote">투표 시작!</string>
+    <string name="yello_lock_description">투표를 시작할 수 없어요</string>
+    <string name="yello_lock_invite">친구 초대하기</string>
+    <string name="yello_lock_sub_description">친구가 4명 이상 모이면 투표할 수 있어요.\n친구들을 초대해볼까요?</string>
 </resources>

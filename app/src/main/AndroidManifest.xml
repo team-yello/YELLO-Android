@@ -54,9 +54,14 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".presentation.onboarding.activity.OnBoardingActivity"
+        <activity
+            android:name=".presentation.onboarding.activity.OnBoardingActivity"
             android:exported="true"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".presentation.main.yello.vote.VoteActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

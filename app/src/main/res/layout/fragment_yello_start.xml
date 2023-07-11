@@ -2,26 +2,26 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".presentation.onboarding.fragment.YelloStartFragment">
+    tools:context=".presentation.main.yello.start.YelloStartFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/layout_start"
+        android:id="@+id/layout_lock"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/black">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/layout_start_welcome"
+            android:id="@+id/layout_lock_welcome"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="44dp"
-            app:layout_constraintBottom_toTopOf="@id/btn_start_vote"
+            app:layout_constraintBottom_toTopOf="@id/btn_lock_vote"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
             <TextView
-                android:id="@+id/tv_start_description"
+                android:id="@+id/tv_lock_description"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/yello_start_description"
@@ -32,14 +32,14 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
-                android:id="@+id/iv_start_description"
+                android:id="@+id/iv_lock_description"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="28dp"
-                android:src="@drawable/img_yell_start_dummy"
+                android:src="@drawable/img_yello_dummy"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_start_description" />
+                app:layout_constraintTop_toBottomOf="@id/tv_lock_description" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/layout_start_point"
@@ -52,7 +52,7 @@
                 android:paddingVertical="14dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/iv_start_description">
+                app:layout_constraintTop_toBottomOf="@id/iv_lock_description">
 
                 <ImageView
                     android:id="@+id/iv_start_point"
@@ -98,7 +98,7 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <TextView
-            android:id="@+id/btn_start_vote"
+            android:id="@+id/btn_lock_vote"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"

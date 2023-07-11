@@ -9,12 +9,15 @@ import com.yello.databinding.FragmentRecommendBinding
 
 class RecommendFragment : BindingFragment<FragmentRecommendBinding>(R.layout.fragment_recommend) {
 
-    private val tabTextList = listOf("카톡 친구들", "학교 친구들")
+    private val tabTextList = listOf(
+        getString(R.string.tv_recommend_tab_kakao),
+        getString(R.string.tv_recommend_tab_school)
+    )
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.vpRecommend.adapter =ViewPagerAdapter(this)
+        binding.vpRecommend.adapter = ViewPagerAdapter(this)
 
         TabLayoutMediator(binding.tabRecommend, binding.vpRecommend) { tab, pos ->
             tab.text = tabTextList[pos]

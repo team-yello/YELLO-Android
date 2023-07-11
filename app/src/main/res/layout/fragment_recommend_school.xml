@@ -41,7 +41,7 @@
                 android:layout_marginTop="18dp"
                 android:paddingVertical="3dp"
                 android:text="친구 초대하기"
-                android:textAppearance="@style/TextAppearance.Yello.BodyMedium"
+                android:textAppearance="?textAppearanceBodyMedium"
                 android:textColor="@color/white"
                 app:layout_constraintStart_toEndOf="@id/iv_recommend_invite"
                 app:layout_constraintTop_toTopOf="parent" />

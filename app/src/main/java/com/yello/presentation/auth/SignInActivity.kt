@@ -23,7 +23,7 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
 
         // TODO : 4명 키 해시 모두 받은 다음에 코드 지우기
         val keyHash = Utility.getKeyHash(this)
-        Timber.tag(AUTH).d(keyHash)
+        Timber.tag(TAG_AUTH).d(keyHash)
 
         initSignInButtonListener()
     }
@@ -45,7 +45,7 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
     private fun setAccountLoginCallback() {
         accountLoginCallback = { token, error ->
             if (error != null) {
-                Timber.tag(AUTH).e(error, "카카오계정으로 로그인 실패")
+                Timber.tag(TAG_AUTH).e(error, "카카오계정으로 로그인 실패")
 
             } else if (token != null) {
                 postKakaoAccessToken(token)
@@ -53,7 +53,7 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
                 startSocialSyncActivity()
 
             } else {
-                Timber.tag(AUTH).d("빈 카카오 토큰")
+                Timber.tag(TAG_AUTH).d("빈 카카오 토큰")
             }
         }
     }
@@ -62,11 +62,11 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
     private fun setAppLoginCallback() {
         appLoginCallback = { token, error ->
             if (error != null) {
-                Timber.tag(AUTH).e(error, "카카오톡으로 로그인 실패")
+                Timber.tag(TAG_AUTH).e(error, "카카오톡으로 로그인 실패")
 
                 // 뒤로가기 경우 예외 처리
                 if (error is ClientError && error.reason == ClientErrorCause.Cancelled) {
-                    Timber.tag(AUTH).e(error, "유저가 로그인 취소")
+                    Timber.tag(TAG_AUTH).e(error, "유저가 로그인 취소")
                 } else {
 
                     // 카카오톡 연결 실패 시, 계정으로 로그인 시도
@@ -79,7 +79,7 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
                 startSocialSyncActivity()
 
             } else {
-                Timber.tag(AUTH).d("빈 카카오 토큰")
+                Timber.tag(TAG_AUTH).d("빈 카카오 토큰")
             }
         }
     }
@@ -124,7 +124,7 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
                 var userKakaoEmail = user.kakaoAccount?.email
                 var userThumbnailUri = user.kakaoAccount?.profile?.thumbnailImageUrl
             } else {
-                Timber.tag(AUTH).d("카카오 유저 정보 받기 실패")
+                Timber.tag(TAG_AUTH).d("카카오 유저 정보 받기 실패")
             }
         }
     }
@@ -136,11 +136,11 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
             var kakaoAccessToken = token.accessToken
             var kakaoRefreshToken = token.refreshToken
         } else {
-            Timber.tag(AUTH).d("카카오 토큰 받기 실패")
+            Timber.tag(TAG_AUTH).d("카카오 토큰 받기 실패")
         }
     }
 
     private companion object {
-        const val AUTH = "authSignIn"
+        const val TAG_AUTH = "authSignIn"
     }
 }

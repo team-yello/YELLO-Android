@@ -59,19 +59,20 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="24dp"
-            android:text="@string/tv_id"
+            android:text="@string/onboarding_tv_id"
             android:textAppearance="?textAppearanceHeadline2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_name_error" />
 
-        <ImageView
+        <TextView
             android:id="@+id/iv_nameid_fix"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="36dp"
             android:src="@drawable/ic_onboarding_id_fix"
             android:translationZ="1dp"
+            android:text="\@"
             app:layout_constraintBottom_toBottomOf="@+id/et_id"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/et_id" />

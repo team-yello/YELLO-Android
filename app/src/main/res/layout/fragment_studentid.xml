@@ -58,7 +58,7 @@
             android:paddingHorizontal="20dp"
             android:paddingVertical="16dp"
             android:paddingEnd="12dp"
-            android:text="@string/onboarding_hint_select_studentid"
+            android:text="@string/onboarding_tv_hint_select_studentid"
             android:textColor="@color/grayscales_500"
             android:textSize="16sp"
             app:drawableEndCompat="@drawable/ic_onboarding_studentid_down"

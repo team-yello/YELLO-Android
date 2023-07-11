@@ -16,10 +16,10 @@ class SocialSyncActivity :
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setBtnSocialSyncClickListener()
+        initSocialSyncButtonListener()
     }
 
-    private fun setBtnSocialSyncClickListener() {
+    private fun initSocialSyncButtonListener() {
         binding.btnSocialSync.setOnSingleClickListener {
             getFriendsList()
             startOnBoardingActivity()

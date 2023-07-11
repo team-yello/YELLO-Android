@@ -26,10 +26,10 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
         val keyHash = Utility.getKeyHash(this)
         Timber.tag(AUTH).d(keyHash)
 
-        setBtnSignInClickListener()
+        initSignInButtonListener()
     }
 
-    private fun setBtnSignInClickListener() {
+    private fun initSignInButtonListener() {
         binding.btnSignIn.setOnSingleClickListener {
             setServiceTerms()
             setAppLoginCallback()

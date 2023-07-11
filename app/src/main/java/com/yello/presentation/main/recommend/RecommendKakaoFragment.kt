@@ -16,23 +16,33 @@ class RecommendKakaoFragment :
     BindingFragment<FragmentRecommendKakaoBinding>(R.layout.fragment_recommend_kakao) {
 
     private val viewModel by viewModels<RecommendKakaoViewModel>()
-    private lateinit var friendsList : List<RecommendModel>
+    private lateinit var friendsList: List<RecommendModel>
     private var recommendInviteDialog: RecommendInviteDialog = RecommendInviteDialog()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        initInviteButtonListener()
+        setListToAdapterFromLocal()
+        setDeleteAnimation()
+    }
+
+    private fun initInviteButtonListener() {
+        binding.layoutInviteFriend.setOnSingleClickListener {
+            recommendInviteDialog.show(parentFragmentManager, "Dialog")
+        }
+    }
+
+    private fun setListToAdapterFromLocal() {
         viewModel.addListFromLocal()
         friendsList = viewModel.recommendResult.value ?: emptyList()
 
         val adapter = RecommendAdapter(requireContext())
         binding.rvRecommendKakao.adapter = adapter
         adapter.setItemList(friendsList)
+    }
 
-        binding.layoutInviteFriend.setOnSingleClickListener {
-            recommendInviteDialog.show(parentFragmentManager, "Dialog")
-        }
-
+    private fun setDeleteAnimation() {
         binding.rvRecommendKakao.itemAnimator = object : DefaultItemAnimator() {
             override fun animateRemove(holder: RecyclerView.ViewHolder): Boolean {
                 holder.itemView.animation =

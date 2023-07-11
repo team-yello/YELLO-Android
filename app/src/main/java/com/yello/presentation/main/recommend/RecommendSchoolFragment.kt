@@ -22,17 +22,27 @@ class RecommendSchoolFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        initInviteButtonListener()
+        setListToAdapterFromLocal()
+        setDeleteAnimation()
+    }
+
+    private fun initInviteButtonListener() {
+        binding.layoutInviteFriend.setOnSingleClickListener {
+            recommendInviteDialog.show(parentFragmentManager, "Dialog")
+        }
+    }
+
+    private fun setListToAdapterFromLocal() {
         viewModel.addListFromLocal()
         friendsList = viewModel.recommendResult.value ?: emptyList()
 
         val adapter = RecommendAdapter(requireContext())
         binding.rvRecommendSchool.adapter = adapter
         adapter.setItemList(friendsList)
+    }
 
-        binding.layoutInviteFriend.setOnSingleClickListener {
-            recommendInviteDialog.show(parentFragmentManager, "Dialog")
-        }
-
+    private fun setDeleteAnimation() {
         binding.rvRecommendSchool.itemAnimator = object : DefaultItemAnimator() {
             override fun animateRemove(holder: RecyclerView.ViewHolder): Boolean {
                 holder.itemView.animation =

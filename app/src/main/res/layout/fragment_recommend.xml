@@ -46,12 +46,12 @@
             <com.google.android.material.tabs.TabItem
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="카톡 친구들"/>
+                android:text="카톡 친구들" />
 
             <com.google.android.material.tabs.TabItem
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="학교 친구들"/>
+                android:text="학교 친구들" />
 
         </com.google.android.material.tabs.TabLayout>
 

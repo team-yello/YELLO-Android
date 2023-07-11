@@ -7,22 +7,18 @@ import androidx.core.view.setPadding
 import androidx.recyclerview.widget.RecyclerView
 import com.example.domain.entity.RecommendModel
 import com.example.ui.intent.dpToPx
-import com.example.ui.view.ItemDiffCallback
 import com.example.ui.view.setOnSingleClickListener
 import com.yello.R
 import com.yello.databinding.ItemRecommendListBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 
 
 class RecommendAdapter(context: Context) : RecyclerView.Adapter<RecommendViewHolder>() {
 
-    private val inflater by lazy { LayoutInflater.from(context)}
+    private val inflater by lazy { LayoutInflater.from(context) }
     private var itemList = mutableListOf<RecommendModel>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecommendViewHolder {
@@ -34,13 +30,7 @@ class RecommendAdapter(context: Context) : RecyclerView.Adapter<RecommendViewHol
     override fun onBindViewHolder(holder: RecommendViewHolder, position: Int) {
         holder.onBind(itemList[position])
 
-        holder.binding.btnRecommendItemAdd.setOnSingleClickListener {
-            CoroutineScope(Dispatchers.Main).launch {
-                changeToCheckIcon(holder)
-                delay(300)
-                removeItem(position)
-            }
-        }
+        initItemAddButtonListener(holder, position)
     }
 
     override fun getItemCount(): Int = itemList.size
@@ -50,11 +40,6 @@ class RecommendAdapter(context: Context) : RecyclerView.Adapter<RecommendViewHol
         notifyDataSetChanged()
     }
 
-    private fun removeItem(position: Int) {
-        itemList.removeAt(position)
-        notifyItemRemoved(position)
-        notifyItemRangeChanged(position, itemCount)
-    }
 
     private fun changeToCheckIcon(holder: RecommendViewHolder) {
         holder.binding.btnRecommendItemAdd.apply {
@@ -63,6 +48,22 @@ class RecommendAdapter(context: Context) : RecyclerView.Adapter<RecommendViewHol
             setIconTintResource(R.color.black)
             iconPadding = dpToPx(holder.binding.root.context, -2)
             setPadding(dpToPx(holder.binding.root.context, 10))
+        }
+    }
+
+    private fun removeItem(position: Int) {
+        itemList.removeAt(position)
+        notifyItemRemoved(position)
+        notifyItemRangeChanged(position, itemCount)
+    }
+
+    private fun initItemAddButtonListener(holder: RecommendViewHolder, position: Int) {
+        holder.binding.btnRecommendItemAdd.setOnSingleClickListener {
+            CoroutineScope(Dispatchers.Main).launch {
+                changeToCheckIcon(holder)
+                delay(300)
+                removeItem(position)
+            }
         }
     }
 }

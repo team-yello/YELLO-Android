@@ -40,7 +40,6 @@ class RecommendInviteDialog :
 
     // TODO : 스낵바 커스텀 & 링크 복사
     private fun startLinkInvite() {
-        requireParentFragment().snackBar(requireParentFragment().requireView()) { "링크가 복사되었습니다." }
         toast("링크가 복사되었습니다.")
     }
 

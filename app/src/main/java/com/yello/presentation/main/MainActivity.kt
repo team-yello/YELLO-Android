@@ -24,6 +24,7 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
 
     private fun initBnvItemIconTintList() {
         binding.bnvMain.itemIconTintList = null
+        binding.bnvMain.selectedItemId = R.id.menu_yello
     }
 
     private fun initBnvItemSelectedListener() {

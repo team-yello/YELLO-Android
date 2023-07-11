@@ -1,12 +1,12 @@
-package com.yello.presentation.onboarding.fragment
+package com.yello.presentation.onboarding.fragment.startapp
 
 import android.os.Bundle
 import android.view.View
 import com.example.ui.base.BindingFragment
 import com.yello.R
-import com.yello.databinding.FragmentGenderBinding
+import com.yello.databinding.FragmentStartappBinding
 
-class GenderFragment : BindingFragment<FragmentGenderBinding>(R.layout.fragment_gender) {
+class StartAppFragment : BindingFragment<FragmentStartappBinding>(R.layout.fragment_startapp) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

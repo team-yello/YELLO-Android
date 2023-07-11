@@ -1,12 +1,12 @@
-package com.yello.presentation.onboarding.fragment
+package com.yello.presentation.onboarding.fragment.code
 
 import android.os.Bundle
 import android.view.View
 import com.example.ui.base.BindingFragment
 import com.yello.R
-import com.yello.databinding.FragmentAddfreindBinding
+import com.yello.databinding.FragmentCodeBinding
 
-class AddFriendFragment : BindingFragment<FragmentAddfreindBinding>(R.layout.fragment_addfreind) {
+class CodeFragment : BindingFragment<FragmentCodeBinding>(R.layout.fragment_code) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

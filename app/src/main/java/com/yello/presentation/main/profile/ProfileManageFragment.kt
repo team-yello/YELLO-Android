@@ -4,9 +4,9 @@ import android.os.Bundle
 import android.view.View
 import com.example.ui.base.BindingFragment
 import com.yello.R
-import com.yello.databinding.FragmentProfileBinding
+import com.yello.databinding.FragmentProfileManageBinding
 
-class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragment_profile) {
+class ProfileManageFragment : BindingFragment<FragmentProfileManageBinding>(R.layout.fragment_profile_manage) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

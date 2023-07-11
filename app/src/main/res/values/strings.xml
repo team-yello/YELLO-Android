@@ -1,9 +1,37 @@
 <resources>
     <string name="app_name">YELLO</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
     <string name="note_index_of_vote">%d of 10</string>
     <string name="note_friend_shuffle">친구 셔플</string>
     <string name="note_shuffle_count">%d/3</string>
     <string name="note_skip">이 질문 건너뛰기</string>
+
+    <string name="tv_sign_in_title">Yell:o에 오신 걸 환영해요!</string>
+    <string name="tv_sign_in_subtitle">가입을 시작해볼까요?</string>
+    <string name="tv_sign_in_btn">카카오로 시작하기</string>
+
+    <string name="tv_social_sync_title">나의 Yell:o 친구는 어디있을까?</string>
+    <string name="tv_social_sync_subtitle">친구 목록을 불러와봐요!</string>
+    <string name="tv_social_sync_btn">카카오톡 친구 연결하기</string>
+
+    <string name="main_recommend">추천친구</string>
+    <string name="main_look">둘러보기</string>
+    <string name="main_yello">옐로하기</string>
+    <string name="main_my_yello">내 쪽지</string>
+    <string name="main_profile">프로필</string>
+
+    <string name="onboarding_tv_what_studentid">몇 학번인가요?</string>
+    <string name="onboarding_tv_search_department">학과 검색하기</string>
+    <string name="onboarding_btn_add_department"><u>찾는 과가 없다면 클릭하세요!</u></string>
+    <string name="onboarding_tv_select_studentid">학번을 선택해주세요.</string>
+    <string name="onboarding_tv_search_school">우리 학교 검색하기</string>
+    <string name="onboarding_tv_add_school"><u>우리 학교가 없나요? 학교를 추가해보세요!</u></string>
+    <string name="onboarding_tv_readyto_login">옐로에 가입하기 위한 첫 절차에요.</string>
+    <string name="onboarding_tv_what_school">학교가 어디인가요?</string>
+    <string name="onboarding_tv_what_department">무슨 학과인가요?</string>
+    <string name="onboarding_hint_select_studentid">학번을 선택해주세요.</string>
+    <string name="onboarding_btn_next">다음</string>
 </resources>

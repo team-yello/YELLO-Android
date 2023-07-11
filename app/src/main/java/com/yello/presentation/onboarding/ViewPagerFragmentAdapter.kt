@@ -7,9 +7,9 @@ import com.yello.presentation.onboarding.fragment.AddFriendFragment
 import com.yello.presentation.onboarding.fragment.CodeFragment
 import com.yello.presentation.onboarding.fragment.GenderFragment
 import com.yello.presentation.onboarding.fragment.NameIdFragment
-import com.yello.presentation.onboarding.fragment.SchoolFragment
+import com.yello.presentation.onboarding.fragment.school.SchoolFragment
 import com.yello.presentation.onboarding.fragment.StartAppFragment
-import com.yello.presentation.onboarding.fragment.StudentIdFragment
+import com.yello.presentation.onboarding.fragment.studentid.StudentIdFragment
 
 class ViewPagerFragmentAdapter(fragmentActivity: FragmentActivity) :
     FragmentStateAdapter(fragmentActivity) {

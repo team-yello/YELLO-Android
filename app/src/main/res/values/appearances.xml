@@ -92,6 +92,12 @@
         <item name="lineHeight">18sp</item>
     </style>
 
+    <style name="TextAppearance.Yello.Dialog">
+        <item name="fontFamily">@font/font_pretendard_medium</item>
+        <item name="android:textSize">13sp</item>
+        <item name="lineHeight">20sp</item>
+    </style>
+
     <!-- Bottom Navigation View Custom TextAppearances. -->
     <style name="TextAppearance.Yello.BnvItemActive">
         <item name="fontFamily">@font/font_pretendard_bold</item>

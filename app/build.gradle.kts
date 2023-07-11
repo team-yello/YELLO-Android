@@ -120,6 +120,7 @@ dependencies {
         implementation(kakaoLogin)
         implementation(kakaoAuth)
         implementation(kakaoTalk)
+        implementation(kakaoShare)
         debugImplementation(flipper)
         debugImplementation(flipperNetwork)
         debugImplementation(flipperLeakCanary)

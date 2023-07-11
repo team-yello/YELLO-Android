@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/black">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_profile_manage_for_sure"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingBottom="34dp">
+
+            <ImageView
+                android:id="@+id/btn_profile_quit_for_sure_back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingVertical="12dp"
+                android:paddingStart="16dp"
+                android:paddingEnd="8dp"
+                android:src="@drawable/ic_arrow_left"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_profile_quit_for_sure_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                android:paddingVertical="12dp"
+                android:text="계정 탈퇴"
+                android:textAppearance="?textAppearanceSubtitle1"
+                android:textColor="@color/white"
+                app:layout_constraintStart_toEndOf="@id/btn_profile_quit_for_sure_back"
+                app:layout_constraintTop_toTopOf="@id/btn_profile_quit_for_sure_back" />
+
+            <TextView
+                android:id="@+id/tv_profile_quit_for_sure_subtitle_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="39dp"
+                android:text="이러한 기능을 사용하지 못하게 돼요"
+                android:textAppearance="?textAppearanceSubtitle1"
+                android:textColor="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/btn_profile_quit_for_sure_back" />
+
+            <TextView
+                android:id="@+id/tv_profile_quit_for_sure_subtitle_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:text="지금 계정을 탈퇴하시면\n이와 같은 데이터 및 엑세스 권한을 전부 잃게 됩니다."
+                android:textAppearance="?textAppearanceBodySmall"
+                android:textColor="@color/grayscales_500"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_profile_quit_for_sure_subtitle_1" />
+
+            <TextView
+                android:id="@+id/tv_profile_quit_for_sure_reason_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="72dp"
+                android:text="회원님의 좋아하는 친구 마음을 알 수 없어요."
+                android:textAppearance="?textAppearanceBodyLarge"
+                android:textColor="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_profile_quit_for_sure_subtitle_2" />
+
+            <ImageView
+                android:id="@+id/iv_profile_quit_for_sure_reason_1"
+                android:layout_width="match_parent"
+                android:background="@drawable/shape_grayscales700_line_8_rect"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="42dp"
+                android:layout_marginTop="6dp"
+                android:src="@drawable/ic_launcher_foreground"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_profile_quit_for_sure_reason_1" />
+
+            <TextView
+                android:id="@+id/tv_profile_quit_for_sure_reason_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                android:text="회원님의 마음을 친구에게 전달할 수 없어요."
+                android:textAppearance="?textAppearanceBodyLarge"
+                android:textColor="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/iv_profile_quit_for_sure_reason_1" />
+
+            <ImageView
+                android:id="@+id/iv_profile_quit_for_sure_reason_2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="42dp"
+                android:background="@drawable/shape_grayscales700_line_8_rect"
+                android:layout_marginTop="6dp"
+                android:src="@drawable/ic_launcher_foreground"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_profile_quit_for_sure_reason_2" />
+
+            <TextView
+                android:id="@+id/tv_profile_quit_for_sure_reason_3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                android:text="친구들이 받은 쪽지를 볼 수 없어요."
+                android:textAppearance="?textAppearanceBodyLarge"
+                android:textColor="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/iv_profile_quit_for_sure_reason_2" />
+
+            <ImageView
+                android:id="@+id/iv_profile_quit_for_sure_reason_3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="42dp"
+                android:background="@drawable/shape_grayscales700_line_8_rect"
+                android:layout_marginTop="6dp"
+                android:src="@drawable/ic_launcher_foreground"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_profile_quit_for_sure_reason_3" />
+
+            <TextView
+                android:id="@+id/tv_profile_quit_for_sure_rule"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="43dp"
+                android:text="계정 삭세 시 yell:o를 이용한 데이터는\n즉시 삭제되지 않고 30일간 보관됩니다.\n30일 이내에 로그인 시 데이터가 복구됩니다."
+                android:textAppearance="?textAppearanceLabelMedium"
+                android:gravity="center"
+                android:textColor="@color/grayscales_600"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/iv_profile_quit_for_sure_reason_3" />
+
+            <TextView
+                android:id="@+id/btn_profile_quit_for_sure"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginBottom="8dp"
+                android:background="@drawable/shape_grayscales700_line_8_rect"
+                android:gravity="center"
+                android:paddingVertical="12dp"
+                android:text="탈퇴하기"
+                android:textColor="@color/semantic_red_500"
+                android:layout_marginTop="24dp"
+                app:layout_constraintTop_toBottomOf="@id/tv_profile_quit_for_sure_rule"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+
+</layout>

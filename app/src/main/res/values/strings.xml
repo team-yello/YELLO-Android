@@ -28,5 +28,7 @@
     <string name="onboarding_tv_what_department">무슨 학과인가요?</string>
     <string name="onboarding_hint_select_studentid">학번을 선택해주세요.</string>
     <string name="onboarding_btn_next">다음</string>
+    <string name="tv_recommend_tab_kakao">카톡 친구들</string>
+    <string name="tv_recommend_tab_school">학교 친구들</string>
 
 </resources>

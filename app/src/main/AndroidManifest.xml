@@ -25,11 +25,22 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="kakaolink"
+                    android:scheme="kakao${NATIVE_APP_KEY}" />
+            </intent-filter>
         </activity>
+
         <activity
             android:name=".presentation.yello.YelloActivity"
             android:exported="false" />
-      
+
         <activity
             android:name=".presentation.auth.SignInActivity"
             android:exported="false"
@@ -38,7 +49,7 @@
             android:name=".presentation.auth.SocialSyncActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
-      
+
         <activity
             android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"
             android:exported="true">

@@ -15,10 +15,10 @@ class SocialSyncActivity :
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setBtnSocialSyncClickListener()
+        initSocialSyncButtonListener()
     }
 
-    private fun setBtnSocialSyncClickListener() {
+    private fun initSocialSyncButtonListener() {
         binding.btnSocialSync.setOnSingleClickListener {
             getFriendsList()
             startOnBoardingActivity()
@@ -28,12 +28,12 @@ class SocialSyncActivity :
     private fun getFriendsList() {
         TalkApiClient.instance.friends { friends, error ->
             if (error != null) {
-                Timber.tag(SYNC).e(error, "카카오 프로필 가져오기 실패")
+                Timber.tag(TAG_SYNC).e(error, "카카오 프로필 가져오기 실패")
             } else if (friends != null) {
                 val friendList: List<Friend>? = friends.elements
                 val friendIdList = friendList?.map { friend -> friend.id }
             } else {
-                Timber.tag(SYNC).d("연동 가능한 카카오톡 친구 없음")
+                Timber.tag(TAG_SYNC).d("연동 가능한 카카오톡 친구 없음")
             }
         }
     }
@@ -48,6 +48,6 @@ class SocialSyncActivity :
     }
 
     private companion object {
-        const val SYNC = "authSocialSync"
+        const val TAG_SYNC = "authSocialSync"
     }
 }

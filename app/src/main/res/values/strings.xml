@@ -9,17 +9,18 @@
     <string name="tv_social_sync_subtitle">친구 목록을 불러와봐요!</string>
     <string name="tv_social_sync_btn">카카오톡 친구 연결하기</string>
 
+
+    <string name="onboarding_tv_what_studentid">몇 학번인가요?</string>
+    <string name="onboarding_tv_search_department">학과 검색하기</string>
+    <string name="onboarding_btn_add_department"><u>찾는 과가 없다면 클릭하세요!</u></string>
+    <string name="onboarding_tv_select_studentid">학번을 선택해주세요.</string>
+
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="main_recommend">추천친구</string>
     <string name="main_look">둘러보기</string>
     <string name="main_yello">옐로하기</string>
     <string name="main_my_yello">내 쪽지</string>
     <string name="main_profile">프로필</string>
-
-    <string name="onboarding_tv_what_studentid">몇 학번인가요?</string>
-    <string name="onboarding_tv_search_department">학과 검색하기</string>
-    <string name="onboarding_btn_add_department"><u>찾는 과가 없다면 클릭하세요!</u></string>
-    <string name="onboarding_tv_select_studentid">학번을 선택해주세요.</string>
     <string name="onboarding_tv_search_school">우리 학교 검색하기</string>
     <string name="onboarding_tv_add_school"><u>우리 학교가 없나요? 학교를 추가해보세요!</u></string>
     <string name="onboarding_tv_readyto_login">옐로에 가입하기 위한 첫 절차에요.</string>
@@ -27,6 +28,8 @@
     <string name="onboarding_tv_what_department">무슨 학과인가요?</string>
     <string name="onboarding_tv_hint_select_studentid">학번을 선택해주세요.</string>
     <string name="onboarding_btn_next">다음</string>
+    <string name="tv_recommend_tab_kakao">카톡 친구들</string>
+    <string name="tv_recommend_tab_school">학교 친구들</string>
     <string name="onboarding_tv_name">이름은</string>
     <string name="onboarding_tv_name_error">이름은 가입 후 바꿀 수 없으니 정확히 적어주세요!</string>
     <string name="onboarding_tv_id">아이디는</string>

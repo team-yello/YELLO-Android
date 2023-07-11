@@ -53,8 +53,9 @@
     <color name="semantic_gender_m_100">#FFF0F6FF</color>
     <color name="semantic_gender_m_500">#FF367FEE</color>
 
-    <!-- Kakao -->
+    <!-- Custom -->
     <color name="kakao_yellow">#FFFEE500</color>
+    <color name="gray_point">#FF293036</color>
 
     <!-- Transparent -->
     <color name="white_35">#59FFFFFF</color>

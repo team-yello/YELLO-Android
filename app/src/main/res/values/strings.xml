@@ -34,4 +34,8 @@
     <string name="onboarding_tv_what_department">무슨 학과인가요?</string>
     <string name="onboarding_hint_select_studentid">학번을 선택해주세요.</string>
     <string name="onboarding_btn_next">다음</string>
+    <string name="yello_start_my_point">내 포인트</string>
+    <string name="yello_start_description">누구에게 어떤 메시지를 보낼까?</string>
+    <string name="yello_start_point_label">Point</string>
+    <string name="yello_start_vote">투표 시작!</string>
 </resources>

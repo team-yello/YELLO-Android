@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout_profile_friend_item"
+        style="@style/ProfileFriendBottomSheet"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape_grayscales900_fill_top10_rect"
+        android:paddingBottom="46dp">
+
+        <ImageView
+            android:layout_width="80dp"
+            android:layout_height="4dp"
+            android:layout_marginTop="8dp"
+            android:src="@drawable/shape_grayscales800_fill_8_rect"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/iv_profile_friend_thumbnail"
+            android:layout_width="72dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="40dp"
+            android:src="@drawable/ic_main_yello_selected"
+            app:layout_constraintDimensionRatio="1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_profile_friend_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="16dp"
+            android:text="김옐로"
+            android:textAppearance="?textAppearanceHeadline3"
+            android:textColor="@color/white"
+            app:layout_constraintEnd_toStartOf="@id/tv_profile_friend_id"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/iv_profile_friend_thumbnail" />
+
+        <TextView
+            android:id="@+id/tv_profile_friend_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="\@kev_hy1024"
+            android:textAppearance="?textAppearanceLabelLarge"
+            android:textColor="@color/yello_main_500"
+            app:layout_constraintBaseline_toBaselineOf="@id/tv_profile_friend_name"
+            app:layout_constraintBottom_toBottomOf="@id/tv_profile_friend_name"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/tv_profile_friend_name" />
+
+        <TextView
+            android:id="@+id/tv_profile_friend_school"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginHorizontal="80dp"
+            android:layout_marginTop="7dp"
+            android:gravity="center_horizontal"
+            android:paddingVertical="2dp"
+            android:text="고려대학교 공과대학 산업경영공학부 소프트웨어벤처경영융합전공 19학번"
+            android:textAppearance="?textAppearanceBody2"
+            android:textColor="@color/grayscales_500"
+            app:layout_constrainedWidth="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_profile_friend_id" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_profile_friend_total_friend"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="90dp"
+            android:paddingTop="9dp"
+            android:paddingBottom="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toEndOf="@id/layout_profile_friend_total_msg"
+            app:layout_constraintTop_toBottomOf="@id/tv_profile_friend_school">
+
+            <TextView
+                android:id="@+id/tv_profile_total_friend"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="95"
+                android:textAppearance="?textAppearanceHeadline2"
+                android:textColor="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_profile_total_friend_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="내 친구수"
+                android:textAppearance="?textAppearanceLabelMedium"
+                android:textColor="@color/grayscales_500"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_profile_total_friend" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_profile_friend_total_msg"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="90dp"
+            android:layout_marginTop="12dp"
+            android:paddingTop="9dp"
+            android:paddingBottom="10dp"
+            app:layout_constraintEnd_toStartOf="@id/layout_profile_friend_total_friend"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_profile_friend_school">
+
+            <TextView
+                android:id="@+id/tv_profile_total_msg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="31"
+                android:textAppearance="?textAppearanceHeadline2"
+                android:textColor="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_profile_total_msg_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="받은 쪽지"
+                android:textAppearance="?textAppearanceLabelMedium"
+                android:textColor="@color/grayscales_500"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_profile_total_msg" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <Button
+            android:id="@+id/btn_profile_friend_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:backgroundTint="@color/grayscales_800"
+            android:text="친구 끊기"
+            android:textAppearance="?textAppearanceLabelLarge"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/layout_profile_friend_total_msg" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

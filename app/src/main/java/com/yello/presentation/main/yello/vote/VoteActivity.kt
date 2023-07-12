@@ -16,6 +16,7 @@ class VoteActivity : BindingActivity<ActivityVoteBinding>(R.layout.activity_vote
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        binding.vm = viewModel
 
         initVoteViewPager()
         setupCurrentNoteIndex()

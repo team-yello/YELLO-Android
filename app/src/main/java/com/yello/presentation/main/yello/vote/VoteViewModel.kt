@@ -10,7 +10,6 @@ import com.example.domain.entity.Vote.Friend
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -390,8 +389,8 @@ class VoteViewModel @Inject constructor() : ViewModel() {
         with(voteList[currentNoteIndex].friendList[nameIndex]) {
             _currentChoice.value?.friendId = id
             _currentChoice.value?.friendName = name
+            _currentChoice.value = _currentChoice.value
         }
-        Timber.d("selectName 실행 : $currentChoice")
 
         currentChoice.keywordName ?: return
         _choiceList.value?.add(currentChoice)
@@ -404,8 +403,7 @@ class VoteViewModel @Inject constructor() : ViewModel() {
     fun selectKeyword(keywordIndex: Int) {
         if (currentChoice.keywordName != null) return
         _currentChoice.value?.keywordName = voteList[currentNoteIndex].keywordList[keywordIndex]
-
-        Timber.d("selectKeyword 실행 : $currentChoice")
+        _currentChoice.value = _currentChoice.value
 
         currentChoice.friendId ?: return
         _choiceList.value?.add(currentChoice)

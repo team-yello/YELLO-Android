@@ -9,16 +9,4 @@
         <item name="android:background">@android:color/white</item>
         <item name="android:colorBackground">@android:color/white</item>
     </style>
-
-    <style name="ProfileFriendBottomSheet" parent="ThemeOverlay.MaterialComponents.BottomSheetDialog">
-        <item name="bottomSheetStyle">@style/BottomSheet</item>
-        <item name="android:colorBackground">@color/white</item>
-        <item name="behavior_draggable">true</item>
-    </style>
-
-    <style name="BottomSheet" parent="Widget.Material3.BottomSheet.Modal">
-        <item name="backgroundTint">@color/black</item>
-    </style>
-
-
 </resources>

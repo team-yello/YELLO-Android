@@ -12,7 +12,7 @@ class RecommendFragment : BindingFragment<FragmentRecommendBinding>(R.layout.fra
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.vpRecommend.adapter = ViewPagerAdapter(this)
+        binding.vpRecommend.adapter = RecommendViewPagerAdapter(this)
         setTabLayout()
     }
 

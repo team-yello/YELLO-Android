@@ -10,13 +10,21 @@ import com.yello.databinding.FragmentProfileBinding
 
 class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragment_profile) {
 
+    private val profileFriendItemBottomSheet: ProfileFriendItemBottomSheet = ProfileFriendItemBottomSheet()
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         binding.btnProfileAddGroup.setOnSingleClickListener {
             // TODO: 그룹 추가 로직
+            profileFriendItemBottomSheet.show(parentFragmentManager, "Dialog")
         }
         initProfileManageActivityWithoutFinish()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        dismissDialog()
     }
 
     private fun initProfileManageActivityWithoutFinish() {
@@ -26,5 +34,9 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
                 startActivity(this)
             }
         }
+    }
+
+    private fun dismissDialog() {
+        if (profileFriendItemBottomSheet.isAdded) profileFriendItemBottomSheet.dismiss()
     }
 }

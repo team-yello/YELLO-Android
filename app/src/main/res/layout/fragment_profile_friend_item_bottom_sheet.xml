@@ -8,7 +8,6 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layout_profile_friend_item"
-        style="@style/ProfileFriendBottomSheet"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/shape_grayscales900_fill_top10_rect"
@@ -69,7 +68,7 @@
             android:layout_marginTop="7dp"
             android:gravity="center_horizontal"
             android:paddingVertical="2dp"
-            android:text="고려대학교 공과대학 산업경영공학부 소프트웨어벤처경영융합전공 19학번"
+            android:text="고려대학교 공과대학 소프트웨어벤처경영융합전공 19학번"
             android:textAppearance="?textAppearanceBody2"
             android:textColor="@color/grayscales_500"
             app:layout_constrainedWidth="true"
@@ -156,8 +155,12 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:backgroundTint="@color/grayscales_800"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="8dp"
+            android:textColor="@color/white"
             android:text="친구 끊기"
             android:textAppearance="?textAppearanceLabelLarge"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/layout_profile_friend_total_msg" />

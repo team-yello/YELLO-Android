@@ -1,5 +1,6 @@
 package com.yello.util
 
+import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.BindingAdapter
 import com.yello.R
@@ -25,5 +26,37 @@ object BindingAdapter {
                 else -> throw IndexOutOfBoundsException("vote bg index out of bounds : $bgIndex")
             },
         )
+    }
+
+    @JvmStatic
+    @BindingAdapter("selectedOptionIndex", "optionIndex")
+    fun TextView.setOptionTextColor(selectedIndex: Int?, optionIndex: Int) {
+        if (selectedIndex == null) {
+            setTextColor(context.getColor(R.color.white))
+            return
+        }
+
+        if (selectedIndex == optionIndex) {
+            setTextColor(context.getColor(R.color.yello_main_500))
+            return
+        }
+
+        setTextColor(context.getColor(R.color.grayscales_700))
+    }
+
+    @JvmStatic
+    @BindingAdapter("selectedOptionKeyword", "optionKeyword")
+    fun TextView.setOptionTextColor(selectedKeyword: String?, optionKeyword: String) {
+        if (selectedKeyword == null) {
+            setTextColor(context.getColor(R.color.white))
+            return
+        }
+
+        if (selectedKeyword == optionKeyword) {
+            setTextColor(context.getColor(R.color.yello_main_500))
+            return
+        }
+
+        setTextColor(context.getColor(R.color.grayscales_700))
     }
 }

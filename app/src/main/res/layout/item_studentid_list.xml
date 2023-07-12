@@ -5,43 +5,25 @@
 
     <data>
 
-        <variable
-            name="data"
-            type="com.example.domain.entity.MySchool" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layout_onboarding_schoollist"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/grayscales_900"
         android:paddingHorizontal="24dp"
-        android:paddingVertical="11dp"
-        android:background="@color/grayscales_900">
-
-        <ImageView
-            android:id="@+id/iv_search_school_profile"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:background="@drawable/ic_onboarding_schoollist_search"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintDimensionRatio="1:1"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+        android:paddingVertical="11dp">
 
         <TextView
-            android:id="@+id/tv_school_name"
+            android:id="@+id/tv_item_student_id"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/font_pretendard_medium"
-            android:inputType="text"
-            android:maxLines="1"
             android:layout_marginStart="8dp"
-            android:text="@{data.schoolname}"
+            android:textAppearance="?textAppearanceBodyLarge"
             android:textColor="@color/white"
-            android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/iv_search_school_profile"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="사을ㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㅁ대" />
     </androidx.constraintlayout.widget.ConstraintLayout>

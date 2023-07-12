@@ -23,7 +23,6 @@ class AddFriendFragment : BindingFragment<FragmentAddfreindBinding>(R.layout.fra
         friendList = viewModel.friendResult.value ?: emptyList()
         val adapter = AddFriendAdapter(requireContext())
         binding.rvFreindList.adapter = adapter
-
         adapter.submitList(friendList)
     }
 }

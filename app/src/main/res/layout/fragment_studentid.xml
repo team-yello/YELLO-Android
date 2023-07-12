@@ -2,12 +2,29 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <data></data>
+    <data>
+
+        <variable
+            name="vm"
+            type="com.yello.presentation.onboarding.fragment.studentid.StudentIdViewModel" />
+    </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layout_studentid"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/black">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_studentid_back_btn"
+            android:layout_width="0dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/ic_onboarding_btn_back"
+            app:layout_constraintDimensionRatio="1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/tv_department_where"
@@ -16,18 +33,19 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="68dp"
             android:text="@string/onboarding_tv_what_department"
+            android:textColor="@color/white"
             android:textAppearance="?textAppearanceHeadline2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/et_department_search"
+            android:id="@+id/tv_department_search"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
             android:layout_marginTop="12dp"
-            android:background="@drawable/shape_grayscales50_fill_grayscales400_line_8_rect"
+            android:background="@{vm.isEmpty_deaprtment() ? @drawable/shape_grayscales900_fill_grayscales500_line_8_rect : @drawable/shape_black_fill_grayscales600_line_8_rect}"
             android:paddingVertical="16dp"
             android:paddingEnd="12dp"
             app:drawableEndCompat="@drawable/ic_onboarding_search"
@@ -42,18 +60,19 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="76dp"
             android:text="@string/onboarding_tv_what_studentid"
+            android:textColor="@color/white"
             android:textAppearance="?textAppearanceHeadline2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/et_department_search" />
+            app:layout_constraintTop_toTopOf="@id/tv_department_search" />
 
         <TextView
-            android:id="@+id/et_studentid_search"
+            android:id="@+id/tv_studentid_search"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
             android:layout_marginTop="12dp"
-            android:background="@drawable/shape_black_fill_grayscales600_line_8_rect"
+            android:background="@{vm.isEmpty_studentid() ? @drawable/shape_grayscales900_fill_grayscales500_line_8_rect : @drawable/shape_black_fill_grayscales600_line_8_rect}"
             android:fontFamily="@font/font_pretendard_medium"
             android:paddingHorizontal="20dp"
             android:paddingVertical="16dp"
@@ -72,12 +91,11 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
             android:layout_marginBottom="34dp"
-            android:background="@drawable/shape_black_fill_grayscales600_line_8_rect"
-            android:backgroundTint="@color/black"
+            android:background="@{vm.isEmpty()? @drawable/shape_yello_main_500_fill_black_line_rect : @drawable/shape_grayscales_800_fill_8_rect}"
             android:paddingVertical="12dp"
             android:text="@string/onboarding_btn_next"
             android:textAppearance="?textAppearanceBodyMedium"
-            android:textColor="@color/yello_main_500"
+            android:textColor="@{vm.isEmpty() ? @color/black : @color/grayscales_700}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />

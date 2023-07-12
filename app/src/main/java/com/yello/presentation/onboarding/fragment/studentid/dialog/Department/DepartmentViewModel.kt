@@ -1,4 +1,4 @@
-package com.yello.presentation.onboarding.fragment.studentid.dialog
+package com.yello.presentation.onboarding.fragment.studentid.dialog.Department
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

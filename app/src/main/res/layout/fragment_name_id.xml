@@ -27,7 +27,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
             android:layout_marginTop="16dp"
-            android:background="@drawable/shape_grayscales50_fill_grayscales400_line_8_rect"
+            android:background="@drawable/shape_grayscales900_fill_grayscales500_line_8_rect"
             android:fontFamily="@font/font_pretendard_medium"
             android:hint="김옐로"
             android:inputType="text"

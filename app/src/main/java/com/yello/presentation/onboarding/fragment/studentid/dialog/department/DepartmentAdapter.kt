@@ -1,4 +1,4 @@
-package com.yello.presentation.onboarding.fragment.studentid.dialog.Department
+package com.yello.presentation.onboarding.fragment.studentid.dialog.department
 
 import android.content.Context
 import android.view.LayoutInflater

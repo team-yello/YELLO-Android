@@ -51,5 +51,6 @@
     <string name="onboarding_btn_addfriend_next">친구추가 완료</string>
     <string name="onboarding_tv_addfriend_how_many">선택된 친구</string>
     <string name="onboarding_tv_freind_end">명</string>
+    <string name="onboarding_tv_hint_fix">\@</string>
 
 </resources>

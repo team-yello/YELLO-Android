@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.domain.entity.ProfileFriendModel
 import com.yello.databinding.ItemFriendsListBinding
 
-class ProfileFriendAdpater(context: Context) : RecyclerView.Adapter<ProfileFriendViewHolder>() {
+class ProfileFriendAdapter(context: Context) : RecyclerView.Adapter<ProfileFriendViewHolder>() {
 
     private val inflater by lazy { LayoutInflater.from(context) }
     private var itemList = mutableListOf<ProfileFriendModel>()

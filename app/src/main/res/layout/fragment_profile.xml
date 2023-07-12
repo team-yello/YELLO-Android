@@ -46,6 +46,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
+            android:scrollbars="none"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_profile_title">
@@ -351,6 +352,10 @@
                     android:layout_height="match_parent"
                     android:layout_marginHorizontal="16dp"
                     android:layout_marginTop="8dp"
+                    android:layout_marginBottom="60dp"
+                    android:orientation="vertical"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tv_profile_friend_list_title"
                     tools:listitem="@layout/item_friends_list" />
 

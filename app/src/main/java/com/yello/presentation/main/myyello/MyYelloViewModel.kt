@@ -32,7 +32,6 @@ class MyYelloViewModel @Inject constructor(
                 .onSuccess {
                     totalPage = Math.ceil((it.totalCount * 0.1)).toInt()
                     if (totalPage == currentPage) isPagingFinish = true
-                    Log.d("kangmi", totalPage.toString())
                     _myYelloData.value = when {
                         it.yello.isEmpty() -> UiState.Empty
                         else -> UiState.Success(it)

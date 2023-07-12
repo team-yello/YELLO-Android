@@ -5,13 +5,10 @@ import android.view.View
 import com.example.ui.base.BindingBottomSheetDialog
 import com.example.ui.view.setOnSingleClickListener
 import com.yello.R
-import com.yello.databinding.FragmentProfileFriendItemBottomSheetBinding
+import com.yello.databinding.FragmentProfileFriendDeleteBottomSheetBinding
 
-class ProfileFriendItemBottomSheet :
-    BindingBottomSheetDialog<FragmentProfileFriendItemBottomSheetBinding>(R.layout.fragment_profile_friend_item_bottom_sheet) {
-
-    private val profileFriendDeleteBottomSheet: ProflieFriendDeleteBottomSheet =
-        ProflieFriendDeleteBottomSheet()
+class ProflieFriendDeleteBottomSheet :
+    BindingBottomSheetDialog<FragmentProfileFriendDeleteBottomSheetBinding>(R.layout.fragment_profile_friend_delete_bottom_sheet) {
 
     override fun onStart() {
         super.onStart()
@@ -21,13 +18,19 @@ class ProfileFriendItemBottomSheet :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        initReturnButton()
         initDeleteButton()
+    }
+    private fun initReturnButton() {
+        binding.btnProfileFriendDeleteReturn.setOnSingleClickListener {
+            dismiss()
+        }
     }
 
     private fun initDeleteButton() {
-        binding.btnProfileFriendDelete.setOnSingleClickListener {
+        binding.btnProfileFriendDeleteResume.setOnSingleClickListener {
+            // TODO: 친구 삭제 로직 구현
             dismiss()
-            profileFriendDeleteBottomSheet.show(parentFragmentManager, "Dialog")
         }
     }
 }

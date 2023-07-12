@@ -3,12 +3,15 @@ package com.yello.presentation.main.yello.vote
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.domain.entity.Choice
+import com.example.domain.entity.Vote
+import com.example.domain.entity.Vote.Friend
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
 class VoteViewModel @Inject constructor() : ViewModel() {
-    private val _shuffleCount = MutableLiveData<Int>()
+    private val _shuffleCount = MutableLiveData(MAX_COUNT_SHUFFLE)
     val shuffleCount: LiveData<Int>
         get() = _shuffleCount
 
@@ -20,22 +23,376 @@ class VoteViewModel @Inject constructor() : ViewModel() {
     val currentNoteIndex: Int
         get() = _currentNoteIndex.value ?: 0
 
+    val _currentChoice = MutableLiveData(Choice())
+    val currentChoice: Choice
+        get() = requireNotNull(_currentChoice.value)
+
+    val _choiceList = MutableLiveData(mutableListOf<Choice>())
+    val choiceList: MutableList<Choice>
+        get() = requireNotNull(_choiceList.value)
+
+    val _voteList = MutableLiveData<List<Vote>>()
+    val voteList: LiveData<List<Vote>>
+        get() = _voteList
+
     init {
-        initShuffleCount()
         initVoteIndex()
+        _voteList.value = mutableListOf(
+            Vote(
+                nameHead = "나는",
+                nameFoot = "이(가)",
+                keywordHead = "",
+                keywordFoot = "닮은 것 같아",
+                friendList = listOf(
+                    Friend(
+                        id = 1,
+                        yelloId = "kev_hy1042",
+                        name = "김효원",
+                    ),
+                    Friend(
+                        id = 2,
+                        yelloId = "hj__p_",
+                        name = "권세훈",
+                    ),
+                    Friend(
+                        id = 3,
+                        yelloId = "_euije",
+                        name = "이강민",
+                    ),
+                    Friend(
+                        id = 4,
+                        yelloId = "nahyunyou",
+                        name = "이의제",
+                    ),
+                ),
+                keywordList = listOf(
+                    "99대장 나선욱이랑",
+                    "skrr하는 송민호랑",
+                    "범죄도시 손석구랑",
+                    "코딩하는 강동원이랑",
+                ),
+            ),
+            Vote(
+                nameHead = "",
+                nameFoot = "의 은밀한 취미는",
+                keywordHead = "",
+                keywordFoot = "일 것 같아",
+                friendList = listOf(
+                    Friend(
+                        id = 5,
+                        yelloId = "chae.yeon1004",
+                        name = "전채연",
+                    ),
+                    Friend(
+                        id = 6,
+                        yelloId = "k.mean.e",
+                        name = "이강민",
+                    ),
+                    Friend(
+                        id = 7,
+                        yelloId = "sangho.kk",
+                        name = "김상호",
+                    ),
+                    Friend(
+                        id = 8,
+                        yelloId = "filminju_",
+                        name = "박민주",
+                    ),
+                ),
+                keywordList = listOf(
+                    "애니 코스프레",
+                    "발냄새 맡기",
+                    "피규어 모으기",
+                    "헌팅하기",
+                ),
+            ),
+            Vote(
+                nameHead = "나는",
+                nameFoot = "이(가)",
+                keywordHead = "",
+                keywordFoot = "닮은 것 같아",
+                friendList = listOf(
+                    Friend(
+                        id = 1,
+                        yelloId = "kev_hy1042",
+                        name = "김효원",
+                    ),
+                    Friend(
+                        id = 2,
+                        yelloId = "hj__p_",
+                        name = "권세훈",
+                    ),
+                    Friend(
+                        id = 3,
+                        yelloId = "_euije",
+                        name = "이강민",
+                    ),
+                    Friend(
+                        id = 4,
+                        yelloId = "nahyunyou",
+                        name = "이의제",
+                    ),
+                ),
+                keywordList = listOf(
+                    "99대장 나선욱이랑",
+                    "skrr하는 송민호랑",
+                    "범죄도시 손석구랑",
+                    "코딩하는 강동원이랑",
+                ),
+            ),
+            Vote(
+                nameHead = "",
+                nameFoot = "의 은밀한 취미는",
+                keywordHead = "",
+                keywordFoot = "일 것 같아",
+                friendList = listOf(
+                    Friend(
+                        id = 5,
+                        yelloId = "chae.yeon1004",
+                        name = "전채연",
+                    ),
+                    Friend(
+                        id = 6,
+                        yelloId = "k.mean.e",
+                        name = "이강민",
+                    ),
+                    Friend(
+                        id = 7,
+                        yelloId = "sangho.kk",
+                        name = "김상호",
+                    ),
+                    Friend(
+                        id = 8,
+                        yelloId = "filminju_",
+                        name = "박민주",
+                    ),
+                ),
+                keywordList = listOf(
+                    "애니 코스프레",
+                    "발냄새 맡기",
+                    "피규어 모으기",
+                    "헌팅하기",
+                ),
+            ),
+            Vote(
+                nameHead = "나는",
+                nameFoot = "이(가)",
+                keywordHead = "",
+                keywordFoot = "닮은 것 같아",
+                friendList = listOf(
+                    Friend(
+                        id = 1,
+                        yelloId = "kev_hy1042",
+                        name = "김효원",
+                    ),
+                    Friend(
+                        id = 2,
+                        yelloId = "hj__p_",
+                        name = "권세훈",
+                    ),
+                    Friend(
+                        id = 3,
+                        yelloId = "_euije",
+                        name = "이강민",
+                    ),
+                    Friend(
+                        id = 4,
+                        yelloId = "nahyunyou",
+                        name = "이의제",
+                    ),
+                ),
+                keywordList = listOf(
+                    "99대장 나선욱이랑",
+                    "skrr하는 송민호랑",
+                    "범죄도시 손석구랑",
+                    "코딩하는 강동원이랑",
+                ),
+            ),
+            Vote(
+                nameHead = "",
+                nameFoot = "의 은밀한 취미는",
+                keywordHead = "",
+                keywordFoot = "일 것 같아",
+                friendList = listOf(
+                    Friend(
+                        id = 5,
+                        yelloId = "chae.yeon1004",
+                        name = "전채연",
+                    ),
+                    Friend(
+                        id = 6,
+                        yelloId = "k.mean.e",
+                        name = "이강민",
+                    ),
+                    Friend(
+                        id = 7,
+                        yelloId = "sangho.kk",
+                        name = "김상호",
+                    ),
+                    Friend(
+                        id = 8,
+                        yelloId = "filminju_",
+                        name = "박민주",
+                    ),
+                ),
+                keywordList = listOf(
+                    "애니 코스프레",
+                    "발냄새 맡기",
+                    "피규어 모으기",
+                    "헌팅하기",
+                ),
+            ),
+            Vote(
+                nameHead = "나는",
+                nameFoot = "이(가)",
+                keywordHead = "",
+                keywordFoot = "닮은 것 같아",
+                friendList = listOf(
+                    Friend(
+                        id = 1,
+                        yelloId = "kev_hy1042",
+                        name = "김효원",
+                    ),
+                    Friend(
+                        id = 2,
+                        yelloId = "hj__p_",
+                        name = "권세훈",
+                    ),
+                    Friend(
+                        id = 3,
+                        yelloId = "_euije",
+                        name = "이강민",
+                    ),
+                    Friend(
+                        id = 4,
+                        yelloId = "nahyunyou",
+                        name = "이의제",
+                    ),
+                ),
+                keywordList = listOf(
+                    "99대장 나선욱이랑",
+                    "skrr하는 송민호랑",
+                    "범죄도시 손석구랑",
+                    "코딩하는 강동원이랑",
+                ),
+            ),
+            Vote(
+                nameHead = "",
+                nameFoot = "의 은밀한 취미는",
+                keywordHead = "",
+                keywordFoot = "일 것 같아",
+                friendList = listOf(
+                    Friend(
+                        id = 5,
+                        yelloId = "chae.yeon1004",
+                        name = "전채연",
+                    ),
+                    Friend(
+                        id = 6,
+                        yelloId = "k.mean.e",
+                        name = "이강민",
+                    ),
+                    Friend(
+                        id = 7,
+                        yelloId = "sangho.kk",
+                        name = "김상호",
+                    ),
+                    Friend(
+                        id = 8,
+                        yelloId = "filminju_",
+                        name = "박민주",
+                    ),
+                ),
+                keywordList = listOf(
+                    "애니 코스프레",
+                    "발냄새 맡기",
+                    "피규어 모으기",
+                    "헌팅하기",
+                ),
+            ),
+            Vote(
+                nameHead = "나는",
+                nameFoot = "이(가)",
+                keywordHead = "",
+                keywordFoot = "닮은 것 같아",
+                friendList = listOf(
+                    Friend(
+                        id = 1,
+                        yelloId = "kev_hy1042",
+                        name = "김효원",
+                    ),
+                    Friend(
+                        id = 2,
+                        yelloId = "hj__p_",
+                        name = "권세훈",
+                    ),
+                    Friend(
+                        id = 3,
+                        yelloId = "_euije",
+                        name = "이강민",
+                    ),
+                    Friend(
+                        id = 4,
+                        yelloId = "nahyunyou",
+                        name = "이의제",
+                    ),
+                ),
+                keywordList = listOf(
+                    "99대장 나선욱이랑",
+                    "skrr하는 송민호랑",
+                    "범죄도시 손석구랑",
+                    "코딩하는 강동원이랑",
+                ),
+            ),
+            Vote(
+                nameHead = "",
+                nameFoot = "의 은밀한 취미는",
+                keywordHead = "",
+                keywordFoot = "일 것 같아",
+                friendList = listOf(
+                    Friend(
+                        id = 5,
+                        yelloId = "chae.yeon1004",
+                        name = "전채연",
+                    ),
+                    Friend(
+                        id = 6,
+                        yelloId = "k.mean.e",
+                        name = "이강민",
+                    ),
+                    Friend(
+                        id = 7,
+                        yelloId = "sangho.kk",
+                        name = "김상호",
+                    ),
+                    Friend(
+                        id = 8,
+                        yelloId = "filminju_",
+                        name = "박민주",
+                    ),
+                ),
+                keywordList = listOf(
+                    "애니 코스프레",
+                    "발냄새 맡기",
+                    "피규어 모으기",
+                    "헌팅하기",
+                ),
+            ),
+        )
     }
 
     fun shuffle() {
-        // TODO: 셔플 서버 통신 및 분기 처리
         shuffleCount.value?.let { count ->
+            // TODO: 셔플 서버 통신 및 분기 처리
             if (count < 1) return
             _shuffleCount.value = count - 1
         }
     }
 
-    fun navigateToNextPage() {
+    fun skipToNextVote() {
         _currentNoteIndex.value = currentNoteIndex + 1
-        initShuffleCount()
+        _shuffleCount.value = MAX_COUNT_SHUFFLE
+        _currentChoice.value = Choice()
     }
 
     private fun initVoteIndex() {
@@ -43,11 +400,8 @@ class VoteViewModel @Inject constructor() : ViewModel() {
         _currentNoteIndex.value = 0
     }
 
-    private fun initShuffleCount() {
-        _shuffleCount.value = MAX_SHUFFLE_COUNT
-    }
-
     companion object {
-        private const val MAX_SHUFFLE_COUNT = 3
+        private const val MAX_COUNT_SHUFFLE = 3
+        private const val COUNT_VOTE = 10
     }
 }

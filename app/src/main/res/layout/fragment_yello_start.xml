@@ -106,9 +106,10 @@
             android:background="@drawable/shape_yello500_fill_8_rect"
             android:fontFamily="@font/font_pretendard_bold"
             android:gravity="center"
-            android:paddingVertical="12dp"
+            android:paddingVertical="16dp"
             android:text="@string/yello_start_vote"
             android:textColor="@color/black"
+            android:textSize="15sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />

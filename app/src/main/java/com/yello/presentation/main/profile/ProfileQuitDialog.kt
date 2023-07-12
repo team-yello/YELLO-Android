@@ -22,7 +22,7 @@ class ProfileQuitDialog :
 
         binding.btnProfileDialogQuit.setOnSingleClickListener {
             // TODO: 회원 탈퇴 로직 설정
-            // TODO: 스플래쉬 화면으로 이동
+            // TODO: 앱 종료 후 재시작
         }
 
         binding.btnProfileDialogReject.setOnSingleClickListener {
@@ -41,5 +41,7 @@ class ProfileQuitDialog :
             )
             setBackgroundDrawableResource(R.color.transparent)
         }
+        dialog?.setCanceledOnTouchOutside(false)
+        dialog?.setCancelable(true)
     }
 }

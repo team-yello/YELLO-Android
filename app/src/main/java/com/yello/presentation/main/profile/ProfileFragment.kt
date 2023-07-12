@@ -1,8 +1,8 @@
 package com.yello.presentation.main.profile
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import androidx.fragment.app.Fragment
 import com.example.ui.base.BindingFragment
 import com.example.ui.view.setOnSingleClickListener
 import com.yello.R
@@ -16,16 +16,15 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
         binding.btnProfileAddGroup.setOnSingleClickListener {
             // TODO: 그룹 추가 로직
         }
-
-        initTransactionButton(binding.btnProfileManage, ProfileManageFragment())
+        initProfileManageActivityWithoutFinish()
     }
 
-    private fun initTransactionButton(view: View, fragment: Fragment) {
-        view.setOnSingleClickListener {
-            parentFragmentManager.beginTransaction().apply {
-                setReorderingAllowed(true)
-                replace(R.id.fcv_main, fragment)
-            }.commit()
+    private fun initProfileManageActivityWithoutFinish() {
+        binding.btnProfileManage.setOnSingleClickListener {
+            Intent(activity, ProfileManageActivity::class.java).apply {
+                addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                startActivity(this)
+            }
         }
     }
 }

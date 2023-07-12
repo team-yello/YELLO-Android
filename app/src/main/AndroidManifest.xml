@@ -69,6 +69,16 @@
         <activity android:name=".presentation.onboarding.activity.OnBoardingActivity"
             android:exported="true"
             android:screenOrientation="portrait" />
+
+        <activity android:name=".presentation.main.profile.ProfileManageActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".presentation.main.profile.ProfileQuitActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".presentation.main.profile.ProfileQuitForSureActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

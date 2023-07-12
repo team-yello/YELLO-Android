@@ -5,18 +5,17 @@ import android.view.View
 import androidx.fragment.app.viewModels
 import com.example.domain.entity.MySchool
 import com.example.ui.base.BindingBottomSheetDialog
-import com.example.ui.view.setOnSingleClickListener
 import com.yello.R
 import com.yello.databinding.FragmentDialogSchoolBinding
 import com.yello.presentation.onboarding.fragment.school.SchoolAdapter
-import com.yello.presentation.onboarding.fragment.school.SchoolViewModel
+import com.yello.presentation.onboarding.fragment.school.SchoolDialogViewModel
 
 class SearchDialogFragment :
     BindingBottomSheetDialog<FragmentDialogSchoolBinding>(R.layout.fragment_dialog_school) {
 
     private lateinit var schoolList: List<MySchool>
 
-    private val viewModel by viewModels<SchoolViewModel>()
+    private val viewModel by viewModels<SchoolDialogViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

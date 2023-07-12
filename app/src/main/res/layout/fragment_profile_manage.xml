@@ -108,7 +108,7 @@
             app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
-            android:id="@+id/tv_profile_manage_quit"
+            android:id="@+id/btn_profile_manage_quit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"

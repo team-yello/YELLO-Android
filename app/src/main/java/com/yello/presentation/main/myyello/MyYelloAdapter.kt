@@ -41,12 +41,14 @@ class MyYelloAdapter : RecyclerView.Adapter<MyYelloAdapter.MyYelloViewHolder>() 
             binding.clSendCheck.isVisible = item.isHintUsed
             binding.tvGender.isVisible = !item.isHintUsed
             if (item.gender == GenderEnum.M) {
-                binding.cardMyYello.setCardBackgroundColor(
-                    ContextCompat.getColor(
-                        itemView.context,
-                        R.color.semantic_gender_m_700
+                if (item.isHintUsed) {
+                    binding.cardMyYello.setCardBackgroundColor(
+                        ContextCompat.getColor(
+                            itemView.context,
+                            R.color.semantic_gender_m_700
+                        )
                     )
-                )
+                }
                 binding.ivYello.setImageDrawable(
                     ContextCompat.getDrawable(
                         itemView.context,
@@ -55,12 +57,14 @@ class MyYelloAdapter : RecyclerView.Adapter<MyYelloAdapter.MyYelloViewHolder>() 
                 )
                 binding.tvGender.text = "남학생이 보냄"
             } else {
-                binding.cardMyYello.setCardBackgroundColor(
-                    ContextCompat.getColor(
-                        itemView.context,
-                        R.color.semantic_gender_f_700
+                if (item.isHintUsed) {
+                    binding.cardMyYello.setCardBackgroundColor(
+                        ContextCompat.getColor(
+                            itemView.context,
+                            R.color.semantic_gender_f_700
+                        )
                     )
-                )
+                }
                 binding.ivYello.setImageDrawable(
                     ContextCompat.getDrawable(
                         itemView.context,

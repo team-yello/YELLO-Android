@@ -3,11 +3,14 @@ package com.yello.presentation.main.yello.vote
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.domain.entity.Choice
 import com.example.domain.entity.Vote
 import com.example.domain.entity.Vote.Friend
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 @HiltViewModel
 class VoteViewModel @Inject constructor() : ViewModel() {
@@ -23,7 +26,7 @@ class VoteViewModel @Inject constructor() : ViewModel() {
     val currentNoteIndex: Int
         get() = _currentNoteIndex.value ?: 0
 
-    val _currentChoice = MutableLiveData(Choice())
+    val _currentChoice = MutableLiveData(Choice(1))
     val currentChoice: Choice
         get() = requireNotNull(_currentChoice.value)
 
@@ -32,8 +35,8 @@ class VoteViewModel @Inject constructor() : ViewModel() {
         get() = requireNotNull(_choiceList.value)
 
     val _voteList = MutableLiveData<List<Vote>>()
-    val voteList: LiveData<List<Vote>>
-        get() = _voteList
+    val voteList: List<Vote>
+        get() = requireNotNull(_voteList.value)
 
     init {
         initVoteIndex()
@@ -381,6 +384,33 @@ class VoteViewModel @Inject constructor() : ViewModel() {
         )
     }
 
+    fun selectName(nameIndex: Int) {
+        if (currentChoice.friendId != null) return
+        with(voteList[currentNoteIndex].friendList[nameIndex]) {
+            _currentChoice.value?.friendId = id
+            _currentChoice.value?.friendName = name
+        }
+
+        currentChoice.keywordName ?: return
+        _choiceList.value?.add(currentChoice)
+        viewModelScope.launch {
+            delay(1000)
+            skipToNextVote()
+        }
+    }
+
+    fun selectKeyword(keywordIndex: Int) {
+        if (currentChoice.keywordName != null) return
+        _currentChoice.value?.keywordName = voteList[currentNoteIndex].keywordList[keywordIndex]
+
+        currentChoice.friendId ?: return
+        _choiceList.value?.add(currentChoice)
+        viewModelScope.launch {
+            delay(1000)
+            skipToNextVote()
+        }
+    }
+
     fun shuffle() {
         shuffleCount.value?.let { count ->
             // TODO: 셔플 서버 통신 및 분기 처리
@@ -392,16 +422,21 @@ class VoteViewModel @Inject constructor() : ViewModel() {
     fun skipToNextVote() {
         _currentNoteIndex.value = currentNoteIndex + 1
         _shuffleCount.value = MAX_COUNT_SHUFFLE
-        _currentChoice.value = Choice()
+        initCurrentChoice()
+    }
+
+    private fun initCurrentChoice() {
+        // TODO: 명세서 수정 되면 받아서 questionId 넣어주기
+        _currentChoice.value = Choice(1)
     }
 
     private fun initVoteIndex() {
         _backgroundIndex.value = (0..11).random()
         _currentNoteIndex.value = 0
+        initCurrentChoice()
     }
 
     companion object {
         private const val MAX_COUNT_SHUFFLE = 3
-        private const val COUNT_VOTE = 10
     }
 }

@@ -54,4 +54,5 @@
     <color name="semantic_gender_m_500">#FF367FEE</color>
 
     <color name="kakao_yellow">#FFFEE500</color>
+    <color name="transparent">#00000000</color>
 </resources>

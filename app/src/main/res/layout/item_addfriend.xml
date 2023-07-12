@@ -9,7 +9,8 @@
         android:id="@+id/layout_addfriend"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginVertical="4dp"
+        android:layout_marginTop="0dp"
+        android:background="@color/black"
         android:paddingHorizontal="16dp">
 
         <ImageView
@@ -29,6 +30,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="111dp"
+            android:textColor="@color/white"
             android:layout_marginBottom="2dp"
             android:textAppearance="@style/TextAppearance.Yello.BodyMedium"
             app:layout_constraintBottom_toTopOf="@+id/tv_friend_department"
@@ -45,7 +47,7 @@
             android:layout_marginEnd="111dp"
             android:layout_marginBottom="9dp"
             android:textAppearance="@style/TextAppearance.Yello.LabelMedium"
-            android:textColor="@color/grayscales_600"
+            android:textColor="@color/grayscales_500"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/tv_freind_check"
             app:layout_constraintStart_toEndOf="@id/iv_friend_profile"

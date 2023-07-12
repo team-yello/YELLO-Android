@@ -8,11 +8,11 @@ import androidx.lifecycle.map
 class SchoolViewModel : ViewModel() {
 
     val _school = MutableLiveData("")
-    val isEmpty: LiveData<Boolean> = _school.map { school -> checkEmpty(school) }
+    val isValidSchool: LiveData<Boolean> = _school.map { school -> checkValidSchool(school) }
     private val school: String
         get() = _school.value?.trim() ?: ""
 
-    private fun checkEmpty(school: String): Boolean {
+    private fun checkValidSchool(school: String): Boolean {
         return school.isEmpty()
     }
 }

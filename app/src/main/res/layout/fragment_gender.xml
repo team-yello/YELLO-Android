@@ -7,7 +7,19 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layout_gender"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/black">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_gender_back_btn"
+            android:layout_width="0dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/ic_onboarding_btn_back"
+            app:layout_constraintDimensionRatio="1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/tv_gender"
@@ -16,6 +28,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="68dp"
             android:text="@string/onboarding_tv_gender"
+            android:textColor="@color/white"
             android:textAppearance="?textAppearanceHeadline2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -27,17 +40,14 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:background="@drawable/shape_grayscales50_fill_8_rect"
-            android:layout_marginEnd="8dp"
             android:drawableTop="@drawable/ic_launcher_background"
             android:drawablePadding="4dp"
-            android:paddingHorizontal="12dp"
+            android:paddingHorizontal="70dp"
             android:paddingVertical="12dp"
             android:text="@string/onboarding_tv_gender_x"
             android:textAppearance="@style/TextAppearance.Yello.Subtitle02"
-            app:layout_constraintBottom_toBottomOf="@+id/btn_gender_y"
-            app:layout_constraintEnd_toStartOf="@id/btn_gender_y"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/btn_gender_y" />
+            app:layout_constraintBottom_toTopOf="@+id/btn_gender_y"
+            app:layout_constraintStart_toStartOf="parent" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_gender_y"
@@ -52,6 +62,7 @@
             android:paddingVertical="12dp"
             android:text="@string/onboarding_tv_gender_y"
             android:textAppearance="@style/TextAppearance.Yello.Subtitle02"
+            app:layout_constraintBottom_toTopOf="@+id/btn_gender_next"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/btn_gender_x"
             app:layout_constraintTop_toBottomOf="@+id/tv_gender"

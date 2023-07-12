@@ -27,7 +27,7 @@
     <string name="onboarding_tv_what_school">학교가 어디인가요?</string>
     <string name="onboarding_tv_what_department">무슨 학과인가요?</string>
     <string name="onboarding_tv_hint_select_studentid">학번을 선택해주세요.</string>
-    <string name="onboarding_btn_next">다음</string>
+    <string name="onboarding_btn_next">완료</string>
     <string name="tv_recommend_tab_kakao">카톡 친구들</string>
     <string name="tv_recommend_tab_school">학교 친구들</string>
     <string name="onboarding_tv_name">이름은</string>
@@ -48,7 +48,7 @@
     <string name="onboarding_tv_gender_x">남자</string>
     <string name="onboarding_tv_gender_y">여자</string>
     <string name="onboarding_tv_addfriend">친구를 추가하세요!</string>
-    <string name="onboarding_btn_addfriend_next">친구추가 완료</string>
+    <string name="onboarding_btn_addfriend_next">다음</string>
     <string name="onboarding_tv_addfriend_how_many">선택된 친구</string>
     <string name="onboarding_tv_freind_end">명</string>
     <string name="onboarding_tv_hint_fix">\@</string>

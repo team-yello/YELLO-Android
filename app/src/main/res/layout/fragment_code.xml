@@ -7,11 +7,13 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layout_code"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/black">
 
         <TextView
             android:id="@+id/tv_name"
             android:layout_width="0dp"
+            android:textColor="@color/white"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="68dp"
@@ -34,12 +36,15 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_name" />
 
-        <ImageView
+        <TextView
             android:id="@+id/iv_code_fix"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="36dp"
-            android:src="@drawable/ic_onboarding_id_fix"
+            android:textColor="@color/white"
+            android:text="\@"
+            android:fontFamily="@font/pretendard_medium"
+            android:textSize="16sp"
             android:translationZ="1dp"
             app:layout_constraintBottom_toBottomOf="@+id/et_id"
             app:layout_constraintStart_toStartOf="parent"
@@ -73,7 +78,7 @@
             android:layout_marginTop="4dp"
             android:text="@string/onboarding_tv_code_error"
             android:textAppearance="?textAppearanceLabelLarge"
-            android:textColor="@color/grayscales_600"
+            android:textColor="@color/grayscales_500"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/et_id" />
@@ -84,6 +89,7 @@
             android:text="@string/onboarding_btn_code_skip"
             android:layout_marginBottom="14sp"
             android:gravity="center"
+            android:textColor="@color/grayscales_200"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toTopOf="@+id/btn_code_next"

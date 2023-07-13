@@ -385,6 +385,7 @@ class VoteViewModel @Inject constructor() : ViewModel() {
     }
 
     fun selectName(nameIndex: Int) {
+        if (currentNoteIndex > INDEX_FINAL_VOTE) return
         if (currentChoice.friendId != null) return
         with(voteList[currentNoteIndex].friendList[nameIndex]) {
             _currentChoice.value?.friendId = id
@@ -395,12 +396,13 @@ class VoteViewModel @Inject constructor() : ViewModel() {
         currentChoice.keywordName ?: return
         _choiceList.value?.add(currentChoice)
         viewModelScope.launch {
-            delay(1000)
+            delay(DELAY_OPTION_SELECTION)
             skipToNextVote()
         }
     }
 
     fun selectKeyword(keywordIndex: Int) {
+        if (currentNoteIndex > INDEX_FINAL_VOTE) return
         if (currentChoice.keywordName != null) return
         _currentChoice.value?.keywordName = voteList[currentNoteIndex].keywordList[keywordIndex]
         _currentChoice.value = _currentChoice.value
@@ -408,7 +410,7 @@ class VoteViewModel @Inject constructor() : ViewModel() {
         currentChoice.friendId ?: return
         _choiceList.value?.add(currentChoice)
         viewModelScope.launch {
-            delay(1000)
+            delay(DELAY_OPTION_SELECTION)
             skipToNextVote()
         }
     }
@@ -448,5 +450,7 @@ class VoteViewModel @Inject constructor() : ViewModel() {
 
     companion object {
         private const val MAX_COUNT_SHUFFLE = 3
+        private const val INDEX_FINAL_VOTE = 9
+        private const val DELAY_OPTION_SELECTION = 1000L
     }
 }

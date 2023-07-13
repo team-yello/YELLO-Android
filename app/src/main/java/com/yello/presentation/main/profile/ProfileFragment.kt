@@ -12,25 +12,17 @@ import com.yello.databinding.FragmentProfileBinding
 class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragment_profile) {
 
     private val viewModel by viewModels<ProfileViewModel>()
-    private val profileFriendItemBottomSheet: ProfileFriendItemBottomSheet =
-        ProfileFriendItemBottomSheet()
+    private var adapter: ProfileFriendAdapter? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         binding.btnProfileAddGroup.setOnSingleClickListener {
             // TODO: 그룹 추가 로직
-            // TODO: 바텀시트 추가
             // TODO: 플로팅버튼
-            // profileFriendItemBottomSheet.show(parentFragmentManager, "Dialog")
         }
         initProfileManageActivityWithoutFinish()
         setListToAdapterFromLocal()
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        dismissDialog()
     }
 
     private fun initProfileManageActivityWithoutFinish() {
@@ -42,14 +34,18 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
         }
     }
 
-    private fun dismissDialog() {
-        if (profileFriendItemBottomSheet.isAdded) profileFriendItemBottomSheet.dismiss()
-    }
-
     private fun setListToAdapterFromLocal() {
         viewModel.addListFromLocal()
         val friendsList = viewModel.friendsResult.value ?: emptyList()
-        binding.rvProfileFriendsList.adapter = ProfileFriendAdapter(requireContext()).apply {
+        adapter = ProfileFriendAdapter { profileFriendModel ->
+
+            val name = profileFriendModel.name
+            val school = profileFriendModel.school
+            val thumbnail = profileFriendModel.thumbnail ?: ""
+            ProfileFriendItemBottomSheet.newInstance(name, school, thumbnail)
+                .show(parentFragmentManager, "dialog")
+        }
+        binding.rvProfileFriendsList.adapter = adapter?.apply {
             setItemList(friendsList)
         }
     }

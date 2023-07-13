@@ -4,18 +4,23 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import coil.transform.CircleCropTransformation
 import com.example.domain.entity.ProfileFriendModel
+import com.example.ui.view.setOnSingleClickListener
 import com.yello.databinding.ItemFriendsListBinding
 
-class ProfileFriendViewHolder(val binding: ItemFriendsListBinding) :
+class ProfileFriendViewHolder(val binding: ItemFriendsListBinding, private val itemClick: (ProfileFriendModel) -> (Unit)) :
     RecyclerView.ViewHolder(binding.root) {
 
     fun onBind(item: ProfileFriendModel) {
-        binding.tvRecommendItemName.text = item.name
-        binding.tvRecommendItemSchool.text = item.school
+        binding.tvProfileFriendItemName.text = item.name
+        binding.tvProfileFriendItemSchool.text = item.school
         if (item.thumbnail != null) {
-            binding.ivRecommendItemThumbnail.load(item.thumbnail) {
+            binding.ivProfileFriendItemThumbnail.load(item.thumbnail) {
                 transformations(CircleCropTransformation())
             }
+        }
+
+        binding.root.setOnSingleClickListener {
+            itemClick(item)
         }
     }
 }

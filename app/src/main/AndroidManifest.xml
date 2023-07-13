@@ -44,7 +44,7 @@
 
         <activity
             android:name=".presentation.auth.SignInActivity"
-            android:exported="false"
+            android:exported="true"
             android:screenOrientation="portrait" />
         <activity
             android:name=".presentation.auth.SocialSyncActivity"

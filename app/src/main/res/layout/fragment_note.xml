@@ -41,10 +41,22 @@
             <TextView
                 android:id="@+id/tv_note_index"
                 android:layout_width="wrap_content"
+                tools:text="1"
+                android:textColor="@color/black"
+                android:textSize="12sp"
+                android:fontFamily="@font/pretendard_bold"
+                android:text="@{index}"
+                app:layout_constraintBaseline_toBaselineOf="@id/tv_note_total_index"
+                app:layout_constraintEnd_toStartOf="@id/tv_note_total_index"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/tv_note_total_index"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="36dp"
                 android:layout_marginEnd="16dp"
-                android:text="@{@string/note_index_of_vote(index + 1)}"
+                android:text="@string/note_index_of_vote"
                 android:textAppearance="?textAppearanceLabelLarge"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"

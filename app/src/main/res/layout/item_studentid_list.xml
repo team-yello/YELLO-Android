@@ -25,6 +25,7 @@
             android:layout_marginStart="8dp"
             android:text="@{data.studentid}"
             android:textAlignment="center"
+            android:paddingVertical="8dp"
             android:textAppearance="?textAppearanceBodyLarge"
             android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"

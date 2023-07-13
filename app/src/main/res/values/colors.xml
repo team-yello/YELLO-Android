@@ -15,6 +15,8 @@
     <color name="grayscales_700">#FF495057</color>
     <color name="grayscales_800">#FF343A40</color>
     <color name="grayscales_900">#FF212529</color>
+    <color name="grayscales_onbarding_light">#8B8B8B</color>
+    <color name="grayscales_onbarding_dark">#62666A</color>
 
     <!-- Yello Main -->
     <color name="yello_main_100">#FFFFFFF4</color>

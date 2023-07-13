@@ -2,15 +2,17 @@ package com.yello.presentation.onboarding.fragment.studentid
 
 import android.os.Bundle
 import android.view.View
+import androidx.fragment.app.activityViewModels
 import com.example.ui.base.BindingFragment
 import com.example.ui.view.setOnSingleClickListener
 import com.yello.R
 import com.yello.databinding.FragmentStudentidBinding
+import com.yello.presentation.onboarding.activity.OnBoardingViewModel
 import com.yello.presentation.onboarding.fragment.studentid.dialog.department.SearchDialogDepartmentFragment
 import com.yello.presentation.onboarding.fragment.studentid.dialog.studentid.StudentidDialogFragment
 
 class StudentIdFragment : BindingFragment<FragmentStudentidBinding>(R.layout.fragment_studentid) {
-
+    private val viewModel by activityViewModels<OnBoardingViewModel>()
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initSearchDepartmentBtnClickListener()

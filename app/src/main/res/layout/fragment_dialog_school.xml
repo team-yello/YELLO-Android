@@ -6,7 +6,7 @@
     <data>
         <variable
             name="vm"
-            type="com.yello.presentation.onboarding.fragment.school.university.SchoolDialogViewModel" />
+            type="com.yello.presentation.onboarding.activity.OnBoardingViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

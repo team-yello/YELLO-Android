@@ -2,11 +2,13 @@ package com.yello.presentation.onboarding.fragment.school.university
 
 import android.os.Bundle
 import android.view.View
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import com.example.domain.entity.MySchool
 import com.example.ui.base.BindingBottomSheetDialog
 import com.yello.R
 import com.yello.databinding.FragmentDialogSchoolBinding
+import com.yello.presentation.onboarding.activity.OnBoardingViewModel
 import com.yello.presentation.onboarding.fragment.school.SchoolAdapter
 
 class SearchDialogFragment :
@@ -14,7 +16,7 @@ class SearchDialogFragment :
 
     private lateinit var schoolList: List<MySchool>
 
-    private val viewModel by viewModels<SchoolDialogViewModel>()
+    private val viewModel by activityViewModels<OnBoardingViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

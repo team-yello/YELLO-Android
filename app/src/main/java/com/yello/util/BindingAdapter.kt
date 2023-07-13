@@ -8,7 +8,6 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat.getColor
 import androidx.databinding.BindingAdapter
 import com.yello.R
-import timber.log.Timber
 
 object BindingAdapter {
     @JvmStatic
@@ -36,7 +35,6 @@ object BindingAdapter {
     @JvmStatic
     @BindingAdapter("selectedOptionIndex", "optionIndex")
     fun TextView.setNameTextColor(selectedIndex: Int?, optionIndex: Int) {
-        Timber.d("setOptionTextColor : selectedIndex($selectedIndex), optionIndex($optionIndex)")
         if (selectedIndex == null) {
             setTextColor(context.getColor(R.color.white))
             return
@@ -53,7 +51,6 @@ object BindingAdapter {
     @JvmStatic
     @BindingAdapter("selectedOptionKeyword", "optionKeyword")
     fun TextView.setKeywordTextColor(selectedKeyword: String?, optionKeyword: String) {
-        Timber.d("setOptionTextColor : selectedKeyword($selectedKeyword), optionIndex($optionKeyword)")
         if (selectedKeyword == null) {
             setTextColor(context.getColor(R.color.white))
             return
@@ -115,5 +112,15 @@ object BindingAdapter {
                 else -> R.drawable.img_note_face10
             },
         )
+    }
+
+    @JvmStatic
+    @BindingAdapter("selectedOptionIndex", "optionIndex")
+    fun TextView.setYelloIdTextColor(selectedIndex: Int?, optionIndex: Int) {
+        if (selectedIndex != null && selectedIndex != optionIndex) {
+            setTextColor(context.getColor(R.color.grayscales_800))
+            return
+        }
+        setTextColor(context.getColor(R.color.grayscales_600))
     }
 }

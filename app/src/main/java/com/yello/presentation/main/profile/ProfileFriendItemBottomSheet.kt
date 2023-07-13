@@ -12,10 +12,8 @@ import com.yello.databinding.FragmentProfileFriendItemBottomSheetBinding
 class ProfileFriendItemBottomSheet :
     BindingBottomSheetDialog<FragmentProfileFriendItemBottomSheetBinding>(R.layout.fragment_profile_friend_item_bottom_sheet) {
 
-    private val profileFriendDeleteBottomSheet: ProflieFriendDeleteBottomSheet =
-        ProflieFriendDeleteBottomSheet()
-
     private lateinit var modelName: String
+    private lateinit var modelId: String
     private lateinit var modelSchool: String
     private lateinit var modelThumbnail: String
 
@@ -35,12 +33,14 @@ class ProfileFriendItemBottomSheet :
     private fun getItemData() {
         val arg = arguments ?: return
         modelName = arg.getString("modelName") ?: ""
+        modelId = arg.getString("modelId") ?: ""
         modelSchool = arg.getString("modelSchool") ?: ""
         modelThumbnail = arg.getString("modelThumbnail") ?: ""
     }
 
     private fun setItemData() {
         binding.tvProfileFriendName.text = modelName
+        binding.tvProfileFriendId.text = modelId
         binding.tvProfileFriendSchool.text = modelSchool
         if (modelThumbnail != "") {
             binding.ivProfileFriendThumbnail.load(modelThumbnail) {
@@ -52,16 +52,27 @@ class ProfileFriendItemBottomSheet :
     private fun initDeleteButton() {
         binding.btnProfileFriendDelete.setOnSingleClickListener {
             dismiss()
-            profileFriendDeleteBottomSheet.show(parentFragmentManager, "Dialog")
+            ProflieFriendDeleteBottomSheet.newInstance(
+                modelName,
+                modelId,
+                modelSchool,
+                modelThumbnail
+            ).show(parentFragmentManager, "Dialog")
         }
     }
 
     companion object {
         @JvmStatic
-        fun newInstance(modelName: String, modelSchool: String, modelThumbnail: String) =
+        fun newInstance(
+            modelName: String,
+            modelId: String,
+            modelSchool: String,
+            modelThumbnail: String
+        ) =
             ProfileFriendItemBottomSheet().apply {
                 val args = Bundle()
                 args.putString("modelName", modelName)
+                args.putString("modelId", modelId)
                 args.putString("modelSchool", modelSchool)
                 args.putString("modelThumbnail", modelThumbnail)
                 arguments = args

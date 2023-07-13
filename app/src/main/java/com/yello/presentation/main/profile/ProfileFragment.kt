@@ -40,9 +40,10 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
         adapter = ProfileFriendAdapter { profileFriendModel ->
 
             val name = profileFriendModel.name
+            val yelloId = profileFriendModel.yelloId
             val school = profileFriendModel.school
             val thumbnail = profileFriendModel.thumbnail ?: ""
-            ProfileFriendItemBottomSheet.newInstance(name, school, thumbnail)
+            ProfileFriendItemBottomSheet.newInstance(name, yelloId, school, thumbnail)
                 .show(parentFragmentManager, "dialog")
         }
         binding.rvProfileFriendsList.adapter = adapter?.apply {

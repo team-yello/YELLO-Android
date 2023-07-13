@@ -4,20 +4,153 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".presentation.main.myyello.MyYelloFragment">
 
+    <data>
+
+        <variable
+            name="uiState"
+            type="com.example.ui.view.UiStateModel" />
+
+        <import type="android.view.View" />
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layout_my_yello"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/black">
 
-        <!-- TODO: Update blank fragment layout -->
         <TextView
+            android:id="@+id/tv_my_yello_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="내 쪽지"
-            android:textAppearance="?textAppearanceHeadline1"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginStart="16dp"
+            android:paddingVertical="10dp"
+            android:text="@string/my_yello_title"
+            android:textAppearance="@style/TextAppearance.Yello.Headline03"
+            android:textColor="@color/white"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_count_end"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:text="개"
+            android:textAppearance="@style/TextAppearance.Yello.LabelLarge"
+            android:textColor="@color/grayscales_500"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_my_yello_title" />
+
+        <TextView
+            android:id="@+id/tv_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/pretendard_semibold"
+            android:lineHeight="16sp"
+            android:text="0"
+            android:textColor="@color/grayscales_200"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="@id/tv_count_end"
+            app:layout_constraintEnd_toStartOf="@id/tv_count_end"
+            app:layout_constraintTop_toTopOf="@id/tv_count_end"
+            tools:text="안녕" />
+
+        <TextView
+            android:id="@+id/tv_my_yello_receive"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="4dp"
+            android:text="@string/my_yello_receive_title"
+            android:textAppearance="@style/TextAppearance.Yello.LabelLarge"
+            android:textColor="@color/grayscales_500"
+            app:layout_constraintBottom_toBottomOf="@id/tv_count_end"
+            app:layout_constraintEnd_toStartOf="@id/tv_count"
+            app:layout_constraintTop_toTopOf="@id/tv_count_end" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_my_yello_list"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:visibility="@{(uiState.success || uiState.loading) ? View.VISIBLE : View.GONE}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_my_yello_receive">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_my_yello_receive"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:orientation="vertical"
+                android:overScrollMode="never"
+                android:paddingHorizontal="16dp"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:listitem="@layout/item_my_yello" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_send_check"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/shape_fill_yello500_8dp"
+                app:layout_constraintBottom_toBottomOf="parent">
+
+                <ImageView
+                    android:id="@+id/iv_lock"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_lock"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/tv_send_check"
+                    app:layout_constraintHorizontal_chainStyle="packed"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_send_check"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:fontFamily="@font/pretendard_bold"
+                    android:paddingVertical="16dp"
+                    android:text="@string/my_yello_send_check"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/iv_lock"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="@{uiState.empty ? View.VISIBLE : View.GONE}"
+            app:layout_constraintTop_toBottomOf="@id/tv_my_yello_receive">
+
+            <TextView
+                android:id="@+id/tv_my_yello_not_yet"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="48dp"
+                android:text="아직 쪽지가 온 게 없어요."
+                android:textAppearance="@style/TextAppearance.Yello.Subtitle01"
+                android:textColor="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="친구들이 나를 투표해주면 쪽지를 받을 수 있어요!"
+                android:textAppearance="@style/TextAppearance.Yello.BodySmall"
+                android:textColor="@color/grayscales_500"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_my_yello_not_yet" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

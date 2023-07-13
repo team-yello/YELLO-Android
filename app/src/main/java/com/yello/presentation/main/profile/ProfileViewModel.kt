@@ -19,7 +19,11 @@ class ProfileViewModel : ViewModel() {
             ProfileFriendModel(5, "공상호", "@sanghogogogogogog","기획대 손씻기과 19학번", null),
             ProfileFriendModel(6, "일강민", "@ananananandroid","디자인대 파트업무과 23학번", null),
             ProfileFriendModel(7, "이채연", "@yello_world","아요대 당번일과 25학번", null),
-            ProfileFriendModel(8, "삼민주", "@sa_ng_ho__qdw","안드로이드안드로이드대 국희의콩나물국과 29학번", null)
+            ProfileFriendModel(8, "삼민주", "@sa_ng_ho__qdw","안드로이드안드로이드대 국희의콩나물국과 29학번", null),
+            ProfileFriendModel(9, "사상호", "@sanghogogogogogog","기획대 손씻기과 19학번", null),
+            ProfileFriendModel(10, "오강민", "@ananananandroid","디자인대 파트업무과 23학번", null),
+            ProfileFriendModel(11, "육채연", "@yello_world","아요대 당번일과 25학번", null),
+            ProfileFriendModel(12, "칠민주", "@sa_ng_ho__qdw","안드로이드안드로이드대 국희의콩나물국과 29학번", null)
 
         )
         _friendsResult.value = mockList

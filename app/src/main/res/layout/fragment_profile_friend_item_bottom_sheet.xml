@@ -104,7 +104,7 @@
                 android:id="@+id/tv_profile_total_friend_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="내 친구수"
+                android:text="친구 수"
                 android:textAppearance="?textAppearanceLabelMedium"
                 android:textColor="@color/grayscales_500"
                 app:layout_constraintEnd_toEndOf="parent"

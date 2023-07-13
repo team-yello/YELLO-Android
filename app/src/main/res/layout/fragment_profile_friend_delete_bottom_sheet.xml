@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/shape_grayscales900_fill_top10_rect"
-        android:paddingBottom="46dp">
+        android:paddingBottom="56dp">
 
         <ImageView
             android:layout_width="80dp"
@@ -82,6 +82,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
             android:text="정말로 친구를 끊으실 건가요?"
+            android:padding="3dp"
             android:textAppearance="?textAppearanceSubtitle2"
             android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="parent"

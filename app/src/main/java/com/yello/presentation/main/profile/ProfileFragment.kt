@@ -3,6 +3,7 @@ package com.yello.presentation.main.profile
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.ScrollView
 import androidx.fragment.app.viewModels
 import com.example.ui.base.BindingFragment
 import com.example.ui.view.setOnSingleClickListener
@@ -20,8 +21,30 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
         binding.btnProfileAddGroup.setOnSingleClickListener {
             // TODO: 그룹 추가 로직
         }
+
         initProfileManageActivityWithoutFinish()
         setListToAdapterFromLocal()
+
+        setFabVisibility()
+        initFabUpwardListener()
+
+    }
+
+    private fun setFabVisibility() {
+        binding.svProfile.setOnScrollChangeListener { view, _, _, _, _ ->
+            // 최상단인 경우에만 GONE 표시
+            if (view.canScrollVertically(-1)) {
+                binding.fabUpward.visibility = View.VISIBLE
+            } else {
+                binding.fabUpward.visibility = View.GONE
+            }
+        }
+    }
+
+    private fun initFabUpwardListener() {
+        binding.fabUpward.setOnSingleClickListener {
+            binding.svProfile.fullScroll(ScrollView.FOCUS_UP)
+        }
     }
 
     private fun initProfileManageActivityWithoutFinish() {

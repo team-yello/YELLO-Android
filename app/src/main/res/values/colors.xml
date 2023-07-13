@@ -57,6 +57,7 @@
 
     <!-- Custom -->
     <color name="kakao_yellow">#FFFEE500</color>
+    <color name="cpb_yellow">#FF3B3B1F</color>
     <color name="gray_point">#FF293036</color>
 
     <!-- Transparent -->

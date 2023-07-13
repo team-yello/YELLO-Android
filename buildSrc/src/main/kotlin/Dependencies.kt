@@ -72,6 +72,7 @@ object ThirdPartyDependencies {
     const val balloon = "com.github.skydoves:balloon:${Versions.balloonVersion}"
     const val lottie = "com.airbnb.android:lottie:${Versions.lottieVersion}"
     const val lottieCompose = "com.airbnb.android:lottie-compose:${Versions.lottieVersion}"
+    const val circularProgressBar = "com.mikhaellopez:circularprogressbar:${Versions.circularProgressBar}"
     const val kakaoLogin = "com.kakao.sdk:v2-user:${Versions.kakaoVersion}"
     const val kakaoAuth = "com.kakao.sdk:v2-auth:${Versions.kakaoVersion}"
     const val kakaoTalk = "com.kakao.sdk:v2-talk:${Versions.kakaoVersion}"

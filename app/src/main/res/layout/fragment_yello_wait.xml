@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".presentation.main.yello.wait.YelloWaitFragment">
 
@@ -8,11 +9,136 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <!-- TODO: Update blank fragment layout -->
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="@string/hello_blank_fragment" />
+        <ImageView
+            android:id="@+id/iv_wait_background"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/bg_yello_wait"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
+        <ImageView
+            android:id="@+id/iv_wait_point"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginEnd="8dp"
+            android:src="@drawable/ic_yello_start_point"
+            app:layout_constraintBottom_toBottomOf="@id/tv_wait_point"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toStartOf="@id/tv_wait_point"
+            app:layout_constraintTop_toTopOf="@id/tv_wait_point" />
+
+        <TextView
+            android:id="@+id/tv_wait_point"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="35dp"
+            android:layout_marginEnd="20dp"
+            android:paddingVertical="4dp"
+            android:text="2900"
+            android:textAppearance="?textAppearanceBodyMedium"
+            android:textColor="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <!-- TODO: 중앙 정렬 조정하기 -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_wait_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="@id/btn_wait_invite"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/tv_wait_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingVertical="4dp"
+                android:text="다음 투표까지 남은 시간"
+                android:textAppearance="?textAppearanceHeadline2"
+                android:textColor="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_wait_sub_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:paddingVertical="4dp"
+                android:text="시간이 지나면 다시 투표할 수 있어요!"
+                android:textAppearance="?textAppearanceBodySmall"
+                android:textColor="@color/grayscales_500"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_wait_description" />
+
+            <View
+                android:id="@+id/view_wait_timer_background"
+                android:layout_width="217dp"
+                android:layout_height="0dp"
+                android:layout_marginTop="36dp"
+                android:background="@drawable/shape_black_fill_black_oval_yellow_shadow"
+                app:layout_constraintDimensionRatio="1:1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_wait_sub_description" />
+
+            <com.mikhaellopez.circularprogressbar.CircularProgressBar
+                android:id="@+id/cpb_wait_timer"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_margin="18dp"
+                app:cpb_background_progressbar_color="@color/cpb_yellow"
+                app:cpb_background_progressbar_width="18dp"
+                app:cpb_progress="1815"
+                app:cpb_progress_direction="to_left"
+                app:cpb_progress_max="2400"
+                app:cpb_progressbar_color="@color/yello_main_500"
+                app:cpb_progressbar_width="20dp"
+                app:cpb_round_border="true"
+                app:layout_constraintDimensionRatio="1:1"
+                app:layout_constraintEnd_toEndOf="@id/view_wait_timer_background"
+                app:layout_constraintStart_toStartOf="@id/view_wait_timer_background"
+                app:layout_constraintTop_toBottomOf="@id/view_wait_timer_background"
+                app:layout_constraintTop_toTopOf="@id/view_wait_timer_background" />
+
+            <TextView
+                android:id="@+id/tv_wait_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/unbounded_bold"
+                android:paddingVertical="8dp"
+                android:text="30:15"
+                android:textColor="@color/yello_main_500"
+                android:textSize="25sp"
+                app:layout_constraintBottom_toBottomOf="@id/cpb_wait_timer"
+                app:layout_constraintEnd_toEndOf="@id/cpb_wait_timer"
+                app:layout_constraintStart_toStartOf="@id/cpb_wait_timer"
+                app:layout_constraintTop_toTopOf="@id/cpb_wait_timer" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/btn_wait_invite"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginBottom="44dp"
+            android:background="@drawable/shape_yello500_fill_8_rect"
+            android:fontFamily="@font/font_pretendard_bold"
+            android:gravity="center"
+            android:paddingVertical="16dp"
+            android:text="기다리지 않고 바로 투표하기"
+            android:textColor="@color/black"
+            android:textSize="15sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

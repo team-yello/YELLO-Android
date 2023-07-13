@@ -8,7 +8,7 @@ import androidx.fragment.app.replace
 import com.example.ui.base.BindingFragment
 import com.yello.R
 import com.yello.databinding.FragmentYelloBinding
-import com.yello.presentation.main.yello.start.YelloStartFragment
+import com.yello.presentation.main.yello.wait.YelloWaitFragment
 
 class YelloFragment : BindingFragment<FragmentYelloBinding>(R.layout.fragment_yello) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -19,7 +19,8 @@ class YelloFragment : BindingFragment<FragmentYelloBinding>(R.layout.fragment_ye
 
     private fun initFragmentContainerView() {
         // TODO: 서버통신 후 screen 분기 처리
-        navigateTo<YelloStartFragment>()
+//        navigateTo<YelloStartFragment>()
+        navigateTo<YelloWaitFragment>()
     }
 
     private inline fun <reified T : Fragment> navigateTo() {

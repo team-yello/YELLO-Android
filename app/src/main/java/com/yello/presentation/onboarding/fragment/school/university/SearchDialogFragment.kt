@@ -8,7 +8,6 @@ import com.example.ui.base.BindingBottomSheetDialog
 import com.yello.R
 import com.yello.databinding.FragmentDialogSchoolBinding
 import com.yello.presentation.onboarding.fragment.school.SchoolAdapter
-import com.yello.presentation.onboarding.fragment.school.SchoolDialogViewModel
 
 class SearchDialogFragment :
     BindingBottomSheetDialog<FragmentDialogSchoolBinding>(R.layout.fragment_dialog_school) {

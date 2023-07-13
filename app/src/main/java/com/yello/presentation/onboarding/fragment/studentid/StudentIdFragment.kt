@@ -7,7 +7,7 @@ import com.example.ui.view.setOnSingleClickListener
 import com.yello.R
 import com.yello.databinding.FragmentStudentidBinding
 import com.yello.presentation.onboarding.fragment.studentid.dialog.department.SearchDialogDepartmentFragment
-import com.yello.presentation.onboarding.fragment.studentid.dialog.studentid.SearchDialogidFragment
+import com.yello.presentation.onboarding.fragment.studentid.dialog.studentid.StudentidDialogFragment
 
 class StudentIdFragment : BindingFragment<FragmentStudentidBinding>(R.layout.fragment_studentid) {
 
@@ -23,7 +23,7 @@ class StudentIdFragment : BindingFragment<FragmentStudentidBinding>(R.layout.fra
     }
     private fun initSearchStudentidBtnClickListener() {
         binding.tvStudentidSearch.setOnSingleClickListener {
-            SearchDialogidFragment().show(parentFragmentManager, this.tag)
+            StudentidDialogFragment().show(parentFragmentManager, this.tag)
         }
     }
 }

@@ -1,4 +1,4 @@
-package com.yello.presentation.onboarding.fragment.school
+package com.yello.presentation.onboarding.fragment.school.university
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

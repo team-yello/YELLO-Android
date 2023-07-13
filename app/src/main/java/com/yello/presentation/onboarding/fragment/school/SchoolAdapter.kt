@@ -27,7 +27,7 @@ class SchoolAdapter(requireContext: Context) : ListAdapter<MySchool, SchoolAdapt
     class SchoolViewHolder(private val binding: ItemSchoolListBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun setschool(school: MySchool) {
-            binding.tvSchoolName.text = school.schoolname
+            binding.data = school
         }
     }
 

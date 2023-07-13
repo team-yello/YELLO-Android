@@ -145,7 +145,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
             android:layout_marginBottom="32dp"
-            android:background="@{vm._id || vm._name ? @drawable/shape_yello_main_500_fill_black_line_rect : @drawable/shape_grayscales_800_fill_8_rect}"
+            android:background="@drawable/shape_grayscales_800_fill_8_rect"
             android:paddingVertical="12dp"
             android:text="@string/onboarding_btn_next"
             android:textAppearance="?textAppearanceBodyMedium"

@@ -75,6 +75,7 @@ object ThirdPartyDependencies {
     const val kakaoLogin = "com.kakao.sdk:v2-user:${Versions.kakaoVersion}"
     const val kakaoAuth = "com.kakao.sdk:v2-auth:${Versions.kakaoVersion}"
     const val kakaoTalk = "com.kakao.sdk:v2-talk:${Versions.kakaoVersion}"
+    const val kakaoShare = "com.kakao.sdk:v2-share:${Versions.kakaoVersion}"
 }
 
 object ClassPathPlugins {

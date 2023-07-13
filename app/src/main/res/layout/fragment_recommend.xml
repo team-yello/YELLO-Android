@@ -4,20 +4,66 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".presentation.main.recommend.RecommendFragment">
 
+    <data>
+
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layout_recommend"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/black">
 
-        <!-- TODO: Update blank fragment layout -->
         <TextView
+            android:id="@+id/tv_recommend_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:paddingVertical="10dp"
             android:text="추천친구"
-            android:textAppearance="?textAppearanceHeadline1"
+            android:textAppearance="?attr/textAppearanceHeadline3"
+            android:textColor="@color/white"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tab_recommend"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shape_unselected_tab_indicator"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_recommend_title"
+            app:tabIndicator="@drawable/shape_rect"
+            app:tabIndicatorColor="@color/yello_main_500"
+            app:tabIndicatorFullWidth="true"
+            app:tabIndicatorHeight="2dp"
+            app:tabRippleColor="@android:color/transparent"
+            app:tabSelectedTextColor="@color/yello_main_500"
+            app:tabTextAppearance="@style/TextAppearance.Yello.Subtitle02"
+            app:tabTextColor="@color/grayscales_700">
+
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="카톡 친구들" />
+
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="학교 친구들" />
+
+        </com.google.android.material.tabs.TabLayout>
+
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/vp_recommend"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@id/tab_recommend" />
+
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

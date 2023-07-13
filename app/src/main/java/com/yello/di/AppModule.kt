@@ -1,7 +1,9 @@
 package com.yello.di
 
+import android.app.Application
 import android.content.Context
 import com.example.data.util.FileParser
+import com.yello.presentation.util.ResolutionMetrics
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -14,7 +16,17 @@ import javax.inject.Singleton
 object AppModule {
     @Provides
     @Singleton
+    @ApplicationContext
+    fun provideApplication(application: Application) = application
+
+    @Provides
+    @Singleton
     fun provideFileParser(
         @ApplicationContext context: Context,
     ): FileParser = FileParser(context)
+
+    @Provides
+    @Singleton
+    fun provideResolutionMetrics(@ApplicationContext context: Application) =
+        ResolutionMetrics(context)
 }

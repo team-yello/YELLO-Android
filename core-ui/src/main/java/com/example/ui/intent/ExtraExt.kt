@@ -1,7 +1,9 @@
 package com.example.ui.intent
 
 import android.app.Activity
+import android.content.Context
 import android.os.Parcelable
+import android.util.TypedValue
 import kotlin.properties.ReadOnlyProperty
 
 fun intExtra(defaultValue: Int = -1) = ReadOnlyProperty<Activity, Int> { thisRef, property ->
@@ -39,3 +41,11 @@ fun <P : Parcelable> parcelableExtra(defaultValue: P? = null) =
     ReadOnlyProperty<Activity, P?> { thisRef, property ->
         thisRef.intent.extras?.getParcelable<P>(property.name) ?: defaultValue
     }
+
+fun dpToPx(context: Context, dp: Int): Int {
+    return TypedValue.applyDimension(
+        TypedValue.COMPLEX_UNIT_DIP,
+        dp.toFloat(),
+        context.resources.displayMetrics
+    ).toInt()
+}

@@ -28,7 +28,7 @@ class DepartmentAdapter(requireContext: Context) :
     class DepartmentViewHolder(private val binding: ItemDepartmentListBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun setdepartment(department: MyDepartment) {
-            binding.tvDepartmentName.text = department.department_name
+            binding.data = department
         }
     }
 

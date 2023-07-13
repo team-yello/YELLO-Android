@@ -3,7 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <data></data>
+    <data>
+        <variable
+            name="data"
+            type="com.example.domain.entity.MyDepartment" />
+    </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layout_onboarding_departmentlist"
@@ -30,6 +34,7 @@
             android:layout_marginStart="8dp"
             android:fontFamily="@font/font_pretendard_medium"
             android:inputType="text"
+            android:text="@{data.department_name}"
             android:maxLines="1"
             android:textColor="@color/white"
             android:textSize="16sp"

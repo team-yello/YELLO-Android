@@ -362,6 +362,15 @@
                     app:layout_constraintTop_toBottomOf="@id/tv_profile_friend_list_title"
                     tools:listitem="@layout/item_friends_list" />
 
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:background="@drawable/shape_black_fill_rect"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="@id/rv_profile_friends_list"/>
+
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.core.widget.NestedScrollView>

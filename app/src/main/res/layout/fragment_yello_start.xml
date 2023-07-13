@@ -24,6 +24,7 @@
                 android:id="@+id/tv_start_description"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:paddingVertical="4dp"
                 android:text="@string/yello_start_description"
                 android:textAppearance="?textAppearanceHeadline3"
                 android:textColor="@color/white"
@@ -56,18 +57,20 @@
 
                 <ImageView
                     android:id="@+id/iv_start_point"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
                     android:src="@drawable/ic_yello_start_point"
-                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintBottom_toBottomOf="@id/tv_start_my_point"
+                    app:layout_constraintDimensionRatio="1:1"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="@id/tv_start_my_point" />
 
                 <TextView
                     android:id="@+id/tv_start_my_point"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
+                    android:paddingVertical="3dp"
                     android:text="@string/yello_start_my_point"
                     android:textAppearance="?textAppearanceBodyMedium"
                     android:textColor="@color/white"
@@ -89,6 +92,7 @@
                     android:id="@+id/tv_start_point_label"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:paddingVertical="3dp"
                     android:text="@string/yello_start_point_label"
                     android:textColor="@color/grayscales_400"
                     app:layout_constraintBottom_toBottomOf="parent"

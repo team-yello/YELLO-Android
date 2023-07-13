@@ -416,6 +416,7 @@ class VoteViewModel @Inject constructor() : ViewModel() {
     fun shuffle() {
         shuffleCount.value?.let { count ->
             // TODO: 셔플 서버 통신 및 분기 처리
+            if (currentChoice.friendId != null) return
             if (count < 1) return
             _shuffleCount.value = count - 1
         }

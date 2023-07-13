@@ -1,9 +1,13 @@
 package com.yello.util
 
+import android.graphics.PorterDuff
+import android.graphics.PorterDuffColorFilter
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat.getColor
 import androidx.databinding.BindingAdapter
 import com.yello.R
+import timber.log.Timber
 
 object BindingAdapter {
     @JvmStatic
@@ -30,7 +34,8 @@ object BindingAdapter {
 
     @JvmStatic
     @BindingAdapter("selectedOptionIndex", "optionIndex")
-    fun TextView.setOptionTextColor(selectedIndex: Int?, optionIndex: Int) {
+    fun TextView.setNameTextColor(selectedIndex: Int?, optionIndex: Int) {
+        Timber.d("setOptionTextColor : selectedIndex($selectedIndex), optionIndex($optionIndex)")
         if (selectedIndex == null) {
             setTextColor(context.getColor(R.color.white))
             return
@@ -46,7 +51,8 @@ object BindingAdapter {
 
     @JvmStatic
     @BindingAdapter("selectedOptionKeyword", "optionKeyword")
-    fun TextView.setOptionTextColor(selectedKeyword: String?, optionKeyword: String) {
+    fun TextView.setKeywordTextColor(selectedKeyword: String?, optionKeyword: String) {
+        Timber.d("setOptionTextColor : selectedKeyword($selectedKeyword), optionIndex($optionKeyword)")
         if (selectedKeyword == null) {
             setTextColor(context.getColor(R.color.white))
             return
@@ -58,5 +64,16 @@ object BindingAdapter {
         }
 
         setTextColor(context.getColor(R.color.grayscales_700))
+    }
+
+    @JvmStatic
+    @BindingAdapter("setDrawableTint")
+    fun TextView.setDrawableTint(disabled: Boolean) {
+        val color = if (disabled) getColor(context, R.color.gray_66) else getColor(context, R.color.black)
+        for (drawable in compoundDrawables) {
+            if (drawable != null) {
+                drawable.colorFilter = PorterDuffColorFilter(color, PorterDuff.Mode.SRC_IN)
+            }
+        }
     }
 }

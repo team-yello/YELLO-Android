@@ -59,4 +59,5 @@
 
     <!-- Transparent -->
     <color name="white_35">#59FFFFFF</color>
+    <color name="gray_66">#66191919</color>
 </resources>

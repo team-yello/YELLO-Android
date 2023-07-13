@@ -6,7 +6,6 @@ import androidx.fragment.app.viewModels
 import com.example.ui.base.BindingFragment
 import com.yello.R
 import com.yello.databinding.FragmentNameIdBinding
-import com.yello.presentation.onboarding.fragment.addfriend.AddFriendViewModel
 
 class NameIdFragment : BindingFragment<FragmentNameIdBinding>(R.layout.fragment_name_id) {
 
@@ -14,6 +13,7 @@ class NameIdFragment : BindingFragment<FragmentNameIdBinding>(R.layout.fragment_
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        // TODO 대부분의 로직은 여기에 구현합니다.
+        binding.vm = viewModel
     }
 }
+

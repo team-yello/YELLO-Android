@@ -1,5 +1,4 @@
 package com.yello.presentation.onboarding.activity
-
 import android.os.Bundle
 import com.example.ui.base.BindingActivity
 import com.yello.R

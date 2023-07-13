@@ -2,6 +2,7 @@ package com.yello.presentation.onboarding.fragment.school
 
 import android.os.Bundle
 import android.view.View
+import androidx.fragment.app.Fragment
 import com.example.ui.base.BindingFragment
 import com.example.ui.view.setOnSingleClickListener
 import com.yello.R

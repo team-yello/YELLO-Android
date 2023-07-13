@@ -28,7 +28,7 @@ class StudentidDialogAdapter(requireContext: Context) :
     class StudentidViewHolder(private val binding: ItemStudentidListBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun setStudentid(id: MyStudentid) {
-            binding.tvItemStudentId.text = id.studentid
+            binding.data = id
         }
     }
 

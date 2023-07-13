@@ -1,12 +1,15 @@
 package com.yello.presentation.main.profile
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import com.example.ui.base.BindingActivity
 import com.example.ui.view.setOnSingleClickListener
+import com.kakao.sdk.user.UserApiClient
 import com.yello.R
 import com.yello.databinding.ActivityProfileManageBinding
+import timber.log.Timber
 
 class ProfileManageActivity :
     BindingActivity<ActivityProfileManageBinding>(R.layout.activity_profile_manage) {
@@ -23,7 +26,8 @@ class ProfileManageActivity :
         }
 
         binding.btnProfileManageLogout.setOnSingleClickListener {
-            // TODO: 로그아웃 설정
+            // TODO: 로그아웃 로직 설정
+            logoutKakaoAccount()
         }
     }
 
@@ -40,5 +44,24 @@ class ProfileManageActivity :
                 startActivity(this)
             }
         }
+    }
+
+    private fun logoutKakaoAccount() {
+        UserApiClient.instance.logout { error ->
+            if (error != null) {
+                Timber.d("로그아웃 실패")
+            } else {
+                restartApp(this)
+            }
+        }
+    }
+
+    private fun restartApp(context: Context) {
+        val packageManager = context.packageManager
+        val intent = packageManager.getLaunchIntentForPackage(context.packageName)
+        val componentName = intent!!.component
+        val mainIntent = Intent.makeRestartActivityTask(componentName)
+        context.startActivity(mainIntent)
+        Runtime.getRuntime().exit(0)
     }
 }

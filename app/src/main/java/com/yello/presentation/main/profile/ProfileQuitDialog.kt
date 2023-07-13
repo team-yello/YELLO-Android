@@ -8,8 +8,10 @@ import android.view.View
 import android.view.WindowManager
 import com.example.ui.base.BindingDialogFragment
 import com.example.ui.view.setOnSingleClickListener
+import com.kakao.sdk.user.UserApiClient
 import com.yello.R
 import com.yello.databinding.FragmentProfileQuitDialogBinding
+import timber.log.Timber
 
 
 class ProfileQuitDialog :
@@ -29,6 +31,7 @@ class ProfileQuitDialog :
         }
 
         binding.btnProfileDialogReject.setOnSingleClickListener {
+            unlinkKakaoAccount()
             dismiss()
         }
     }
@@ -48,6 +51,16 @@ class ProfileQuitDialog :
         dialog?.setCancelable(true)
     }
 
+    private fun unlinkKakaoAccount() {
+        UserApiClient.instance.unlink { error ->
+            if (error != null) {
+                Timber.d("로그아웃 실패")
+            } else {
+                restartApp(requireContext())
+            }
+        }
+    }
+
     private fun restartApp(context: Context) {
         val packageManager = context.packageManager
         val intent = packageManager.getLaunchIntentForPackage(context.packageName)
@@ -56,5 +69,4 @@ class ProfileQuitDialog :
         context.startActivity(mainIntent)
         Runtime.getRuntime().exit(0)
     }
-
 }

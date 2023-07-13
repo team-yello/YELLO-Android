@@ -42,6 +42,7 @@
                 android:id="@+id/tv_note_index"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="36dp"
                 android:layout_marginEnd="16dp"
                 android:text="@{@string/note_index_of_vote(index + 1)}"
                 android:textAppearance="?textAppearanceLabelLarge"
@@ -49,15 +50,26 @@
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="@string/note_index_of_vote" />
 
-            <!-- TODO : 타원 프로그래스 뷰 구현 -->
-            <View
-                android:id="@+id/view_note_progress_todo"
-                android:layout_width="0dp"
-                android:layout_height="60dp"
-                android:layout_marginTop="4dp"
+            <ImageView
+                android:id="@+id/iv_note_balloon"
+                setBalloonSrc="@{index}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_note_index" />
+                app:layout_constraintTop_toTopOf="parent"
+                tools:src="@drawable/ic_note_balloon1" />
+
+            <ImageView
+                android:id="@+id/iv_note_face"
+                setFaceSrc="@{index}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:src="@drawable/img_note_face1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/iv_note_balloon" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/layout_note_question"
@@ -69,7 +81,7 @@
                 android:minHeight="154dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/view_note_progress_todo">
+                app:layout_constraintTop_toBottomOf="@id/iv_note_face">
 
                 <TextView
                     android:id="@+id/tv_note_first_sentence_head"
@@ -682,13 +694,13 @@
 
                 <TextView
                     android:id="@+id/tv_note_shuffle"
+                    setDrawableTint="@{vm._currentChoice.friendId != null || vm._currentChoice.keywordName != null}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:drawablePadding="4dp"
                     android:text="@string/note_friend_shuffle"
                     android:textAppearance="?textAppearanceBodySmall"
                     android:textColor="@{vm._currentChoice.friendId != null || vm._currentChoice.keywordName != null ? @color/gray_66 : @color/black}"
-                    setDrawableTint="@{vm._currentChoice.friendId != null || vm._currentChoice.keywordName != null}"
                     app:drawableStartCompat="@drawable/ic_note_shuffle"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@id/tv_note_shuffle_count"
@@ -724,6 +736,7 @@
 
                 <TextView
                     android:id="@+id/tv_note_skip"
+                    setDrawableTint="@{vm._currentChoice.friendId != null || vm._currentChoice.keywordName != null}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:drawablePadding="4dp"
@@ -731,7 +744,6 @@
                     android:text="@string/note_skip"
                     android:textAppearance="?attr/textAppearanceBodySmall"
                     android:textColor="@{vm._currentChoice.friendId != null || vm._currentChoice.keywordName != null ? @color/gray_66 : @color/black}"
-                    setDrawableTint="@{vm._currentChoice.friendId != null || vm._currentChoice.keywordName != null}"
                     app:drawableEndCompat="@drawable/ic_note_skip"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"

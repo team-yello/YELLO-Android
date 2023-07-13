@@ -2,6 +2,7 @@ package com.yello.util
 
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat.getColor
@@ -69,11 +70,50 @@ object BindingAdapter {
     @JvmStatic
     @BindingAdapter("setDrawableTint")
     fun TextView.setDrawableTint(disabled: Boolean) {
-        val color = if (disabled) getColor(context, R.color.gray_66) else getColor(context, R.color.black)
+        val color =
+            if (disabled) getColor(context, R.color.gray_66) else getColor(context, R.color.black)
         for (drawable in compoundDrawables) {
             if (drawable != null) {
                 drawable.colorFilter = PorterDuffColorFilter(color, PorterDuff.Mode.SRC_IN)
             }
         }
+    }
+
+    @JvmStatic
+    @BindingAdapter("setBalloonSrc")
+    fun ImageView.setBalloonSrc(index: Int) {
+        setImageResource(
+            when (index) {
+                0 -> R.drawable.ic_note_balloon1
+                1 -> R.drawable.ic_note_balloon2
+                2 -> R.drawable.ic_note_balloon3
+                3 -> R.drawable.ic_note_balloon4
+                4 -> R.drawable.ic_note_balloon5
+                5 -> R.drawable.ic_note_balloon6
+                6 -> R.drawable.ic_note_balloon7
+                7 -> R.drawable.ic_note_balloon8
+                8 -> R.drawable.ic_note_balloon9
+                else -> R.drawable.ic_note_balloon10
+            },
+        )
+    }
+
+    @JvmStatic
+    @BindingAdapter("setFaceSrc")
+    fun ImageView.setFaceSrc(index: Int) {
+        setImageResource(
+            when (index) {
+                0 -> R.drawable.img_note_face1
+                1 -> R.drawable.img_note_face2
+                2 -> R.drawable.img_note_face3
+                3 -> R.drawable.img_note_face4
+                4 -> R.drawable.img_note_face5
+                5 -> R.drawable.img_note_face6
+                6 -> R.drawable.img_note_face7
+                7 -> R.drawable.img_note_face8
+                8 -> R.drawable.img_note_face9
+                else -> R.drawable.img_note_face10
+            },
+        )
     }
 }

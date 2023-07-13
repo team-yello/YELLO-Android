@@ -4,8 +4,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.activityViewModels
 import com.example.ui.base.BindingFragment
-import com.skydoves.balloon.Balloon
-import com.skydoves.balloon.BalloonSizeSpec
 import com.yello.R
 import com.yello.databinding.FragmentNoteBinding
 import com.yello.presentation.main.yello.vote.VoteViewModel
@@ -28,7 +26,7 @@ class NoteFragment : BindingFragment<FragmentNoteBinding>(R.layout.fragment_note
         binding.vm = viewModel
 
         getBundleArgs()
-        initIndexBalloon()
+        addOvalProgressItems()
     }
 
     private fun getBundleArgs() {
@@ -39,18 +37,31 @@ class NoteFragment : BindingFragment<FragmentNoteBinding>(R.layout.fragment_note
         binding.bgIndex = backgroundIndex
     }
 
-    private fun initIndexBalloon() {
-        // TODO: balloon custom
-        val balloon = Balloon.Builder(requireContext())
-            .setWidth(BalloonSizeSpec.WRAP)
-            .setHeight(BalloonSizeSpec.WRAP)
-            .setText("첫 번째 옐로!")
-            .build()
+    private fun addOvalProgressItems() {
+        for (i in 0 until noteIndex) {
+            layoutInflater.inflate(
+                R.layout.layout_vote_progress_bar,
+                binding.layoutNoteProgressBefore,
+            )
+            binding.layoutNoteProgressBefore.getChildAt(i).rotation = progressDegree[i]
+        }
+
+        for (i in noteIndex + 1 until 9) {
+            layoutInflater.inflate(
+                R.layout.layout_vote_progress_bar,
+                binding.layoutNoteProgressAfter,
+            )
+            binding.layoutNoteProgressAfter.getChildAt(i - noteIndex - 1).rotation =
+                progressDegree[i]
+        }
     }
 
     companion object {
         private const val ARGS_NOTE_INDEX = "NOTE_INDEX"
         private const val ARGS_BACKGROUND_INDEX = "BACKGROUND_INDEX"
+
+        private val progressDegree =
+            listOf(165f, -30f, -120f, -165f, -60f, -20f, -117f, 24f, -45f, 12f)
 
         @JvmStatic
         fun newInstance(index: Int, bgIndex: Int) = NoteFragment().apply {

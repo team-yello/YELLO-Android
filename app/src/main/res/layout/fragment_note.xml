@@ -60,6 +60,17 @@
                 app:layout_constraintTop_toTopOf="parent"
                 tools:src="@drawable/ic_note_balloon1" />
 
+            <LinearLayout
+                android:id="@+id/layout_note_progress_before"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginEnd="10dp"
+                android:gravity="end"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toBottomOf="@id/iv_note_face"
+                app:layout_constraintEnd_toStartOf="@id/iv_note_face"
+                app:layout_constraintTop_toTopOf="@id/iv_note_face" />
+
             <ImageView
                 android:id="@+id/iv_note_face"
                 setFaceSrc="@{index}"
@@ -70,6 +81,16 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/iv_note_balloon" />
+
+            <LinearLayout
+                android:id="@+id/layout_note_progress_after"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginStart="10dp"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toBottomOf="@id/iv_note_face"
+                app:layout_constraintStart_toEndOf="@id/iv_note_face"
+                app:layout_constraintTop_toTopOf="@id/iv_note_face" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/layout_note_question"

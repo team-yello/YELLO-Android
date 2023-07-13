@@ -5,8 +5,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.domain.entity.Choice
-import com.example.domain.entity.Vote
-import com.example.domain.entity.Vote.Friend
+import com.example.domain.entity.Note
+import com.example.domain.entity.Note.Friend
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -34,14 +34,14 @@ class VoteViewModel @Inject constructor() : ViewModel() {
     val choiceList: MutableList<Choice>
         get() = requireNotNull(_choiceList.value)
 
-    val _voteList = MutableLiveData<List<Vote>>()
-    val voteList: List<Vote>
+    val _voteList = MutableLiveData<List<Note>>()
+    val voteList: List<Note>
         get() = requireNotNull(_voteList.value)
 
     init {
         initVoteIndex()
         _voteList.value = mutableListOf(
-            Vote(
+            Note(
                 nameHead = "나는",
                 nameFoot = "이(가)",
                 keywordHead = "",
@@ -75,7 +75,7 @@ class VoteViewModel @Inject constructor() : ViewModel() {
                     "코딩하는 강동원이랑",
                 ),
             ),
-            Vote(
+            Note(
                 nameHead = "",
                 nameFoot = "의 은밀한 취미는",
                 keywordHead = "",
@@ -109,7 +109,7 @@ class VoteViewModel @Inject constructor() : ViewModel() {
                     "헌팅하기",
                 ),
             ),
-            Vote(
+            Note(
                 nameHead = "나는",
                 nameFoot = "이(가)",
                 keywordHead = "",
@@ -143,7 +143,7 @@ class VoteViewModel @Inject constructor() : ViewModel() {
                     "코딩하는 강동원이랑",
                 ),
             ),
-            Vote(
+            Note(
                 nameHead = "",
                 nameFoot = "의 은밀한 취미는",
                 keywordHead = "",
@@ -177,7 +177,7 @@ class VoteViewModel @Inject constructor() : ViewModel() {
                     "헌팅하기",
                 ),
             ),
-            Vote(
+            Note(
                 nameHead = "나는",
                 nameFoot = "이(가)",
                 keywordHead = "",
@@ -211,7 +211,7 @@ class VoteViewModel @Inject constructor() : ViewModel() {
                     "코딩하는 강동원이랑",
                 ),
             ),
-            Vote(
+            Note(
                 nameHead = "",
                 nameFoot = "의 은밀한 취미는",
                 keywordHead = "",
@@ -245,7 +245,7 @@ class VoteViewModel @Inject constructor() : ViewModel() {
                     "헌팅하기",
                 ),
             ),
-            Vote(
+            Note(
                 nameHead = "나는",
                 nameFoot = "이(가)",
                 keywordHead = "",
@@ -279,7 +279,7 @@ class VoteViewModel @Inject constructor() : ViewModel() {
                     "코딩하는 강동원이랑",
                 ),
             ),
-            Vote(
+            Note(
                 nameHead = "",
                 nameFoot = "의 은밀한 취미는",
                 keywordHead = "",
@@ -313,7 +313,7 @@ class VoteViewModel @Inject constructor() : ViewModel() {
                     "헌팅하기",
                 ),
             ),
-            Vote(
+            Note(
                 nameHead = "나는",
                 nameFoot = "이(가)",
                 keywordHead = "",
@@ -347,7 +347,7 @@ class VoteViewModel @Inject constructor() : ViewModel() {
                     "코딩하는 강동원이랑",
                 ),
             ),
-            Vote(
+            Note(
                 nameHead = "",
                 nameFoot = "의 은밀한 취미는",
                 keywordHead = "",

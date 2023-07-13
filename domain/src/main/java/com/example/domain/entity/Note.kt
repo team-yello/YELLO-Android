@@ -1,6 +1,6 @@
 package com.example.domain.entity
 
-data class Vote(
+data class Note(
     val nameHead: String,
     val nameFoot: String,
     val keywordHead: String,

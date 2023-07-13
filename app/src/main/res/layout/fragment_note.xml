@@ -45,7 +45,7 @@
                 android:textColor="@color/black"
                 android:textSize="12sp"
                 android:fontFamily="@font/pretendard_bold"
-                android:text="@{index}"
+                android:text="@{index.toString()}"
                 app:layout_constraintBaseline_toBaselineOf="@id/tv_note_total_index"
                 app:layout_constraintEnd_toStartOf="@id/tv_note_total_index"
                 android:layout_height="wrap_content" />

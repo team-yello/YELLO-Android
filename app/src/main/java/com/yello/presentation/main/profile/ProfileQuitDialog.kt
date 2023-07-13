@@ -1,5 +1,7 @@
 package com.yello.presentation.main.profile
 
+import android.content.Context
+import android.content.Intent
 import android.content.res.Resources
 import android.os.Bundle
 import android.view.View
@@ -8,6 +10,7 @@ import com.example.ui.base.BindingDialogFragment
 import com.example.ui.view.setOnSingleClickListener
 import com.yello.R
 import com.yello.databinding.FragmentProfileQuitDialogBinding
+
 
 class ProfileQuitDialog :
     BindingDialogFragment<FragmentProfileQuitDialogBinding>(R.layout.fragment_profile_quit_dialog) {
@@ -22,7 +25,7 @@ class ProfileQuitDialog :
 
         binding.btnProfileDialogQuit.setOnSingleClickListener {
             // TODO: 회원 탈퇴 로직 설정
-            // TODO: 앱 종료 후 재시작
+            restartApp(requireContext())
         }
 
         binding.btnProfileDialogReject.setOnSingleClickListener {
@@ -44,4 +47,14 @@ class ProfileQuitDialog :
         dialog?.setCanceledOnTouchOutside(false)
         dialog?.setCancelable(true)
     }
+
+    private fun restartApp(context: Context) {
+        val packageManager = context.packageManager
+        val intent = packageManager.getLaunchIntentForPackage(context.packageName)
+        val componentName = intent!!.component
+        val mainIntent = Intent.makeRestartActivityTask(componentName)
+        context.startActivity(mainIntent)
+        Runtime.getRuntime().exit(0)
+    }
+
 }

@@ -8,7 +8,7 @@ import com.yello.presentation.onboarding.ViewPagerFragmentAdapter
 
 class OnBoardingActivity :
     BindingActivity<ActivityOnboardingBinding>(R.layout.activity_onboarding) {
-    private val viewModel by viewModels<NameidViewModel>()
+    private val viewModel by viewModels<OnBoardingViewModel>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initViewPager()

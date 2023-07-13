@@ -10,41 +10,29 @@ import com.example.domain.entity.MySchool
 import com.example.domain.entity.MyStudentid
 
 class OnBoardingViewModel : ViewModel() {
+
+    // livedata
     val _school = MutableLiveData("")
-    val isValidSchool: LiveData<Boolean> = _school.map { school -> checkValidSchool(school) }
-    private val school: String
-        get() = _school.value?.trim() ?: ""
-
-    private val _schoolResult: MutableLiveData<List<MySchool>> = MutableLiveData()
-    val schoolResult: LiveData<List<MySchool>> = _schoolResult
-
     val _department = MutableLiveData("")
     val _studentid = MutableLiveData("")
-    val _empty = MutableLiveData("")
+    val _name = MutableLiveData("")
+    val _id = MutableLiveData("")
 
-    val isEmpty_deaprtment: LiveData<Boolean> =
+    val isValidSchool: LiveData<Boolean> = _school.map { school -> checkValidSchool(school) }
+    val isEmpty_department: LiveData<Boolean> =
         _department.map { department -> checkEmpty_department(department) }
     val isEmpty_studentid: LiveData<Boolean> =
         _studentid.map { studentid -> checkEmpty_studentid(studentid) }
-    val isEmpty: LiveData<Boolean> =
-        _empty.map { empty -> checkEmpty(studentid, department) }
+    val isEmpty_name: LiveData<Boolean> =
+        _name.map { studentid -> checkEmpty_studentid(studentid) }
 
+    private val school: String
+        get() = _school.value?.trim() ?: ""
     private val department: String
         get() = _department.value?.trim() ?: ""
 
     private val studentid: String
         get() = _studentid.value?.trim() ?: ""
-
-    private val empty: String
-        get() = _empty.value?.trim() ?: ""
-    private val _departmentResult: MutableLiveData<List<MyDepartment>> = MutableLiveData()
-    val departmentResult: LiveData<List<MyDepartment>> = _departmentResult
-
-    private val _studentidResult: MutableLiveData<List<MyStudentid>> = MutableLiveData()
-    val studentidResult: LiveData<List<MyStudentid>> = _studentidResult
-
-    val _name = MutableLiveData("")
-    val _id = MutableLiveData("")
 
     private val name: String
         get() = _name.value?.trim() ?: ""
@@ -52,21 +40,22 @@ class OnBoardingViewModel : ViewModel() {
     private val id: String
         get() = _id.value?.trim() ?: ""
 
+    private val _schoolResult: MutableLiveData<List<MySchool>> = MutableLiveData()
+    val schoolResult: LiveData<List<MySchool>> = _schoolResult
+
+    private val _departmentResult: MutableLiveData<List<MyDepartment>> = MutableLiveData()
+    val departmentResult: LiveData<List<MyDepartment>> = _departmentResult
+
+    private val _studentidResult: MutableLiveData<List<MyStudentid>> = MutableLiveData()
+    val studentidResult: LiveData<List<MyStudentid>> = _studentidResult
+
     private val _friendResult: MutableLiveData<List<MyFriend>> = MutableLiveData()
     val friendResult: LiveData<List<MyFriend>> = _friendResult
 
     private fun checkValidSchool(school: String): Boolean {
         return school.isEmpty()
     }
-    fun addSchool() {
-        val mockList = listOf(
-            MySchool("김상호랑이대학교"),
-            MySchool("전채연습만이살길대학교"),
-            MySchool("이강민머리될떄까지대학교"),
-            MySchool("박민주거라연습대학교"),
-        )
-        _schoolResult.value = mockList
-    }
+
     private fun checkEmpty_department(department: String): Boolean {
         return department.isEmpty()
     }
@@ -75,8 +64,16 @@ class OnBoardingViewModel : ViewModel() {
         return studentid.isEmpty()
     }
 
-    private fun checkEmpty(studentid: String, department: String): Boolean {
-        return studentid.isEmpty() && department.isEmpty()
+
+    // 목데이터
+    fun addSchool() {
+        val mockList = listOf(
+            MySchool("김상호랑이대학교"),
+            MySchool("전채연습만이살길대학교"),
+            MySchool("이강민머리될떄까지대학교"),
+            MySchool("박민주거라연습대학교"),
+        )
+        _schoolResult.value = mockList
     }
 
     fun addDepartment() {
@@ -90,6 +87,7 @@ class OnBoardingViewModel : ViewModel() {
         )
         _departmentResult.value = mockList
     }
+
     fun addStudentId() {
         val mockList = listOf(
             MyStudentid("15학번"),
@@ -101,7 +99,7 @@ class OnBoardingViewModel : ViewModel() {
             MyStudentid("21학번"),
             MyStudentid("22학번"),
             MyStudentid("23학번"),
-            )
+        )
         _studentidResult.value = mockList
     }
 

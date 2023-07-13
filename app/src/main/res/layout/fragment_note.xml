@@ -718,7 +718,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:background="@drawable/shape_white35_fill_100_rect"
-                android:onClick="@{()->vm.skipToNextVote()}"
+                android:onClick="@{()->vm.skip()}"
                 android:paddingVertical="17dp"
                 app:layout_constraintHorizontal_weight="49">
 
@@ -727,7 +727,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:drawablePadding="4dp"
-                    android:onClick="@{()->vm.skipToNextVote()}"
+                    android:onClick="@{()->vm.skip()}"
                     android:text="@string/note_skip"
                     android:textAppearance="?attr/textAppearanceBodySmall"
                     android:textColor="@{vm._currentChoice.friendId != null || vm._currentChoice.keywordName != null ? @color/gray_66 : @color/black}"

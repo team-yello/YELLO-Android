@@ -26,7 +26,7 @@ class VoteViewModel @Inject constructor() : ViewModel() {
     val currentNoteIndex: Int
         get() = _currentNoteIndex.value ?: 0
 
-    val _currentChoice = MutableLiveData(Choice(1))
+    val _currentChoice = MutableLiveData(Choice(-1))
     val currentChoice: Choice
         get() = requireNotNull(_currentChoice.value)
 
@@ -416,16 +416,15 @@ class VoteViewModel @Inject constructor() : ViewModel() {
     fun shuffle() {
         shuffleCount.value?.let { count ->
             // TODO: 셔플 서버 통신 및 분기 처리
-            if (currentChoice.friendId != null) return
+            if (isOptionSelected()) return
             if (count < 1) return
             _shuffleCount.value = count - 1
         }
     }
 
-    fun skipToNextVote() {
-        _currentNoteIndex.value = currentNoteIndex + 1
-        _shuffleCount.value = MAX_COUNT_SHUFFLE
-        initCurrentChoice()
+    fun skip() {
+        if (isOptionSelected()) return
+        skipToNextVote()
     }
 
     private fun initCurrentChoice() {
@@ -438,6 +437,14 @@ class VoteViewModel @Inject constructor() : ViewModel() {
         _currentNoteIndex.value = 0
         initCurrentChoice()
     }
+
+    private fun skipToNextVote() {
+        _currentNoteIndex.value = currentNoteIndex + 1
+        _shuffleCount.value = MAX_COUNT_SHUFFLE
+        initCurrentChoice()
+    }
+
+    private fun isOptionSelected() = currentChoice.friendId != null || currentChoice.keywordName != null
 
     companion object {
         private const val MAX_COUNT_SHUFFLE = 3

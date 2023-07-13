@@ -102,7 +102,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
-            android:layout_marginBottom="34dp"
+            android:layout_marginBottom="44dp"
             android:background="@drawable/shape_yello500_fill_8_rect"
             android:fontFamily="@font/font_pretendard_bold"
             android:gravity="center"

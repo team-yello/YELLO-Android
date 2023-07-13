@@ -1,15 +1,207 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".presentation.main.yello.point.PointFragment">
+    tools:context=".presentation.main.yello.start.PointFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout_point"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/black">
+
+        <ImageView
+            android:id="@+id/iv_point_current_point"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginEnd="6dp"
+            android:src="@drawable/ic_yello_start_point"
+            app:layout_constraintBottom_toBottomOf="@id/tv_point_current_point"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toStartOf="@id/tv_point_current_point"
+            app:layout_constraintTop_toTopOf="@id/tv_point_current_point" />
 
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="@string/hello_blank_fragment" />
+            android:id="@+id/tv_point_current_point"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="28dp"
+            android:layout_marginEnd="20dp"
+            android:paddingVertical="4dp"
+            android:text="2900"
+            android:textAppearance="?textAppearanceBodyMedium"
+            android:textColor="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_point_welcome"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="44dp"
+            app:layout_constraintBottom_toTopOf="@id/btn_point_confirm"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/tv_point_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingVertical="4dp"
+                android:text="@string/point_description"
+                android:textAppearance="?textAppearanceHeadline3"
+                android:textColor="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_point_sub_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:paddingVertical="4dp"
+                android:text="@string/point_sub_description"
+                android:textAppearance="?textAppearanceBodySmall"
+                android:textColor="@color/grayscales_500"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_point_description" />
+
+            <TextView
+                android:id="@+id/tv_point_vote_point_plus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="44dp"
+                android:fontFamily="@font/unbounded_medium"
+                android:lineHeight="22sp"
+                android:paddingVertical="3dp"
+                android:text="@string/point_plus"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toStartOf="@id/tv_point_vote_point"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_point_sub_description" />
+
+            <TextView
+                android:id="@+id/tv_point_vote_point"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="44dp"
+                android:fontFamily="@font/unbounded_medium"
+                android:lineHeight="22sp"
+                android:paddingVertical="3dp"
+                android:text="400"
+                android:textColor="@color/yello_main_500"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toStartOf="@id/tv_point_vote_point_label"
+                app:layout_constraintStart_toEndOf="@id/tv_point_vote_point_plus"
+                app:layout_constraintTop_toBottomOf="@id/tv_point_sub_description" />
+
+            <TextView
+                android:id="@+id/tv_point_vote_point_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="44dp"
+                android:fontFamily="@font/unbounded_medium"
+                android:lineHeight="22sp"
+                android:paddingVertical="3dp"
+                android:text="@string/point_vote_point_label"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/tv_point_vote_point"
+                app:layout_constraintTop_toBottomOf="@id/tv_point_sub_description" />
+
+            <ImageView
+                android:id="@+id/iv_point_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:src="@drawable/img_point_welcome"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_point_vote_point_plus" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layout_point_my_point"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="38dp"
+                android:layout_marginTop="30dp"
+                android:background="@drawable/shape_graypoint_fill_8_rect"
+                android:paddingHorizontal="24dp"
+                android:paddingVertical="18dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/iv_point_description">
+
+                <ImageView
+                    android:id="@+id/iv_point_my_point"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:src="@drawable/ic_yello_start_point"
+                    app:layout_constraintBottom_toBottomOf="@id/tv_point_my_point_label"
+                    app:layout_constraintDimensionRatio="1:1"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/tv_point_my_point_label" />
+
+                <TextView
+                    android:id="@+id/tv_point_my_point_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:paddingVertical="4dp"
+                    android:text="@string/yello_start_my_point"
+                    android:textAppearance="?textAppearanceBodyMedium"
+                    android:textColor="@color/white"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/iv_point_my_point"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_point_my_point"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="4dp"
+                    android:paddingVertical="3dp"
+                    android:text="2500"
+                    android:textColor="@color/white"
+                    app:layout_constraintBaseline_toBaselineOf="@id/tv_point_point_label"
+                    app:layout_constraintEnd_toStartOf="@id/tv_point_point_label" />
+
+                <TextView
+                    android:id="@+id/tv_point_point_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingVertical="4dp"
+                    android:text="@string/yello_start_point_label"
+                    android:textColor="@color/grayscales_400"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/btn_point_confirm"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginBottom="94dp"
+            android:background="@drawable/shape_yello500_fill_8_rect"
+            android:fontFamily="@font/font_pretendard_bold"
+            android:gravity="center"
+            android:paddingVertical="16dp"
+            android:text="@string/point_confirm"
+            android:textColor="@color/black"
+            android:textSize="15sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

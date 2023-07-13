@@ -1,7 +1,6 @@
 <resources>
     <string name="app_name">YELLO</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="to_string">%s</string>
 
@@ -9,7 +8,7 @@
     <string name="tv_sign_in_subtitle">가입을 시작해볼까요?</string>
     <string name="tv_sign_in_btn">카카오로 시작하기</string>
 
-    <string name="tv_social_sync_title">나의 Yell:o 친구는 어디있을까?</string>
+    <string name="tv_social_sync_title">나의 Yell:o 친구는 어디 있을까?</string>
     <string name="tv_social_sync_subtitle">친구 목록을 불러와봐요!</string>
     <string name="tv_social_sync_btn">카카오톡 친구 연결하기</string>
 
@@ -25,7 +24,7 @@
     <string name="onboarding_tv_select_studentid">학번을 선택해주세요.</string>
     <string name="onboarding_tv_search_school">우리 학교 검색하기</string>
     <string name="onboarding_tv_add_school"><u>우리 학교가 없나요? 학교를 추가해보세요!</u></string>
-    <string name="onboarding_tv_readyto_login">옐로에 가입하기 위한 첫 절차에요.</string>
+    <string name="onboarding_tv_readyto_login">옐로에 가입하기 위한 첫 절차예요.</string>
     <string name="onboarding_tv_what_school">학교가 어디인가요?</string>
     <string name="onboarding_tv_what_department">무슨 학과인가요?</string>
     <string name="onboarding_hint_select_studentid">학번을 선택해주세요.</string>
@@ -54,4 +53,10 @@
     <string name="my_yello_send_check">누가 보냈는지 확인하기</string>
     <string name="my_yello_you">너</string>
     <string name="my_yello_not_yet">아직 쪽지가 온 게 없어요.</string>
+
+    <string name="point_description">투표 포인트 적립!</string>
+    <string name="point_sub_description">투표로 포인트를 모아 쪽지를 열어보세요.</string>
+    <string name="point_plus">+</string>
+    <string name="point_vote_point_label">Point</string>
+    <string name="point_confirm">확인</string>
 </resources>

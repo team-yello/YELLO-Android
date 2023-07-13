@@ -5,6 +5,7 @@ import android.view.View
 import coil.load
 import coil.transform.CircleCropTransformation
 import com.example.ui.base.BindingBottomSheetDialog
+import com.example.ui.fragment.toast
 import com.example.ui.view.setOnSingleClickListener
 import com.yello.R
 import com.yello.databinding.FragmentProfileFriendDeleteBottomSheetBinding
@@ -59,6 +60,7 @@ class ProflieFriendDeleteBottomSheet :
     private fun initDeleteButton() {
         binding.btnProfileFriendDeleteResume.setOnSingleClickListener {
             // TODO: 친구 삭제 로직 구현
+            toast("$modelName 님과 친구 끊기를 완료했어요.")
             dismiss()
         }
     }

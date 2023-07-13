@@ -19,7 +19,6 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
 
         binding.btnProfileAddGroup.setOnSingleClickListener {
             // TODO: 그룹 추가 로직
-            // TODO: 플로팅버튼
         }
         initProfileManageActivityWithoutFinish()
         setListToAdapterFromLocal()

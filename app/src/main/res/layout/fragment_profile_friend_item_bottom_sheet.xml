@@ -3,7 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+        <import type="android.view.View" />
 
+        <variable
+            name="vm"
+            type="com.yello.presentation.main.profile.ProfileViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -39,7 +43,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="4dp"
-            android:text="김옐로"
+            android:text="@={vm.clickedItemName}"
             android:textAppearance="?textAppearanceHeadline3"
             android:textColor="@color/white"
             app:layout_constraintEnd_toStartOf="@id/tv_profile_friend_id"
@@ -52,7 +56,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
-            android:text="\@kev_hy1024"
+            android:text="@={vm.clickedItemId}"
             android:textAppearance="?textAppearanceLabelLarge"
             android:textColor="@color/yello_main_500"
             app:layout_constraintBaseline_toBaselineOf="@id/tv_profile_friend_name"
@@ -68,7 +72,7 @@
             android:layout_marginTop="7dp"
             android:gravity="center_horizontal"
             android:paddingVertical="2dp"
-            android:text="고려대학교 공과대학 소프트웨어벤처경영융합전공 19학번"
+            android:text="@={vm.clickedItemSchool}"
             android:textAppearance="?textAppearanceBody2"
             android:textColor="@color/grayscales_500"
             app:layout_constrainedWidth="true"
@@ -93,7 +97,7 @@
                 android:id="@+id/tv_profile_total_friend"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="95"
+                android:text="@={vm.clickedItemTotalFriends}"
                 android:textAppearance="?textAppearanceHeadline2"
                 android:textColor="@color/white"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -129,7 +133,7 @@
                 android:id="@+id/tv_profile_total_msg"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="31"
+                android:text="@={vm.clickedItemTotalMsg}"
                 android:textAppearance="?textAppearanceHeadline2"
                 android:textColor="@color/white"
                 app:layout_constraintEnd_toEndOf="parent"

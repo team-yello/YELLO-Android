@@ -5,5 +5,7 @@ data class ProfileFriendModel(
     val name: String,
     val yelloId: String,
     val school: String,
-    val thumbnail: String?
+    val thumbnail: String?,
+    val totalMsg: Int,
+    val totalFriends: Int
 )

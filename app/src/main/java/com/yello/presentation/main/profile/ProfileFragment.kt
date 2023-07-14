@@ -2,9 +2,10 @@ package com.yello.presentation.main.profile
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.ScrollView
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import com.example.ui.base.BindingFragment
 import com.example.ui.view.setOnSingleClickListener
 import com.yello.R
@@ -12,7 +13,7 @@ import com.yello.databinding.FragmentProfileBinding
 
 class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragment_profile) {
 
-    private val viewModel by viewModels<ProfileViewModel>()
+    private val viewModel by activityViewModels<ProfileViewModel>()
     private var adapter: ProfileFriendAdapter? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -38,7 +39,7 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
         viewModel.myName.value = "김상호"
         viewModel.myId.value = "@sangho.kk"
         viewModel.mySchool.value = "고려대학교 산업경영공학부 19학번"
-        // TODO: 서버통신 후 이미지도 처리하기
+        // TODO: 서버통신 후 이미지도 처리하기 - 바인딩어댑터
         viewModel.myThumbnail.value = ""
         viewModel.myTotalMsg.value = "31"
         viewModel.myTotalFriends.value = "95"
@@ -74,13 +75,16 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
     private fun initItemClickListener() {
         adapter = ProfileFriendAdapter { profileFriendModel ->
 
-            ProfileFriendItemBottomSheet.newInstance(
-                profileFriendModel.name,
-                profileFriendModel.yelloId,
-                profileFriendModel.school,
-                profileFriendModel.thumbnail ?: ""
-            )
-                .show(parentFragmentManager, "dialog")
+            viewModel.clickedItemName.value = profileFriendModel.name
+            viewModel.clickedItemId.value = profileFriendModel.yelloId
+            viewModel.clickedItemSchool.value = profileFriendModel.school
+            // TODO: 서버통신 후 이미지도 처리하기 - 바인딩어댑터
+            viewModel.clickedItemThumbnail.value = profileFriendModel.thumbnail
+            viewModel.clickedItemTotalMsg.value = profileFriendModel.totalMsg.toString()
+            viewModel.clickedItemTotalFriends.value = profileFriendModel.totalFriends.toString()
+
+            Log.d("sangho", "$viewModel")
+            ProfileFriendItemBottomSheet().show(parentFragmentManager, "dialog")
         }
     }
 

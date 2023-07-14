@@ -1,6 +1,7 @@
 package com.yello.presentation.main
 
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
@@ -10,12 +11,15 @@ import com.yello.databinding.ActivityMainBinding
 import com.yello.presentation.main.look.LookFragment
 import com.yello.presentation.main.myyello.MyYelloFragment
 import com.yello.presentation.main.profile.ProfileFragment
+import com.yello.presentation.main.profile.ProfileViewModel
 import com.yello.presentation.main.recommend.RecommendFragment
 import com.yello.presentation.main.yello.YelloFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main) {
+
+    val viewModel by viewModels<ProfileViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

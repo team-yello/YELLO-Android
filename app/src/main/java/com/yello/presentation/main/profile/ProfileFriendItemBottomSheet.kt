@@ -13,10 +13,8 @@ import com.yello.databinding.FragmentProfileFriendItemBottomSheetBinding
 class ProfileFriendItemBottomSheet :
     BindingBottomSheetDialog<FragmentProfileFriendItemBottomSheetBinding>(R.layout.fragment_profile_friend_item_bottom_sheet) {
 
-    private lateinit var modelName: String
-    private lateinit var modelId: String
-    private lateinit var modelSchool: String
-    private lateinit var modelThumbnail: String
+    private val profileFriendDeleteBottomSheet: ProflieFriendDeleteBottomSheet =
+        ProflieFriendDeleteBottomSheet()
     private val viewModel by activityViewModels<ProfileViewModel>()
 
     override fun onStart() {
@@ -27,25 +25,15 @@ class ProfileFriendItemBottomSheet :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        getItemData()
-        setItemData()
+        val viewModel by activityViewModels<ProfileViewModel>()
+        binding.vm = viewModel
         initDeleteButton()
     }
 
-    private fun getItemData() {
-        val arg = arguments ?: return
-        modelName = arg.getString("modelName") ?: ""
-        modelId = arg.getString("modelId") ?: ""
-        modelSchool = arg.getString("modelSchool") ?: ""
-        modelThumbnail = arg.getString("modelThumbnail") ?: ""
-    }
-
+    // TODO: 추후 바인딩어댑터 적용하기
     private fun setItemData() {
-        binding.tvProfileFriendName.text = modelName
-        binding.tvProfileFriendId.text = modelId
-        binding.tvProfileFriendSchool.text = modelSchool
-        if (modelThumbnail != "") {
-            binding.ivProfileFriendThumbnail.load(modelThumbnail) {
+        if (viewModel.clickedItemThumbnail.value != "") {
+            binding.ivProfileFriendThumbnail.load(viewModel.clickedItemThumbnail.value) {
                 transformations(CircleCropTransformation())
             }
         }
@@ -54,30 +42,7 @@ class ProfileFriendItemBottomSheet :
     private fun initDeleteButton() {
         binding.btnProfileFriendDelete.setOnSingleClickListener {
             dismiss()
-            ProflieFriendDeleteBottomSheet.newInstance(
-                modelName,
-                modelId,
-                modelSchool,
-                modelThumbnail
-            ).show(parentFragmentManager, "Dialog")
+            profileFriendDeleteBottomSheet.show(parentFragmentManager, "Dialog")
         }
-    }
-
-    companion object {
-        @JvmStatic
-        fun newInstance(
-            modelName: String,
-            modelId: String,
-            modelSchool: String,
-            modelThumbnail: String
-        ) =
-            ProfileFriendItemBottomSheet().apply {
-                val args = Bundle()
-                args.putString("modelName", modelName)
-                args.putString("modelId", modelId)
-                args.putString("modelSchool", modelSchool)
-                args.putString("modelThumbnail", modelThumbnail)
-                arguments = args
-            }
     }
 }

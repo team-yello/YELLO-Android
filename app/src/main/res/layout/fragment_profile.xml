@@ -84,6 +84,8 @@
                             android:layout_width="48dp"
                             android:layout_height="48dp"
                             android:layout_margin="20dp"
+                            android:layout_marginStart="20dp"
+                            android:layout_marginTop="20dp"
                             android:src="@drawable/ic_main_yello_selected"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />

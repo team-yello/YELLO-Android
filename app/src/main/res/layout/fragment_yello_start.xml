@@ -32,15 +32,17 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <ImageView
+            <com.airbnb.lottie.LottieAnimationView
                 android:id="@+id/iv_start_description"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="28dp"
-                android:src="@drawable/img_yello_dummy"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_start_description" />
+                app:layout_constraintTop_toBottomOf="@id/tv_start_description"
+                app:lottie_autoPlay="true"
+                app:lottie_loop="true"
+                app:lottie_rawRes="@raw/lottie_yello_start" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/layout_start_point"

@@ -32,12 +32,6 @@ class NoteFragment : BindingFragment<FragmentNoteBinding>(R.layout.fragment_note
         addOvalProgressItems()
     }
 
-    override fun onResume() {
-        super.onResume()
-
-        setupVoteState()
-    }
-
     private fun getBundleArgs() {
         arguments ?: return
         _noteIndex = arguments?.getInt(ARGS_NOTE_INDEX)
@@ -65,9 +59,16 @@ class NoteFragment : BindingFragment<FragmentNoteBinding>(R.layout.fragment_note
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+
+        setupVoteState()
+    }
+
     private fun setupVoteState() {
         viewModel.voteState.observe(viewLifecycleOwner) { state ->
             when (state) {
+                VoteState.Success -> return@observe
                 VoteState.InvalidSkip -> yelloSnackbar(
                     binding.root,
                     getString(R.string.note_msg_invalid_skip),

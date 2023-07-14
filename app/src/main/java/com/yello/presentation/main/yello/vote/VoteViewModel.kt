@@ -413,6 +413,10 @@ class VoteViewModel @Inject constructor() : ViewModel() {
 
     fun selectKeyword(keywordIndex: Int) {
         if (currentNoteIndex > INDEX_FINAL_VOTE) return
+        if (currentChoice.keywordName == voteList[currentNoteIndex].keywordList[keywordIndex]) {
+            _voteState.value = InvalidCancel
+            return
+        }
         if (currentChoice.keywordName != null) return
         _currentChoice.value?.keywordName = voteList[currentNoteIndex].keywordList[keywordIndex]
         _currentChoice.value = _currentChoice.value
@@ -459,6 +463,7 @@ class VoteViewModel @Inject constructor() : ViewModel() {
 
     private fun skipToNextVote() {
         initCurrentChoice()
+        _voteState.value = VoteState.Success
         _shuffleCount.value = MAX_COUNT_SHUFFLE
         _currentNoteIndex.value = currentNoteIndex + 1
     }

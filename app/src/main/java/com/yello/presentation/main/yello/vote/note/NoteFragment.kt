@@ -47,7 +47,7 @@ class NoteFragment : BindingFragment<FragmentNoteBinding>(R.layout.fragment_note
             binding.layoutNoteProgressBefore.getChildAt(i).rotation = progressDegree[i]
         }
 
-        for (i in noteIndex + 1 until 9) {
+        for (i in noteIndex + 1 until 10) {
             layoutInflater.inflate(
                 R.layout.layout_vote_progress_bar,
                 binding.layoutNoteProgressAfter,

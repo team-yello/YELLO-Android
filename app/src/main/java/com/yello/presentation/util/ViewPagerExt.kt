@@ -10,7 +10,7 @@ fun ViewPager2.setCurrentItemWithDuration(
     item: Int,
     duration: Long,
     interpolator: TimeInterpolator = AccelerateDecelerateInterpolator(),
-    pagePxWidth: Int = width // Default value taken from getWidth() from ViewPager2 view
+    pagePxWidth: Int = width, // Default value taken from getWidth() from ViewPager2 view
 ) {
     val pxToDrag: Int = pagePxWidth * (item - currentItem)
     val animator = ValueAnimator.ofInt(0, pxToDrag)
@@ -22,10 +22,19 @@ fun ViewPager2.setCurrentItemWithDuration(
         previousValue = currentValue
     }
     animator.addListener(object : Animator.AnimatorListener {
-        override fun onAnimationStart(animation: Animator) { beginFakeDrag() }
-        override fun onAnimationEnd(animation: Animator) { endFakeDrag() }
-        override fun onAnimationCancel(animation: Animator) { /* Ignored */ }
-        override fun onAnimationRepeat(animation: Animator) { /* Ignored */ }
+        override fun onAnimationStart(animation: Animator) {
+            beginFakeDrag()
+        }
+
+        override fun onAnimationEnd(animation: Animator) {
+            endFakeDrag()
+        }
+
+        override fun onAnimationCancel(animation: Animator) { /* Ignored */
+        }
+
+        override fun onAnimationRepeat(animation: Animator) { /* Ignored */
+        }
     })
     animator.interpolator = interpolator
     animator.duration = duration

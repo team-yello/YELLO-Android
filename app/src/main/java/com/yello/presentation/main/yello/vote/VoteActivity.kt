@@ -25,7 +25,7 @@ class VoteActivity : BindingActivity<ActivityVoteBinding>(R.layout.activity_vote
 
     private fun setupCurrentNoteIndex() {
         viewModel._currentNoteIndex.observe(this) { index ->
-            binding.vpVote.setCurrentItemWithDuration(index, 1000)
+            binding.vpVote.setCurrentItemWithDuration(index, 400)
         }
     }
 

@@ -125,6 +125,31 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <TextView
+            android:id="@+id/tv_wait_balloon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="-2dp"
+            android:background="@drawable/shape_purple_sub500_fill_4_rect"
+            android:paddingHorizontal="10dp"
+            android:paddingVertical="10dp"
+            android:text="@string/wait_balloon_tooltip"
+            android:textAppearance="?textAppearanceLabelMedium"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toTopOf="@id/iv_wait_balloon_tail"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <ImageView
+            android:id="@+id/iv_wait_balloon_tail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:src="@drawable/img_wait_balloon_tail"
+            app:layout_constraintBottom_toTopOf="@id/btn_wait_invite"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
             android:id="@+id/btn_wait_invite"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

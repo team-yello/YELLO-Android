@@ -59,4 +59,5 @@
     <string name="point_plus">+</string>
     <string name="point_vote_point_label">Point</string>
     <string name="point_confirm">확인</string>
+    <string name="wait_balloon_tooltip">🤩 친구를 초대하면 바로 투표할 수 있어요!</string>
 </resources>

@@ -25,7 +25,6 @@ class ProfileFriendItemBottomSheet :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val viewModel by activityViewModels<ProfileViewModel>()
         binding.vm = viewModel
         initDeleteButton()
     }

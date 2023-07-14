@@ -24,15 +24,14 @@ class ProflieFriendDeleteBottomSheet :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setItemData()
+        binding.vm = viewModel
+
         initReturnButton()
         initDeleteButton()
     }
 
+    // TODO: 추후 바인딩어댑터 적용하기
     private fun setItemData() {
-        binding.tvProfileFriendDeleteName.text = viewModel.clickedItemName.value
-        binding.tvProfileFriendDeleteId.text = viewModel.clickedItemId.value
-        binding.tvProfileFriendDeleteSchool.text = viewModel.clickedItemSchool.value
         if (viewModel.clickedItemThumbnail.value != "") {
             binding.ivProfileFriendDeleteThumbnail.load(viewModel.clickedItemThumbnail.value) {
                 transformations(CircleCropTransformation())

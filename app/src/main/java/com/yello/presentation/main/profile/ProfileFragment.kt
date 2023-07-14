@@ -2,7 +2,6 @@ package com.yello.presentation.main.profile
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.ScrollView
 import androidx.fragment.app.activityViewModels
@@ -83,7 +82,6 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
             viewModel.clickedItemTotalMsg.value = profileFriendModel.totalMsg.toString()
             viewModel.clickedItemTotalFriends.value = profileFriendModel.totalFriends.toString()
 
-            Log.d("sangho", "$viewModel")
             ProfileFriendItemBottomSheet().show(parentFragmentManager, "dialog")
         }
     }

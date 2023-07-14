@@ -5,7 +5,11 @@
     tools:context=".presentation.main.profile.ProfileFragment">
 
     <data>
+        <import type="android.view.View" />
 
+        <variable
+            name="vm"
+            type="com.yello.presentation.main.profile.ProfileViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -89,7 +93,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="12dp"
-                            android:text="김옐로"
+                            android:text="@={vm.myName}"
                             android:textAppearance="?textAppearanceHeadline2"
                             android:textColor="@color/white"
                             app:layout_constraintStart_toEndOf="@id/iv_profile_info_thumbnail"
@@ -100,7 +104,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="8dp"
-                            android:text="\@kev_hy1024"
+                            android:text="@={vm.myId}"
                             android:textAppearance="?textAppearanceBody2"
                             android:textColor="@color/yello_main_500"
                             app:layout_constraintBaseline_toBaselineOf="@id/tv_profile_info_name"
@@ -113,7 +117,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="12dp"
                             android:paddingVertical="2dp"
-                            android:text="서울대학교 문헌정보학과 19학번"
+                            android:text="@={vm.mySchool}"
                             android:textAppearance="?textAppearanceLabelLarge"
                             android:textColor="@color/white"
                             app:layout_constraintBottom_toBottomOf="@id/iv_profile_info_thumbnail"
@@ -146,7 +150,7 @@
                                 android:id="@+id/tv_profile_total_friend"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="95"
+                                android:text="@={vm.myTotalFriends}"
                                 android:textAppearance="?textAppearanceHeadline2"
                                 android:textColor="@color/white"
                                 app:layout_constraintEnd_toEndOf="parent"
@@ -182,7 +186,7 @@
                                 android:id="@+id/tv_profile_total_msg"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="31"
+                                android:text="@={vm.myTotalMsg}"
                                 android:textAppearance="?textAppearanceHeadline2"
                                 android:textColor="@color/white"
                                 app:layout_constraintEnd_toEndOf="parent"
@@ -218,7 +222,7 @@
                                 android:id="@+id/tv_profile_total_point"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="930"
+                                android:text="@={vm.myTotalPoints}"
                                 android:textAppearance="?textAppearanceHeadline2"
                                 android:textColor="@color/white"
                                 app:layout_constraintEnd_toEndOf="parent"
@@ -324,7 +328,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="2dp"
                         android:fontFamily="@font/pretendard_bold"
-                        android:text="95"
+                        android:text="@={vm.myTotalFriends}"
                         android:textColor="@color/white"
                         android:textSize="12dp"
                         app:layout_constraintBottom_toBottomOf="parent"

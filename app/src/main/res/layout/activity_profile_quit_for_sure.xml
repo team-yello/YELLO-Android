@@ -77,7 +77,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="72dp"
-                    android:text="회원님의 좋아하는 친구 마음을 알 수 없어요."
+                    android:text="회원님을 좋아하는 친구 마음을 알 수 없어요."
                     android:textAppearance="?textAppearanceBodyLarge"
                     android:textColor="@color/white"
                     app:layout_constraintEnd_toEndOf="parent"

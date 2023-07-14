@@ -2,6 +2,7 @@ package com.yello.presentation.main.profile
 
 import android.os.Bundle
 import android.view.View
+import androidx.fragment.app.activityViewModels
 import coil.load
 import coil.transform.CircleCropTransformation
 import com.example.ui.base.BindingBottomSheetDialog
@@ -16,6 +17,7 @@ class ProfileFriendItemBottomSheet :
     private lateinit var modelId: String
     private lateinit var modelSchool: String
     private lateinit var modelThumbnail: String
+    private val viewModel by activityViewModels<ProfileViewModel>()
 
     override fun onStart() {
         super.onStart()

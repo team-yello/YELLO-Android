@@ -18,16 +18,31 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.vm = viewModel
+
         binding.btnProfileAddGroup.setOnSingleClickListener {
             // TODO: 그룹 추가 로직
         }
 
         initProfileManageActivityWithoutFinish()
+        initItemClickListener()
+        setMyProfileData()
         setListToAdapterFromLocal()
 
         setFabVisibility()
         initFabUpwardListener()
 
+    }
+
+    private fun setMyProfileData() {
+        viewModel.myName.value = "김상호"
+        viewModel.myId.value = "@sangho.kk"
+        viewModel.mySchool.value = "고려대학교 산업경영공학부 19학번"
+        // TODO: 서버통신 후 이미지도 처리하기
+        viewModel.myThumbnail.value = ""
+        viewModel.myTotalMsg.value = "31"
+        viewModel.myTotalFriends.value = "95"
+        viewModel.myTotalPoints.value = "930"
     }
 
     private fun setFabVisibility() {
@@ -56,9 +71,7 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
         }
     }
 
-    private fun setListToAdapterFromLocal() {
-        viewModel.addListFromLocal()
-        val friendsList = viewModel.friendsResult.value ?: emptyList()
+    private fun initItemClickListener() {
         adapter = ProfileFriendAdapter { profileFriendModel ->
 
             ProfileFriendItemBottomSheet.newInstance(
@@ -69,6 +82,11 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
             )
                 .show(parentFragmentManager, "dialog")
         }
+    }
+
+    private fun setListToAdapterFromLocal() {
+        viewModel.addListFromLocal()
+        val friendsList = viewModel.friendsResult.value ?: emptyList()
         binding.rvProfileFriendsList.adapter = adapter?.apply {
             setItemList(friendsList)
         }

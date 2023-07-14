@@ -1,13 +1,17 @@
 package com.yello.presentation.main.yello.vote.note
 
+import android.app.ProgressDialog.show
 import android.os.Bundle
 import android.view.View
 import androidx.core.os.bundleOf
 import androidx.fragment.app.activityViewModels
 import com.example.ui.base.BindingFragment
+import com.example.ui.view.setOnSingleClickListener
 import com.yello.R
 import com.yello.databinding.FragmentNoteBinding
 import com.yello.presentation.main.yello.vote.VoteViewModel
+import com.yello.util.context.yelloSnackbar
+import com.yello.util.view.YelloSnackbar
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -28,6 +32,10 @@ class NoteFragment : BindingFragment<FragmentNoteBinding>(R.layout.fragment_note
 
         getBundleArgs()
         addOvalProgressItems()
+
+        binding.ivNoteFace.setOnSingleClickListener {
+            yelloSnackbar(binding.root, "테스트입니당")
+        }
     }
 
     private fun getBundleArgs() {

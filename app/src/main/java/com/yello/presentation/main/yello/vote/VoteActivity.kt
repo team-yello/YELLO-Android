@@ -6,6 +6,7 @@ import com.example.ui.base.BindingActivity
 import com.example.ui.transformation.FadeOutTransformation
 import com.yello.R
 import com.yello.databinding.ActivityVoteBinding
+import com.yello.util.context.yelloSnackbar
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

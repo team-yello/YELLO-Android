@@ -19,8 +19,8 @@ class OnBoardingActivity :
         val viewPager = binding.vpOnboarding
         val viewPagerAdapter = ViewPagerFragmentAdapter(this)
         viewPager.adapter = viewPagerAdapter
-        binding.vpOnboarding.run{
-            isUserInputEnabled=false
+        binding.vpOnboarding.run {
+            isUserInputEnabled = false
         }
     }
 

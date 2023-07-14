@@ -21,6 +21,7 @@ class AddFriendFragment : BindingFragment<FragmentAddfreindBinding>(R.layout.fra
         super.onViewCreated(view, savedInstanceState)
         initFriendAdapter()
         setConfirmBtnClickListener()
+        setBackBtnClickListener()
     }
 
     private fun initFriendAdapter() {
@@ -38,6 +39,12 @@ class AddFriendFragment : BindingFragment<FragmentAddfreindBinding>(R.layout.fra
     private fun setConfirmBtnClickListener() {
         binding.btnAddfriendNext.setOnSingleClickListener {
             viewModel.navigateToNextPage()
+        }
+    }
+
+    private fun setBackBtnClickListener() {
+        binding.btnAddfriendBackBtn.setOnSingleClickListener {
+            viewModel.navigateToBackPage()
         }
     }
     override fun onDestroyView() {

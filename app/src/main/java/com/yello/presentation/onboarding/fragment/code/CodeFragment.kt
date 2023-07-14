@@ -15,11 +15,19 @@ class CodeFragment : BindingFragment<FragmentCodeBinding>(R.layout.fragment_code
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setConfirmBtnClickListener()
+        setConfirmBtnCLickListener()
     }
     private fun setConfirmBtnClickListener() {
         binding.btnCodeNext.setOnSingleClickListener {
             viewModel.navigateToNextPage()
         }
+    }
+
+    private fun setConfirmBtnCLickListener(){
+        binding.btnCodeSkip.setOnClickListener{
+            viewModel.navigateToNextPage()
+        }
+
     }
 }
 

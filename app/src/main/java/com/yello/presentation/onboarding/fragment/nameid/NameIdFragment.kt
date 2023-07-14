@@ -17,6 +17,7 @@ class NameIdFragment : BindingFragment<FragmentNameIdBinding>(R.layout.fragment_
         super.onViewCreated(view, savedInstanceState)
         binding.vm = viewModel
         setConfirmBtnClickListener()
+        setBackBtnClickListener()
     }
 
     private fun setConfirmBtnClickListener() {
@@ -24,5 +25,12 @@ class NameIdFragment : BindingFragment<FragmentNameIdBinding>(R.layout.fragment_
             viewModel.navigateToNextPage()
         }
     }
+
+    private fun setBackBtnClickListener() {
+        binding.btnNameidBackBtn.setOnSingleClickListener {
+            viewModel.navigateToBackPage()
+        }
+    }
+
 }
 

@@ -89,11 +89,11 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/et_id" />
 
-        <TextView
-            android:id="@+id/tv_code_skip"
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_code_skip"
             android:layout_width="0dp"
             android:text="@string/onboarding_btn_code_skip"
-            android:layout_marginBottom="14sp"
+            android:background="@null"
             android:gravity="center"
             android:textColor="@color/grayscales_200"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"

@@ -20,6 +20,7 @@ class StudentIdFragment : BindingFragment<FragmentStudentidBinding>(R.layout.fra
         initSearchDepartmentBtnClickListener()
         initSearchStudentidBtnClickListener()
         setConfirmBtnClickListener()
+        setBackBtnClickListener()
     }
 
     private fun initSearchDepartmentBtnClickListener() {
@@ -37,6 +38,12 @@ class StudentIdFragment : BindingFragment<FragmentStudentidBinding>(R.layout.fra
     private fun setConfirmBtnClickListener() {
         binding.btnStdentidNext.setOnSingleClickListener {
             viewModel.navigateToNextPage()
+        }
+    }
+
+    private fun setBackBtnClickListener() {
+        binding.btnStudentidBackBtn.setOnSingleClickListener {
+            viewModel.navigateToBackPage()
         }
     }
 }

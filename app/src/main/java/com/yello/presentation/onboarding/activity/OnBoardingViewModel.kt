@@ -1,6 +1,5 @@
 package com.yello.presentation.onboarding.activity
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -118,8 +117,11 @@ class OnBoardingViewModel : ViewModel() {
     }
 
     fun navigateToNextPage() {
-        Log.d("PAGING", "navigateToNextPage 실행 : $currentPage, $_currentPage.value")
         _currentPage.value = currentPage.value?.plus(1)
+    }
+
+    fun navigateToBackPage() {
+        _currentPage.value = currentPage.value?.minus(1)
     }
 
     fun addDepartment() {

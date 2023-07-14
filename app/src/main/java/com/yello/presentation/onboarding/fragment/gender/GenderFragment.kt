@@ -16,11 +16,18 @@ class GenderFragment : BindingFragment<FragmentGenderBinding>(R.layout.fragment_
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setConfirmBtnClickListener()
+        setBackBtnClickListener()
     }
 
     private fun setConfirmBtnClickListener() {
         binding.btnGenderNext.setOnSingleClickListener {
             viewModel.navigateToNextPage()
+        }
+    }
+
+    private fun setBackBtnClickListener() {
+        binding.btnGenderBackBtn.setOnSingleClickListener {
+            viewModel.navigateToBackPage()
         }
     }
 }

@@ -7,6 +7,9 @@ import androidx.lifecycle.viewModelScope
 import com.example.domain.entity.Choice
 import com.example.domain.entity.Note
 import com.example.domain.entity.Note.Friend
+import com.yello.presentation.main.yello.vote.VoteState.InvalidCancel
+import com.yello.presentation.main.yello.vote.VoteState.InvalidShuffle
+import com.yello.presentation.main.yello.vote.VoteState.InvalidSkip
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -14,6 +17,9 @@ import javax.inject.Inject
 
 @HiltViewModel
 class VoteViewModel @Inject constructor() : ViewModel() {
+    private val _voteState = MutableLiveData<VoteState>()
+    val voteState: LiveData<VoteState> = _voteState
+
     private val _shuffleCount = MutableLiveData(MAX_COUNT_SHUFFLE)
     val shuffleCount: LiveData<Int>
         get() = _shuffleCount
@@ -386,6 +392,10 @@ class VoteViewModel @Inject constructor() : ViewModel() {
 
     fun selectName(nameIndex: Int) {
         if (currentNoteIndex > INDEX_FINAL_VOTE) return
+        if (currentChoice.friendId == voteList[currentNoteIndex].friendList[nameIndex].id) {
+            _voteState.value = InvalidCancel
+            return
+        }
         if (currentChoice.friendId != null) return
         with(voteList[currentNoteIndex].friendList[nameIndex]) {
             _currentChoice.value?.friendId = id
@@ -417,15 +427,22 @@ class VoteViewModel @Inject constructor() : ViewModel() {
 
     fun shuffle() {
         shuffleCount.value?.let { count ->
-            // TODO: 셔플 서버 통신 및 분기 처리
-            if (currentChoice.friendId != null) return
+            if (currentChoice.friendId != null) {
+                _voteState.value = InvalidShuffle
+                return
+            }
             if (count < 1) return
+
+            // TODO: 셔플 서버 통신
             _shuffleCount.value = count - 1
         }
     }
 
     fun skip() {
-        if (isOptionSelected()) return
+        if (isOptionSelected()) {
+            _voteState.value = InvalidSkip
+            return
+        }
         skipToNextVote()
     }
 
@@ -441,9 +458,9 @@ class VoteViewModel @Inject constructor() : ViewModel() {
     }
 
     private fun skipToNextVote() {
-        _currentNoteIndex.value = currentNoteIndex + 1
-        _shuffleCount.value = MAX_COUNT_SHUFFLE
         initCurrentChoice()
+        _shuffleCount.value = MAX_COUNT_SHUFFLE
+        _currentNoteIndex.value = currentNoteIndex + 1
     }
 
     private fun isOptionSelected() =

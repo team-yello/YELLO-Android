@@ -1,17 +1,15 @@
 package com.yello.presentation.main.yello.vote.note
 
-import android.app.ProgressDialog.show
 import android.os.Bundle
 import android.view.View
 import androidx.core.os.bundleOf
 import androidx.fragment.app.activityViewModels
 import com.example.ui.base.BindingFragment
-import com.example.ui.view.setOnSingleClickListener
 import com.yello.R
 import com.yello.databinding.FragmentNoteBinding
+import com.yello.presentation.main.yello.vote.VoteState
 import com.yello.presentation.main.yello.vote.VoteViewModel
 import com.yello.util.context.yelloSnackbar
-import com.yello.util.view.YelloSnackbar
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -32,10 +30,12 @@ class NoteFragment : BindingFragment<FragmentNoteBinding>(R.layout.fragment_note
 
         getBundleArgs()
         addOvalProgressItems()
+    }
 
-        binding.ivNoteFace.setOnSingleClickListener {
-            yelloSnackbar(binding.root, "테스트입니당")
-        }
+    override fun onResume() {
+        super.onResume()
+
+        setupVoteState()
     }
 
     private fun getBundleArgs() {
@@ -62,6 +62,27 @@ class NoteFragment : BindingFragment<FragmentNoteBinding>(R.layout.fragment_note
             )
             binding.layoutNoteProgressAfter.getChildAt(i - noteIndex - 1).rotation =
                 progressDegree[i]
+        }
+    }
+
+    private fun setupVoteState() {
+        viewModel.voteState.observe(viewLifecycleOwner) { state ->
+            when (state) {
+                VoteState.InvalidSkip -> yelloSnackbar(
+                    binding.root,
+                    getString(R.string.note_msg_invalid_skip),
+                )
+
+                VoteState.InvalidCancel -> yelloSnackbar(
+                    binding.root,
+                    getString(R.string.note_msg_invalid_cancel),
+                )
+
+                VoteState.InvalidShuffle -> yelloSnackbar(
+                    binding.root,
+                    getString(R.string.note_msg_invalid_shuffle),
+                )
+            }
         }
     }
 

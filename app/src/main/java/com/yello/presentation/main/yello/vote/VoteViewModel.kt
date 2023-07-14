@@ -8,9 +8,9 @@ import com.example.domain.entity.Choice
 import com.example.domain.entity.Note
 import com.example.domain.entity.Note.Friend
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @HiltViewModel
 class VoteViewModel @Inject constructor() : ViewModel() {
@@ -418,7 +418,7 @@ class VoteViewModel @Inject constructor() : ViewModel() {
     fun shuffle() {
         shuffleCount.value?.let { count ->
             // TODO: 셔플 서버 통신 및 분기 처리
-            if (isOptionSelected()) return
+            if (currentChoice.friendId != null) return
             if (count < 1) return
             _shuffleCount.value = count - 1
         }
@@ -446,7 +446,8 @@ class VoteViewModel @Inject constructor() : ViewModel() {
         initCurrentChoice()
     }
 
-    private fun isOptionSelected() = currentChoice.friendId != null || currentChoice.keywordName != null
+    private fun isOptionSelected() =
+        currentChoice.friendId != null || currentChoice.keywordName != null
 
     companion object {
         private const val MAX_COUNT_SHUFFLE = 3

@@ -2,6 +2,7 @@ package com.yello.presentation.main.yello.vote.note
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.os.bundleOf
 import androidx.fragment.app.activityViewModels
 import com.example.ui.base.BindingFragment
 import com.yello.R
@@ -65,9 +66,10 @@ class NoteFragment : BindingFragment<FragmentNoteBinding>(R.layout.fragment_note
 
         @JvmStatic
         fun newInstance(index: Int, bgIndex: Int) = NoteFragment().apply {
-            val args = Bundle()
-            args.putInt(ARGS_NOTE_INDEX, index)
-            args.putInt(ARGS_BACKGROUND_INDEX, bgIndex)
+            val args = bundleOf(
+                ARGS_NOTE_INDEX to index,
+                ARGS_BACKGROUND_INDEX to bgIndex,
+            )
             arguments = args
         }
     }

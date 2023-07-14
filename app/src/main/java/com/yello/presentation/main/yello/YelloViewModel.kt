@@ -16,14 +16,18 @@ class YelloViewModel @Inject constructor() : ViewModel() {
 
     fun decreaseTime() {
         viewModelScope.launch {
-            while ((leftTime.value ?: return@launch) > 0) {
+            leftTime.value ?: return@launch
+            while (requireNotNull(leftTime.value) > 0) {
                 delay(1000L)
+                if (requireNotNull(leftTime.value) <= 0) return@launch
                 _leftTime.value = leftTime.value?.minus(1)
             }
         }
+
+        // TODO: Yello State 바꾸기
     }
 
     companion object {
-        private const val SEC_MAX_LOCK_TIME = 2400 // 2400000
+        private const val SEC_MAX_LOCK_TIME = 24
     }
 }

@@ -13,8 +13,8 @@ import com.yello.databinding.FragmentProfileFriendItemBottomSheetBinding
 class ProfileFriendItemBottomSheet :
     BindingBottomSheetDialog<FragmentProfileFriendItemBottomSheetBinding>(R.layout.fragment_profile_friend_item_bottom_sheet) {
 
-    private val profileFriendDeleteBottomSheet: ProflieFriendDeleteBottomSheet =
-        ProflieFriendDeleteBottomSheet()
+    private val profileFriendDeleteBottomSheet: ProfileFriendDeleteBottomSheet =
+        ProfileFriendDeleteBottomSheet()
     private val viewModel by activityViewModels<ProfileViewModel>()
 
     override fun onStart() {

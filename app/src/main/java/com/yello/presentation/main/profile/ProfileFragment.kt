@@ -20,18 +20,14 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
 
         binding.vm = viewModel
 
-        binding.btnProfileAddGroup.setOnSingleClickListener {
-            // TODO: 그룹 추가 로직
-        }
-
+        initAddGroupButtonListener()
         initProfileManageActivityWithoutFinish()
         initItemClickListener()
-        setMyProfileData()
-        setListToAdapterFromLocal()
-
-        setFabVisibility()
         initFabUpwardListener()
 
+        setMyProfileData()
+        setListToAdapterFromLocal()
+        setFabVisibility()
     }
 
     private fun setMyProfileData() {
@@ -53,6 +49,12 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
             } else {
                 binding.fabUpward.visibility = View.GONE
             }
+        }
+    }
+
+    private fun initAddGroupButtonListener() {
+        binding.btnProfileAddGroup.setOnSingleClickListener {
+            // TODO: 그룹 추가 로직
         }
     }
 

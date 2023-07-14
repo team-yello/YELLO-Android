@@ -11,7 +11,7 @@ import com.example.ui.view.setOnSingleClickListener
 import com.yello.R
 import com.yello.databinding.FragmentProfileFriendDeleteBottomSheetBinding
 
-class ProflieFriendDeleteBottomSheet :
+class ProfileFriendDeleteBottomSheet :
     BindingBottomSheetDialog<FragmentProfileFriendDeleteBottomSheetBinding>(R.layout.fragment_profile_friend_delete_bottom_sheet) {
 
     private val viewModel by activityViewModels<ProfileViewModel>()

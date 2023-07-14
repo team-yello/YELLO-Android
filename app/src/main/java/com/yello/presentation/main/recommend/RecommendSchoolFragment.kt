@@ -9,22 +9,46 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.domain.entity.RecommendModel
 import com.example.ui.base.BindingFragment
 import com.example.ui.view.setOnSingleClickListener
+import com.kakao.sdk.talk.TalkApiClient
+import com.kakao.sdk.talk.model.Friend
 import com.yello.R
 import com.yello.databinding.FragmentRecommendSchoolBinding
+import timber.log.Timber
 
 class RecommendSchoolFragment :
     BindingFragment<FragmentRecommendSchoolBinding>(R.layout.fragment_recommend_school) {
 
     private val viewModel by viewModels<RecommendSchoolViewModel>()
-    private lateinit var friendsList: List<RecommendModel>
     private var recommendInviteDialog: RecommendInviteDialog = RecommendInviteDialog()
+    private lateinit var friendsList: List<RecommendModel>
+    private lateinit var kakaoFriendIdList: List<String>
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        getFriendIdList()
         initInviteButtonListener()
         setListToAdapterFromLocal()
         setDeleteAnimation()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        dismissDialog()
+    }
+
+    private fun getFriendIdList() {
+        TalkApiClient.instance.friends { friends, error ->
+            if (error != null) {
+                Timber.e(error, "카카오 친구목록 가져오기 실패")
+            } else if (friends != null) {
+                val friendList: List<Friend>? = friends.elements
+                kakaoFriendIdList = friendList?.map { friend -> friend.id.toString() } ?: listOf()
+            } else {
+                Timber.d("연동 가능한 카카오톡 친구 없음")
+            }
+        }
     }
 
     private fun initInviteButtonListener() {
@@ -36,10 +60,9 @@ class RecommendSchoolFragment :
     private fun setListToAdapterFromLocal() {
         viewModel.addListFromLocal()
         friendsList = viewModel.recommendResult.value ?: emptyList()
-
-        val adapter = RecommendAdapter(requireContext())
-        binding.rvRecommendSchool.adapter = adapter
-        adapter.setItemList(friendsList)
+        binding.rvRecommendSchool.adapter = RecommendAdapter(requireContext()).apply {
+            setItemList(friendsList)
+        }
     }
 
     private fun setDeleteAnimation() {
@@ -50,5 +73,9 @@ class RecommendSchoolFragment :
                 return super.animateRemove(holder)
             }
         }
+    }
+
+    private fun dismissDialog() {
+        if (recommendInviteDialog.isAdded) recommendInviteDialog.dismiss()
     }
 }

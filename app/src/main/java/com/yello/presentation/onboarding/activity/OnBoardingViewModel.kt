@@ -14,7 +14,6 @@ import com.example.domain.entity.MySchool
 import com.example.domain.entity.MyStudentid
 
 class OnBoardingViewModel : ViewModel() {
-
     // livedata
     val _school = MutableLiveData("")
     val _department = MutableLiveData("")
@@ -23,6 +22,9 @@ class OnBoardingViewModel : ViewModel() {
     val _id = MutableLiveData("")
     val _gender = MutableLiveData("")
     val _code = MutableLiveData("")
+
+    val _currentPage = MutableLiveData(0)
+    val currentPage = _currentPage.value ?: 0
 
     val isValidSchool: LiveData<Boolean> = _school.map { school -> checkValidSchool(school) }
     val isEmpty_department: LiveData<Boolean> =
@@ -81,27 +83,27 @@ class OnBoardingViewModel : ViewModel() {
     val codeResult: LiveData<List<MyCode>> = _codeResult
 
     private fun checkValidSchool(school: String): Boolean {
-        return school.isEmpty()
+        return school.isNullOrBlank()
     }
 
     private fun checkEmpty_department(department: String): Boolean {
-        return department.isEmpty()
+        return department.isNullOrBlank()
     }
 
     private fun checkEmpty_studentid(studentid: String): Boolean {
-        return studentid.isEmpty()
+        return studentid.isNullOrBlank()
     }
 
     private fun checkEmpty_name(name: String): Boolean {
-        return name.isEmpty()
+        return name.isNullOrBlank()
     }
 
     private fun checkEmpty_id(id: String): Boolean {
-        return id.isEmpty()
+        return id.isNullOrBlank()
     }
 
     private fun checkEmpty_code(code: String): Boolean {
-        return code.isEmpty()
+        return code.isNullOrBlank()
     }
 
     // 목데이터
@@ -113,6 +115,10 @@ class OnBoardingViewModel : ViewModel() {
             MySchool("박민주거라연습대학교"),
         )
         _schoolResult.value = mockList
+    }
+
+    fun navigateToNextPage() {
+        _currentPage.value = currentPage + 1
     }
 
     fun addDepartment() {

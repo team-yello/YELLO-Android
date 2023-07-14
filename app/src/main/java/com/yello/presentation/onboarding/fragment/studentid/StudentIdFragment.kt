@@ -15,17 +15,28 @@ class StudentIdFragment : BindingFragment<FragmentStudentidBinding>(R.layout.fra
     private val viewModel by activityViewModels<OnBoardingViewModel>()
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.vm = viewModel
+
         initSearchDepartmentBtnClickListener()
         initSearchStudentidBtnClickListener()
+        setConfirmBtnClickListener()
     }
+
     private fun initSearchDepartmentBtnClickListener() {
         binding.tvDepartmentSearch.setOnSingleClickListener {
             SearchDialogDepartmentFragment().show(parentFragmentManager, this.tag)
         }
     }
+
     private fun initSearchStudentidBtnClickListener() {
         binding.tvStudentidSearch.setOnSingleClickListener {
             StudentidDialogFragment().show(parentFragmentManager, this.tag)
+        }
+    }
+
+    private fun setConfirmBtnClickListener() {
+        binding.btnStdentidNext.setOnSingleClickListener {
+            viewModel.navigateToNextPage()
         }
     }
 }

@@ -2,6 +2,7 @@ package com.yello.presentation.onboarding.fragment.school
 
 import android.os.Bundle
 import android.view.View
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.example.ui.base.BindingFragment
 import com.example.ui.view.setOnSingleClickListener
@@ -14,12 +15,30 @@ class SchoolFragment : BindingFragment<FragmentSchoolBinding>(R.layout.fragment_
     private val viewModel by activityViewModels<OnBoardingViewModel>()
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initSearchSchoolBtnClickListener()
-    }
+        binding.vm = viewModel
 
+        initSearchSchoolBtnClickListener()
+        setConfirmBtnClickListener()
+    }
 
     private fun initSearchSchoolBtnClickListener() {
         binding.tvSchoolSearch.setOnSingleClickListener {
             SearchDialogFragment().show(parentFragmentManager, this.tag)
         }
-    } }
+    }
+
+    private fun setConfirmBtnClickListener() {
+        binding.btnSchoolNext.setOnSingleClickListener {
+            viewModel.navigateToNextPage()
+        }
+    }
+
+    private fun initTransactionButton(view: View, fragment: Fragment) {
+//        view.setOnSingleClickListener {
+//            parentFragmentManager.beginTransaction().apply {
+//                setReorderingAllowed(true)
+//                replace(R.id.fcv_main, fragment)
+//            }.commit()
+//        }
+    }
+}

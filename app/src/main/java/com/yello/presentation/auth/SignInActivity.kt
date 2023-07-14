@@ -135,7 +135,6 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
     private fun postKakaoAccessToken(token: OAuthToken?) {
         if (token != null) {
             var kakaoAccessToken = token.accessToken
-            var kakaoRefreshToken = token.refreshToken
         } else {
             Timber.tag(TAG_AUTH).d("카카오 토큰 받기 실패")
         }

@@ -16,7 +16,6 @@
         android:theme="@style/Theme.YELLO"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
-
         <activity
             android:name=".presentation.main.MainActivity"
             android:exported="true"
@@ -37,11 +36,9 @@
                     android:scheme="kakao${NATIVE_APP_KEY}" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".presentation.yello.YelloActivity"
             android:exported="false" />
-
         <activity
             android:name=".presentation.auth.SignInActivity"
             android:exported="false"
@@ -50,7 +47,6 @@
             android:name=".presentation.auth.SocialSyncActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
-
         <activity
             android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"
             android:exported="true">
@@ -65,12 +61,14 @@
                     android:scheme="kakao${NATIVE_APP_KEY}" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".presentation.onboarding.activity.OnBoardingActivity"
-            android:exported="true"
+            android:exported="false"
             android:screenOrientation="portrait" />
-
+        <activity
+            android:name=".presentation.main.yello.vote.VoteActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".presentation.main.profile.ProfileManageActivity"
             android:exported="false"
@@ -84,5 +82,4 @@
             android:exported="false"
             android:screenOrientation="portrait" />
     </application>
-
 </manifest>

@@ -98,6 +98,9 @@ dependencies {
     }
 
     implementation(MaterialDesignDependencies.materialDesign)
+    implementation("androidx.appcompat:appcompat:1.6.1")
+    implementation("com.google.android.material:material:1.9.0")
+    implementation("androidx.constraintlayout:constraintlayout:2.1.4")
 
     TestDependencies.run {
         testImplementation(jUnit)
@@ -117,6 +120,7 @@ dependencies {
         implementation(progressView)
         implementation(balloon)
         implementation(lottie)
+        implementation(circularProgressBar)
         implementation(kakaoLogin)
         implementation(kakaoAuth)
         implementation(kakaoTalk)

@@ -398,7 +398,7 @@
                 <TextView
                     android:id="@+id/tv_note_name1_name"
                     optionIndex="@{vm.voteList[index].friendList[0].id}"
-                    selectedOptionIndex="@{vm._currentChoice.friendId}"
+                    selectedIndex="@{vm._currentChoice.friendId}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/font_pretendard_medium"
@@ -414,8 +414,8 @@
 
                 <TextView
                     android:id="@+id/tv_note_name1_id"
-                    optionIndex="@{vm.voteList[index].friendList[0].id}"
-                    selectedOptionIndex="@{vm._currentChoice.friendId}"
+                    optionId="@{vm.voteList[index].friendList[0].id}"
+                    selectedId="@{vm._currentChoice.friendId}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
@@ -445,7 +445,7 @@
                 <TextView
                     android:id="@+id/tv_note_keyword1"
                     optionKeyword="@{vm.voteList.get(index).keywordList[0]}"
-                    selectedOptionKeyword="@{vm._currentChoice.keywordName}"
+                    selectedKeyword="@{vm._currentChoice.keywordName}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:onClick="@{()->vm.selectKeyword(0)}"
@@ -482,7 +482,7 @@
                 <TextView
                     android:id="@+id/tv_note_name2_name"
                     optionIndex="@{vm.voteList[index].friendList[1].id}"
-                    selectedOptionIndex="@{vm._currentChoice.friendId}"
+                    selectedIndex="@{vm._currentChoice.friendId}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/font_pretendard_medium"
@@ -498,8 +498,8 @@
 
                 <TextView
                     android:id="@+id/tv_note_name2_id"
-                    optionIndex="@{vm.voteList[index].friendList[1].id}"
-                    selectedOptionIndex="@{vm._currentChoice.friendId}"
+                    optionId="@{vm.voteList[index].friendList[1].id}"
+                    selectedId="@{vm._currentChoice.friendId}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
@@ -528,7 +528,7 @@
                 <TextView
                     android:id="@+id/tv_note_keyword2"
                     optionKeyword="@{vm.voteList.get(index).keywordList[1]}"
-                    selectedOptionKeyword="@{vm._currentChoice.keywordName}"
+                    selectedKeyword="@{vm._currentChoice.keywordName}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/font_pretendard_medium"
@@ -566,7 +566,7 @@
                 <TextView
                     android:id="@+id/tv_note_name3_name"
                     optionIndex="@{vm.voteList[index].friendList[2].id}"
-                    selectedOptionIndex="@{vm._currentChoice.friendId}"
+                    selectedIndex="@{vm._currentChoice.friendId}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/font_pretendard_medium"
@@ -582,8 +582,8 @@
 
                 <TextView
                     android:id="@+id/tv_note_name3_id"
-                    optionIndex="@{vm.voteList[index].friendList[2].id}"
-                    selectedOptionIndex="@{vm._currentChoice.friendId}"
+                    optionId="@{vm.voteList[index].friendList[2].id}"
+                    selectedId="@{vm._currentChoice.friendId}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
@@ -592,6 +592,7 @@
                     android:onClick="@{()->vm.selectName(2)}"
                     android:text="@{@string/note_yello_id(vm.voteList.get(index).friendList.get(1).yelloId)}"
                     android:textSize="10sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tv_note_name3_name"
@@ -612,7 +613,7 @@
                 <TextView
                     android:id="@+id/tv_note_keyword3"
                     optionKeyword="@{vm.voteList.get(index).keywordList[2]}"
-                    selectedOptionKeyword="@{vm._currentChoice.keywordName}"
+                    selectedKeyword="@{vm._currentChoice.keywordName}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/font_pretendard_medium"
@@ -651,7 +652,7 @@
                 <TextView
                     android:id="@+id/tv_note_name4_name"
                     optionIndex="@{vm.voteList[index].friendList[3].id}"
-                    selectedOptionIndex="@{vm._currentChoice.friendId}"
+                    selectedIndex="@{vm._currentChoice.friendId}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/font_pretendard_medium"
@@ -667,8 +668,8 @@
 
                 <TextView
                     android:id="@+id/tv_note_name4_id"
-                    optionIndex="@{vm.voteList[index].friendList[3].id}"
-                    selectedOptionIndex="@{vm._currentChoice.friendId}"
+                    optionId="@{vm.voteList[index].friendList[3].id}"
+                    selectedId="@{vm._currentChoice.friendId}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
@@ -697,7 +698,7 @@
                 <TextView
                     android:id="@+id/tv_note_keyword4"
                     optionKeyword="@{vm.voteList.get(index).keywordList[3]}"
-                    selectedOptionKeyword="@{vm._currentChoice.keywordName}"
+                    selectedKeyword="@{vm._currentChoice.keywordName}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/font_pretendard_medium"

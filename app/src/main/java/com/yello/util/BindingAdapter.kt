@@ -33,7 +33,7 @@ object BindingAdapter {
     }
 
     @JvmStatic
-    @BindingAdapter("selectedOptionIndex", "optionIndex")
+    @BindingAdapter("selectedIndex", "optionIndex")
     fun TextView.setNameTextColor(selectedIndex: Int?, optionIndex: Int) {
         if (selectedIndex == null) {
             setTextColor(context.getColor(R.color.white))
@@ -49,7 +49,17 @@ object BindingAdapter {
     }
 
     @JvmStatic
-    @BindingAdapter("selectedOptionKeyword", "optionKeyword")
+    @BindingAdapter("selectedId", "optionId")
+    fun TextView.setYelloIdTextColor(selectedId: Int?, optionId: Int) {
+        if (selectedId != null && selectedId != optionId) {
+            setTextColor(context.getColor(R.color.grayscales_800))
+            return
+        }
+        setTextColor(context.getColor(R.color.grayscales_600))
+    }
+
+    @JvmStatic
+    @BindingAdapter("selectedKeyword", "optionKeyword")
     fun TextView.setKeywordTextColor(selectedKeyword: String?, optionKeyword: String) {
         if (selectedKeyword == null) {
             setTextColor(context.getColor(R.color.white))
@@ -112,15 +122,5 @@ object BindingAdapter {
                 else -> R.drawable.img_note_face10
             },
         )
-    }
-
-    @JvmStatic
-    @BindingAdapter("selectedOptionIndex", "optionIndex")
-    fun TextView.setYelloIdTextColor(selectedIndex: Int?, optionIndex: Int) {
-        if (selectedIndex != null && selectedIndex != optionIndex) {
-            setTextColor(context.getColor(R.color.grayscales_800))
-            return
-        }
-        setTextColor(context.getColor(R.color.grayscales_600))
     }
 }

@@ -4,6 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".presentation.main.yello.wait.YelloWaitFragment">
 
+    <data>
+
+        <variable
+            name="vm"
+            type="com.yello.presentation.main.yello.YelloViewModel" />
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layout_wait"
         android:layout_width="match_parent"
@@ -59,7 +66,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingVertical="4dp"
-                android:text="다음 투표까지 남은 시간"
+                android:text="@string/wait_description"
                 android:textAppearance="?textAppearanceHeadline2"
                 android:textColor="@color/white"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -72,7 +79,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
                 android:paddingVertical="4dp"
-                android:text="시간이 지나면 다시 투표할 수 있어요!"
+                android:text="@string/wait_sub_description"
                 android:textAppearance="?textAppearanceBodySmall"
                 android:textColor="@color/grayscales_500"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -97,7 +104,7 @@
                 android:layout_margin="18dp"
                 app:cpb_background_progressbar_color="@color/cpb_yellow"
                 app:cpb_background_progressbar_width="18dp"
-                app:cpb_progress="1815"
+                tools:cpb_progress="1815"
                 app:cpb_progress_direction="to_left"
                 app:cpb_progress_max="2400"
                 app:cpb_progressbar_color="@color/yello_main_500"
@@ -115,7 +122,8 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/unbounded_bold"
                 android:paddingVertical="8dp"
-                android:text="30:15"
+                convertToMinAndSec="@{vm.leftTime}"
+                tools:text="30:15"
                 android:textColor="@color/yello_main_500"
                 android:textSize="25sp"
                 app:layout_constraintBottom_toBottomOf="@id/cpb_wait_timer"
@@ -159,7 +167,7 @@
             android:fontFamily="@font/font_pretendard_bold"
             android:gravity="center"
             android:paddingVertical="16dp"
-            android:text="기다리지 않고 바로 투표하기"
+            android:text="@string/wait_invite"
             android:textColor="@color/black"
             android:textSize="15sp"
             app:layout_constraintBottom_toBottomOf="parent"

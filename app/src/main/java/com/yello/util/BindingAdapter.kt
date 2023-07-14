@@ -123,4 +123,12 @@ object BindingAdapter {
             },
         )
     }
+
+    @JvmStatic
+    @BindingAdapter("convertToMinAndSec")
+    fun TextView.convertToMinAndSec(sec: Int) {
+        val minutes = sec / 60
+        val seconds = sec % 60
+        text = String.format(context.getString(R.string.wait_time_format), minutes, seconds)
+    }
 }

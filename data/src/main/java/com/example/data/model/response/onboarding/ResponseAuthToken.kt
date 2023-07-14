@@ -1,4 +1,4 @@
-package com.example.data.model.response.auth
+package com.example.data.model.response.onboarding
 
 data class ResponseAuthToken(
     val accessToken: String,

@@ -42,6 +42,7 @@
             android:id="@+id/iv_sign_in"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:minHeight="340dp"
             android:scaleType="centerCrop"
             android:src="@drawable/img_on_boarding_start"
             app:layout_constraintBottom_toBottomOf="parent"

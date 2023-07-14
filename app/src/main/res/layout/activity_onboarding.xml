@@ -5,7 +5,6 @@
     tools:context=".presentation.yello.activity.OnBoardingActivity">
 
     <data>
-
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

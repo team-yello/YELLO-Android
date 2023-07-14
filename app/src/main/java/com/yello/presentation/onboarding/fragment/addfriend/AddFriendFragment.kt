@@ -6,6 +6,7 @@ import androidx.fragment.app.activityViewModels
 import com.example.domain.entity.MyFriend
 import com.example.ui.base.BindingFragment
 import com.example.ui.fragment.toast
+import com.example.ui.view.setOnSingleClickListener
 import com.yello.R
 import com.yello.databinding.FragmentAddfreindBinding
 import com.yello.presentation.onboarding.activity.OnBoardingViewModel
@@ -19,6 +20,7 @@ class AddFriendFragment : BindingFragment<FragmentAddfreindBinding>(R.layout.fra
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initFriendAdapter()
+        setConfirmBtnClickListener()
     }
 
     private fun initFriendAdapter() {
@@ -33,6 +35,11 @@ class AddFriendFragment : BindingFragment<FragmentAddfreindBinding>(R.layout.fra
         adapter?.submitList(friendList)
     }
 
+    private fun setConfirmBtnClickListener() {
+        binding.btnAddfriendNext.setOnSingleClickListener {
+            viewModel.navigateToNextPage()
+        }
+    }
     override fun onDestroyView() {
         adapter = null
         super.onDestroyView()

@@ -22,7 +22,7 @@ class OnBoardingActivity :
     }
 
     private fun setupCurrentPage() {
-        viewModel._currentPage.observe(this) { page ->
+        viewModel.currentPage.observe(this) { page ->
             binding.vpOnboarding.currentItem = page
         }
     }

@@ -1,5 +1,6 @@
 package com.yello.presentation.onboarding.activity
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -14,7 +15,6 @@ import com.example.domain.entity.MySchool
 import com.example.domain.entity.MyStudentid
 
 class OnBoardingViewModel : ViewModel() {
-    // livedata
     val _school = MutableLiveData("")
     val _department = MutableLiveData("")
     val _studentid = MutableLiveData("")
@@ -24,7 +24,7 @@ class OnBoardingViewModel : ViewModel() {
     val _code = MutableLiveData("")
 
     val _currentPage = MutableLiveData(0)
-    val currentPage = _currentPage.value ?: 0
+    val currentPage: LiveData<Int> = _currentPage
 
     val isValidSchool: LiveData<Boolean> = _school.map { school -> checkValidSchool(school) }
     val isEmpty_department: LiveData<Boolean> =
@@ -118,7 +118,8 @@ class OnBoardingViewModel : ViewModel() {
     }
 
     fun navigateToNextPage() {
-        _currentPage.value = currentPage + 1
+        Log.d("PAGING", "navigateToNextPage 실행 : $currentPage, $_currentPage.value")
+        _currentPage.value = currentPage.value?.plus(1)
     }
 
     fun addDepartment() {

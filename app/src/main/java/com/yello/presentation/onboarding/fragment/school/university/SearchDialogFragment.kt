@@ -6,6 +6,7 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import com.example.domain.entity.MySchool
 import com.example.ui.base.BindingBottomSheetDialog
+import com.example.ui.view.setOnSingleClickListener
 import com.yello.R
 import com.yello.databinding.FragmentDialogSchoolBinding
 import com.yello.presentation.onboarding.activity.OnBoardingViewModel
@@ -23,6 +24,9 @@ class SearchDialogFragment :
 
         initSchoolAdapter()
         setStyle(DialogFragment.STYLE_NORMAL, R.style.AppBottomSheetDialogTheme)
+        binding.btnBackDialog.setOnSingleClickListener{
+            dismiss()
+        }
     }
 
     private fun initSchoolAdapter() {

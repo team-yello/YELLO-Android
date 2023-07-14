@@ -55,13 +55,12 @@
             app:layout_constraintBottom_toBottomOf="@+id/et_id"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/et_id" />
-
         <EditText
             android:id="@+id/et_id"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
-            android:background="@{vm.isEmpty_code() ?@drawable/shape_black_fill_grayscales600_line_8_rect : @drawable/shape_grayscales900_fill_grayscales500_line_8_rect}"
+            android:background="@{vm.isEmpty_name() ?@drawable/shape_black_fill_grayscales600_line_8_rect : @drawable/shape_grayscales900_fill_grayscales500_line_8_rect}"
             android:fontFamily="@font/font_pretendard_medium"
             android:hint="@string/onboarding_tv_code_hint"
             android:inputType="text"

@@ -2,8 +2,8 @@ package com.yello.presentation.onboarding.fragment.school.university
 
 import android.os.Bundle
 import android.view.View
+import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import com.example.domain.entity.MySchool
 import com.example.ui.base.BindingBottomSheetDialog
 import com.yello.R
@@ -20,7 +20,9 @@ class SearchDialogFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         initSchoolAdapter()
+        setStyle(DialogFragment.STYLE_NORMAL, R.style.AppBottomSheetDialogTheme)
     }
 
     private fun initSchoolAdapter() {

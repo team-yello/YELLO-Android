@@ -21,6 +21,7 @@ class DepartmentAdapter(requireContext: Context) :
         )
     }
 
+
     override fun onBindViewHolder(holder: DepartmentViewHolder, position: Int) {
         holder.setdepartment(getItem(position))
     }

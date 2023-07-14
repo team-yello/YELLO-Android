@@ -4,8 +4,12 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.map
+import com.example.domain.entity.MyCode
 import com.example.domain.entity.MyDepartment
 import com.example.domain.entity.MyFriend
+import com.example.domain.entity.MyGender
+import com.example.domain.entity.MyId
+import com.example.domain.entity.MyName
 import com.example.domain.entity.MySchool
 import com.example.domain.entity.MyStudentid
 
@@ -17,6 +21,8 @@ class OnBoardingViewModel : ViewModel() {
     val _studentid = MutableLiveData("")
     val _name = MutableLiveData("")
     val _id = MutableLiveData("")
+    val _gender = MutableLiveData("")
+    val _code = MutableLiveData("")
 
     val isValidSchool: LiveData<Boolean> = _school.map { school -> checkValidSchool(school) }
     val isEmpty_department: LiveData<Boolean> =
@@ -24,7 +30,11 @@ class OnBoardingViewModel : ViewModel() {
     val isEmpty_studentid: LiveData<Boolean> =
         _studentid.map { studentid -> checkEmpty_studentid(studentid) }
     val isEmpty_name: LiveData<Boolean> =
-        _name.map { studentid -> checkEmpty_studentid(studentid) }
+        _name.map { name -> checkEmpty_name(name) }
+    val isEmpty_id: LiveData<Boolean> =
+        _id.map { id -> checkEmpty_id(id) }
+    val isEmpty_code: LiveData<Boolean> =
+        _code.map { code -> checkEmpty_code(code) }
 
     private val school: String
         get() = _school.value?.trim() ?: ""
@@ -40,6 +50,12 @@ class OnBoardingViewModel : ViewModel() {
     private val id: String
         get() = _id.value?.trim() ?: ""
 
+    private val gender: String
+        get() = _gender.value?.trim() ?: ""
+
+    private val code: String
+        get() = _code.value?.trim() ?: ""
+
     private val _schoolResult: MutableLiveData<List<MySchool>> = MutableLiveData()
     val schoolResult: LiveData<List<MySchool>> = _schoolResult
 
@@ -51,6 +67,18 @@ class OnBoardingViewModel : ViewModel() {
 
     private val _friendResult: MutableLiveData<List<MyFriend>> = MutableLiveData()
     val friendResult: LiveData<List<MyFriend>> = _friendResult
+
+    private val _idResult: MutableLiveData<List<MyId>> = MutableLiveData()
+    val idResult: LiveData<List<MyId>> = _idResult
+
+    private val _nameResult: MutableLiveData<List<MyName>> = MutableLiveData()
+    val nameResult: LiveData<List<MyName>> = _nameResult
+
+    private val _genderResult: MutableLiveData<List<MyGender>> = MutableLiveData()
+    val genderResult: LiveData<List<MyGender>> = _genderResult
+
+    private val _codeResult: MutableLiveData<List<MyCode>> = MutableLiveData()
+    val codeResult: LiveData<List<MyCode>> = _codeResult
 
     private fun checkValidSchool(school: String): Boolean {
         return school.isEmpty()
@@ -64,6 +92,17 @@ class OnBoardingViewModel : ViewModel() {
         return studentid.isEmpty()
     }
 
+    private fun checkEmpty_name(name: String): Boolean {
+        return name.isEmpty()
+    }
+
+    private fun checkEmpty_id(id: String): Boolean {
+        return id.isEmpty()
+    }
+
+    private fun checkEmpty_code(code: String): Boolean {
+        return code.isEmpty()
+    }
 
     // 목데이터
     fun addSchool() {

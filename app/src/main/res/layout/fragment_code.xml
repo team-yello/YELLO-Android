@@ -2,7 +2,13 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <data></data>
+
+    <data>
+
+        <variable
+            name="vm"
+            type="com.yello.presentation.onboarding.activity.OnBoardingViewModel" />
+    </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layout_code"
@@ -55,7 +61,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
-            android:background="@drawable/shape_black_fill_grayscales600_line_8_rect"
+            android:background="@{vm.isEmpty_code() ?@drawable/shape_black_fill_grayscales600_line_8_rect : @drawable/shape_grayscales900_fill_grayscales500_line_8_rect}"
             android:fontFamily="@font/font_pretendard_medium"
             android:hint="@string/onboarding_tv_code_hint"
             android:inputType="text"
@@ -102,12 +108,11 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
             android:layout_marginBottom="34dp"
-            android:background="@drawable/shape_black_fill_grayscales600_line_8_rect"
-            android:backgroundTint="@color/black"
+            android:background="@{vm.isEmpty_code() ?@drawable/shape_grayscales900_fill_grayscales500_line_8_rect : @drawable/shape_yello_main_500_fill_black_line_rect}"
             android:paddingVertical="12dp"
             android:text="@string/onboarding_btn_next"
             android:textAppearance="?textAppearanceBodyMedium"
-            android:textColor="@color/yello_main_500"
+            android:textColor="@{vm.isEmpty_code()? @color/black : @color/grayscales_700}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />

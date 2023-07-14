@@ -61,6 +61,7 @@
     <color name="gray_point">#FF293036</color>
 
     <!-- Transparent -->
+    <color name="transparent">#00000000</color>
     <color name="white_35">#59FFFFFF</color>
-    <color name="gray_66">#66191919</color>\
+    <color name="gray_66">#66191919</color>
 </resources>

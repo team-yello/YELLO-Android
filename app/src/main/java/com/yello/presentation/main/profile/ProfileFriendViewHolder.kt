@@ -13,8 +13,8 @@ class ProfileFriendViewHolder(val binding: ItemFriendsListBinding, private val i
     fun onBind(item: ProfileFriendModel) {
         binding.tvProfileFriendItemName.text = item.name
         binding.tvProfileFriendItemSchool.text = item.school
-        if (item.thumbnail != null) {
-            binding.ivProfileFriendItemThumbnail.load(item.thumbnail) {
+        item.thumbnail?.let { thumbnail ->
+            binding.ivProfileFriendItemThumbnail.load(thumbnail) {
                 transformations(CircleCropTransformation())
             }
         }

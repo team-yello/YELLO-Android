@@ -1,6 +1,5 @@
 package com.yello.presentation.main.profile
 
-import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import com.example.ui.base.BindingActivity
@@ -14,20 +13,20 @@ class ProfileQuitActivity :
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        initBackButton(this)
-        initReturnButton(this)
+        initBackButton()
+        initReturnButton()
         initProfileQuitForSureActivityWithoutFinish()
     }
 
-    private fun initBackButton(activity: Activity) {
+    private fun initBackButton() {
         binding.btnProfileQuitBack.setOnSingleClickListener {
-            activity.finish()
+            finish()
         }
     }
 
-    private fun initReturnButton(activity: Activity) {
+    private fun initReturnButton() {
         binding.btnProfileQuitReturn.setOnSingleClickListener {
-            activity.finish()
+            finish()
         }
     }
 

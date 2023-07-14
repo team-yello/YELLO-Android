@@ -1,6 +1,5 @@
 package com.yello.presentation.main.profile
 
-import android.app.Activity
 import android.os.Bundle
 import com.example.ui.base.BindingActivity
 import com.example.ui.view.setOnSingleClickListener
@@ -15,13 +14,13 @@ class ProfileQuitForSureActivity :
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        initReturnButton(this)
+        initReturnButton()
         initInviteDialogButtonListener()
     }
 
-    private fun initReturnButton(activity: Activity) {
+    private fun initReturnButton() {
         binding.btnProfileQuitForSureBack.setOnSingleClickListener {
-            activity.finish()
+            finish()
         }
     }
 

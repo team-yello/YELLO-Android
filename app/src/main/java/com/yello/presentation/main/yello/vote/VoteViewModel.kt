@@ -8,9 +8,9 @@ import com.example.domain.entity.Choice
 import com.example.domain.entity.Note
 import com.example.domain.entity.Note.Friend
 import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @HiltViewModel
 class VoteViewModel @Inject constructor() : ViewModel() {

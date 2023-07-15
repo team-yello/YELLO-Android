@@ -33,8 +33,6 @@ class NameIdFragment : BindingFragment<FragmentNameIdBinding>(R.layout.fragment_
             viewModel.navigateToBackPage()
         }
     }
-
-
     private fun setDeleteNameBtnClickListener() {
         binding.btnNameDelete.setOnSingleClickListener {
             val editname = binding.etName

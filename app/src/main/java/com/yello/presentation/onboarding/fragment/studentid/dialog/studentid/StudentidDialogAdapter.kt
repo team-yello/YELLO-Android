@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.domain.entity.MyStudentid
 import com.example.ui.view.ItemDiffCallback
 import com.example.ui.view.setOnSingleClickListener
+import com.yello.R
 import com.yello.databinding.ItemStudentidListBinding
 
 class StudentidDialogAdapter(
@@ -38,6 +39,7 @@ class StudentidDialogAdapter(
             binding.data = id
             binding.root.setOnSingleClickListener {
                 storeStudentid(binding.tvItemStudentId.text.toString())
+                binding.tvItemStudentId.setBackgroundResource(R.drawable.shape_grayscales_800_fill_8_rect)
             }
         }
     }

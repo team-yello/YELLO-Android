@@ -59,7 +59,7 @@
             android:layout_height="wrap_content"
             android:paddingVertical="1dp"
             android:layout_marginEnd="10dp"
-            android:src="@drawable/selector_friend_check"
+            android:src="@drawable/sel_onboarding_friend_check"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintDimensionRatio="1"
             app:layout_constraintEnd_toEndOf="parent"

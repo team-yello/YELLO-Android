@@ -14,7 +14,7 @@
         android:id="@+id/layout_department_dialog"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/rounded_dialog"
+        android:background="@drawable/shape_rounded_dialog"
         android:minHeight="400dp">
 
         <TextView

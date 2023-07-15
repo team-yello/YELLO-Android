@@ -23,7 +23,7 @@ class SearchDialogFragment :
         binding.vm = viewModel
         initSchoolAdapter()
         setStyle(DialogFragment.STYLE_NORMAL, R.style.AppBottomSheetDialogTheme)
-        binding.btnBackDialog.setOnSingleClickListener {
+        binding.layoutSchoolDialog.setOnSingleClickListener {
             dismiss()
         }
     }

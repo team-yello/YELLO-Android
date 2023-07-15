@@ -28,7 +28,6 @@ class AddFriendFragment : BindingFragment<FragmentAddfreindBinding>(R.layout.fra
         viewModel.addFriend()
         friendList = viewModel.friendResult.value ?: emptyList()
         adapter = AddFriendAdapter { friend, position ->
-            toast("asdf")
             friend.isSelcted = !friend.isSelcted
             adapter?.notifyItemChanged(position)
         }

@@ -14,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingVertical="0dp"
-        android:background="@drawable/rounded_dialog">
+        android:background="@drawable/shape_rounded_dialog">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_studentid"

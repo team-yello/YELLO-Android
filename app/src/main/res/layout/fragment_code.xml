@@ -52,15 +52,15 @@
             android:fontFamily="@font/pretendard_medium"
             android:textSize="16sp"
             android:translationZ="1dp"
-            app:layout_constraintBottom_toBottomOf="@+id/et_id"
+            app:layout_constraintBottom_toBottomOf="@+id/et_code"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/et_id" />
+            app:layout_constraintTop_toTopOf="@+id/et_code" />
         <EditText
             android:id="@+id/et_code"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
-            android:background="@{vm.isEmpty_name() ?@drawable/shape_black_fill_grayscales600_line_8_rect : @drawable/shape_grayscales900_fill_grayscales500_line_8_rect}"
+            android:background="@{vm.isEmpty_code() ?@drawable/shape_black_fill_grayscales600_line_8_rect : @drawable/shape_grayscales900_fill_grayscales500_line_8_rect}"
             android:fontFamily="@font/font_pretendard_medium"
             android:hint="@string/onboarding_tv_code_hint"
             android:inputType="text"
@@ -85,7 +85,7 @@
             android:src="@drawable/ic_onboarding_delete"
             app:layout_constraintBottom_toTopOf="@+id/tv_id_error"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/et_id" />
+            app:layout_constraintTop_toTopOf="@+id/et_code" />
 
         <TextView
             android:id="@+id/tv_id_error"
@@ -98,7 +98,7 @@
             android:textColor="@color/grayscales_500"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/et_id" />
+            app:layout_constraintTop_toBottomOf="@id/et_code" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_code_skip"

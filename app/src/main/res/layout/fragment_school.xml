@@ -75,6 +75,7 @@
             android:layout_marginBottom="32dp"
             android:background="@{vm.isValidSchool()? @drawable/shape_grayscales_800_fill_8_rect : @drawable/shape_yello_main_500_fill_black_line_rect}"
             android:paddingVertical="12dp"
+            android:clickable="@{!vm.isValidSchool()}"
             android:text="@string/onboarding_btn_next"
             android:textAppearance="?textAppearanceBodyMedium"
             android:textColor="@{vm.isValidSchool()? @color/black : @color/grayscales_700}"

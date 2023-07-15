@@ -17,7 +17,7 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".presentation.onboarding.activity.OnBoardingActivity"
+            android:name=".presentation.main.MainActivity"
             android:exported="true"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -77,6 +77,11 @@
         <activity
             android:name=".presentation.main.profile.ProfileQuitForSureActivity"
             android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".presentation.onboarding.activity.OnBoardingActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustNothing"
             android:screenOrientation="portrait" />
 
 

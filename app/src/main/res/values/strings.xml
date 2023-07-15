@@ -45,7 +45,7 @@
     <string name="onboarding_tv_startapp_title">회원가입이 끝났어요!</string>
     <string name="onboarding_tv_startapp_subtitle">지금 바로 친구들에게 옐로하러 가볼까요?</string>
     <string name="onboarding_tv_start_yello">옐로하러 가기</string>
-    <string name="onboarding_btn_gender_done">완료</string>
+    <string name="onboarding_btn_gender_done">다음</string>
     <string name="onboarding_tv_gender_x">남자</string>
     <string name="onboarding_tv_gender_y">여자</string>
     <string name="onboarding_tv_addfriend">친구를 추가하세요!</string>

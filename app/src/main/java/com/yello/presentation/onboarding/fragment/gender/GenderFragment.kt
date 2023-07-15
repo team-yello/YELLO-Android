@@ -1,5 +1,6 @@
 package com.yello.presentation.onboarding.fragment.gender
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.activityViewModels
@@ -18,6 +19,7 @@ class GenderFragment : BindingFragment<FragmentGenderBinding>(R.layout.fragment_
         setConfirmBtnClickListener()
         setBackBtnClickListener()
         clickBoyBtnClickListener()
+        clickGirlBtnClickListener()
         // binding.vm=viewModel
     }
 
@@ -35,9 +37,29 @@ class GenderFragment : BindingFragment<FragmentGenderBinding>(R.layout.fragment_
 
     private fun clickBoyBtnClickListener() {
         binding.btnGenderX.setOnClickListener {
-            binding.ivOnboardingYelloFaceX.setBackgroundResource(R.drawable.ic_onboarding_yello_face_white)
-            binding.tvBoy.resources.getColor(R.color.white)
             binding.btnGenderX.setBackgroundResource(R.drawable.shape_onboarding_semantic_gender_m700_fill_semantic_gender_m300_line)
+            binding.ivOnboardingYelloFaceX.setImageResource(R.drawable.ic_onboarding_yello_face_white)
+            binding.tvBoy.setTextColor(Color.parseColor("#FFFFFFFF"))
+            binding.ivBoyUncheck.setImageResource(R.drawable.ic_onboarding_check_circle_boy)
+
+            binding.btnGenderY.setBackgroundResource(R.drawable.shape_grayscales_800_fill_8_rect)
+            binding.ivOnboardingYelloFaceY.setImageResource(R.drawable.ic_onboarding_yello_face_grey)
+            binding.tvGirl.setTextColor(Color.parseColor("#495057"))
+            binding.ivGirlUncheck.setImageResource(R.drawable.ic_onbarding_check_circle_grey)
+        }
+    }
+
+    private fun clickGirlBtnClickListener() {
+        binding.btnGenderY.setOnClickListener {
+            binding.btnGenderY.setBackgroundResource(R.drawable.shape_genderf_700_fill_genderf_300_line_rect_8)
+            binding.ivOnboardingYelloFaceY.setImageResource(R.drawable.ic_onboarding_yello_face_white)
+            binding.tvGirl.setTextColor(Color.parseColor("#FFFFFFFF"))
+            binding.ivGirlUncheck.setImageResource(R.drawable.ic_onboarding_check_circle_girl)
+
+            binding.btnGenderX.setBackgroundResource(R.drawable.shape_grayscales_800_fill_8_rect)
+            binding.ivOnboardingYelloFaceX.setImageResource(R.drawable.ic_onboarding_yello_face_grey)
+            binding.tvBoy.setTextColor(Color.parseColor("#495057"))
+            binding.ivBoyUncheck.setImageResource(R.drawable.ic_onbarding_check_circle_grey)
         }
     }
 }

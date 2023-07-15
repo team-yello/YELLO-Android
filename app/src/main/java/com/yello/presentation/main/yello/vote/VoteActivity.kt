@@ -23,17 +23,17 @@ class VoteActivity : BindingActivity<ActivityVoteBinding>(R.layout.activity_vote
         setupCurrentNoteIndex()
     }
 
-    private fun setupCurrentNoteIndex() {
-        viewModel._currentNoteIndex.observe(this) { index ->
-            binding.vpVote.setCurrentItemWithDuration(index, 400)
-        }
-    }
-
     private fun initVoteViewPager() {
         with(binding) {
             vpVote.adapter = voteAdapter
             vpVote.setPageTransformer(FadeOutTransformation())
             vpVote.isUserInputEnabled = false
+        }
+    }
+
+    private fun setupCurrentNoteIndex() {
+        viewModel._currentNoteIndex.observe(this) { index ->
+            binding.vpVote.setCurrentItemWithDuration(index, 400)
         }
     }
 }

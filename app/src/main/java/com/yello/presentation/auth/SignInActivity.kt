@@ -15,6 +15,7 @@ import com.kakao.sdk.user.UserApiClient
 import com.yello.R
 import com.yello.databinding.ActivitySignInBinding
 import com.yello.presentation.main.MainActivity
+import com.yello.util.context.yelloSnackbar
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
@@ -134,7 +135,7 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
                         getUserInfo()
                         startSocialSyncActivity()
                     } else {
-                        toast("서비스 토큰 교체 서버 통신 실패")
+                        toast("서버 통신에 실패했습니다")
                     }
                 }
 

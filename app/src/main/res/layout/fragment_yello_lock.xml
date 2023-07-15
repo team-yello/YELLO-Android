@@ -49,7 +49,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="41dp"
-                android:src="@drawable/img_yello_dummy"
+                android:minHeight="230dp"
+                android:src="@drawable/img_lock_vote"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_lock_sub_description" />

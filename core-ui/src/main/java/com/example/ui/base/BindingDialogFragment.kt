@@ -9,7 +9,6 @@ import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.DialogFragment
-import com.yello.ui.R
 
 abstract class BindingDialogFragment<T : ViewDataBinding>(
     @LayoutRes private val layoutResId: Int,

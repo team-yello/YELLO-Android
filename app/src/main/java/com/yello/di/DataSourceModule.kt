@@ -1,7 +1,9 @@
 package com.yello.di
 
+import com.example.data.datasource.VoteDataSource
 import com.example.data.datasource.YelloDataSource
 import com.example.data.datasource.local.MockYelloDataSourceImpl
+import com.example.data.datasource.remote.VoteDataSourceImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -15,4 +17,8 @@ object DataSourceModule {
     @Singleton
     fun provideYelloDataSource(yelloDataSource: MockYelloDataSourceImpl): YelloDataSource =
         yelloDataSource
+
+    @Provides
+    @Singleton
+    fun provideVoteDataSource(voteDataSource: VoteDataSourceImpl): VoteDataSource = voteDataSource
 }

@@ -6,6 +6,7 @@ import com.example.ui.base.BindingActivity
 import com.example.ui.transformation.FadeOutTransformation
 import com.yello.R
 import com.yello.databinding.ActivityVoteBinding
+import com.yello.presentation.util.setCurrentItemWithDuration
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -24,7 +25,7 @@ class VoteActivity : BindingActivity<ActivityVoteBinding>(R.layout.activity_vote
 
     private fun setupCurrentNoteIndex() {
         viewModel._currentNoteIndex.observe(this) { index ->
-            binding.vpVote.currentItem = index
+            binding.vpVote.setCurrentItemWithDuration(index, 400)
         }
     }
 

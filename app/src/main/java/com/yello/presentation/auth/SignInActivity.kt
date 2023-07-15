@@ -35,9 +35,6 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
         Timber.tag(TAG_AUTH).d(keyHash)
 
         initSignInButtonListener()
-
-        observeChangeTokenState()
-        viewModel.changeTokenFromServer(kakaoAccessToken)
     }
 
     private fun initSignInButtonListener() {
@@ -53,6 +50,13 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
         serviceTermsList = listOf("profile_image", "account_email", "friends")
     }
 
+    private fun setDataFromObserver(token: OAuthToken?) {
+        observeChangeTokenState()
+        postKakaoAccessToken(token)
+        viewModel.changeTokenFromServer(kakaoAccessToken)
+        getUserInfo()
+    }
+
     // 웹에서 계정 로그인 callback 구성
     private fun setAccountLoginCallback() {
         accountLoginCallback = { token, error ->
@@ -60,8 +64,7 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
                 Timber.tag(TAG_AUTH).e(error, "카카오계정으로 로그인 실패")
 
             } else if (token != null) {
-                postKakaoAccessToken(token)
-                getUserInfo()
+                setDataFromObserver(token)
                 startSocialSyncActivity()
 
             } else {
@@ -86,8 +89,7 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
                 }
 
             } else if (token != null) {
-                postKakaoAccessToken(token)
-                getUserInfo()
+                setDataFromObserver(token)
                 startSocialSyncActivity()
 
             } else {
@@ -141,7 +143,7 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
         }
     }
 
-    // 토큰 교체 서버 통신 후 서비스 토큰 저장
+    // 카카오 토큰 저장
     private fun postKakaoAccessToken(token: OAuthToken?) {
         if (token != null) {
             kakaoAccessToken = token.accessToken

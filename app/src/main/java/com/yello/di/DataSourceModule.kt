@@ -19,8 +19,8 @@ object DataSourceModule {
     fun provideYelloDataSource(yelloDataSource: MockYelloDataSourceImpl): YelloDataSource =
         yelloDataSource
 
-    @Binds
+    @Provides
     @Singleton
-    fun bindOnboardingDataSource(onboardingDataSourceImpl: OnboardingDataSourceImpl): OnboardingDataSource =
+    fun provideOnboardingDataSource(onboardingDataSourceImpl: OnboardingDataSourceImpl): OnboardingDataSource =
         onboardingDataSourceImpl
 }

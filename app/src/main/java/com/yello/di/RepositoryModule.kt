@@ -4,7 +4,6 @@ import com.example.data.repository.OnboardingRepositoryImpl
 import com.example.data.repository.YelloRepositoryImpl
 import com.example.domain.repository.OnboardingRepository
 import com.example.domain.repository.YelloRepository
-import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -19,8 +18,8 @@ object RepositoryModule {
     fun provideYelloDataSource(yelloRepository: YelloRepositoryImpl): YelloRepository =
         yelloRepository
 
-    @Binds
+    @Provides
     @Singleton
-    fun bindOnboardingRepository(onboardingRepositoryImpl: OnboardingRepositoryImpl): OnboardingRepository =
+    fun provideOnboardingRepository(onboardingRepositoryImpl: OnboardingRepositoryImpl): OnboardingRepository =
         onboardingRepositoryImpl
 }

@@ -1,6 +1,8 @@
 package com.yello.di
 
+import com.example.data.local.YelloDataStoreImpl
 import com.example.data.remote.interceptor.AuthInterceptor
+import com.example.domain.YelloDataStore
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import com.yello.BuildConfig.BASE_URL
 import com.yello.addFlipperNetworkPlugin
@@ -30,6 +32,10 @@ object RetrofitModule {
         ignoreUnknownKeys = true
         prettyPrint = true
     }
+
+    @Provides
+    @Singleton
+    fun provideDataStore(yelloDataStore: YelloDataStoreImpl): YelloDataStore = yelloDataStore
 
     @Provides
     @Singleton

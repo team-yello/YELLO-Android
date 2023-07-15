@@ -20,6 +20,8 @@ class StudentidDialogFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.vm=viewModel
+
         initStudentidAdapter()
         setStyle(DialogFragment.STYLE_NORMAL, R.style.AppBottomSheetDialogTheme)
     }
@@ -27,11 +29,15 @@ class StudentidDialogFragment :
     private fun initStudentidAdapter() {
         viewModel.addStudentId()
         idList = viewModel.studentidResult.value ?: emptyList()
-        val adapter = StudentidDialogAdapter(requireContext())
+        val adapter = StudentidDialogAdapter(requireContext(), storeStudentid = ::storeStudentid)
         binding.rvStudentid.adapter = adapter
         adapter.submitList(idList)
     }
 
+    fun storeStudentid(studentid: String) {
+        viewModel.setStudentid(studentid)
+        dismiss()
+    }
     companion object {
         @JvmStatic
         fun newInstance() = StudentidDialogFragment()

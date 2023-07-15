@@ -56,7 +56,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/et_id" />
         <EditText
-            android:id="@+id/et_id"
+            android:id="@+id/et_code"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
@@ -74,6 +74,18 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_code_warning" />
+
+        <ImageButton
+            android:id="@+id/btn_code_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="12dp"
+            android:layout_marginEnd="34dp"
+            android:background="@null"
+            android:src="@drawable/ic_onboarding_delete"
+            app:layout_constraintBottom_toTopOf="@+id/tv_id_error"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/et_id" />
 
         <TextView
             android:id="@+id/tv_id_error"

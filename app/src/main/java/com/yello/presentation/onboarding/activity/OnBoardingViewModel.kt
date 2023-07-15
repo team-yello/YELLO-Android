@@ -18,14 +18,28 @@ class OnBoardingViewModel : ViewModel() {
     val _department = MutableLiveData("")
     val _studentid = MutableLiveData("")
     val _name = MutableLiveData("")
+    val _namex = MutableLiveData("")
     val _id = MutableLiveData("")
     val _gender = MutableLiveData("")
     val _code = MutableLiveData("")
+
+    fun setSchool(school: String) {
+        _school.value = school
+    }
+
+    fun setDepartment(department: String) {
+        _department.value = department
+    }
+
+    fun setStudentid(studentid: String) {
+        _studentid.value = studentid
+    }
 
     val _currentPage = MutableLiveData(0)
     val currentPage: LiveData<Int> = _currentPage
 
     val isValidSchool: LiveData<Boolean> = _school.map { school -> checkValidSchool(school) }
+
     val isEmpty_department: LiveData<Boolean> =
         _department.map { department -> checkEmpty_department(department) }
     val isEmpty_studentid: LiveData<Boolean> =
@@ -36,6 +50,8 @@ class OnBoardingViewModel : ViewModel() {
         _id.map { id -> checkEmpty_id(id) }
     val isEmpty_code: LiveData<Boolean> =
         _code.map { code -> checkEmpty_code(code) }
+    val isEmpty_namex: LiveData<Boolean> =
+        _namex.map { namex -> checkEmpty_code(namex) }
 
     private val school: String
         get() = _school.value?.trim() ?: ""
@@ -46,6 +62,9 @@ class OnBoardingViewModel : ViewModel() {
         get() = _studentid.value?.trim() ?: ""
 
     private val name: String
+        get() = _name.value?.trim() ?: ""
+
+    private val namex: String
         get() = _name.value?.trim() ?: ""
 
     private val id: String
@@ -59,6 +78,9 @@ class OnBoardingViewModel : ViewModel() {
 
     private val _schoolResult: MutableLiveData<List<MySchool>> = MutableLiveData()
     val schoolResult: LiveData<List<MySchool>> = _schoolResult
+
+    private val _schoolitemResult: MutableLiveData<List<MySchool>> = MutableLiveData()
+    val schoolitemResult: LiveData<List<MySchool>> = _schoolitemResult
 
     private val _departmentResult: MutableLiveData<List<MyDepartment>> = MutableLiveData()
     val departmentResult: LiveData<List<MyDepartment>> = _departmentResult
@@ -95,6 +117,10 @@ class OnBoardingViewModel : ViewModel() {
 
     private fun checkEmpty_name(name: String): Boolean {
         return name.isNullOrBlank()
+    }
+
+    private fun checkEmpty_namex(name: String): Boolean {
+        return namex.isNullOrBlank()
     }
 
     private fun checkEmpty_id(id: String): Boolean {

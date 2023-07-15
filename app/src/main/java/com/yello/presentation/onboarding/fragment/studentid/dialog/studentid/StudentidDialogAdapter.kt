@@ -7,10 +7,13 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.domain.entity.MyStudentid
 import com.example.ui.view.ItemDiffCallback
+import com.example.ui.view.setOnSingleClickListener
 import com.yello.databinding.ItemStudentidListBinding
 
-class StudentidDialogAdapter(requireContext: Context) :
-    ListAdapter<MyStudentid, StudentidDialogAdapter.StudentidViewHolder>(diffUtil) {
+class StudentidDialogAdapter(
+    requireContext: Context,
+    private val storeStudentid: (String) -> Unit,
+) : ListAdapter<MyStudentid, StudentidDialogAdapter.StudentidViewHolder>(diffUtil) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StudentidViewHolder {
         return StudentidViewHolder(
             ItemStudentidListBinding.inflate(
@@ -18,6 +21,7 @@ class StudentidDialogAdapter(requireContext: Context) :
                 parent,
                 false,
             ),
+            storeStudentid,
         )
     }
 
@@ -25,10 +29,16 @@ class StudentidDialogAdapter(requireContext: Context) :
         holder.setStudentid(getItem(position))
     }
 
-    class StudentidViewHolder(private val binding: ItemStudentidListBinding) :
+    class StudentidViewHolder(
+        private val binding: ItemStudentidListBinding,
+        private val storeStudentid: (String) -> Unit,
+    ) :
         RecyclerView.ViewHolder(binding.root) {
         fun setStudentid(id: MyStudentid) {
             binding.data = id
+            binding.root.setOnSingleClickListener {
+                storeStudentid(binding.tvItemStudentId.text.toString())
+            }
         }
     }
 

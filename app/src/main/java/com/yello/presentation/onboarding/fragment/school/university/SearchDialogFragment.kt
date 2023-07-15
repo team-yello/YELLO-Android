@@ -14,17 +14,16 @@ import com.yello.presentation.onboarding.fragment.school.SchoolAdapter
 
 class SearchDialogFragment :
     BindingBottomSheetDialog<FragmentDialogSchoolBinding>(R.layout.fragment_dialog_school) {
-
     private lateinit var schoolList: List<MySchool>
 
     private val viewModel by activityViewModels<OnBoardingViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        binding.vm = viewModel
         initSchoolAdapter()
         setStyle(DialogFragment.STYLE_NORMAL, R.style.AppBottomSheetDialogTheme)
-        binding.btnBackDialog.setOnSingleClickListener{
+        binding.btnBackDialog.setOnSingleClickListener {
             dismiss()
         }
     }
@@ -32,9 +31,14 @@ class SearchDialogFragment :
     private fun initSchoolAdapter() {
         viewModel.addSchool()
         schoolList = viewModel.schoolResult.value ?: emptyList()
-        val adapter = SchoolAdapter(requireContext())
+        val adapter = SchoolAdapter(requireContext(), storeSchool = ::storeSchool)
         binding.rvSchoolList.adapter = adapter
         adapter.submitList(schoolList)
+    }
+
+    fun storeSchool(school: String) {
+        viewModel.setSchool(school)
+        dismiss()
     }
 
     companion object {

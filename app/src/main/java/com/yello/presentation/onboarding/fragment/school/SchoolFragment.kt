@@ -18,6 +18,7 @@ class SchoolFragment : BindingFragment<FragmentSchoolBinding>(R.layout.fragment_
 
         initSearchSchoolBtnClickListener()
         setConfirmBtnClickListener()
+        setupSchool()
     }
 
     private fun initSearchSchoolBtnClickListener() {
@@ -29,6 +30,12 @@ class SchoolFragment : BindingFragment<FragmentSchoolBinding>(R.layout.fragment_
     private fun setConfirmBtnClickListener() {
         binding.btnSchoolNext.setOnSingleClickListener {
             viewModel.navigateToNextPage()
+        }
+    }
+
+    private fun setupSchool() {
+        viewModel._school.observe(viewLifecycleOwner) { school ->
+            binding.tvSchoolSearch.text = school
         }
     }
 }

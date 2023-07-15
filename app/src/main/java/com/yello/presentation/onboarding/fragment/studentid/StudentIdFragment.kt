@@ -21,6 +21,8 @@ class StudentIdFragment : BindingFragment<FragmentStudentidBinding>(R.layout.fra
         initSearchStudentidBtnClickListener()
         setConfirmBtnClickListener()
         setBackBtnClickListener()
+        setupDepartment()
+        setupStudentid()
     }
 
     private fun initSearchDepartmentBtnClickListener() {
@@ -44,6 +46,17 @@ class StudentIdFragment : BindingFragment<FragmentStudentidBinding>(R.layout.fra
     private fun setBackBtnClickListener() {
         binding.btnStudentidBackBtn.setOnSingleClickListener {
             viewModel.navigateToBackPage()
+        }
+    }
+    private fun setupDepartment() {
+        viewModel._department.observe(viewLifecycleOwner) { department ->
+            binding.tvDepartmentSearch.text = department
+        }
+    }
+
+    private fun setupStudentid() {
+        viewModel._studentid.observe(viewLifecycleOwner) { studentid ->
+            binding.tvStudentidSearch.text = studentid
         }
     }
 }

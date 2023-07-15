@@ -59,6 +59,7 @@
             android:background="@{vm.isValidSchool() ? @drawable/shape_black_fill_grayscales600_line_8_rect : @drawable/shape_grayscales900_fill_grayscales500_line_8_rect}"
             android:paddingVertical="14dp"
             android:paddingEnd="12dp"
+            android:textColor="@color/white"
             android:layout_marginTop="12dp"
             android:paddingStart="20dp"
             app:drawableEndCompat="@drawable/ic_onboarding_search"

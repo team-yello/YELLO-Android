@@ -16,6 +16,7 @@ class CodeFragment : BindingFragment<FragmentCodeBinding>(R.layout.fragment_code
         super.onViewCreated(view, savedInstanceState)
         setConfirmBtnClickListener()
         setConfirmBtnCLickListener()
+        setDeleteCodeBtnClickListener()
     }
     private fun setConfirmBtnClickListener() {
         binding.btnCodeNext.setOnSingleClickListener {
@@ -23,11 +24,16 @@ class CodeFragment : BindingFragment<FragmentCodeBinding>(R.layout.fragment_code
         }
     }
 
-    private fun setConfirmBtnCLickListener(){
-        binding.btnCodeSkip.setOnClickListener{
+    private fun setConfirmBtnCLickListener() {
+        binding.btnCodeSkip.setOnClickListener {
             viewModel.navigateToNextPage()
         }
+    }
 
+    private fun setDeleteCodeBtnClickListener() {
+        binding.btnCodeDelete.setOnSingleClickListener {
+            val editcode = binding.etCode
+            editcode.setText("")
+        }
     }
 }
-

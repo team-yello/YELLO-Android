@@ -17,6 +17,8 @@ class NameIdFragment : BindingFragment<FragmentNameIdBinding>(R.layout.fragment_
         super.onViewCreated(view, savedInstanceState)
         binding.vm = viewModel
         setConfirmBtnClickListener()
+        setDeleteNameBtnClickListener()
+        setDeleteIdBtnClickListener()
         setBackBtnClickListener()
     }
 
@@ -32,5 +34,18 @@ class NameIdFragment : BindingFragment<FragmentNameIdBinding>(R.layout.fragment_
         }
     }
 
-}
 
+    private fun setDeleteNameBtnClickListener() {
+        binding.btnNameDelete.setOnSingleClickListener {
+            val editname = binding.etName
+            editname.setText("")
+        }
+    }
+
+    private fun setDeleteIdBtnClickListener() {
+        binding.btnIdDelete.setOnClickListener {
+            val editid = binding.etId
+            editid.setText("")
+        }
+    }
+}

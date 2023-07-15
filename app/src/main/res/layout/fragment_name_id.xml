@@ -3,7 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-
         <variable
             name="vm"
             type="com.yello.presentation.onboarding.activity.OnBoardingViewModel" />
@@ -47,7 +46,7 @@
             android:layout_marginHorizontal="16dp"
             android:layout_marginTop="16dp"
             setTextViewDrawable="@{vm._name}"
-            android:background="@{vm.isEmpty_name() ?@drawable/shape_black_fill_grayscales600_line_8_rect : @drawable/shape_grayscales900_fill_grayscales500_line_8_rect}"
+            android:background="@drawable/selector_editext_foocus"
             android:fontFamily="@font/font_pretendard_medium"
             android:hint="김옐로"
             android:inputType="text"
@@ -62,6 +61,17 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_name" />
+
+        <ImageButton
+            android:id="@+id/btn_name_delete"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="34dp"
+            android:background="@null"
+            android:src="@drawable/ic_onboarding_delete"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/et_name" />
 
         <TextView
             android:id="@+id/tv_name_error"
@@ -88,6 +98,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_name_error" />
+
 
         <TextView
             android:id="@+id/iv_nameid_fix"
@@ -122,9 +133,20 @@
             android:textColorHint="@color/grayscales_600"
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_id" />
+
+        <ImageButton
+            android:id="@+id/btn_id_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="12dp"
+            android:layout_marginEnd="34dp"
+            android:background="@null"
+            android:src="@drawable/ic_onboarding_delete"
+            app:layout_constraintBottom_toTopOf="@+id/tv_id_error"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/et_id" />
 
         <TextView
             android:id="@+id/tv_id_error"

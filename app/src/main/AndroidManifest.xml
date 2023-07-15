@@ -19,7 +19,6 @@
         <activity
             android:name=".presentation.onboarding.activity.OnBoardingActivity"
             android:exported="true"
-            android:windowSoftInputMode="adjustNothing"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -62,10 +61,7 @@
                     android:scheme="kakao${NATIVE_APP_KEY}" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".presentation.onboarding.activity.OnBoardingActivity"
-            android:exported="false"
-            android:screenOrientation="portrait" />
+
         <activity
             android:name=".presentation.main.yello.vote.VoteActivity"
             android:exported="false"

@@ -1,8 +1,8 @@
 package com.yello.util
 
-import android.widget.EditText
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
+import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -23,6 +23,8 @@ object BindingAdapter {
             return
         }
         setBackgroundResource(R.drawable.shape_black_fill_grayscales600_line_8_rect)
+    }
+
     @BindingAdapter("setVoteBackground")
     fun ConstraintLayout.setVoteBackground(bgIndex: Int) {
         setBackgroundResource(
@@ -90,7 +92,14 @@ object BindingAdapter {
     @BindingAdapter("setDrawableTint")
     fun TextView.setDrawableTint(disabled: Boolean) {
         val color =
-            if (disabled) getColor(context, R.color.gray_66) else getColor(context, R.color.black)
+            if (disabled) {
+                getColor(context, R.color.gray_66)
+            } else {
+                getColor(
+                    context,
+                    R.color.black,
+                )
+            }
         for (drawable in compoundDrawables) {
             if (drawable != null) {
                 drawable.colorFilter = PorterDuffColorFilter(color, PorterDuff.Mode.SRC_IN)

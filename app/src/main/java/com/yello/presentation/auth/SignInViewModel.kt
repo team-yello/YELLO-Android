@@ -20,7 +20,7 @@ class SignInViewModel @Inject constructor(
     private val _postState = MutableLiveData<UiState<ServiceTokenModel>>()
     val postState: LiveData<UiState<ServiceTokenModel>> = _postState
 
-    fun changeTokenFromServer(accessToken: String, social: String = "kakao") {
+    fun changeTokenFromServer(accessToken: String, social: String = "KAKAO") {
         viewModelScope.launch {
             _postState.value = UiState.Loading
             runCatching {

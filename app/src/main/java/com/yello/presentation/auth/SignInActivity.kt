@@ -65,7 +65,6 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
 
             } else if (token != null) {
                 setDataFromObserver(token)
-                startSocialSyncActivity()
 
             } else {
                 Timber.tag(TAG_AUTH).d("빈 카카오 토큰")
@@ -90,7 +89,6 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
 
             } else if (token != null) {
                 setDataFromObserver(token)
-                startSocialSyncActivity()
 
             } else {
                 Timber.tag(TAG_AUTH).d("빈 카카오 토큰")
@@ -158,6 +156,7 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
                 is UiState.Success -> {
                     val serviceAccessToken = state.data.accessToken
                     toast(serviceAccessToken)
+                    startSocialSyncActivity()
                 }
 
                 is UiState.Failure -> {

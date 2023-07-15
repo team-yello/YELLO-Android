@@ -1,4 +1,4 @@
-package com.yello.presentation.main.recommend
+package com.yello.presentation.main.yello.dialog
 
 import android.content.ActivityNotFoundException
 import android.content.Context
@@ -10,13 +10,12 @@ import com.kakao.sdk.common.util.KakaoCustomTabsClient
 import com.kakao.sdk.share.ShareClient
 import com.kakao.sdk.share.WebSharerClient
 import com.yello.R
-import com.yello.databinding.FragmentRecommendInviteDialogBinding
+import com.yello.databinding.FragmentUnlockDialogBinding
 import com.yello.util.context.yelloSnackbar
 import timber.log.Timber
 
-class RecommendInviteDialog :
-    BindingDialogFragment<FragmentRecommendInviteDialogBinding>(R.layout.fragment_recommend_invite_dialog) {
-
+class UnlockDialogFragment :
+    BindingDialogFragment<FragmentUnlockDialogBinding>(R.layout.fragment_unlock_dialog) {
     override fun onStart() {
         super.onStart()
         dialog?.window?.apply {
@@ -37,20 +36,20 @@ class RecommendInviteDialog :
     }
 
     private fun initExitButton() {
-        binding.btnInviteDialogExit.setOnSingleClickListener {
+        binding.btnUnlockExit.setOnSingleClickListener {
             dismiss()
         }
     }
 
     private fun initKakaoInviteButton() {
-        binding.btnInviteKakao.setOnSingleClickListener {
+        binding.btnUnlockInviteKakao.setOnSingleClickListener {
             startKakaoInvite(requireContext())
         }
     }
 
     // TODO : 스낵바 커스텀 & 링크 복사
     private fun initLinkInviteButton() {
-        binding.btnInviteLink.setOnSingleClickListener {
+        binding.btnUnlockInviteLink.setOnSingleClickListener {
             yelloSnackbar(binding.root, "링크가 복사되었습니다.")
         }
     }
@@ -88,6 +87,9 @@ class RecommendInviteDialog :
     }
 
     private companion object {
-        const val TAG_SHARE = "recommendInvite"
+        const val TAG_SHARE = "UNLOCK"
+
+        @JvmStatic
+        fun newInstance() = UnlockDialogFragment()
     }
 }

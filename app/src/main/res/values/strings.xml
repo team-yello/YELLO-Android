@@ -65,5 +65,12 @@
     <string name="wait_invite">기다리지 않고 바로 투표하기</string>
     <string name="wait_description">다음 투표까지 남은 시간</string>
     <string name="wait_sub_description">시간이 지나면 다시 투표할 수 있어요!</string>
+
     <string name="tv_social_sync_info"><u>개인정보처리약관</u></string>
+
+    <string name="note_msg_invalid_skip">한 번 선택하면 건너뛸 수 없어요.</string>
+    <string name="note_msg_invalid_cancel">한 번 선택하면 취소할 수 없어요.</string>
+    <string name="note_msg_invalid_shuffle">이름을 선택하면 셔플을 사용할 수 없어요.</string>
+    <string name="look_title">둘러보기</string>
+    <string name="look_sub_description">아직 구현되지 않은 기능이에요.\n조금만 기다려주세요!</string>
 </resources>

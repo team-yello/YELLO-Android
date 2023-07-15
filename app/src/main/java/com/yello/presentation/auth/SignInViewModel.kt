@@ -31,10 +31,12 @@ class SignInViewModel @Inject constructor(
             }.onSuccess {
                 _postState.value = UiState.Success(it)
             }.onFailure {
-                if (it is HttpException) {
-                    if (it.code() == 403)  _postState.value = UiState.Failure("403")
+                if (it is HttpException && it.code() == 403) {
+                    _postState.value = UiState.Failure("403")
+                } else if (it is HttpException && it.code() == 401) {
+                    _postState.value = UiState.Failure("401")
                 } else {
-                    _postState.value = UiState.Failure("서비스 토큰 교체 서버 통신 실패")
+                    _postState.value = UiState.Failure("error")
                 }
             }
         }

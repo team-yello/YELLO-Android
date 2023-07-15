@@ -113,27 +113,44 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
         }
     }
 
-    // 다음 화면으로 전환
-    private fun startSocialSyncActivity() {
-        Intent(this, SocialSyncActivity::class.java).apply {
-            addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-            startActivity(this)
-        }
-        finish()
-    }
-
-    private fun startMainActivity() {
-        Intent(this, MainActivity::class.java).apply {
-            addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-            startActivity(this)
-        }
-        finish()
-    }
-
+    // 뷰모델에서 서비스 메서드 실행 & 옵저버로 토큰 받기
     private fun setDataFromObserver(token: OAuthToken?) {
         observeChangeTokenState()
         postKakaoAccessToken(token)
         viewModel.changeTokenFromServer(kakaoAccessToken)
+    }
+
+    private fun observeChangeTokenState() {
+        viewModel.postState.observe(this) { state ->
+            when (state) {
+                is UiState.Success -> {
+                    // TODO: 서비스 토큰 값 저장
+                    val serviceAccessToken = state.data.accessToken
+                    startMainActivity()
+                }
+
+                is UiState.Failure -> {
+                    if (state.msg == "403") {
+                        getUserInfo()
+                        startSocialSyncActivity()
+                    } else {
+                        toast("서비스 토큰 교체 서버 통신 실패")
+                    }
+                }
+
+                else -> {}
+            }
+        }
+    }
+
+    // 카카오 토큰 저장
+    // TODO: 카카오 토큰값 저장
+    private fun postKakaoAccessToken(token: OAuthToken?) {
+        if (token != null) {
+            kakaoAccessToken = token.accessToken
+        } else {
+            Timber.tag(TAG_AUTH).d("카카오 토큰 받기 실패")
+        }
     }
 
     // 사용자 정보 수집
@@ -149,38 +166,21 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
         }
     }
 
-    // 카카오 토큰 저장
-    // TODO: 카카오 토큰값 저장
-    private fun postKakaoAccessToken(token: OAuthToken?) {
-        if (token != null) {
-            kakaoAccessToken = token.accessToken
-        } else {
-            Timber.tag(TAG_AUTH).d("카카오 토큰 받기 실패")
+    // 다음 화면으로 전환
+    private fun startSocialSyncActivity() {
+        Intent(this, SocialSyncActivity::class.java).apply {
+            addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            startActivity(this)
         }
+        finish()
     }
 
-    private fun observeChangeTokenState() {
-        viewModel.postState.observe(this) { state ->
-            when (state) {
-                is UiState.Success -> {
-                    // TODO: 서비스 토큰 값 저장
-                    val serviceAccessToken = state.data.accessToken
-                    toast(serviceAccessToken)
-                    startMainActivity()
-                }
-
-                is UiState.Failure -> {
-                    if (state.msg == "403") {
-                        getUserInfo()
-                        startSocialSyncActivity()
-                    } else {
-                        toast(state.msg)
-                    }
-                }
-
-                else -> {}
-            }
+    private fun startMainActivity() {
+        Intent(this, MainActivity::class.java).apply {
+            addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            startActivity(this)
         }
+        finish()
     }
 
     private companion object {

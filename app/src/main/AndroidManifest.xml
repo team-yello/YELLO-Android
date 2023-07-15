@@ -9,9 +9,9 @@
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/ic_yello_launcher"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/ic_yello_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.YELLO"
         android:usesCleartextTraffic="true"
@@ -37,11 +37,9 @@
                     android:scheme="kakao${NATIVE_APP_KEY}" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".presentation.yello.YelloActivity"
             android:exported="false" />
-
         <activity
             android:name=".presentation.auth.SignInActivity"
             android:exported="false"
@@ -50,7 +48,6 @@
             android:name=".presentation.auth.SocialSyncActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
-
         <activity
             android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"
             android:exported="true">
@@ -65,6 +62,26 @@
                     android:scheme="kakao${NATIVE_APP_KEY}" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".presentation.onboarding.activity.OnBoardingActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".presentation.main.yello.vote.VoteActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".presentation.main.profile.ProfileManageActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".presentation.main.profile.ProfileQuitActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".presentation.main.profile.ProfileQuitForSureActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
 
 
 

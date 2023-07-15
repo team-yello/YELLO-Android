@@ -101,6 +101,9 @@ dependencies {
     implementation("androidx.legacy:legacy-support-v4:1.0.0")
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.6.1")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1")
+    implementation("androidx.appcompat:appcompat:1.6.1")
+    implementation("com.google.android.material:material:1.9.0")
+    implementation("androidx.constraintlayout:constraintlayout:2.1.4")
 
     TestDependencies.run {
         testImplementation(jUnit)
@@ -120,6 +123,7 @@ dependencies {
         implementation(progressView)
         implementation(balloon)
         implementation(lottie)
+        implementation(circularProgressBar)
         implementation(kakaoLogin)
         implementation(kakaoAuth)
         implementation(kakaoTalk)

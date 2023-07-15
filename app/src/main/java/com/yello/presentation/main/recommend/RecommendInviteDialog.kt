@@ -5,7 +5,6 @@ import android.content.Context
 import android.os.Bundle
 import android.view.View
 import com.example.ui.base.BindingDialogFragment
-import com.example.ui.fragment.snackBar
 import com.example.ui.fragment.toast
 import com.example.ui.view.setOnSingleClickListener
 import com.kakao.sdk.common.util.KakaoCustomTabsClient
@@ -25,22 +24,29 @@ class RecommendInviteDialog :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        initExitButton()
+        initKakaoInviteButton()
+        initLinkInviteButton()
+    }
+
+    private fun initExitButton() {
         binding.btnInviteDialogExit.setOnSingleClickListener {
             dismiss()
         }
 
+    }
+
+    private fun initKakaoInviteButton() {
         binding.btnInviteKakao.setOnSingleClickListener {
             startKakaoInvite(requireContext())
-        }
-
-        binding.btnInviteLink.setOnSingleClickListener {
-            startLinkInvite()
         }
     }
 
     // TODO : 스낵바 커스텀 & 링크 복사
-    private fun startLinkInvite() {
-        toast("링크가 복사되었습니다.")
+    private fun initLinkInviteButton() {
+        binding.btnInviteLink.setOnSingleClickListener {
+            toast("링크가 복사되었습니다.")
+        }
     }
 
     // TODO : 기획에서 제공해줄 템플릿, 링크에 맞춰서 추후 수정

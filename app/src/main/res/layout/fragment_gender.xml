@@ -35,7 +35,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.appcompat.widget.AppCompatButton
+        <ImageButton
             android:id="@+id/btn_gender_x"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -44,28 +44,62 @@
             android:drawablePadding="4dp"
             android:background="@drawable/shape_grayscales900_fill_grayscales600_line_8_rect"
             android:paddingHorizontal="70dp"
-            android:drawableTop="@drawable/ic_onbarding_yello_face_f"
             android:text="@string/onboarding_tv_gender_x"
-            android:paddingVertical="45dp"
+            android:paddingVertical="65dp"
             android:textColor="@color/semantic_gender_m_500"
             android:textAppearance="@style/TextAppearance.Yello.Subtitle02"
             app:layout_constraintBottom_toTopOf="@+id/btn_gender_y"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
-        <androidx.appcompat.widget.AppCompatButton
+        <ImageView
+            android:id="@+id/iv_onboarding_yello_face_x"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="170dp"
+            android:src="@drawable/ic_onbarding_yello_face_f"
+            app:layout_constraintBottom_toBottomOf="@+id/btn_gender_x"
+            app:layout_constraintEnd_toEndOf="@+id/btn_gender_x"
+            app:layout_constraintStart_toStartOf="@+id/btn_gender_x"
+            app:layout_constraintTop_toTopOf="@+id/btn_gender_x" />
+
+        <TextView
+            android:id="@+id/tv_boy"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:text="남자"
+            android:textAlignment="center"
+            android:textAppearance="?textAppearanceSubtitle2"
+            android:textColor="@color/semantic_gender_m_500"
+            app:layout_constraintBottom_toBottomOf="@+id/btn_gender_x"
+            app:layout_constraintEnd_toEndOf="@+id/btn_gender_x"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/btn_gender_x"
+            app:layout_constraintTop_toBottomOf="@+id/iv_onboarding_yello_face_x"
+            app:layout_constraintVertical_bias="0.565" />
+
+        <ImageView
+            android:id="@+id/iv_boy_uncheck"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="28dp"
+            android:src="@drawable/ic_onboarding_gender_unselect"
+            app:layout_constraintBottom_toTopOf="@+id/iv_onboarding_yello_face_x"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/btn_gender_x" />
+
+        <ImageButton
             android:id="@+id/btn_gender_y"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
             android:layout_marginTop="118dp"
             android:background="@drawable/shape_grayscales900_fill_grayscales600_line_8_rect"
-            android:drawableTop="@drawable/ic_onboarding_yello_face_m"
             android:drawablePadding="4dp"
             android:paddingHorizontal="12dp"
-            android:paddingVertical="45dp"
+            android:paddingVertical="65dp"
             android:text="@string/onboarding_tv_gender_y"
-
             android:textColor="@color/semantic_gender_f_500"
             android:textAppearance="@style/TextAppearance.Yello.Subtitle02"
             app:layout_constraintBottom_toTopOf="@+id/btn_gender_next"
@@ -73,6 +107,42 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_gender"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/iv_onboarding_yello_face_y"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_onboarding_yello_face_m"
+            app:layout_constraintBottom_toBottomOf="@+id/btn_gender_y"
+            app:layout_constraintEnd_toEndOf="@+id/btn_gender_y"
+            app:layout_constraintStart_toStartOf="@+id/btn_gender_y"
+            app:layout_constraintTop_toTopOf="@+id/btn_gender_y"></ImageView>
+
+        <TextView
+            android:id="@+id/tv_girl"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:text="여자"
+            android:textAlignment="center"
+            android:textAppearance="?textAppearanceSubtitle2"
+            android:textColor="@color/semantic_gender_f_500"
+            app:layout_constraintBottom_toBottomOf="@+id/btn_gender_y"
+            app:layout_constraintEnd_toEndOf="@+id/btn_gender_x"
+            app:layout_constraintStart_toStartOf="@+id/btn_gender_x"
+            app:layout_constraintTop_toBottomOf="@+id/iv_onboarding_yello_face_y" />
+
+
+        <ImageView
+            android:id="@+id/iv_girl_uncheck"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="28dp"
+            android:src="@drawable/ic_onboarding_gender_unselect"
+            app:layout_constraintBottom_toTopOf="@+id/iv_onboarding_yello_face_y"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/btn_gender_y" />
+
 
         <android.widget.Button
             android:id="@+id/btn_gender_next"

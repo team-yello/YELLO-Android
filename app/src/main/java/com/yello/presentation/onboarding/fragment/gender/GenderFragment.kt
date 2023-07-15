@@ -8,7 +8,6 @@ import com.example.ui.view.setOnSingleClickListener
 import com.yello.R
 import com.yello.databinding.FragmentGenderBinding
 import com.yello.presentation.onboarding.activity.OnBoardingViewModel
-import com.yello.presentation.onboarding.fragment.addfriend.AddFriendAdapter
 
 class GenderFragment : BindingFragment<FragmentGenderBinding>(R.layout.fragment_gender) {
 
@@ -18,7 +17,8 @@ class GenderFragment : BindingFragment<FragmentGenderBinding>(R.layout.fragment_
         super.onViewCreated(view, savedInstanceState)
         setConfirmBtnClickListener()
         setBackBtnClickListener()
-       // binding.vm=viewModel
+        clickBoyBtnClickListener()
+        // binding.vm=viewModel
     }
 
     private fun setConfirmBtnClickListener() {
@@ -27,13 +27,17 @@ class GenderFragment : BindingFragment<FragmentGenderBinding>(R.layout.fragment_
         }
     }
 
-
     private fun setBackBtnClickListener() {
         binding.btnGenderBackBtn.setOnSingleClickListener {
             viewModel.navigateToBackPage()
         }
     }
 
-
-
+    private fun clickBoyBtnClickListener() {
+        binding.btnGenderX.setOnClickListener {
+            binding.ivOnboardingYelloFaceX.setBackgroundResource(R.drawable.ic_onboarding_yello_face_white)
+            binding.tvBoy.resources.getColor(R.color.white)
+            binding.btnGenderX.setBackgroundResource(R.drawable.shape_onboarding_semantic_gender_m700_fill_semantic_gender_m300_line)
+        }
+    }
 }

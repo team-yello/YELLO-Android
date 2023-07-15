@@ -51,9 +51,13 @@
 
     <!-- Semantic Gender -->
     <color name="semantic_gender_f_100">#FFFFF2FB</color>
-    <color name="semantic_gender_f_500">#FFFF49C1</color>
+    <color name="semantic_gender_f_300">#FFBAE8</color>
+    <color name="semantic_gender_f_500">#F262C1</color>
+    <color name="semantic_gender_f_700">#7B245E</color>
     <color name="semantic_gender_m_100">#FFF0F6FF</color>
-    <color name="semantic_gender_m_500">#FF367FEE</color>
+    <color name="semantic_gender_m_300">#ACCEFF</color>
+    <color name="semantic_gender_m_500">#367FEE</color>
+    <color name="semantic_gender_m_700">#1D498E</color>
 
     <color name="kakao_yellow">#FFFEE500</color>
 </resources>

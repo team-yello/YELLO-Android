@@ -5,7 +5,6 @@ import android.view.View
 import androidx.fragment.app.activityViewModels
 import com.example.domain.entity.MyFriend
 import com.example.ui.base.BindingFragment
-import com.example.ui.fragment.toast
 import com.example.ui.view.setOnSingleClickListener
 import com.yello.R
 import com.yello.databinding.FragmentAddfreindBinding

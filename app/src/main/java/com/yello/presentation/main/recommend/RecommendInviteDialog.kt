@@ -5,17 +5,24 @@ import android.content.Context
 import android.os.Bundle
 import android.view.View
 import com.example.ui.base.BindingDialogFragment
-import com.example.ui.fragment.toast
 import com.example.ui.view.setOnSingleClickListener
 import com.kakao.sdk.common.util.KakaoCustomTabsClient
 import com.kakao.sdk.share.ShareClient
 import com.kakao.sdk.share.WebSharerClient
 import com.yello.R
 import com.yello.databinding.FragmentRecommendInviteDialogBinding
+import com.yello.util.context.yelloSnackbar
 import timber.log.Timber
 
 class RecommendInviteDialog :
     BindingDialogFragment<FragmentRecommendInviteDialogBinding>(R.layout.fragment_recommend_invite_dialog) {
+
+    override fun onStart() {
+        super.onStart()
+        dialog?.window?.apply {
+            setBackgroundDrawableResource(R.color.transparent)
+        }
+    }
 
     // 사용자 정의 템플릿 ID & 공유할 url
     private val templateId = 95890.toLong()
@@ -33,7 +40,6 @@ class RecommendInviteDialog :
         binding.btnInviteDialogExit.setOnSingleClickListener {
             dismiss()
         }
-
     }
 
     private fun initKakaoInviteButton() {
@@ -45,16 +51,14 @@ class RecommendInviteDialog :
     // TODO : 스낵바 커스텀 & 링크 복사
     private fun initLinkInviteButton() {
         binding.btnInviteLink.setOnSingleClickListener {
-            toast("링크가 복사되었습니다.")
+            yelloSnackbar(binding.root, "링크가 복사되었습니다.")
         }
     }
 
     // TODO : 기획에서 제공해줄 템플릿, 링크에 맞춰서 추후 수정
     private fun startKakaoInvite(context: Context) {
-
         // 카카오톡 설치여부 확인
         if (ShareClient.instance.isKakaoTalkSharingAvailable(context)) {
-
             // 카카오톡으로 공유
             ShareClient.instance.shareScrap(context, url, templateId) { sharingResult, error ->
                 if (error != null) {

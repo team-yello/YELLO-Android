@@ -8,7 +8,7 @@ import retrofit2.http.POST
 interface OnboardingService {
 
     @POST("/auth/oauth")
-    suspend fun getServiceToken(
+    suspend fun postTokenToServiceToken(
         @Body request: RequestServiceTokenDto,
     ): ResponseServiceTokenDto
 

@@ -11,8 +11,8 @@ class OnboardingRepositoryImpl @Inject constructor(
     private val onboardingDataSource: OnboardingDataSource
 ) : OnboardingRepository {
 
-    override suspend fun getServiceToken(requestServiceTokenModel: RequestServiceTokenModel): ServiceTokenModel {
-        return onboardingDataSource.getServiceTokenData(requestServiceTokenModel.toRequestDto())
+    override suspend fun postTokenToServiceToken(requestServiceTokenModel: RequestServiceTokenModel): ServiceTokenModel {
+        return onboardingDataSource.postTokenToServiceTokenData(requestServiceTokenModel.toRequestDto())
             .toServiceTokenModel()
     }
 }

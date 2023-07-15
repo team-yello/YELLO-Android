@@ -4,9 +4,12 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.activityViewModels
 import com.example.ui.base.BindingFragment
+import com.example.ui.view.setOnSingleClickListener
 import com.yello.R
 import com.yello.databinding.FragmentYelloWaitBinding
 import com.yello.presentation.main.yello.YelloViewModel
+import com.yello.presentation.main.yello.dialog.UnlockDialogFragment
+import com.yello.presentation.main.yello.lock.YelloLockFragment.Companion.TAG_UNLOCK_DIALOG
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -19,6 +22,7 @@ class YelloWaitFragment : BindingFragment<FragmentYelloWaitBinding>(R.layout.fra
 
         initCircularProgressBar()
         startTimer()
+        initInviteBtnClickListener()
     }
 
     private fun initCircularProgressBar() {
@@ -29,6 +33,12 @@ class YelloWaitFragment : BindingFragment<FragmentYelloWaitBinding>(R.layout.fra
 
     private fun startTimer() {
         viewModel.decreaseTime()
+    }
+
+    private fun initInviteBtnClickListener() {
+        binding.btnWaitInvite.setOnSingleClickListener {
+            UnlockDialogFragment().show(parentFragmentManager, TAG_UNLOCK_DIALOG)
+        }
     }
 
     companion object {

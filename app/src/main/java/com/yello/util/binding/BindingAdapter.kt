@@ -1,4 +1,4 @@
-package com.yello.util
+package com.yello.util.binding
 
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter

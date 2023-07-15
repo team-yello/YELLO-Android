@@ -7,7 +7,9 @@ import androidx.fragment.app.activityViewModels
 import com.example.ui.base.BindingFragment
 import com.yello.R
 import com.yello.databinding.FragmentNoteBinding
+import com.yello.presentation.main.yello.vote.VoteState
 import com.yello.presentation.main.yello.vote.VoteViewModel
+import com.yello.util.context.yelloSnackbar
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -47,13 +49,41 @@ class NoteFragment : BindingFragment<FragmentNoteBinding>(R.layout.fragment_note
             binding.layoutNoteProgressBefore.getChildAt(i).rotation = progressDegree[i]
         }
 
-        for (i in noteIndex + 1 until 9) {
+        for (i in noteIndex + 1 until 10) {
             layoutInflater.inflate(
                 R.layout.layout_vote_progress_bar,
                 binding.layoutNoteProgressAfter,
             )
             binding.layoutNoteProgressAfter.getChildAt(i - noteIndex - 1).rotation =
                 progressDegree[i]
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        setupVoteState()
+    }
+
+    private fun setupVoteState() {
+        viewModel.voteState.observe(viewLifecycleOwner) { state ->
+            when (state) {
+                VoteState.Success -> return@observe
+                VoteState.InvalidSkip -> yelloSnackbar(
+                    binding.root,
+                    getString(R.string.note_msg_invalid_skip),
+                )
+
+                VoteState.InvalidCancel -> yelloSnackbar(
+                    binding.root,
+                    getString(R.string.note_msg_invalid_cancel),
+                )
+
+                VoteState.InvalidShuffle -> yelloSnackbar(
+                    binding.root,
+                    getString(R.string.note_msg_invalid_shuffle),
+                )
+            }
         }
     }
 

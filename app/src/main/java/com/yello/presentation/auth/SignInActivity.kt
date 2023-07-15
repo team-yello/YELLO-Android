@@ -14,6 +14,7 @@ import com.kakao.sdk.common.util.Utility
 import com.kakao.sdk.user.UserApiClient
 import com.yello.R
 import com.yello.databinding.ActivitySignInBinding
+import com.yello.presentation.main.MainActivity
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
@@ -48,13 +49,6 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
 
     private fun setServiceTerms() {
         serviceTermsList = listOf("profile_image", "account_email", "friends")
-    }
-
-    private fun setDataFromObserver(token: OAuthToken?) {
-        observeChangeTokenState()
-        postKakaoAccessToken(token)
-        viewModel.changeTokenFromServer(kakaoAccessToken)
-        getUserInfo()
     }
 
     // 웹에서 계정 로그인 callback 구성
@@ -128,8 +122,22 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
         finish()
     }
 
+    private fun startMainActivity() {
+        Intent(this, MainActivity::class.java).apply {
+            addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            startActivity(this)
+        }
+        finish()
+    }
+
+    private fun setDataFromObserver(token: OAuthToken?) {
+        observeChangeTokenState()
+        postKakaoAccessToken(token)
+        viewModel.changeTokenFromServer(kakaoAccessToken)
+    }
+
     // 사용자 정보 수집
-    // TODO : 유저 추가 정보 회원가입에 포함시키기
+    // TODO : 유저 추가 정보 저장
     private fun getUserInfo() {
         UserApiClient.instance.me { user, _ ->
             if (user != null) {
@@ -142,6 +150,7 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
     }
 
     // 카카오 토큰 저장
+    // TODO: 카카오 토큰값 저장
     private fun postKakaoAccessToken(token: OAuthToken?) {
         if (token != null) {
             kakaoAccessToken = token.accessToken
@@ -154,13 +163,19 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
         viewModel.postState.observe(this) { state ->
             when (state) {
                 is UiState.Success -> {
+                    // TODO: 서비스 토큰 값 저장
                     val serviceAccessToken = state.data.accessToken
                     toast(serviceAccessToken)
-                    startSocialSyncActivity()
+                    startMainActivity()
                 }
 
                 is UiState.Failure -> {
-                    toast(state.msg)
+                    if (state.msg == "403") {
+                        getUserInfo()
+                        startSocialSyncActivity()
+                    } else {
+                        toast(state.msg)
+                    }
                 }
 
                 else -> {}

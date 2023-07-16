@@ -28,7 +28,12 @@ class YelloViewModel @Inject constructor(
         get() = _yelloState
 
     private val _leftTime = MutableLiveData(SEC_MAX_LOCK_TIME)
-    val leftTime: LiveData<Int> = _leftTime
+    val leftTime: LiveData<Int>
+        get() = _leftTime
+
+    private val _point = MutableLiveData<Int>()
+    val point: Int
+        get() = _point.value ?: 0
 
     init {
         getVoteState()
@@ -42,12 +47,12 @@ class YelloViewModel @Inject constructor(
                 if (requireNotNull(leftTime.value) <= 0) return@launch
                 _leftTime.value = leftTime.value?.minus(1)
             }
-        }
 
-        // TODO: Yello State 바꾸기
+            setVoteState(Valid(point))
+        }
     }
 
-    fun getVoteState() {
+    private fun getVoteState() {
         viewModelScope.launch {
             voteRepository.getVoteAvailable()
                 .onSuccess { voteState ->
@@ -70,9 +75,13 @@ class YelloViewModel @Inject constructor(
         }
     }
 
-    companion object {
-        private const val SEC_MAX_LOCK_TIME = 24
+    fun setVoteState(state: YelloState) {
+        _yelloState.value = Success(state)
+    }
 
-        private const val CODE_NO_FRIEND = 404
+    companion object {
+        const val SEC_MAX_LOCK_TIME = 2400
+
+        private const val CODE_NO_FRIEND = 401
     }
 }

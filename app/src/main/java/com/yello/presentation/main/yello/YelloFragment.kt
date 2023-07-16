@@ -28,14 +28,12 @@ class YelloFragment : BindingFragment<FragmentYelloBinding>(R.layout.fragment_ye
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        setupYelloState()
     }
 
     override fun onResume() {
         super.onResume()
 
-        viewModel.getVoteState()
+        setupYelloState()
     }
 
     private fun setupYelloState() {

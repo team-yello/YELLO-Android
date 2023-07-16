@@ -11,9 +11,9 @@ class RecommendViewHolder(val binding: ItemRecommendListBinding) :
 
     fun onBind(item: RecommendModel) {
         binding.tvRecommendItemName.text = item.name
-        binding.tvRecommendItemSchool.text = item.school
-        item.thumbnail?.let { thumbnail ->
-            binding.ivRecommendItemThumbnail.load(thumbnail) {
+        binding.tvRecommendItemSchool.text = item.group
+        item.profileImage?.let { profileImage ->
+            binding.ivRecommendItemThumbnail.load(profileImage) {
                 transformations(CircleCropTransformation())
             }
         }

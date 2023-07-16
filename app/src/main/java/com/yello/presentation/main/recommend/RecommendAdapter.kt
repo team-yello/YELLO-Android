@@ -66,12 +66,6 @@ class RecommendAdapter(context: Context) : RecyclerView.Adapter<RecommendViewHol
         }
     }
 
-    private fun removeItem(position: Int) {
-        itemList.removeAt(position)
-        notifyItemRemoved(position)
-        notifyItemRangeChanged(position, itemCount)
-    }
-
     private fun initItemAddButtonListener(holder: RecommendViewHolder, position: Int) {
         holder.binding.btnRecommendItemAdd.setOnSingleClickListener {
             CoroutineScope(Dispatchers.Main).launch {
@@ -80,5 +74,11 @@ class RecommendAdapter(context: Context) : RecyclerView.Adapter<RecommendViewHol
                 removeItem(position)
             }
         }
+    }
+
+    private fun removeItem(position: Int) {
+        itemList.removeAt(position)
+        notifyItemRemoved(position)
+        notifyItemRangeChanged(position, itemCount)
     }
 }

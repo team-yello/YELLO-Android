@@ -12,20 +12,30 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layout_studentid_list"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingVertical="0dp"
+        android:layout_height="match_parent"
         android:background="@drawable/shape_rounded_dialog">
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="80dp"
+            android:layout_height="4dp"
+            android:layout_marginTop="8dp"
+            android:src="@drawable/shape_grayscales800_fill_8_rect"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_studentid"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="-80dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageView"
             tools:listitem="@layout/item_studentid_list" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

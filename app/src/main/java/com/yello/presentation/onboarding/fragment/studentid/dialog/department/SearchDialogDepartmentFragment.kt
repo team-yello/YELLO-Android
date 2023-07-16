@@ -2,7 +2,6 @@ package com.yello.presentation.onboarding.fragment.studentid.dialog.department
 
 import android.os.Bundle
 import android.view.View
-import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import com.example.domain.entity.MyDepartment
 import com.example.ui.base.BindingBottomSheetDialog
@@ -22,10 +21,6 @@ class SearchDialogDepartmentFragment :
         super.onViewCreated(view, savedInstanceState)
         binding.vm = viewModel
         initDepartmentAdapter()
-        setStyle(DialogFragment.STYLE_NORMAL, R.style.AppBottomSheetDialogTheme)
-        binding.layoutDepartmentDialog.setOnSingleClickListener {
-            dismiss()
-        }
     }
 
     private fun initDepartmentAdapter() {

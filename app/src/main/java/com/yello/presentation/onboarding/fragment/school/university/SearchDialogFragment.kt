@@ -23,9 +23,6 @@ class SearchDialogFragment :
         binding.vm = viewModel
         initSchoolAdapter()
         setStyle(DialogFragment.STYLE_NORMAL, R.style.AppBottomSheetDialogTheme)
-        binding.layoutSchoolDialog.setOnSingleClickListener {
-            dismiss()
-        }
     }
 
     private fun initSchoolAdapter() {
@@ -39,6 +36,9 @@ class SearchDialogFragment :
     fun storeSchool(school: String) {
         viewModel.setSchool(school)
         dismiss()
+        binding.layoutSchoolDialog.setOnSingleClickListener {
+            dismiss()
+        }
     }
 
     companion object {

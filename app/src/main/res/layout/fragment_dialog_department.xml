@@ -17,6 +17,15 @@
         android:background="@drawable/shape_rounded_dialog"
         android:minHeight="400dp">
 
+        <ImageView
+            android:layout_width="80dp"
+            android:layout_height="4dp"
+            android:layout_marginTop="8dp"
+            android:src="@drawable/shape_grayscales800_fill_8_rect"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <TextView
             android:id="@+id/tv_department_dialog"
             android:layout_width="wrap_content"

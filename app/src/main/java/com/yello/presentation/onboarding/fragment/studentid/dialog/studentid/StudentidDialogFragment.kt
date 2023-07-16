@@ -2,7 +2,6 @@ package com.yello.presentation.onboarding.fragment.studentid.dialog.studentid
 
 import android.os.Bundle
 import android.view.View
-import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import com.example.domain.entity.MyStudentid
 import com.example.ui.base.BindingBottomSheetDialog

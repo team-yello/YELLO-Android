@@ -2,7 +2,7 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".presentation.main.profile.ProfileFragment">
+    tools:context=".presentation.main.profile.info.ProfileFragment">
 
     <data>
 
@@ -10,7 +10,7 @@
 
         <variable
             name="vm"
-            type="com.yello.presentation.main.profile.ProfileViewModel" />
+            type="com.yello.presentation.main.profile.info.ProfileViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

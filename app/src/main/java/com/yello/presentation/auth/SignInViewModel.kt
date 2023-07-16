@@ -10,6 +10,7 @@ import com.example.domain.repository.OnboardingRepository
 import com.example.ui.view.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import retrofit2.HttpException
 import javax.inject.Inject
 
 @HiltViewModel
@@ -20,7 +21,7 @@ class SignInViewModel @Inject constructor(
     private val _postState = MutableLiveData<UiState<ServiceTokenModel>>()
     val postState: LiveData<UiState<ServiceTokenModel>> = _postState
 
-    fun changeTokenFromServer(accessToken: String, social: String = "kakao") {
+    fun changeTokenFromServer(accessToken: String, social: String = "KAKAO") {
         viewModelScope.launch {
             _postState.value = UiState.Loading
             runCatching {
@@ -30,7 +31,13 @@ class SignInViewModel @Inject constructor(
             }.onSuccess {
                 _postState.value = UiState.Success(it)
             }.onFailure {
-                _postState.value = UiState.Failure("서비스 토큰 교체 서버 통신 실패")
+                if (it is HttpException && it.code() == 403) {
+                    _postState.value = UiState.Failure("403")
+                } else if (it is HttpException && it.code() == 401) {
+                    _postState.value = UiState.Failure("401")
+                } else {
+                    _postState.value = UiState.Failure("error")
+                }
             }
         }
     }

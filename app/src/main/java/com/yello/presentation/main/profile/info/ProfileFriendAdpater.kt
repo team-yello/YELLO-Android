@@ -1,10 +1,9 @@
-package com.yello.presentation.main.profile
+package com.yello.presentation.main.profile.info
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.domain.entity.ProfileFriendModel
-import com.example.ui.view.setOnSingleClickListener
 import com.yello.databinding.ItemFriendsListBinding
 
 class ProfileFriendAdapter(private val itemClick: (ProfileFriendModel) -> (Unit)) : RecyclerView.Adapter<ProfileFriendViewHolder>() {

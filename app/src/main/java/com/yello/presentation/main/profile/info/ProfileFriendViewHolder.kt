@@ -1,4 +1,4 @@
-package com.yello.presentation.main.profile
+package com.yello.presentation.main.profile.info
 
 import androidx.recyclerview.widget.RecyclerView
 import coil.load

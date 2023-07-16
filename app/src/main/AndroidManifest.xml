@@ -69,16 +69,17 @@
             android:name=".presentation.main.yello.vote.VoteActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
+
         <activity
-            android:name=".presentation.main.profile.ProfileManageActivity"
+            android:name=".presentation.main.profile.manage.ProfileManageActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".presentation.main.profile.ProfileQuitActivity"
+            android:name=".presentation.main.profile.manage.ProfileQuitActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".presentation.main.profile.ProfileQuitForSureActivity"
+            android:name=".presentation.main.profile.manage.ProfileQuitForSureActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
 

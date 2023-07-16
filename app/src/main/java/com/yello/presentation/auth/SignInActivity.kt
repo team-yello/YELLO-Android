@@ -14,6 +14,7 @@ import com.kakao.sdk.common.util.Utility
 import com.kakao.sdk.user.UserApiClient
 import com.yello.R
 import com.yello.databinding.ActivitySignInBinding
+import com.yello.presentation.main.MainActivity
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
@@ -50,13 +51,6 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
         serviceTermsList = listOf("profile_image", "account_email", "friends")
     }
 
-    private fun setDataFromObserver(token: OAuthToken?) {
-        observeChangeTokenState()
-        postKakaoAccessToken(token)
-        viewModel.changeTokenFromServer(kakaoAccessToken)
-        getUserInfo()
-    }
-
     // 웹에서 계정 로그인 callback 구성
     private fun setAccountLoginCallback() {
         accountLoginCallback = { token, error ->
@@ -65,7 +59,6 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
 
             } else if (token != null) {
                 setDataFromObserver(token)
-                startSocialSyncActivity()
 
             } else {
                 Timber.tag(TAG_AUTH).d("빈 카카오 토큰")
@@ -90,7 +83,6 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
 
             } else if (token != null) {
                 setDataFromObserver(token)
-                startSocialSyncActivity()
 
             } else {
                 Timber.tag(TAG_AUTH).d("빈 카카오 토큰")
@@ -121,17 +113,49 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
         }
     }
 
-    // 다음 화면으로 전환
-    private fun startSocialSyncActivity() {
-        Intent(this, SocialSyncActivity::class.java).apply {
-            addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-            startActivity(this)
+    // 뷰모델에서 서비스 메서드 실행 & 옵저버로 토큰 받기
+    private fun setDataFromObserver(token: OAuthToken?) {
+        observeChangeTokenState()
+        postKakaoAccessToken(token)
+        viewModel.changeTokenFromServer(kakaoAccessToken)
+    }
+
+    private fun observeChangeTokenState() {
+        viewModel.postState.observe(this) { state ->
+            when (state) {
+                is UiState.Success -> {
+                    // TODO: 서비스 토큰 값 저장
+                    val serviceAccessToken = state.data.accessToken
+                    startMainActivity()
+                }
+
+                is UiState.Failure -> {
+                    if (state.msg == "403") {
+                        getUserInfo()
+                        startSocialSyncActivity()
+                    } else {
+                        toast("서버 통신에 실패했습니다")
+                    }
+                }
+
+                is UiState.Loading -> {}
+                is UiState.Empty -> {}
+            }
         }
-        finish()
+    }
+
+    // 카카오 토큰 저장
+    // TODO: 카카오 토큰값 저장
+    private fun postKakaoAccessToken(token: OAuthToken?) {
+        if (token != null) {
+            kakaoAccessToken = token.accessToken
+        } else {
+            Timber.tag(TAG_AUTH).d("카카오 토큰 받기 실패")
+        }
     }
 
     // 사용자 정보 수집
-    // TODO : 유저 추가 정보 회원가입에 포함시키기
+    // TODO : 유저 추가 정보 저장
     private fun getUserInfo() {
         UserApiClient.instance.me { user, _ ->
             if (user != null) {
@@ -143,30 +167,21 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
         }
     }
 
-    // 카카오 토큰 저장
-    private fun postKakaoAccessToken(token: OAuthToken?) {
-        if (token != null) {
-            kakaoAccessToken = token.accessToken
-        } else {
-            Timber.tag(TAG_AUTH).d("카카오 토큰 받기 실패")
+    // 다음 화면으로 전환
+    private fun startSocialSyncActivity() {
+        Intent(this, SocialSyncActivity::class.java).apply {
+            addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            startActivity(this)
         }
+        finish()
     }
 
-    private fun observeChangeTokenState() {
-        viewModel.postState.observe(this) { state ->
-            when (state) {
-                is UiState.Success -> {
-                    val serviceAccessToken = state.data.accessToken
-                    toast(serviceAccessToken)
-                }
-
-                is UiState.Failure -> {
-                    toast(state.msg)
-                }
-
-                else -> {}
-            }
+    private fun startMainActivity() {
+        Intent(this, MainActivity::class.java).apply {
+            addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            startActivity(this)
         }
+        finish()
     }
 
     private companion object {

@@ -11,8 +11,6 @@ class ProfileQuitForSureActivity :
 
     private var profileQuitDialog: ProfileQuitDialog = ProfileQuitDialog()
 
-    // TODO: accessToken 받아오기
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 

@@ -5,4 +5,5 @@ sealed class VoteState {
     object InvalidSkip : VoteState()
     object InvalidCancel : VoteState()
     object InvalidShuffle : VoteState()
+    object Failure : VoteState()
 }

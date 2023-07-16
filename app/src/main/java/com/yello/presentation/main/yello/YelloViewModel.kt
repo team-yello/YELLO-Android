@@ -32,7 +32,7 @@ class YelloViewModel @Inject constructor(
         get() = _leftTime
 
     private val _point = MutableLiveData<Int>()
-    val point: Int
+    private val point: Int
         get() = _point.value ?: 0
 
     init {
@@ -56,6 +56,7 @@ class YelloViewModel @Inject constructor(
         viewModelScope.launch {
             voteRepository.getVoteAvailable()
                 .onSuccess { voteState ->
+                    Timber.d("GET VOTE STATUE SUCCESS : $voteState")
                     if (voteState.isStart) {
                         _yelloState.value = Success(Valid(voteState.point))
                         return@launch

@@ -7,18 +7,25 @@ import androidx.lifecycle.viewModelScope
 import com.example.domain.entity.Choice
 import com.example.domain.entity.Note
 import com.example.domain.entity.Note.Friend
+import com.example.domain.repository.VoteRepository
+import com.yello.presentation.main.yello.vote.VoteState.Failure
 import com.yello.presentation.main.yello.vote.VoteState.InvalidCancel
 import com.yello.presentation.main.yello.vote.VoteState.InvalidShuffle
 import com.yello.presentation.main.yello.vote.VoteState.InvalidSkip
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import javax.inject.Inject
+import retrofit2.HttpException
+import timber.log.Timber
 
 @HiltViewModel
-class VoteViewModel @Inject constructor() : ViewModel() {
+class VoteViewModel @Inject constructor(
+    private val voteRepository: VoteRepository,
+) : ViewModel() {
     private val _voteState = MutableLiveData<VoteState>()
-    val voteState: LiveData<VoteState> = _voteState
+    val voteState: LiveData<VoteState>
+        get() = _voteState
 
     private val _shuffleCount = MutableLiveData(MAX_COUNT_SHUFFLE)
     val shuffleCount: LiveData<Int>
@@ -437,8 +444,21 @@ class VoteViewModel @Inject constructor() : ViewModel() {
             }
             if (count < 1) return
 
-            // TODO: 셔플 서버 통신
-            _shuffleCount.value = count - 1
+            viewModelScope.launch {
+                voteRepository.getFriendShuffle()
+                    .onSuccess { friends ->
+                        Timber.d("GET FRIEND SHUFFLE SUCCESS : $friends")
+                        _shuffleCount.value = count - 1
+                        _voteList.value?.get(currentNoteIndex)?.friendList = friends
+                        _voteList.value = voteList
+                    }
+                    .onFailure { t ->
+                        if (t is HttpException) {
+                            Timber.e("GET FRIEND SHUFFLE FAILURE : $t")
+                            _voteState.value = Failure
+                        }
+                    }
+            }
         }
     }
 
@@ -475,5 +495,7 @@ class VoteViewModel @Inject constructor() : ViewModel() {
         private const val MAX_COUNT_SHUFFLE = 3
         private const val INDEX_FINAL_VOTE = 9
         private const val DELAY_OPTION_SELECTION = 1000L
+
+        private const val CODE_INVALID_FRIEND = 401
     }
 }

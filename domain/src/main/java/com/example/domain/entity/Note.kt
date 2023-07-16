@@ -5,7 +5,7 @@ data class Note(
     val nameFoot: String,
     val keywordHead: String,
     val keywordFoot: String,
-    val friendList: List<Friend>,
+    var friendList: List<Friend>,
     val keywordList: List<String>,
 ) {
     data class Friend(

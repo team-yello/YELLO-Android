@@ -38,7 +38,7 @@ class YelloFragment : BindingFragment<FragmentYelloBinding>(R.layout.fragment_ye
                 is Loading -> {}
                 is Success -> {
                     when (state.data) {
-                        is Lock -> navigateTo<YelloLockFragment>()
+                        is Lock -> navigateTo<YelloStartFragment>()
                         is Valid -> navigateTo<YelloStartFragment>()
                         is Wait -> navigateTo<YelloWaitFragment>()
                     }
@@ -47,7 +47,7 @@ class YelloFragment : BindingFragment<FragmentYelloBinding>(R.layout.fragment_ye
                 is Empty -> {}
                 is Failure -> yelloSnackbar(
                     binding.root,
-                    getString(R.string.yello_msg_get_vote_available_fail),
+                    getString(R.string.msg_failure),
                 )
             }
         }

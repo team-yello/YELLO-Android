@@ -2,7 +2,6 @@ package com.yello.util.binding
 
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
-import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -11,19 +10,6 @@ import androidx.databinding.BindingAdapter
 import com.yello.R
 
 object BindingAdapter {
-    @JvmStatic
-    @BindingAdapter("setTextViewDrawable")
-    fun EditText.setTextViewDrawable(input: String) {
-        if (!input.matches("^[ㄱ-ㅎ가-힣]*\$".toRegex())) {
-            setBackgroundResource(R.drawable.shape_fill_red20_line_semantic_status_red500_rect_8)
-            return
-        }
-        if (isHovered) {
-            setBackgroundResource(R.drawable.shape_grayscales900_fill_grayscales600_line_8_rect)
-            return
-        }
-        setBackgroundResource(R.drawable.shape_black_fill_grayscales600_line_8_rect)
-    }
 
     @BindingAdapter("setVoteBackground")
     fun ConstraintLayout.setVoteBackground(bgIndex: Int) {
@@ -151,5 +137,25 @@ object BindingAdapter {
         val minutes = sec / 60
         val seconds = sec % 60
         text = String.format(context.getString(R.string.wait_time_format), minutes, seconds)
+    }
+
+    // 친구 추가 뷰 profile
+    @JvmStatic
+    @BindingAdapter("setCircleImage")
+    fun ImageView.setCircleImage(index: Int) {
+        setImageResource(
+            when (index) {
+                0 -> R.drawable.img_note_face1
+                1 -> R.drawable.img_note_face2
+                2 -> R.drawable.img_note_face3
+                3 -> R.drawable.img_note_face4
+                4 -> R.drawable.img_note_face5
+                5 -> R.drawable.img_note_face6
+                6 -> R.drawable.img_note_face7
+                7 -> R.drawable.img_note_face8
+                8 -> R.drawable.img_note_face9
+                else -> R.drawable.img_note_face10
+            },
+        )
     }
 }

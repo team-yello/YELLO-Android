@@ -19,11 +19,8 @@ class StudentidDialogFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        binding.vm=viewModel
-
+        binding.vm = viewModel
         initStudentidAdapter()
-        setStyle(DialogFragment.STYLE_NORMAL, R.style.AppBottomSheetDialogTheme)
     }
 
     private fun initStudentidAdapter() {

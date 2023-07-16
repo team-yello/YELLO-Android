@@ -130,7 +130,6 @@
             app:layout_constraintStart_toStartOf="@+id/btn_gender_x"
             app:layout_constraintTop_toBottomOf="@+id/iv_onboarding_yello_face_y" />
 
-
         <ImageView
             android:id="@+id/iv_girl_uncheck"
             android:layout_width="0dp"
@@ -140,7 +139,6 @@
             app:layout_constraintBottom_toTopOf="@+id/iv_onboarding_yello_face_y"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/btn_gender_y" />
-
 
         <android.widget.Button
             android:id="@+id/btn_gender_next"

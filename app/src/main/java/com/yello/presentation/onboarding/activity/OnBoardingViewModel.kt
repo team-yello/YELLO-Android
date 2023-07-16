@@ -21,6 +21,7 @@ class OnBoardingViewModel : ViewModel() {
     val _id = MutableLiveData("")
     val _gender = MutableLiveData("")
     val _code = MutableLiveData("")
+    val _profile = MutableLiveData("")
 
     fun setSchool(school: String) {
         _school.value = school
@@ -39,13 +40,13 @@ class OnBoardingViewModel : ViewModel() {
 
     val isValidSchool: LiveData<Boolean> = _school.map { school -> checkValidSchool(school) }
 
-    val isEmpty_department: LiveData<Boolean> =
+    val isEmptyDepartment: LiveData<Boolean> =
         _department.map { department -> checkEmpty_department(department) }
-    val isEmpty_studentid: LiveData<Boolean> =
+    val isEmptyStudentid: LiveData<Boolean> =
         _studentid.map { studentid -> checkEmpty_studentid(studentid) }
-    val isEmpty_name: LiveData<Boolean> =
+    val isEmptyName: LiveData<Boolean> =
         _name.map { name -> checkEmpty_name(name) }
-    val isEmpty_id: LiveData<Boolean> =
+    val isEmptyId: LiveData<Boolean> =
         _id.map { id -> checkEmpty_id(id) }
     val isEmpty_code: LiveData<Boolean> =
         _code.map { code -> checkEmpty_code(code) }

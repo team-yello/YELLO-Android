@@ -30,7 +30,7 @@ class AuthInterceptor @Inject constructor(
             CODE_TOKEN_EXPIRED -> {
                 try {
                     val refreshTokenRequest = originalRequest.newBuilder().get()
-                        .url("${BASE_URL}onboarding/token")
+                        .url("${BASE_URL}/api/v1/auth/token")
                         .addHeader(HEADER_ACCESS_TOKEN, dataStore.userToken)
                         .addHeader(HEADER_REFRESH_TOKEN, dataStore.refreshToken)
                         .build()

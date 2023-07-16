@@ -4,27 +4,32 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.domain.entity.Choice
-import com.example.domain.entity.Note
-import com.example.domain.entity.Note.Friend
+import com.example.domain.entity.vote.Choice
+import com.example.domain.entity.vote.Note
 import com.example.domain.repository.VoteRepository
-import com.yello.presentation.main.yello.vote.VoteState.Failure
-import com.yello.presentation.main.yello.vote.VoteState.InvalidCancel
-import com.yello.presentation.main.yello.vote.VoteState.InvalidShuffle
-import com.yello.presentation.main.yello.vote.VoteState.InvalidSkip
+import com.example.ui.view.UiState
+import com.example.ui.view.UiState.Empty
+import com.example.ui.view.UiState.Success
+import com.yello.presentation.main.yello.vote.NoteState.InvalidCancel
+import com.yello.presentation.main.yello.vote.NoteState.InvalidShuffle
+import com.yello.presentation.main.yello.vote.NoteState.InvalidSkip
 import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import timber.log.Timber
+import javax.inject.Inject
 
 @HiltViewModel
 class VoteViewModel @Inject constructor(
     private val voteRepository: VoteRepository,
 ) : ViewModel() {
-    private val _voteState = MutableLiveData<VoteState>()
-    val voteState: LiveData<VoteState>
+    private val _noteState = MutableLiveData<NoteState>()
+    val noteState: LiveData<NoteState>
+        get() = _noteState
+
+    val _voteState = MutableLiveData<UiState<List<Note>>>()
+    val voteState: LiveData<UiState<List<Note>>>
         get() = _voteState
 
     private val _shuffleCount = MutableLiveData(MAX_COUNT_SHUFFLE)
@@ -53,354 +58,35 @@ class VoteViewModel @Inject constructor(
 
     init {
         initVoteIndex()
-        _voteList.value = mutableListOf(
-            Note(
-                nameHead = "나는",
-                nameFoot = "이(가)",
-                keywordHead = "",
-                keywordFoot = "닮은 것 같아",
-                friendList = listOf(
-                    Friend(
-                        id = 1,
-                        yelloId = "kev_hy1042",
-                        name = "김효원",
-                    ),
-                    Friend(
-                        id = 2,
-                        yelloId = "hj__p_",
-                        name = "권세훈",
-                    ),
-                    Friend(
-                        id = 3,
-                        yelloId = "_euije",
-                        name = "이강민",
-                    ),
-                    Friend(
-                        id = 4,
-                        yelloId = "nahyunyou",
-                        name = "이의제",
-                    ),
-                ),
-                keywordList = listOf(
-                    "99대장 나선욱이랑",
-                    "skrr하는 송민호랑",
-                    "범죄도시 손석구랑",
-                    "코딩하는 강동원이랑",
-                ),
-            ),
-            Note(
-                nameHead = "",
-                nameFoot = "의 은밀한 취미는",
-                keywordHead = "",
-                keywordFoot = "일 것 같아",
-                friendList = listOf(
-                    Friend(
-                        id = 5,
-                        yelloId = "chae.yeon1004",
-                        name = "전채연",
-                    ),
-                    Friend(
-                        id = 6,
-                        yelloId = "k.mean.e",
-                        name = "이강민",
-                    ),
-                    Friend(
-                        id = 7,
-                        yelloId = "sangho.kk",
-                        name = "김상호",
-                    ),
-                    Friend(
-                        id = 8,
-                        yelloId = "filminju_",
-                        name = "박민주",
-                    ),
-                ),
-                keywordList = listOf(
-                    "애니 코스프레",
-                    "발냄새 맡기",
-                    "피규어 모으기",
-                    "헌팅하기",
-                ),
-            ),
-            Note(
-                nameHead = "나는",
-                nameFoot = "이(가)",
-                keywordHead = "",
-                keywordFoot = "닮은 것 같아",
-                friendList = listOf(
-                    Friend(
-                        id = 1,
-                        yelloId = "kev_hy1042",
-                        name = "김효원",
-                    ),
-                    Friend(
-                        id = 2,
-                        yelloId = "hj__p_",
-                        name = "권세훈",
-                    ),
-                    Friend(
-                        id = 3,
-                        yelloId = "_euije",
-                        name = "이강민",
-                    ),
-                    Friend(
-                        id = 4,
-                        yelloId = "nahyunyou",
-                        name = "이의제",
-                    ),
-                ),
-                keywordList = listOf(
-                    "99대장 나선욱이랑",
-                    "skrr하는 송민호랑",
-                    "범죄도시 손석구랑",
-                    "코딩하는 강동원이랑",
-                ),
-            ),
-            Note(
-                nameHead = "",
-                nameFoot = "의 은밀한 취미는",
-                keywordHead = "",
-                keywordFoot = "일 것 같아",
-                friendList = listOf(
-                    Friend(
-                        id = 5,
-                        yelloId = "chae.yeon1004",
-                        name = "전채연",
-                    ),
-                    Friend(
-                        id = 6,
-                        yelloId = "k.mean.e",
-                        name = "이강민",
-                    ),
-                    Friend(
-                        id = 7,
-                        yelloId = "sangho.kk",
-                        name = "김상호",
-                    ),
-                    Friend(
-                        id = 8,
-                        yelloId = "filminju_",
-                        name = "박민주",
-                    ),
-                ),
-                keywordList = listOf(
-                    "애니 코스프레",
-                    "발냄새 맡기",
-                    "피규어 모으기",
-                    "헌팅하기",
-                ),
-            ),
-            Note(
-                nameHead = "나는",
-                nameFoot = "이(가)",
-                keywordHead = "",
-                keywordFoot = "닮은 것 같아",
-                friendList = listOf(
-                    Friend(
-                        id = 1,
-                        yelloId = "kev_hy1042",
-                        name = "김효원",
-                    ),
-                    Friend(
-                        id = 2,
-                        yelloId = "hj__p_",
-                        name = "권세훈",
-                    ),
-                    Friend(
-                        id = 3,
-                        yelloId = "_euije",
-                        name = "이강민",
-                    ),
-                    Friend(
-                        id = 4,
-                        yelloId = "nahyunyou",
-                        name = "이의제",
-                    ),
-                ),
-                keywordList = listOf(
-                    "99대장 나선욱이랑",
-                    "skrr하는 송민호랑",
-                    "범죄도시 손석구랑",
-                    "코딩하는 강동원이랑",
-                ),
-            ),
-            Note(
-                nameHead = "",
-                nameFoot = "의 은밀한 취미는",
-                keywordHead = "",
-                keywordFoot = "일 것 같아",
-                friendList = listOf(
-                    Friend(
-                        id = 5,
-                        yelloId = "chae.yeon1004",
-                        name = "전채연",
-                    ),
-                    Friend(
-                        id = 6,
-                        yelloId = "k.mean.e",
-                        name = "이강민",
-                    ),
-                    Friend(
-                        id = 7,
-                        yelloId = "sangho.kk",
-                        name = "김상호",
-                    ),
-                    Friend(
-                        id = 8,
-                        yelloId = "filminju_",
-                        name = "박민주",
-                    ),
-                ),
-                keywordList = listOf(
-                    "애니 코스프레",
-                    "발냄새 맡기",
-                    "피규어 모으기",
-                    "헌팅하기",
-                ),
-            ),
-            Note(
-                nameHead = "나는",
-                nameFoot = "이(가)",
-                keywordHead = "",
-                keywordFoot = "닮은 것 같아",
-                friendList = listOf(
-                    Friend(
-                        id = 1,
-                        yelloId = "kev_hy1042",
-                        name = "김효원",
-                    ),
-                    Friend(
-                        id = 2,
-                        yelloId = "hj__p_",
-                        name = "권세훈",
-                    ),
-                    Friend(
-                        id = 3,
-                        yelloId = "_euije",
-                        name = "이강민",
-                    ),
-                    Friend(
-                        id = 4,
-                        yelloId = "nahyunyou",
-                        name = "이의제",
-                    ),
-                ),
-                keywordList = listOf(
-                    "99대장 나선욱이랑",
-                    "skrr하는 송민호랑",
-                    "범죄도시 손석구랑",
-                    "코딩하는 강동원이랑",
-                ),
-            ),
-            Note(
-                nameHead = "",
-                nameFoot = "의 은밀한 취미는",
-                keywordHead = "",
-                keywordFoot = "일 것 같아",
-                friendList = listOf(
-                    Friend(
-                        id = 5,
-                        yelloId = "chae.yeon1004",
-                        name = "전채연",
-                    ),
-                    Friend(
-                        id = 6,
-                        yelloId = "k.mean.e",
-                        name = "이강민",
-                    ),
-                    Friend(
-                        id = 7,
-                        yelloId = "sangho.kk",
-                        name = "김상호",
-                    ),
-                    Friend(
-                        id = 8,
-                        yelloId = "filminju_",
-                        name = "박민주",
-                    ),
-                ),
-                keywordList = listOf(
-                    "애니 코스프레",
-                    "발냄새 맡기",
-                    "피규어 모으기",
-                    "헌팅하기",
-                ),
-            ),
-            Note(
-                nameHead = "나는",
-                nameFoot = "이(가)",
-                keywordHead = "",
-                keywordFoot = "닮은 것 같아",
-                friendList = listOf(
-                    Friend(
-                        id = 1,
-                        yelloId = "kev_hy1042",
-                        name = "김효원",
-                    ),
-                    Friend(
-                        id = 2,
-                        yelloId = "hj__p_",
-                        name = "권세훈",
-                    ),
-                    Friend(
-                        id = 3,
-                        yelloId = "_euije",
-                        name = "이강민",
-                    ),
-                    Friend(
-                        id = 4,
-                        yelloId = "nahyunyou",
-                        name = "이의제",
-                    ),
-                ),
-                keywordList = listOf(
-                    "99대장 나선욱이랑",
-                    "skrr하는 송민호랑",
-                    "범죄도시 손석구랑",
-                    "코딩하는 강동원이랑",
-                ),
-            ),
-            Note(
-                nameHead = "",
-                nameFoot = "의 은밀한 취미는",
-                keywordHead = "",
-                keywordFoot = "일 것 같아",
-                friendList = listOf(
-                    Friend(
-                        id = 5,
-                        yelloId = "chae.yeon1004",
-                        name = "전채연",
-                    ),
-                    Friend(
-                        id = 6,
-                        yelloId = "k.mean.e",
-                        name = "이강민",
-                    ),
-                    Friend(
-                        id = 7,
-                        yelloId = "sangho.kk",
-                        name = "김상호",
-                    ),
-                    Friend(
-                        id = 8,
-                        yelloId = "filminju_",
-                        name = "박민주",
-                    ),
-                ),
-                keywordList = listOf(
-                    "애니 코스프레",
-                    "발냄새 맡기",
-                    "피규어 모으기",
-                    "헌팅하기",
-                ),
-            ),
-        )
+        getVoteQuestions()
+    }
+
+    private fun getVoteQuestions() {
+        viewModelScope.launch {
+            voteRepository.getVoteQuestion()
+                .onSuccess { notes ->
+                    Timber.d("GET VOTE QUESTION SUCCESS : $notes")
+                    if (notes == null) {
+                        _voteState.value = Empty
+                        return@launch
+                    }
+                    _voteState.value = Success(notes)
+                    _voteList.value = notes
+                }
+                .onFailure { t ->
+                    if (t is HttpException) {
+                        Timber.e("GET VOTE QUESTION FAILURE : $t")
+                        _voteState.value = UiState.Failure(t.code().toString())
+                    }
+                    Timber.e("GET VOTE QUESTION ERROR : $t")
+                }
+        }
     }
 
     fun selectName(nameIndex: Int) {
         if (currentNoteIndex > INDEX_FINAL_VOTE) return
         if (currentChoice.friendId == voteList[currentNoteIndex].friendList[nameIndex].id) {
-            _voteState.value = InvalidCancel
+            _noteState.value = InvalidCancel
             return
         }
         if (currentChoice.friendId != null) return
@@ -421,7 +107,7 @@ class VoteViewModel @Inject constructor(
     fun selectKeyword(keywordIndex: Int) {
         if (currentNoteIndex > INDEX_FINAL_VOTE) return
         if (currentChoice.keywordName == voteList[currentNoteIndex].keywordList[keywordIndex]) {
-            _voteState.value = InvalidCancel
+            _noteState.value = InvalidCancel
             return
         }
         if (currentChoice.keywordName != null) return
@@ -439,7 +125,7 @@ class VoteViewModel @Inject constructor(
     fun shuffle() {
         shuffleCount.value?.let { count ->
             if (currentChoice.friendId != null) {
-                _voteState.value = InvalidShuffle
+                _noteState.value = InvalidShuffle
                 return
             }
             if (count < 1) return
@@ -448,6 +134,10 @@ class VoteViewModel @Inject constructor(
                 voteRepository.getFriendShuffle()
                     .onSuccess { friends ->
                         Timber.d("GET FRIEND SHUFFLE SUCCESS : $friends")
+                        if (friends == null) {
+                            _noteState.value = NoteState.Failure
+                            return@launch
+                        }
                         _shuffleCount.value = count - 1
                         _voteList.value?.get(currentNoteIndex)?.friendList = friends
                         _voteList.value = voteList
@@ -455,7 +145,7 @@ class VoteViewModel @Inject constructor(
                     .onFailure { t ->
                         if (t is HttpException) {
                             Timber.e("GET FRIEND SHUFFLE FAILURE : $t")
-                            _voteState.value = Failure
+                            _noteState.value = NoteState.Failure
                         }
                     }
             }
@@ -464,7 +154,7 @@ class VoteViewModel @Inject constructor(
 
     fun skip() {
         if (isOptionSelected()) {
-            _voteState.value = InvalidSkip
+            _noteState.value = InvalidSkip
             return
         }
         skipToNextVote()
@@ -483,7 +173,7 @@ class VoteViewModel @Inject constructor(
 
     private fun skipToNextVote() {
         initCurrentChoice()
-        _voteState.value = VoteState.Success
+        _noteState.value = NoteState.Success
         _shuffleCount.value = MAX_COUNT_SHUFFLE
         _currentNoteIndex.value = currentNoteIndex + 1
     }
@@ -495,7 +185,5 @@ class VoteViewModel @Inject constructor(
         private const val MAX_COUNT_SHUFFLE = 3
         private const val INDEX_FINAL_VOTE = 9
         private const val DELAY_OPTION_SELECTION = 1000L
-
-        private const val CODE_INVALID_FRIEND = 401
     }
 }

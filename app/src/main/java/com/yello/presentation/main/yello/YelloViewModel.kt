@@ -10,6 +10,7 @@ import com.example.domain.entity.type.YelloState.Valid
 import com.example.domain.entity.type.YelloState.Wait
 import com.example.domain.repository.VoteRepository
 import com.example.ui.view.UiState
+import com.example.ui.view.UiState.Empty
 import com.example.ui.view.UiState.Failure
 import com.example.ui.view.UiState.Success
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -57,6 +58,10 @@ class YelloViewModel @Inject constructor(
             voteRepository.getVoteAvailable()
                 .onSuccess { voteState ->
                     Timber.d("GET VOTE STATUE SUCCESS : $voteState")
+                    if (voteState == null) {
+                        _yelloState.value = Empty
+                        return@launch
+                    }
                     if (voteState.isStart) {
                         _yelloState.value = Success(Valid(voteState.point))
                         return@launch

@@ -1,6 +1,6 @@
 package com.example.data.model.response.vote
 
-import com.example.domain.entity.VoteState
+import com.example.domain.entity.vote.VoteState
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 

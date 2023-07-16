@@ -1,6 +1,7 @@
-package com.example.domain.entity
+package com.example.domain.entity.vote
 
 data class Note(
+    val questionId: Int,
     val nameHead: String,
     val nameFoot: String,
     val keywordHead: String,

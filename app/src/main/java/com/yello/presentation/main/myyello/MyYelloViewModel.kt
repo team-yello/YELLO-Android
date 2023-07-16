@@ -12,6 +12,7 @@ import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlin.math.ceil
 
 @HiltViewModel
 class MyYelloViewModel @Inject constructor(
@@ -30,7 +31,8 @@ class MyYelloViewModel @Inject constructor(
         viewModelScope.launch {
             repository.getMyYelloList(++currentPage)
                 .onSuccess {
-                    totalPage = Math.ceil((it.totalCount * 0.1)).toInt()
+                    it ?: return@launch
+                    totalPage = ceil((it.totalCount * 0.1)).toInt()
                     if (totalPage == currentPage) isPagingFinish = true
                     _myYelloData.value = when {
                         it.yello.isEmpty() -> UiState.Empty

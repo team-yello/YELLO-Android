@@ -6,8 +6,8 @@ import com.example.domain.entity.MyYello
 import com.example.domain.entity.YelloDetail
 
 interface YelloRepository {
-    suspend fun getMyYelloList(page: Int): Result<MyYello>
-    suspend fun getYelloDetail(id: Long): Result<YelloDetail>
-    suspend fun checkKeyword(id: Long): Result<CheckKeyword>
-    suspend fun checkName(id: Long): Result<CheckName>
+    suspend fun getMyYelloList(page: Int): Result<MyYello?>
+    suspend fun getYelloDetail(id: Long): Result<YelloDetail?>
+    suspend fun checkKeyword(id: Long): Result<CheckKeyword?>
+    suspend fun checkName(id: Long): Result<CheckName?>
 }

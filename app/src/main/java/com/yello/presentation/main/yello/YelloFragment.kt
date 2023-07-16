@@ -16,7 +16,6 @@ import com.example.ui.view.UiState.Loading
 import com.example.ui.view.UiState.Success
 import com.yello.R
 import com.yello.databinding.FragmentYelloBinding
-import com.yello.presentation.main.yello.lock.YelloLockFragment
 import com.yello.presentation.main.yello.start.YelloStartFragment
 import com.yello.presentation.main.yello.wait.YelloWaitFragment
 import com.yello.util.context.yelloSnackbar
@@ -38,7 +37,7 @@ class YelloFragment : BindingFragment<FragmentYelloBinding>(R.layout.fragment_ye
                 is Loading -> {}
                 is Success -> {
                     when (state.data) {
-                        is Lock -> navigateTo<YelloStartFragment>()
+                        is Lock -> navigateTo<YelloStartFragment>() // TODO: YelloLockFragment로 되돌리기
                         is Valid -> navigateTo<YelloStartFragment>()
                         is Wait -> navigateTo<YelloWaitFragment>()
                     }

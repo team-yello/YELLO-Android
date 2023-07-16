@@ -4,6 +4,7 @@ import com.example.data.datasource.VoteDataSource
 import com.example.data.model.response.BaseResponse
 import com.example.data.model.response.vote.ResponseGetFriendShuffleDto
 import com.example.data.model.response.vote.ResponseGetVoteAvailableDto
+import com.example.data.model.response.vote.ResponseGetVoteQuestionDto
 import com.example.data.remote.service.VoteService
 import javax.inject.Inject
 
@@ -15,4 +16,7 @@ class VoteDataSourceImpl @Inject constructor(
 
     override suspend fun getFriendShuffle(): BaseResponse<List<ResponseGetFriendShuffleDto>> =
         service.getFriendShuffle()
+
+    override suspend fun getVoteQuestion(): BaseResponse<List<ResponseGetVoteQuestionDto>> =
+        service.getVoteQuestion()
 }

@@ -7,7 +7,7 @@ import androidx.fragment.app.activityViewModels
 import com.example.ui.base.BindingFragment
 import com.yello.R
 import com.yello.databinding.FragmentNoteBinding
-import com.yello.presentation.main.yello.vote.VoteState
+import com.yello.presentation.main.yello.vote.NoteState
 import com.yello.presentation.main.yello.vote.VoteViewModel
 import com.yello.util.context.yelloSnackbar
 import dagger.hilt.android.AndroidEntryPoint
@@ -66,25 +66,25 @@ class NoteFragment : BindingFragment<FragmentNoteBinding>(R.layout.fragment_note
     }
 
     private fun setupVoteState() {
-        viewModel.voteState.observe(viewLifecycleOwner) { state ->
+        viewModel.noteState.observe(viewLifecycleOwner) { state ->
             when (state) {
-                VoteState.Success -> return@observe
-                VoteState.InvalidSkip -> yelloSnackbar(
+                NoteState.Success -> return@observe
+                NoteState.InvalidSkip -> yelloSnackbar(
                     binding.root,
                     getString(R.string.note_msg_invalid_skip),
                 )
 
-                VoteState.InvalidCancel -> yelloSnackbar(
+                NoteState.InvalidCancel -> yelloSnackbar(
                     binding.root,
                     getString(R.string.note_msg_invalid_cancel),
                 )
 
-                VoteState.InvalidShuffle -> yelloSnackbar(
+                NoteState.InvalidShuffle -> yelloSnackbar(
                     binding.root,
                     getString(R.string.note_msg_invalid_shuffle),
                 )
 
-                VoteState.Failure -> yelloSnackbar(
+                NoteState.Failure -> yelloSnackbar(
                     binding.root,
                     getString(R.string.msg_error),
                 )

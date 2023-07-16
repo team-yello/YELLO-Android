@@ -15,7 +15,6 @@ import com.kakao.sdk.user.UserApiClient
 import com.yello.R
 import com.yello.databinding.ActivitySignInBinding
 import com.yello.presentation.main.MainActivity
-import com.yello.util.context.yelloSnackbar
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
@@ -139,7 +138,8 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
                     }
                 }
 
-                else -> {}
+                is UiState.Loading -> {}
+                is UiState.Empty -> {}
             }
         }
     }

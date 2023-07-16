@@ -2,30 +2,61 @@ package com.yello.presentation.onboarding.fragment.studentid
 
 import android.os.Bundle
 import android.view.View
+import androidx.fragment.app.activityViewModels
 import com.example.ui.base.BindingFragment
 import com.example.ui.view.setOnSingleClickListener
 import com.yello.R
 import com.yello.databinding.FragmentStudentidBinding
-import com.yello.presentation.onboarding.fragment.studentid.dialog.SearchDialogDepartmentFragment
-import com.yello.presentation.onboarding.fragment.studentid.dialog.SearchDialogidFragment
+import com.yello.presentation.onboarding.activity.OnBoardingViewModel
+import com.yello.presentation.onboarding.fragment.studentid.dialog.department.SearchDialogDepartmentFragment
+import com.yello.presentation.onboarding.fragment.studentid.dialog.studentid.StudentidDialogFragment
 
 class StudentIdFragment : BindingFragment<FragmentStudentidBinding>(R.layout.fragment_studentid) {
-
+    private val viewModel by activityViewModels<OnBoardingViewModel>()
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initSearchIdBtnClickListener()
-        initSearchDepartmentBtnClickListener()
-    }
+        binding.vm = viewModel
 
-    private fun initSearchIdBtnClickListener() {
-        binding.etStudentidSearch.setOnSingleClickListener {
-            SearchDialogidFragment().show(parentFragmentManager, this.tag)
-        }
+        initSearchDepartmentBtnClickListener()
+        initSearchStudentidBtnClickListener()
+        setConfirmBtnClickListener()
+        setBackBtnClickListener()
+        setupDepartment()
+        setupStudentid()
     }
 
     private fun initSearchDepartmentBtnClickListener() {
-        binding.etDepartmentSearch.setOnSingleClickListener {
+        binding.tvDepartmentSearch.setOnSingleClickListener {
             SearchDialogDepartmentFragment().show(parentFragmentManager, this.tag)
+        }
+    }
+
+    private fun initSearchStudentidBtnClickListener() {
+        binding.tvStudentidSearch.setOnSingleClickListener {
+            StudentidDialogFragment().show(parentFragmentManager, this.tag)
+        }
+    }
+
+    private fun setConfirmBtnClickListener() {
+        binding.btnStdentidNext.setOnSingleClickListener {
+            viewModel.navigateToNextPage()
+        }
+    }
+
+    private fun setBackBtnClickListener() {
+        binding.btnStudentidBackBtn.setOnSingleClickListener {
+            viewModel.navigateToBackPage()
+        }
+    }
+    private fun setupDepartment() {
+        viewModel._department.observe(viewLifecycleOwner) { department ->
+            binding.tvDepartmentSearch.text = department
+        }
+    }
+
+    private fun setupStudentid() {
+        viewModel._studentid.observe(viewLifecycleOwner) { studentid ->
+            binding.tvStudentidSearch.text = studentid
         }
     }
 }

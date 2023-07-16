@@ -48,7 +48,7 @@ class OnBoardingViewModel : ViewModel() {
         _name.map { name -> checkEmpty_name(name) }
     val isEmptyId: LiveData<Boolean> =
         _id.map { id -> checkEmpty_id(id) }
-    val isEmpty_code: LiveData<Boolean> =
+    val isEmptyCode: LiveData<Boolean> =
         _code.map { code -> checkEmpty_code(code) }
 
     private val school: String

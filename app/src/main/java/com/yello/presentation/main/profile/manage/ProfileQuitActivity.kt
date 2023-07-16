@@ -1,4 +1,4 @@
-package com.yello.presentation.main.profile
+package com.yello.presentation.main.profile.manage
 
 import android.content.Intent
 import android.os.Bundle

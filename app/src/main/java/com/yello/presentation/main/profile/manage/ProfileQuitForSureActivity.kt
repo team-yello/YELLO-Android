@@ -1,4 +1,4 @@
-package com.yello.presentation.main.profile
+package com.yello.presentation.main.profile.manage
 
 import android.os.Bundle
 import com.example.ui.base.BindingActivity

@@ -20,7 +20,6 @@ class RecommendAdapter(context: Context) : RecyclerView.Adapter<RecommendViewHol
 
     private val inflater by lazy { LayoutInflater.from(context) }
     private var itemList = mutableListOf<RecommendModel>()
-    private val deleteButtonStates = mutableMapOf<Int, Boolean>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecommendViewHolder {
         val binding: ItemRecommendListBinding =
@@ -31,30 +30,10 @@ class RecommendAdapter(context: Context) : RecyclerView.Adapter<RecommendViewHol
     override fun onBindViewHolder(holder: RecommendViewHolder, position: Int) {
         holder.onBind(itemList[position])
 
-        if (deleteButtonStates.containsKey(position) && deleteButtonStates[position] == true) {
-            changeToCheckIcon(holder)
-        } else {
-            changeToTextButton(holder)
-        }
-
-        holder.binding.btnRecommendItemAdd.setOnSingleClickListener {
-            CoroutineScope(Dispatchers.Main).launch {
-                changeToCheckIcon(holder)
-                delay(300)
-                removeItem(position)
-            }
-        }
-
+        changeToTextButton(holder)
         initItemAddButtonListener(holder, position)
     }
 
-    override fun getItemViewType(position: Int): Int {
-        return if (deleteButtonStates.containsKey(position) && deleteButtonStates[position] == true) {
-            1
-        } else {
-            2
-        }
-    }
 
     override fun getItemCount(): Int = itemList.size
 

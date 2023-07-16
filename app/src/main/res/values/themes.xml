@@ -21,6 +21,7 @@
         <item name="textAppearanceLabelMedium">@style/TextAppearance.Yello.LabelMedium</item>
         <item name="textAppearanceLabelSmall">@style/TextAppearance.Yello.LabelSmall</item>
         <item name="textAppearanceButton">@style/TextAppearance.Yello.Button</item>
+        <item name="bottomSheetDialogTheme">@style/AppBottomSheetDialogTheme</item>
     </style>
 
     <style name="Theme.YELLO" parent="Base.Theme.YELLO" />

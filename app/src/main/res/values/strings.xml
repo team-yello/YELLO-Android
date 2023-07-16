@@ -27,10 +27,32 @@
     <string name="onboarding_tv_readyto_login">옐로에 가입하기 위한 첫 절차예요.</string>
     <string name="onboarding_tv_what_school">학교가 어디인가요?</string>
     <string name="onboarding_tv_what_department">무슨 학과인가요?</string>
-    <string name="onboarding_hint_select_studentid">학번을 선택해주세요.</string>
-    <string name="onboarding_btn_next">다음</string>
+    <string name="onboarding_tv_hint_select_studentid">학번을 선택해주세요.</string>
+    <string name="onboarding_btn_next">완료</string>
     <string name="tv_recommend_tab_kakao">카톡 친구들</string>
     <string name="tv_recommend_tab_school">학교 친구들</string>
+    <string name="onboarding_tv_name">이름은</string>
+    <string name="onboarding_tv_name_error">이름은 가입 후 바꿀 수 없으니 정확히 적어주세요!</string>
+    <string name="onboarding_tv_id">아이디는</string>
+    <string name="onboarding_tv_id_errror">인스타 아이디로 하면 친구들이 찾기 쉬워요! (최대 20자)</string>
+    <string name="onboarding_et_id">insta_id</string>
+    <string name="onboarding_tv_gender">성별은</string>
+    <string name="onboarding_tv_code">추천인 코드</string>
+    <string name="onboarding_tv_code_hint">추천인 아이디</string>
+    <string name="onboarding_tv_code_skip">없다면 건너뛰어도 돼요.</string>
+    <string name="onboarding_tv_code_error">추천인의 아이디를 입력해주세요.</string>
+    <string name="onboarding_btn_code_skip"><u>건너뛰기</u></string>
+    <string name="onboarding_tv_startapp_title">회원가입이 끝났어요!</string>
+    <string name="onboarding_tv_startapp_subtitle">지금 바로 친구들에게 옐로하러 가볼까요?</string>
+    <string name="onboarding_tv_start_yello">옐로하러 가기</string>
+    <string name="onboarding_btn_gender_done">다음</string>
+    <string name="onboarding_tv_gender_x">남자</string>
+    <string name="onboarding_tv_gender_y">여자</string>
+    <string name="onboarding_tv_addfriend">친구를 추가하세요!</string>
+    <string name="onboarding_btn_addfriend_next">다음</string>
+    <string name="onboarding_tv_addfriend_how_many">선택된 친구</string>
+    <string name="onboarding_tv_freind_end">명</string>
+    <string name="onboarding_tv_hint_fix">\@</string>
 
     <string name="yello_start_my_point">내 포인트</string>
     <string name="yello_start_description">누구에게 어떤 메시지를 보낼까?</string>
@@ -65,5 +87,13 @@
     <string name="wait_invite">기다리지 않고 바로 투표하기</string>
     <string name="wait_description">다음 투표까지 남은 시간</string>
     <string name="wait_sub_description">시간이 지나면 다시 투표할 수 있어요!</string>
+
     <string name="tv_social_sync_info"><u>개인정보처리약관</u></string>
+
+    <string name="note_msg_invalid_skip">한 번 선택하면 건너뛸 수 없어요.</string>
+    <string name="note_msg_invalid_cancel">한 번 선택하면 취소할 수 없어요.</string>
+    <string name="note_msg_invalid_shuffle">이름을 선택하면 셔플을 사용할 수 없어요.</string>
+    <string name="look_title">둘러보기</string>
+    <string name="look_sub_description">아직 구현되지 않은 기능이에요.\n조금만 기다려주세요!</string>
+
 </resources>

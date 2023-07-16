@@ -3,14 +3,19 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <data></data>
+    <data>
+        <variable
+            name="data"
+            type="com.example.domain.entity.MyDepartment" />
+    </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layout_onboarding_departmentlist"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingHorizontal="24dp"
-        android:paddingVertical="11dp">
+        android:paddingVertical="11dp"
+        android:background="@color/grayscales_900">
 
         <ImageView
             android:id="@+id/iv_search_department_profile"
@@ -29,8 +34,9 @@
             android:layout_marginStart="8dp"
             android:fontFamily="@font/font_pretendard_medium"
             android:inputType="text"
+            android:text="@{data.department_name}"
             android:maxLines="1"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

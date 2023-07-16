@@ -17,9 +17,8 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".presentation.onboarding.activity.OnBoardingActivity"
+            android:name=".presentation.main.MainActivity"
             android:exported="true"
-            android:windowSoftInputMode="adjustNothing"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -37,6 +36,11 @@
                     android:scheme="kakao${NATIVE_APP_KEY}" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".presentation.onboarding.activity.OnBoardingActivity"
+            android:windowSoftInputMode="adjustNothing"
+            android:exported="false" />
         <activity
             android:name=".presentation.yello.YelloActivity"
             android:exported="false" />

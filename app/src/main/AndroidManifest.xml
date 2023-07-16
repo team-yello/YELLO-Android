@@ -71,6 +71,7 @@
             android:name=".presentation.main.yello.vote.VoteActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
+
         <activity
             android:name=".presentation.main.profile.manage.ProfileManageActivity"
             android:exported="false"

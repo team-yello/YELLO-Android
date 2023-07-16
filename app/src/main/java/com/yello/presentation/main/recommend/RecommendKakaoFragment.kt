@@ -28,8 +28,8 @@ class RecommendKakaoFragment :
 
         getFriendIdList()
         initInviteButtonListener()
-        setItemDecorator()
         setListToAdapterFromLocal()
+        setItemDivider()
         setDeleteAnimation()
     }
 
@@ -57,11 +57,6 @@ class RecommendKakaoFragment :
         }
     }
 
-    private fun setItemDecorator() {
-        val recyclerView = binding.rvRecommendKakao
-        recyclerView.addItemDecoration(RecommendItemDecoration(requireContext()))
-    }
-
     private fun setListToAdapterFromLocal() {
         viewModel.addListFromLocal()
         friendsList = viewModel.recommendResult.value ?: emptyList()
@@ -70,11 +65,17 @@ class RecommendKakaoFragment :
         }
     }
 
+    private fun setItemDivider() {
+        binding.rvRecommendKakao.addItemDecoration(RecommendItemDecoration(requireContext()))
+    }
+
     private fun setDeleteAnimation() {
         binding.rvRecommendKakao.itemAnimator = object : DefaultItemAnimator() {
             override fun animateRemove(holder: RecyclerView.ViewHolder): Boolean {
+
                 holder.itemView.animation =
                     AnimationUtils.loadAnimation(holder.itemView.context, R.anim.slide_out_right)
+
                 return super.animateRemove(holder)
             }
         }

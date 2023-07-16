@@ -14,11 +14,11 @@ import com.yello.presentation.main.yello.vote.NoteState.InvalidCancel
 import com.yello.presentation.main.yello.vote.NoteState.InvalidShuffle
 import com.yello.presentation.main.yello.vote.NoteState.InvalidSkip
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import timber.log.Timber
-import javax.inject.Inject
 
 @HiltViewModel
 class VoteViewModel @Inject constructor(
@@ -77,8 +77,10 @@ class VoteViewModel @Inject constructor(
                     if (t is HttpException) {
                         Timber.e("GET VOTE QUESTION FAILURE : $t")
                         _voteState.value = UiState.Failure(t.code().toString())
+                    } else {
+                        Timber.e("GET VOTE QUESTION ERROR : $t")
+                        _voteState.value = UiState.Failure(t.message.toString()) // TODO: 서버 수정 후 else 제거
                     }
-                    Timber.e("GET VOTE QUESTION ERROR : $t")
                 }
         }
     }

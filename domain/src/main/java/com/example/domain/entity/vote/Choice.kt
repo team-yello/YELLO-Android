@@ -5,4 +5,5 @@ data class Choice(
     var friendId: Int? = null,
     var friendName: String? = null,
     var keywordName: String? = null,
+    var backgroundIndex: Int,
 )

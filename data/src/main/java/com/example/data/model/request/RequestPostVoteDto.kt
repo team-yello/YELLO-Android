@@ -1,5 +1,7 @@
 package com.example.data.model.request
 
+import com.example.domain.entity.vote.Choice
+import com.example.domain.entity.vote.ChoiceList
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -22,3 +24,15 @@ data class RequestPostVoteDto(
         val colorIndex: Int,
     )
 }
+
+private fun Choice.toVoteDto() = RequestPostVoteDto.VoteDto(
+    questionId = questionId,
+    friendId = requireNotNull(friendId),
+    keywordName = requireNotNull(keywordName),
+    colorIndex = backgroundIndex,
+)
+
+fun ChoiceList.toRequestPostVoteDto() = RequestPostVoteDto(
+    voteList = choiceList.map { choice -> choice.toVoteDto() },
+    totalPoint = totalPoint,
+)

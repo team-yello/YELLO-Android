@@ -51,13 +51,6 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
         serviceTermsList = listOf("profile_image", "account_email", "friends")
     }
 
-    private fun setDataFromObserver(token: OAuthToken?) {
-        observeChangeTokenState()
-        postKakaoAccessToken(token)
-        viewModel.changeTokenFromServer(kakaoAccessToken)
-        getUserInfo()
-    }
-
     // 웹에서 계정 로그인 callback 구성
     private fun setAccountLoginCallback() {
         accountLoginCallback = { token, error ->
@@ -189,23 +182,6 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
             startActivity(this)
         }
         finish()
-    }
-
-    private fun observeChangeTokenState() {
-        viewModel.postState.observe(this) { state ->
-            when (state) {
-                is UiState.Success -> {
-                    val serviceAccessToken = state.data.accessToken
-                    toast(serviceAccessToken)
-                }
-
-                is UiState.Failure -> {
-                    toast(state.msg)
-                }
-
-                else -> {}
-            }
-        }
     }
 
     private companion object {

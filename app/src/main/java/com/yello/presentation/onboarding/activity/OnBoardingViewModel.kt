@@ -110,6 +110,11 @@ class OnBoardingViewModel : ViewModel() {
     private fun checkEmpty_name(name: String): Boolean {
         return name.isNullOrBlank()
     }
+
+    private fun checkRegax_name(name: String): Boolean {
+        return name.matches("^[ㄱ-ㅎㅏ-ㅣ가-힣]\$".toRegex())
+    }
+
     private fun checkEmpty_id(id: String): Boolean {
         return id.isNullOrBlank()
     }

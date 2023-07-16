@@ -35,6 +35,7 @@ class GenderFragment : BindingFragment<FragmentGenderBinding>(R.layout.fragment_
         }
     }
 
+    // 코드가 맘에 들지 않는군요 ...
     private fun clickBoyBtnClickListener() {
         binding.btnGenderX.setOnClickListener {
             binding.btnGenderX.setBackgroundResource(R.drawable.shape_onboarding_semantic_gender_m700_fill_semantic_gender_m300_line)
@@ -46,6 +47,9 @@ class GenderFragment : BindingFragment<FragmentGenderBinding>(R.layout.fragment_
             binding.ivOnboardingYelloFaceY.setImageResource(R.drawable.ic_onboarding_yello_face_grey)
             binding.tvGirl.setTextColor(Color.parseColor("#495057"))
             binding.ivGirlUncheck.setImageResource(R.drawable.ic_onbarding_check_circle_grey)
+
+            binding.btnGenderNext.setTextColor(Color.parseColor("#191919"))
+            binding.btnGenderNext.setBackgroundResource(R.drawable.shape_yello_main_500_fill_8_rect)
         }
     }
 
@@ -60,6 +64,10 @@ class GenderFragment : BindingFragment<FragmentGenderBinding>(R.layout.fragment_
             binding.ivOnboardingYelloFaceX.setImageResource(R.drawable.ic_onboarding_yello_face_grey)
             binding.tvBoy.setTextColor(Color.parseColor("#495057"))
             binding.ivBoyUncheck.setImageResource(R.drawable.ic_onbarding_check_circle_grey)
+
+            binding.btnGenderNext.setTextColor(Color.parseColor("#191919"))
+            binding.btnGenderNext.setBackgroundResource(R.drawable.shape_yello_main_500_fill_8_rect)
         }
     }
+
 }

@@ -15,7 +15,7 @@ class NameIdFragment : BindingFragment<FragmentNameIdBinding>(R.layout.fragment_
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.vm = viewModel
+
         setConfirmBtnClickListener()
         setDeleteNameBtnClickListener()
         setDeleteIdBtnClickListener()

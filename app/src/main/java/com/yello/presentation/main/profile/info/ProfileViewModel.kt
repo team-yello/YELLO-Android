@@ -1,4 +1,4 @@
-package com.yello.presentation.main.profile
+package com.yello.presentation.main.profile.info
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

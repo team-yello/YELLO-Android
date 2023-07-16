@@ -1,4 +1,4 @@
-package com.yello.presentation.main.profile
+package com.yello.presentation.main.profile.manage
 
 import android.os.Bundle
 import com.example.ui.base.BindingActivity
@@ -10,6 +10,8 @@ class ProfileQuitForSureActivity :
     BindingActivity<ActivityProfileQuitForSureBinding>(R.layout.activity_profile_quit_for_sure) {
 
     private var profileQuitDialog: ProfileQuitDialog = ProfileQuitDialog()
+
+    // TODO: accessToken 받아오기
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

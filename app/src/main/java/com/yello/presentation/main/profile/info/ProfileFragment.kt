@@ -1,4 +1,4 @@
-package com.yello.presentation.main.profile
+package com.yello.presentation.main.profile.info
 
 import android.content.Intent
 import android.os.Bundle
@@ -9,6 +9,7 @@ import com.example.ui.base.BindingFragment
 import com.example.ui.view.setOnSingleClickListener
 import com.yello.R
 import com.yello.databinding.FragmentProfileBinding
+import com.yello.presentation.main.profile.manage.ProfileManageActivity
 
 class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragment_profile) {
 

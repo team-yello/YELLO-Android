@@ -28,6 +28,6 @@ class YelloViewModel @Inject constructor() : ViewModel() {
     }
 
     companion object {
-        private const val SEC_MAX_LOCK_TIME = 24
+        private const val SEC_MAX_LOCK_TIME = 4000
     }
 }

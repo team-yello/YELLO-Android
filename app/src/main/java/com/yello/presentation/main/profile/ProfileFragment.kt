@@ -3,7 +3,7 @@ package com.yello.presentation.main.profile
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.widget.ScrollView
+import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import com.example.ui.base.BindingFragment
 import com.example.ui.view.setOnSingleClickListener
@@ -44,11 +44,7 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
     private fun setFabVisibility() {
         binding.svProfile.setOnScrollChangeListener { view, _, _, _, _ ->
             // 최상단인 경우에만 GONE 표시
-            if (view.canScrollVertically(-1)) {
-                binding.fabUpward.visibility = View.VISIBLE
-            } else {
-                binding.fabUpward.visibility = View.GONE
-            }
+            binding.fabUpward.isVisible = view.canScrollVertically(-1)
         }
     }
 
@@ -60,7 +56,7 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
 
     private fun initFabUpwardListener() {
         binding.fabUpward.setOnSingleClickListener {
-            binding.svProfile.fullScroll(ScrollView.FOCUS_UP)
+            binding.svProfile.scrollTo(0, 0)
         }
     }
 

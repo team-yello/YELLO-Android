@@ -1,7 +1,7 @@
 package com.example.data.remote.interceptor
 
 import android.content.Context
-import com.example.data.model.response.auth.ResponseAuthToken
+import com.example.data.model.response.onboarding.ResponseAuthToken
 import com.example.domain.YelloDataStore
 import com.yello.data.BuildConfig.BASE_URL
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -30,7 +30,7 @@ class AuthInterceptor @Inject constructor(
             CODE_TOKEN_EXPIRED -> {
                 try {
                     val refreshTokenRequest = originalRequest.newBuilder().get()
-                        .url("${BASE_URL}auth/token")
+                        .url("${BASE_URL}onboarding/token")
                         .addHeader(HEADER_ACCESS_TOKEN, dataStore.userToken)
                         .addHeader(HEADER_REFRESH_TOKEN, dataStore.refreshToken)
                         .build()

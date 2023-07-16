@@ -2,7 +2,10 @@ package com.yello.presentation.auth
 
 import android.content.Intent
 import android.os.Bundle
+import androidx.activity.viewModels
 import com.example.ui.base.BindingActivity
+import com.example.ui.context.toast
+import com.example.ui.view.UiState
 import com.example.ui.view.setOnSingleClickListener
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.model.ClientError
@@ -11,13 +14,18 @@ import com.kakao.sdk.common.util.Utility
 import com.kakao.sdk.user.UserApiClient
 import com.yello.R
 import com.yello.databinding.ActivitySignInBinding
+import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
+@AndroidEntryPoint
 class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_sign_in) {
 
     private lateinit var appLoginCallback: (OAuthToken?, Throwable?) -> Unit
     private lateinit var accountLoginCallback: (OAuthToken?, Throwable?) -> Unit
     private lateinit var serviceTermsList: List<String>
+    private lateinit var kakaoAccessToken: String
+
+    private val viewModel by viewModels<SignInViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,6 +50,13 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
         serviceTermsList = listOf("profile_image", "account_email", "friends")
     }
 
+    private fun setDataFromObserver(token: OAuthToken?) {
+        observeChangeTokenState()
+        postKakaoAccessToken(token)
+        viewModel.changeTokenFromServer(kakaoAccessToken)
+        getUserInfo()
+    }
+
     // 웹에서 계정 로그인 callback 구성
     private fun setAccountLoginCallback() {
         accountLoginCallback = { token, error ->
@@ -49,8 +64,7 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
                 Timber.tag(TAG_AUTH).e(error, "카카오계정으로 로그인 실패")
 
             } else if (token != null) {
-                postKakaoAccessToken(token)
-                getUserInfo()
+                setDataFromObserver(token)
                 startSocialSyncActivity()
 
             } else {
@@ -75,8 +89,7 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
                 }
 
             } else if (token != null) {
-                postKakaoAccessToken(token)
-                getUserInfo()
+                setDataFromObserver(token)
                 startSocialSyncActivity()
 
             } else {
@@ -130,14 +143,29 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
         }
     }
 
-    // 토큰 교체 서버통신 후 서비스 토큰 저장
-    // TODO : 카카오의 Access Token 보내는 서버통신 구현
+    // 카카오 토큰 저장
     private fun postKakaoAccessToken(token: OAuthToken?) {
         if (token != null) {
-            var kakaoAccessToken = token.accessToken
-            var kakaoRefreshToken = token.refreshToken
+            kakaoAccessToken = token.accessToken
         } else {
             Timber.tag(TAG_AUTH).d("카카오 토큰 받기 실패")
+        }
+    }
+
+    private fun observeChangeTokenState() {
+        viewModel.postState.observe(this) { state ->
+            when (state) {
+                is UiState.Success -> {
+                    val serviceAccessToken = state.data.accessToken
+                    toast(serviceAccessToken)
+                }
+
+                is UiState.Failure -> {
+                    toast(state.msg)
+                }
+
+                else -> {}
+            }
         }
     }
 

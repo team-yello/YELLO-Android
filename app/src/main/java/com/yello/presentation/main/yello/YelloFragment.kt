@@ -9,6 +9,7 @@ import com.example.ui.base.BindingFragment
 import com.yello.R
 import com.yello.databinding.FragmentYelloBinding
 import com.yello.presentation.main.yello.start.YelloStartFragment
+import com.yello.presentation.main.yello.wait.YelloWaitFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

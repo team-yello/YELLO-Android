@@ -8,7 +8,7 @@ import com.kakao.sdk.talk.TalkApiClient
 import com.kakao.sdk.talk.model.Friend
 import com.yello.R
 import com.yello.databinding.ActivitySocialSyncBinding
-import com.yello.presentation.main.MainActivity
+import com.yello.presentation.onboarding.activity.OnBoardingActivity
 import timber.log.Timber
 
 class SocialSyncActivity :
@@ -41,7 +41,7 @@ class SocialSyncActivity :
 
     // TODO : 온보딩 뷰로 이동시키기
     private fun startOnBoardingActivity() {
-        Intent(this, MainActivity::class.java).apply {
+        Intent(this, OnBoardingActivity::class.java).apply {
             addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
             startActivity(this)
         }

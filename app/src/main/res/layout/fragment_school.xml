@@ -1,14 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <data></data>
+    <data>
+        <variable
+            name="vm"
+            type="com.yello.presentation.onboarding.activity.OnBoardingViewModel" />
+    </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layout_school"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/black">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_school_back_btn"
+            android:layout_width="0dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/ic_onboarding_btn_back"
+            app:layout_constraintDimensionRatio="1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/tv_school_ready"
@@ -18,7 +33,7 @@
             android:layout_marginTop="68dp"
             android:text="@string/onboarding_tv_readyto_login"
             android:textAppearance="?textAppearanceBodyMedium"
-            android:textColor="@color/grayscales_600"
+            android:textColor="@color/grayscales_500"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -30,6 +45,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="26dp"
             android:text="@string/onboarding_tv_what_school"
+            android:textColor="@color/white"
             android:textAppearance="?textAppearanceHeadline2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -40,27 +56,29 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
-            android:layout_marginTop="12dp"
-            android:background="@drawable/shape_white_fill_grayscales400_line_8_rect"
-            android:paddingVertical="16dp"
+            android:background="@{vm.isValidSchool() ? @drawable/shape_black_fill_grayscales600_line_8_rect : @drawable/shape_grayscales900_fill_grayscales500_line_8_rect}"
+            android:paddingVertical="14dp"
             android:paddingEnd="12dp"
+            android:textColor="@color/white"
+            android:layout_marginTop="12dp"
+            android:paddingStart="20dp"
             app:drawableEndCompat="@drawable/ic_onboarding_search"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_school_where" />
 
-        <android.widget.Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_school_next"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
-            android:layout_marginBottom="34dp"
-            android:background="@drawable/shape_white_fill_grayscales400_line_8_rect"
-            android:backgroundTint="@color/black"
+            android:layout_marginBottom="32dp"
+            android:background="@{vm.isValidSchool()? @drawable/shape_grayscales_800_fill_8_rect : @drawable/shape_yello_main_500_fill_black_line_rect}"
             android:paddingVertical="12dp"
+            android:clickable="@{!vm.isValidSchool()}"
             android:text="@string/onboarding_btn_next"
             android:textAppearance="?textAppearanceBodyMedium"
-            android:textColor="@color/yello_main_500"
+            android:textColor="@{vm.isValidSchool()? @color/black : @color/grayscales_700}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />

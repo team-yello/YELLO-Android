@@ -1,36 +1,44 @@
 package com.yello.presentation.onboarding.fragment.school
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.domain.entity.MySchool
 import com.example.ui.view.ItemDiffCallback
+import com.example.ui.view.setOnSingleClickListener
 import com.yello.databinding.ItemSchoolListBinding
-import timber.log.Timber
 
-class SchoolAdpapter : ListAdapter<MySchool, SchoolAdpapter.SchoolViewHolder>(diffUtil) {
+class SchoolAdapter(
+    requireContext: Context,
+    private val storeSchool: (String) -> Unit,
+) : ListAdapter<MySchool, SchoolAdapter.SchoolViewHolder>(diffUtil) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SchoolViewHolder {
-        Timber.d("onCreateViewHolder")
         return SchoolViewHolder(
             ItemSchoolListBinding.inflate(
                 LayoutInflater.from(parent.context),
                 parent,
                 false,
             ),
+            storeSchool,
         )
     }
 
     override fun onBindViewHolder(holder: SchoolViewHolder, position: Int) {
-        Timber.d("onBindViewHolder($position)")
-        holder.setschool(getItem(position))
+        holder.setSchool(getItem(position))
     }
 
-    class SchoolViewHolder(private val binding: ItemSchoolListBinding) :
+    class SchoolViewHolder(
+        private val binding: ItemSchoolListBinding,
+        private val storeSchool: (String) -> Unit,
+    ) :
         RecyclerView.ViewHolder(binding.root) {
-        fun setschool(school: MySchool) {
-            Timber.d("set list : $school")
+        fun setSchool(school: MySchool) {
             binding.data = school
+            binding.root.setOnSingleClickListener {
+                storeSchool(binding.tvSchoolName.text.toString())
+            }
         }
     }
 

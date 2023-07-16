@@ -28,6 +28,7 @@ class RecommendKakaoFragment :
 
         getFriendIdList()
         initInviteButtonListener()
+        setItemDecorator()
         setListToAdapterFromLocal()
         setDeleteAnimation()
     }
@@ -54,6 +55,11 @@ class RecommendKakaoFragment :
         binding.layoutInviteFriend.setOnSingleClickListener {
             recommendInviteDialog.show(parentFragmentManager, "Dialog")
         }
+    }
+
+    private fun setItemDecorator() {
+        val recyclerView = binding.rvRecommendKakao
+        recyclerView.addItemDecoration(RecommendItemDecoration(requireContext()))
     }
 
     private fun setListToAdapterFromLocal() {

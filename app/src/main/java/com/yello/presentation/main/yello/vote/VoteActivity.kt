@@ -9,6 +9,7 @@ import com.example.ui.view.UiState
 import com.yello.R
 import com.yello.databinding.ActivityVoteBinding
 import com.yello.presentation.util.setCurrentItemWithDuration
+import com.yello.util.context.yelloSnackbar
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -23,6 +24,7 @@ class VoteActivity : BindingActivity<ActivityVoteBinding>(R.layout.activity_vote
 
         setupVoteState()
         setupCurrentNoteIndex()
+        setupPostVoteState()
     }
 
     private fun setupVoteState() {
@@ -51,6 +53,23 @@ class VoteActivity : BindingActivity<ActivityVoteBinding>(R.layout.activity_vote
     private fun setupCurrentNoteIndex() {
         viewModel._currentNoteIndex.observe(this) { index ->
             binding.vpVote.setCurrentItemWithDuration(index, 400)
+        }
+    }
+
+    private fun setupPostVoteState() {
+        viewModel._postVoteState.observe(this) { state ->
+            when (state) {
+                is UiState.Loading -> {}
+                is UiState.Failure -> {
+                    yelloSnackbar(binding.root, getString(R.string.msg_error))
+                }
+
+                is UiState.Empty -> {
+                    yelloSnackbar(binding.root, getString(R.string.msg_error))
+                }
+
+                is UiState.Success -> {}
+            }
         }
     }
 }

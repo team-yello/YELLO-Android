@@ -8,6 +8,7 @@ data class Note(
     val keywordFoot: String,
     var friendList: List<Friend>,
     val keywordList: List<String>,
+    val point: Int,
 ) {
     data class Friend(
         val id: Int,

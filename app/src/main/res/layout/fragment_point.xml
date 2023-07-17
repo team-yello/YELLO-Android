@@ -4,6 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".presentation.main.yello.start.PointFragment">
 
+    <data>
+        <variable
+            name="vm"
+            type="com.yello.presentation.main.yello.vote.VoteViewModel" />
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layout_point"
         android:layout_width="match_parent"
@@ -28,7 +34,8 @@
             android:layout_marginTop="28dp"
             android:layout_marginEnd="20dp"
             android:paddingVertical="4dp"
-            android:text="2900"
+            android:text="@{vm.totalPoint}"
+            tools:text="2900"
             android:textAppearance="?textAppearanceBodyMedium"
             android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
@@ -94,7 +101,8 @@
                 android:fontFamily="@font/unbounded_medium"
                 android:lineHeight="22sp"
                 android:paddingVertical="3dp"
-                android:text="400"
+                android:text="@{vm.votePointSum}"
+                tools:text="400"
                 android:textColor="@color/yello_main_500"
                 android:textSize="16sp"
                 app:layout_constraintEnd_toStartOf="@id/tv_point_vote_point_label"
@@ -170,7 +178,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="4dp"
                     android:paddingVertical="3dp"
-                    android:text="2500"
+                    android:text="@{vm.totalPoint}"
+                    tools:text="2900"
                     android:textColor="@color/white"
                     app:layout_constraintBaseline_toBaselineOf="@id/tv_point_point_label"
                     app:layout_constraintEnd_toStartOf="@id/tv_point_point_label" />

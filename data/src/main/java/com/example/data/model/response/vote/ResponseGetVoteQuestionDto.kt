@@ -53,5 +53,6 @@ data class ResponseGetVoteQuestionDto(
         keywordFoot = question.keywordFoot,
         friendList = friendList.map { friend -> friend.toFriend() },
         keywordList = keywordList,
+        point = questionPoint,
     )
 }

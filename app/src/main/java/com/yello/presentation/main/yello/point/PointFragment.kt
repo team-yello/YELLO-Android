@@ -10,19 +10,21 @@ import com.yello.R
 import com.yello.databinding.FragmentPointBinding
 import com.yello.presentation.main.yello.YelloViewModel
 import com.yello.presentation.main.yello.YelloViewModel.Companion.SEC_MAX_LOCK_TIME
+import com.yello.presentation.main.yello.vote.VoteViewModel
 
 class PointFragment : BindingFragment<FragmentPointBinding>(R.layout.fragment_point) {
     val viewModel by activityViewModels<YelloViewModel>()
+    val voteViewModel by activityViewModels<VoteViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.vm = voteViewModel
 
         setConfirmBtnClickListener()
     }
 
     private fun setConfirmBtnClickListener() {
         binding.btnPointConfirm.setOnSingleClickListener {
-            // TODO: 투표 생성하기 API 연결
             viewModel.setVoteState(Wait(SEC_MAX_LOCK_TIME))
             requireActivity().finish()
         }

@@ -5,7 +5,6 @@ import com.example.data.model.request.toRequestPostVoteDto
 import com.example.domain.entity.vote.ChoiceList
 import com.example.domain.entity.vote.Note
 import com.example.domain.entity.vote.Note.Friend
-import com.example.domain.entity.vote.Point
 import com.example.domain.entity.vote.VoteState
 import com.example.domain.repository.VoteRepository
 import javax.inject.Inject
@@ -25,7 +24,7 @@ class VoteRepositoryImpl @Inject constructor(
         dataSource.getVoteQuestion().data?.map { question -> question.toNote() }
     }
 
-    override suspend fun postVote(choiceList: ChoiceList): Result<Point?> = runCatching {
+    override suspend fun postVote(choiceList: ChoiceList): Result<Int?> = runCatching {
         dataSource.postVote(choiceList.toRequestPostVoteDto()).data?.toPoint()
     }
 }

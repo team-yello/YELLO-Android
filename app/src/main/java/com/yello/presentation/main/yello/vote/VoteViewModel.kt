@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.domain.entity.vote.Choice
+import com.example.domain.entity.vote.ChoiceList
 import com.example.domain.entity.vote.Note
 import com.example.domain.repository.VoteRepository
 import com.example.ui.view.UiState
@@ -32,6 +33,10 @@ class VoteViewModel @Inject constructor(
     val voteState: LiveData<UiState<List<Note>>>
         get() = _voteState
 
+    val _postVoteState = MutableLiveData<UiState<Int>>()
+    val postVoteState: LiveData<UiState<Int>>
+        get() = _postVoteState
+
     private val _shuffleCount = MutableLiveData(MAX_COUNT_SHUFFLE)
     val shuffleCount: LiveData<Int>
         get() = _shuffleCount
@@ -44,7 +49,7 @@ class VoteViewModel @Inject constructor(
     val currentNoteIndex: Int
         get() = _currentNoteIndex.value ?: 0
 
-    val _currentChoice = MutableLiveData(Choice(-1))
+    val _currentChoice = MutableLiveData<Choice>()
     val currentChoice: Choice
         get() = requireNotNull(_currentChoice.value)
 
@@ -56,8 +61,15 @@ class VoteViewModel @Inject constructor(
     val voteList: List<Note>
         get() = requireNotNull(_voteList.value)
 
+    private val _votePointSum = MutableLiveData(0)
+    val votePointSum: Int
+        get() = _votePointSum.value ?: 0
+
+    private val _totalPoint = MutableLiveData(0)
+    val totalPoint: Int
+        get() = _totalPoint.value ?: 0
+
     init {
-        initVoteIndex()
         getVoteQuestions()
     }
 
@@ -72,6 +84,7 @@ class VoteViewModel @Inject constructor(
                     }
                     _voteState.value = Success(notes)
                     _voteList.value = notes
+                    initVoteIndex()
                 }
                 .onFailure { t ->
                     if (t is HttpException) {
@@ -79,7 +92,8 @@ class VoteViewModel @Inject constructor(
                         _voteState.value = UiState.Failure(t.code().toString())
                     } else {
                         Timber.e("GET VOTE QUESTION ERROR : $t")
-                        _voteState.value = UiState.Failure(t.message.toString()) // TODO: 서버 수정 후 else 제거
+                        _voteState.value =
+                            UiState.Failure(t.message.toString()) // TODO: 서버 수정 후 else 제거
                     }
                 }
         }
@@ -162,9 +176,33 @@ class VoteViewModel @Inject constructor(
         skipToNextVote()
     }
 
+    private fun postVote() {
+        viewModelScope.launch {
+            voteRepository.postVote(ChoiceList(choiceList = choiceList, totalPoint = votePointSum))
+                .onSuccess { point ->
+                    Timber.d("POST VOTE SUCCESS : $point")
+                    if (point == null) {
+                        _postVoteState.value = Empty
+                        return@launch
+                    }
+                    _postVoteState.value = Success(point)
+                    _totalPoint.value = point
+                    _currentNoteIndex.value = currentNoteIndex + 1
+                }
+                .onFailure { t ->
+                    if (t is HttpException) {
+                        Timber.e("POST VOTE FAILURE : $t")
+                        _noteState.value = NoteState.Failure
+                    }
+                }
+        }
+    }
+
     private fun initCurrentChoice() {
-        // TODO: 명세서 수정 되면 받아서 questionId 넣어주기
-        _currentChoice.value = Choice(1)
+        _currentChoice.value = Choice(
+            questionId = voteList[currentNoteIndex].questionId,
+            backgroundIndex = backgroundIndex + currentNoteIndex,
+        )
     }
 
     private fun initVoteIndex() {
@@ -174,8 +212,13 @@ class VoteViewModel @Inject constructor(
     }
 
     private fun skipToNextVote() {
+        if (currentNoteIndex == INDEX_FINAL_VOTE) {
+            postVote()
+            return
+        }
         initCurrentChoice()
         _noteState.value = NoteState.Success
+        _votePointSum.value = votePointSum + voteList[currentNoteIndex].point
         _shuffleCount.value = MAX_COUNT_SHUFFLE
         _currentNoteIndex.value = currentNoteIndex + 1
     }

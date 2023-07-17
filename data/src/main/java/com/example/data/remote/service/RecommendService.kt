@@ -1,0 +1,20 @@
+package com.example.data.remote.service
+
+import com.example.data.model.request.recommend.RequestRecommendKakaoDto
+import com.example.data.model.response.BaseResponse
+import com.example.data.model.response.recommend.ResponseRecommendDto
+import retrofit2.http.Body
+import retrofit2.http.Header
+import retrofit2.http.POST
+import retrofit2.http.Query
+
+interface RecommendService {
+
+    @POST("/api/v1/recommend")
+    suspend fun postToGetKakaoList(
+        @Header("accessToken") serviceAccessToken: String,
+        @Query("page") page: Int,
+        @Body request: RequestRecommendKakaoDto
+    ): BaseResponse<List<ResponseRecommendDto>>
+
+}

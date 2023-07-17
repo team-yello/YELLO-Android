@@ -5,5 +5,4 @@ data class RecommendModel(
     val name: String,
     val group: String,
     val profileImage: String?
-
 )

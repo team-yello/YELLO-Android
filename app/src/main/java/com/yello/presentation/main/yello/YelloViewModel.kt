@@ -15,18 +15,18 @@ import com.example.ui.view.UiState.Empty
 import com.example.ui.view.UiState.Failure
 import com.example.ui.view.UiState.Success
 import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import timber.log.Timber
+import javax.inject.Inject
 
 @HiltViewModel
 class YelloViewModel @Inject constructor(
     private val voteRepository: VoteRepository,
     private val dataStore: YelloDataStore,
 ) : ViewModel() {
-    private val _yelloState = MutableLiveData<UiState<YelloState>>()
+    val _yelloState = MutableLiveData<UiState<YelloState>>()
     val yelloState: LiveData<UiState<YelloState>>
         get() = _yelloState
 
@@ -34,8 +34,8 @@ class YelloViewModel @Inject constructor(
     val leftTime: LiveData<Long>
         get() = _leftTime
 
-    private val _point = MutableLiveData<Int>()
-    private val point: Int
+    val _point = MutableLiveData<Int>()
+    val point: Int
         get() = _point.value ?: 0
 
     private val _isDecreasing = MutableLiveData(false)
@@ -44,12 +44,15 @@ class YelloViewModel @Inject constructor(
 
     init {
         getVoteState()
+        dataStore.isLogin = true
+        dataStore.userToken =
+            "eyJ0eXBlIjoiYWNjZXNzVG9rZW4iLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyOTExNzI0MDAyIiwianRpIjoiMTQ4IiwiaWF0IjoxNjg5NjE5NzkzLCJleHAiOjE2ODk3MDYxOTN9.pBvnzLuwAg2wDZZ77HUBbdZvE0-Xvp6XRhqF9ZDA1xc"
     }
 
     fun decreaseTime() {
+        leftTime.value ?: return
+        if (isDecreasing) return
         viewModelScope.launch {
-            leftTime.value ?: return@launch
-            if (isDecreasing) return@launch
             _isDecreasing.value = true
             while (requireNotNull(leftTime.value) > 0) {
                 delay(1000L)
@@ -71,12 +74,15 @@ class YelloViewModel @Inject constructor(
                         _yelloState.value = Empty
                         return@launch
                     }
-                    if (voteState.isStart) {
+
+                    _point.value = voteState.point
+                    if (voteState.isStart || voteState.leftTime < 0) {
                         _yelloState.value = Success(Valid(voteState.point))
                         return@launch
                     }
 
                     _yelloState.value = Success(Wait(voteState.leftTime))
+                    _point.value = voteState.point
                 }
                 .onFailure { t ->
                     if (t is HttpException) {

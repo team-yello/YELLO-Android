@@ -9,7 +9,7 @@ interface ProfileService {
 
     @GET("/api/v1/user/{userId}")
     suspend fun getUserData(
-        @Path("userId") friendId: String
+        @Path("userId") friendId: Int
     ): BaseResponse<ResponseProfileUserDto>
 
 }

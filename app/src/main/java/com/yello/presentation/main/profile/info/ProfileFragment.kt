@@ -6,11 +6,15 @@ import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import com.example.ui.base.BindingFragment
+import com.example.ui.view.UiState
 import com.example.ui.view.setOnSingleClickListener
 import com.yello.R
 import com.yello.databinding.FragmentProfileBinding
 import com.yello.presentation.main.profile.manage.ProfileManageActivity
+import com.yello.util.context.yelloSnackbar
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragment_profile) {
 
     private val viewModel by activityViewModels<ProfileViewModel>()
@@ -26,20 +30,39 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
         initItemClickListener()
         initFabUpwardListener()
 
-        setMyProfileData()
+        observeUserDataState()
+        setUserData(userid = 148)
         setListToAdapterFromLocal()
         setFabVisibility()
     }
 
-    private fun setMyProfileData() {
-        viewModel.myName.value = "김상호"
-        viewModel.myId.value = "@sangho.kk"
-        viewModel.mySchool.value = "고려대학교 산업경영공학부 19학번"
-        // TODO: 서버통신 후 이미지도 처리하기 - 바인딩어댑터
-        viewModel.myThumbnail.value = ""
-        viewModel.myTotalMsg.value = "31"
-        viewModel.myTotalFriends.value = "95"
-        viewModel.myTotalPoints.value = "930"
+    private fun observeUserDataState() {
+        viewModel.getState.observe(viewLifecycleOwner) { state ->
+            when (state) {
+                is UiState.Success -> {
+                    viewModel.myName.value = state.data.name
+                    viewModel.myId.value = "@" + state.data.yelloId
+                    viewModel.mySchool.value = state.data.group
+                    // TODO: 서버통신 후 이미지도 처리하기 - 바인딩어댑터
+                    // viewModel.myThumbnail.value = state.data.profileImageUrl
+                    viewModel.myTotalMsg.value = state.data.yelloCount.toString()
+                    viewModel.myTotalFriends.value = state.data.friendCount.toString()
+                    viewModel.myTotalPoints.value = state.data.point.toString()
+                }
+
+                is UiState.Failure -> {
+                    yelloSnackbar(requireView(), state.msg)
+                }
+
+                is UiState.Empty -> {}
+
+                is UiState.Loading -> {}
+            }
+        }
+    }
+
+    private fun setUserData(userid: Int) {
+        viewModel.getUserDataFromServer(userid)
     }
 
     private fun setFabVisibility() {

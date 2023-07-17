@@ -11,7 +11,7 @@ class ProfileDataSourceImpl @Inject constructor(
 ) : ProfileDataSource {
 
     override suspend fun getUserData(
-        userId: String
+        userId: Int
     ): BaseResponse<ResponseProfileUserDto> {
         return profileService.getUserData(userId)
     }

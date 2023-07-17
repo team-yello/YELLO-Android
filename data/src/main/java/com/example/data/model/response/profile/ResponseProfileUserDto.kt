@@ -6,26 +6,26 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class ResponseProfileUserDto(
-    @SerialName("friendCount")
-    val friendCount: Int,
-    @SerialName("group")
-    val group: String,
-    @SerialName("id")
-    val id: Int,
+    @SerialName("userId")
+    val userId: Int,
     @SerialName("name")
     val name: String,
-    @SerialName("point")
-    val point: Int,
     @SerialName("profileImageUrl")
     val profileImageUrl: String,
+    @SerialName("group")
+    val group: String,
+    @SerialName("yelloId")
+    val yelloId: String,
     @SerialName("yelloCount")
     val yelloCount: Int,
-    @SerialName("yelloId")
-    val yelloId: String
+    @SerialName("friendCount")
+    val friendCount: Int,
+    @SerialName("point")
+    val point: Int
 ) {
     fun toProfileUserModel(): ProfileUserModel {
         return ProfileUserModel(
-            friendCount, group, id, name, point, profileImageUrl, yelloCount, yelloId
+            userId, name, profileImageUrl, group, yelloId, yelloCount, friendCount, point
         )
     }
 }

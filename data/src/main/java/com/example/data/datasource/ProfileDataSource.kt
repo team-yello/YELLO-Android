@@ -6,7 +6,7 @@ import com.example.data.model.response.profile.ResponseProfileUserDto
 interface ProfileDataSource {
 
     suspend fun getUserData(
-        userId: String
+        userId: Int
     ): BaseResponse<ResponseProfileUserDto>
 
 }

@@ -9,7 +9,7 @@ class ProfileRepositoryImpl @Inject constructor(
     private val profileDataSource: ProfileDataSource
 ) : ProfileRepository {
 
-    override suspend fun getUserData(userId: String): ProfileUserModel {
+    override suspend fun getUserData(userId: Int): ProfileUserModel {
         return profileDataSource.getUserData(userId).data.toProfileUserModel()
     }
 

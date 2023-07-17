@@ -114,6 +114,7 @@ class VoteViewModel @Inject constructor(
 
         currentChoice.keywordName ?: return
         _choiceList.value?.add(currentChoice)
+        _votePointSum.value = votePointSum + voteList[currentNoteIndex].point
         viewModelScope.launch {
             delay(DELAY_OPTION_SELECTION)
             skipToNextVote()
@@ -132,6 +133,7 @@ class VoteViewModel @Inject constructor(
 
         currentChoice.friendId ?: return
         _choiceList.value?.add(currentChoice)
+        _votePointSum.value = votePointSum + voteList[currentNoteIndex].point
         viewModelScope.launch {
             delay(DELAY_OPTION_SELECTION)
             skipToNextVote()
@@ -209,6 +211,7 @@ class VoteViewModel @Inject constructor(
     private fun initVoteIndex() {
         _backgroundIndex.value = (0..11).random()
         _currentNoteIndex.value = 0
+        _votePointSum.value = 0
         initCurrentChoice()
     }
 
@@ -219,7 +222,6 @@ class VoteViewModel @Inject constructor(
         }
         initCurrentChoice()
         _noteState.value = NoteState.Success
-        _votePointSum.value = votePointSum + voteList[currentNoteIndex].point
         _shuffleCount.value = MAX_COUNT_SHUFFLE
         _currentNoteIndex.value = currentNoteIndex + 1
     }

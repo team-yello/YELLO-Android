@@ -23,6 +23,14 @@ class RecommendSchoolViewModel @Inject constructor(
     private val _addState = MutableLiveData<UiState<Unit>>()
     val addState: LiveData<UiState<Unit>> = _addState
 
+    var itemPosition : Int? = null
+    var itemHolder: RecommendViewHolder? = null
+
+    fun setPositionAndHolder(position: Int, holder: RecommendViewHolder) {
+        itemPosition = position
+        itemHolder = holder
+    }
+
     fun addListFromServer(page: Int) {
 
         viewModelScope.launch {

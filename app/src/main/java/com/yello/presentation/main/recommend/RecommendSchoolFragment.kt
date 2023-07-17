@@ -1,15 +1,18 @@
 package com.yello.presentation.main.recommend
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.animation.AnimationUtils
 import androidx.core.view.isEmpty
 import androidx.core.view.isVisible
+import androidx.core.view.setPadding
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.RecyclerView
 import com.example.domain.entity.RecommendModel
 import com.example.ui.base.BindingFragment
+import com.example.ui.intent.dpToPx
 import com.example.ui.view.UiState
 import com.example.ui.view.setOnSingleClickListener
 import com.kakao.sdk.talk.TalkApiClient
@@ -111,8 +114,8 @@ class RecommendSchoolFragment :
 
     private fun initItemClickListener() {
         adapter = RecommendAdapter { recommendModel, position, holder ->
+            viewModel.setPositionAndHolder(position, holder)
             viewModel.addFriendToServer(recommendModel.id.toLong())
-
         }
     }
 
@@ -123,6 +126,11 @@ class RecommendSchoolFragment :
                     if (binding.rvRecommendSchool.isEmpty()) {
                         binding.layoutRecommendFriendsList.isVisible = false
                         binding.layoutRecommendNoFriendsList.isVisible = true
+                    }
+                    val position = viewModel.itemPosition
+                    val holder = viewModel.itemHolder
+                    if (position != null && holder != null) {
+                        removeItemWithAnimation(holder, position)
                     }
                 }
 
@@ -157,5 +165,23 @@ class RecommendSchoolFragment :
 
     private fun dismissDialog() {
         if (recommendInviteDialog.isAdded) recommendInviteDialog.dismiss()
+    }
+
+    private fun removeItemWithAnimation(holder: RecommendViewHolder, position: Int) {
+        CoroutineScope(Dispatchers.Main).launch {
+            changeToCheckIcon(holder)
+            delay(300)
+            adapter?.removeItem(position)
+        }
+    }
+
+    private fun changeToCheckIcon(holder: RecommendViewHolder) {
+        holder.binding.btnRecommendItemAdd.apply {
+            text = null
+            setIconResource(R.drawable.ic_check)
+            setIconTintResource(R.color.black)
+            iconPadding = dpToPx(holder.binding.root.context, -2)
+            setPadding(dpToPx(holder.binding.root.context, 10))
+        }
     }
 }

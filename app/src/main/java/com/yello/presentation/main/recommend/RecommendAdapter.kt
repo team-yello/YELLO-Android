@@ -2,17 +2,10 @@ package com.yello.presentation.main.recommend
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.view.setPadding
 import androidx.recyclerview.widget.RecyclerView
 import com.example.domain.entity.RecommendModel
 import com.example.ui.intent.dpToPx
-import com.example.ui.view.setOnSingleClickListener
-import com.yello.R
 import com.yello.databinding.ItemRecommendListBinding
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
 
 class RecommendAdapter(private val itemClick: (RecommendModel, Int, RecommendViewHolder) -> (Unit)) :
@@ -31,7 +24,6 @@ class RecommendAdapter(private val itemClick: (RecommendModel, Int, RecommendVie
         holder.onBind(itemList[position], position)
 
         changeToTextButton(holder)
-        // initItemAddButtonListener(holder, position)
     }
 
 
@@ -40,17 +32,6 @@ class RecommendAdapter(private val itemClick: (RecommendModel, Int, RecommendVie
     fun setItemList(itemList: List<RecommendModel>) {
         this.itemList = itemList.toMutableList()
         notifyDataSetChanged()
-    }
-
-
-    private fun changeToCheckIcon(holder: RecommendViewHolder) {
-        holder.binding.btnRecommendItemAdd.apply {
-            text = null
-            setIconResource(R.drawable.ic_check)
-            setIconTintResource(R.color.black)
-            iconPadding = dpToPx(holder.binding.root.context, -2)
-            setPadding(dpToPx(holder.binding.root.context, 10))
-        }
     }
 
     private fun changeToTextButton(holder: RecommendViewHolder) {
@@ -66,17 +47,7 @@ class RecommendAdapter(private val itemClick: (RecommendModel, Int, RecommendVie
         }
     }
 
-    private fun initItemAddButtonListener(holder: RecommendViewHolder, position: Int) {
-        holder.binding.btnRecommendItemAdd.setOnSingleClickListener {
-            CoroutineScope(Dispatchers.Main).launch {
-                changeToCheckIcon(holder)
-                delay(300)
-                removeItem(position)
-            }
-        }
-    }
-
-    private fun removeItem(position: Int) {
+    fun removeItem(position: Int) {
         itemList.removeAt(position)
         notifyItemRemoved(position)
         notifyItemRangeChanged(position, itemCount)

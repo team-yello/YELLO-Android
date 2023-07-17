@@ -1,7 +1,6 @@
 package com.yello.presentation.main.recommend
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.view.animation.AnimationUtils
 import androidx.core.view.isEmpty
@@ -138,9 +137,7 @@ class RecommendSchoolFragment :
                     yelloSnackbar(requireView(), state.msg)
                 }
 
-                is UiState.Loading -> {
-                    binding.rvRecommendSchool.isClickable = false
-                }
+                is UiState.Loading -> {}
 
                 is UiState.Empty -> {}
             }

@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.domain.entity.RecommendAddModel
 import com.example.domain.entity.RecommendModel
 import com.example.domain.entity.RequestRecommendKakaoModel
 import com.example.domain.repository.RecommendRepository
@@ -20,8 +21,8 @@ class RecommendKakaoViewModel @Inject constructor(
     private val _postState = MutableLiveData<UiState<List<RecommendModel>>>()
     val postState: LiveData<UiState<List<RecommendModel>>> = _postState
 
-    private val _addState = MutableLiveData<UiState<Unit>>()
-    val addState: LiveData<UiState<Unit>> = _addState
+    private val _addState = MutableLiveData<UiState<RecommendAddModel>>()
+    val addState: LiveData<UiState<RecommendAddModel>> = _addState
 
     var itemPosition : Int? = null
     var itemHolder: RecommendViewHolder? = null

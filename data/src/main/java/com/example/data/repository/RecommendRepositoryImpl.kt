@@ -2,6 +2,7 @@ package com.example.data.repository
 
 import com.example.data.datasource.RecommendDataSource
 import com.example.data.model.request.recommend.toRequestDto
+import com.example.domain.entity.RecommendAddModel
 import com.example.domain.entity.RecommendModel
 import com.example.domain.entity.RequestRecommendKakaoModel
 import com.example.domain.repository.RecommendRepository
@@ -26,8 +27,8 @@ class RecommendRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun postFriendAdd(friendId: Long) {
-        return recommendDataSource.postFriendAdd(friendId).data
+    override suspend fun postFriendAdd(friendId: Long): RecommendAddModel {
+        return recommendDataSource.postFriendAdd(friendId).toRecommendAddModel()
     }
 
 }

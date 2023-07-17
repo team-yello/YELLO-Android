@@ -45,6 +45,7 @@ class RecommendKakaoFragment :
         initInviteButtonListener()
         initItemClickListener()
         observeChangeTokenState()
+        observeAddFriendState()
         setItemDivider()
         setDeleteAnimation()
     }
@@ -79,13 +80,6 @@ class RecommendKakaoFragment :
 
     private fun setListFromServer() {
         viewModel.addListFromServer(0, kakaoFriendIdList)
-    }
-
-    private fun initItemClickListener() {
-        adapter = RecommendAdapter{ recommendModel, position, holder ->
-            viewModel.setPositionAndHolder(position, holder)
-            viewModel.addFriendToServer(recommendModel.id.toLong())
-        }
     }
 
     private fun observeChangeTokenState() {
@@ -143,9 +137,7 @@ class RecommendKakaoFragment :
                     yelloSnackbar(requireView(), state.msg)
                 }
 
-                is UiState.Loading -> {
-                    binding.rvRecommendKakao.isClickable = false
-                }
+                is UiState.Loading -> {}
 
                 is UiState.Empty -> {}
             }
@@ -189,5 +181,4 @@ class RecommendKakaoFragment :
             setPadding(dpToPx(holder.binding.root.context, 10))
         }
     }
-}
 }

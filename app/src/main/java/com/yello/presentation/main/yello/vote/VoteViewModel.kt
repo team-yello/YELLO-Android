@@ -15,11 +15,11 @@ import com.yello.presentation.main.yello.vote.NoteState.InvalidCancel
 import com.yello.presentation.main.yello.vote.NoteState.InvalidShuffle
 import com.yello.presentation.main.yello.vote.NoteState.InvalidSkip
 import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import timber.log.Timber
+import javax.inject.Inject
 
 @HiltViewModel
 class VoteViewModel @Inject constructor(

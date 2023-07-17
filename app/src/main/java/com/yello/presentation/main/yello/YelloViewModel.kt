@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.domain.YelloDataStore
 import com.example.domain.entity.type.YelloState
 import com.example.domain.entity.type.YelloState.Lock
 import com.example.domain.entity.type.YelloState.Valid
@@ -23,13 +24,14 @@ import javax.inject.Inject
 @HiltViewModel
 class YelloViewModel @Inject constructor(
     private val voteRepository: VoteRepository,
+    private val dataStore: YelloDataStore,
 ) : ViewModel() {
     private val _yelloState = MutableLiveData<UiState<YelloState>>()
     val yelloState: LiveData<UiState<YelloState>>
         get() = _yelloState
 
     private val _leftTime = MutableLiveData(SEC_MAX_LOCK_TIME)
-    val leftTime: LiveData<Int>
+    val leftTime: LiveData<Long>
         get() = _leftTime
 
     private val _point = MutableLiveData<Int>()
@@ -38,6 +40,8 @@ class YelloViewModel @Inject constructor(
 
     init {
         getVoteState()
+        dataStore.userToken =
+            "eyJ0eXBlIjoiYWNjZXNzVG9rZW4iLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyOTAyMTQ3MTY5IiwianRpIjoiMTYxIiwiaWF0IjoxNjg5NTMzMjgyLCJleHAiOjE2ODk2MTk2ODJ9.yzO71BRbZLoitkr0iv6R2JYEjp-e2RMUZVQHMm81RDI"
     }
 
     fun decreaseTime() {
@@ -86,8 +90,8 @@ class YelloViewModel @Inject constructor(
     }
 
     companion object {
-        const val SEC_MAX_LOCK_TIME = 2400
+        const val SEC_MAX_LOCK_TIME = 2400L
 
-        private const val CODE_NO_FRIEND = 401
+        private const val CODE_NO_FRIEND = 400
     }
 }

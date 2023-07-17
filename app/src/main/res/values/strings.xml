@@ -95,5 +95,6 @@
     <string name="note_msg_invalid_shuffle">이름을 선택하면 셔플을 사용할 수 없어요.</string>
     <string name="look_title">둘러보기</string>
     <string name="look_sub_description">아직 구현되지 않은 기능이에요.\n조금만 기다려주세요!</string>
+    <string name="splash_title">지금 누군가 당신을 생각하고 있어요!</string>
 
 </resources>

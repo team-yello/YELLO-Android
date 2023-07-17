@@ -2,6 +2,7 @@ package com.yello.presentation.onboarding.fragment.school
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.activityViewModels
 import com.example.ui.base.BindingFragment
 import com.example.ui.view.setOnSingleClickListener
@@ -19,6 +20,9 @@ class SchoolFragment : BindingFragment<FragmentSchoolBinding>(R.layout.fragment_
         initSearchSchoolBtnClickListener()
         setConfirmBtnClickListener()
         setupSchool()
+        binding.tvSchoolSearch.doAfterTextChanged {
+            it.toString()
+        }
     }
 
     private fun initSearchSchoolBtnClickListener() {

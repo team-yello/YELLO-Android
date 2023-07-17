@@ -44,7 +44,7 @@ class SchoolAdapter(
 
     companion object {
         private val diffUtil = ItemDiffCallback<MySchool>(
-            onItemsTheSame = { old, new -> old.schoolname == new.schoolname },
+            onItemsTheSame = { old, new -> old.groupNameList == new.groupNameList },
             onContentsTheSame = { old, new -> old == new },
         )
     }

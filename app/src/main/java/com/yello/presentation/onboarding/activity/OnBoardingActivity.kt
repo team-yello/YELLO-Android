@@ -2,6 +2,7 @@ package com.yello.presentation.onboarding.activity
 import android.os.Bundle
 import androidx.activity.viewModels
 import com.example.ui.base.BindingActivity
+import com.facebook.flipper.plugins.uidebugger.model.FrameScanEvent.Companion.name
 import com.yello.R
 import com.yello.databinding.ActivityOnboardingBinding
 import com.yello.presentation.onboarding.ViewPagerFragmentAdapter
@@ -29,4 +30,5 @@ class OnBoardingActivity :
             binding.vpOnboarding.currentItem = page
         }
     }
+
 }

@@ -95,41 +95,46 @@ class OnBoardingViewModel : ViewModel() {
     private val _codeResult: MutableLiveData<List<MyCode>> = MutableLiveData()
     val codeResult: LiveData<List<MyCode>> = _codeResult
 
-    private fun checkValidSchool(school: String): Boolean {
+    fun checkValidSchool(school: String): Boolean {
         return school.isNullOrBlank()
     }
 
-    private fun checkEmpty_department(department: String): Boolean {
+    fun checkEmpty_department(department: String): Boolean {
         return department.isNullOrBlank()
     }
 
-    private fun checkEmpty_studentid(studentid: String): Boolean {
+    fun checkEmpty_studentid(studentid: String): Boolean {
         return studentid.isNullOrBlank()
     }
 
-    private fun checkEmpty_name(name: String): Boolean {
+    fun checkEmpty_name(name: String): Boolean {
         return name.isNullOrBlank()
     }
 
-    private fun checkRegax_name(name: String): Boolean {
+    fun checkRegax_name(name: String): Boolean {
         return name.matches("^[ㄱ-ㅎㅏ-ㅣ가-힣]\$".toRegex())
     }
 
-    private fun checkEmpty_id(id: String): Boolean {
+    // 문자, 숫자, 및줄, 마침표만 사용 정규표현식
+    fun checkRegax_id(id: String): Boolean {
+        return id.matches("^[A-Za-z0-9_.]*\$".toRegex())
+    }
+
+    fun checkEmpty_id(id: String): Boolean {
         return id.isNullOrBlank()
     }
 
-    private fun checkEmpty_code(code: String): Boolean {
+    fun checkEmpty_code(code: String): Boolean {
         return code.isNullOrBlank()
     }
 
     // 목데이터
     fun addSchool() {
         val mockList = listOf(
-            MySchool("김상호랑이대학교"),
-            MySchool("전채연습만이살길대학교"),
-            MySchool("이강민머리될떄까지대학교"),
-            MySchool("박민주거라연습대학교"),
+            MySchool(1, "김상호랑이대학교"),
+            MySchool(2, "전채연습만이살길대학교"),
+            MySchool(3, "이강민머리될떄까지대학교"),
+            MySchool(4, "박민주거라연습대학교"),
         )
         _schoolResult.value = mockList
     }

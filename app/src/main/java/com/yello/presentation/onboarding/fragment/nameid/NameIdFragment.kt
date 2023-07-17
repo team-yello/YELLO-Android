@@ -2,9 +2,12 @@ package com.yello.presentation.onboarding.fragment.nameid
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import com.example.ui.base.BindingFragment
 import com.example.ui.view.setOnSingleClickListener
+import com.facebook.flipper.plugins.uidebugger.model.FrameScanEvent
+import com.facebook.flipper.plugins.uidebugger.model.FrameScanEvent.Companion.name
 import com.yello.R
 import com.yello.databinding.FragmentNameIdBinding
 import com.yello.presentation.onboarding.activity.OnBoardingViewModel
@@ -46,4 +49,5 @@ class NameIdFragment : BindingFragment<FragmentNameIdBinding>(R.layout.fragment_
             editid.setText("")
         }
     }
+
 }

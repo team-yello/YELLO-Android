@@ -6,7 +6,7 @@
     "yello": [
       {
         "id": 1,
-        "gender": "M",
+        "gender": "MALE",
         "nameHint": -1,
         "senderName": "권세훈",
         "vote": {
@@ -22,7 +22,7 @@
       },
       {
         "id": 1,
-        "gender": "W",
+        "gender": "FEMALE",
         "nameHint": -1,
         "senderName": "권세훈",
         "vote": {
@@ -38,7 +38,7 @@
       },
       {
         "id": 1,
-        "gender": "M",
+        "gender": "MALE",
         "nameHint": -1,
         "senderName": "권세훈",
         "vote": {
@@ -54,7 +54,7 @@
       },
       {
         "id": 1,
-        "gender": "M",
+        "gender": "MALE",
         "nameHint": -1,
         "senderName": "권세훈",
         "vote": {
@@ -70,7 +70,7 @@
       },
       {
         "id": 1,
-        "gender": "W",
+        "gender": "FEMALE",
         "nameHint": 1,
         "senderName": "권세훈",
         "vote": {
@@ -86,7 +86,7 @@
       },
       {
         "id": 1,
-        "gender": "M",
+        "gender": "MALE",
         "nameHint": 0,
         "senderName": "권세훈",
         "vote": {
@@ -102,7 +102,7 @@
       },
       {
         "id": 1,
-        "gender": "M",
+        "gender": "MALE",
         "nameHint": 0,
         "senderName": "권세훈",
         "vote": {
@@ -118,7 +118,7 @@
       },
       {
         "id": 1,
-        "gender": "M",
+        "gender": "MALE",
         "nameHint": 0,
         "senderName": "권세훈",
         "vote": {

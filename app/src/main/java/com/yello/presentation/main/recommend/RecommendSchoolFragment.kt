@@ -3,6 +3,7 @@ package com.yello.presentation.main.recommend
 import android.os.Bundle
 import android.view.View
 import android.view.animation.AnimationUtils
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.RecyclerView
@@ -72,6 +73,7 @@ class RecommendSchoolFragment :
         viewModel.postState.observe(viewLifecycleOwner) { state ->
             when (state) {
                 is UiState.Success -> {
+                    binding.layoutRecommendFriendsList.isVisible = true
                     friendsList = state.data
                     binding.rvRecommendSchool.adapter = RecommendAdapter(requireContext()).apply {
                         setItemList(friendsList)
@@ -79,12 +81,17 @@ class RecommendSchoolFragment :
                 }
 
                 is UiState.Failure -> {
+                    binding.layoutRecommendFriendsList.isVisible = false
+                    binding.layoutRecommendNoFriendsList.isVisible = true
                     toast(state.msg)
                 }
 
                 is UiState.Loading -> {}
 
-                is UiState.Empty -> {}
+                is UiState.Empty -> {
+                    binding.layoutRecommendFriendsList.isVisible = false
+                    binding.layoutRecommendNoFriendsList.isVisible = true
+                }
             }
         }
     }

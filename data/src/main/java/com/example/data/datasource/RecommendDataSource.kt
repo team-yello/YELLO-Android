@@ -10,4 +10,10 @@ interface RecommendDataSource {
         page: Int,
         request: RequestRecommendKakaoDto
     ): BaseResponse<List<ResponseRecommendDto>>
+
+    suspend fun getSchoolListData(
+        accessToken: String,
+        page: Int
+    ): BaseResponse<List<ResponseRecommendDto>>
+
 }

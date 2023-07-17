@@ -19,4 +19,11 @@ class RecommendDataSourceImpl @Inject constructor(
         return recommendService.postToGetKakaoList(accessToken, page, request)
     }
 
+    override suspend fun getSchoolListData(
+        accessToken: String,
+        page: Int
+    ): BaseResponse<List<ResponseRecommendDto>> {
+        return recommendService.getSchoolList(accessToken, page)
+    }
+
 }

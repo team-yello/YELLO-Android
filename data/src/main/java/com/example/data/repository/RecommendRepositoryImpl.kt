@@ -11,7 +11,7 @@ class RecommendRepositoryImpl @Inject constructor(
     private val recommendDataSource: RecommendDataSource
 ) : RecommendRepository {
 
-    override suspend fun postToGetKakaoList(
+    override suspend fun postToGetKakaoFriendList(
         accessToken: String,
         page: Int,
         request: RequestRecommendKakaoModel
@@ -24,4 +24,11 @@ class RecommendRepositoryImpl @Inject constructor(
             it.toRecommendModel()
         }
     }
+
+    override suspend fun getSchoolFriendList(accessToken: String, page: Int): List<RecommendModel> {
+        return recommendDataSource.getSchoolListData(accessToken, page).data.map {
+            it.toRecommendModel()
+        }
+    }
+
 }

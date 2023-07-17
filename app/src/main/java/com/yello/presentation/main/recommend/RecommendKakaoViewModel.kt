@@ -25,7 +25,7 @@ class RecommendKakaoViewModel @Inject constructor(
         viewModelScope.launch {
             _postState.value = UiState.Loading
             runCatching {
-                recommendRepository.postToGetKakaoList(
+                recommendRepository.postToGetKakaoFriendList(
                     accessToken, page, RequestRecommendKakaoModel(friendKakaoId)
                 )
             }.onSuccess {

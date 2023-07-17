@@ -3,13 +3,11 @@ package com.yello.presentation.main.yello.point
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.activityViewModels
-import com.example.domain.entity.type.YelloState.Wait
 import com.example.ui.base.BindingFragment
 import com.example.ui.view.setOnSingleClickListener
 import com.yello.R
 import com.yello.databinding.FragmentPointBinding
 import com.yello.presentation.main.yello.YelloViewModel
-import com.yello.presentation.main.yello.YelloViewModel.Companion.SEC_MAX_LOCK_TIME
 import com.yello.presentation.main.yello.vote.VoteViewModel
 
 class PointFragment : BindingFragment<FragmentPointBinding>(R.layout.fragment_point) {
@@ -25,7 +23,7 @@ class PointFragment : BindingFragment<FragmentPointBinding>(R.layout.fragment_po
 
     private fun setConfirmBtnClickListener() {
         binding.btnPointConfirm.setOnSingleClickListener {
-            viewModel.setVoteState(Wait(SEC_MAX_LOCK_TIME))
+            viewModel.getVoteState()
             requireActivity().finish()
         }
     }

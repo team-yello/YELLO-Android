@@ -30,13 +30,17 @@ class YelloViewModel @Inject constructor(
     val yelloState: LiveData<UiState<YelloState>>
         get() = _yelloState
 
-    private val _leftTime = MutableLiveData(SEC_MAX_LOCK_TIME)
+    private val _leftTime = MutableLiveData<Long>()
     val leftTime: LiveData<Long>
         get() = _leftTime
 
     private val _point = MutableLiveData<Int>()
     private val point: Int
         get() = _point.value ?: 0
+
+    private val _isDecreasing = MutableLiveData(false)
+    private val isDecreasing: Boolean
+        get() = _isDecreasing.value ?: false
 
     init {
         getVoteState()
@@ -45,21 +49,24 @@ class YelloViewModel @Inject constructor(
     fun decreaseTime() {
         viewModelScope.launch {
             leftTime.value ?: return@launch
+            if (isDecreasing) return@launch
+            _isDecreasing.value = true
             while (requireNotNull(leftTime.value) > 0) {
                 delay(1000L)
                 if (requireNotNull(leftTime.value) <= 0) return@launch
                 _leftTime.value = leftTime.value?.minus(1)
             }
 
-            setVoteState(Valid(point))
+            getVoteState()
+            _isDecreasing.value = false
         }
     }
 
-    private fun getVoteState() {
+    fun getVoteState() {
         viewModelScope.launch {
             voteRepository.getVoteAvailable()
                 .onSuccess { voteState ->
-                    Timber.d("GET VOTE STATUE SUCCESS : $voteState")
+                    Timber.d("GET VOTE STATE SUCCESS : $voteState")
                     if (voteState == null) {
                         _yelloState.value = Empty
                         return@launch
@@ -82,10 +89,6 @@ class YelloViewModel @Inject constructor(
                     Timber.e("GET VOTE STATE ERROR : $t")
                 }
         }
-    }
-
-    fun setVoteState(state: YelloState) {
-        _yelloState.value = Success(state)
     }
 
     companion object {

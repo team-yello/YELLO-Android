@@ -28,7 +28,7 @@ class SearchDialogDepartmentFragment :
 
     private fun initDepartmentAdapter() {
         binding.etDepartmentSearch.doAfterTextChanged {
-            viewModel.addListDepartment("서울대학교",it.toString())
+            viewModel.addListDepartment("서울대학교", it.toString())
         }
         departmentList = viewModel.departmentResult.value ?: emptyList()
         val adapter = DepartmentAdapter(requireContext(), storeDepartment = ::storeDepartment)

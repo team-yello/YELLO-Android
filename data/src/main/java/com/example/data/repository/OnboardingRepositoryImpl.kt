@@ -3,6 +3,7 @@ package com.example.data.repository
 import com.example.data.datasource.OnboardingDataSource
 import com.example.data.model.request.onboarding.toRequestDto
 import com.example.domain.entity.MyDepartment
+import com.example.domain.entity.MyId
 import com.example.domain.entity.MySchool
 import com.example.domain.entity.RequestServiceTokenModel
 import com.example.domain.entity.ServiceTokenModel
@@ -39,4 +40,8 @@ class OnboardingRepositoryImpl @Inject constructor(
             ).data.toMyDepartment()
         }
     }
+
+
+
+
 }

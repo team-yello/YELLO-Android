@@ -29,4 +29,9 @@ interface OnboardingService {
         @Query("search") search: String,
         @Query("page") page: Long,
     ): BaseResponse<ResponseDepartmentDto>
+
+    @GET("api/v1/auth/valid")
+    suspend fun getIdValid(
+        @Query("yelloid") yelloid: String,
+    ): BaseResponse<Boolean>
 }

@@ -75,6 +75,13 @@
     <string name="my_yello_send_check">누가 보냈는지 확인하기</string>
     <string name="my_yello_you">너</string>
     <string name="my_yello_not_yet">아직 쪽지가 온 게 없어요.</string>
+    <string name="my_yello_question">\???</string>
+    <string name="my_yello_zero">0</string>
+    <string name="my_yello_send">님이 보냄</string>
+    <string name="my_yello_female">익명의 여학생</string>
+    <string name="my_yello_male">익명의 남학생</string>
+    <string name="my_yello_instagram">인스타그램 공유하기</string>
+    <string name="my_yello_point_check">100포인트로 키워드 확인하기</string>
 
     <string name="point_description">투표 포인트 적립!</string>
     <string name="point_sub_description">투표로 포인트를 모아 쪽지를 열어보세요.</string>

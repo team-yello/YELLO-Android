@@ -10,10 +10,12 @@ data class ResponseGetFriendShuffleDto(
     val friendId: Int,
     @SerialName("friendName")
     val friendName: String,
+    @SerialName("friendYelloId")
+    val friendYelloId: String
 ) {
     fun toFriend() = Friend(
         id = friendId,
-        yelloId = "dummy", // TODO: 명세서 수정 후 yello id 넣어주기
+        yelloId = friendYelloId,
         name = friendName,
     )
 }

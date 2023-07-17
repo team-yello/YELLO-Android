@@ -162,6 +162,7 @@ class VoteViewModel @Inject constructor(
                         if (t is HttpException) {
                             Timber.e("GET FRIEND SHUFFLE FAILURE : $t")
                             _noteState.value = NoteState.Failure
+                            return@launch
                         }
                     }
             }

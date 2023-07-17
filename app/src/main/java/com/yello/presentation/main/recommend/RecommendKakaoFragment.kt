@@ -88,6 +88,7 @@ class RecommendKakaoFragment :
                 }
 
                 is UiState.Loading -> {}
+
                 is UiState.Empty -> {}
             }
         }

@@ -8,13 +8,17 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.RecyclerView
 import com.example.domain.entity.RecommendModel
 import com.example.ui.base.BindingFragment
+import com.example.ui.fragment.toast
+import com.example.ui.view.UiState
 import com.example.ui.view.setOnSingleClickListener
 import com.kakao.sdk.talk.TalkApiClient
 import com.kakao.sdk.talk.model.Friend
 import com.yello.R
 import com.yello.databinding.FragmentRecommendSchoolBinding
+import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
+@AndroidEntryPoint
 class RecommendSchoolFragment :
     BindingFragment<FragmentRecommendSchoolBinding>(R.layout.fragment_recommend_school) {
 
@@ -25,13 +29,17 @@ class RecommendSchoolFragment :
     private lateinit var friendsList: List<RecommendModel>
     private lateinit var kakaoFriendIdList: List<String>
 
+    // TODO: 액세스 토큰 설정
+    private val serviceAccessToken =
+        "eyJ0eXBlIjoiYWNjZXNzVG9rZW4iLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyOTAyMTQ3MTY5IiwianRpIjoiMTYxIiwiaWF0IjoxNjg5NTMzMjgyLCJleHAiOjE2ODk2MTk2ODJ9.yzO71BRbZLoitkr0iv6R2JYEjp-e2RMUZVQHMm81RDI"
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         getFriendIdList()
         initInviteButtonListener()
-        setListToAdapterFromLocal()
+        observeChangeTokenState()
+        setListFromServer()
         setItemDivider()
         setDeleteAnimation()
     }
@@ -60,11 +68,29 @@ class RecommendSchoolFragment :
         }
     }
 
-    private fun setListToAdapterFromLocal() {
-        viewModel.addListFromLocal()
-        friendsList = viewModel.recommendResult.value ?: emptyList()
-        binding.rvRecommendSchool.adapter = RecommendAdapter(requireContext()).apply {
-            setItemList(friendsList)
+    private fun setListFromServer() {
+        val token = "Bearer $serviceAccessToken"
+        viewModel.addListFromServer(token, 1)
+    }
+
+    private fun observeChangeTokenState() {
+        viewModel.postState.observe(viewLifecycleOwner) { state ->
+            when (state) {
+                is UiState.Success -> {
+                    friendsList = state.data
+                    binding.rvRecommendSchool.adapter = RecommendAdapter(requireContext()).apply {
+                        setItemList(friendsList)
+                    }
+                }
+
+                is UiState.Failure -> {
+                    toast(state.msg)
+                }
+
+                is UiState.Loading -> {}
+
+                is UiState.Empty -> {}
+            }
         }
     }
 

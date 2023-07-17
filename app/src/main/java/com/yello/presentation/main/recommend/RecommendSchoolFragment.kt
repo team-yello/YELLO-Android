@@ -122,14 +122,14 @@ class RecommendSchoolFragment :
         viewModel.addState.observe(viewLifecycleOwner) { state ->
             when (state) {
                 is UiState.Success -> {
-                    if (binding.rvRecommendSchool.isEmpty()) {
-                        binding.layoutRecommendFriendsList.isVisible = false
-                        binding.layoutRecommendNoFriendsList.isVisible = true
-                    }
                     val position = viewModel.itemPosition
                     val holder = viewModel.itemHolder
                     if (position != null && holder != null) {
                         removeItemWithAnimation(holder, position)
+                    }
+                    if (adapter?.itemCount == 0) {
+                        binding.layoutRecommendFriendsList.isVisible = false
+                        binding.layoutRecommendNoFriendsList.isVisible = true
                     }
                 }
 

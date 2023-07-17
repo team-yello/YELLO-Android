@@ -11,22 +11,22 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface YelloService {
-    @GET("yello")
+    @GET("api/v1/vote")
     suspend fun getMyYelloList(
         @Query("page") page: Int
     ): BaseResponse<ResponseMyYello>
 
-    @GET("yello/{id}/name")
+    @GET("api/v1/vote/{id}")
     suspend fun getYelloDetail(
         @Path("id") id: Long
     ): BaseResponse<ResponseYelloDetail>
 
-    @POST("yello/{id}/keyword")
+    @POST("/api/v1/yello/{id}/keyword")
     suspend fun checkKeyword(
         @Path("id") id: Long
     ): BaseResponse<ResponseCheckKeyword>
 
-    @POST("yello/{id}/name")
+    @POST("/api/v1/yello/{id}/name")
     suspend fun checkName(
         @Path("id") id: Long
     ): BaseResponse<ResponseCheckName>

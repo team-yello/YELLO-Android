@@ -5,12 +5,16 @@
 
     <data>
 
+        <variable
+            name="vm"
+            type="com.yello.presentation.onboarding.activity.OnBoardingViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layout_department_dialog"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@drawable/shape_rounded_dialog"
         android:minHeight="400dp">
 
         <TextView
@@ -20,7 +24,7 @@
             android:layout_marginTop="28dp"
             android:text="@string/onboarding_tv_search_department"
             android:textAppearance="?textAppearanceBodyLarge"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -45,7 +49,8 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="20dp"
             android:layout_marginTop="12dp"
-            android:background="@drawable/shape_grayscales50_fill_grayscales400_line_8_rect"
+            android:background="@drawable/shape_grayscales900_fill_grayscales500_line_8_rect"
+            android:textColor="@color/white"
             android:drawableEnd="@drawable/ic_onboarding_search"
             android:drawablePadding="24dp"
             android:fontFamily="@font/font_pretendard_medium"
@@ -68,7 +73,7 @@
             android:background="@null"
             android:text="@string/onboarding_btn_add_department"
             android:textAppearance="?textAppearanceLabelLarge"
-            android:textColor="@color/grayscales_600"
+            android:textColor="@color/grayscales_500"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/btn_department_search" />
@@ -79,6 +84,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:orientation="vertical"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_department_add"

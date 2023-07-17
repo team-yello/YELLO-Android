@@ -9,7 +9,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layout_sign_in"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/black">
 
         <TextView
             android:id="@+id/tv_sign_in_title"
@@ -19,6 +20,7 @@
             android:gravity="center"
             android:text="@string/tv_sign_in_title"
             android:textAppearance="?attr/textAppearanceHeadline3"
+            android:textColor="@color/white"
             app:layout_constraintBottom_toTopOf="@id/tv_sign_in_subtitle"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
@@ -31,6 +33,7 @@
             android:gravity="center"
             android:text="@string/tv_sign_in_subtitle"
             android:textAppearance="?attr/textAppearanceBodySmall"
+            android:textColor="@color/white"
             app:layout_constraintBottom_toTopOf="@id/iv_sign_in"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
@@ -39,8 +42,9 @@
             android:id="@+id/iv_sign_in"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:minHeight="340dp"
             android:scaleType="centerCrop"
-            android:src="@drawable/ic_launcher_foreground"
+            android:src="@drawable/img_on_boarding_start"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintDimensionRatio="1"
             app:layout_constraintEnd_toEndOf="parent"

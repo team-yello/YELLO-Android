@@ -1,7 +1,9 @@
 package com.yello.di
 
+import com.example.data.repository.OnboardingRepositoryImpl
 import com.example.data.repository.VoteRepositoryImpl
 import com.example.data.repository.YelloRepositoryImpl
+import com.example.domain.repository.OnboardingRepository
 import com.example.domain.repository.VoteRepository
 import com.example.domain.repository.YelloRepository
 import dagger.Module
@@ -21,4 +23,9 @@ object RepositoryModule {
     @Provides
     @Singleton
     fun provideVoteDataSource(voteRepository: VoteRepositoryImpl): VoteRepository = voteRepository
+
+    @Provides
+    @Singleton
+    fun provideOnboardingRepository(onboardingRepositoryImpl: OnboardingRepositoryImpl): OnboardingRepository =
+        onboardingRepositoryImpl
 }

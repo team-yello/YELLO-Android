@@ -12,6 +12,7 @@ import com.example.ui.fragment.toast
 import com.example.ui.view.UiState
 import com.yello.R
 import com.yello.databinding.FragmentMyYelloBinding
+import com.yello.presentation.main.myyello.read.MyYelloReadActivity
 import com.yello.presentation.util.BaseLinearRcvItemDeco
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
@@ -32,7 +33,9 @@ class MyYelloFragment : BindingFragment<FragmentMyYelloBinding>(R.layout.fragmen
 
     private fun initView() {
         viewModel.getMyYelloList()
-        adapter = MyYelloAdapter()
+        adapter = MyYelloAdapter {
+            startActivity(MyYelloReadActivity.getIntent(requireContext(), it.id))
+        }
         binding.rvMyYelloReceive.addItemDecoration(
             BaseLinearRcvItemDeco(
                 8,
@@ -56,7 +59,6 @@ class MyYelloFragment : BindingFragment<FragmentMyYelloBinding>(R.layout.fragmen
                 when (it) {
                     is UiState.Success -> {
                         adapter?.addItem(it.data.yello)
-                        binding.tvCount.text = it.data.totalCount.toString()
                     }
 
                     is UiState.Failure -> {
@@ -66,25 +68,27 @@ class MyYelloFragment : BindingFragment<FragmentMyYelloBinding>(R.layout.fragmen
                     else -> {}
                 }
             }.launchIn(viewLifecycleOwner.lifecycleScope)
+
+        viewModel.totalCount.flowWithLifecycle(viewLifecycleOwner.lifecycle)
+            .onEach {
+                binding.tvCount.text = it.toString()
+            }.launchIn(viewLifecycleOwner.lifecycleScope)
     }
 
+    // 페이지네이션
     private fun infinityScroll() {
         binding.rvMyYelloReceive.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
-                // 화면에 보이는 마지막 아이템의 position
-                val lastVisibleItemPosition =
-                    (recyclerView.layoutManager as LinearLayoutManager).findLastCompletelyVisibleItemPosition()
-                // 어댑터에 등록된 아이템의 총 개수 -1
-                val itemTotalCount = adapter?.itemCount?.minus(1)
-                // 스크롤이 끝에 도달했는지 확인
-                if (lastVisibleItemPosition != -1 && itemTotalCount != -1) {
-                    if (lastVisibleItemPosition == itemTotalCount) {
+                if (dy > 0) {
+                    if (!binding.rvMyYelloReceive.canScrollVertically(1) &&
+                        (recyclerView.layoutManager as LinearLayoutManager).findLastVisibleItemPosition() == adapter!!.itemCount - 1
+                    ) {
                         viewModel.getMyYelloList()
                     }
-                }
             }
-        })
+        }
+    })
     }
 
     override fun onDestroyView() {

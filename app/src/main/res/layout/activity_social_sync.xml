@@ -9,7 +9,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layout_social_sync"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/black">
 
         <TextView
             android:id="@+id/tv_social_sync_title"
@@ -19,6 +20,7 @@
             android:gravity="center"
             android:text="@string/tv_social_sync_title"
             android:textAppearance="?attr/textAppearanceHeadline3"
+            android:textColor="@color/white"
             app:layout_constraintBottom_toTopOf="@id/tv_social_sync_subtitle"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
@@ -31,6 +33,7 @@
             android:gravity="center"
             android:text="@string/tv_social_sync_subtitle"
             android:textAppearance="?attr/textAppearanceBodySmall"
+            android:textColor="@color/white"
             app:layout_constraintBottom_toTopOf="@id/iv_social_sync"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
@@ -39,8 +42,9 @@
             android:id="@+id/iv_social_sync"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:minHeight="340dp"
             android:scaleType="centerCrop"
-            android:src="@drawable/ic_launcher_foreground"
+            android:src="@drawable/img_on_boarding_sync"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintDimensionRatio="1"
             app:layout_constraintEnd_toEndOf="parent"
@@ -83,6 +87,30 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/tv_social_sync_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="6dp"
+            android:text="@string/tv_social_sync_info"
+            android:textAppearance="?textAppearanceLabelLarge"
+            android:textColor="@color/grayscales_500"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btn_social_sync" />
+
+        <ImageView
+            android:id="@+id/iv_social_sync_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="2dp"
+            android:src="@drawable/ic_alert"
+            app:layout_constraintBottom_toBottomOf="@id/tv_social_sync_info"
+            app:layout_constraintEnd_toStartOf="@id/tv_social_sync_info"
+            app:layout_constraintTop_toTopOf="@id/tv_social_sync_info" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -7,10 +7,13 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.example.domain.entity.Yello
 import com.example.domain.enum.GenderEnum
+import com.example.ui.view.setOnSingleClickListener
 import com.yello.R
 import com.yello.databinding.ItemMyYelloBinding
+import com.yello.util.Utils
 
-class MyYelloAdapter : RecyclerView.Adapter<MyYelloAdapter.MyYelloViewHolder>() {
+class MyYelloAdapter(private val itemClick: (Yello) -> (Unit)) :
+    RecyclerView.Adapter<MyYelloAdapter.MyYelloViewHolder>() {
     private val yelloList = mutableListOf<Yello>()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyYelloViewHolder {
         val binding = ItemMyYelloBinding.inflate(
@@ -18,7 +21,7 @@ class MyYelloAdapter : RecyclerView.Adapter<MyYelloAdapter.MyYelloViewHolder>() 
             parent,
             false
         )
-        return MyYelloViewHolder(binding)
+        return MyYelloViewHolder(binding, itemClick)
     }
 
     override fun onBindViewHolder(holder: MyYelloViewHolder, position: Int) {
@@ -33,7 +36,8 @@ class MyYelloAdapter : RecyclerView.Adapter<MyYelloAdapter.MyYelloViewHolder>() 
     }
 
     class MyYelloViewHolder(
-        private val binding: ItemMyYelloBinding
+        private val binding: ItemMyYelloBinding,
+        private val itemClick: (Yello) -> Unit
     ) : RecyclerView.ViewHolder(binding.root) {
         fun onBind(item: Yello) {
             binding.ivReadYelloPoint.isVisible = !item.isRead && !item.isHintUsed
@@ -81,23 +85,14 @@ class MyYelloAdapter : RecyclerView.Adapter<MyYelloAdapter.MyYelloViewHolder>() 
                 binding.tvKeyword.text = item.vote.keyword
                 binding.tvKeywordFoot.text = item.vote.keywordFoot
                 if (item.nameHint >= 0) {
-                    binding.tvSendName.text = setChosungText(item.senderName, item.nameHint)
+                    binding.tvSendName.text = Utils.setChosungText(item.senderName, item.nameHint)
                 }
                 binding.clSendName.isVisible = item.nameHint != -1
             }
-        }
 
-        private fun setChosungText(name: String, number: Int): String {
-            val firstChosung = name[number]
-            val chosungUnicode = Character.UnicodeBlock.of(firstChosung.toInt())
-            return if (chosungUnicode == Character.UnicodeBlock.HANGUL_COMPATIBILITY_JAMO
-                || chosungUnicode == Character.UnicodeBlock.HANGUL_JAMO
-                || chosungUnicode == Character.UnicodeBlock.HANGUL_SYLLABLES
-            ) {
-                val chosungIndex = (firstChosung.toInt() - 0xAC00) / 28 / 21
-                val chosung = Character.toChars(chosungIndex + 0x1100)[0]
-                chosung.toString() // 출력: "ㄱ"
-            } else ""
+            binding.root.setOnSingleClickListener {
+                itemClick(item)
+            }
         }
     }
 }

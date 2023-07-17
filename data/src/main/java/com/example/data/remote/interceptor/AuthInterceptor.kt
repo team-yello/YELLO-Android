@@ -1,6 +1,6 @@
 package com.example.data.remote.interceptor
 
-import com.example.data.model.response.auth.ResponseAuthToken
+import com.example.data.model.response.onboarding.ResponseAuthToken
 import com.example.domain.YelloDataStore
 import com.yello.data.BuildConfig.BASE_URL
 import kotlinx.serialization.json.Json
@@ -27,7 +27,7 @@ class AuthInterceptor @Inject constructor(
             CODE_TOKEN_EXPIRED -> {
                 try {
                     val refreshTokenRequest = originalRequest.newBuilder().get()
-                        .url("${BASE_URL}auth/token")
+                        .url("$BASE_URL/api/v1/auth/token")
                         .addHeader(HEADER_ACCESS_TOKEN, dataStore.userToken)
                         .addHeader(HEADER_REFRESH_TOKEN, dataStore.refreshToken)
                         .build()

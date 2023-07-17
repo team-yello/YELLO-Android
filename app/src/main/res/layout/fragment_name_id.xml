@@ -3,31 +3,179 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-
+        <variable
+            name="vm"
+            type="com.yello.presentation.onboarding.activity.OnBoardingViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/layout_addfreind"
+        android:id="@+id/layout_studentid"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/black">
 
-        <!-- TODO: Update blank fragment layout -->
+        <ImageButton
+            android:id="@+id/btn_nameid_back_btn"
+            android:layout_width="0dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="16dp"
+            android:background="@null"
+            android:layout_marginTop="12dp"
+            android:src="@drawable/ic_onboarding_btn_back"
+            app:layout_constraintDimensionRatio="1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <TextView
-            android:id="@+id/viewpaggertitle"
-            android:layout_width="wrap_content"
+            android:id="@+id/tv_name"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="이름과 ID 생성 뷰"
-            android:textSize="30sp"
-            android:textStyle="bold"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="68dp"
+            android:text="@string/onboarding_tv_name"
+            android:textAppearance="?textAppearanceHeadline2"
+            android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <Button
-            android:id="@+id/btn_nameIdnext"
-            android:layout_width="match_parent"
+        <EditText
+            android:id="@+id/et_name"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="다음"
-            app:layout_constraintBottom_toBottomOf="parent" />
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="12dp"
+            android:autofillHints=""
+            android:fontFamily="@font/font_pretendard_medium"
+            android:hint="김옐로"
+            android:background="@{vm.isEmptyName() ?@drawable/shape_black_fill_grayscales600_line_8_rect : @drawable/shape_grayscales900_fill_grayscales500_line_8_rect}"
+            android:inputType="text"
+            android:text="@={vm._name}"
+            android:maxLines="1"
+            android:paddingHorizontal="20dp"
+            android:paddingStart="20dp"
+            android:paddingEnd="12dp"
+            android:textColor="@color/white"
+            android:textColorHint="@color/grayscales_600"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:paddingVertical="18dp"
+            app:layout_constraintTop_toBottomOf="@+id/tv_name" />
+
+        <ImageButton
+            android:id="@+id/btn_name_delete"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="34dp"
+            android:background="@color/black"
+            android:src="@drawable/ic_onboarding_delete"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/et_name" />
+
+        <TextView
+            android:id="@+id/tv_name_error"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="28dp"
+            android:layout_marginTop="4dp"
+            android:text="@string/onboarding_tv_name_error"
+            android:textAppearance="?textAppearanceLabelLarge"
+            android:textColor="@color/grayscales_500"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/et_name" />
+
+        <TextView
+            android:id="@+id/tv_id"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="24dp"
+            android:text="@string/onboarding_tv_id"
+            android:textAppearance="?textAppearanceHeadline2"
+            android:textColor="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_name_error" />
+
+
+        <TextView
+            android:id="@+id/iv_nameid_fix"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="36dp"
+            android:fontFamily="@font/pretendard_medium"
+            android:text="@string/onboarding_tv_hint_fix"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:translationZ="1dp"
+            app:layout_constraintBottom_toBottomOf="@+id/et_id"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/et_id" />
+
+        <EditText
+            android:id="@+id/et_id"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="12dp"
+            android:background="@{vm.isEmptyId() ?@drawable/shape_black_fill_grayscales600_line_8_rect : @drawable/shape_grayscales900_fill_grayscales500_line_8_rect}"
+            android:fontFamily="@font/font_pretendard_medium"
+            android:hint="@string/onboarding_et_id"
+            android:inputType="text"
+            android:text="@={vm._id}"
+            android:maxLines="1"
+            android:paddingVertical="18dp"
+            android:paddingStart="39dp"
+            android:paddingEnd="20dp"
+            android:textColor="@color/white"
+            android:textColorHint="@color/grayscales_600"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_id" />
+
+        <ImageButton
+            android:id="@+id/btn_id_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="12dp"
+            android:layout_marginEnd="34dp"
+            android:background="@null"
+            android:src="@drawable/ic_onboarding_delete"
+            app:layout_constraintBottom_toTopOf="@+id/tv_id_error"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/et_id" />
+
+        <TextView
+            android:id="@+id/tv_id_error"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="28dp"
+            android:layout_marginTop="4dp"
+            android:text="@string/onboarding_tv_id_errror"
+            android:textAppearance="?textAppearanceLabelLarge"
+            android:textColor="@color/grayscales_500"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/et_id" />
+
+        <android.widget.Button
+            android:id="@+id/btn_nameid_next"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginBottom="32dp"
+            android:background="@{vm.isEmptyName() || vm.isEmptyId()? @drawable/shape_grayscales_800_fill_8_rect : @drawable/shape_yello_main_500_fill_black_line_rect}"
+            android:paddingVertical="12dp"
+            android:text="@string/onboarding_btn_next"
+            android:clickable="@{!vm.isEmptyName() &amp; !vm.isEmptyId()}"
+            android:textAppearance="?textAppearanceBodyMedium"
+            android:textColor="@{vm.isEmptyName() || vm.isEmptyId()? @color/black : @color/grayscales_700}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

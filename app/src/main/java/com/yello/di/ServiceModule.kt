@@ -1,5 +1,6 @@
 package com.yello.di
 
+import com.example.data.remote.service.OnboardingService
 import com.example.data.remote.service.VoteService
 import com.example.data.remote.service.YelloService
 import dagger.Module
@@ -21,4 +22,9 @@ object ServiceModule {
     @Singleton
     fun provideVoteService(retrofit: Retrofit): VoteService =
         retrofit.create(VoteService::class.java)
+
+    @Provides
+    @Singleton
+    fun provideOnboardingService(retrofit: Retrofit): OnboardingService =
+        retrofit.create(OnboardingService::class.java)
 }

@@ -1,10 +1,10 @@
 package com.yello.presentation.main.recommend
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.view.setPadding
 import androidx.recyclerview.widget.RecyclerView
+import com.example.domain.entity.ProfileFriendModel
 import com.example.domain.entity.RecommendModel
 import com.example.ui.intent.dpToPx
 import com.example.ui.view.setOnSingleClickListener
@@ -16,15 +16,16 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 
-class RecommendAdapter(context: Context) : RecyclerView.Adapter<RecommendViewHolder>() {
+class RecommendAdapter(private val itemClick: (RecommendModel) -> (Unit)) :
+    RecyclerView.Adapter<RecommendViewHolder>() {
 
-    private val inflater by lazy { LayoutInflater.from(context) }
     private var itemList = mutableListOf<RecommendModel>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecommendViewHolder {
+        val inflater by lazy { LayoutInflater.from(parent.context) }
         val binding: ItemRecommendListBinding =
             ItemRecommendListBinding.inflate(inflater, parent, false)
-        return RecommendViewHolder(binding)
+        return RecommendViewHolder(binding, itemClick)
     }
 
     override fun onBindViewHolder(holder: RecommendViewHolder, position: Int) {

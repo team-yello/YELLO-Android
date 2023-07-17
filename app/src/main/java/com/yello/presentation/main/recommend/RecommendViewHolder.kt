@@ -4,9 +4,13 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import coil.transform.CircleCropTransformation
 import com.example.domain.entity.RecommendModel
+import com.example.ui.view.setOnSingleClickListener
 import com.yello.databinding.ItemRecommendListBinding
 
-class RecommendViewHolder(val binding: ItemRecommendListBinding) :
+class RecommendViewHolder(
+    val binding: ItemRecommendListBinding,
+    private val itemClick: (RecommendModel) -> Unit
+) :
     RecyclerView.ViewHolder(binding.root) {
 
     fun onBind(item: RecommendModel) {
@@ -16,6 +20,10 @@ class RecommendViewHolder(val binding: ItemRecommendListBinding) :
             binding.ivRecommendItemThumbnail.load(profileImage) {
                 transformations(CircleCropTransformation())
             }
+        }
+
+        binding.btnRecommendItemAdd.setOnSingleClickListener {
+            itemClick(item)
         }
     }
 }

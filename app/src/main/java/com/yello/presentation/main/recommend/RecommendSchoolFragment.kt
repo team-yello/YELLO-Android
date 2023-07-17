@@ -16,6 +16,8 @@ import com.kakao.sdk.talk.TalkApiClient
 import com.kakao.sdk.talk.model.Friend
 import com.yello.R
 import com.yello.databinding.FragmentRecommendSchoolBinding
+import com.yello.presentation.main.profile.info.ProfileFriendAdapter
+import com.yello.presentation.main.profile.info.ProfileFriendItemBottomSheet
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
@@ -24,6 +26,7 @@ class RecommendSchoolFragment :
     BindingFragment<FragmentRecommendSchoolBinding>(R.layout.fragment_recommend_school) {
 
     private val viewModel by viewModels<RecommendSchoolViewModel>()
+    private var adapter: RecommendAdapter? = null
 
     private var recommendInviteDialog: RecommendInviteDialog = RecommendInviteDialog()
 
@@ -35,6 +38,7 @@ class RecommendSchoolFragment :
 
         getFriendIdList()
         initInviteButtonListener()
+        initItemClickListener()
         observeChangeTokenState()
         setListFromServer()
         setItemDivider()
@@ -72,13 +76,19 @@ class RecommendSchoolFragment :
         viewModel.addListFromServer(1)
     }
 
+    private fun initItemClickListener() {
+        adapter = RecommendAdapter{ recommendModel ->
+
+        }
+    }
+
     private fun observeChangeTokenState() {
         viewModel.postState.observe(viewLifecycleOwner) { state ->
             when (state) {
                 is UiState.Success -> {
                     binding.layoutRecommendFriendsList.isVisible = true
                     friendsList = state.data
-                    binding.rvRecommendSchool.adapter = RecommendAdapter(requireContext()).apply {
+                    binding.rvRecommendSchool.adapter = adapter?.apply {
                         setItemList(friendsList)
                     }
                 }

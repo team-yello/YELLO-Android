@@ -24,6 +24,7 @@ class RecommendKakaoFragment :
     BindingFragment<FragmentRecommendKakaoBinding>(R.layout.fragment_recommend_kakao) {
 
     private val viewModel by viewModels<RecommendKakaoViewModel>()
+    private var adapter: RecommendAdapter? = null
 
     private var recommendInviteDialog: RecommendInviteDialog = RecommendInviteDialog()
 
@@ -35,6 +36,7 @@ class RecommendKakaoFragment :
 
         getFriendIdList()
         initInviteButtonListener()
+        initItemClickListener()
         observeChangeTokenState()
         setItemDivider()
         setDeleteAnimation()
@@ -72,13 +74,19 @@ class RecommendKakaoFragment :
         viewModel.addListFromServer(1, kakaoFriendIdList)
     }
 
+    private fun initItemClickListener() {
+        adapter = RecommendAdapter{ recommendModel ->
+
+        }
+    }
+
     private fun observeChangeTokenState() {
         viewModel.postState.observe(viewLifecycleOwner) { state ->
             when (state) {
                 is UiState.Success -> {
                     binding.layoutRecommendFriendsList.isVisible = true
                     friendsList = state.data
-                    binding.rvRecommendKakao.adapter = RecommendAdapter(requireContext()).apply {
+                    binding.rvRecommendKakao.adapter = adapter?.apply {
                         setItemList(friendsList)
                     }
                 }

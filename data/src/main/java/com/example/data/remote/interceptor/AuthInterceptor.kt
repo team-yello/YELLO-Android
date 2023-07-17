@@ -22,8 +22,7 @@ class AuthInterceptor @Inject constructor(
         val authRequest = if (dataStore.isLogin) {
             originalRequest.newAuthBuilder().build()
         } else {
-            // TODO: 삭제하기 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            originalRequest.newAuthBuilder().build()
+            originalRequest
         }
         val response = chain.proceed(authRequest)
 
@@ -69,9 +68,8 @@ class AuthInterceptor @Inject constructor(
         return response
     }
 
-    // TODO: dataStore.userToken 으로 수정
     private fun Request.newAuthBuilder() =
-        this.newBuilder().addHeader(HEADER_ACCESS_TOKEN, "Bearer eyJ0eXBlIjoiYWNjZXNzVG9rZW4iLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyOTExNzI0MDAyIiwianRpIjoiMTQ4IiwiaWF0IjoxNjg5NjE5NzkzLCJleHAiOjE2ODk3MDYxOTN9.pBvnzLuwAg2wDZZ77HUBbdZvE0-Xvp6XRhqF9ZDA1xc")
+        this.newBuilder().addHeader(HEADER_ACCESS_TOKEN, dataStore.userToken )
 
     companion object {
         private const val CODE_TOKEN_EXPIRED = 401

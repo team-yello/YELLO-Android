@@ -19,7 +19,9 @@ class RecommendSchoolFragment :
     BindingFragment<FragmentRecommendSchoolBinding>(R.layout.fragment_recommend_school) {
 
     private val viewModel by viewModels<RecommendSchoolViewModel>()
+
     private var recommendInviteDialog: RecommendInviteDialog = RecommendInviteDialog()
+
     private lateinit var friendsList: List<RecommendModel>
     private lateinit var kakaoFriendIdList: List<String>
 
@@ -30,6 +32,7 @@ class RecommendSchoolFragment :
         getFriendIdList()
         initInviteButtonListener()
         setListToAdapterFromLocal()
+        setItemDivider()
         setDeleteAnimation()
     }
 
@@ -65,11 +68,17 @@ class RecommendSchoolFragment :
         }
     }
 
+    private fun setItemDivider() {
+        binding.rvRecommendSchool.addItemDecoration(RecommendItemDecoration(requireContext()))
+    }
+
     private fun setDeleteAnimation() {
         binding.rvRecommendSchool.itemAnimator = object : DefaultItemAnimator() {
             override fun animateRemove(holder: RecyclerView.ViewHolder): Boolean {
+
                 holder.itemView.animation =
                     AnimationUtils.loadAnimation(holder.itemView.context, R.anim.slide_out_right)
+
                 return super.animateRemove(holder)
             }
         }

@@ -42,11 +42,10 @@ class RecommendSchoolFragment :
         super.onViewCreated(view, savedInstanceState)
 
         getFriendIdList()
+        initFirstList()
         initInviteButtonListener()
-        initItemClickListener()
         observeAddListState()
         observeAddFriendState()
-        initFirstList()
         setListWithInfinityScroll()
         setItemDivider()
         setDeleteAnimation()
@@ -81,6 +80,11 @@ class RecommendSchoolFragment :
 
     private fun initFirstList() {
         viewModel.addListFromServer()
+        adapter = RecommendAdapter { recommendModel, position, holder ->
+            viewModel.setPositionAndHolder(position, holder)
+            viewModel.addFriendToServer(recommendModel.id.toLong())
+        }
+        binding.rvRecommendSchool.adapter = adapter
     }
 
     private fun setListWithInfinityScroll() {
@@ -102,16 +106,9 @@ class RecommendSchoolFragment :
         viewModel.postState.observe(viewLifecycleOwner) { state ->
             when (state) {
                 is UiState.Success -> {
-                    if (state.data.friends.isEmpty()) {
-                        binding.layoutRecommendFriendsList.isVisible = false
-                        binding.layoutRecommendNoFriendsList.isVisible = true
-                    } else {
-                        binding.layoutRecommendFriendsList.isVisible = true
-                        friendsList = state.data.friends
-                        binding.rvRecommendSchool.adapter = adapter?.apply {
-                            addItemList(friendsList)
-                        }
-                    }
+                    binding.layoutRecommendFriendsList.isVisible = true
+                    friendsList = state.data.friends
+                    adapter?.addItemList(friendsList)
                 }
 
                 is UiState.Failure -> {
@@ -124,13 +121,6 @@ class RecommendSchoolFragment :
 
                 is UiState.Empty -> {}
             }
-        }
-    }
-
-    private fun initItemClickListener() {
-        adapter = RecommendAdapter { recommendModel, position, holder ->
-            viewModel.setPositionAndHolder(position, holder)
-            viewModel.addFriendToServer(recommendModel.id.toLong())
         }
     }
 

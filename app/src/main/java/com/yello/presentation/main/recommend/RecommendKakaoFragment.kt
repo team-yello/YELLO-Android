@@ -43,7 +43,6 @@ class RecommendKakaoFragment :
 
         getFriendIdList()
         initInviteButtonListener()
-        initItemClickListener()
         observeAddListState()
         observeAddFriendState()
         setItemDivider()
@@ -73,17 +72,13 @@ class RecommendKakaoFragment :
         }
     }
 
-    private fun initInviteButtonListener() {
-        binding.layoutInviteFriend.setOnSingleClickListener {
-            recommendInviteDialog.show(parentFragmentManager, "Dialog")
-        }
-        binding.btnRecommendNoFriend.setOnSingleClickListener {
-            recommendInviteDialog.show(parentFragmentManager, "Dialog")
-        }
-    }
-
     private fun initFirstList(list: List<String>) {
         viewModel.addListFromServer(list)
+        adapter = RecommendAdapter { recommendModel, position, holder ->
+            viewModel.setPositionAndHolder(position, holder)
+            viewModel.addFriendToServer(recommendModel.id.toLong())
+        }
+        binding.rvRecommendKakao.adapter = adapter
     }
 
     private fun setListWithInfinityScroll(list: List<String>) {
@@ -101,20 +96,22 @@ class RecommendKakaoFragment :
         })
     }
 
+    private fun initInviteButtonListener() {
+        binding.layoutInviteFriend.setOnSingleClickListener {
+            recommendInviteDialog.show(parentFragmentManager, "Dialog")
+        }
+        binding.btnRecommendNoFriend.setOnSingleClickListener {
+            recommendInviteDialog.show(parentFragmentManager, "Dialog")
+        }
+    }
+
     private fun observeAddListState() {
         viewModel.postState.observe(viewLifecycleOwner) { state ->
             when (state) {
                 is UiState.Success -> {
-                    if (state.data.friends.isEmpty()) {
-                        binding.layoutRecommendFriendsList.isVisible = false
-                        binding.layoutRecommendNoFriendsList.isVisible = true
-                    } else {
-                        binding.layoutRecommendFriendsList.isVisible = true
-                        friendsList = state.data.friends
-                        binding.rvRecommendKakao.adapter = adapter?.apply {
-                            addItemList(friendsList)
-                        }
-                    }
+                    binding.layoutRecommendFriendsList.isVisible = true
+                    friendsList = state.data.friends
+                    adapter?.addItemList(friendsList)
                 }
 
                 is UiState.Failure -> {
@@ -130,12 +127,6 @@ class RecommendKakaoFragment :
         }
     }
 
-    private fun initItemClickListener() {
-        adapter = RecommendAdapter { recommendModel, position, holder ->
-            viewModel.setPositionAndHolder(position, holder)
-            viewModel.addFriendToServer(recommendModel.id.toLong())
-        }
-    }
 
     private fun observeAddFriendState() {
         viewModel.addState.observe(viewLifecycleOwner) { state ->

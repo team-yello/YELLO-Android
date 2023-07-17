@@ -31,6 +31,7 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
         initFabUpwardListener()
 
         observeUserDataState()
+        // TODO: 유저 아이디 어디에다가 저장해둔거지
         setUserData(userid = 148)
         setListToAdapterFromLocal()
         setFabVisibility()

@@ -20,13 +20,13 @@ data class ResponseGetVoteQuestionDto(
         @SerialName("questionId")
         val questionId: Int,
         @SerialName("nameHead")
-        val nameHead: String,
+        val nameHead: String?,
         @SerialName("nameFoot")
-        val nameFoot: String,
+        val nameFoot: String?,
         @SerialName("keywordHead")
-        val keywordHead: String,
+        val keywordHead: String?,
         @SerialName("keywordFoot")
-        val keywordFoot: String,
+        val keywordFoot: String?,
     )
 
     @Serializable
@@ -47,10 +47,10 @@ data class ResponseGetVoteQuestionDto(
 
     fun toNote() = Note(
         questionId = question.questionId,
-        nameHead = question.nameHead,
-        nameFoot = question.nameFoot,
-        keywordHead = question.keywordHead,
-        keywordFoot = question.keywordFoot,
+        nameHead = question.nameHead ?: "",
+        nameFoot = question.nameFoot ?: "",
+        keywordHead = question.keywordHead ?: "",
+        keywordFoot = question.keywordFoot ?: "",
         friendList = friendList.map { friend -> friend.toFriend() },
         keywordList = keywordList,
         point = questionPoint,

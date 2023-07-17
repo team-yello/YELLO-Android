@@ -74,7 +74,7 @@ class AuthInterceptor @Inject constructor(
     companion object {
         private const val CODE_TOKEN_EXPIRED = 401
 
-        private const val HEADER_ACCESS_TOKEN = "accessToken"
+        private const val HEADER_ACCESS_TOKEN = "Authorization"
         private const val HEADER_REFRESH_TOKEN = "refreshToken"
     }
 }

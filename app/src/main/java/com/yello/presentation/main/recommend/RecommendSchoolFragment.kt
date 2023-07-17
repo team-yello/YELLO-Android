@@ -29,10 +29,6 @@ class RecommendSchoolFragment :
     private lateinit var friendsList: List<RecommendModel>
     private lateinit var kakaoFriendIdList: List<String>
 
-    // TODO: 액세스 토큰 설정
-    private val serviceAccessToken =
-        "eyJ0eXBlIjoiYWNjZXNzVG9rZW4iLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyOTAyMTQ3MTY5IiwianRpIjoiMTYxIiwiaWF0IjoxNjg5NTMzMjgyLCJleHAiOjE2ODk2MTk2ODJ9.yzO71BRbZLoitkr0iv6R2JYEjp-e2RMUZVQHMm81RDI"
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -69,8 +65,7 @@ class RecommendSchoolFragment :
     }
 
     private fun setListFromServer() {
-        val token = "Bearer $serviceAccessToken"
-        viewModel.addListFromServer(token, 1)
+        viewModel.addListFromServer(1)
     }
 
     private fun observeChangeTokenState() {

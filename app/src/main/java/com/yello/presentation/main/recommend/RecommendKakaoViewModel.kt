@@ -20,13 +20,13 @@ class RecommendKakaoViewModel @Inject constructor(
     private val _postState = MutableLiveData<UiState<List<RecommendModel>>>()
     val postState: LiveData<UiState<List<RecommendModel>>> = _postState
 
-    fun addListFromServer(accessToken: String, page: Int, friendKakaoId: List<String>) {
+    fun addListFromServer(page: Int, friendKakaoId: List<String>) {
 
         viewModelScope.launch {
             _postState.value = UiState.Loading
             runCatching {
                 recommendRepository.postToGetKakaoFriendList(
-                    accessToken, page, RequestRecommendKakaoModel(friendKakaoId)
+                    page, RequestRecommendKakaoModel(friendKakaoId)
                 )
             }.onSuccess {
                 _postState.value = UiState.Success(it)

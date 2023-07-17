@@ -20,13 +20,13 @@ class RecommendSchoolViewModel @Inject constructor(
     private val _postState = MutableLiveData<UiState<List<RecommendModel>>>()
     val postState: LiveData<UiState<List<RecommendModel>>> = _postState
 
-    fun addListFromServer(accessToken: String, page: Int) {
+    fun addListFromServer(page: Int) {
 
         viewModelScope.launch {
             _postState.value = UiState.Loading
             runCatching {
                 recommendRepository.getSchoolFriendList(
-                    accessToken, page
+                    page
                 )
             }.onSuccess {
                 _postState.value = UiState.Success(it)

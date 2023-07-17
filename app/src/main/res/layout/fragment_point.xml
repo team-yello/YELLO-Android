@@ -5,6 +5,7 @@
     tools:context=".presentation.main.yello.start.PointFragment">
 
     <data>
+
         <variable
             name="vm"
             type="com.yello.presentation.main.yello.vote.VoteViewModel" />
@@ -34,12 +35,12 @@
             android:layout_marginTop="28dp"
             android:layout_marginEnd="20dp"
             android:paddingVertical="4dp"
-            android:text="@{vm.totalPoint}"
-            tools:text="2900"
+            android:text="@{@string/to_string(vm.totalPoint)}"
             android:textAppearance="?textAppearanceBodyMedium"
             android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="2900" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layout_point_welcome"
@@ -101,13 +102,13 @@
                 android:fontFamily="@font/unbounded_medium"
                 android:lineHeight="22sp"
                 android:paddingVertical="3dp"
-                android:text="@{vm.votePointSum}"
-                tools:text="400"
+                android:text="@{@string/to_string(vm.votePointSum)}"
                 android:textColor="@color/yello_main_500"
                 android:textSize="16sp"
                 app:layout_constraintEnd_toStartOf="@id/tv_point_vote_point_label"
                 app:layout_constraintStart_toEndOf="@id/tv_point_vote_point_plus"
-                app:layout_constraintTop_toBottomOf="@id/tv_point_sub_description" />
+                app:layout_constraintTop_toBottomOf="@id/tv_point_sub_description"
+                tools:text="400" />
 
             <TextView
                 android:id="@+id/tv_point_vote_point_label"
@@ -178,11 +179,11 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="4dp"
                     android:paddingVertical="3dp"
-                    android:text="@{vm.totalPoint}"
-                    tools:text="2900"
+                    android:text="@{@string/to_string(vm.totalPoint)}"
                     android:textColor="@color/white"
                     app:layout_constraintBaseline_toBaselineOf="@id/tv_point_point_label"
-                    app:layout_constraintEnd_toStartOf="@id/tv_point_point_label" />
+                    app:layout_constraintEnd_toStartOf="@id/tv_point_point_label"
+                    tools:text="2900" />
 
                 <TextView
                     android:id="@+id/tv_point_point_label"

@@ -7,8 +7,8 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class RequestPostVoteDto(
-    @SerialName("voteList")
-    val voteList: List<VoteDto>,
+    @SerialName("voteAnswerList")
+    val voteAnswerList: List<VoteDto>,
     @SerialName("totalPoint")
     val totalPoint: Int,
 ) {
@@ -33,6 +33,6 @@ private fun Choice.toVoteDto() = RequestPostVoteDto.VoteDto(
 )
 
 fun ChoiceList.toRequestPostVoteDto() = RequestPostVoteDto(
-    voteList = choiceList.map { choice -> choice.toVoteDto() },
+    voteAnswerList = choiceList.map { choice -> choice.toVoteDto() },
     totalPoint = totalPoint,
 )

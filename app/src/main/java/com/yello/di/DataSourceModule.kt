@@ -4,6 +4,7 @@ import com.example.data.datasource.OnboardingDataSource
 import com.example.data.datasource.YelloDataSource
 import com.example.data.datasource.local.MockYelloDataSourceImpl
 import com.example.data.datasource.remote.OnboardingDataSourceImpl
+import com.example.data.datasource.remote.YelloDataSourceImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -15,7 +16,7 @@ import javax.inject.Singleton
 object DataSourceModule {
     @Provides
     @Singleton
-    fun provideYelloDataSource(yelloDataSource: MockYelloDataSourceImpl): YelloDataSource =
+    fun provideYelloDataSource(yelloDataSource: YelloDataSourceImpl): YelloDataSource =
         yelloDataSource
 
     @Provides

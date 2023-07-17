@@ -26,4 +26,8 @@ class RecommendRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun postFriendAdd(friendId: Long) {
+        return recommendDataSource.postFriendAdd(friendId).data
+    }
+
 }

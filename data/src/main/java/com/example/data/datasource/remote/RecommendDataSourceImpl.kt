@@ -24,4 +24,10 @@ class RecommendDataSourceImpl @Inject constructor(
         return recommendService.getSchoolList(page)
     }
 
+    override suspend fun postFriendAdd(
+        friendId: Long
+    ): BaseResponse<Unit> {
+        return recommendService.postFriendAdd(friendId)
+    }
+
 }

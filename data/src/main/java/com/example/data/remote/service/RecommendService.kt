@@ -6,6 +6,7 @@ import com.example.data.model.response.recommend.ResponseRecommendDto
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface RecommendService {
@@ -20,5 +21,10 @@ interface RecommendService {
     suspend fun getSchoolList(
         @Query("page") page: Int
     ): BaseResponse<List<ResponseRecommendDto>>
+
+    @POST("/recommend/{friendId}")
+    suspend fun postFriendAdd(
+        @Path("friendId") friendId: Long
+    ): BaseResponse<Unit>
 
 }

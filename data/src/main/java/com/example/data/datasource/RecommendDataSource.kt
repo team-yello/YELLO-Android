@@ -5,7 +5,7 @@ import com.example.data.model.response.BaseResponse
 import com.example.data.model.response.recommend.ResponseRecommendDto
 
 interface RecommendDataSource {
-    suspend fun  postToGetKakaoListData(
+    suspend fun postToGetKakaoListData(
         page: Int,
         request: RequestRecommendKakaoDto
     ): BaseResponse<List<ResponseRecommendDto>>
@@ -13,5 +13,9 @@ interface RecommendDataSource {
     suspend fun getSchoolListData(
         page: Int
     ): BaseResponse<List<ResponseRecommendDto>>
+
+    suspend fun postFriendAdd(
+        friendId: Long
+    ): BaseResponse<Unit>
 
 }

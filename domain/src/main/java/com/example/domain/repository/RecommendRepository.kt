@@ -14,4 +14,8 @@ interface RecommendRepository {
         page: Int
     ): List<RecommendModel>
 
+    suspend fun postFriendAdd(
+        friendId: Long
+    ): Unit
+
 }

@@ -2,6 +2,7 @@ package com.yello.presentation.onboarding.fragment.studentid
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.activityViewModels
 import com.example.ui.base.BindingFragment
 import com.example.ui.view.setOnSingleClickListener
@@ -23,6 +24,9 @@ class StudentIdFragment : BindingFragment<FragmentStudentidBinding>(R.layout.fra
         setBackBtnClickListener()
         setupDepartment()
         setupStudentid()
+        binding.tvDepartmentSearch.doAfterTextChanged {
+            it.toString()
+        }
     }
 
     private fun initSearchDepartmentBtnClickListener() {

@@ -35,7 +35,7 @@ class DepartmentAdapter(
     ) :
         RecyclerView.ViewHolder(binding.root) {
         fun setdepartment(department: MyDepartment) {
-            binding.data = department
+            binding.data = department.toString()
             binding.root.setOnSingleClickListener {
                 storeDepartment(binding.tvDepartmentName.text.toString())
             }

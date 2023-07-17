@@ -5,7 +5,6 @@ import android.view.View
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.activityViewModels
 import com.example.ui.base.BindingFragment
-import com.example.ui.view.UiState
 import com.example.ui.view.setOnSingleClickListener
 import com.yello.R
 import com.yello.databinding.FragmentSchoolBinding

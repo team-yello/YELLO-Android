@@ -38,7 +38,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <android.widget.ImageButton
+        <TextView
             android:id="@+id/btn_back_dialog"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -47,13 +47,13 @@
             android:layout_marginBottom="13dp"
             android:background="@null"
             android:src="@drawable/ic_onboarding_x"
-            app:layout_constraintBottom_toTopOf="@+id/btn_department_search"
+            app:layout_constraintBottom_toTopOf="@+id/et_department_search"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
-            android:id="@+id/btn_department_search"
+            android:id="@+id/et_department_search"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="20dp"
@@ -85,7 +85,7 @@
             android:textColor="@color/grayscales_500"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btn_department_search" />
+            app:layout_constraintTop_toBottomOf="@+id/et_department_search" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_department_list"

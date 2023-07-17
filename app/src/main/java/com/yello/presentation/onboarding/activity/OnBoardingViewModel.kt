@@ -26,13 +26,24 @@ class OnBoardingViewModel @Inject constructor(
     private val _schoolData = MutableLiveData<UiState<MySchool>>()
     val schoolData: MutableLiveData<UiState<MySchool>> = _schoolData
 
+    private val _departmentData = MutableLiveData<UiState<MyDepartment>>()
+    val departmentData: MutableLiveData<UiState<MyDepartment>> = _departmentData
+
     var schoolPage = -1L
     private var isSchoolPagingFinish = false
     private var totalSchoolPage = Long.MAX_VALUE
 
+    var departmentPage = -1L
+    private var isDepartmentPagingFinish = false
+    private var totalDepartmentPage = Long.MAX_VALUE
     fun initAddListSchool(search: String) {
         schoolPage = -1L
         addListSchool(search)
+    }
+
+    fun initAddListDepartment(school: String, search: String) {
+        departmentPage = -1L
+        addListDepartment(school, search)
     }
 
     fun addListSchool(search: String) {
@@ -52,6 +63,26 @@ class OnBoardingViewModel @Inject constructor(
                     }
             }.onFailure {
                 _schoolData.value = UiState.Failure("대학교 불러오기 서버 통신 실패")
+            }
+        }
+    }
+
+    fun addListDepartment(school: String, search: String) {
+        if (isDepartmentPagingFinish) return
+        viewModelScope.launch {
+            _departmentData.value = UiState.Loading
+            onboardingRepository.getDepartmentService(
+                school,
+                search,
+                ++departmentPage,
+            ).onSuccess {
+                totalDepartmentPage = Math.ceil((it.totalCount * 0.1)).toLong()
+                if (totalDepartmentPage == departmentPage) isDepartmentPagingFinish = true
+                _departmentData.value =
+                    when {
+                        it.groupList.isEmpty() -> UiState.Empty
+                        else -> UiState.Success(it)
+                    }
             }
         }
     }

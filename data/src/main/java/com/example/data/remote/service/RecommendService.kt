@@ -16,12 +16,12 @@ interface RecommendService {
     suspend fun postToGetKakaoList(
         @Query("page") page: Int,
         @Body request: RequestRecommendKakaoDto
-    ): BaseResponse<List<ResponseRecommendDto>>
+    ): ResponseRecommendDto
 
     @GET("/api/v1/friend/recommend/school")
     suspend fun getSchoolList(
         @Query("page") page: Int
-    ): BaseResponse<List<ResponseRecommendDto>>
+    ): ResponseRecommendDto
 
     @POST("/api/v1/friend/{friendId}")
     suspend fun postFriendAdd(

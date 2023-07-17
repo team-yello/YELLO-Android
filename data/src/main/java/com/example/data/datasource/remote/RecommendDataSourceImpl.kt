@@ -15,13 +15,13 @@ class RecommendDataSourceImpl @Inject constructor(
     override suspend fun postToGetKakaoListData(
         page: Int,
         request: RequestRecommendKakaoDto
-    ): BaseResponse<List<ResponseRecommendDto>> {
+    ): ResponseRecommendDto {
         return recommendService.postToGetKakaoList(page, request)
     }
 
     override suspend fun getSchoolListData(
         page: Int
-    ): BaseResponse<List<ResponseRecommendDto>> {
+    ): ResponseRecommendDto {
         return recommendService.getSchoolList(page)
     }
 

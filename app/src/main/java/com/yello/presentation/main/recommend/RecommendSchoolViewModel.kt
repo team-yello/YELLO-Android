@@ -11,6 +11,7 @@ import com.example.ui.view.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlin.math.ceil
 
 
 @HiltViewModel
@@ -18,8 +19,8 @@ class RecommendSchoolViewModel @Inject constructor(
     private val recommendRepository: RecommendRepository
 ) : ViewModel() {
 
-    private val _postState = MutableLiveData<UiState<List<RecommendModel>>>()
-    val postState: LiveData<UiState<List<RecommendModel>>> = _postState
+    private val _postState = MutableLiveData<UiState<RecommendModel>>()
+    val postState: LiveData<UiState<RecommendModel>> = _postState
 
     private val _addState = MutableLiveData<UiState<RecommendAddModel>>()
     val addState: LiveData<UiState<RecommendAddModel>> = _addState
@@ -37,14 +38,14 @@ class RecommendSchoolViewModel @Inject constructor(
     }
 
     fun addListFromServer() {
+
         viewModelScope.launch {
             runCatching {
                 recommendRepository.getSchoolFriendList(
                     ++currentPage
                 )
             }.onSuccess {
-                //totalPage = Math.ceil((it.totalCount * 0.1)).toInt()
-                totalPage = Math.ceil((24 * 0.1)).toInt()
+                totalPage = ceil((it.totalCount * 0.1)).toInt()
                 if (totalPage == currentPage) isPagingFinish = true
                 _postState.value = UiState.Success(it)
             }.onFailure {

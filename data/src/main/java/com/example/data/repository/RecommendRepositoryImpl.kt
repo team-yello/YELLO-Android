@@ -15,20 +15,19 @@ class RecommendRepositoryImpl @Inject constructor(
     override suspend fun postToGetKakaoFriendList(
         page: Int,
         request: RequestRecommendKakaoModel
-    ): List<RecommendModel> {
-        return recommendDataSource.postToGetKakaoListData(page, request.toRequestDto()).data.map {
-            it.toRecommendModel()
-        }
+    ): RecommendModel {
+        return recommendDataSource.postToGetKakaoListData(page, request.toRequestDto())
+            .toRecommendModel()
     }
 
-    override suspend fun getSchoolFriendList(page: Int): List<RecommendModel> {
-        return recommendDataSource.getSchoolListData(page).data.map {
-            it.toRecommendModel()
-        }
+    override suspend fun getSchoolFriendList(page: Int): RecommendModel {
+        return recommendDataSource.getSchoolListData(page)
+            .toRecommendModel()
     }
 
     override suspend fun postFriendAdd(friendId: Long): RecommendAddModel {
-        return recommendDataSource.postFriendAdd(friendId).toRecommendAddModel()
+        return recommendDataSource.postFriendAdd(friendId)
+            .toRecommendAddModel()
     }
 
 }

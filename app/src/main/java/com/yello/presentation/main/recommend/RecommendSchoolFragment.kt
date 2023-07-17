@@ -35,7 +35,7 @@ class RecommendSchoolFragment :
 
     private var recommendInviteDialog: RecommendInviteDialog = RecommendInviteDialog()
 
-    private lateinit var friendsList: List<RecommendModel>
+    private lateinit var friendsList: List<RecommendModel.RecommendFriend>
     private lateinit var kakaoFriendIdList: List<String>
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -102,12 +102,12 @@ class RecommendSchoolFragment :
         viewModel.postState.observe(viewLifecycleOwner) { state ->
             when (state) {
                 is UiState.Success -> {
-                    if (state.data == listOf<RecommendModel>()) {
+                    if (state.data.data.isEmpty()) {
                         binding.layoutRecommendFriendsList.isVisible = false
                         binding.layoutRecommendNoFriendsList.isVisible = true
                     } else {
                         binding.layoutRecommendFriendsList.isVisible = true
-                        friendsList = state.data
+                        friendsList = state.data.data
                         binding.rvRecommendSchool.adapter = adapter?.apply {
                             addItemList(friendsList)
                         }

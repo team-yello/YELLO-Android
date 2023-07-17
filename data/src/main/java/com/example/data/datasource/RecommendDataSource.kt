@@ -9,11 +9,11 @@ interface RecommendDataSource {
     suspend fun postToGetKakaoListData(
         page: Int,
         request: RequestRecommendKakaoDto
-    ): BaseResponse<List<ResponseRecommendDto>>
+    ): ResponseRecommendDto
 
     suspend fun getSchoolListData(
         page: Int
-    ): BaseResponse<List<ResponseRecommendDto>>
+    ):ResponseRecommendDto
 
     suspend fun postFriendAdd(
         friendId: Long

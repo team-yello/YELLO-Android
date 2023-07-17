@@ -9,11 +9,11 @@ interface RecommendRepository {
     suspend fun postToGetKakaoFriendList(
         page: Int,
         request: RequestRecommendKakaoModel
-    ): List<RecommendModel>
+    ): RecommendModel
 
     suspend fun getSchoolFriendList(
         page: Int
-    ): List<RecommendModel>
+    ): RecommendModel
 
     suspend fun postFriendAdd(
         friendId: Long

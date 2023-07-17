@@ -8,10 +8,10 @@ import com.example.ui.intent.dpToPx
 import com.yello.databinding.ItemRecommendListBinding
 
 
-class RecommendAdapter(private val itemClick: (RecommendModel, Int, RecommendViewHolder) -> (Unit)) :
+class RecommendAdapter(private val itemClick: (RecommendModel.RecommendFriend, Int, RecommendViewHolder) -> (Unit)) :
     RecyclerView.Adapter<RecommendViewHolder>() {
 
-    private var itemList = mutableListOf<RecommendModel>()
+    private var itemList = mutableListOf<RecommendModel.RecommendFriend>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecommendViewHolder {
         val inflater by lazy { LayoutInflater.from(parent.context) }
@@ -29,12 +29,12 @@ class RecommendAdapter(private val itemClick: (RecommendModel, Int, RecommendVie
 
     override fun getItemCount(): Int = itemList.size
 
-    fun addItemList(newItems: List<RecommendModel>) {
+    fun addItemList(newItems: List<RecommendModel.RecommendFriend>) {
         this.itemList.addAll(newItems)
         notifyDataSetChanged()
     }
 
-    fun setItemList(itemList: List<RecommendModel>) {
+    fun setItemList(itemList: List<RecommendModel.RecommendFriend>) {
         this.itemList = itemList.toMutableList()
         notifyDataSetChanged()
     }

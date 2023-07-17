@@ -1,6 +1,5 @@
 package com.example.data.model.response.vote
 
-import android.util.Log
 import com.example.domain.entity.vote.VoteState
 import java.text.ParseException
 import java.text.SimpleDateFormat
@@ -12,7 +11,7 @@ import timber.log.Timber
 
 @Serializable
 data class ResponseGetVoteAvailableDto(
-    @SerialName("isStart")
+    @SerialName("isPossible")
     val isStart: Boolean,
     @SerialName("point")
     val point: Int,
@@ -28,7 +27,7 @@ data class ResponseGetVoteAvailableDto(
     private fun String.toRemainTime(): Long {
         return try {
             val date: Date =
-                SimpleDateFormat("yyyy/MM/dd HH:mm:ss", Locale.KOREA).parse(this) ?: return 2400
+                SimpleDateFormat("yyyy/MM/dd HH:mm:ss", Locale.KOREA).parse(this) ?: return 2400L
             val result = date.time - System.currentTimeMillis()
             Timber.tag("REMAINING TIME").d("REMAIN TIME : $result")
             result

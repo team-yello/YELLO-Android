@@ -79,6 +79,7 @@ class YelloViewModel @Inject constructor(
                             else -> _yelloState.value = Failure(t.message())
                         }
                     }
+                    Timber.e("GET VOTE STATE ERROR : $t")
                 }
         }
     }

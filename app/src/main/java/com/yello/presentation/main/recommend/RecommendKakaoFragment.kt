@@ -63,6 +63,9 @@ class RecommendKakaoFragment :
         binding.layoutInviteFriend.setOnSingleClickListener {
             recommendInviteDialog.show(parentFragmentManager, "Dialog")
         }
+        binding.btnRecommendNoFriend.setOnSingleClickListener {
+            recommendInviteDialog.show(parentFragmentManager, "Dialog")
+        }
     }
 
     private fun setListFromServer() {

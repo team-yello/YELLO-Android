@@ -6,11 +6,12 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat.getColor
+import androidx.core.view.isVisible
 import androidx.databinding.BindingAdapter
 import com.yello.R
 
 object BindingAdapter {
-
+    @JvmStatic
     @BindingAdapter("setVoteBackground")
     fun ConstraintLayout.setVoteBackground(bgIndex: Int) {
         setBackgroundResource(
@@ -157,5 +158,27 @@ object BindingAdapter {
                 else -> R.drawable.img_note_face10
             },
         )
+    }
+
+    @JvmStatic
+    @BindingAdapter("setNullOrBlankVisible")
+    fun TextView.setNullOrBlankVisible(text: String?) {
+        this.isVisible = !text.isNullOrBlank()
+    }
+
+    @JvmStatic
+    @BindingAdapter("setImageTint")
+    fun ImageView.setImageTint(colorIndex: Int) {
+        if (colorIndex == 1 || colorIndex == 3 || colorIndex == 7) {
+            this.setColorFilter(getColor(this.context, R.color.black))
+        }
+    }
+
+    @JvmStatic
+    @BindingAdapter("setTextTint")
+    fun TextView.setTextTint(colorIndex: Int) {
+        if (colorIndex == 1 || colorIndex == 3 || colorIndex == 7) {
+            this.setTextColor(getColor(this.context, R.color.black))
+        }
     }
 }

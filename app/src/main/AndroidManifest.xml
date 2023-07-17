@@ -84,10 +84,10 @@
             android:name=".presentation.main.profile.manage.ProfileQuitForSureActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
-
-
-
-
+        <activity
+            android:name=".presentation.main.myyello.read.MyYelloReadActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

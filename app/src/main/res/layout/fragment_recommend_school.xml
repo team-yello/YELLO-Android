@@ -14,78 +14,144 @@
         android:background="@color/black">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/layout_invite_friend"
+            android:id="@+id/layout_recommend_friends_list"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layout_invite_friend"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:id="@+id/iv_recommend_invite"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginVertical="17dp"
+                    android:layout_marginStart="24dp"
+                    android:src="@drawable/img_banner_invite"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintDimensionRatio="1"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_recommend_invite_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginTop="18dp"
+                    android:paddingVertical="3dp"
+                    android:text="친구 초대하기"
+                    android:textAppearance="?textAppearanceBodyMedium"
+                    android:textColor="@color/white"
+                    app:layout_constraintStart_toEndOf="@id/iv_recommend_invite"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_recommend_invite_subtitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginBottom="19dp"
+                    android:paddingVertical="2dp"
+                    android:text="찾는 친구가 없다면 친구를 초대해 보세요!"
+                    android:textAppearance="@style/TextAppearance.Yello.LabelMedium"
+                    android:textColor="@color/grayscales_600"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/iv_recommend_invite"
+                    app:layout_constraintTop_toBottomOf="@id/tv_recommend_invite_title" />
+
+                <ImageView
+                    android:id="@+id/iv_recommend_invite_next"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginVertical="26dp"
+                    android:layout_marginEnd="24dp"
+                    android:src="@drawable/ic_right"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintDimensionRatio="1"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_recommend_school"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:paddingBottom="15dp"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/layout_invite_friend"
+                tools:listitem="@layout/item_recommend_list" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_recommend_no_friends_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
-                android:id="@+id/iv_recommend_invite"
+                android:id="@+id/iv_recommend_no_friend"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:layout_marginVertical="17dp"
-                android:layout_marginStart="24dp"
+                android:layout_marginHorizontal="20dp"
                 android:src="@drawable/img_banner_invite"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/tv_recommend_no_friend_title"
                 app:layout_constraintDimensionRatio="1"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintEnd_toEndOf="@id/tv_recommend_no_friend_title"
+                app:layout_constraintStart_toStartOf="@id/tv_recommend_no_friend_title"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_chainStyle="packed" />
 
             <TextView
-                android:id="@+id/tv_recommend_invite_title"
+                android:id="@+id/tv_recommend_no_friend_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="12dp"
-                android:layout_marginTop="18dp"
-                android:paddingVertical="3dp"
-                android:text="친구 초대하기"
-                android:textAppearance="?textAppearanceBodyMedium"
-                android:textColor="@color/white"
-                app:layout_constraintStart_toEndOf="@id/iv_recommend_invite"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/tv_recommend_invite_subtitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="12dp"
-                android:layout_marginBottom="19dp"
-                android:paddingVertical="2dp"
-                android:text="찾는 친구가 없다면 친구를 초대해 보세요!"
-                android:textAppearance="@style/TextAppearance.Yello.LabelMedium"
-                android:textColor="@color/grayscales_600"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@id/iv_recommend_invite"
-                app:layout_constraintTop_toBottomOf="@id/tv_recommend_invite_title" />
-
-            <ImageView
-                android:id="@+id/iv_recommend_invite_next"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_marginVertical="26dp"
-                android:layout_marginEnd="24dp"
-                android:src="@drawable/ic_right"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintDimensionRatio="1"
+                android:layout_marginTop="20dp"
+                android:gravity="center"
+                android:text="지금 추천된 친구가 없어요!\n친구를 초대해볼까요?"
+                android:textAppearance="?textAppearanceBodyLarge"
+                android:textColor="@color/grayscales_300"
+                app:layout_constraintBottom_toTopOf="@id/btn_recommend_no_friend"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/iv_recommend_no_friend"
+                app:layout_constraintVertical_chainStyle="packed" />
+
+            <TextView
+                android:id="@+id/btn_recommend_no_friend"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:background="@drawable/shape_grayscales800_fill_8_rect"
+                android:gravity="center"
+                android:paddingHorizontal="77dp"
+                android:paddingVertical="17dp"
+                android:text="친구 초대하기"
+                android:textAppearance="?textAppearanceButton"
+                android:textColor="@color/yello_main_500"
+                android:textSize="15sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_recommend_no_friend_title"
+                app:layout_constraintVertical_chainStyle="packed" />
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_recommend_school"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:background="@color/black"
-            android:paddingBottom="15dp"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/layout_invite_friend"
-            tools:listitem="@layout/item_recommend_list" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

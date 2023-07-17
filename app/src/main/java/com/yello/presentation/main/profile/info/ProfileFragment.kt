@@ -31,9 +31,10 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
         initFabUpwardListener()
 
         observeUserDataState()
+        observeFriendsDataState()
         // TODO: 유저 아이디 어디에다가 저장해둔거지
         setUserData(userid = 148)
-        setListToAdapterFromLocal()
+        setFriendsData(0)
         setFabVisibility()
     }
 
@@ -66,6 +67,32 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
         viewModel.getUserDataFromServer(userid)
     }
 
+    private fun observeFriendsDataState() {
+        viewModel.getListState.observe(viewLifecycleOwner) { state ->
+            when (state) {
+                is UiState.Success -> {
+                    state.data.friends
+                    val friendsList = state.data.friends
+                    binding.rvProfileFriendsList.adapter = adapter?.apply {
+                        setItemList(friendsList)
+                    }
+                }
+
+                is UiState.Failure -> {
+                    yelloSnackbar(requireView(), state.msg)
+                }
+
+                is UiState.Empty -> {}
+
+                is UiState.Loading -> {}
+            }
+        }
+    }
+
+    private fun setFriendsData(page: Int) {
+        viewModel.getFriendsDataFromServer(page)
+    }
+
     private fun setFabVisibility() {
         binding.svProfile.setOnScrollChangeListener { view, _, _, _, _ ->
             // 최상단인 경우에만 GONE 표시
@@ -95,25 +122,17 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
     }
 
     private fun initItemClickListener() {
-        adapter = ProfileFriendAdapter { profileFriendModel ->
+        adapter = ProfileFriendAdapter { profileUserModel ->
 
-            viewModel.clickedItemName.value = profileFriendModel.name
-            viewModel.clickedItemId.value = profileFriendModel.yelloId
-            viewModel.clickedItemSchool.value = profileFriendModel.school
+            viewModel.clickedItemName.value = profileUserModel.name
+            viewModel.clickedItemId.value = profileUserModel.yelloId
+            viewModel.clickedItemSchool.value = profileUserModel.group
             // TODO: 서버통신 후 이미지도 처리하기 - 바인딩어댑터
-            viewModel.clickedItemThumbnail.value = profileFriendModel.thumbnail
-            viewModel.clickedItemTotalMsg.value = profileFriendModel.totalMsg.toString()
-            viewModel.clickedItemTotalFriends.value = profileFriendModel.totalFriends.toString()
+            // viewModel.clickedItemThumbnail.value = profileUserModel.profileImageUrl
+            viewModel.clickedItemTotalMsg.value = profileUserModel.yelloCount.toString()
+            viewModel.clickedItemTotalFriends.value = profileUserModel.friendCount.toString()
 
             ProfileFriendItemBottomSheet().show(parentFragmentManager, "dialog")
-        }
-    }
-
-    private fun setListToAdapterFromLocal() {
-        viewModel.addListFromLocal()
-        val friendsList = viewModel.friendsResult.value ?: emptyList()
-        binding.rvProfileFriendsList.adapter = adapter?.apply {
-            setItemList(friendsList)
         }
     }
 }

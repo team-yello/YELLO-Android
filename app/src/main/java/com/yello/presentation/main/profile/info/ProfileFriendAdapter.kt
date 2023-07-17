@@ -3,12 +3,13 @@ package com.yello.presentation.main.profile.info
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.domain.entity.ProfileFriendModel
+import com.example.domain.entity.ProfileUserModel
 import com.yello.databinding.ItemFriendsListBinding
 
-class ProfileFriendAdapter(private val itemClick: (ProfileFriendModel) -> (Unit)) : RecyclerView.Adapter<ProfileFriendViewHolder>() {
+class ProfileFriendAdapter(private val itemClick: (ProfileUserModel) -> (Unit)) :
+    RecyclerView.Adapter<ProfileFriendViewHolder>() {
 
-    private var itemList = mutableListOf<ProfileFriendModel>()
+    private var itemList = mutableListOf<ProfileUserModel>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProfileFriendViewHolder {
         val inflater by lazy { LayoutInflater.from(parent.context) }
@@ -23,7 +24,7 @@ class ProfileFriendAdapter(private val itemClick: (ProfileFriendModel) -> (Unit)
 
     override fun getItemCount(): Int = itemList.size
 
-    fun setItemList(itemList: List<ProfileFriendModel>) {
+    fun setItemList(itemList: List<ProfileUserModel>) {
         this.itemList = itemList.toMutableList()
         notifyDataSetChanged()
     }

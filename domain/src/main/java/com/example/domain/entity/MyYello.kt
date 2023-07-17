@@ -8,7 +8,7 @@ data class MyYello(
 )
 
 data class Yello(
-    val id: Int,
+    val id: Long,
     val gender: GenderEnum,
     val nameHint: Int,
     val senderName: String,

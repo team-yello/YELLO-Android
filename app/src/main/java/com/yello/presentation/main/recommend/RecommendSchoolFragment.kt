@@ -3,11 +3,11 @@ package com.yello.presentation.main.recommend
 import android.os.Bundle
 import android.view.View
 import android.view.animation.AnimationUtils
-import androidx.core.view.isEmpty
 import androidx.core.view.isVisible
 import androidx.core.view.setPadding
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.DefaultItemAnimator
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.domain.entity.RecommendModel
 import com.example.ui.base.BindingFragment
@@ -44,9 +44,10 @@ class RecommendSchoolFragment :
         getFriendIdList()
         initInviteButtonListener()
         initItemClickListener()
-        observeChangeTokenState()
+        observeAddListState()
         observeAddFriendState()
-        setListFromServer()
+        initFirstList()
+        setListWithInfinityScroll()
         setItemDivider()
         setDeleteAnimation()
     }
@@ -78,11 +79,26 @@ class RecommendSchoolFragment :
         }
     }
 
-    private fun setListFromServer() {
-        viewModel.addListFromServer(0)
+    private fun initFirstList() {
+        viewModel.addListFromServer()
     }
 
-    private fun observeChangeTokenState() {
+    private fun setListWithInfinityScroll() {
+        binding.rvRecommendSchool.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                if (dy > 0) {
+                    if (!binding.rvRecommendSchool.canScrollVertically(1) &&
+                        (recyclerView.layoutManager as LinearLayoutManager).findLastVisibleItemPosition() == adapter!!.itemCount - 1
+                    ) {
+                        viewModel.addListFromServer()
+                    }
+                }
+            }
+        })
+    }
+
+    private fun observeAddListState() {
         viewModel.postState.observe(viewLifecycleOwner) { state ->
             when (state) {
                 is UiState.Success -> {
@@ -93,7 +109,7 @@ class RecommendSchoolFragment :
                         binding.layoutRecommendFriendsList.isVisible = true
                         friendsList = state.data
                         binding.rvRecommendSchool.adapter = adapter?.apply {
-                            setItemList(friendsList)
+                            addItemList(friendsList)
                         }
                     }
                 }
@@ -145,7 +161,9 @@ class RecommendSchoolFragment :
     }
 
     private fun setItemDivider() {
-        binding.rvRecommendSchool.addItemDecoration(RecommendItemDecoration(requireContext()))
+        binding.rvRecommendSchool.addItemDecoration(
+            RecommendItemDecoration(requireContext())
+        )
     }
 
     private fun setDeleteAnimation() {

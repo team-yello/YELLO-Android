@@ -24,23 +24,29 @@ class RecommendKakaoViewModel @Inject constructor(
     private val _addState = MutableLiveData<UiState<RecommendAddModel>>()
     val addState: LiveData<UiState<RecommendAddModel>> = _addState
 
-    var itemPosition : Int? = null
+    var itemPosition: Int? = null
     var itemHolder: RecommendViewHolder? = null
+
+    private var currentPage = -1
+    private var isPagingFinish = false
+    private var totalPage = Int.MAX_VALUE
 
     fun setPositionAndHolder(position: Int, holder: RecommendViewHolder) {
         itemPosition = position
         itemHolder = holder
     }
 
-    fun addListFromServer(page: Int, friendKakaoId: List<String>) {
-
+    fun addListFromServer(friendKakaoId: List<String>) {
         viewModelScope.launch {
-            _postState.value = UiState.Loading
             runCatching {
                 recommendRepository.postToGetKakaoFriendList(
-                    page, RequestRecommendKakaoModel(friendKakaoId)
+                    ++currentPage,
+                    RequestRecommendKakaoModel(friendKakaoId)
                 )
             }.onSuccess {
+                //totalPage = Math.ceil((it.totalCount * 0.1)).toInt()
+                totalPage = Math.ceil((24 * 0.1)).toInt()
+                if (totalPage == currentPage) isPagingFinish = true
                 _postState.value = UiState.Success(it)
             }.onFailure {
                 _postState.value = UiState.Failure("카카오 추천친구 리스트 서버 통신 실패")

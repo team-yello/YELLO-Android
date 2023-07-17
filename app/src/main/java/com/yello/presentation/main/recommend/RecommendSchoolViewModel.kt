@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.data.model.response.recommend.ResponseRecommendAddDto
 import com.example.domain.entity.RecommendAddModel
 import com.example.domain.entity.RecommendModel
 import com.example.domain.repository.RecommendRepository
@@ -28,20 +27,25 @@ class RecommendSchoolViewModel @Inject constructor(
     var itemPosition: Int? = null
     var itemHolder: RecommendViewHolder? = null
 
+    private var currentPage = -1
+    private var isPagingFinish = false
+    private var totalPage = Int.MAX_VALUE
+
     fun setPositionAndHolder(position: Int, holder: RecommendViewHolder) {
         itemPosition = position
         itemHolder = holder
     }
 
-    fun addListFromServer(page: Int) {
-
+    fun addListFromServer() {
         viewModelScope.launch {
-            _postState.value = UiState.Loading
             runCatching {
                 recommendRepository.getSchoolFriendList(
-                    page
+                    ++currentPage
                 )
             }.onSuccess {
+                //totalPage = Math.ceil((it.totalCount * 0.1)).toInt()
+                totalPage = Math.ceil((24 * 0.1)).toInt()
+                if (totalPage == currentPage) isPagingFinish = true
                 _postState.value = UiState.Success(it)
             }.onFailure {
                 _postState.value = UiState.Failure("학교 추천친구 리스트 서버 통신 실패")

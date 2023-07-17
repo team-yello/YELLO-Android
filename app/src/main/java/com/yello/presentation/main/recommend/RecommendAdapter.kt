@@ -29,6 +29,11 @@ class RecommendAdapter(private val itemClick: (RecommendModel, Int, RecommendVie
 
     override fun getItemCount(): Int = itemList.size
 
+    fun addItemList(newItems: List<RecommendModel>) {
+        this.itemList.addAll(newItems)
+        notifyDataSetChanged()
+    }
+
     fun setItemList(itemList: List<RecommendModel>) {
         this.itemList = itemList.toMutableList()
         notifyDataSetChanged()

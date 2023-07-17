@@ -3,11 +3,11 @@ package com.yello.presentation.main.recommend
 import android.os.Bundle
 import android.view.View
 import android.view.animation.AnimationUtils
-import androidx.core.view.isEmpty
 import androidx.core.view.isVisible
 import androidx.core.view.setPadding
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.DefaultItemAnimator
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.domain.entity.RecommendModel
 import com.example.ui.base.BindingFragment
@@ -44,7 +44,7 @@ class RecommendKakaoFragment :
         getFriendIdList()
         initInviteButtonListener()
         initItemClickListener()
-        observeChangeTokenState()
+        observeAddListState()
         observeAddFriendState()
         setItemDivider()
         setDeleteAnimation()
@@ -59,10 +59,14 @@ class RecommendKakaoFragment :
         TalkApiClient.instance.friends { friends, error ->
             if (error != null) {
                 Timber.e(error, "카카오 친구목록 가져오기 실패")
+
             } else if (friends != null) {
                 val friendList: List<Friend>? = friends.elements
                 kakaoFriendIdList = friendList?.map { friend -> friend.id.toString() } ?: listOf()
-                setListFromServer()
+
+                initFirstList(kakaoFriendIdList)
+                setListWithInfinityScroll(kakaoFriendIdList)
+
             } else {
                 Timber.d("연동 가능한 카카오톡 친구 없음")
             }
@@ -78,11 +82,26 @@ class RecommendKakaoFragment :
         }
     }
 
-    private fun setListFromServer() {
-        viewModel.addListFromServer(0, kakaoFriendIdList)
+    private fun initFirstList(list: List<String>) {
+        viewModel.addListFromServer(list)
     }
 
-    private fun observeChangeTokenState() {
+    private fun setListWithInfinityScroll(list: List<String>) {
+        binding.rvRecommendKakao.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                if (dy > 0) {
+                    if (!binding.rvRecommendKakao.canScrollVertically(1) &&
+                        (recyclerView.layoutManager as LinearLayoutManager).findLastVisibleItemPosition() == adapter!!.itemCount - 1
+                    ) {
+                        viewModel.addListFromServer(list)
+                    }
+                }
+            }
+        })
+    }
+
+    private fun observeAddListState() {
         viewModel.postState.observe(viewLifecycleOwner) { state ->
             when (state) {
                 is UiState.Success -> {
@@ -93,7 +112,7 @@ class RecommendKakaoFragment :
                         binding.layoutRecommendFriendsList.isVisible = true
                         friendsList = state.data
                         binding.rvRecommendKakao.adapter = adapter?.apply {
-                            setItemList(friendsList)
+                            addItemList(friendsList)
                         }
                     }
                 }
@@ -122,14 +141,14 @@ class RecommendKakaoFragment :
         viewModel.addState.observe(viewLifecycleOwner) { state ->
             when (state) {
                 is UiState.Success -> {
-                    if (binding.rvRecommendKakao.isEmpty()) {
-                        binding.layoutRecommendFriendsList.isVisible = false
-                        binding.layoutRecommendNoFriendsList.isVisible = true
-                    }
                     val position = viewModel.itemPosition
                     val holder = viewModel.itemHolder
                     if (position != null && holder != null) {
                         removeItemWithAnimation(holder, position)
+                    }
+                    if (adapter?.itemCount == 0) {
+                        binding.layoutRecommendFriendsList.isVisible = false
+                        binding.layoutRecommendNoFriendsList.isVisible = true
                     }
                 }
 
@@ -145,7 +164,9 @@ class RecommendKakaoFragment :
     }
 
     private fun setItemDivider() {
-        binding.rvRecommendKakao.addItemDecoration(RecommendItemDecoration(requireContext()))
+        binding.rvRecommendKakao.addItemDecoration(
+            RecommendItemDecoration(requireContext())
+        )
     }
 
     private fun setDeleteAnimation() {

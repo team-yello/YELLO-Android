@@ -35,7 +35,7 @@ class SchoolAdapter(
     ) :
         RecyclerView.ViewHolder(binding.root) {
         fun setSchool(school: MySchool) {
-            binding.data = school
+            binding.data = school.toString()
             binding.root.setOnSingleClickListener {
                 storeSchool(binding.tvSchoolName.text.toString())
             }

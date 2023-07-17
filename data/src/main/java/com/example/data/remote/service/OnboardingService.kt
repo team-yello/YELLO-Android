@@ -11,12 +11,12 @@ import retrofit2.http.Query
 
 interface OnboardingService {
 
-    @POST("/api/v1/auth/oauth")
+    @POST("api/v1/auth/oauth")
     suspend fun postTokenToServiceToken(
         @Body request: RequestServiceTokenDto,
     ): ResponseServiceTokenDto
 
-    @GET("/api/v1/auth/school/school")
+    @GET("api/v1/auth/school/school")
     suspend fun getSchoolSearchService(
         @Query("search") search: String,
         @Query("page") page: Long,

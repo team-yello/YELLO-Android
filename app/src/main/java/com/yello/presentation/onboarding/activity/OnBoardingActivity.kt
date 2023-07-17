@@ -2,11 +2,12 @@ package com.yello.presentation.onboarding.activity
 import android.os.Bundle
 import androidx.activity.viewModels
 import com.example.ui.base.BindingActivity
-import com.facebook.flipper.plugins.uidebugger.model.FrameScanEvent.Companion.name
 import com.yello.R
 import com.yello.databinding.ActivityOnboardingBinding
 import com.yello.presentation.onboarding.ViewPagerFragmentAdapter
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class OnBoardingActivity :
     BindingActivity<ActivityOnboardingBinding>(R.layout.activity_onboarding) {
     private val viewModel by viewModels<OnBoardingViewModel>()
@@ -30,5 +31,4 @@ class OnBoardingActivity :
             binding.vpOnboarding.currentItem = page
         }
     }
-
 }

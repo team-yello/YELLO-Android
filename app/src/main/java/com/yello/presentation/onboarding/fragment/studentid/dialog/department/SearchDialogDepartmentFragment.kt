@@ -24,7 +24,7 @@ class SearchDialogDepartmentFragment :
     }
 
     private fun initDepartmentAdapter() {
-        viewModel.addDepartment()
+        //viewModel.setDepartment()
         departmentList = viewModel.departmentResult.value ?: emptyList()
         val adapter = DepartmentAdapter(requireContext(), storeDepartment = ::storeDepartment)
         binding.rvDepartmentList.adapter = adapter

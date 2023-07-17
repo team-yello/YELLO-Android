@@ -44,7 +44,7 @@ class DepartmentAdapter(
 
     companion object {
         private val diffUtil = ItemDiffCallback<MyDepartment>(
-            onItemsTheSame = { old, new -> old.department_name == new.department_name },
+            onItemsTheSame = { old, new -> old.groupList == new.groupList },
             onContentsTheSame = { old, new -> old == new },
         )
     }

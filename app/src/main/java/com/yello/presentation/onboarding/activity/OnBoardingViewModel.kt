@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.map
+import androidx.lifecycle.viewModelScope
 import com.example.domain.entity.MyCode
 import com.example.domain.entity.MyDepartment
 import com.example.domain.entity.MyFriend
@@ -12,8 +13,49 @@ import com.example.domain.entity.MyId
 import com.example.domain.entity.MyName
 import com.example.domain.entity.MySchool
 import com.example.domain.entity.MyStudentid
+import com.example.domain.repository.OnboardingRepository
+import com.example.ui.view.UiState
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class OnBoardingViewModel : ViewModel() {
+@HiltViewModel
+class OnBoardingViewModel @Inject constructor(
+    private val onboardingRepository: OnboardingRepository,
+) : ViewModel() {
+    private val _schoolData = MutableLiveData<UiState<MySchool>>()
+    val schoolData: MutableLiveData<UiState<MySchool>> = _schoolData
+
+    var schoolPage = -1L
+    private var isSchoolPagingFinish = false
+    private var totalSchoolPage = Long.MAX_VALUE
+
+    fun initAddListSchool(search: String) {
+        schoolPage = -1L
+        addListSchool(search)
+    }
+
+    fun addListSchool(search: String) {
+        if (isSchoolPagingFinish) return
+        viewModelScope.launch {
+            _schoolData.value = UiState.Loading
+            onboardingRepository.getSchoolService(
+                search,
+                ++schoolPage,
+            ).onSuccess {
+                totalSchoolPage = Math.ceil((it.totalCount * 0.1)).toLong()
+                if (totalSchoolPage == schoolPage) isSchoolPagingFinish = true
+                _schoolData.value =
+                    when {
+                        it.groupNameList.isEmpty() -> UiState.Empty
+                        else -> UiState.Success(it)
+                    }
+            }.onFailure {
+                _schoolData.value = UiState.Failure("대학교 불러오기 서버 통신 실패")
+            }
+        }
+    }
+
     val _school = MutableLiveData("")
     val _department = MutableLiveData("")
     val _studentid = MutableLiveData("")
@@ -129,15 +171,15 @@ class OnBoardingViewModel : ViewModel() {
     }
 
     // 목데이터
-    fun addSchool() {
-        val mockList = listOf(
-            MySchool(1, "김상호랑이대학교"),
-            MySchool(2, "전채연습만이살길대학교"),
-            MySchool(3, "이강민머리될떄까지대학교"),
-            MySchool(4, "박민주거라연습대학교"),
-        )
-        _schoolResult.value = mockList
-    }
+//    fun addSchool() {
+//        val mockList = listOf(
+//            MySchool(1, "김상호랑이대학교"),
+//            MySchool(2, "전채연습만이살길대학교"),
+//            MySchool(3, "이강민머리될떄까지대학교"),
+//            MySchool(4, "박민주거라연습대학교"),
+//        )
+//        _schoolResult.value = mockList
+//    }
 
     fun navigateToNextPage() {
         _currentPage.value = currentPage.value?.plus(1)
@@ -147,17 +189,17 @@ class OnBoardingViewModel : ViewModel() {
         _currentPage.value = currentPage.value?.minus(1)
     }
 
-    fun addDepartment() {
-        val mockList = listOf(
-            MyDepartment("경영학과"),
-            MyDepartment("컴퓨터 공학과"),
-            MyDepartment("사랑해학과"),
-            MyDepartment("옐로최고학과"),
-            MyDepartment("개발자양성학과"),
-            MyDepartment("법학과"),
-        )
-        _departmentResult.value = mockList
-    }
+//    fun addDepartment() {
+//        val mockList = listOf(
+//            MyDepartment(1, GroupList(1L, listOf<String>("경영학과", "컴퓨터 공학과")),
+//            MyDepartment("컴퓨터 공학과"),
+//            MyDepartment("사랑해학과"),
+//            MyDepartment("옐로최고학과"),
+//            MyDepartment("개발자양성학과"),
+//            MyDepartment("법학과"),
+//        )
+//        _departmentResult.value = mockList
+//    }
 
     fun addStudentId() {
         val mockList = listOf(

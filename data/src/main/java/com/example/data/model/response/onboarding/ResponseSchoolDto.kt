@@ -9,7 +9,7 @@ data class ResponseSchoolDto(
     @SerialName("totalCount")
     val totalCount: Int,
     @SerialName("groupNameList")
-    val groupNameList: String,
+    val groupNameList: List<String>,
 ) {
     fun toMySchool(): MySchool {
         return MySchool(totalCount, groupNameList)

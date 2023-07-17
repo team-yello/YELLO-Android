@@ -7,7 +7,7 @@
 
         <variable
             name="data"
-            type="com.example.domain.entity.MySchool" />
+            type="String" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -36,7 +36,7 @@
             android:inputType="text"
             android:maxLines="1"
             android:layout_marginStart="8dp"
-            android:text="@{data.groupNameList}"
+            android:text="@{data}"
             android:textColor="@color/white"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"

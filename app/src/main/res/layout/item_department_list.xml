@@ -34,7 +34,6 @@
             android:layout_marginStart="8dp"
             android:fontFamily="@font/font_pretendard_medium"
             android:inputType="text"
-            android:text="@{data.department_name}"
             android:maxLines="1"
             android:textColor="@color/white"
             android:textSize="16sp"

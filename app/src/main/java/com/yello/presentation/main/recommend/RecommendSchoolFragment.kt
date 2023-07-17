@@ -3,22 +3,25 @@ package com.yello.presentation.main.recommend
 import android.os.Bundle
 import android.view.View
 import android.view.animation.AnimationUtils
+import androidx.core.view.isEmpty
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.RecyclerView
 import com.example.domain.entity.RecommendModel
 import com.example.ui.base.BindingFragment
-import com.example.ui.fragment.toast
 import com.example.ui.view.UiState
 import com.example.ui.view.setOnSingleClickListener
 import com.kakao.sdk.talk.TalkApiClient
 import com.kakao.sdk.talk.model.Friend
 import com.yello.R
 import com.yello.databinding.FragmentRecommendSchoolBinding
-import com.yello.presentation.main.profile.info.ProfileFriendAdapter
-import com.yello.presentation.main.profile.info.ProfileFriendItemBottomSheet
+import com.yello.util.context.yelloSnackbar
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import timber.log.Timber
 
 @AndroidEntryPoint
@@ -40,6 +43,7 @@ class RecommendSchoolFragment :
         initInviteButtonListener()
         initItemClickListener()
         observeChangeTokenState()
+        observeAddFriendState()
         setListFromServer()
         setItemDivider()
         setDeleteAnimation()
@@ -73,38 +77,64 @@ class RecommendSchoolFragment :
     }
 
     private fun setListFromServer() {
-        viewModel.addListFromServer(1)
-    }
-
-    private fun initItemClickListener() {
-        adapter = RecommendAdapter{ recommendModel ->
-
-        }
+        viewModel.addListFromServer(0)
     }
 
     private fun observeChangeTokenState() {
         viewModel.postState.observe(viewLifecycleOwner) { state ->
             when (state) {
                 is UiState.Success -> {
-                    binding.layoutRecommendFriendsList.isVisible = true
-                    friendsList = state.data
-                    binding.rvRecommendSchool.adapter = adapter?.apply {
-                        setItemList(friendsList)
+                    if (state.data == listOf<RecommendModel>()) {
+                        binding.layoutRecommendFriendsList.isVisible = false
+                        binding.layoutRecommendNoFriendsList.isVisible = true
+                    } else {
+                        binding.layoutRecommendFriendsList.isVisible = true
+                        friendsList = state.data
+                        binding.rvRecommendSchool.adapter = adapter?.apply {
+                            setItemList(friendsList)
+                        }
                     }
                 }
 
                 is UiState.Failure -> {
                     binding.layoutRecommendFriendsList.isVisible = false
                     binding.layoutRecommendNoFriendsList.isVisible = true
-                    toast(state.msg)
+                    yelloSnackbar(requireView(), state.msg)
                 }
 
                 is UiState.Loading -> {}
 
-                is UiState.Empty -> {
-                    binding.layoutRecommendFriendsList.isVisible = false
-                    binding.layoutRecommendNoFriendsList.isVisible = true
+                is UiState.Empty -> {}
+            }
+        }
+    }
+
+    private fun initItemClickListener() {
+        adapter = RecommendAdapter { recommendModel, position, holder ->
+            viewModel.addFriendToServer(recommendModel.id.toLong())
+
+        }
+    }
+
+    private fun observeAddFriendState() {
+        viewModel.addState.observe(viewLifecycleOwner) { state ->
+            when (state) {
+                is UiState.Success -> {
+                    if (binding.rvRecommendSchool.isEmpty()) {
+                        binding.layoutRecommendFriendsList.isVisible = false
+                        binding.layoutRecommendNoFriendsList.isVisible = true
+                    }
                 }
+
+                is UiState.Failure -> {
+                    yelloSnackbar(requireView(), state.msg)
+                }
+
+                is UiState.Loading -> {
+                    binding.rvRecommendSchool.isClickable = false
+                }
+
+                is UiState.Empty -> {}
             }
         }
     }

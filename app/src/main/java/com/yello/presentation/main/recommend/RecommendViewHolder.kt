@@ -9,11 +9,11 @@ import com.yello.databinding.ItemRecommendListBinding
 
 class RecommendViewHolder(
     val binding: ItemRecommendListBinding,
-    private val itemClick: (RecommendModel) -> Unit
+    private val itemClick: (RecommendModel, Int, RecommendViewHolder) -> Unit
 ) :
     RecyclerView.ViewHolder(binding.root) {
 
-    fun onBind(item: RecommendModel) {
+    fun onBind(item: RecommendModel, position: Int) {
         binding.tvRecommendItemName.text = item.name
         binding.tvRecommendItemSchool.text = item.group
         item.profileImage?.let { profileImage ->
@@ -23,7 +23,9 @@ class RecommendViewHolder(
         }
 
         binding.btnRecommendItemAdd.setOnSingleClickListener {
-            itemClick(item)
+            itemClick(item, position, this)
         }
     }
+
+
 }

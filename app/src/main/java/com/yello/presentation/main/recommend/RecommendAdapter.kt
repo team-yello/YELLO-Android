@@ -4,7 +4,6 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.view.setPadding
 import androidx.recyclerview.widget.RecyclerView
-import com.example.domain.entity.ProfileFriendModel
 import com.example.domain.entity.RecommendModel
 import com.example.ui.intent.dpToPx
 import com.example.ui.view.setOnSingleClickListener
@@ -16,7 +15,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 
-class RecommendAdapter(private val itemClick: (RecommendModel) -> (Unit)) :
+class RecommendAdapter(private val itemClick: (RecommendModel, Int, RecommendViewHolder) -> (Unit)) :
     RecyclerView.Adapter<RecommendViewHolder>() {
 
     private var itemList = mutableListOf<RecommendModel>()
@@ -29,10 +28,10 @@ class RecommendAdapter(private val itemClick: (RecommendModel) -> (Unit)) :
     }
 
     override fun onBindViewHolder(holder: RecommendViewHolder, position: Int) {
-        holder.onBind(itemList[position])
+        holder.onBind(itemList[position], position)
 
         changeToTextButton(holder)
-        initItemAddButtonListener(holder, position)
+        // initItemAddButtonListener(holder, position)
     }
 
 

@@ -22,7 +22,7 @@ interface RecommendService {
         @Query("page") page: Int
     ): BaseResponse<List<ResponseRecommendDto>>
 
-    @POST("/recommend/{friendId}")
+    @POST("/api/v1/recommend/{friendId}")
     suspend fun postFriendAdd(
         @Path("friendId") friendId: Long
     ): BaseResponse<Unit>

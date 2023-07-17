@@ -9,13 +9,13 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.RecyclerView
 import com.example.domain.entity.RecommendModel
 import com.example.ui.base.BindingFragment
-import com.example.ui.fragment.toast
 import com.example.ui.view.UiState
 import com.example.ui.view.setOnSingleClickListener
 import com.kakao.sdk.talk.TalkApiClient
 import com.kakao.sdk.talk.model.Friend
 import com.yello.R
 import com.yello.databinding.FragmentRecommendKakaoBinding
+import com.yello.util.context.yelloSnackbar
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
@@ -71,11 +71,11 @@ class RecommendKakaoFragment :
     }
 
     private fun setListFromServer() {
-        viewModel.addListFromServer(1, kakaoFriendIdList)
+        viewModel.addListFromServer(0, kakaoFriendIdList)
     }
 
     private fun initItemClickListener() {
-        adapter = RecommendAdapter{ recommendModel ->
+        adapter = RecommendAdapter{ recommendModel, position, holder ->
 
         }
     }
@@ -84,25 +84,27 @@ class RecommendKakaoFragment :
         viewModel.postState.observe(viewLifecycleOwner) { state ->
             when (state) {
                 is UiState.Success -> {
-                    binding.layoutRecommendFriendsList.isVisible = true
-                    friendsList = state.data
-                    binding.rvRecommendKakao.adapter = adapter?.apply {
-                        setItemList(friendsList)
+                    if (state.data == listOf<RecommendModel>()) {
+                        binding.layoutRecommendFriendsList.isVisible = false
+                        binding.layoutRecommendNoFriendsList.isVisible = true
+                    } else {
+                        binding.layoutRecommendFriendsList.isVisible = true
+                        friendsList = state.data
+                        binding.rvRecommendKakao.adapter = adapter?.apply {
+                            setItemList(friendsList)
+                        }
                     }
                 }
 
                 is UiState.Failure -> {
                     binding.layoutRecommendFriendsList.isVisible = false
                     binding.layoutRecommendNoFriendsList.isVisible = true
-                    toast(state.msg)
+                    yelloSnackbar(requireView(), state.msg)
                 }
 
                 is UiState.Loading -> {}
 
-                is UiState.Empty -> {
-                    binding.layoutRecommendFriendsList.isVisible = false
-                    binding.layoutRecommendNoFriendsList.isVisible = true
-                }
+                is UiState.Empty -> {}
             }
         }
     }

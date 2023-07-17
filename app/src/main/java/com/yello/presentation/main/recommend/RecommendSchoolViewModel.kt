@@ -20,6 +20,9 @@ class RecommendSchoolViewModel @Inject constructor(
     private val _postState = MutableLiveData<UiState<List<RecommendModel>>>()
     val postState: LiveData<UiState<List<RecommendModel>>> = _postState
 
+    private val _addState = MutableLiveData<UiState<Unit>>()
+    val addState: LiveData<UiState<Unit>> = _addState
+
     fun addListFromServer(page: Int) {
 
         viewModelScope.launch {
@@ -32,6 +35,22 @@ class RecommendSchoolViewModel @Inject constructor(
                 _postState.value = UiState.Success(it)
             }.onFailure {
                 _postState.value = UiState.Failure("학교 추천친구 리스트 서버 통신 실패")
+            }
+        }
+    }
+
+    fun addFriendToServer(friendId: Long) {
+
+        viewModelScope.launch {
+            _addState.value = UiState.Loading
+            runCatching {
+                recommendRepository.postFriendAdd(
+                    friendId
+                )
+            }.onSuccess {
+                _addState.value = UiState.Success(it)
+            }.onFailure {
+                _addState.value = UiState.Failure("친구 추가 서버 통신 실패")
             }
         }
     }

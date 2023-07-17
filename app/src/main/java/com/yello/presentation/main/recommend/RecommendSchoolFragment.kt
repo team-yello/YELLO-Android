@@ -102,12 +102,12 @@ class RecommendSchoolFragment :
         viewModel.postState.observe(viewLifecycleOwner) { state ->
             when (state) {
                 is UiState.Success -> {
-                    if (state.data.data.isEmpty()) {
+                    if (state.data.friends.isEmpty()) {
                         binding.layoutRecommendFriendsList.isVisible = false
                         binding.layoutRecommendNoFriendsList.isVisible = true
                     } else {
                         binding.layoutRecommendFriendsList.isVisible = true
-                        friendsList = state.data.data
+                        friendsList = state.data.friends
                         binding.rvRecommendSchool.adapter = adapter?.apply {
                             addItemList(friendsList)
                         }

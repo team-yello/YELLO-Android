@@ -1,10 +1,8 @@
 package com.example.domain.entity
 
 data class RecommendModel(
-    val status : Int,
-    val message : String,
     val totalCount : Int,
-    val data: List<RecommendFriend>
+    val friends: List<RecommendFriend>
 ) {
     data class RecommendFriend(
         val id: Int,

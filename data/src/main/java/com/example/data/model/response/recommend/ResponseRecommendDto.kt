@@ -6,14 +6,10 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class ResponseRecommendDto(
-    @SerialName("id")
-    val status: Int,
-    @SerialName("message")
-    val message: String,
     @SerialName("totalCount")
     val totalCount: Int,
-    @SerialName("data")
-    val data: List<ResponseRecommendFriend>
+    @SerialName("friends")
+    val friends: List<ResponseRecommendFriend>
 ) {
     @Serializable
     data class ResponseRecommendFriend(
@@ -29,7 +25,7 @@ data class ResponseRecommendDto(
 
     fun toRecommendModel(): RecommendModel {
         return RecommendModel(
-            status, message, totalCount, data.map {
+            totalCount, friends.map {
                 RecommendModel.RecommendFriend(
                     it.id,
                     it.name,

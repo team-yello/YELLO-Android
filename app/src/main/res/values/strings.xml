@@ -105,4 +105,5 @@
 
     <string name="look_title">둘러보기</string>
     <string name="look_sub_description">아직 구현되지 않은 기능이에요.\n조금만 기다려주세요!</string>
+    <string name="view_type_error_msg">Unknown View Type : %d</string>
 </resources>

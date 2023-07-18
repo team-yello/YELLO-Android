@@ -68,7 +68,7 @@ class AuthInterceptor @Inject constructor(
 
     // TODO: Bearer ${dataStore.userToken}
     private fun Request.newAuthBuilder() =
-        this.newBuilder().addHeader(HEADER_AUTHORIZATION, "Bearer eyJ0eXBlIjoiYWNjZXNzVG9rZW4iLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyOTExNzI0MDAyIiwianRpIjoiMTQ4IiwiaWF0IjoxNjg5NjE5NzkzLCJleHAiOjE2ODk3MDYxOTN9.pBvnzLuwAg2wDZZ77HUBbdZvE0-Xvp6XRhqF9ZDA1xc")
+        this.newBuilder().addHeader(HEADER_AUTHORIZATION, "Bearer eyJ0eXBlIjoiYWNjZXNzVG9rZW4iLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyOTExNzI0MDAyIiwianRpIjoiMTQ4IiwiaWF0IjoxNjg5NzA3NTUyLCJleHAiOjE2ODk3OTM5NTJ9.u5nsIFvwcDDl1aUjti_d1cMclqdCzkmRg4ZYqElg7lE")
 
     companion object {
         private const val CODE_TOKEN_EXPIRED = 401

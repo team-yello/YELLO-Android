@@ -104,6 +104,7 @@ class RecommendSchoolFragment :
                 }
             }
         })
+        binding
     }
 
     private fun observeAddListState() {

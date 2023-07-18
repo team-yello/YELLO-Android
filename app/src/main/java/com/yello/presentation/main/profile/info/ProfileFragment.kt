@@ -12,6 +12,7 @@ import com.yello.R
 import com.yello.databinding.FragmentProfileBinding
 import com.yello.presentation.main.profile.ProfileViewModel
 import com.yello.presentation.main.profile.manage.ProfileManageActivity
+import com.yello.presentation.main.recommend.RecommendItemDecoration
 import com.yello.util.context.yelloSnackbar
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -35,6 +36,7 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
         observeFriendsDataState()
         // TODO: 유저 아이디 어디에다가 저장해둔거지
         setUserData(userid = 148)
+        setItemDivider()
         setFriendsData(0)
         setFabVisibility()
     }
@@ -98,6 +100,12 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
             // 최상단인 경우에만 GONE 표시
             binding.fabUpward.isVisible = view.canScrollVertically(-1)
         }
+    }
+
+    private fun setItemDivider() {
+        binding.rvProfileFriendsList.addItemDecoration(
+            ProfileItemDecoration(requireContext())
+        )
     }
 
     private fun initAddGroupButtonListener() {

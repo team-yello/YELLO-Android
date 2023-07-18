@@ -39,6 +39,7 @@ class RecommendSchoolViewModel @Inject constructor(
     fun addListFromServer() {
 
         viewModelScope.launch {
+            if (isPagingFinish) return@launch
             runCatching {
                 recommendRepository.getSchoolFriendList(
                     ++currentPage

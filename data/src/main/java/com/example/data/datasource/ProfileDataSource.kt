@@ -17,4 +17,8 @@ interface ProfileDataSource {
     suspend fun deleteUserData(
     ): BaseResponse<Unit>
 
+    suspend fun deleteFriendData(
+        friendId: Int
+    ): BaseResponse<Unit>
+
 }

@@ -39,6 +39,8 @@ class RecommendKakaoViewModel @Inject constructor(
     fun addListFromServer(friendKakaoId: List<String>) {
 
         viewModelScope.launch {
+
+            if (isPagingFinish) return@launch
             runCatching {
                 recommendRepository.postToGetKakaoFriendList(
                     ++currentPage,

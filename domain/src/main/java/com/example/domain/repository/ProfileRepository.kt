@@ -16,4 +16,8 @@ interface ProfileRepository {
     suspend fun deleteUserData(
     ): Unit
 
+    suspend fun deleteFriendData(
+        friendId: Int
+    ): Unit
+
 }

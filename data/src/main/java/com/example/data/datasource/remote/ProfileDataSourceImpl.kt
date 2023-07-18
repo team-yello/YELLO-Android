@@ -27,4 +27,10 @@ class ProfileDataSourceImpl @Inject constructor(
     ): BaseResponse<Unit> {
         return profileService.deleteUserData()
     }
+
+    override suspend fun deleteFriendData(
+        friendId: Int
+    ): BaseResponse<Unit> {
+        return profileService.deleteFriendData(friendId)
+    }
 }

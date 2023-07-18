@@ -45,7 +45,7 @@
                 android:id="@+id/layout_profile_manage_for_sure"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingBottom="94dp">
+                android:paddingBottom="84dp">
 
                 <TextView
                     android:id="@+id/tv_profile_quit_for_sure_subtitle_1"

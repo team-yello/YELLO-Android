@@ -25,4 +25,9 @@ interface ProfileService {
     suspend fun deleteUserData(
     ): BaseResponse<Unit>
 
+    @DELETE("/api/v1/user/{friendId}")
+    suspend fun deleteFriendData(
+        @Path("friendId") friendId: Int
+    ): BaseResponse<Unit>
+
 }

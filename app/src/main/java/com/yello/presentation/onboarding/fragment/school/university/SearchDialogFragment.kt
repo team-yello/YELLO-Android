@@ -49,6 +49,9 @@ class SearchDialogFragment :
         binding.layoutSchoolDialog.setOnSingleClickListener {
             dismiss()
         }
+        binding.btnBackDialog.setOnSingleClickListener {
+            dismiss()
+        }
     }
 
     override fun onDestroyView() {

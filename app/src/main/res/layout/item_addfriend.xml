@@ -6,8 +6,8 @@
     <data>
 
         <variable
-            name="vm"
-            type="com.yello.presentation.onboarding.activity.OnBoardingViewModel" />
+            name="data"
+            type="String" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

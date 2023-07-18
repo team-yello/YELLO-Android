@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.domain.entity.MyName
 import com.example.domain.entity.MyStudentid
 import com.example.domain.entity.onboarding.Friend
+import com.example.domain.entity.onboarding.FriendGroup
 import com.example.domain.entity.onboarding.FriendList
 import com.example.domain.entity.onboarding.MyCode
 import com.example.domain.entity.onboarding.MyDepartment
@@ -52,10 +53,10 @@ class OnBoardingViewModel @Inject constructor(
     val _department = MutableLiveData("")
     val _studentId = MutableLiveData("")
     val _name = MutableLiveData("")
+    val _friend = MutableLiveData("")
     val _id = MutableLiveData("")
     val _gender = MutableLiveData("")
     val _code = MutableLiveData("")
-    val _profile = MutableLiveData("")
 
     fun addListSchool(search: String) {
         if (isSchoolPagingFinish) return
@@ -105,6 +106,28 @@ class OnBoardingViewModel @Inject constructor(
             }
         }
     }
+    fun addListFriend(friendGroup: FriendGroup) {
+        if (isFriendPagingFinish) return
+        viewModelScope.launch {
+            _friendData.value = UiState.Loading
+            onboardingRepository.postFriendService(
+                friendGroup,
+                ++friendPage,
+            ).onSuccess { friend ->
+                if (friend == null) {
+                    _friendData.value = UiState.Empty
+                    return@launch
+                }
+                totalFriendPage = Math.ceil((friend.totalCount * 0.1)).toLong()
+                if (totalFriendPage == friendPage) isFriendPagingFinish = true
+                _friendData.value =
+                    when {
+                        friend.FriendList.isEmpty() -> UiState.Empty
+                        else -> UiState.Success(friend)
+                    }
+            }
+        }
+    }
 
     fun setSchool(school: String) {
         _school.value = school
@@ -116,6 +139,10 @@ class OnBoardingViewModel @Inject constructor(
 
     fun setStudentId(studentId: String) {
         _studentId.value = studentId
+    }
+
+    fun setFriend(friend: Friend) {
+        _friend.value = friend.toString()
     }
 
     val isValidSchool: LiveData<Boolean> = _school.map { school -> checkValidSchool(school) }
@@ -202,11 +229,9 @@ class OnBoardingViewModel @Inject constructor(
     fun checkEmptyId(id: String): Boolean {
         return id.isNullOrBlank()
     }
-
     fun checkEmptyCode(code: String): Boolean {
         return code.isNullOrBlank()
     }
-
     fun navigateToNextPage() {
         _currentPage.value = currentPage.value?.plus(1)
     }

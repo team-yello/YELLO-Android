@@ -3,16 +3,19 @@ package com.yello.presentation.main.profile.info
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.view.animation.AnimationUtils
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
+import androidx.recyclerview.widget.DefaultItemAnimator
+import androidx.recyclerview.widget.RecyclerView
 import com.example.ui.base.BindingFragment
+import com.example.ui.fragment.toast
 import com.example.ui.view.UiState
 import com.example.ui.view.setOnSingleClickListener
 import com.yello.R
 import com.yello.databinding.FragmentProfileBinding
 import com.yello.presentation.main.profile.ProfileViewModel
 import com.yello.presentation.main.profile.manage.ProfileManageActivity
-import com.yello.presentation.main.recommend.RecommendItemDecoration
 import com.yello.util.context.yelloSnackbar
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -34,8 +37,10 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
 
         observeUserDataState()
         observeFriendsDataState()
+        observeFriendDeleteState()
         // TODO: 유저 아이디 어디에다가 저장해둔거지
         setUserData(userid = 148)
+        setDeleteAnimation()
         setItemDivider()
         setFriendsData(0)
         setFabVisibility()
@@ -76,7 +81,7 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
                 is UiState.Success -> {
                     val friendsList = state.data?.friends ?: listOf()
                     binding.rvProfileFriendsList.adapter = adapter?.apply {
-                        setItemList(friendsList)
+                        addItemList(friendsList)
                     }
                 }
 
@@ -95,6 +100,26 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
         viewModel.getFriendsDataFromServer(page)
     }
 
+    private fun observeFriendDeleteState() {
+        viewModel.deleteFriendState.observe(viewLifecycleOwner) { state ->
+            when (state) {
+                is UiState.Success -> {
+                    viewModel.clickedItemPosition?.let { adapter?.removeItem(it) }
+                    viewModel.myTotalFriends.value =
+                        ((viewModel.myTotalFriends.value?.toInt() ?: 1) - 1).toString()
+                }
+
+                is UiState.Failure -> {
+                    toast("친구 삭제 실패")
+                }
+
+                is UiState.Loading -> {}
+
+                is UiState.Empty -> {}
+            }
+        }
+    }
+
     private fun setFabVisibility() {
         binding.svProfile.setOnScrollChangeListener { view, _, _, _, _ ->
             // 최상단인 경우에만 GONE 표시
@@ -106,6 +131,18 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
         binding.rvProfileFriendsList.addItemDecoration(
             ProfileItemDecoration(requireContext())
         )
+    }
+
+    private fun setDeleteAnimation() {
+        binding.rvProfileFriendsList.itemAnimator = object : DefaultItemAnimator() {
+            override fun animateRemove(holder: RecyclerView.ViewHolder): Boolean {
+
+                holder.itemView.animation =
+                    AnimationUtils.loadAnimation(holder.itemView.context, R.anim.slide_out_right)
+
+                return super.animateRemove(holder)
+            }
+        }
     }
 
     private fun initAddGroupButtonListener() {
@@ -130,8 +167,9 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
     }
 
     private fun initItemClickListener() {
-        adapter = ProfileFriendAdapter { profileUserModel ->
+        adapter = ProfileFriendAdapter { profileUserModel, position ->
 
+            viewModel.clickedItemPosition = position
             viewModel.clickedItemId.value = profileUserModel.userId
             viewModel.clickedItemName.value = profileUserModel.name
             viewModel.clickedItemYelloId.value = "@" + profileUserModel.yelloId

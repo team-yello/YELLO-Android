@@ -4,9 +4,10 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.domain.entity.ProfileUserModel
+import com.example.domain.entity.RecommendModel
 import com.yello.databinding.ItemFriendsListBinding
 
-class ProfileFriendAdapter(private val itemClick: (ProfileUserModel) -> (Unit)) :
+class ProfileFriendAdapter(private val itemClick: (ProfileUserModel, Int) -> (Unit)) :
     RecyclerView.Adapter<ProfileFriendViewHolder>() {
 
     private var itemList = mutableListOf<ProfileUserModel>()
@@ -19,13 +20,19 @@ class ProfileFriendAdapter(private val itemClick: (ProfileUserModel) -> (Unit)) 
     }
 
     override fun onBindViewHolder(holder: ProfileFriendViewHolder, position: Int) {
-        holder.onBind(itemList[position])
+        holder.onBind(itemList[position], position)
     }
 
     override fun getItemCount(): Int = itemList.size
 
-    fun setItemList(itemList: List<ProfileUserModel>) {
-        this.itemList = itemList.toMutableList()
+    fun addItemList(newItems: List<ProfileUserModel>) {
+        this.itemList.addAll(newItems)
         notifyDataSetChanged()
+    }
+
+    fun removeItem(position: Int) {
+        itemList.removeAt(position)
+        notifyItemRemoved(position)
+        notifyItemRangeChanged(position, itemCount)
     }
 }

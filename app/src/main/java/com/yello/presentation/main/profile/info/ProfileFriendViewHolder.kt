@@ -9,11 +9,11 @@ import com.yello.databinding.ItemFriendsListBinding
 
 class ProfileFriendViewHolder(
     val binding: ItemFriendsListBinding,
-    private val itemClick: (ProfileUserModel) -> (Unit)
+    private val itemClick: (ProfileUserModel, Int) -> (Unit)
 ) :
     RecyclerView.ViewHolder(binding.root) {
 
-    fun onBind(item: ProfileUserModel) {
+    fun onBind(item: ProfileUserModel, position: Int) {
         binding.tvProfileFriendItemName.text = item.name
         binding.tvProfileFriendItemSchool.text = item.group
         item.profileImageUrl.let { thumbnail ->
@@ -23,7 +23,7 @@ class ProfileFriendViewHolder(
         }
 
         binding.root.setOnSingleClickListener {
-            itemClick(item)
+            itemClick(item, position)
         }
     }
 }

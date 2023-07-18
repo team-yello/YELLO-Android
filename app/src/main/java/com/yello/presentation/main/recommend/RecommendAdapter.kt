@@ -34,11 +34,6 @@ class RecommendAdapter(private val itemClick: (RecommendModel.RecommendFriend, I
         notifyDataSetChanged()
     }
 
-    fun setItemList(itemList: List<RecommendModel.RecommendFriend>) {
-        this.itemList = itemList.toMutableList()
-        notifyDataSetChanged()
-    }
-
     private fun changeToTextButton(holder: RecommendViewHolder) {
         holder.binding.btnRecommendItemAdd.apply {
             text = "친구추가"

@@ -157,6 +157,8 @@ class OnBoardingViewModel @Inject constructor(
         _id.map { id -> checkEmptyId(id) }
     val isEmptyCode: LiveData<Boolean> =
         _code.map { code -> checkEmptyCode(code) }
+    val isValidName: LiveData<Boolean> =
+        _name.map { name -> checkRegexName(name) }
 
     private val school: String
         get() = _school.value?.trim() ?: ""
@@ -210,7 +212,6 @@ class OnBoardingViewModel @Inject constructor(
     fun checkEmptyDepartment(department: String): Boolean {
         return department.isNullOrBlank()
     }
-
     fun checkEmptyStudentId(studentid: String): Boolean {
         return studentid.isNullOrBlank()
     }

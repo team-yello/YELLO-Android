@@ -39,7 +39,6 @@ class NameIdFragment : BindingFragment<FragmentNameIdBinding>(R.layout.fragment_
             editname.setText("")
         }
     }
-
     private fun setDeleteIdBtnClickListener() {
         binding.btnIdDelete.setOnClickListener {
             val editid = binding.etId

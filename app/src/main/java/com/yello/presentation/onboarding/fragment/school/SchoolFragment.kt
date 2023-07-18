@@ -20,7 +20,7 @@ class SchoolFragment : BindingFragment<FragmentSchoolBinding>(R.layout.fragment_
 
         initSearchSchoolBtnClickListener()
         setConfirmBtnClickListener()
-        setupSchool()
+        setupschool()
         binding.tvSchoolSearch.doAfterTextChanged {
             it.toString()
         }
@@ -38,7 +38,7 @@ class SchoolFragment : BindingFragment<FragmentSchoolBinding>(R.layout.fragment_
         }
     }
 
-    private fun setupSchool() {
+    private fun setupschool() {
         viewModel._school.observe(viewLifecycleOwner) { school ->
             binding.tvSchoolSearch.text = school
         }

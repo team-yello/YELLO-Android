@@ -13,7 +13,7 @@ import com.yello.presentation.onboarding.fragment.studentid.StudentIdFragment
 
 class ViewPagerFragmentAdapter(fragmentActivity: FragmentActivity) :
     FragmentStateAdapter(fragmentActivity) {
-    private val fragments = listOf<Fragment>(SchoolFragment(), NameIdFragment(), StudentIdFragment(), GenderFragment(), AddFriendFragment(), CodeFragment(), StartAppFragment())
+    private val fragments = listOf<Fragment>(NameIdFragment(), SchoolFragment(), StudentIdFragment(), GenderFragment(), AddFriendFragment(), CodeFragment(), StartAppFragment())
 
     override fun getItemCount(): Int = fragments.size
     override fun createFragment(position: Int): Fragment = fragments[position]

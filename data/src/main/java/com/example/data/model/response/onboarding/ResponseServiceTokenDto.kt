@@ -6,25 +6,13 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class ResponseServiceTokenDto(
-    @SerialName("status")
-    val status: Int,
-    @SerialName("message")
-    val message: String,
-    @SerialName("data")
-    val data: ServiceToken
+    @SerialName("accessToken")
+    val accessToken: String,
+    @SerialName("refreshToken")
+    val refreshToken: String
 ) {
-    @Serializable
-    data class ServiceToken(
-        @SerialName("accessToken")
-        val accessToken: String,
-        @SerialName("refreshToken")
-        val refreshToken: String
-    )
 
     fun toServiceTokenModel(): ServiceTokenModel {
-        return ServiceTokenModel(
-            accessToken = data.accessToken,
-            refreshToken = data.refreshToken
-        )
+        return ServiceTokenModel(accessToken, refreshToken)
     }
 }

@@ -3,18 +3,71 @@ package com.yello.presentation.main.recommend
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.domain.entity.RecommendAddModel
 import com.example.domain.entity.RecommendModel
+import com.example.domain.repository.RecommendRepository
+import com.example.ui.view.UiState
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
+import javax.inject.Inject
+import kotlin.math.ceil
 
-class RecommendSchoolViewModel : ViewModel() {
 
-    private val _recommendResult: MutableLiveData<List<RecommendModel>> = MutableLiveData()
-    val recommendResult: LiveData<List<RecommendModel>> = _recommendResult
+@HiltViewModel
+class RecommendSchoolViewModel @Inject constructor(
+    private val recommendRepository: RecommendRepository
+) : ViewModel() {
 
-    fun addListFromLocal() {
-        val mockList = listOf(
-            RecommendModel(1, "이강민", "디자인대 파트업무과 23학번", null),
-            RecommendModel(2, "전채연", "아요대 당번일과 25학번", null),
-        )
-        _recommendResult.value = mockList
+    private val _postState = MutableLiveData<UiState<RecommendModel?>>()
+    val postState: LiveData<UiState<RecommendModel?>> = _postState
+
+    private val _addState = MutableLiveData<UiState<RecommendAddModel>>()
+    val addState: LiveData<UiState<RecommendAddModel>> = _addState
+
+    var itemPosition: Int? = null
+    var itemHolder: RecommendViewHolder? = null
+
+    private var currentPage = -1
+    private var isPagingFinish = false
+    private var totalPage = Int.MAX_VALUE
+
+    fun setPositionAndHolder(position: Int, holder: RecommendViewHolder) {
+        itemPosition = position
+        itemHolder = holder
+    }
+
+    fun addListFromServer() {
+
+        viewModelScope.launch {
+            runCatching {
+                recommendRepository.getSchoolFriendList(
+                    ++currentPage
+                )
+            }.onSuccess {
+                it ?: return@launch
+                totalPage = ceil((it.totalCount * 0.1)).toInt()
+                if (totalPage == currentPage) isPagingFinish = true
+                _postState.value = UiState.Success(it)
+            }.onFailure {
+                _postState.value = UiState.Failure(it.message ?: "")
+            }
+        }
+    }
+
+    fun addFriendToServer(friendId: Long) {
+
+        viewModelScope.launch {
+            _addState.value = UiState.Loading
+            runCatching {
+                recommendRepository.postFriendAdd(
+                    friendId
+                )
+            }.onSuccess {
+                _addState.value = UiState.Success(it)
+            }.onFailure {
+                _addState.value = UiState.Failure(it.message ?: "")
+            }
+        }
     }
 }

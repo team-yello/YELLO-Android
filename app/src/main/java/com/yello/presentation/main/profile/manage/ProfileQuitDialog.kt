@@ -25,15 +25,8 @@ class ProfileQuitDialog :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.btnProfileDialogQuit.setOnSingleClickListener {
-            // TODO: 회원 탈퇴 로직 설정
-            restartApp(requireContext())
-        }
-
-        binding.btnProfileDialogReject.setOnSingleClickListener {
-            unlinkKakaoAccount()
-            dismiss()
-        }
+        initQuitButtonListener()
+        initRejectButtonListener()
     }
 
     private fun setDialogBackground() {
@@ -49,6 +42,24 @@ class ProfileQuitDialog :
         }
         dialog?.setCanceledOnTouchOutside(false)
         dialog?.setCancelable(true)
+    }
+
+    private fun initQuitButtonListener() {
+        binding.btnProfileDialogQuit.setOnSingleClickListener {
+            unlinkYelloAccount()
+            unlinkKakaoAccount()
+            restartApp(requireContext())
+        }
+    }
+
+    private fun initRejectButtonListener() {
+        binding.btnProfileDialogReject.setOnSingleClickListener {
+            dismiss()
+        }
+    }
+
+    private fun unlinkYelloAccount() {
+
     }
 
     private fun unlinkKakaoAccount() {

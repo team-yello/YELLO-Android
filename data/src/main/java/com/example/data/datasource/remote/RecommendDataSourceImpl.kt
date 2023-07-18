@@ -3,7 +3,6 @@ package com.example.data.datasource.remote
 import com.example.data.datasource.RecommendDataSource
 import com.example.data.model.request.recommend.RequestRecommendKakaoDto
 import com.example.data.model.response.BaseResponse
-import com.example.data.model.response.recommend.ResponseRecommendAddDto
 import com.example.data.model.response.recommend.ResponseRecommendDto
 import com.example.data.remote.service.RecommendService
 import javax.inject.Inject
@@ -27,7 +26,7 @@ class RecommendDataSourceImpl @Inject constructor(
 
     override suspend fun postFriendAdd(
         friendId: Long
-    ): ResponseRecommendAddDto {
+    ): BaseResponse<Unit> {
         return recommendService.postFriendAdd(friendId)
     }
 

@@ -2,7 +2,6 @@ package com.example.data.remote.service
 
 import com.example.data.model.request.recommend.RequestRecommendKakaoDto
 import com.example.data.model.response.BaseResponse
-import com.example.data.model.response.recommend.ResponseRecommendAddDto
 import com.example.data.model.response.recommend.ResponseRecommendDto
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -26,6 +25,6 @@ interface RecommendService {
     @POST("/api/v1/friend/{friendId}")
     suspend fun postFriendAdd(
         @Path("friendId") friendId: Long
-    ): ResponseRecommendAddDto
+    ): BaseResponse<Unit>
 
 }

@@ -2,7 +2,6 @@ package com.example.data.datasource
 
 import com.example.data.model.request.recommend.RequestRecommendKakaoDto
 import com.example.data.model.response.BaseResponse
-import com.example.data.model.response.recommend.ResponseRecommendAddDto
 import com.example.data.model.response.recommend.ResponseRecommendDto
 
 interface RecommendDataSource {
@@ -17,6 +16,6 @@ interface RecommendDataSource {
 
     suspend fun postFriendAdd(
         friendId: Long
-    ): ResponseRecommendAddDto
+    ): BaseResponse<Unit>
 
 }

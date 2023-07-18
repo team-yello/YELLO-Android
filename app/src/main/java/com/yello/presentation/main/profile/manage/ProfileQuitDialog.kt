@@ -75,7 +75,7 @@ class ProfileQuitDialog :
                 }
 
                 is UiState.Failure -> {
-                    yelloSnackbar(requireView(), "친구 추가 서버 통신 실패")
+                    yelloSnackbar(requireView(), "회원 탈퇴 서버 통신 실패")
                 }
 
                 is UiState.Loading -> {}
@@ -88,7 +88,7 @@ class ProfileQuitDialog :
     private fun unlinkKakaoAccount() {
         UserApiClient.instance.unlink { error ->
             if (error != null) {
-                Timber.d("카카오 로그아웃 실패")
+                Timber.d("카카오 연동 해제 실패")
             } else {
                 restartApp(requireContext())
             }

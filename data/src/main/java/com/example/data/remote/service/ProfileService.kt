@@ -5,7 +5,6 @@ import com.example.data.model.response.profile.ResponseProfileFriendsDto
 import com.example.data.model.response.profile.ResponseProfileUserDto
 import retrofit2.http.DELETE
 import retrofit2.http.GET
-import retrofit2.http.POST
 import retrofit2.http.Path
 import retrofit2.http.Query
 
@@ -25,7 +24,7 @@ interface ProfileService {
     suspend fun deleteUserData(
     ): BaseResponse<Unit>
 
-    @DELETE("/api/v1/user/{friendId}")
+    @DELETE("/api/v1/friend/{friendId}")
     suspend fun deleteFriendData(
         @Path("friendId") friendId: Int
     ): BaseResponse<Unit>

@@ -26,6 +26,9 @@ class ProfileViewModel @Inject constructor(
     private val _deleteUserState = MutableLiveData<UiState<Unit>>()
     val deleteUserState: LiveData<UiState<Unit>> = _deleteUserState
 
+    private val _deleteFriendState = MutableLiveData<UiState<Unit>>()
+    val deleteFriendState: LiveData<UiState<Unit>> = _deleteFriendState
+
     val myName: MutableLiveData<String> = MutableLiveData("")
     val myId: MutableLiveData<String> = MutableLiveData("")
     val mySchool: MutableLiveData<String> = MutableLiveData("")
@@ -34,8 +37,9 @@ class ProfileViewModel @Inject constructor(
     val myTotalFriends: MutableLiveData<String> = MutableLiveData("")
     val myTotalPoints: MutableLiveData<String> = MutableLiveData("")
 
+    val clickedItemId: MutableLiveData<Int> = MutableLiveData()
     val clickedItemName: MutableLiveData<String> = MutableLiveData("")
-    val clickedItemId: MutableLiveData<String> = MutableLiveData("")
+    val clickedItemYelloId: MutableLiveData<String> = MutableLiveData("")
     val clickedItemSchool: MutableLiveData<String> = MutableLiveData("")
     val clickedItemThumbnail: MutableLiveData<String> = MutableLiveData("")
     val clickedItemTotalMsg: MutableLiveData<String> = MutableLiveData("")
@@ -75,7 +79,20 @@ class ProfileViewModel @Inject constructor(
             }.onSuccess {
                 _deleteUserState.value = UiState.Success(it)
             }.onFailure {
-                _deleteUserState.value = UiState.Failure("유저 정보 서버 통신 실패")
+                _deleteUserState.value = UiState.Failure(it.message.toString())
+            }
+        }
+    }
+
+    fun deleteFriendDataToServer(friendId: Int) {
+        viewModelScope.launch {
+            _deleteFriendState.value = UiState.Loading
+            runCatching {
+                profileRepository.deleteFriendData(friendId)
+            }.onSuccess {
+                _deleteFriendState.value = UiState.Success(it)
+            }.onFailure {
+                _deleteFriendState.value = UiState.Failure(it.message.toString())
             }
         }
     }

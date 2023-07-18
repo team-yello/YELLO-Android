@@ -124,8 +124,9 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
     private fun initItemClickListener() {
         adapter = ProfileFriendAdapter { profileUserModel ->
 
+            viewModel.clickedItemId.value = profileUserModel.userId
             viewModel.clickedItemName.value = profileUserModel.name
-            viewModel.clickedItemId.value = "@" + profileUserModel.yelloId
+            viewModel.clickedItemYelloId.value = "@" + profileUserModel.yelloId
             viewModel.clickedItemSchool.value = profileUserModel.group
             // TODO: 서버통신 후 이미지도 처리하기 - 바인딩어댑터
             // viewModel.clickedItemThumbnail.value = profileUserModel.profileImageUrl

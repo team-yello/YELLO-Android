@@ -2,9 +2,11 @@ package com.yello.di
 
 import com.example.data.datasource.OnboardingDataSource
 import com.example.data.datasource.RecommendDataSource
+import com.example.data.datasource.VoteDataSource
 import com.example.data.datasource.YelloDataSource
 import com.example.data.datasource.remote.OnboardingDataSourceImpl
 import com.example.data.datasource.remote.RecommendDataSourceImpl
+import com.example.data.datasource.remote.VoteDataSourceImpl
 import com.example.data.datasource.remote.YelloDataSourceImpl
 import dagger.Module
 import dagger.Provides
@@ -19,6 +21,10 @@ object DataSourceModule {
     @Singleton
     fun provideYelloDataSource(yelloDataSource: YelloDataSourceImpl): YelloDataSource =
         yelloDataSource
+
+    @Provides
+    @Singleton
+    fun provideVoteDataSource(voteDataSource: VoteDataSourceImpl): VoteDataSource = voteDataSource
 
     @Provides
     @Singleton

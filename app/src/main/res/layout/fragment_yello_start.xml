@@ -4,6 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".presentation.main.yello.start.YelloStartFragment">
 
+    <data>
+        <variable
+            name="vm"
+            type="com.yello.presentation.main.yello.YelloViewModel" />
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layout_start"
         android:layout_width="match_parent"
@@ -86,7 +92,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="4dp"
-                    android:text="2500"
+                    android:text="@{@string/to_string(vm._point)}"
+                    tools:text="2500"
                     android:textColor="@color/white"
                     app:layout_constraintBaseline_toBaselineOf="@id/tv_start_point_label"
                     app:layout_constraintEnd_toStartOf="@id/tv_start_point_label" />

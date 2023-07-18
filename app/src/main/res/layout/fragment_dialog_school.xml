@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="vm"
             type="com.yello.presentation.onboarding.activity.OnBoardingViewModel" />
@@ -13,8 +14,8 @@
         android:id="@+id/layout_school_dialog"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:minHeight="500dp"
-        android:background="@drawable/shape_rounded_dialog">
+        android:background="@drawable/shape_rounded_dialog"
+        android:minHeight="500dp">
 
         <ImageView
             android:layout_width="80dp"
@@ -42,10 +43,11 @@
             android:id="@+id/btn_back_dialog"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="29dp"
-            android:layout_marginEnd="22dp"
-            android:layout_marginBottom="13dp"
+            android:layout_marginTop="17dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="1dp"
             android:background="@null"
+            android:padding="12dp"
             android:src="@drawable/ic_onboarding_x"
             app:layout_constraintBottom_toTopOf="@+id/et_school_search"
             app:layout_constraintDimensionRatio="1"
@@ -58,7 +60,6 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="20dp"
             android:layout_marginTop="12dp"
-            android:textColor="@color/white"
             android:background="@drawable/shape_grayscales900_fill_grayscales500_line_8_rect"
             android:drawableEnd="@drawable/ic_onboarding_search"
             android:drawablePadding="24dp"
@@ -68,6 +69,7 @@
             android:paddingVertical="16dp"
             android:paddingStart="20dp"
             android:paddingEnd="12dp"
+            android:textColor="@color/white"
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

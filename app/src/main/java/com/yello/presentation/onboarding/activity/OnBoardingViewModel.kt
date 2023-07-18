@@ -41,13 +41,71 @@ class OnBoardingViewModel @Inject constructor(
     private var totalDepartmentPage = Long.MAX_VALUE
 
     val _school = MutableLiveData("")
+    private val school: String
+        get() = _school.value?.trim() ?: ""
+
     val _department = MutableLiveData("")
+    private val department: String
+        get() = _department.value?.trim() ?: ""
+
     val _studentid = MutableLiveData("")
+    private val studentid: String
+        get() = _studentid.value?.trim() ?: ""
+
     val _name = MutableLiveData("")
+    private val name: String
+        get() = _name.value?.trim() ?: ""
+
     val _id = MutableLiveData("")
+    private val id: String
+        get() = _id.value?.trim() ?: ""
+
     val _gender = MutableLiveData("")
+    private val gender: String
+        get() = _gender.value?.trim() ?: ""
+
     val _code = MutableLiveData("")
+    private val code: String
+        get() = _code.value?.trim() ?: ""
+
     val _profile = MutableLiveData("")
+
+    val isValidSchool: LiveData<Boolean> = _school.map { school -> checkValidSchool(school) }
+
+    val isEmptyDepartment: LiveData<Boolean> =
+        _department.map { department -> checkEmptyDepartment(department) }
+    val isEmptyStudentId: LiveData<Boolean> =
+        _studentid.map { studentId -> checkEmptyStudentId(studentId) }
+    val isEmptyName: LiveData<Boolean> =
+        _name.map { name -> checkEmptyName(name) }
+    val isEmptyId: LiveData<Boolean> =
+        _id.map { id -> checkEmptyId(id) }
+    val isEmptyCode: LiveData<Boolean> =
+        _code.map { code -> checkEmptyCode(code) }
+
+    private val _schoolResult: MutableLiveData<List<MySchool>> = MutableLiveData()
+    val schoolResult: LiveData<List<MySchool>> = _schoolResult
+
+    private val _departmentResult: MutableLiveData<List<MyDepartment>> = MutableLiveData()
+    val departmentResult: LiveData<List<MyDepartment>> = _departmentResult
+
+    private val _studentIdResult: MutableLiveData<List<MyStudentid>> = MutableLiveData()
+    val studentIdResult: LiveData<List<MyStudentid>> = _studentIdResult
+
+    private val _friendResult: MutableLiveData<List<Friend>> = MutableLiveData()
+    val friendResult: LiveData<List<Friend>> = _friendResult
+
+    private val _idResult: MutableLiveData<List<MyId>> = MutableLiveData()
+    val idResult: LiveData<List<MyId>> = _idResult
+
+    private val _nameResult: MutableLiveData<List<MyName>> = MutableLiveData()
+    val nameResult: LiveData<List<MyName>> = _nameResult
+
+    private val _genderResult: MutableLiveData<List<MyGender>> = MutableLiveData()
+    val genderResult: LiveData<List<MyGender>> = _genderResult
+
+    private val _codeResult: MutableLiveData<List<MyCode>> = MutableLiveData()
+    val codeResult: LiveData<List<MyCode>> = _codeResult
 
     fun addListSchool(search: String) {
         if (isSchoolPagingFinish) return
@@ -110,94 +168,37 @@ class OnBoardingViewModel @Inject constructor(
         _studentid.value = studentId
     }
 
-    val isValidSchool: LiveData<Boolean> = _school.map { school -> checkValidSchool(school) }
-
-    val isEmptyDepartment: LiveData<Boolean> =
-        _department.map { department -> checkEmptyDepartment(department) }
-    val isEmptyStudentId: LiveData<Boolean> =
-        _studentid.map { studentId -> checkEmptyStudentId(studentId) }
-    val isEmptyName: LiveData<Boolean> =
-        _name.map { name -> checkEmptyName(name) }
-    val isEmptyId: LiveData<Boolean> =
-        _id.map { id -> checkEmptyId(id) }
-    val isEmptyCode: LiveData<Boolean> =
-        _code.map { code -> checkEmptyCode(code) }
-
-    private val school: String
-        get() = _school.value?.trim() ?: ""
-    private val department: String
-        get() = _department.value?.trim() ?: ""
-
-    private val studentid: String
-        get() = _studentid.value?.trim() ?: ""
-
-    private val name: String
-        get() = _name.value?.trim() ?: ""
-
-    private val id: String
-        get() = _id.value?.trim() ?: ""
-
-    private val gender: String
-        get() = _gender.value?.trim() ?: ""
-
-    private val code: String
-        get() = _code.value?.trim() ?: ""
-
-    private val _schoolResult: MutableLiveData<List<MySchool>> = MutableLiveData()
-    val schoolResult: LiveData<List<MySchool>> = _schoolResult
-
-    private val _departmentResult: MutableLiveData<List<MyDepartment>> = MutableLiveData()
-    val departmentResult: LiveData<List<MyDepartment>> = _departmentResult
-
-    private val _studentidResult: MutableLiveData<List<MyStudentid>> = MutableLiveData()
-    val studentidResult: LiveData<List<MyStudentid>> = _studentidResult
-
-    private val _friendResult: MutableLiveData<List<Friend>> = MutableLiveData()
-    val friendResult: LiveData<List<Friend>> = _friendResult
-
-    private val _idResult: MutableLiveData<List<MyId>> = MutableLiveData()
-    val idResult: LiveData<List<MyId>> = _idResult
-
-    private val _nameResult: MutableLiveData<List<MyName>> = MutableLiveData()
-    val nameResult: LiveData<List<MyName>> = _nameResult
-
-    private val _genderResult: MutableLiveData<List<MyGender>> = MutableLiveData()
-    val genderResult: LiveData<List<MyGender>> = _genderResult
-
-    private val _codeResult: MutableLiveData<List<MyCode>> = MutableLiveData()
-    val codeResult: LiveData<List<MyCode>> = _codeResult
-
-    fun checkValidSchool(school: String): Boolean {
-        return school.isNullOrBlank()
+    private fun checkValidSchool(school: String): Boolean {
+        return school.isBlank()
     }
 
-    fun checkEmptyDepartment(department: String): Boolean {
-        return department.isNullOrBlank()
+    private fun checkEmptyDepartment(department: String): Boolean {
+        return department.isBlank()
     }
 
-    fun checkEmptyStudentId(studentid: String): Boolean {
-        return studentid.isNullOrBlank()
+    private fun checkEmptyStudentId(studentId: String): Boolean {
+        return studentId.isBlank()
     }
 
-    fun checkEmptyName(name: String): Boolean {
-        return name.isNullOrBlank()
+    private fun checkEmptyName(name: String): Boolean {
+        return name.isBlank()
     }
 
-    fun checkRegaxName(name: String): Boolean {
+    private fun checkRegaxName(name: String): Boolean {
         return name.matches("^[ㄱ-ㅎㅏ-ㅣ가-힣]\$".toRegex())
     }
 
     // 문자, 숫자, 및줄, 마침표만 사용 정규표현식
-    fun checkRegaxId(id: String): Boolean {
+    private fun checkRegaxId(id: String): Boolean {
         return id.matches("^[A-Za-z0-9_.]*\$".toRegex())
     }
 
-    fun checkEmptyId(id: String): Boolean {
-        return id.isNullOrBlank()
+    private fun checkEmptyId(id: String): Boolean {
+        return id.isBlank()
     }
 
-    fun checkEmptyCode(code: String): Boolean {
-        return code.isNullOrBlank()
+    private fun checkEmptyCode(code: String): Boolean {
+        return code.isBlank()
     }
 
     fun navigateToNextPage() {
@@ -220,16 +221,6 @@ class OnBoardingViewModel @Inject constructor(
             MyStudentid("22학번"),
             MyStudentid("23학번"),
         )
-        _studentidResult.value = mockList
+        _studentIdResult.value = mockList
     }
-
-//    fun addFriend() {
-//        val mockList = listOf(
-//            MyFriend(1, "서울여자대학교 시각디자인과", "성신여자대학교 산업디자인과"),
-//            MyFriend(2, "강국희", "성신여자대학교 산업디자인과"),
-//            MyFriend(3, "이의제", "송민호대학교 컴퓨터공화과"),
-//            MyFriend(4, "고경표", "상호대학교 컴퓨터공학과"),
-//        )
-//        _friendResult.value = mockList
-//    }
 }

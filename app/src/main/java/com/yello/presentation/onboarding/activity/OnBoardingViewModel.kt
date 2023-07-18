@@ -249,7 +249,7 @@ class OnBoardingViewModel @Inject constructor(
 
     fun addFriend() {
         val mockList = listOf(
-            MyFriend(1, "김나현", "서울여자대학교 시각디자인과"),
+            MyFriend(1, "서울여자대학교 시각디자인과", "성신여자대학교 산업디자인과"),
             MyFriend(2, "강국희", "성신여자대학교 산업디자인과"),
             MyFriend(3, "이의제", "송민호대학교 컴퓨터공화과"),
             MyFriend(4, "고경표", "상호대학교 컴퓨터공학과"),

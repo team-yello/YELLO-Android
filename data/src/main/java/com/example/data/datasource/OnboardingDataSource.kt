@@ -21,6 +21,4 @@ interface OnboardingDataSource {
         search: String,
         page: Long,
     ): BaseResponse<ResponseDepartmentDto>
-
-
 }

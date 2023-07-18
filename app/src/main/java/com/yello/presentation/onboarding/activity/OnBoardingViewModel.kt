@@ -16,8 +16,8 @@ import com.example.domain.entity.MyStudentid
 import com.example.domain.repository.OnboardingRepository
 import com.example.ui.view.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @HiltViewModel
 class OnBoardingViewModel @Inject constructor(

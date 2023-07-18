@@ -184,6 +184,10 @@ class OnBoardingViewModel @Inject constructor(
         _friend.value = friend.toString()
     }
 
+    fun clearSchoolData() {
+        _schoolData.value = UiState.Success(SchoolList(0, emptyList()))
+    }
+
     val isValidSchool: LiveData<Boolean> = _school.map { school -> checkValidSchool(school) }
 
     val isEmptyDepartment: LiveData<Boolean> =

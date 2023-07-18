@@ -38,6 +38,9 @@ class SchoolAdapter(
             binding.root.setOnSingleClickListener {
                 storeSchool(school)
             }
+            binding.tvSchoolName.setOnSingleClickListener {
+                storeSchool(school)
+            }
         }
     }
 

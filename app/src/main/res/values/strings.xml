@@ -5,6 +5,7 @@
     <string name="msg_error">오류가 발생하였습니다.</string>
     <string name="msg_failure">정보 불러오기에 실패했습니다.</string>
     <string name="to_string">%s</string>
+    <string name="dummy">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</string>
 
     <string name="tv_sign_in_title">Yell:o에 오신 걸 환영해요!</string>
     <string name="tv_sign_in_subtitle">가입을 시작해볼까요?</string>

@@ -38,16 +38,26 @@ class SearchDialogFragment :
         schoolList = viewModel.schoolResult.value ?: emptyList()
         adapter = SchoolAdapter(requireContext(), storeSchool = ::storeSchool)
         binding.rvSchoolList.adapter = adapter
+        binding.btnBackDialog.setOnSingleClickListener {
+            dismiss()
+        }
     }
 
     private fun setHideKeyboard() {
-        binding.layoutSchoolDialog.setOnSingleClickListener { requireContext().hideKeyboard(requireView()) }
+        binding.layoutSchoolDialog.setOnSingleClickListener {
+            requireContext().hideKeyboard(
+                requireView(),
+            )
+        }
     }
 
     private fun setupSchoolData() {
         viewModel.schoolData.observe(viewLifecycleOwner) { state ->
             when (state) {
-                is UiState.Failure -> { yelloSnackbar(binding.root, getString(R.string.msg_error)) }
+                is UiState.Failure -> {
+                    yelloSnackbar(binding.root, getString(R.string.msg_error))
+                }
+
                 is UiState.Loading -> {}
                 is UiState.Empty -> {} // TODO: 조회 결과 없음 UI 처리
                 is UiState.Success -> {
@@ -59,20 +69,13 @@ class SearchDialogFragment :
 
     private fun storeSchool(school: String) {
         viewModel.setSchool(school)
+        viewModel.clearSchoolData()
         dismiss()
-        binding.layoutSchoolDialog.setOnSingleClickListener {
-            dismiss()
-        }
-        binding.btnBackDialog.setOnSingleClickListener {
-            dismiss()
-        }
     }
 
-
-
     override fun onDestroyView() {
-        adapter = null
         super.onDestroyView()
+        adapter = null
     }
 
     companion object {

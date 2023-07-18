@@ -15,10 +15,10 @@ interface OnboardingRepository {
         page: Int,
     ): Result<SchoolList?>
 
-    suspend fun getDepartmentService(
+    suspend fun getGroupList(
         school: String,
         search: String,
-        page: Long,
+        page: Int,
     ): Result<GroupList?>
 
     suspend fun getIdService(

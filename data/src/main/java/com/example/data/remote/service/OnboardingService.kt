@@ -30,7 +30,7 @@ interface OnboardingService {
     suspend fun getDepartmentSearchService(
         @Query("school") school: String,
         @Query("search") search: String,
-        @Query("page") page: Long,
+        @Query("page") page: Int,
     ): BaseResponse<ResponseDepartmentDto>
 
     @POST("/auth/signup")

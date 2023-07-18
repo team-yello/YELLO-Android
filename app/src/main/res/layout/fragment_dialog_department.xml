@@ -15,7 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/shape_rounded_dialog"
-        android:minHeight="400dp">
+        android:minHeight="500dp">
 
         <ImageView
             android:layout_width="80dp"
@@ -72,7 +72,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_department_dialog"
-            tools:text="dddfdfdsfdnfkshfjdhjkhskjhfsdhjfksdhkfjshkjsdhjksdfhsdadasda" />
+            tools:text="@string/dummy" />
 
         <TextView
             android:id="@+id/tv_department_add"

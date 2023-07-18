@@ -31,10 +31,10 @@ class OnboardingRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getDepartmentService(
-        school: kotlin.String,
-        search: kotlin.String,
-        page: Long,
+    override suspend fun getGroupList(
+        school: String,
+        search: String,
+        page: Int,
     ): Result<GroupList?> {
         return runCatching {
             onboardingDataSource.getDepartmentNameData(
@@ -45,7 +45,7 @@ class OnboardingRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getIdService(yelloId: kotlin.String): Result<Boolean?> {
+    override suspend fun getIdService(yelloId: String): Result<Boolean?> {
         return runCatching {
             onboardingDataSource.getIdValidData(
                 yelloId,

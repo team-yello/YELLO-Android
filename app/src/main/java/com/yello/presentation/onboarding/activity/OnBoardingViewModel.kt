@@ -18,21 +18,20 @@ import com.example.domain.entity.onboarding.SchoolList
 import com.example.domain.repository.OnboardingRepository
 import com.example.ui.view.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
-import kotlin.math.ceil
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import timber.log.Timber
+import javax.inject.Inject
 
 @HiltViewModel
 class OnBoardingViewModel @Inject constructor(
     private val onboardingRepository: OnboardingRepository,
 ) : ViewModel() {
     private val _schoolData = MutableLiveData<UiState<SchoolList>>()
-    val schoolData: MutableLiveData<UiState<SchoolList>> = _schoolData
+    val schoolData: LiveData<UiState<SchoolList>> = _schoolData
 
     private val _departmentData = MutableLiveData<UiState<GroupList>>()
-    val departmentData: MutableLiveData<UiState<GroupList>> = _departmentData
+    val departmentData: LiveData<UiState<GroupList>> = _departmentData
 
     private val _friendData = MutableLiveData<UiState<FriendList>>()
     val friendData: MutableLiveData<UiState<FriendList>> = _friendData
@@ -44,9 +43,9 @@ class OnBoardingViewModel @Inject constructor(
     private var isSchoolPagingFinish = false
     private var totalSchoolPage = Integer.MAX_VALUE
 
-    var departmentPage = -1L
+    var departmentPage = -1
     private var isDepartmentPagingFinish = false
-    private var totalDepartmentPage = Long.MAX_VALUE
+    private var totalDepartmentPage = Integer.MAX_VALUE
 
     var friendPage = -1L
     private var isFriendPagingFinish = false
@@ -91,7 +90,6 @@ class OnBoardingViewModel @Inject constructor(
 
     // TODO: throttle 및 페이징 처리
     fun getSchoolList(search: String) {
-        Timber.d("GET SCHOOL LIST 메서드 호출 : $search")
         // if (isSchoolPagingFinish) return
         viewModelScope.launch {
             _schoolData.value = UiState.Loading
@@ -121,26 +119,37 @@ class OnBoardingViewModel @Inject constructor(
         }
     }
 
-    fun addListDepartment(school: String, search: String) {
-        if (isDepartmentPagingFinish) return
+    // TODO: throttle 및 페이징 처리
+    fun getGroupList(search: String) {
+        Timber.d("GET GROUP LIST 호출")
+        // if (isDepartmentPagingFinish) return
         viewModelScope.launch {
             _departmentData.value = UiState.Loading
-            onboardingRepository.getDepartmentService(
+            onboardingRepository.getGroupList(
                 school,
                 search,
-                ++departmentPage,
-            ).onSuccess { department ->
-                if (department == null) {
+                0,
+                // ++departmentPage,
+            ).onSuccess { groupList ->
+                Timber.d("GET GROUP LIST SUCCESS : $groupList")
+                if (groupList == null) {
                     _departmentData.value = UiState.Empty
                     return@launch
                 }
-                totalDepartmentPage = ceil((department.totalCount * 0.1)).toLong()
-                if (totalDepartmentPage == departmentPage) isDepartmentPagingFinish = true
+
+                // totalDepartmentPage = ceil((department.totalCount * 0.1)).toLong()
+                // if (totalDepartmentPage == departmentPage) isDepartmentPagingFinish = true
                 _departmentData.value =
                     when {
-                        department.group.isEmpty() -> UiState.Empty
-                        else -> UiState.Success(department)
+                        groupList.groupList.isEmpty() -> UiState.Empty
+                        else -> UiState.Success(groupList)
                     }
+            }.onFailure { t ->
+                if (t is HttpException) {
+                    Timber.e("GET GROUP LIST FAILURE : $t")
+                    _departmentData.value = UiState.Failure(t.code().toString())
+                }
+                Timber.e("GET GROUP LIST ERROR : $t")
             }
         }
     }
@@ -157,7 +166,7 @@ class OnBoardingViewModel @Inject constructor(
                     _friendData.value = UiState.Empty
                     return@launch
                 }
-                totalFriendPage = Math.ceil((friend.totalCount * 0.1)).toLong()
+                totalFriendPage = kotlin.math.ceil((friend.totalCount * 0.1)).toLong()
                 if (totalFriendPage == friendPage) isFriendPagingFinish = true
                 _friendData.value =
                     when {
@@ -187,6 +196,10 @@ class OnBoardingViewModel @Inject constructor(
 
     fun clearSchoolData() {
         _schoolData.value = UiState.Success(SchoolList(0, emptyList()))
+    }
+
+    fun cleaDepartmentData() {
+        _departmentData.value = UiState.Success(GroupList(0, emptyList()))
     }
 
     val isValidSchool: LiveData<Boolean> = _school.map { school -> checkValidSchool(school) }

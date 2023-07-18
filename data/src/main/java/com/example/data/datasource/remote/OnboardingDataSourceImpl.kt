@@ -31,7 +31,7 @@ class OnboardingDataSourceImpl @Inject constructor(
     override suspend fun getDepartmentNameData(
         school: String,
         search: String,
-        page: Long,
+        page: Int,
     ): BaseResponse<ResponseDepartmentDto> {
         return onboardingService.getDepartmentSearchService(school, search, page)
     }

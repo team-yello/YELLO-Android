@@ -4,7 +4,7 @@ import kotlin.String
 
 data class GroupList(
     val totalCount: Int,
-    val group: List<Group>,
+    val groupList: List<Group>,
 )
 
 data class Group(

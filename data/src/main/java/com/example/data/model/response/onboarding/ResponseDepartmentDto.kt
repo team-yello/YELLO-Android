@@ -9,7 +9,7 @@ import kotlinx.serialization.Serializable
 data class ResponseDepartmentDto(
     @SerialName("totalCount")
     val totalCount: Int,
-    @SerialName("group")
+    @SerialName("groupList")
     val groupList: List<GroupListDto>,
 ) {
     @Serializable

@@ -3,7 +3,6 @@ package com.yello.presentation.onboarding.fragment.school.university
 import android.os.Bundle
 import android.view.View
 import androidx.core.widget.doAfterTextChanged
-import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import com.example.ui.base.BindingBottomSheetDialog
 import com.example.ui.context.hideKeyboard
@@ -16,7 +15,6 @@ import com.yello.util.context.yelloSnackbar
 
 class SearchDialogFragment :
     BindingBottomSheetDialog<FragmentDialogSchoolBinding>(R.layout.fragment_dialog_school) {
-    private lateinit var schoolList: List<String>
     private var adapter: SchoolAdapter? = null
 
     private val viewModel by activityViewModels<OnBoardingViewModel>()
@@ -24,10 +22,8 @@ class SearchDialogFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.vm = viewModel
-
         initView()
         setupSchoolData()
-        setStyle(DialogFragment.STYLE_NORMAL, R.style.AppBottomSheetDialogTheme)
     }
 
     private fun initView() {
@@ -35,8 +31,7 @@ class SearchDialogFragment :
         binding.etSchoolSearch.doAfterTextChanged { input ->
             viewModel.getSchoolList(input.toString())
         }
-        schoolList = viewModel.schoolResult.value ?: emptyList()
-        adapter = SchoolAdapter(requireContext(), storeSchool = ::storeSchool)
+        adapter = SchoolAdapter(storeSchool = ::storeSchool)
         binding.rvSchoolList.adapter = adapter
         binding.btnBackDialog.setOnSingleClickListener {
             dismiss()

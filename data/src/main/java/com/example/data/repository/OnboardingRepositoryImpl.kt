@@ -15,9 +15,11 @@ import javax.inject.Inject
 class OnboardingRepositoryImpl @Inject constructor(
     private val onboardingDataSource: OnboardingDataSource,
 ) : OnboardingRepository {
-    override suspend fun postTokenToServiceToken(requestServiceTokenModel: RequestServiceTokenModel): ServiceTokenModel {
-        return onboardingDataSource.postTokenToServiceTokenData(requestServiceTokenModel.toRequestDto())
-            .toServiceTokenModel()
+
+    override suspend fun postTokenToServiceToken(requestServiceTokenModel: RequestServiceTokenModel): ServiceTokenModel? {
+        return onboardingDataSource.postTokenToServiceTokenData(
+            requestServiceTokenModel.toRequestDto(),
+        ).data?.toServiceTokenModel()
     }
 
     override suspend fun getSchoolService(search: String, page: Long): Result<MySchool?> {

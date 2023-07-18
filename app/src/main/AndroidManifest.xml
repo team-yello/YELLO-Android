@@ -37,11 +37,6 @@
                     android:scheme="kakao${NATIVE_APP_KEY}" />
             </intent-filter>
         </activity>
-
-
-        <activity
-            android:name=".presentation.yello.YelloActivity"
-            android:exported="false" />
         <activity
             android:name=".presentation.auth.SignInActivity"
             android:exported="true"
@@ -64,12 +59,10 @@
                     android:scheme="kakao${NATIVE_APP_KEY}" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".presentation.main.yello.vote.VoteActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".presentation.main.profile.manage.ProfileManageActivity"
             android:exported="false"
@@ -87,5 +80,4 @@
             android:exported="false"
             android:screenOrientation="portrait" />
     </application>
-
 </manifest>

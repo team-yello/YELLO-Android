@@ -86,9 +86,9 @@ class MyYelloFragment : BindingFragment<FragmentMyYelloBinding>(R.layout.fragmen
                     ) {
                         viewModel.getMyYelloList()
                     }
+                }
             }
-        }
-    })
+        })
     }
 
     override fun onDestroyView() {

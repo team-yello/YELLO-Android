@@ -11,7 +11,7 @@ import com.example.data.model.response.onboarding.ResponseServiceTokenDto
 interface OnboardingDataSource {
     suspend fun postTokenToServiceTokenData(
         requestServiceTokenDto: RequestServiceTokenDto,
-    ): ResponseServiceTokenDto
+    ): BaseResponse<ResponseServiceTokenDto>
 
     suspend fun getSchoolNameData(
         search: String,

@@ -6,7 +6,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.domain.entity.ProfileFriendModel
 import com.yello.databinding.ItemFriendsListBinding
 
-class ProfileFriendAdapter(private val itemClick: (ProfileFriendModel) -> (Unit)) : RecyclerView.Adapter<ProfileFriendViewHolder>() {
+class ProfileFriendAdapter(private val itemClick: (ProfileFriendModel) -> (Unit)) :
+    RecyclerView.Adapter<ProfileFriendViewHolder>() {
 
     private var itemList = mutableListOf<ProfileFriendModel>()
 
@@ -27,5 +28,4 @@ class ProfileFriendAdapter(private val itemClick: (ProfileFriendModel) -> (Unit)
         this.itemList = itemList.toMutableList()
         notifyDataSetChanged()
     }
-
 }

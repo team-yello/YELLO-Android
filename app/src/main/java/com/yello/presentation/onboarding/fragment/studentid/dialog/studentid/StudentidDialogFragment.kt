@@ -31,7 +31,7 @@ class StudentidDialogFragment :
     }
 
     fun storeStudentid(studentid: String) {
-        viewModel.setStudentid(studentid)
+        viewModel.setStudentId(studentid)
         dismiss()
     }
     companion object {

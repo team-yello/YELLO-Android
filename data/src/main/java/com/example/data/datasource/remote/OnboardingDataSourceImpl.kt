@@ -17,7 +17,7 @@ class OnboardingDataSourceImpl @Inject constructor(
 
     override suspend fun postTokenToServiceTokenData(
         requestServiceTokenDto: RequestServiceTokenDto,
-    ): ResponseServiceTokenDto {
+    ): BaseResponse<ResponseServiceTokenDto> {
         return onboardingService.postTokenToServiceToken(requestServiceTokenDto)
     }
 

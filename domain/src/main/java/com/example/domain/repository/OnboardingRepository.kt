@@ -9,7 +9,7 @@ import com.example.domain.entity.onboarding.FriendList
 import com.example.domain.entity.onboarding.MySchool
 
 interface OnboardingRepository {
-    suspend fun postTokenToServiceToken(requestServiceTokenModel: RequestServiceTokenModel): ServiceTokenModel
+    suspend fun postTokenToServiceToken(requestServiceTokenModel: RequestServiceTokenModel): ServiceTokenModel?
 
     suspend fun getSchoolService(
         search: String,

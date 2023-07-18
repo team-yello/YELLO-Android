@@ -114,7 +114,7 @@ class RecommendSchoolFragment :
                 is UiState.Failure -> {
                     binding.layoutRecommendFriendsList.isVisible = false
                     binding.layoutRecommendNoFriendsList.isVisible = true
-                    yelloSnackbar(requireView(), state.msg)
+                    yelloSnackbar(requireView(), "학교 추천친구 서버 통신 실패")
                 }
 
                 is UiState.Loading -> {}
@@ -140,7 +140,7 @@ class RecommendSchoolFragment :
                 }
 
                 is UiState.Failure -> {
-                    yelloSnackbar(requireView(), state.msg)
+                    yelloSnackbar(requireView(), "친구 추가 서버 통신 실패")
                 }
 
                 is UiState.Loading -> {}

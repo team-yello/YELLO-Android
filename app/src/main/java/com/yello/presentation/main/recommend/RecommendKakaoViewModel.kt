@@ -51,7 +51,7 @@ class RecommendKakaoViewModel @Inject constructor(
                 if (totalPage == currentPage) isPagingFinish = true
                 _postState.value = UiState.Success(it)
             }.onFailure {
-                _postState.value = UiState.Failure("카카오 추천친구 리스트 서버 통신 실패")
+                _postState.value = UiState.Failure(it.message ?: "")
             }
         }
     }
@@ -67,7 +67,7 @@ class RecommendKakaoViewModel @Inject constructor(
             }.onSuccess {
                 _addState.value = UiState.Success(it)
             }.onFailure {
-                _addState.value = UiState.Failure("친구 추가 서버 통신 실패")
+                _addState.value = UiState.Failure(it.message ?: "")
             }
         }
     }

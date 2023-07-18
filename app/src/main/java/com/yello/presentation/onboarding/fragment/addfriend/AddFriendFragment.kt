@@ -40,6 +40,7 @@ class AddFriendFragment : BindingFragment<FragmentAddfreindBinding>(R.layout.fra
             viewModel.navigateToNextPage()
         }
     }
+
     private fun setBackBtnClickListener() {
         binding.btnAddfriendBackBtn.setOnSingleClickListener {
             viewModel.navigateToBackPage()
@@ -52,9 +53,6 @@ class AddFriendFragment : BindingFragment<FragmentAddfreindBinding>(R.layout.fra
         }
     }
 
-    fun storeFriend(friend: Friend) {
-        viewModel.setFriend(friend)
-    }
     override fun onDestroyView() {
         adapter = null
         super.onDestroyView()

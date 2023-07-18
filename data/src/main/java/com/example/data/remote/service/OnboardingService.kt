@@ -33,11 +33,6 @@ interface OnboardingService {
         @Query("page") page: Long,
     ): BaseResponse<ResponseDepartmentDto>
 
-    @POST("/auth/signup")
-    suspend fun postSignup(
-        @Body requestPostSignupDto: RequestPostSignupDto,
-    ): BaseResponse<ResponsePostSignupDto>
-
     @GET("api/v1/auth/valid")
     suspend fun getIdValid(
         @Query("yelloId") yelloId: String,
@@ -48,4 +43,9 @@ interface OnboardingService {
         @Body requestSignFriendDto: RequestSignFriendDto,
         @Query("page") page: Long,
     ): BaseResponse<ResponseFriendDto>
+
+    @POST("api/v1/auth/signup")
+    suspend fun postSignup(
+        @Body requestPostSignupDto: RequestPostSignupDto,
+    ): BaseResponse<ResponsePostSignupDto>
 }

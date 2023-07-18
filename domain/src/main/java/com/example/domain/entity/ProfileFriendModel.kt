@@ -7,5 +7,5 @@ data class ProfileFriendModel(
     val school: String,
     val thumbnail: String?,
     val totalMsg: Int,
-    val totalFriends: Int
+    val totalFriends: Int,
 )

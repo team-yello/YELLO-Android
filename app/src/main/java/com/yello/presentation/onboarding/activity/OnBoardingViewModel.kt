@@ -18,11 +18,11 @@ import com.example.domain.entity.onboarding.SchoolList
 import com.example.domain.repository.OnboardingRepository
 import com.example.ui.view.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
-import kotlin.math.ceil
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import timber.log.Timber
+import javax.inject.Inject
+import kotlin.math.ceil
 
 @HiltViewModel
 class OnBoardingViewModel @Inject constructor(
@@ -72,7 +72,10 @@ class OnBoardingViewModel @Inject constructor(
     private val name: String
         get() = _name.value?.trim() ?: ""
 
-    val _friend = MutableLiveData("")
+    private val _friendList = MutableLiveData<FriendList>()
+    val friendList: FriendList
+        get() = _friendList.value ?: FriendList(0, emptyList())
+
     val _id = MutableLiveData("")
     private val id: String
         get() = _id.value?.trim() ?: ""
@@ -88,6 +91,10 @@ class OnBoardingViewModel @Inject constructor(
     private val _profile = MutableLiveData("")
     val profile: String
         get() = _profile.value ?: ""
+
+    private val _recommendId = MutableLiveData("")
+    val recommendId: String
+        get() = _recommendId.value ?: ""
 
     // TODO: throttle 및 페이징 처리
     fun getSchoolList(search: String) {
@@ -157,11 +164,11 @@ class OnBoardingViewModel @Inject constructor(
                     _friendData.value = UiState.Empty
                     return@launch
                 }
-                totalFriendPage = Math.ceil((friend.totalCount * 0.1)).toLong()
+                totalFriendPage = ceil((friend.totalCount * 0.1)).toLong()
                 if (totalFriendPage == friendPage) isFriendPagingFinish = true
                 _friendData.value =
                     when {
-                        friend.FriendList.isEmpty() -> UiState.Empty
+                        friend.friendList.isEmpty() -> UiState.Empty
                         else -> UiState.Success(friend)
                     }
             }
@@ -179,10 +186,6 @@ class OnBoardingViewModel @Inject constructor(
 
     fun setStudentId(studentId: String) {
         _studentId.value = studentId
-    }
-
-    fun setFriend(friend: Friend) {
-        _friend.value = friend.toString()
     }
 
     fun clearSchoolData() {

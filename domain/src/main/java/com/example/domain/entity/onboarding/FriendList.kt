@@ -5,8 +5,10 @@ import kotlin.String
 
 data class FriendList(
     val totalCount: Int,
-    val FriendList: List<Friend>,
-)
+    val friendList: List<Friend>,
+) {
+    fun toIdList() = friendList.map { friend -> friend.id }
+}
 
 data class Friend(
     val group: String,

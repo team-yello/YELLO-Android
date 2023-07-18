@@ -1,5 +1,5 @@
 package com.example.domain.entity
 
 data class CheckKeyword(
-    val answer: String
+    val answer: String,
 )

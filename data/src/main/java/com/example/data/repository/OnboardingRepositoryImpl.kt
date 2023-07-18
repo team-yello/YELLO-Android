@@ -2,6 +2,7 @@ package com.example.data.repository
 
 import com.example.data.datasource.OnboardingDataSource
 import com.example.data.model.request.onboarding.toRequestDto
+import com.example.data.model.request.onboarding.toRequestPostSignupDto
 import com.example.data.model.request.onboarding.toRequestSignFriendDto
 import com.example.domain.entity.RequestServiceTokenModel
 import com.example.domain.entity.ServiceTokenModel
@@ -9,6 +10,8 @@ import com.example.domain.entity.onboarding.FriendGroup
 import com.example.domain.entity.onboarding.FriendList
 import com.example.domain.entity.onboarding.GroupList
 import com.example.domain.entity.onboarding.SchoolList
+import com.example.domain.entity.onboarding.SignupInfo
+import com.example.domain.entity.onboarding.UserInfo
 import com.example.domain.repository.OnboardingRepository
 import javax.inject.Inject
 
@@ -63,5 +66,11 @@ class OnboardingRepositoryImpl @Inject constructor(
                 page,
             ).data?.toMyFriend()
         }
+    }
+
+    override suspend fun postSignup(signupInfo: SignupInfo): Result<UserInfo?> = runCatching {
+        onboardingDataSource.postSignup(
+            signupInfo.toRequestPostSignupDto(),
+        ).data?.toUserInfo()
     }
 }

@@ -2,13 +2,18 @@
   "status": 200,
   "message": "조회 성공하였습니다.",
   "data": {
+    "currentPoint": 400,
     "nameHint": -1,
     "isAnswerRevealed": false,
+    "senderGender": "MALE",
     "senderName": "이의제",
     "vote": {
-      "head": "나는 너랑 한강에서",
-      "answer": "차박하면서 책읽는 것을",
-      "foot": "하고 싶어"
+      "questionId": 2,
+      "nameHead" : "술자리에서",
+      "nameFoot" : "가",
+      "keywordHead" : "사라진다면",
+      "keyword" : "수영",
+      "keywordFoot" : "(이)야"
     }
   }
 }

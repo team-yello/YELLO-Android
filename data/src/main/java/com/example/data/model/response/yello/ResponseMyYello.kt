@@ -9,17 +9,17 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class ResponseMyYello(
     val totalCount: Int,
-    val yello: List<YelloDto>
+    val votes: List<YelloDto>
 ) {
     fun toTotalYello(): MyYello {
-        return MyYello(totalCount, yello.map { it.toYello() })
+        return MyYello(totalCount, votes.map { it.toYello() })
     }
 }
 
 @Serializable
 data class YelloDto(
-    val id: Int,
-    val gender: String,
+    val id: Long,
+    val senderGender: String,
     val nameHint: Int,
     val senderName: String,
     val vote: VoteDto,
@@ -28,8 +28,17 @@ data class YelloDto(
     val createdAt: String
 ) {
     fun toYello(): Yello {
-        val genderEnum = if (gender.contains("M")) GenderEnum.M else GenderEnum.W
-        return Yello(id, genderEnum, nameHint, senderName, vote.toVote(), isHintUsed, isRead, createdAt)
+        val genderEnum = if (senderGender.contains("MALE")) GenderEnum.M else GenderEnum.W
+        return Yello(
+            id,
+            genderEnum,
+            nameHint,
+            senderName,
+            vote.toVote(),
+            isHintUsed,
+            isRead,
+            createdAt
+        )
     }
 }
 

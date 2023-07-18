@@ -5,8 +5,8 @@ import com.kakao.sdk.common.KakaoSdk
 import com.yello.BuildConfig.NATIVE_APP_KEY
 import com.yello.presentation.util.ResolutionMetrics
 import dagger.hilt.android.HiltAndroidApp
-import javax.inject.Inject
 import timber.log.Timber
+import javax.inject.Inject
 
 @HiltAndroidApp
 class MyApp : Application() {

@@ -2,6 +2,8 @@
     <string name="app_name">YELLO</string>
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="msg_error">오류가 발생하였습니다.</string>
+    <string name="msg_failure">정보 불러오기에 실패했습니다.</string>
     <string name="to_string">%s</string>
 
     <string name="tv_sign_in_title">Yell:o에 오신 걸 환영해요!</string>
@@ -75,6 +77,13 @@
     <string name="my_yello_send_check">누가 보냈는지 확인하기</string>
     <string name="my_yello_you">너</string>
     <string name="my_yello_not_yet">아직 쪽지가 온 게 없어요.</string>
+    <string name="my_yello_question">\???</string>
+    <string name="my_yello_zero">0</string>
+    <string name="my_yello_send">님이 보냄</string>
+    <string name="my_yello_female">익명의 여학생</string>
+    <string name="my_yello_male">익명의 남학생</string>
+    <string name="my_yello_instagram">인스타그램 공유하기</string>
+    <string name="my_yello_point_check">100포인트로 키워드 확인하기</string>
 
     <string name="point_description">투표 포인트 적립!</string>
     <string name="point_sub_description">투표로 포인트를 모아 쪽지를 열어보세요.</string>
@@ -93,6 +102,7 @@
     <string name="note_msg_invalid_skip">한 번 선택하면 건너뛸 수 없어요.</string>
     <string name="note_msg_invalid_cancel">한 번 선택하면 취소할 수 없어요.</string>
     <string name="note_msg_invalid_shuffle">이름을 선택하면 셔플을 사용할 수 없어요.</string>
+
     <string name="look_title">둘러보기</string>
     <string name="look_sub_description">아직 구현되지 않은 기능이에요.\n조금만 기다려주세요!</string>
     <string name="splash_title">지금 누군가 당신을 생각하고 있어요!</string>

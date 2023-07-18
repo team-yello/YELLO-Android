@@ -10,8 +10,8 @@ import com.example.data.remote.service.YelloService
 import javax.inject.Inject
 
 class YelloDataSourceImpl @Inject constructor(
-    private val service: YelloService
-): YelloDataSource {
+    private val service: YelloService,
+) : YelloDataSource {
     override suspend fun getMyYelloList(page: Int): BaseResponse<ResponseMyYello> {
         return service.getMyYelloList(page)
     }
@@ -27,5 +27,4 @@ class YelloDataSourceImpl @Inject constructor(
     override suspend fun checkName(id: Long): BaseResponse<ResponseCheckName> {
         return service.checkName(id)
     }
-
 }

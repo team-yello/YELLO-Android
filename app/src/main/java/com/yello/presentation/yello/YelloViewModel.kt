@@ -17,7 +17,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class YelloViewModel @Inject constructor(
-    private val repository: YelloRepository
+    private val repository: YelloRepository,
 ) : ViewModel() {
     private val _myYelloData = MutableStateFlow<UiState<MyYello>>(UiState.Loading)
     val myYelloData: StateFlow<UiState<MyYello>> = _myYelloData.asStateFlow()
@@ -35,6 +35,7 @@ class YelloViewModel @Inject constructor(
         viewModelScope.launch {
             repository.getMyYelloList(1)
                 .onSuccess {
+                    it ?: return@launch
                     _myYelloData.value = UiState.Success(it)
                 }.onFailure {
                     _myYelloData.value = UiState.Failure("옐로 리스트 서버 통신 실패")
@@ -46,6 +47,7 @@ class YelloViewModel @Inject constructor(
         viewModelScope.launch {
             repository.getYelloDetail(4L)
                 .onSuccess {
+                    it ?: return@launch
                     _yelloDetailData.value = UiState.Success(it)
                 }.onFailure {
                     _yelloDetailData.value = UiState.Failure("옐로 상세보기 서버 통신 실패")
@@ -57,6 +59,7 @@ class YelloViewModel @Inject constructor(
         viewModelScope.launch {
             repository.checkKeyword(4L)
                 .onSuccess {
+                    it ?: return@launch
                     _keywordData.value = UiState.Success(it)
                 }.onFailure {
                     _keywordData.value = UiState.Failure("키워드 확인 서버 통신 실패")
@@ -68,6 +71,7 @@ class YelloViewModel @Inject constructor(
         viewModelScope.launch {
             repository.checkName(4L)
                 .onSuccess {
+                    it ?: return@launch
                     _nameData.value = UiState.Success(it)
                 }.onFailure {
                     _nameData.value = UiState.Failure("이름 확인 서버 통신 실패")

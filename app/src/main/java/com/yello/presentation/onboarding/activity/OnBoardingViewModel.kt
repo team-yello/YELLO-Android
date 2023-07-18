@@ -7,9 +7,9 @@ import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
 import com.example.domain.entity.MyName
 import com.example.domain.entity.MyStudentid
+import com.example.domain.entity.onboarding.Friend
 import com.example.domain.entity.onboarding.MyCode
 import com.example.domain.entity.onboarding.MyDepartment
-import com.example.domain.entity.onboarding.Friend
 import com.example.domain.entity.onboarding.MyGender
 import com.example.domain.entity.onboarding.MyId
 import com.example.domain.entity.onboarding.MySchool

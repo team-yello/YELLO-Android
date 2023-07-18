@@ -76,7 +76,7 @@ class YelloViewModel @Inject constructor(
                     }
 
                     _point.value = voteState.point
-                    if (voteState.isStart || voteState.leftTime < 0) {
+                    if (voteState.isStart || voteState.leftTime !in 1..SEC_MAX_LOCK_TIME) {
                         _yelloState.value = Success(Valid(voteState.point))
                         return@launch
                     }

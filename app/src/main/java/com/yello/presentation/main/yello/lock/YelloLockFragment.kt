@@ -15,10 +15,10 @@ class YelloLockFragment : BindingFragment<FragmentYelloLockBinding>(R.layout.fra
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setInviteBtnClickListener()
+        initInviteBtnClickListener()
     }
 
-    private fun setInviteBtnClickListener() {
+    private fun initInviteBtnClickListener() {
         binding.btnLockVote.setOnSingleClickListener {
             UnlockDialogFragment().show(parentFragmentManager, TAG_UNLOCK_DIALOG)
         }

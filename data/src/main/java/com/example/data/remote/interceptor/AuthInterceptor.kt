@@ -1,10 +1,8 @@
 package com.example.data.remote.interceptor
 
-import android.content.Context
 import com.example.data.model.response.onboarding.ResponseAuthToken
 import com.example.domain.YelloDataStore
 import com.yello.data.BuildConfig.BASE_URL
-import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.serialization.json.Json
 import okhttp3.Interceptor
 import okhttp3.Request
@@ -15,7 +13,6 @@ import javax.inject.Inject
 class AuthInterceptor @Inject constructor(
     private val json: Json,
     private val dataStore: YelloDataStore,
-    @ApplicationContext context: Context,
 ) : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         val originalRequest = chain.request()
@@ -30,7 +27,7 @@ class AuthInterceptor @Inject constructor(
             CODE_TOKEN_EXPIRED -> {
                 try {
                     val refreshTokenRequest = originalRequest.newBuilder().get()
-                        .url("${BASE_URL}/api/v1/auth/token")
+                        .url("$BASE_URL/api/v1/auth/token")
                         .addHeader(HEADER_ACCESS_TOKEN, dataStore.userToken)
                         .addHeader(HEADER_REFRESH_TOKEN, dataStore.refreshToken)
                         .build()
@@ -69,11 +66,12 @@ class AuthInterceptor @Inject constructor(
     }
 
     private fun Request.newAuthBuilder() =
-        this.newBuilder().addHeader(HEADER_ACCESS_TOKEN, dataStore.userToken)
+        this.newBuilder().addHeader(HEADER_AUTHORIZATION, "Bearer ${dataStore.userToken}")
 
     companion object {
         private const val CODE_TOKEN_EXPIRED = 401
 
+        private const val HEADER_AUTHORIZATION = "Authorization"
         private const val HEADER_ACCESS_TOKEN = "accessToken"
         private const val HEADER_REFRESH_TOKEN = "refreshToken"
     }

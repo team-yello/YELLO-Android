@@ -226,7 +226,7 @@ class OnBoardingViewModel @Inject constructor(
     val codeResult: LiveData<List<MyCode>> = _codeResult
 
     private fun checkValidSchool(school: String): Boolean {
-        return school.isBlank()
+        return school.isNotBlank()
     }
 
     private fun checkEmptyDepartment(department: String): Boolean {

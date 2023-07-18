@@ -59,7 +59,7 @@ class SearchDialogFragment :
                 }
 
                 is UiState.Loading -> {}
-                is UiState.Empty -> {} // TODO: 조회 결과 없음 UI 처리
+                is UiState.Empty -> {}
                 is UiState.Success -> {
                     adapter?.submitList(state.data.schoolList)
                 }

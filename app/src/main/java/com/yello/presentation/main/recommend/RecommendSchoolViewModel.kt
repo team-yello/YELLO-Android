@@ -19,8 +19,8 @@ class RecommendSchoolViewModel @Inject constructor(
     private val recommendRepository: RecommendRepository
 ) : ViewModel() {
 
-    private val _postState = MutableLiveData<UiState<RecommendModel>>()
-    val postState: LiveData<UiState<RecommendModel>> = _postState
+    private val _postState = MutableLiveData<UiState<RecommendModel?>>()
+    val postState: LiveData<UiState<RecommendModel?>> = _postState
 
     private val _addState = MutableLiveData<UiState<RecommendAddModel>>()
     val addState: LiveData<UiState<RecommendAddModel>> = _addState
@@ -45,6 +45,7 @@ class RecommendSchoolViewModel @Inject constructor(
                     ++currentPage
                 )
             }.onSuccess {
+                it ?: return@launch
                 totalPage = ceil((it.totalCount * 0.1)).toInt()
                 if (totalPage == currentPage) isPagingFinish = true
                 _postState.value = UiState.Success(it)

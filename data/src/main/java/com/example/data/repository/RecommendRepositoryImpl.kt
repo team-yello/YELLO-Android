@@ -14,16 +14,16 @@ class RecommendRepositoryImpl @Inject constructor(
 
     override suspend fun postToGetKakaoFriendList(
         page: Int, request: RequestRecommendKakaoModel
-    ): RecommendModel {
+    ): RecommendModel? {
         return recommendDataSource.postToGetKakaoListData(
             page, request.toRequestDto()
-        ).data.toRecommendModel()
+        ).data?.toRecommendModel()
     }
 
-    override suspend fun getSchoolFriendList(page: Int): RecommendModel {
+    override suspend fun getSchoolFriendList(page: Int): RecommendModel? {
         return recommendDataSource.getSchoolListData(
             page
-        ).data.toRecommendModel()
+        ).data?.toRecommendModel()
     }
 
     override suspend fun postFriendAdd(friendId: Long): RecommendAddModel {

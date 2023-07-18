@@ -110,7 +110,7 @@ class RecommendKakaoFragment :
             when (state) {
                 is UiState.Success -> {
                     binding.layoutRecommendFriendsList.isVisible = true
-                    friendsList = state.data.friends
+                    friendsList = state.data?.friends ?: listOf()
                     adapter?.addItemList(friendsList)
                 }
 

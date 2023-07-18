@@ -125,7 +125,7 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
             when (state) {
                 is UiState.Success -> {
                     // TODO: 서비스 토큰 값 저장
-                    val serviceAccessToken = state.data.accessToken
+                    val serviceAccessToken = state.data?.accessToken
                     startMainActivity()
                 }
 

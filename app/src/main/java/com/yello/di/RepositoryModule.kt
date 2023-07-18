@@ -19,12 +19,12 @@ import javax.inject.Singleton
 object RepositoryModule {
     @Provides
     @Singleton
-    fun provideYelloDataSource(yelloRepository: YelloRepositoryImpl): YelloRepository =
+    fun provideYelloRepository(yelloRepository: YelloRepositoryImpl): YelloRepository =
         yelloRepository
 
     @Provides
     @Singleton
-    fun provideVoteDataSource(voteRepository: VoteRepositoryImpl): VoteRepository =
+    fun provideVoteRepository(voteRepository: VoteRepositoryImpl): VoteRepository =
         voteRepository
 
     @Provides

@@ -59,7 +59,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
             android:layout_marginTop="12dp"
-            android:background="@{vm.isValidSchool() ? @drawable/shape_black_fill_grayscales600_line_8_rect : @drawable/shape_grayscales900_fill_grayscales500_line_8_rect}"
+            android:background="@{vm.isValidSchool() ? @drawable/shape_grayscales900_fill_grayscales500_line_8_rect : @drawable/shape_black_fill_grayscales600_line_8_rect}"
             android:drawablePadding="12dp"
             android:ellipsize="end"
             android:gravity="center_vertical"

@@ -2,9 +2,13 @@ package com.yello.di
 
 import com.example.data.repository.OnboardingRepositoryImpl
 import com.example.data.repository.ProfileRepositoryImpl
+import com.example.data.repository.RecommendRepositoryImpl
+import com.example.data.repository.VoteRepositoryImpl
 import com.example.data.repository.YelloRepositoryImpl
 import com.example.domain.repository.OnboardingRepository
 import com.example.domain.repository.ProfileRepository
+import com.example.domain.repository.RecommendRepository
+import com.example.domain.repository.VoteRepository
 import com.example.domain.repository.YelloRepository
 import dagger.Module
 import dagger.Provides
@@ -17,8 +21,13 @@ import javax.inject.Singleton
 object RepositoryModule {
     @Provides
     @Singleton
-    fun provideYelloDataSource(yelloRepository: YelloRepositoryImpl): YelloRepository =
+    fun provideYelloRepository(yelloRepository: YelloRepositoryImpl): YelloRepository =
         yelloRepository
+
+    @Provides
+    @Singleton
+    fun provideVoteRepository(voteRepository: VoteRepositoryImpl): VoteRepository =
+        voteRepository
 
     @Provides
     @Singleton
@@ -29,4 +38,9 @@ object RepositoryModule {
     @Singleton
     fun provideProfileRepository(profileRepositoryImpl: ProfileRepositoryImpl): ProfileRepository =
         profileRepositoryImpl
+
+    @Provides
+    @Singleton
+    fun provideRecommendRepository(recommendRepositoryImpl: RecommendRepositoryImpl): RecommendRepository =
+        recommendRepositoryImpl
 }

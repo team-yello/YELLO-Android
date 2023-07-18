@@ -48,7 +48,6 @@ class RecommendInviteDialog :
         }
     }
 
-    // TODO : 스낵바 커스텀 & 링크 복사
     private fun initLinkInviteButton() {
         binding.btnInviteLink.setOnSingleClickListener {
             yelloSnackbar(binding.root, "링크가 복사되었습니다.")

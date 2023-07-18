@@ -28,5 +28,4 @@ class ProfileFriendAdapter(private val itemClick: (ProfileUserModel) -> (Unit)) 
         this.itemList = itemList.toMutableList()
         notifyDataSetChanged()
     }
-
 }

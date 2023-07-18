@@ -6,7 +6,9 @@ import com.example.ui.base.BindingFragment
 import com.google.android.material.tabs.TabLayoutMediator
 import com.yello.R
 import com.yello.databinding.FragmentRecommendBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class RecommendFragment : BindingFragment<FragmentRecommendBinding>(R.layout.fragment_recommend) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

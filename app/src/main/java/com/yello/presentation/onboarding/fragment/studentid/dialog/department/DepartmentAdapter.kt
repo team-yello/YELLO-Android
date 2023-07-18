@@ -26,7 +26,7 @@ class DepartmentAdapter(
     }
 
     override fun onBindViewHolder(holder: DepartmentViewHolder, position: Int) {
-        holder.setdepartment(getItem(position))
+        holder.setDepartment(getItem(position))
     }
 
     class DepartmentViewHolder(
@@ -34,7 +34,7 @@ class DepartmentAdapter(
         private val storeDepartment: (String) -> Unit,
     ) :
         RecyclerView.ViewHolder(binding.root) {
-        fun setdepartment(department: MyDepartment) {
+        fun setDepartment(department: MyDepartment) {
             binding.data = department.toString()
             binding.root.setOnSingleClickListener {
                 storeDepartment(binding.tvDepartmentName.text.toString())

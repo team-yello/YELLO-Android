@@ -7,5 +7,4 @@ import kotlinx.serialization.Serializable
 data class RequestSignFriendDto(
     @SerialName("friendKaKaoId")
     val friendKaKaoId: List<String>,
-
 )

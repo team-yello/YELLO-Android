@@ -6,16 +6,16 @@ import com.example.domain.entity.RequestServiceTokenModel
 import com.example.domain.entity.ServiceTokenModel
 
 interface OnboardingRepository {
-
     suspend fun postTokenToServiceToken(requestServiceTokenModel: RequestServiceTokenModel): ServiceTokenModel
+
     suspend fun getSchoolService(
         search: String,
         page: Long,
-    ): Result<MySchool>
+    ): Result<MySchool?>
 
     suspend fun getDepartmentService(
         school: String,
         search: String,
         page: Long,
-    ): Result<MyDepartment>
+    ): Result<MyDepartment?>
 }

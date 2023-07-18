@@ -22,8 +22,9 @@ class SearchDialogDepartmentFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.vm = viewModel
+
         initDepartmentAdapter()
-        observe()
+        setupDepartmentData()
     }
 
     private fun initDepartmentAdapter() {
@@ -35,7 +36,7 @@ class SearchDialogDepartmentFragment :
         binding.rvDepartmentList.adapter = adapter
     }
 
-    private fun observe() {
+    private fun setupDepartmentData() {
         viewModel.departmentData.observe(viewLifecycleOwner) {
             adapter?.submitList(departmentList)
         }

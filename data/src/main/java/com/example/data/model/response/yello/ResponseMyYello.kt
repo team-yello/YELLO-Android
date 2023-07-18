@@ -9,7 +9,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class ResponseMyYello(
     val totalCount: Int,
-    val votes: List<YelloDto>
+    val votes: List<YelloDto>,
 ) {
     fun toTotalYello(): MyYello {
         return MyYello(totalCount, votes.map { it.toYello() })
@@ -25,7 +25,7 @@ data class YelloDto(
     val vote: VoteDto,
     val isHintUsed: Boolean,
     val isRead: Boolean,
-    val createdAt: String
+    val createdAt: String,
 ) {
     fun toYello(): Yello {
         val genderEnum = if (senderGender.contains("MALE")) GenderEnum.M else GenderEnum.W
@@ -37,7 +37,7 @@ data class YelloDto(
             vote.toVote(),
             isHintUsed,
             isRead,
-            createdAt
+            createdAt,
         )
     }
 }
@@ -48,7 +48,7 @@ data class VoteDto(
     val nameFoot: String,
     val keywordHead: String,
     val keyword: String,
-    val keywordFoot: String
+    val keywordFoot: String,
 ) {
     fun toVote(): Vote {
         return Vote(nameHead, nameFoot, keywordHead, keyword, keywordFoot)

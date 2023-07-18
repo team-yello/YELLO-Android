@@ -27,22 +27,32 @@ class AddFriendAdapter(private val itemClick: (MyFriend, Int) -> (Unit)) :
     }
 
     override fun onBindViewHolder(holder: AddFriendViewHolder, position: Int) {
-        holder.setfriend(getItem(position), position)
+        holder.setFriend(getItem(position), position)
     }
 
     class AddFriendViewHolder(
         private val binding: ItemAddfriendBinding,
         private val itemClick: (MyFriend, Int) -> Unit,
     ) : RecyclerView.ViewHolder(binding.root) {
-        fun setfriend(friend: MyFriend, position: Int) {
+        fun setFriend(friend: MyFriend, position: Int) {
             binding.ivFriendProfile.load(friend.profile) {
                 transformations(CircleCropTransformation())
             }
             binding.tvFriendName.text = friend.name
             binding.tvFriendDepartment.text = friend.department
             binding.ivFreindCheck.isSelected = friend.isSelcted
-            binding.tvFriendName.setTextColor(ContextCompat.getColor(itemView.context, if (friend.isSelcted) R.color.white else R.color.grayscales_onbarding_light))
-            binding.tvFriendDepartment.setTextColor(ContextCompat.getColor(itemView.context, if (friend.isSelcted) R.color.grayscales_500 else R.color.grayscales_onbarding_dark))
+            binding.tvFriendName.setTextColor(
+                ContextCompat.getColor(
+                    itemView.context,
+                    if (friend.isSelcted) R.color.white else R.color.grayscales_onbarding_light,
+                ),
+            )
+            binding.tvFriendDepartment.setTextColor(
+                ContextCompat.getColor(
+                    itemView.context,
+                    if (friend.isSelcted) R.color.grayscales_500 else R.color.grayscales_onbarding_dark,
+                ),
+            )
 
             binding.root.setOnSingleClickListener {
                 itemClick(friend, position)

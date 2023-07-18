@@ -16,8 +16,8 @@ import com.example.domain.entity.MyStudentid
 import com.example.domain.repository.OnboardingRepository
 import com.example.ui.view.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlinx.coroutines.launch
 
 @HiltViewModel
 class OnBoardingViewModel @Inject constructor(
@@ -53,13 +53,17 @@ class OnBoardingViewModel @Inject constructor(
             onboardingRepository.getSchoolService(
                 search,
                 ++schoolPage,
-            ).onSuccess {
-                totalSchoolPage = Math.ceil((it.totalCount * 0.1)).toLong()
+            ).onSuccess { school ->
+                if (school == null) {
+                    _schoolData.value = UiState.Empty
+                    return@launch
+                }
+                totalSchoolPage = Math.ceil((school.totalCount * 0.1)).toLong()
                 if (totalSchoolPage == schoolPage) isSchoolPagingFinish = true
                 _schoolData.value =
                     when {
-                        it.groupNameList.isEmpty() -> UiState.Empty
-                        else -> UiState.Success(it)
+                        school.groupNameList.isEmpty() -> UiState.Empty
+                        else -> UiState.Success(school)
                     }
             }.onFailure {
                 _schoolData.value = UiState.Failure("대학교 불러오기 서버 통신 실패")
@@ -75,13 +79,17 @@ class OnBoardingViewModel @Inject constructor(
                 school,
                 search,
                 ++departmentPage,
-            ).onSuccess {
-                totalDepartmentPage = Math.ceil((it.totalCount * 0.1)).toLong()
+            ).onSuccess { department ->
+                if (department == null) {
+                    _departmentData.value = UiState.Empty
+                    return@launch
+                }
+                totalDepartmentPage = Math.ceil((department.totalCount * 0.1)).toLong()
                 if (totalDepartmentPage == departmentPage) isDepartmentPagingFinish = true
                 _departmentData.value =
                     when {
-                        it.groupList.isEmpty() -> UiState.Empty
-                        else -> UiState.Success(it)
+                        department.groupList.isEmpty() -> UiState.Empty
+                        else -> UiState.Success(department)
                     }
             }
         }

@@ -17,12 +17,12 @@ class OnboardingRepositoryImpl @Inject constructor(
             .toServiceTokenModel()
     }
 
-    override suspend fun getSchoolService(search: String, page: Long): Result<MySchool> {
+    override suspend fun getSchoolService(search: String, page: Long): Result<MySchool?> {
         return runCatching {
             onboardingDataSource.getSchoolNameData(
                 search,
                 page,
-            ).data.toMySchool()
+            ).data?.toMySchool()
         }
     }
 
@@ -30,13 +30,13 @@ class OnboardingRepositoryImpl @Inject constructor(
         school: String,
         search: String,
         page: Long,
-    ): Result<MyDepartment> {
+    ): Result<MyDepartment?> {
         return runCatching {
             onboardingDataSource.getDepartmentNameData(
                 school,
                 search,
                 page,
-            ).data.toMyDepartment()
+            ).data?.toMyDepartment()
         }
     }
 }

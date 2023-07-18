@@ -10,7 +10,6 @@ import com.yello.databinding.FragmentNameIdBinding
 import com.yello.presentation.onboarding.activity.OnBoardingViewModel
 
 class NameIdFragment : BindingFragment<FragmentNameIdBinding>(R.layout.fragment_name_id) {
-
     private val viewModel by activityViewModels<OnBoardingViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -33,6 +32,7 @@ class NameIdFragment : BindingFragment<FragmentNameIdBinding>(R.layout.fragment_
             viewModel.navigateToBackPage()
         }
     }
+
     private fun setDeleteNameBtnClickListener() {
         binding.btnNameDelete.setOnSingleClickListener {
             val editname = binding.etName

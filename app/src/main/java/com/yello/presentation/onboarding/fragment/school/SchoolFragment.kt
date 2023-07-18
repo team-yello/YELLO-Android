@@ -13,6 +13,7 @@ import com.yello.presentation.onboarding.fragment.school.university.SearchDialog
 
 class SchoolFragment : BindingFragment<FragmentSchoolBinding>(R.layout.fragment_school) {
     private val viewModel by activityViewModels<OnBoardingViewModel>()
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.vm = viewModel

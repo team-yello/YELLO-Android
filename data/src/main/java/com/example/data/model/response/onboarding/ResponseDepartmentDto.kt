@@ -23,6 +23,7 @@ data class ResponseDepartmentDto(
             return GroupList(groupId, departmentName)
         }
     }
+
     fun toMyDepartment(): MyDepartment {
         return MyDepartment(totalCount, groupList.map { it.toGroupList() })
     }

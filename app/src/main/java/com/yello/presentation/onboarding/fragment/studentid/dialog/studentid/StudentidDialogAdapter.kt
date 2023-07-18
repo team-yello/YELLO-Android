@@ -13,32 +13,32 @@ import com.yello.databinding.ItemStudentidListBinding
 
 class StudentidDialogAdapter(
     requireContext: Context,
-    private val storeStudentid: (String) -> Unit,
-) : ListAdapter<MyStudentid, StudentidDialogAdapter.StudentidViewHolder>(diffUtil) {
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StudentidViewHolder {
-        return StudentidViewHolder(
+    private val storeStudentId: (String) -> Unit,
+) : ListAdapter<MyStudentid, StudentidDialogAdapter.StudentIdViewHolder>(diffUtil) {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StudentIdViewHolder {
+        return StudentIdViewHolder(
             ItemStudentidListBinding.inflate(
                 LayoutInflater.from(parent.context),
                 parent,
                 false,
             ),
-            storeStudentid,
+            storeStudentId,
         )
     }
 
-    override fun onBindViewHolder(holder: StudentidViewHolder, position: Int) {
-        holder.setStudentid(getItem(position))
+    override fun onBindViewHolder(holder: StudentIdViewHolder, position: Int) {
+        holder.setStudentId(getItem(position))
     }
 
-    class StudentidViewHolder(
+    class StudentIdViewHolder(
         private val binding: ItemStudentidListBinding,
-        private val storeStudentid: (String) -> Unit,
+        private val storeStudentId: (String) -> Unit,
     ) :
         RecyclerView.ViewHolder(binding.root) {
-        fun setStudentid(id: MyStudentid) {
+        fun setStudentId(id: MyStudentid) {
             binding.data = id
             binding.root.setOnSingleClickListener {
-                storeStudentid(binding.tvItemStudentId.text.toString())
+                storeStudentId(binding.tvItemStudentId.text.toString())
                 binding.tvItemStudentId.setBackgroundResource(R.drawable.shape_grayscales_800_fill_8_rect)
             }
         }

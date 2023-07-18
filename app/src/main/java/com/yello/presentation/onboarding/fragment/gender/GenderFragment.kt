@@ -11,16 +11,16 @@ import com.yello.databinding.FragmentGenderBinding
 import com.yello.presentation.onboarding.activity.OnBoardingViewModel
 
 class GenderFragment : BindingFragment<FragmentGenderBinding>(R.layout.fragment_gender) {
-
     private val viewModel by activityViewModels<OnBoardingViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        // binding.vm=viewModel
+
         setConfirmBtnClickListener()
         setBackBtnClickListener()
         clickBoyBtnClickListener()
         clickGirlBtnClickListener()
-        // binding.vm=viewModel
     }
 
     private fun setConfirmBtnClickListener() {
@@ -69,5 +69,4 @@ class GenderFragment : BindingFragment<FragmentGenderBinding>(R.layout.fragment_
             binding.btnGenderNext.setBackgroundResource(R.drawable.shape_yello_main_500_fill_8_rect)
         }
     }
-
 }

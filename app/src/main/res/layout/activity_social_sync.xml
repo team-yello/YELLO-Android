@@ -78,7 +78,7 @@
                 style="@style/TextAppearance.Yello.BodyMedium"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginVertical="12dp"
+                android:layout_marginVertical="16dp"
                 android:text="@string/tv_social_sync_btn"
                 android:textColor="#D9000000"
                 app:layout_constraintBottom_toBottomOf="parent"

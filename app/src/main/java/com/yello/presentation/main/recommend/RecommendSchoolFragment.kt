@@ -2,6 +2,7 @@ package com.yello.presentation.main.recommend
 
 import android.os.Bundle
 import android.view.View
+import android.view.WindowManager
 import android.view.animation.AnimationUtils
 import androidx.core.view.isVisible
 import androidx.core.view.setPadding
@@ -135,6 +136,8 @@ class RecommendSchoolFragment :
                     val holder = viewModel.itemHolder
                     if (position != null && holder != null) {
                         removeItemWithAnimation(holder, position)
+                    } else {
+                        activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
                     }
                     if (adapter?.itemCount == 0) {
                         binding.layoutRecommendFriendsList.isVisible = false
@@ -144,11 +147,19 @@ class RecommendSchoolFragment :
 
                 is UiState.Failure -> {
                     yelloSnackbar(requireView(), "친구 추가 서버 통신 실패")
+                    activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
                 }
 
-                is UiState.Loading -> {}
+                is UiState.Loading -> {
+                    activity?.window?.setFlags(
+                        WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                        WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE
+                    )
+                }
 
-                is UiState.Empty -> {}
+                is UiState.Empty -> {
+                    activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
+                }
             }
         }
     }
@@ -180,6 +191,7 @@ class RecommendSchoolFragment :
             changeToCheckIcon(holder)
             delay(300)
             adapter?.removeItem(position)
+            activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
         }
     }
 

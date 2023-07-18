@@ -39,6 +39,7 @@ class RecommendKakaoViewModel @Inject constructor(
     fun addListFromServer(friendKakaoId: List<String>) {
         viewModelScope.launch {
             if (isPagingFinish) return@launch
+            _postState.value = UiState.Loading
             runCatching {
                 recommendRepository.postToGetKakaoFriendList(
                     ++currentPage,
@@ -46,7 +47,7 @@ class RecommendKakaoViewModel @Inject constructor(
                 )
             }.onSuccess {
                 it ?: return@launch
-                totalPage = ceil((it.totalCount * 0.1)).toInt()
+                totalPage = ceil((it.totalCount * 0.1)).toInt() - 1
                 if (totalPage == currentPage) isPagingFinish = true
                 _postState.value = UiState.Success(it)
             }.onFailure {

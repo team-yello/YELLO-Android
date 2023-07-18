@@ -23,4 +23,8 @@ class ProfileDataSourceImpl @Inject constructor(
         return profileService.getFriendsData(page)
     }
 
+    override suspend fun deleteUserData(
+    ): BaseResponse<Unit> {
+        return profileService.deleteUserData()
+    }
 }

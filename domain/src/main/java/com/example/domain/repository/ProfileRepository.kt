@@ -13,4 +13,7 @@ interface ProfileRepository {
         page: Int
     ): ProfileFriendsModel?
 
+    suspend fun deleteUserData(
+    ): Unit
+
 }

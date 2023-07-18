@@ -18,4 +18,8 @@ class ProfileRepositoryImpl @Inject constructor(
         return profileDataSource.getFriendsData(page).data?.toProfileFriendsModel()
     }
 
+    override suspend fun deleteUserData(): Unit {
+        return profileDataSource.deleteUserData().data ?: Unit
+    }
+
 }

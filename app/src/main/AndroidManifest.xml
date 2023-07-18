@@ -17,7 +17,7 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".presentation.main.MainActivity"
+            android:name=".presentation.onboarding.activity.OnBoardingActivity"
             android:exported="true"
             android:windowSoftInputMode="adjustNothing"
             android:screenOrientation="portrait">

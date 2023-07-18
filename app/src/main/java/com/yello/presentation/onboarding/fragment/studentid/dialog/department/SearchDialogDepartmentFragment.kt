@@ -27,11 +27,11 @@ class SearchDialogDepartmentFragment :
     }
 
     private fun initDepartmentAdapter() {
-        binding.etDepartmentSearch.doAfterTextChanged {
-            viewModel.addListDepartment("서울대학교", it.toString())
+        binding.etDepartmentSearch.doAfterTextChanged { input ->
+            viewModel.addListDepartment(viewModel.school, input.toString())
         }
         departmentList = viewModel.departmentResult.value ?: emptyList()
-        val adapter = DepartmentAdapter(requireContext(), storeDepartment = ::storeDepartment)
+        val adapter = DepartmentAdapter(requireContext(), storeDepartment = ::storeGroup)
         binding.rvDepartmentList.adapter = adapter
     }
 
@@ -41,8 +41,8 @@ class SearchDialogDepartmentFragment :
         }
     }
 
-    fun storeDepartment(department: String) {
-        viewModel.setDepartment(department)
+    private fun storeGroup(department: String, groupId: Long) {
+        viewModel.setGroupInfo(department, groupId)
         dismiss()
         binding.layoutDepartmentDialog.setOnSingleClickListener {
             dismiss()

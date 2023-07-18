@@ -18,11 +18,11 @@ import com.example.domain.entity.onboarding.SchoolList
 import com.example.domain.repository.OnboardingRepository
 import com.example.ui.view.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
+import kotlin.math.ceil
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import timber.log.Timber
-import javax.inject.Inject
-import kotlin.math.ceil
 
 @HiltViewModel
 class OnBoardingViewModel @Inject constructor(
@@ -172,8 +172,9 @@ class OnBoardingViewModel @Inject constructor(
         _school.value = school
     }
 
-    fun setDepartment(department: String) {
+    fun setGroupInfo(department: String, groupId: Long) {
         _department.value = department
+        _groupId.value = groupId
     }
 
     fun setStudentId(studentId: String) {

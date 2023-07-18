@@ -9,5 +9,5 @@ data class GroupList(
 
 data class Group(
     val groupId: Long,
-    val departmentName: String,
+    val name: String,
 )

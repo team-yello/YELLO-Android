@@ -12,7 +12,7 @@ import com.yello.databinding.ItemDepartmentListBinding
 
 class DepartmentAdapter(
     requireContext: Context,
-    private val storeDepartment: (String) -> Unit,
+    private val storeDepartment: (String, Long) -> Unit,
 ) : ListAdapter<GroupList, DepartmentAdapter.DepartmentViewHolder>(diffUtil) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DepartmentViewHolder {
         return DepartmentViewHolder(
@@ -31,13 +31,13 @@ class DepartmentAdapter(
 
     class DepartmentViewHolder(
         private val binding: ItemDepartmentListBinding,
-        private val storeDepartment: (String) -> Unit,
+        private val storeDepartment: (String, Long) -> Unit,
     ) :
         RecyclerView.ViewHolder(binding.root) {
         fun setDepartment(department: GroupList) {
             binding.data = department.toString()
             binding.root.setOnSingleClickListener {
-                storeDepartment(binding.tvDepartmentName.text.toString())
+                storeDepartment("department.name", 0L) // TODO: department(String), groupId(Long) 넘겨주기
             }
         }
     }

@@ -31,7 +31,6 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        initItemClickListenerWithAdapter()
         initViewModel()
         initProfileManageActivityWithoutFinish()
         initFabUpwardListener()
@@ -52,14 +51,7 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
         viewModel.getState.observe(viewLifecycleOwner) { state ->
             when (state) {
                 is UiState.Success -> {
-                    viewModel.myName.value = state.data?.name
-                    viewModel.myId.value = "@" + state.data?.yelloId
-                    viewModel.mySchool.value = state.data?.group
-                    viewModel.myThumbnail.value = state.data?.profileImageUrl
-                    viewModel.myTotalMsg.value = state.data?.yelloCount.toString()
-                    viewModel.myTotalFriends.value = state.data?.friendCount.toString()
-                    viewModel.myTotalPoints.value = state.data?.point.toString()
-                    viewModel.myThumbnail.value = state.data?.profileImageUrl
+                    initItemClickListenerWithAdapter(state.data)
                 }
 
                 is UiState.Failure -> {
@@ -157,7 +149,6 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
     }
 
     private fun initViewModel() {
-        binding.vm = viewModel
         viewModel.currentPage = -1
         viewModel.isPagingFinish = false
         viewModel.totalPage = Int.MAX_VALUE
@@ -179,8 +170,8 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
         }
     }
 
-    private fun initItemClickListenerWithAdapter() {
-        adapter = ProfileFriendAdapter { profileUserModel, position ->
+    private fun initItemClickListenerWithAdapter(model: ProfileUserModel) {
+        adapter = ProfileFriendAdapter(model) { profileUserModel, position ->
 
             viewModel.setItemPosition(position)
             viewModel.clickedItemId.value = profileUserModel.userId

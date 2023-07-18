@@ -10,6 +10,8 @@ import com.example.domain.repository.ProfileRepository
 import com.example.ui.view.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import retrofit2.HttpException
+import timber.log.Timber
 import javax.inject.Inject
 import kotlin.math.ceil
 
@@ -18,8 +20,8 @@ class ProfileViewModel @Inject constructor(
     private val profileRepository: ProfileRepository
 ) : ViewModel() {
 
-    private val _getState = MutableLiveData<UiState<ProfileUserModel?>>()
-    val getState: LiveData<UiState<ProfileUserModel?>> = _getState
+    private val _getState = MutableLiveData<UiState<ProfileUserModel>>()
+    val getState: LiveData<UiState<ProfileUserModel>> = _getState
 
     private val _getListState = MutableLiveData<UiState<ProfileFriendsModel?>>()
     val getListState: LiveData<UiState<ProfileFriendsModel?>> = _getListState
@@ -62,10 +64,18 @@ class ProfileViewModel @Inject constructor(
             _getState.value = UiState.Loading
             runCatching {
                 profileRepository.getUserData(userId)
-            }.onSuccess {
-                _getState.value = UiState.Success(it)
-            }.onFailure {
-                _getState.value = UiState.Failure(it.message.toString())
+            }.onSuccess { profile ->
+                Timber.d("GET USER DATA SUCCESS : $profile")
+                if (profile == null) {
+                    _getState.value = UiState.Empty
+                    return@launch
+                }
+                _getState.value = UiState.Success(profile)
+            }.onFailure { t ->
+                if (t is HttpException) {
+                    Timber.e("GET USER DATA FAILURE: $t")
+                    _getState.value = UiState.Failure(t.message.toString())
+                } else Timber.e("GET USER DATA ERROR: $t")
             }
         }
     }

@@ -10,7 +10,10 @@ import com.yello.R
 import com.yello.databinding.HeaderFriendsListBinding
 import com.yello.databinding.ItemFriendsListBinding
 
-class ProfileFriendAdapter(private val itemClick: (ProfileUserModel, Int) -> (Unit)) :
+class ProfileFriendAdapter(
+    private val model: ProfileUserModel,
+    private val itemClick: (ProfileUserModel, Int) -> (Unit)
+) :
     ListAdapter<ProfileUserModel, RecyclerView.ViewHolder>(diffUtil) {
 
     private var itemList = mutableListOf<ProfileUserModel>()
@@ -43,6 +46,9 @@ class ProfileFriendAdapter(private val itemClick: (ProfileUserModel, Int) -> (Un
         if (holder is ProfileFriendViewHolder) {
             val itemPosition = position - HEADER_COUNT
             holder.onBind(itemList[itemPosition], itemPosition)
+        }
+        if (holder is ProfileHeaderViewHolder) {
+            holder.onBind(model)
         }
     }
 

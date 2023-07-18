@@ -6,11 +6,6 @@
 
     <data>
 
-        <import type="android.view.View" />
-
-        <variable
-            name="vm"
-            type="com.yello.presentation.main.profile.ProfileViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

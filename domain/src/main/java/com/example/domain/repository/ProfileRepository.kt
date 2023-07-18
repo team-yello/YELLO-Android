@@ -7,10 +7,10 @@ interface ProfileRepository {
 
     suspend fun getUserData(
         userId: Int
-    ): ProfileUserModel
+    ): ProfileUserModel?
 
     suspend fun getFriendsData(
         page: Int
-    ): ProfileFriendsModel
+    ): ProfileFriendsModel?
 
 }

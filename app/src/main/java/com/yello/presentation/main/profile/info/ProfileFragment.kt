@@ -42,14 +42,14 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
         viewModel.getState.observe(viewLifecycleOwner) { state ->
             when (state) {
                 is UiState.Success -> {
-                    viewModel.myName.value = state.data.name
-                    viewModel.myId.value = "@" + state.data.yelloId
-                    viewModel.mySchool.value = state.data.group
+                    viewModel.myName.value = state.data?.name
+                    viewModel.myId.value = "@" + state.data?.yelloId
+                    viewModel.mySchool.value = state.data?.group
                     // TODO: 서버통신 후 이미지도 처리하기 - 바인딩어댑터
                     // viewModel.myThumbnail.value = state.data.profileImageUrl
-                    viewModel.myTotalMsg.value = state.data.yelloCount.toString()
-                    viewModel.myTotalFriends.value = state.data.friendCount.toString()
-                    viewModel.myTotalPoints.value = state.data.point.toString()
+                    viewModel.myTotalMsg.value = state.data?.yelloCount.toString()
+                    viewModel.myTotalFriends.value = state.data?.friendCount.toString()
+                    viewModel.myTotalPoints.value = state.data?.point.toString()
                 }
 
                 is UiState.Failure -> {
@@ -71,8 +71,7 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
         viewModel.getListState.observe(viewLifecycleOwner) { state ->
             when (state) {
                 is UiState.Success -> {
-                    state.data.friends
-                    val friendsList = state.data.friends
+                    val friendsList = state.data?.friends ?: listOf()
                     binding.rvProfileFriendsList.adapter = adapter?.apply {
                         setItemList(friendsList)
                     }
@@ -125,7 +124,7 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
         adapter = ProfileFriendAdapter { profileUserModel ->
 
             viewModel.clickedItemName.value = profileUserModel.name
-            viewModel.clickedItemId.value = profileUserModel.yelloId
+            viewModel.clickedItemId.value = "@" + profileUserModel.yelloId
             viewModel.clickedItemSchool.value = profileUserModel.group
             // TODO: 서버통신 후 이미지도 처리하기 - 바인딩어댑터
             // viewModel.clickedItemThumbnail.value = profileUserModel.profileImageUrl

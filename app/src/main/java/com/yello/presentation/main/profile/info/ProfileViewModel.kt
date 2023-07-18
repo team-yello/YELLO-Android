@@ -17,11 +17,11 @@ class ProfileViewModel @Inject constructor(
     private val profileRepository: ProfileRepository
 ) : ViewModel() {
 
-    private val _getState = MutableLiveData<UiState<ProfileUserModel>>()
-    val getState: LiveData<UiState<ProfileUserModel>> = _getState
+    private val _getState = MutableLiveData<UiState<ProfileUserModel?>>()
+    val getState: LiveData<UiState<ProfileUserModel?>> = _getState
 
-    private val _getListState = MutableLiveData<UiState<ProfileFriendsModel>>()
-    val getListState: LiveData<UiState<ProfileFriendsModel>> = _getListState
+    private val _getListState = MutableLiveData<UiState<ProfileFriendsModel?>>()
+    val getListState: LiveData<UiState<ProfileFriendsModel?>> = _getListState
 
     val myName: MutableLiveData<String> = MutableLiveData("")
     val myId: MutableLiveData<String> = MutableLiveData("")

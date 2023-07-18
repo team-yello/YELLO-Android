@@ -10,7 +10,6 @@ import com.example.ui.view.setOnSingleClickListener
 import com.yello.R
 import com.yello.databinding.FragmentDialogSchoolBinding
 import com.yello.presentation.onboarding.activity.OnBoardingViewModel
-import com.yello.presentation.onboarding.fragment.school.SchoolAdapter
 
 class SearchDialogFragment :
     BindingBottomSheetDialog<FragmentDialogSchoolBinding>(R.layout.fragment_dialog_school) {

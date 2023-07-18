@@ -24,7 +24,7 @@ class StudentidDialogFragment :
 
     private fun initStudentidAdapter() {
         viewModel.addStudentId()
-        idList = viewModel.studentidResult.value ?: emptyList()
+        idList = viewModel.studentIdResult.value ?: emptyList()
         val adapter = StudentidDialogAdapter(requireContext(), storeStudentId = ::storeStudentid)
         binding.rvStudentid.adapter = adapter
         adapter.submitList(idList)

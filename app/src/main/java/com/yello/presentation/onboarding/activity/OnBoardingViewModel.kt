@@ -30,8 +30,8 @@ class OnBoardingViewModel @Inject constructor(
     private val _departmentData = MutableLiveData<UiState<MyDepartment>>()
     val departmentData: MutableLiveData<UiState<MyDepartment>> = _departmentData
 
-    private val _FriendData = MutableLiveData<UiState<FriendList>>()
-    val FriendData: MutableLiveData<UiState<FriendList>> = _FriendData
+    private val _friendData = MutableLiveData<UiState<FriendList>>()
+    val friendData: MutableLiveData<UiState<FriendList>> = _friendData
 
     private val _currentPage = MutableLiveData(0)
     val currentPage: LiveData<Int> = _currentPage
@@ -50,7 +50,7 @@ class OnBoardingViewModel @Inject constructor(
 
     val _school = MutableLiveData("")
     val _department = MutableLiveData("")
-    val _studentid = MutableLiveData("")
+    val _studentId = MutableLiveData("")
     val _name = MutableLiveData("")
     val _id = MutableLiveData("")
     val _gender = MutableLiveData("")
@@ -115,7 +115,7 @@ class OnBoardingViewModel @Inject constructor(
     }
 
     fun setStudentId(studentId: String) {
-        _studentid.value = studentId
+        _studentId.value = studentId
     }
 
     val isValidSchool: LiveData<Boolean> = _school.map { school -> checkValidSchool(school) }
@@ -123,7 +123,7 @@ class OnBoardingViewModel @Inject constructor(
     val isEmptyDepartment: LiveData<Boolean> =
         _department.map { department -> checkEmptyDepartment(department) }
     val isEmptyStudentId: LiveData<Boolean> =
-        _studentid.map { studentId -> checkEmptyStudentId(studentId) }
+        _studentId.map { studentId -> checkEmptyStudentId(studentId) }
     val isEmptyName: LiveData<Boolean> =
         _name.map { name -> checkEmptyName(name) }
     val isEmptyId: LiveData<Boolean> =
@@ -133,11 +133,12 @@ class OnBoardingViewModel @Inject constructor(
 
     private val school: String
         get() = _school.value?.trim() ?: ""
+
     private val department: String
         get() = _department.value?.trim() ?: ""
 
-    private val studentid: String
-        get() = _studentid.value?.trim() ?: ""
+    private val studentId: String
+        get() = _studentId.value?.trim() ?: ""
 
     private val name: String
         get() = _name.value?.trim() ?: ""
@@ -157,8 +158,8 @@ class OnBoardingViewModel @Inject constructor(
     private val _departmentResult: MutableLiveData<List<MyDepartment>> = MutableLiveData()
     val departmentResult: LiveData<List<MyDepartment>> = _departmentResult
 
-    private val _studentidResult: MutableLiveData<List<MyStudentid>> = MutableLiveData()
-    val studentidResult: LiveData<List<MyStudentid>> = _studentidResult
+    private val _studentIdResult: MutableLiveData<List<MyStudentid>> = MutableLiveData()
+    val studentIdResult: LiveData<List<MyStudentid>> = _studentIdResult
 
     private val _friendResult: MutableLiveData<List<Friend>> = MutableLiveData()
     val friendResult: LiveData<List<Friend>> = _friendResult
@@ -228,6 +229,6 @@ class OnBoardingViewModel @Inject constructor(
             MyStudentid("22학번"),
             MyStudentid("23학번"),
         )
-        _studentidResult.value = mockList
+        _studentIdResult.value = mockList
     }
 }

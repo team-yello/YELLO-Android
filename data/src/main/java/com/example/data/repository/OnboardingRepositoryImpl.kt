@@ -53,10 +53,7 @@ class OnboardingRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun postFriendService(
-        friendGroup: FriendGroup,
-        page: Long,
-    ): Result<FriendList?> {
+    override suspend fun postFriendService(friendGroup: FriendGroup, page: Long): Result<FriendList?> {
         return runCatching {
             onboardingDataSource.postFriendData(
                 friendGroup.toRequestSignFriendDto(),

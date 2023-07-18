@@ -4,7 +4,6 @@ import com.example.domain.entity.RequestServiceTokenModel
 import com.example.domain.entity.ServiceTokenModel
 import com.example.domain.entity.onboarding.FriendGroup
 import com.example.domain.entity.onboarding.MyDepartment
-import com.example.domain.entity.onboarding.Friend
 import com.example.domain.entity.onboarding.FriendList
 import com.example.domain.entity.onboarding.MySchool
 

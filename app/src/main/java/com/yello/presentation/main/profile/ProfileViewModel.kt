@@ -12,6 +12,7 @@ import com.yello.presentation.main.recommend.RecommendViewHolder
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlin.math.ceil
 
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
@@ -29,6 +30,10 @@ class ProfileViewModel @Inject constructor(
 
     private val _deleteFriendState = MutableLiveData<UiState<Unit>>()
     val deleteFriendState: LiveData<UiState<Unit>> = _deleteFriendState
+
+    private var currentPage = -1
+    private var isPagingFinish = false
+    private var totalPage = Int.MAX_VALUE
 
     val myName: MutableLiveData<String> = MutableLiveData("")
     val myId: MutableLiveData<String> = MutableLiveData("")
@@ -64,12 +69,18 @@ class ProfileViewModel @Inject constructor(
         }
     }
 
-    fun getFriendsDataFromServer(page: Int) {
+    fun getFriendsDataFromServer() {
+
         viewModelScope.launch {
-            _getListState.value = UiState.Loading
+            if (isPagingFinish) return@launch
             runCatching {
-                profileRepository.getFriendsData(page)
+                profileRepository.getFriendsData(
+                    ++currentPage
+                )
             }.onSuccess {
+                it ?: return@launch
+                totalPage = ceil((it.totalCount * 0.1)).toInt()
+                if (totalPage == currentPage) isPagingFinish = true
                 _getListState.value = UiState.Success(it)
             }.onFailure {
                 _getListState.value = UiState.Failure(it.message.toString())

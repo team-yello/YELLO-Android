@@ -7,6 +7,7 @@ import android.view.animation.AnimationUtils
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.DefaultItemAnimator
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.ui.base.BindingFragment
 import com.example.ui.fragment.toast
@@ -32,7 +33,7 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
 
         initAddGroupButtonListener()
         initProfileManageActivityWithoutFinish()
-        initItemClickListener()
+        initItemClickListenerWithAdapter()
         initFabUpwardListener()
 
         observeUserDataState()
@@ -42,7 +43,7 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
         setUserData(userid = 148)
         setDeleteAnimation()
         setItemDivider()
-        setFriendsData(0)
+        setListWithInfinityScroll()
         setFabVisibility()
     }
 
@@ -96,8 +97,22 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
         }
     }
 
-    private fun setFriendsData(page: Int) {
-        viewModel.getFriendsDataFromServer(page)
+    private fun setListWithInfinityScroll() {
+        binding.rvProfileFriendsList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                if (dy > 0) {
+                    recyclerView.layoutManager?.let { layoutManager ->
+                        if (!binding.rvProfileFriendsList.canScrollVertically(1) &&
+                            layoutManager is LinearLayoutManager &&
+                            layoutManager.findLastVisibleItemPosition() == adapter!!.itemCount - 1
+                        ) {
+                            viewModel.getFriendsDataFromServer()
+                        }
+                    }
+                }
+            }
+        })
     }
 
     private fun observeFriendDeleteState() {
@@ -166,10 +181,12 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
         }
     }
 
-    private fun initItemClickListener() {
+    private fun initItemClickListenerWithAdapter() {
+        viewModel.getFriendsDataFromServer()
         adapter = ProfileFriendAdapter { profileUserModel, position ->
 
-            viewModel.clickedItemPosition = position
+            viewModel.setItemPosition(position)
+
             viewModel.clickedItemId.value = profileUserModel.userId
             viewModel.clickedItemName.value = profileUserModel.name
             viewModel.clickedItemYelloId.value = "@" + profileUserModel.yelloId
@@ -181,5 +198,6 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
 
             ProfileFriendItemBottomSheet().show(parentFragmentManager, "dialog")
         }
+        binding.rvProfileFriendsList.adapter = adapter
     }
 }

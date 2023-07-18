@@ -29,6 +29,9 @@ class OnBoardingViewModel @Inject constructor(
     private val _departmentData = MutableLiveData<UiState<MyDepartment>>()
     val departmentData: MutableLiveData<UiState<MyDepartment>> = _departmentData
 
+    private val _currentPage = MutableLiveData(0)
+    val currentPage: LiveData<Int> = _currentPage
+
     var schoolPage = -1L
     private var isSchoolPagingFinish = false
     private var totalSchoolPage = Long.MAX_VALUE
@@ -36,15 +39,15 @@ class OnBoardingViewModel @Inject constructor(
     var departmentPage = -1L
     private var isDepartmentPagingFinish = false
     private var totalDepartmentPage = Long.MAX_VALUE
-    fun initAddListSchool(search: String) {
-        schoolPage = -1L
-        addListSchool(search)
-    }
 
-    fun initAddListDepartment(school: String, search: String) {
-        departmentPage = -1L
-        addListDepartment(school, search)
-    }
+    val _school = MutableLiveData("")
+    val _department = MutableLiveData("")
+    val _studentid = MutableLiveData("")
+    val _name = MutableLiveData("")
+    val _id = MutableLiveData("")
+    val _gender = MutableLiveData("")
+    val _code = MutableLiveData("")
+    val _profile = MutableLiveData("")
 
     fun addListSchool(search: String) {
         if (isSchoolPagingFinish) return
@@ -95,15 +98,6 @@ class OnBoardingViewModel @Inject constructor(
         }
     }
 
-    val _school = MutableLiveData("")
-    val _department = MutableLiveData("")
-    val _studentid = MutableLiveData("")
-    val _name = MutableLiveData("")
-    val _id = MutableLiveData("")
-    val _gender = MutableLiveData("")
-    val _code = MutableLiveData("")
-    val _profile = MutableLiveData("")
-
     fun setSchool(school: String) {
         _school.value = school
     }
@@ -112,25 +106,22 @@ class OnBoardingViewModel @Inject constructor(
         _department.value = department
     }
 
-    fun setStudentid(studentid: String) {
-        _studentid.value = studentid
+    fun setStudentId(studentId: String) {
+        _studentid.value = studentId
     }
-
-    val _currentPage = MutableLiveData(0)
-    val currentPage: LiveData<Int> = _currentPage
 
     val isValidSchool: LiveData<Boolean> = _school.map { school -> checkValidSchool(school) }
 
     val isEmptyDepartment: LiveData<Boolean> =
-        _department.map { department -> checkEmpty_department(department) }
-    val isEmptyStudentid: LiveData<Boolean> =
-        _studentid.map { studentid -> checkEmpty_studentid(studentid) }
+        _department.map { department -> checkEmptyDepartment(department) }
+    val isEmptyStudentId: LiveData<Boolean> =
+        _studentid.map { studentId -> checkEmptyStudentId(studentId) }
     val isEmptyName: LiveData<Boolean> =
-        _name.map { name -> checkEmpty_name(name) }
+        _name.map { name -> checkEmptyName(name) }
     val isEmptyId: LiveData<Boolean> =
-        _id.map { id -> checkEmpty_id(id) }
+        _id.map { id -> checkEmptyId(id) }
     val isEmptyCode: LiveData<Boolean> =
-        _code.map { code -> checkEmpty_code(code) }
+        _code.map { code -> checkEmptyCode(code) }
 
     private val school: String
         get() = _school.value?.trim() ?: ""
@@ -180,45 +171,34 @@ class OnBoardingViewModel @Inject constructor(
         return school.isNullOrBlank()
     }
 
-    fun checkEmpty_department(department: String): Boolean {
+    fun checkEmptyDepartment(department: String): Boolean {
         return department.isNullOrBlank()
     }
 
-    fun checkEmpty_studentid(studentid: String): Boolean {
+    fun checkEmptyStudentId(studentid: String): Boolean {
         return studentid.isNullOrBlank()
     }
 
-    fun checkEmpty_name(name: String): Boolean {
+    fun checkEmptyName(name: String): Boolean {
         return name.isNullOrBlank()
     }
 
-    fun checkRegax_name(name: String): Boolean {
+    fun checkRegaxName(name: String): Boolean {
         return name.matches("^[ㄱ-ㅎㅏ-ㅣ가-힣]\$".toRegex())
     }
 
     // 문자, 숫자, 및줄, 마침표만 사용 정규표현식
-    fun checkRegax_id(id: String): Boolean {
+    fun checkRegaxId(id: String): Boolean {
         return id.matches("^[A-Za-z0-9_.]*\$".toRegex())
     }
 
-    fun checkEmpty_id(id: String): Boolean {
+    fun checkEmptyId(id: String): Boolean {
         return id.isNullOrBlank()
     }
 
-    fun checkEmpty_code(code: String): Boolean {
+    fun checkEmptyCode(code: String): Boolean {
         return code.isNullOrBlank()
     }
-
-    // 목데이터
-//    fun addSchool() {
-//        val mockList = listOf(
-//            MySchool(1, "김상호랑이대학교"),
-//            MySchool(2, "전채연습만이살길대학교"),
-//            MySchool(3, "이강민머리될떄까지대학교"),
-//            MySchool(4, "박민주거라연습대학교"),
-//        )
-//        _schoolResult.value = mockList
-//    }
 
     fun navigateToNextPage() {
         _currentPage.value = currentPage.value?.plus(1)
@@ -227,18 +207,6 @@ class OnBoardingViewModel @Inject constructor(
     fun navigateToBackPage() {
         _currentPage.value = currentPage.value?.minus(1)
     }
-
-//    fun addDepartment() {
-//        val mockList = listOf(
-//            MyDepartment(1, GroupList(1L, listOf<String>("경영학과", "컴퓨터 공학과")),
-//            MyDepartment("컴퓨터 공학과"),
-//            MyDepartment("사랑해학과"),
-//            MyDepartment("옐로최고학과"),
-//            MyDepartment("개발자양성학과"),
-//            MyDepartment("법학과"),
-//        )
-//        _departmentResult.value = mockList
-//    }
 
     fun addStudentId() {
         val mockList = listOf(

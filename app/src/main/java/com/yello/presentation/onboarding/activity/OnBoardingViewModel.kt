@@ -7,9 +7,10 @@ import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
 import com.example.domain.entity.MyName
 import com.example.domain.entity.MyStudentid
+import com.example.domain.entity.onboarding.Friend
+import com.example.domain.entity.onboarding.FriendList
 import com.example.domain.entity.onboarding.MyCode
 import com.example.domain.entity.onboarding.MyDepartment
-import com.example.domain.entity.onboarding.Friend
 import com.example.domain.entity.onboarding.MyGender
 import com.example.domain.entity.onboarding.MyId
 import com.example.domain.entity.onboarding.MySchool
@@ -29,6 +30,9 @@ class OnBoardingViewModel @Inject constructor(
     private val _departmentData = MutableLiveData<UiState<MyDepartment>>()
     val departmentData: MutableLiveData<UiState<MyDepartment>> = _departmentData
 
+    private val _FriendData = MutableLiveData<UiState<FriendList>>()
+    val FriendData: MutableLiveData<UiState<FriendList>> = _FriendData
+
     private val _currentPage = MutableLiveData(0)
     val currentPage: LiveData<Int> = _currentPage
 
@@ -39,6 +43,10 @@ class OnBoardingViewModel @Inject constructor(
     var departmentPage = -1L
     private var isDepartmentPagingFinish = false
     private var totalDepartmentPage = Long.MAX_VALUE
+
+    var friendPage = -1L
+    private var isFriendPagingFinish = false
+    private var totalFriendPage = Long.MAX_VALUE
 
     val _school = MutableLiveData("")
     val _department = MutableLiveData("")
@@ -222,14 +230,4 @@ class OnBoardingViewModel @Inject constructor(
         )
         _studentidResult.value = mockList
     }
-
-//    fun addFriend() {
-//        val mockList = listOf(
-//            MyFriend(1, "서울여자대학교 시각디자인과", "성신여자대학교 산업디자인과"),
-//            MyFriend(2, "강국희", "성신여자대학교 산업디자인과"),
-//            MyFriend(3, "이의제", "송민호대학교 컴퓨터공화과"),
-//            MyFriend(4, "고경표", "상호대학교 컴퓨터공학과"),
-//        )
-//        _friendResult.value = mockList
-//    }
 }

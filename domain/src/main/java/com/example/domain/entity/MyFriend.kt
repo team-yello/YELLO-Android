@@ -1,8 +1,13 @@
 package com.example.domain.entity
 
 data class MyFriend(
-    val profile: Int,
+    val totalCount: Int,
+    val FriendList: List<FriendList>,
+)
+data class FriendList(
+    val group: String,
+    val id: Long,
     val name: String,
-    val department: String,
-    var isSelcted: Boolean = true,
+    val profileImage: String,
+    val groupName: String,
 )

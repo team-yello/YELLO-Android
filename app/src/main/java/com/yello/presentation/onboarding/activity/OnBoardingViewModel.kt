@@ -28,10 +28,10 @@ class OnBoardingViewModel @Inject constructor(
     private val onboardingRepository: OnboardingRepository,
 ) : ViewModel() {
     private val _schoolData = MutableLiveData<UiState<SchoolList>>()
-    val schoolData: LiveData<UiState<SchoolList>> = _schoolData
+    val schoolData: MutableLiveData<UiState<SchoolList>> = _schoolData
 
     private val _departmentData = MutableLiveData<UiState<GroupList>>()
-    val departmentData: LiveData<UiState<GroupList>> = _departmentData
+    val departmentData: MutableLiveData<UiState<GroupList>> = _departmentData
 
     private val _friendData = MutableLiveData<UiState<FriendList>>()
     val friendData: MutableLiveData<UiState<FriendList>> = _friendData
@@ -71,7 +71,10 @@ class OnBoardingViewModel @Inject constructor(
     private val name: String
         get() = _name.value?.trim() ?: ""
 
-    val _friend = MutableLiveData("")
+    private val _friendList = MutableLiveData<FriendList>()
+    val friendList: FriendList
+        get() = _friendList.value ?: FriendList(0, emptyList())
+
     val _id = MutableLiveData("")
     private val id: String
         get() = _id.value?.trim() ?: ""
@@ -88,8 +91,13 @@ class OnBoardingViewModel @Inject constructor(
     val profile: String
         get() = _profile.value ?: ""
 
+    private val _recommendId = MutableLiveData("")
+    val recommendId: String
+        get() = _recommendId.value ?: ""
+
     // TODO: throttle 및 페이징 처리
     fun getSchoolList(search: String) {
+        Timber.d("GET SCHOOL LIST 메서드 호출 : $search")
         // if (isSchoolPagingFinish) return
         viewModelScope.launch {
             _schoolData.value = UiState.Loading
@@ -128,10 +136,8 @@ class OnBoardingViewModel @Inject constructor(
             onboardingRepository.getGroupList(
                 school,
                 search,
-                0,
-                // ++departmentPage,
+                ++departmentPage,
             ).onSuccess { groupList ->
-                Timber.d("GET GROUP LIST SUCCESS : $groupList")
                 if (groupList == null) {
                     _departmentData.value = UiState.Empty
                     return@launch
@@ -170,7 +176,7 @@ class OnBoardingViewModel @Inject constructor(
                 if (totalFriendPage == friendPage) isFriendPagingFinish = true
                 _friendData.value =
                     when {
-                        friend.FriendList.isEmpty() -> UiState.Empty
+                        friend.friendList.isEmpty() -> UiState.Empty
                         else -> UiState.Success(friend)
                     }
             }
@@ -188,10 +194,6 @@ class OnBoardingViewModel @Inject constructor(
 
     fun setStudentId(studentId: String) {
         _studentId.value = studentId
-    }
-
-    fun setFriend(friend: Friend) {
-        _friend.value = friend.toString()
     }
 
     fun clearSchoolData() {

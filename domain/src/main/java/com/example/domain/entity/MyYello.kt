@@ -4,7 +4,7 @@ import com.example.domain.enum.GenderEnum
 
 data class MyYello(
     val totalCount: Int,
-    val yello: List<Yello>
+    val yello: List<Yello>,
 )
 
 data class Yello(
@@ -15,7 +15,7 @@ data class Yello(
     val vote: Vote,
     val isHintUsed: Boolean,
     val isRead: Boolean,
-    val createdAt: String
+    val createdAt: String,
 )
 
 data class Vote(
@@ -23,5 +23,5 @@ data class Vote(
     val nameFoot: String,
     val keywordHead: String,
     val keyword: String,
-    val keywordFoot: String
+    val keywordFoot: String,
 )

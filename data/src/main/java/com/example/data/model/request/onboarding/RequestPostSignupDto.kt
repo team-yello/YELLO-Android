@@ -1,5 +1,6 @@
 package com.example.data.model.request.onboarding
 
+import com.example.domain.entity.onboarding.SignupInfo
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -26,5 +27,18 @@ data class RequestPostSignupDto(
     @SerialName("friends")
     val friends: List<Long>,
     @SerialName("recommendId")
-    val recommendId: String,
+    val recommendId: String? = null,
+)
+
+fun SignupInfo.toRequestPostSignupDto() = RequestPostSignupDto(
+    uuid = kakaoId,
+    email = email,
+    profileImage = profileImg,
+    groupId = groupId,
+    groupAdmissionYear = studentId,
+    name = name,
+    yelloId = yelloId,
+    gender = gender.toString(),
+    friends = friendList,
+    recommendId = recommendId,
 )

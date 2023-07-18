@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.domain.entity.onboarding.MySchool
 import com.example.ui.view.ItemDiffCallback
 import com.example.ui.view.setOnSingleClickListener
 import com.yello.databinding.ItemSchoolListBinding
@@ -13,7 +12,7 @@ import com.yello.databinding.ItemSchoolListBinding
 class SchoolAdapter(
     requireContext: Context,
     private val storeSchool: (String) -> Unit,
-) : ListAdapter<MySchool, SchoolAdapter.SchoolViewHolder>(diffUtil) {
+) : ListAdapter<String, SchoolAdapter.SchoolViewHolder>(diffUtil) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SchoolViewHolder {
         return SchoolViewHolder(
             ItemSchoolListBinding.inflate(
@@ -34,17 +33,17 @@ class SchoolAdapter(
         private val storeSchool: (String) -> Unit,
     ) :
         RecyclerView.ViewHolder(binding.root) {
-        fun setSchool(school: MySchool) {
-            binding.data = school.toString()
+        fun setSchool(school: String) {
+            binding.data = school
             binding.root.setOnSingleClickListener {
-                storeSchool(binding.tvSchoolName.text.toString())
+                storeSchool(school)
             }
         }
     }
 
     companion object {
-        private val diffUtil = ItemDiffCallback<MySchool>(
-            onItemsTheSame = { old, new -> old.groupNameList == new.groupNameList },
+        private val diffUtil = ItemDiffCallback<String>(
+            onItemsTheSame = { old, new -> old == new },
             onContentsTheSame = { old, new -> old == new },
         )
     }

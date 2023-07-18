@@ -15,7 +15,7 @@ interface OnboardingDataSource {
 
     suspend fun getSchoolNameData(
         search: String,
-        page: Long,
+        page: Int,
     ): BaseResponse<ResponseSchoolDto>
 
     suspend fun getDepartmentNameData(

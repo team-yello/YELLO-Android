@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.domain.entity.onboarding.MyDepartment
+import com.example.domain.entity.onboarding.GroupList
 import com.example.ui.view.ItemDiffCallback
 import com.example.ui.view.setOnSingleClickListener
 import com.yello.databinding.ItemDepartmentListBinding
@@ -13,7 +13,7 @@ import com.yello.databinding.ItemDepartmentListBinding
 class DepartmentAdapter(
     requireContext: Context,
     private val storeDepartment: (String) -> Unit,
-) : ListAdapter<MyDepartment, DepartmentAdapter.DepartmentViewHolder>(diffUtil) {
+) : ListAdapter<GroupList, DepartmentAdapter.DepartmentViewHolder>(diffUtil) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DepartmentViewHolder {
         return DepartmentViewHolder(
             ItemDepartmentListBinding.inflate(
@@ -34,7 +34,7 @@ class DepartmentAdapter(
         private val storeDepartment: (String) -> Unit,
     ) :
         RecyclerView.ViewHolder(binding.root) {
-        fun setDepartment(department: MyDepartment) {
+        fun setDepartment(department: GroupList) {
             binding.data = department.toString()
             binding.root.setOnSingleClickListener {
                 storeDepartment(binding.tvDepartmentName.text.toString())
@@ -43,8 +43,8 @@ class DepartmentAdapter(
     }
 
     companion object {
-        private val diffUtil = ItemDiffCallback<MyDepartment>(
-            onItemsTheSame = { old, new -> old.groupList == new.groupList },
+        private val diffUtil = ItemDiffCallback<GroupList>(
+            onItemsTheSame = { old, new -> old.group == new.group },
             onContentsTheSame = { old, new -> old == new },
         )
     }

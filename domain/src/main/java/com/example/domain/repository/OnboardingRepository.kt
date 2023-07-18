@@ -3,23 +3,23 @@ package com.example.domain.repository
 import com.example.domain.entity.RequestServiceTokenModel
 import com.example.domain.entity.ServiceTokenModel
 import com.example.domain.entity.onboarding.FriendGroup
-import com.example.domain.entity.onboarding.MyDepartment
 import com.example.domain.entity.onboarding.FriendList
-import com.example.domain.entity.onboarding.MySchool
+import com.example.domain.entity.onboarding.GroupList
+import com.example.domain.entity.onboarding.SchoolList
 
 interface OnboardingRepository {
     suspend fun postTokenToServiceToken(requestServiceTokenModel: RequestServiceTokenModel): ServiceTokenModel?
 
-    suspend fun getSchoolService(
+    suspend fun getSchoolList(
         search: String,
-        page: Long,
-    ): Result<MySchool?>
+        page: Int,
+    ): Result<SchoolList?>
 
     suspend fun getDepartmentService(
         school: String,
         search: String,
         page: Long,
-    ): Result<MyDepartment?>
+    ): Result<GroupList?>
 
     suspend fun getIdService(
         yelloId: String,

@@ -1,6 +1,6 @@
 package com.example.data.model.response.onboarding
 
-import com.example.domain.entity.onboarding.MySchool
+import com.example.domain.entity.onboarding.SchoolList
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -11,7 +11,10 @@ data class ResponseSchoolDto(
     @SerialName("groupNameList")
     val groupNameList: List<String>,
 ) {
-    fun toMySchool(): MySchool {
-        return MySchool(totalCount, groupNameList)
+    fun toMySchool(): SchoolList {
+        return SchoolList(
+            totalCount = totalCount,
+            groupNameList = groupNameList,
+        )
     }
 }

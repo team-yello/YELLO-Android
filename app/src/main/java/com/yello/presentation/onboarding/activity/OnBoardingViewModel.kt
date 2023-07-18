@@ -6,30 +6,31 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
 import com.example.domain.entity.MyName
-import com.example.domain.entity.MyStudentid
+import com.example.domain.entity.MyStudentId
 import com.example.domain.entity.onboarding.Friend
 import com.example.domain.entity.onboarding.FriendGroup
 import com.example.domain.entity.onboarding.FriendList
+import com.example.domain.entity.onboarding.GroupList
 import com.example.domain.entity.onboarding.MyCode
-import com.example.domain.entity.onboarding.MyDepartment
 import com.example.domain.entity.onboarding.MyGender
 import com.example.domain.entity.onboarding.MyId
-import com.example.domain.entity.onboarding.MySchool
+import com.example.domain.entity.onboarding.SchoolList
 import com.example.domain.repository.OnboardingRepository
 import com.example.ui.view.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlin.math.ceil
 
 @HiltViewModel
 class OnBoardingViewModel @Inject constructor(
     private val onboardingRepository: OnboardingRepository,
 ) : ViewModel() {
-    private val _schoolData = MutableLiveData<UiState<MySchool>>()
-    val schoolData: MutableLiveData<UiState<MySchool>> = _schoolData
+    private val _schoolData = MutableLiveData<UiState<SchoolList>>()
+    val schoolData: MutableLiveData<UiState<SchoolList>> = _schoolData
 
-    private val _departmentData = MutableLiveData<UiState<MyDepartment>>()
-    val departmentData: MutableLiveData<UiState<MyDepartment>> = _departmentData
+    private val _departmentData = MutableLiveData<UiState<GroupList>>()
+    val departmentData: MutableLiveData<UiState<GroupList>> = _departmentData
 
     private val _friendData = MutableLiveData<UiState<FriendList>>()
     val friendData: MutableLiveData<UiState<FriendList>> = _friendData
@@ -37,9 +38,9 @@ class OnBoardingViewModel @Inject constructor(
     private val _currentPage = MutableLiveData(0)
     val currentPage: LiveData<Int> = _currentPage
 
-    var schoolPage = -1L
+    var schoolPage = -1
     private var isSchoolPagingFinish = false
-    private var totalSchoolPage = Long.MAX_VALUE
+    private var totalSchoolPage = Integer.MAX_VALUE
 
     var departmentPage = -1L
     private var isDepartmentPagingFinish = false
@@ -50,32 +51,60 @@ class OnBoardingViewModel @Inject constructor(
     private var totalFriendPage = Long.MAX_VALUE
 
     val _school = MutableLiveData("")
+    val school: String
+        get() = _school.value?.trim() ?: ""
+
+    private val _groupId = MutableLiveData<Long>()
+    val groupId: LiveData<Long>
+        get() = _groupId
+
     val _department = MutableLiveData("")
+    private val department: String
+        get() = _department.value?.trim() ?: ""
+
     val _studentId = MutableLiveData("")
+    private val studentId: String
+        get() = _studentId.value?.trim() ?: ""
+
     val _name = MutableLiveData("")
+    private val name: String
+        get() = _name.value?.trim() ?: ""
+
     val _friend = MutableLiveData("")
     val _id = MutableLiveData("")
-    val _gender = MutableLiveData("")
-    val _code = MutableLiveData("")
+    private val id: String
+        get() = _id.value?.trim() ?: ""
+
+    private val _gender = MutableLiveData("")
+    val gender: String
+        get() = _gender.value ?: ""
+
+    private val _code = MutableLiveData("")
+    val code: String
+        get() = _code.value?.trim() ?: ""
+
+    private val _profile = MutableLiveData("")
+    val profile: String
+        get() = _profile.value ?: ""
 
     fun addListSchool(search: String) {
         if (isSchoolPagingFinish) return
         viewModelScope.launch {
             _schoolData.value = UiState.Loading
-            onboardingRepository.getSchoolService(
+            onboardingRepository.getSchoolList(
                 search,
                 ++schoolPage,
-            ).onSuccess { school ->
-                if (school == null) {
+            ).onSuccess { schoolList ->
+                if (schoolList == null) {
                     _schoolData.value = UiState.Empty
                     return@launch
                 }
-                totalSchoolPage = Math.ceil((school.totalCount * 0.1)).toLong()
+                totalSchoolPage = ceil((schoolList.totalCount * 0.1)).toInt()
                 if (totalSchoolPage == schoolPage) isSchoolPagingFinish = true
                 _schoolData.value =
                     when {
-                        school.groupNameList.isEmpty() -> UiState.Empty
-                        else -> UiState.Success(school)
+                        schoolList.groupNameList.isEmpty() -> UiState.Empty
+                        else -> UiState.Success(schoolList)
                     }
             }.onFailure {
                 _schoolData.value = UiState.Failure("대학교 불러오기 서버 통신 실패")
@@ -96,11 +125,11 @@ class OnBoardingViewModel @Inject constructor(
                     _departmentData.value = UiState.Empty
                     return@launch
                 }
-                totalDepartmentPage = Math.ceil((department.totalCount * 0.1)).toLong()
+                totalDepartmentPage = ceil((department.totalCount * 0.1)).toLong()
                 if (totalDepartmentPage == departmentPage) isDepartmentPagingFinish = true
                 _departmentData.value =
                     when {
-                        department.groupList.isEmpty() -> UiState.Empty
+                        department.group.isEmpty() -> UiState.Empty
                         else -> UiState.Success(department)
                     }
             }
@@ -157,38 +186,15 @@ class OnBoardingViewModel @Inject constructor(
         _id.map { id -> checkEmptyId(id) }
     val isEmptyCode: LiveData<Boolean> =
         _code.map { code -> checkEmptyCode(code) }
-    val isValidName: LiveData<Boolean> =
-        _name.map { name -> checkRegexName(name) }
 
-    private val school: String
-        get() = _school.value?.trim() ?: ""
+    private val _schoolResult: MutableLiveData<List<String>> = MutableLiveData()
+    val schoolResult: LiveData<List<String>> = _schoolResult
 
-    private val department: String
-        get() = _department.value?.trim() ?: ""
+    private val _departmentResult: MutableLiveData<List<GroupList>> = MutableLiveData()
+    val departmentResult: LiveData<List<GroupList>> = _departmentResult
 
-    private val studentId: String
-        get() = _studentId.value?.trim() ?: ""
-
-    private val name: String
-        get() = _name.value?.trim() ?: ""
-
-    private val id: String
-        get() = _id.value?.trim() ?: ""
-
-    private val gender: String
-        get() = _gender.value?.trim() ?: ""
-
-    private val code: String
-        get() = _code.value?.trim() ?: ""
-
-    private val _schoolResult: MutableLiveData<List<MySchool>> = MutableLiveData()
-    val schoolResult: LiveData<List<MySchool>> = _schoolResult
-
-    private val _departmentResult: MutableLiveData<List<MyDepartment>> = MutableLiveData()
-    val departmentResult: LiveData<List<MyDepartment>> = _departmentResult
-
-    private val _studentIdResult: MutableLiveData<List<MyStudentid>> = MutableLiveData()
-    val studentIdResult: LiveData<List<MyStudentid>> = _studentIdResult
+    private val _studentIdResult: MutableLiveData<List<MyStudentId>> = MutableLiveData()
+    val studentIdResult: LiveData<List<MyStudentId>> = _studentIdResult
 
     private val _friendResult: MutableLiveData<List<Friend>> = MutableLiveData()
     val friendResult: LiveData<List<Friend>> = _friendResult
@@ -205,20 +211,22 @@ class OnBoardingViewModel @Inject constructor(
     private val _codeResult: MutableLiveData<List<MyCode>> = MutableLiveData()
     val codeResult: LiveData<List<MyCode>> = _codeResult
 
-    fun checkValidSchool(school: String): Boolean {
-        return school.isNullOrBlank()
+    private fun checkValidSchool(school: String): Boolean {
+        return school.isBlank()
     }
 
-    fun checkEmptyDepartment(department: String): Boolean {
-        return department.isNullOrBlank()
-    }
-    fun checkEmptyStudentId(studentid: String): Boolean {
-        return studentid.isNullOrBlank()
+    private fun checkEmptyDepartment(department: String): Boolean {
+        return department.isBlank()
     }
 
-    fun checkEmptyName(name: String): Boolean {
-        return name.isNullOrBlank()
+    private fun checkEmptyStudentId(studentId: String): Boolean {
+        return studentId.isBlank()
     }
+
+    private fun checkEmptyName(name: String): Boolean {
+        return name.isBlank()
+    }
+
     private fun checkRegexName(name: String): Boolean {
         return name.matches("^[ㄱ-ㅎㅏ-ㅣ가-힣]\$".toRegex())
     }
@@ -227,12 +235,14 @@ class OnBoardingViewModel @Inject constructor(
         return id.matches("^[A-Za-z0-9_.]*\$".toRegex())
     }
 
-    fun checkEmptyId(id: String): Boolean {
-        return id.isNullOrBlank()
+    private fun checkEmptyId(id: String): Boolean {
+        return id.isBlank()
     }
-    fun checkEmptyCode(code: String): Boolean {
-        return code.isNullOrBlank()
+
+    private fun checkEmptyCode(code: String): Boolean {
+        return code.isBlank()
     }
+
     fun navigateToNextPage() {
         _currentPage.value = currentPage.value?.plus(1)
     }
@@ -243,15 +253,15 @@ class OnBoardingViewModel @Inject constructor(
 
     fun addStudentId() {
         val mockList = listOf(
-            MyStudentid("15학번"),
-            MyStudentid("16학번"),
-            MyStudentid("17학번"),
-            MyStudentid("18학번"),
-            MyStudentid("19학번"),
-            MyStudentid("20학번"),
-            MyStudentid("21학번"),
-            MyStudentid("22학번"),
-            MyStudentid("23학번"),
+            MyStudentId("15학번"),
+            MyStudentId("16학번"),
+            MyStudentId("17학번"),
+            MyStudentId("18학번"),
+            MyStudentId("19학번"),
+            MyStudentId("20학번"),
+            MyStudentId("21학번"),
+            MyStudentId("22학번"),
+            MyStudentId("23학번"),
         )
         _studentIdResult.value = mockList
     }

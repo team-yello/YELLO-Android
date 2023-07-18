@@ -7,8 +7,8 @@ import com.example.domain.entity.RequestServiceTokenModel
 import com.example.domain.entity.ServiceTokenModel
 import com.example.domain.entity.onboarding.FriendGroup
 import com.example.domain.entity.onboarding.FriendList
-import com.example.domain.entity.onboarding.MyDepartment
-import com.example.domain.entity.onboarding.MySchool
+import com.example.domain.entity.onboarding.GroupList
+import com.example.domain.entity.onboarding.SchoolList
 import com.example.domain.repository.OnboardingRepository
 import javax.inject.Inject
 
@@ -22,7 +22,7 @@ class OnboardingRepositoryImpl @Inject constructor(
         ).data?.toServiceTokenModel()
     }
 
-    override suspend fun getSchoolService(search: String, page: Long): Result<MySchool?> {
+    override suspend fun getSchoolList(search: String, page: Int): Result<SchoolList?> {
         return runCatching {
             onboardingDataSource.getSchoolNameData(
                 search,
@@ -32,10 +32,10 @@ class OnboardingRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getDepartmentService(
-        school: String,
-        search: String,
+        school: kotlin.String,
+        search: kotlin.String,
         page: Long,
-    ): Result<MyDepartment?> {
+    ): Result<GroupList?> {
         return runCatching {
             onboardingDataSource.getDepartmentNameData(
                 school,
@@ -45,7 +45,7 @@ class OnboardingRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getIdService(yelloId: String): Result<Boolean?> {
+    override suspend fun getIdService(yelloId: kotlin.String): Result<Boolean?> {
         return runCatching {
             onboardingDataSource.getIdValidData(
                 yelloId,
@@ -53,7 +53,10 @@ class OnboardingRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun postFriendService(friendGroup: FriendGroup, page: Long): Result<FriendList?> {
+    override suspend fun postFriendService(
+        friendGroup: FriendGroup,
+        page: Long,
+    ): Result<FriendList?> {
         return runCatching {
             onboardingDataSource.postFriendData(
                 friendGroup.toRequestSignFriendDto(),

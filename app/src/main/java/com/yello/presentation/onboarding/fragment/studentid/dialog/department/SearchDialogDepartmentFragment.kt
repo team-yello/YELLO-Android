@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.activityViewModels
-import com.example.domain.entity.onboarding.MyDepartment
+import com.example.domain.entity.onboarding.GroupList
 import com.example.ui.base.BindingBottomSheetDialog
 import com.example.ui.view.setOnSingleClickListener
 import com.yello.R
@@ -14,7 +14,7 @@ import com.yello.presentation.onboarding.activity.OnBoardingViewModel
 class SearchDialogDepartmentFragment :
     BindingBottomSheetDialog<FragmentDialogDepartmentBinding>(R.layout.fragment_dialog_department) {
 
-    private lateinit var departmentList: List<MyDepartment>
+    private lateinit var departmentList: List<GroupList>
     private var adapter: DepartmentAdapter? = null
 
     private val viewModel by activityViewModels<OnBoardingViewModel>()

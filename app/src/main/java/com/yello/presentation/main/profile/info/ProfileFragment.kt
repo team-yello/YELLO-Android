@@ -9,8 +9,6 @@ import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import coil.load
-import coil.transform.CircleCropTransformation
 import com.example.domain.entity.ProfileUserModel
 import com.example.ui.base.BindingFragment
 import com.example.ui.fragment.toast
@@ -84,7 +82,7 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
             when (state) {
                 is UiState.Success -> {
                     friendsList = state.data?.friends ?: listOf()
-                    adapter?.setItemList(friendsList)
+                    adapter?.addItemList(friendsList)
                 }
 
                 is UiState.Failure -> {
@@ -163,6 +161,7 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
         viewModel.currentPage = -1
         viewModel.isPagingFinish = false
         viewModel.totalPage = Int.MAX_VALUE
+        viewModel.getFriendsListFromServer()
     }
 
     private fun initFabUpwardListener() {
@@ -196,6 +195,5 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
         }
         adapter?.setItemList(listOf())
         binding.rvProfileFriendsList.adapter = adapter
-        viewModel.getFriendsListFromServer()
     }
 }

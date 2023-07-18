@@ -10,6 +10,7 @@ import com.example.ui.view.UiState
 import com.example.ui.view.setOnSingleClickListener
 import com.yello.R
 import com.yello.databinding.FragmentProfileBinding
+import com.yello.presentation.main.profile.ProfileViewModel
 import com.yello.presentation.main.profile.manage.ProfileManageActivity
 import com.yello.util.context.yelloSnackbar
 import dagger.hilt.android.AndroidEntryPoint
@@ -53,7 +54,7 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
                 }
 
                 is UiState.Failure -> {
-                    yelloSnackbar(requireView(), state.msg)
+                    yelloSnackbar(requireView(), "유저 정보 서버 통신 실패")
                 }
 
                 is UiState.Empty -> {}
@@ -78,7 +79,7 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
                 }
 
                 is UiState.Failure -> {
-                    yelloSnackbar(requireView(), state.msg)
+                    yelloSnackbar(requireView(), "친구 목록 서버 통신 실패")
                 }
 
                 is UiState.Empty -> {}

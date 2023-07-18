@@ -1,4 +1,4 @@
-package com.yello.presentation.main.profile.info
+package com.yello.presentation.main.profile
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -23,6 +23,9 @@ class ProfileViewModel @Inject constructor(
     private val _getListState = MutableLiveData<UiState<ProfileFriendsModel?>>()
     val getListState: LiveData<UiState<ProfileFriendsModel?>> = _getListState
 
+    private val _deleteUserState = MutableLiveData<UiState<Unit>>()
+    val deleteUserState: LiveData<UiState<Unit>> = _deleteUserState
+
     val myName: MutableLiveData<String> = MutableLiveData("")
     val myId: MutableLiveData<String> = MutableLiveData("")
     val mySchool: MutableLiveData<String> = MutableLiveData("")
@@ -46,7 +49,7 @@ class ProfileViewModel @Inject constructor(
             }.onSuccess {
                 _getState.value = UiState.Success(it)
             }.onFailure {
-                _getState.value = UiState.Failure("유저 정보 서버 통신 실패")
+                _getState.value = UiState.Failure(it.message.toString())
             }
         }
     }
@@ -59,7 +62,20 @@ class ProfileViewModel @Inject constructor(
             }.onSuccess {
                 _getListState.value = UiState.Success(it)
             }.onFailure {
-                _getListState.value = UiState.Failure("유저 정보 서버 통신 실패")
+                _getListState.value = UiState.Failure(it.message.toString())
+            }
+        }
+    }
+
+    fun deleteUserDataToServer() {
+        viewModelScope.launch {
+            _deleteUserState.value = UiState.Loading
+            runCatching {
+                profileRepository.deleteUserData()
+            }.onSuccess {
+                _deleteUserState.value = UiState.Success(it)
+            }.onFailure {
+                _deleteUserState.value = UiState.Failure("유저 정보 서버 통신 실패")
             }
         }
     }

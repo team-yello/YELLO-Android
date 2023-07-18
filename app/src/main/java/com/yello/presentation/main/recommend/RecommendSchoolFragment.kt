@@ -92,10 +92,13 @@ class RecommendSchoolFragment :
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
                 if (dy > 0) {
-                    if (!binding.rvRecommendSchool.canScrollVertically(1) &&
-                        (recyclerView.layoutManager as LinearLayoutManager).findLastVisibleItemPosition() == adapter!!.itemCount - 1
-                    ) {
-                        viewModel.addListFromServer()
+                    recyclerView.layoutManager?.let { layoutManager ->
+                        if (!binding.rvRecommendSchool.canScrollVertically(1) &&
+                            layoutManager is LinearLayoutManager &&
+                            layoutManager.findLastVisibleItemPosition() == adapter!!.itemCount - 1
+                        ) {
+                            viewModel.addListFromServer()
+                        }
                     }
                 }
             }

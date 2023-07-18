@@ -6,16 +6,22 @@ import android.content.res.Resources
 import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
+import androidx.fragment.app.activityViewModels
 import com.example.ui.base.BindingDialogFragment
+import com.example.ui.view.UiState
 import com.example.ui.view.setOnSingleClickListener
 import com.kakao.sdk.user.UserApiClient
 import com.yello.R
 import com.yello.databinding.FragmentProfileQuitDialogBinding
+import com.yello.presentation.main.profile.ProfileViewModel
+import com.yello.util.context.yelloSnackbar
 import timber.log.Timber
 
 
 class ProfileQuitDialog :
     BindingDialogFragment<FragmentProfileQuitDialogBinding>(R.layout.fragment_profile_quit_dialog) {
+
+    private val viewModel by activityViewModels<ProfileViewModel>()
 
     override fun onStart() {
         super.onStart()
@@ -27,6 +33,7 @@ class ProfileQuitDialog :
 
         initQuitButtonListener()
         initRejectButtonListener()
+        observeUserDeleteState()
     }
 
     private fun setDialogBackground() {
@@ -47,8 +54,6 @@ class ProfileQuitDialog :
     private fun initQuitButtonListener() {
         binding.btnProfileDialogQuit.setOnSingleClickListener {
             unlinkYelloAccount()
-            unlinkKakaoAccount()
-            restartApp(requireContext())
         }
     }
 
@@ -59,13 +64,31 @@ class ProfileQuitDialog :
     }
 
     private fun unlinkYelloAccount() {
+        viewModel.deleteUserDataToServer()
+    }
 
+    private fun observeUserDeleteState() {
+        viewModel.deleteUserState.observe(viewLifecycleOwner) { state ->
+            when (state) {
+                is UiState.Success -> {
+                    unlinkKakaoAccount()
+                }
+
+                is UiState.Failure -> {
+                    yelloSnackbar(requireView(), "친구 추가 서버 통신 실패")
+                }
+
+                is UiState.Loading -> {}
+
+                is UiState.Empty -> {}
+            }
+        }
     }
 
     private fun unlinkKakaoAccount() {
         UserApiClient.instance.unlink { error ->
             if (error != null) {
-                Timber.d("로그아웃 실패")
+                Timber.d("카카오 로그아웃 실패")
             } else {
                 restartApp(requireContext())
             }

@@ -10,6 +10,7 @@ import com.example.ui.fragment.toast
 import com.example.ui.view.setOnSingleClickListener
 import com.yello.R
 import com.yello.databinding.FragmentProfileFriendDeleteBottomSheetBinding
+import com.yello.presentation.main.profile.ProfileViewModel
 
 class ProfileFriendDeleteBottomSheet :
     BindingBottomSheetDialog<FragmentProfileFriendDeleteBottomSheetBinding>(R.layout.fragment_profile_friend_delete_bottom_sheet) {

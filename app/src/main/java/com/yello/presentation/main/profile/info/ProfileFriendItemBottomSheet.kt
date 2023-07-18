@@ -9,6 +9,7 @@ import com.example.ui.base.BindingBottomSheetDialog
 import com.example.ui.view.setOnSingleClickListener
 import com.yello.R
 import com.yello.databinding.FragmentProfileFriendItemBottomSheetBinding
+import com.yello.presentation.main.profile.ProfileViewModel
 
 class ProfileFriendItemBottomSheet :
     BindingBottomSheetDialog<FragmentProfileFriendItemBottomSheetBinding>(R.layout.fragment_profile_friend_item_bottom_sheet) {

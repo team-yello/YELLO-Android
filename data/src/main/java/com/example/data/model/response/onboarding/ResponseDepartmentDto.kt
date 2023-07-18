@@ -1,7 +1,7 @@
 package com.example.data.model.response.onboarding
 
-import com.example.domain.entity.GroupList
-import com.example.domain.entity.MyDepartment
+import com.example.domain.entity.onboarding.GroupList
+import com.example.domain.entity.onboarding.MyDepartment
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 

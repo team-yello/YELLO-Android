@@ -2,8 +2,10 @@ package com.example.data.remote.service
 
 import com.example.data.model.request.onboarding.RequestPostSignupDto
 import com.example.data.model.request.onboarding.RequestServiceTokenDto
+import com.example.data.model.request.onboarding.RequestSignFriendDto
 import com.example.data.model.response.BaseResponse
 import com.example.data.model.response.onboarding.ResponseDepartmentDto
+import com.example.data.model.response.onboarding.ResponseFriendDto
 import com.example.data.model.response.onboarding.ResponsePostSignupDto
 import com.example.data.model.response.onboarding.ResponseSchoolDto
 import com.example.data.model.response.onboarding.ResponseServiceTokenDto
@@ -35,4 +37,15 @@ interface OnboardingService {
     suspend fun postSignup(
         @Body requestPostSignupDto: RequestPostSignupDto,
     ): BaseResponse<ResponsePostSignupDto>
+
+    @GET("api/v1/auth/valid")
+    suspend fun getIdValid(
+        @Query("yelloId") yelloId: String,
+    ): BaseResponse<Boolean>
+
+    @POST("api/v1/auth/friend")
+    suspend fun postFriend(
+        @Body requestSignFriendDto: RequestSignFriendDto,
+        @Query("page") page: Long,
+    ): BaseResponse<ResponseFriendDto>
 }

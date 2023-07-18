@@ -1,4 +1,4 @@
-package com.example.domain.entity
+package com.example.domain.entity.onboarding
 
 data class MySchool(
     val totalCount: Int,

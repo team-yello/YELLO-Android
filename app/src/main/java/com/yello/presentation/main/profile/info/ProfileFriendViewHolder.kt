@@ -7,7 +7,10 @@ import com.example.domain.entity.ProfileFriendModel
 import com.example.ui.view.setOnSingleClickListener
 import com.yello.databinding.ItemFriendsListBinding
 
-class ProfileFriendViewHolder(val binding: ItemFriendsListBinding, private val itemClick: (ProfileFriendModel) -> (Unit)) :
+class ProfileFriendViewHolder(
+    val binding: ItemFriendsListBinding,
+    private val itemClick: (ProfileFriendModel) -> (Unit)
+) :
     RecyclerView.ViewHolder(binding.root) {
 
     fun onBind(item: ProfileFriendModel) {

@@ -16,7 +16,7 @@ interface OnboardingService {
     @POST("api/v1/auth/oauth")
     suspend fun postTokenToServiceToken(
         @Body request: RequestServiceTokenDto,
-    ): ResponseServiceTokenDto
+    ): BaseResponse<ResponseServiceTokenDto>
 
     @GET("api/v1/auth/school/school")
     suspend fun getSchoolSearchService(

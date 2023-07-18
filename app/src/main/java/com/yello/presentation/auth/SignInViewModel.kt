@@ -18,8 +18,8 @@ class SignInViewModel @Inject constructor(
     private val onboardingRepository: OnboardingRepository
 ) : ViewModel() {
 
-    private val _postState = MutableLiveData<UiState<ServiceTokenModel>>()
-    val postState: LiveData<UiState<ServiceTokenModel>> = _postState
+    private val _postState = MutableLiveData<UiState<ServiceTokenModel?>>()
+    val postState: LiveData<UiState<ServiceTokenModel?>> = _postState
 
     fun changeTokenFromServer(accessToken: String, social: String = "KAKAO") {
         viewModelScope.launch {

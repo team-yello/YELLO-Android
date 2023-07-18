@@ -82,7 +82,8 @@ class YelloViewModel @Inject constructor(
                     }
 
                     _yelloState.value = Success(Wait(voteState.leftTime))
-                    _point.value = voteState.point
+                    _leftTime.value = voteState.leftTime
+                    decreaseTime()
                 }
                 .onFailure { t ->
                     if (t is HttpException) {

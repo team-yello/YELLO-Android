@@ -157,7 +157,7 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
 
     private fun initFabUpwardListener() {
         binding.fabUpward.setOnSingleClickListener {
-            binding.rvProfileFriendsList.scrollTo(0, 0)
+            binding.rvProfileFriendsList.scrollToPosition(0)
         }
     }
 

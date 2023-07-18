@@ -14,7 +14,7 @@ data class ResponseSchoolDto(
     fun toMySchool(): SchoolList {
         return SchoolList(
             totalCount = totalCount,
-            groupNameList = groupNameList,
+            schoolList = groupNameList,
         )
     }
 }

@@ -19,6 +19,8 @@ import com.example.domain.repository.OnboardingRepository
 import com.example.ui.view.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import retrofit2.HttpException
+import timber.log.Timber
 import javax.inject.Inject
 import kotlin.math.ceil
 
@@ -87,27 +89,34 @@ class OnBoardingViewModel @Inject constructor(
     val profile: String
         get() = _profile.value ?: ""
 
-    fun addListSchool(search: String) {
-        if (isSchoolPagingFinish) return
+    // TODO: throttle 및 페이징 처리
+    fun getSchoolList(search: String) {
+        Timber.d("GET SCHOOL LIST 메서드 호출 : $search")
+        // if (isSchoolPagingFinish) return
         viewModelScope.launch {
             _schoolData.value = UiState.Loading
             onboardingRepository.getSchoolList(
                 search,
-                ++schoolPage,
+                0,
+                // ++schoolPage,
             ).onSuccess { schoolList ->
+                Timber.d("GET SCHOOL LIST SUCCESS : $schoolList")
                 if (schoolList == null) {
                     _schoolData.value = UiState.Empty
                     return@launch
                 }
-                totalSchoolPage = ceil((schoolList.totalCount * 0.1)).toInt()
-                if (totalSchoolPage == schoolPage) isSchoolPagingFinish = true
+                // totalSchoolPage = ceil((schoolList.totalCount * 0.1)).toInt()
+                // if (totalSchoolPage == schoolPage) isSchoolPagingFinish = true
                 _schoolData.value =
                     when {
-                        schoolList.groupNameList.isEmpty() -> UiState.Empty
+                        schoolList.schoolList.isEmpty() -> UiState.Empty
                         else -> UiState.Success(schoolList)
                     }
-            }.onFailure {
-                _schoolData.value = UiState.Failure("대학교 불러오기 서버 통신 실패")
+            }.onFailure { t ->
+                if (t is HttpException) {
+                    Timber.e("GET SCHOOL LIST FAILURE : $t")
+                    _schoolData.value = UiState.Failure(t.code().toString())
+                }
             }
         }
     }
@@ -135,6 +144,7 @@ class OnBoardingViewModel @Inject constructor(
             }
         }
     }
+
     fun addListFriend(friendGroup: FriendGroup) {
         if (isFriendPagingFinish) return
         viewModelScope.launch {

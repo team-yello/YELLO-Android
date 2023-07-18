@@ -2,13 +2,16 @@ package com.yello.presentation.main.profile.info
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.domain.entity.ProfileUserModel
+import com.example.ui.view.ItemDiffCallback
 import com.yello.R
+import com.yello.databinding.HeaderFriendsListBinding
 import com.yello.databinding.ItemFriendsListBinding
 
 class ProfileFriendAdapter(private val itemClick: (ProfileUserModel, Int) -> (Unit)) :
-    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+    ListAdapter<ProfileUserModel, RecyclerView.ViewHolder>(diffUtil) {
 
     private var itemList = mutableListOf<ProfileUserModel>()
 
@@ -16,7 +19,7 @@ class ProfileFriendAdapter(private val itemClick: (ProfileUserModel, Int) -> (Un
 
         return when (viewType) {
             VIEW_TYPE_HEADER -> ProfileHeaderViewHolder(
-                ItemFriendsListBinding.inflate(
+                HeaderFriendsListBinding.inflate(
                     LayoutInflater.from(parent.context), parent, false
                 )
             )
@@ -38,7 +41,8 @@ class ProfileFriendAdapter(private val itemClick: (ProfileUserModel, Int) -> (Un
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if (holder is ProfileFriendViewHolder) {
-            holder.onBind(itemList[position], position)
+            val itemPosition = position - HEADER_COUNT
+            holder.onBind(itemList[itemPosition], itemPosition)
         }
     }
 
@@ -70,6 +74,11 @@ class ProfileFriendAdapter(private val itemClick: (ProfileUserModel, Int) -> (Un
     }
 
     companion object {
+        private val diffUtil = ItemDiffCallback<ProfileUserModel>(
+            onItemsTheSame = { old, new -> old.userId == new.userId },
+            onContentsTheSame = { old, new -> old == new },
+        )
+
         private const val HEADER_COUNT = 1
 
         const val VIEW_TYPE_HEADER = 0

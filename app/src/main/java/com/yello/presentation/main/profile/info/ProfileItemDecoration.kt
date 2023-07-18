@@ -12,7 +12,7 @@ import com.yello.R
 
 class ProfileItemDecoration(context: Context) : RecyclerView.ItemDecoration() {
     private val dividerHeight = dpToPx(context, 1)
-    private val dividerMargin = dpToPx(context, 8)
+    private val dividerMargin = dpToPx(context, 24)
     private val dividerColor = ContextCompat.getColor(context, R.color.grayscales_800)
     private val dividerPaint = Paint()
 
@@ -27,7 +27,12 @@ class ProfileItemDecoration(context: Context) : RecyclerView.ItemDecoration() {
         state: RecyclerView.State
     ) {
         super.getItemOffsets(outRect, view, parent, state)
-        outRect.bottom = dividerHeight
+        val position = parent.getChildAdapterPosition(view)
+        if (position == 0) {
+            outRect.setEmpty()
+        } else {
+            outRect.bottom = dividerHeight
+        }
     }
 
     override fun onDraw(c: Canvas, parent: RecyclerView, state: RecyclerView.State) {

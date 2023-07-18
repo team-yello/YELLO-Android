@@ -1,9 +1,9 @@
 package com.yello.presentation.main.profile.info
 
 import androidx.recyclerview.widget.RecyclerView
-import com.yello.databinding.ItemFriendsListBinding
+import com.yello.databinding.HeaderFriendsListBinding
 
 class ProfileHeaderViewHolder(
-    val binding: ItemFriendsListBinding
+    val binding: HeaderFriendsListBinding
 ) :
     RecyclerView.ViewHolder(binding.root)

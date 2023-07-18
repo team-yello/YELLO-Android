@@ -61,11 +61,7 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
                     viewModel.myTotalMsg.value = state.data?.yelloCount.toString()
                     viewModel.myTotalFriends.value = state.data?.friendCount.toString()
                     viewModel.myTotalPoints.value = state.data?.point.toString()
-                    if (viewModel.myThumbnail.value != "") {
-                        binding.ivProfileInfoThumbnail.load(viewModel.myThumbnail.value) {
-                            transformations(CircleCropTransformation())
-                        }
-                    }
+                    viewModel.myThumbnail.value = state.data?.profileImageUrl
                 }
 
                 is UiState.Failure -> {
@@ -138,7 +134,7 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
     }
 
     private fun setFabVisibility() {
-        binding.svProfile.setOnScrollChangeListener { view, _, _, _, _ ->
+        binding.rvProfileFriendsList.setOnScrollChangeListener { view, _, _, _, _ ->
             // 최상단인 경우에만 GONE 표시
             binding.fabUpward.isVisible = view.canScrollVertically(-1)
         }
@@ -171,7 +167,7 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
 
     private fun initFabUpwardListener() {
         binding.fabUpward.setOnSingleClickListener {
-            binding.svProfile.scrollTo(0, 0)
+            binding.rvProfileFriendsList.scrollTo(0, 0)
         }
     }
 

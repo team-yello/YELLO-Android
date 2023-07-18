@@ -21,18 +21,14 @@ class YelloWaitFragment : BindingFragment<FragmentYelloWaitBinding>(R.layout.fra
         binding.vm = viewModel
 
         initCircularProgressBar()
-        startTimer()
         initInviteBtnClickListener()
     }
 
     private fun initCircularProgressBar() {
+        binding.cpbWaitTimer.progress = viewModel.leftTime.value?.toFloat() ?: 0f
         viewModel.leftTime.observe(viewLifecycleOwner) { time ->
             binding.cpbWaitTimer.progress = time.toFloat()
         }
-    }
-
-    private fun startTimer() {
-        viewModel.decreaseTime()
     }
 
     private fun initInviteBtnClickListener() {

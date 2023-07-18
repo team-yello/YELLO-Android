@@ -191,13 +191,11 @@ class OnBoardingViewModel @Inject constructor(
     fun checkEmptyName(name: String): Boolean {
         return name.isNullOrBlank()
     }
-
-    fun checkRegaxName(name: String): Boolean {
+    private fun checkRegexName(name: String): Boolean {
         return name.matches("^[ㄱ-ㅎㅏ-ㅣ가-힣]\$".toRegex())
     }
 
-    // 문자, 숫자, 및줄, 마침표만 사용 정규표현식
-    fun checkRegaxId(id: String): Boolean {
+    private fun checkRegexId(id: String): Boolean {
         return id.matches("^[A-Za-z0-9_.]*\$".toRegex())
     }
 

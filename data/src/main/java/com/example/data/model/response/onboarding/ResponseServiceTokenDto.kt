@@ -11,20 +11,20 @@ data class ResponseServiceTokenDto(
     @SerialName("message")
     val message: String,
     @SerialName("data")
-    val data: ServiceToken
+    val data: ServiceToken,
 ) {
     @Serializable
     data class ServiceToken(
         @SerialName("accessToken")
         val accessToken: String,
         @SerialName("refreshToken")
-        val refreshToken: String
+        val refreshToken: String,
     )
 
     fun toServiceTokenModel(): ServiceTokenModel {
         return ServiceTokenModel(
             accessToken = data.accessToken,
-            refreshToken = data.refreshToken
+            refreshToken = data.refreshToken,
         )
     }
 }

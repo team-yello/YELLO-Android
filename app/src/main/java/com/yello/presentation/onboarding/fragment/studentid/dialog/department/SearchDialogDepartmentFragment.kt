@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.activityViewModels
-import com.example.domain.entity.MyDepartment
+import com.example.domain.entity.onboarding.MyDepartment
 import com.example.ui.base.BindingBottomSheetDialog
 import com.example.ui.view.setOnSingleClickListener
 import com.yello.R
@@ -22,8 +22,9 @@ class SearchDialogDepartmentFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.vm = viewModel
+
         initDepartmentAdapter()
-        observe()
+        setupDepartmentData()
     }
 
     private fun initDepartmentAdapter() {
@@ -35,7 +36,7 @@ class SearchDialogDepartmentFragment :
         binding.rvDepartmentList.adapter = adapter
     }
 
-    private fun observe() {
+    private fun setupDepartmentData() {
         viewModel.departmentData.observe(viewLifecycleOwner) {
             adapter?.submitList(departmentList)
         }

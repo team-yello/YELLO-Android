@@ -1,6 +1,6 @@
 package com.example.data.model.response.onboarding
 
-import com.example.domain.entity.MySchool
+import com.example.domain.entity.onboarding.MySchool
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 

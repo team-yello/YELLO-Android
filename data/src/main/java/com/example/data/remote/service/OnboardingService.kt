@@ -1,8 +1,10 @@
 package com.example.data.remote.service
 
 import com.example.data.model.request.onboarding.RequestServiceTokenDto
+import com.example.data.model.request.onboarding.RequestSignFriendDto
 import com.example.data.model.response.BaseResponse
 import com.example.data.model.response.onboarding.ResponseDepartmentDto
+import com.example.data.model.response.onboarding.ResponseFriendDto
 import com.example.data.model.response.onboarding.ResponseSchoolDto
 import com.example.data.model.response.onboarding.ResponseServiceTokenDto
 import retrofit2.http.Body
@@ -29,4 +31,15 @@ interface OnboardingService {
         @Query("search") search: String,
         @Query("page") page: Long,
     ): BaseResponse<ResponseDepartmentDto>
+
+    @GET("api/v1/auth/valid")
+    suspend fun getIdValid(
+        @Query("yelloId") yelloId: String,
+    ): BaseResponse<Boolean>
+
+    @POST("api/v1/auth/friend")
+    suspend fun postFriend(
+        @Body requestSignFriendDto: RequestSignFriendDto,
+        @Query("page") page: Long,
+    ): BaseResponse<ResponseFriendDto>
 }

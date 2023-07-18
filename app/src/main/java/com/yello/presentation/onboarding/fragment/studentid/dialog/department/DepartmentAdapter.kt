@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.domain.entity.MyDepartment
+import com.example.domain.entity.onboarding.MyDepartment
 import com.example.ui.view.ItemDiffCallback
 import com.example.ui.view.setOnSingleClickListener
 import com.yello.databinding.ItemDepartmentListBinding
@@ -26,7 +26,7 @@ class DepartmentAdapter(
     }
 
     override fun onBindViewHolder(holder: DepartmentViewHolder, position: Int) {
-        holder.setdepartment(getItem(position))
+        holder.setDepartment(getItem(position))
     }
 
     class DepartmentViewHolder(
@@ -34,7 +34,7 @@ class DepartmentAdapter(
         private val storeDepartment: (String) -> Unit,
     ) :
         RecyclerView.ViewHolder(binding.root) {
-        fun setdepartment(department: MyDepartment) {
+        fun setDepartment(department: MyDepartment) {
             binding.data = department.toString()
             binding.root.setOnSingleClickListener {
                 storeDepartment(binding.tvDepartmentName.text.toString())

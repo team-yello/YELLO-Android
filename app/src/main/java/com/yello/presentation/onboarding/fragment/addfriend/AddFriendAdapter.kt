@@ -7,14 +7,14 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import coil.transform.CircleCropTransformation
-import com.example.domain.entity.MyFriend
+import com.example.domain.entity.onboarding.Friend
 import com.example.ui.view.ItemDiffCallback
 import com.example.ui.view.setOnSingleClickListener
 import com.yello.R
 import com.yello.databinding.ItemAddfriendBinding
 
-class AddFriendAdapter(private val itemClick: (MyFriend, Int) -> (Unit)) :
-    ListAdapter<MyFriend, AddFriendAdapter.AddFriendViewHolder>(diffUtil) {
+class AddFriendAdapter(private val itemClick: (Friend, Int) -> (Unit)) :
+    ListAdapter<Friend, AddFriendAdapter.AddFriendViewHolder>(diffUtil) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AddFriendViewHolder {
         return AddFriendViewHolder(
             ItemAddfriendBinding.inflate(
@@ -27,22 +27,32 @@ class AddFriendAdapter(private val itemClick: (MyFriend, Int) -> (Unit)) :
     }
 
     override fun onBindViewHolder(holder: AddFriendViewHolder, position: Int) {
-        holder.setfriend(getItem(position), position)
+        holder.setFriend(getItem(position), position)
     }
 
     class AddFriendViewHolder(
         private val binding: ItemAddfriendBinding,
-        private val itemClick: (MyFriend, Int) -> Unit,
+        private val itemClick: (Friend, Int) -> Unit,
     ) : RecyclerView.ViewHolder(binding.root) {
-        fun setfriend(friend: MyFriend, position: Int) {
-            binding.ivFriendProfile.load(friend.profile) {
+        fun setFriend(friend: Friend, position: Int) {
+            binding.ivFriendProfile.load(friend.profileImage) {
                 transformations(CircleCropTransformation())
             }
             binding.tvFriendName.text = friend.name
-            binding.tvFriendDepartment.text = friend.department
-            binding.ivFreindCheck.isSelected = friend.isSelcted
-            binding.tvFriendName.setTextColor(ContextCompat.getColor(itemView.context, if (friend.isSelcted) R.color.white else R.color.grayscales_onbarding_light))
-            binding.tvFriendDepartment.setTextColor(ContextCompat.getColor(itemView.context, if (friend.isSelcted) R.color.grayscales_500 else R.color.grayscales_onbarding_dark))
+            binding.tvFriendDepartment.text = friend.groupName
+            binding.ivFreindCheck.isSelected = friend.isSelected
+            binding.tvFriendName.setTextColor(
+                ContextCompat.getColor(
+                    itemView.context,
+                    if (friend.isSelected) R.color.white else R.color.grayscales_onbarding_light,
+                ),
+            )
+            binding.tvFriendDepartment.setTextColor(
+                ContextCompat.getColor(
+                    itemView.context,
+                    if (friend.isSelected) R.color.grayscales_500 else R.color.grayscales_onbarding_dark,
+                ),
+            )
 
             binding.root.setOnSingleClickListener {
                 itemClick(friend, position)
@@ -51,7 +61,7 @@ class AddFriendAdapter(private val itemClick: (MyFriend, Int) -> (Unit)) :
     }
 
     companion object {
-        private val diffUtil = ItemDiffCallback<MyFriend>(
+        private val diffUtil = ItemDiffCallback<Friend>(
             onItemsTheSame = { old, new -> old.name == new.name },
             onContentsTheSame = { old, new -> old == new },
         )

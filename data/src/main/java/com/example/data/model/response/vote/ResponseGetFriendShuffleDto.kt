@@ -11,7 +11,7 @@ data class ResponseGetFriendShuffleDto(
     @SerialName("friendName")
     val friendName: String,
     @SerialName("friendYelloId")
-    val friendYelloId: String
+    val friendYelloId: String,
 ) {
     fun toFriend() = Friend(
         id = friendId,

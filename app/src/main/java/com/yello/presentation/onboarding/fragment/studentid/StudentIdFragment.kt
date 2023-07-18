@@ -19,11 +19,11 @@ class StudentIdFragment : BindingFragment<FragmentStudentidBinding>(R.layout.fra
         binding.vm = viewModel
 
         initSearchDepartmentBtnClickListener()
-        initSearchStudentidBtnClickListener()
+        initSearchStudentIdBtnClickListener()
         setConfirmBtnClickListener()
         setBackBtnClickListener()
         setupDepartment()
-        setupStudentid()
+        setupStudentId()
         binding.tvDepartmentSearch.doAfterTextChanged {
             it.toString()
         }
@@ -35,7 +35,7 @@ class StudentIdFragment : BindingFragment<FragmentStudentidBinding>(R.layout.fra
         }
     }
 
-    private fun initSearchStudentidBtnClickListener() {
+    private fun initSearchStudentIdBtnClickListener() {
         binding.tvStudentidSearch.setOnSingleClickListener {
             StudentidDialogFragment().show(parentFragmentManager, this.tag)
         }
@@ -58,7 +58,7 @@ class StudentIdFragment : BindingFragment<FragmentStudentidBinding>(R.layout.fra
         }
     }
 
-    private fun setupStudentid() {
+    private fun setupStudentId() {
         viewModel._studentid.observe(viewLifecycleOwner) { studentid ->
             binding.tvStudentidSearch.text = studentid
         }

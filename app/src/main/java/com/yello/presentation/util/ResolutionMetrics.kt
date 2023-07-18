@@ -8,7 +8,7 @@ import javax.inject.Inject
 import kotlin.math.roundToInt
 
 class ResolutionMetrics @Inject constructor(
-    @ApplicationContext private val application: Application
+    @ApplicationContext private val application: Application,
 ) {
     private val displayMetrics
         get() = application.resources.displayMetrics

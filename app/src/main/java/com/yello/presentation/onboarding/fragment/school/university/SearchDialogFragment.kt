@@ -5,7 +5,7 @@ import android.view.View
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
-import com.example.domain.entity.MySchool
+import com.example.domain.entity.onboarding.MySchool
 import com.example.ui.base.BindingBottomSheetDialog
 import com.example.ui.view.setOnSingleClickListener
 import com.yello.R

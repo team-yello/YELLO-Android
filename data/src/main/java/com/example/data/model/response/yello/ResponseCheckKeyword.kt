@@ -5,7 +5,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class ResponseCheckKeyword(
-    val answer: String
+    val answer: String,
 ) {
     fun toCheckKeyword(): CheckKeyword {
         return CheckKeyword(answer)

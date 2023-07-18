@@ -1,4 +1,5 @@
 package com.yello.presentation.onboarding.activity
+
 import android.os.Bundle
 import androidx.activity.viewModels
 import com.example.ui.base.BindingActivity
@@ -11,8 +12,10 @@ import dagger.hilt.android.AndroidEntryPoint
 class OnBoardingActivity :
     BindingActivity<ActivityOnboardingBinding>(R.layout.activity_onboarding) {
     private val viewModel by viewModels<OnBoardingViewModel>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         initViewPager()
         setupCurrentPage()
     }

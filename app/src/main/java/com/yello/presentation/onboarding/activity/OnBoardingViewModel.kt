@@ -5,14 +5,14 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
-import com.example.domain.entity.MyCode
-import com.example.domain.entity.MyDepartment
-import com.example.domain.entity.MyFriend
-import com.example.domain.entity.MyGender
-import com.example.domain.entity.MyId
 import com.example.domain.entity.MyName
-import com.example.domain.entity.MySchool
 import com.example.domain.entity.MyStudentid
+import com.example.domain.entity.onboarding.MyCode
+import com.example.domain.entity.onboarding.MyDepartment
+import com.example.domain.entity.onboarding.Friend
+import com.example.domain.entity.onboarding.MyGender
+import com.example.domain.entity.onboarding.MyId
+import com.example.domain.entity.onboarding.MySchool
 import com.example.domain.repository.OnboardingRepository
 import com.example.ui.view.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -53,13 +53,17 @@ class OnBoardingViewModel @Inject constructor(
             onboardingRepository.getSchoolService(
                 search,
                 ++schoolPage,
-            ).onSuccess {
-                totalSchoolPage = Math.ceil((it.totalCount * 0.1)).toLong()
+            ).onSuccess { school ->
+                if (school == null) {
+                    _schoolData.value = UiState.Empty
+                    return@launch
+                }
+                totalSchoolPage = Math.ceil((school.totalCount * 0.1)).toLong()
                 if (totalSchoolPage == schoolPage) isSchoolPagingFinish = true
                 _schoolData.value =
                     when {
-                        it.groupNameList.isEmpty() -> UiState.Empty
-                        else -> UiState.Success(it)
+                        school.groupNameList.isEmpty() -> UiState.Empty
+                        else -> UiState.Success(school)
                     }
             }.onFailure {
                 _schoolData.value = UiState.Failure("대학교 불러오기 서버 통신 실패")
@@ -75,13 +79,17 @@ class OnBoardingViewModel @Inject constructor(
                 school,
                 search,
                 ++departmentPage,
-            ).onSuccess {
-                totalDepartmentPage = Math.ceil((it.totalCount * 0.1)).toLong()
+            ).onSuccess { department ->
+                if (department == null) {
+                    _departmentData.value = UiState.Empty
+                    return@launch
+                }
+                totalDepartmentPage = Math.ceil((department.totalCount * 0.1)).toLong()
                 if (totalDepartmentPage == departmentPage) isDepartmentPagingFinish = true
                 _departmentData.value =
                     when {
-                        it.groupList.isEmpty() -> UiState.Empty
-                        else -> UiState.Success(it)
+                        department.groupList.isEmpty() -> UiState.Empty
+                        else -> UiState.Success(department)
                     }
             }
         }
@@ -153,8 +161,8 @@ class OnBoardingViewModel @Inject constructor(
     private val _studentidResult: MutableLiveData<List<MyStudentid>> = MutableLiveData()
     val studentidResult: LiveData<List<MyStudentid>> = _studentidResult
 
-    private val _friendResult: MutableLiveData<List<MyFriend>> = MutableLiveData()
-    val friendResult: LiveData<List<MyFriend>> = _friendResult
+    private val _friendResult: MutableLiveData<List<Friend>> = MutableLiveData()
+    val friendResult: LiveData<List<Friend>> = _friendResult
 
     private val _idResult: MutableLiveData<List<MyId>> = MutableLiveData()
     val idResult: LiveData<List<MyId>> = _idResult
@@ -247,13 +255,13 @@ class OnBoardingViewModel @Inject constructor(
         _studentidResult.value = mockList
     }
 
-    fun addFriend() {
-        val mockList = listOf(
-            MyFriend(1, "서울여자대학교 시각디자인과", "성신여자대학교 산업디자인과"),
-            MyFriend(2, "강국희", "성신여자대학교 산업디자인과"),
-            MyFriend(3, "이의제", "송민호대학교 컴퓨터공화과"),
-            MyFriend(4, "고경표", "상호대학교 컴퓨터공학과"),
-        )
-        _friendResult.value = mockList
-    }
+//    fun addFriend() {
+//        val mockList = listOf(
+//            MyFriend(1, "서울여자대학교 시각디자인과", "성신여자대학교 산업디자인과"),
+//            MyFriend(2, "강국희", "성신여자대학교 산업디자인과"),
+//            MyFriend(3, "이의제", "송민호대학교 컴퓨터공화과"),
+//            MyFriend(4, "고경표", "상호대학교 컴퓨터공학과"),
+//        )
+//        _friendResult.value = mockList
+//    }
 }

@@ -10,16 +10,18 @@ import com.yello.databinding.FragmentCodeBinding
 import com.yello.presentation.onboarding.activity.OnBoardingViewModel
 
 class CodeFragment : BindingFragment<FragmentCodeBinding>(R.layout.fragment_code) {
-
     private val viewModel by activityViewModels<OnBoardingViewModel>()
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.vm = viewModel
+
         setConfirmBtnClickListener()
         setConfirmBtnCLickListener()
         setDeleteCodeBtnClickListener()
         setDeleteIdBtnClickListener()
-        binding.vm = viewModel
     }
+
     private fun setConfirmBtnClickListener() {
         binding.btnCodeNext.setOnSingleClickListener {
             viewModel.navigateToNextPage()

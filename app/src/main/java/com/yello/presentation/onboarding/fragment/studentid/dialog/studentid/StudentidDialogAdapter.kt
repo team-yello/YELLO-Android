@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.domain.entity.MyStudentid
+import com.example.domain.entity.MyStudentId
 import com.example.ui.view.ItemDiffCallback
 import com.example.ui.view.setOnSingleClickListener
 import com.yello.R
@@ -14,7 +14,7 @@ import com.yello.databinding.ItemStudentidListBinding
 class StudentidDialogAdapter(
     requireContext: Context,
     private val storeStudentId: (String) -> Unit,
-) : ListAdapter<MyStudentid, StudentidDialogAdapter.StudentIdViewHolder>(diffUtil) {
+) : ListAdapter<MyStudentId, StudentidDialogAdapter.StudentIdViewHolder>(diffUtil) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StudentIdViewHolder {
         return StudentIdViewHolder(
             ItemStudentidListBinding.inflate(
@@ -35,7 +35,7 @@ class StudentidDialogAdapter(
         private val storeStudentId: (String) -> Unit,
     ) :
         RecyclerView.ViewHolder(binding.root) {
-        fun setStudentId(id: MyStudentid) {
+        fun setStudentId(id: MyStudentId) {
             binding.data = id
             binding.root.setOnSingleClickListener {
                 storeStudentId(binding.tvItemStudentId.text.toString())
@@ -45,8 +45,8 @@ class StudentidDialogAdapter(
     }
 
     companion object {
-        private val diffUtil = ItemDiffCallback<MyStudentid>(
-            onItemsTheSame = { old, new -> old.studentid == new.studentid },
+        private val diffUtil = ItemDiffCallback<MyStudentId>(
+            onItemsTheSame = { old, new -> old.studentId == new.studentId },
             onContentsTheSame = { old, new -> old == new },
         )
     }

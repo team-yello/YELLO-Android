@@ -5,7 +5,6 @@ import android.view.View
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
-import com.example.domain.entity.onboarding.MySchool
 import com.example.ui.base.BindingBottomSheetDialog
 import com.example.ui.view.setOnSingleClickListener
 import com.yello.R
@@ -15,7 +14,7 @@ import com.yello.presentation.onboarding.fragment.school.SchoolAdapter
 
 class SearchDialogFragment :
     BindingBottomSheetDialog<FragmentDialogSchoolBinding>(R.layout.fragment_dialog_school) {
-    private lateinit var schoolList: List<MySchool>
+    private lateinit var schoolList: List<String>
     private var adapter: SchoolAdapter? = null
 
     private val viewModel by activityViewModels<OnBoardingViewModel>()
@@ -43,7 +42,7 @@ class SearchDialogFragment :
         }
     }
 
-    fun storeSchool(school: String) {
+    private fun storeSchool(school: String) {
         viewModel.setSchool(school)
         dismiss()
         binding.layoutSchoolDialog.setOnSingleClickListener {

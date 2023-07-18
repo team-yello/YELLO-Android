@@ -6,7 +6,7 @@
     <data>
         <variable
             name="data"
-            type="com.example.domain.entity.MyStudentid" />
+            type="com.example.domain.entity.MyStudentId" />
 
     </data>
 
@@ -23,7 +23,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:text="@{data.studentid}"
+            android:text="@{data.studentId}"
             android:textAlignment="center"
             android:paddingVertical="8dp"
             android:textAppearance="?textAppearanceBodyLarge"

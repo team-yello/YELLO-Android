@@ -23,7 +23,7 @@ interface OnboardingService {
     @GET("api/v1/auth/school/school")
     suspend fun getSchoolSearchService(
         @Query("search") search: String,
-        @Query("page") page: Long,
+        @Query("page") page: Int,
     ): BaseResponse<ResponseSchoolDto>
 
     @GET("api/v1/auth/school/department")

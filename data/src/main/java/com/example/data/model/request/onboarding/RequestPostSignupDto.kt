@@ -6,7 +6,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class RequestPostSignupDto(
     @SerialName("social")
-    val social: String,
+    val social: String = "KAKAO",
     @SerialName("uuid")
     val uuid: Int,
     @SerialName("email")

@@ -30,7 +30,7 @@ class YelloViewModel @Inject constructor(
     val yelloState: LiveData<UiState<YelloState>>
         get() = _yelloState
 
-    private val _leftTime = MutableLiveData<Long>()
+    val _leftTime = MutableLiveData<Long>()
     val leftTime: LiveData<Long>
         get() = _leftTime
 

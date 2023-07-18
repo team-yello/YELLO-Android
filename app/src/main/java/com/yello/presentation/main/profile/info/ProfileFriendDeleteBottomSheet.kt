@@ -32,9 +32,9 @@ class ProfileFriendDeleteBottomSheet :
         initReturnButton()
         initDeleteButton()
         observeFriendDeleteState()
+        setItemData()
     }
 
-    // TODO: 추후 바인딩어댑터 적용하기
     private fun setItemData() {
         if (viewModel.clickedItemThumbnail.value != "") {
             binding.ivProfileFriendDeleteThumbnail.load(viewModel.clickedItemThumbnail.value) {

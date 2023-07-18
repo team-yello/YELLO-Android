@@ -28,9 +28,9 @@ class ProfileFriendItemBottomSheet :
 
         binding.vm = viewModel
         initDeleteButton()
+        setItemData()
     }
 
-    // TODO: 추후 바인딩어댑터 적용하기
     private fun setItemData() {
         if (viewModel.clickedItemThumbnail.value != "") {
             binding.ivProfileFriendThumbnail.load(viewModel.clickedItemThumbnail.value) {

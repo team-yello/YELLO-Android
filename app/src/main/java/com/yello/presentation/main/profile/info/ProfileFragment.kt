@@ -9,6 +9,8 @@ import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
+import coil.transform.CircleCropTransformation
 import com.example.ui.base.BindingFragment
 import com.example.ui.fragment.toast
 import com.example.ui.view.UiState
@@ -40,7 +42,7 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
         observeFriendsDataState()
         observeFriendDeleteState()
         // TODO: 유저 아이디 어디에다가 저장해둔거지
-        setUserData(userid = 148)
+        setUserData(148)
         setDeleteAnimation()
         setItemDivider()
         setListWithInfinityScroll()
@@ -54,11 +56,15 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
                     viewModel.myName.value = state.data?.name
                     viewModel.myId.value = "@" + state.data?.yelloId
                     viewModel.mySchool.value = state.data?.group
-                    // TODO: 서버통신 후 이미지도 처리하기 - 바인딩어댑터
-                    // viewModel.myThumbnail.value = state.data.profileImageUrl
+                    viewModel.myThumbnail.value = state.data?.profileImageUrl
                     viewModel.myTotalMsg.value = state.data?.yelloCount.toString()
                     viewModel.myTotalFriends.value = state.data?.friendCount.toString()
                     viewModel.myTotalPoints.value = state.data?.point.toString()
+                    if (viewModel.myThumbnail.value != "") {
+                        binding.ivProfileInfoThumbnail.load(viewModel.myThumbnail.value) {
+                            transformations(CircleCropTransformation())
+                        }
+                    }
                 }
 
                 is UiState.Failure -> {
@@ -72,8 +78,8 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
         }
     }
 
-    private fun setUserData(userid: Int) {
-        viewModel.getUserDataFromServer(userid)
+    private fun setUserData(userId: Int) {
+        viewModel.getUserDataFromServer(userId)
     }
 
     private fun observeFriendsDataState() {
@@ -191,8 +197,7 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
             viewModel.clickedItemName.value = profileUserModel.name
             viewModel.clickedItemYelloId.value = "@" + profileUserModel.yelloId
             viewModel.clickedItemSchool.value = profileUserModel.group
-            // TODO: 서버통신 후 이미지도 처리하기 - 바인딩어댑터
-            // viewModel.clickedItemThumbnail.value = profileUserModel.profileImageUrl
+            viewModel.clickedItemThumbnail.value = profileUserModel.profileImageUrl
             viewModel.clickedItemTotalMsg.value = profileUserModel.yelloCount.toString()
             viewModel.clickedItemTotalFriends.value = profileUserModel.friendCount.toString()
 

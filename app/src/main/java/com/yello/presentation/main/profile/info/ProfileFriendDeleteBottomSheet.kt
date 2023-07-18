@@ -12,7 +12,6 @@ import com.example.ui.view.setOnSingleClickListener
 import com.yello.R
 import com.yello.databinding.FragmentProfileFriendDeleteBottomSheetBinding
 import com.yello.presentation.main.profile.ProfileViewModel
-import com.yello.util.context.yelloSnackbar
 
 class ProfileFriendDeleteBottomSheet :
     BindingBottomSheetDialog<FragmentProfileFriendDeleteBottomSheetBinding>(R.layout.fragment_profile_friend_delete_bottom_sheet) {
@@ -51,12 +50,12 @@ class ProfileFriendDeleteBottomSheet :
 
     private fun initDeleteButton() {
         binding.btnProfileFriendDeleteResume.setOnSingleClickListener {
-            viewModel.clickedItemId.value?.let { friendId -> unlinkFriendAccount(friendId) }
+            viewModel.clickedItemId.value?.let { friendId ->
+                viewModel.deleteFriendDataToServer(
+                    friendId
+                )
+            }
         }
-    }
-
-    private fun unlinkFriendAccount(friendId: Int) {
-        viewModel.deleteFriendDataToServer(friendId)
     }
 
     private fun observeFriendDeleteState() {
@@ -65,6 +64,7 @@ class ProfileFriendDeleteBottomSheet :
                 is UiState.Success -> {
                     toast("${viewModel.clickedItemName.value} 님과 친구 끊기를 완료했어요.")
                     dismiss()
+                    viewModel._deleteFriendState.value = UiState.Empty
                 }
 
                 is UiState.Failure -> {

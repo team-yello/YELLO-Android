@@ -8,7 +8,6 @@ import com.example.domain.entity.ProfileFriendsModel
 import com.example.domain.entity.ProfileUserModel
 import com.example.domain.repository.ProfileRepository
 import com.example.ui.view.UiState
-import com.yello.presentation.main.recommend.RecommendViewHolder
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -28,12 +27,13 @@ class ProfileViewModel @Inject constructor(
     private val _deleteUserState = MutableLiveData<UiState<Unit>>()
     val deleteUserState: LiveData<UiState<Unit>> = _deleteUserState
 
-    private val _deleteFriendState = MutableLiveData<UiState<Unit>>()
+    // TODO: 세터 설정 필요
+    val _deleteFriendState = MutableLiveData<UiState<Unit>>()
     val deleteFriendState: LiveData<UiState<Unit>> = _deleteFriendState
 
-    private var currentPage = -1
-    private var isPagingFinish = false
-    private var totalPage = Int.MAX_VALUE
+    var currentPage = -1
+    var isPagingFinish = false
+    var totalPage = Int.MAX_VALUE
 
     val myName: MutableLiveData<String> = MutableLiveData("")
     val myId: MutableLiveData<String> = MutableLiveData("")
@@ -50,6 +50,7 @@ class ProfileViewModel @Inject constructor(
     val clickedItemThumbnail: MutableLiveData<String> = MutableLiveData("")
     val clickedItemTotalMsg: MutableLiveData<String> = MutableLiveData("")
     val clickedItemTotalFriends: MutableLiveData<String> = MutableLiveData("")
+
     var clickedItemPosition: Int? = null
 
     fun setItemPosition(position: Int) {
@@ -69,8 +70,7 @@ class ProfileViewModel @Inject constructor(
         }
     }
 
-    fun getFriendsDataFromServer() {
-
+    fun getFriendsListFromServer() {
         viewModelScope.launch {
             if (isPagingFinish) return@launch
             runCatching {
@@ -105,7 +105,9 @@ class ProfileViewModel @Inject constructor(
         viewModelScope.launch {
             _deleteFriendState.value = UiState.Loading
             runCatching {
-                profileRepository.deleteFriendData(friendId)
+                profileRepository.deleteFriendData(
+                    friendId
+                )
             }.onSuccess {
                 _deleteFriendState.value = UiState.Success(it)
             }.onFailure {

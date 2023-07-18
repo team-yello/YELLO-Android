@@ -41,8 +41,8 @@ class ProfileFriendItemBottomSheet :
 
     private fun initDeleteButton() {
         binding.btnProfileFriendDelete.setOnSingleClickListener {
-            dismiss()
             profileFriendDeleteBottomSheet.show(parentFragmentManager, "Dialog")
+            dismiss()
         }
     }
 }

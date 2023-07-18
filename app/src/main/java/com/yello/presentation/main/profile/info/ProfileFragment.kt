@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import coil.transform.CircleCropTransformation
+import com.example.domain.entity.ProfileUserModel
 import com.example.ui.base.BindingFragment
 import com.example.ui.fragment.toast
 import com.example.ui.view.UiState
@@ -27,21 +28,21 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
 
     private val viewModel by activityViewModels<ProfileViewModel>()
     private var adapter: ProfileFriendAdapter? = null
+    private lateinit var friendsList: List<ProfileUserModel>
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.vm = viewModel
-
-        initAddGroupButtonListener()
-        initProfileManageActivityWithoutFinish()
         initItemClickListenerWithAdapter()
+        initViewModel()
+        initProfileManageActivityWithoutFinish()
         initFabUpwardListener()
 
         observeUserDataState()
         observeFriendsDataState()
         observeFriendDeleteState()
-        // TODO: 유저 아이디 어디에다가 저장해둔거지
+
+        // TODO: 유저 아이디 가져오기
         setUserData(148)
         setDeleteAnimation()
         setItemDivider()
@@ -86,10 +87,8 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
         viewModel.getListState.observe(viewLifecycleOwner) { state ->
             when (state) {
                 is UiState.Success -> {
-                    val friendsList = state.data?.friends ?: listOf()
-                    binding.rvProfileFriendsList.adapter = adapter?.apply {
-                        addItemList(friendsList)
-                    }
+                    friendsList = state.data?.friends ?: listOf()
+                    adapter?.setItemList(friendsList)
                 }
 
                 is UiState.Failure -> {
@@ -109,11 +108,8 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
                 super.onScrolled(recyclerView, dx, dy)
                 if (dy > 0) {
                     recyclerView.layoutManager?.let { layoutManager ->
-                        if (!binding.rvProfileFriendsList.canScrollVertically(1) &&
-                            layoutManager is LinearLayoutManager &&
-                            layoutManager.findLastVisibleItemPosition() == adapter!!.itemCount - 1
-                        ) {
-                            viewModel.getFriendsDataFromServer()
+                        if (!binding.rvProfileFriendsList.canScrollVertically(1) && layoutManager is LinearLayoutManager && layoutManager.findLastVisibleItemPosition() == adapter!!.itemCount - 1) {
+                            viewModel.getFriendsListFromServer()
                         }
                     }
                 }
@@ -166,10 +162,11 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
         }
     }
 
-    private fun initAddGroupButtonListener() {
-        binding.btnProfileAddGroup.setOnSingleClickListener {
-            // TODO: 그룹 추가 로직
-        }
+    private fun initViewModel() {
+        binding.vm = viewModel
+        viewModel.currentPage = -1
+        viewModel.isPagingFinish = false
+        viewModel.totalPage = Int.MAX_VALUE
     }
 
     private fun initFabUpwardListener() {
@@ -188,11 +185,9 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
     }
 
     private fun initItemClickListenerWithAdapter() {
-        viewModel.getFriendsDataFromServer()
         adapter = ProfileFriendAdapter { profileUserModel, position ->
 
             viewModel.setItemPosition(position)
-
             viewModel.clickedItemId.value = profileUserModel.userId
             viewModel.clickedItemName.value = profileUserModel.name
             viewModel.clickedItemYelloId.value = "@" + profileUserModel.yelloId
@@ -203,6 +198,8 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
 
             ProfileFriendItemBottomSheet().show(parentFragmentManager, "dialog")
         }
+        adapter?.setItemList(listOf())
         binding.rvProfileFriendsList.adapter = adapter
+        viewModel.getFriendsListFromServer()
     }
 }

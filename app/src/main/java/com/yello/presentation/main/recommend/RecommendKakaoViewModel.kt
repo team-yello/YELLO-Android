@@ -37,9 +37,7 @@ class RecommendKakaoViewModel @Inject constructor(
     }
 
     fun addListFromServer(friendKakaoId: List<String>) {
-
         viewModelScope.launch {
-
             if (isPagingFinish) return@launch
             runCatching {
                 recommendRepository.postToGetKakaoFriendList(
@@ -52,13 +50,12 @@ class RecommendKakaoViewModel @Inject constructor(
                 if (totalPage == currentPage) isPagingFinish = true
                 _postState.value = UiState.Success(it)
             }.onFailure {
-                _postState.value = UiState.Failure(it.message ?: "")
+                _postState.value = UiState.Failure(it.message.toString())
             }
         }
     }
 
     fun addFriendToServer(friendId: Long) {
-
         viewModelScope.launch {
             _addState.value = UiState.Loading
             runCatching {
@@ -68,7 +65,7 @@ class RecommendKakaoViewModel @Inject constructor(
             }.onSuccess {
                 _addState.value = UiState.Success(it)
             }.onFailure {
-                _addState.value = UiState.Failure(it.message ?: "")
+                _addState.value = UiState.Failure(it.message.toString())
             }
         }
     }

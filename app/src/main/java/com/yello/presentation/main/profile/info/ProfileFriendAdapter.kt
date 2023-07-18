@@ -25,8 +25,8 @@ class ProfileFriendAdapter(private val itemClick: (ProfileUserModel, Int) -> (Un
 
     override fun getItemCount(): Int = itemList.size
 
-    fun addItemList(newItems: List<ProfileUserModel>) {
-        this.itemList.addAll(newItems)
+    fun setItemList(itemList: List<ProfileUserModel>) {
+        this.itemList = itemList.toMutableList()
         notifyDataSetChanged()
     }
 

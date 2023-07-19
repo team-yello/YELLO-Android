@@ -1,6 +1,5 @@
 package com.example.domain.repository
 
-import com.example.domain.entity.RecommendAddModel
 import com.example.domain.entity.RecommendModel
 import com.example.domain.entity.RequestRecommendKakaoModel
 
@@ -16,5 +15,5 @@ interface RecommendRepository {
 
     suspend fun postFriendAdd(
         friendId: Long,
-    ): RecommendAddModel
+    )
 }

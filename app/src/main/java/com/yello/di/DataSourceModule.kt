@@ -1,10 +1,12 @@
 package com.yello.di
 
 import com.example.data.datasource.OnboardingDataSource
+import com.example.data.datasource.ProfileDataSource
 import com.example.data.datasource.RecommendDataSource
 import com.example.data.datasource.VoteDataSource
 import com.example.data.datasource.YelloDataSource
 import com.example.data.datasource.remote.OnboardingDataSourceImpl
+import com.example.data.datasource.remote.ProfileDataSourceImpl
 import com.example.data.datasource.remote.RecommendDataSourceImpl
 import com.example.data.datasource.remote.VoteDataSourceImpl
 import com.example.data.datasource.remote.YelloDataSourceImpl
@@ -30,6 +32,11 @@ object DataSourceModule {
     @Singleton
     fun provideOnboardingDataSource(onboardingDataSourceImpl: OnboardingDataSourceImpl): OnboardingDataSource =
         onboardingDataSourceImpl
+
+    @Provides
+    @Singleton
+    fun provideProfileDataSource(profileDataSourceImpl: ProfileDataSourceImpl): ProfileDataSource =
+        profileDataSourceImpl
 
     @Provides
     @Singleton

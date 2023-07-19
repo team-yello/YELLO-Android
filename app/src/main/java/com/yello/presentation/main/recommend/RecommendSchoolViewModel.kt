@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.domain.entity.RecommendAddModel
 import com.example.domain.entity.RecommendModel
 import com.example.domain.repository.RecommendRepository
 import com.example.ui.view.UiState
@@ -22,8 +21,8 @@ class RecommendSchoolViewModel @Inject constructor(
     private val _postState = MutableLiveData<UiState<RecommendModel?>>()
     val postState: LiveData<UiState<RecommendModel?>> = _postState
 
-    private val _addState = MutableLiveData<UiState<RecommendAddModel>>()
-    val addState: LiveData<UiState<RecommendAddModel>> = _addState
+    private val _addState = MutableLiveData<UiState<Unit>>()
+    val addState: LiveData<UiState<Unit>> = _addState
 
     var itemPosition: Int? = null
     var itemHolder: RecommendViewHolder? = null
@@ -37,16 +36,18 @@ class RecommendSchoolViewModel @Inject constructor(
         itemHolder = holder
     }
 
+    // 서버 통신 - 추천 친구 리스트 추가
     fun addListFromServer() {
-
         viewModelScope.launch {
+            if (isPagingFinish) return@launch
+            _postState.value = UiState.Loading
             runCatching {
                 recommendRepository.getSchoolFriendList(
                     ++currentPage
                 )
             }.onSuccess {
                 it ?: return@launch
-                totalPage = ceil((it.totalCount * 0.1)).toInt()
+                totalPage = ceil((it.totalCount * 0.1)).toInt() - 1
                 if (totalPage == currentPage) isPagingFinish = true
                 _postState.value = UiState.Success(it)
             }.onFailure {
@@ -55,8 +56,8 @@ class RecommendSchoolViewModel @Inject constructor(
         }
     }
 
+    // 서버 통신 -친구 추가
     fun addFriendToServer(friendId: Long) {
-
         viewModelScope.launch {
             _addState.value = UiState.Loading
             runCatching {

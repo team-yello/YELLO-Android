@@ -6,7 +6,6 @@ import android.os.Bundle
 import com.example.ui.base.BindingActivity
 import com.example.ui.view.setOnSingleClickListener
 import com.kakao.sdk.talk.TalkApiClient
-import com.kakao.sdk.talk.model.Friend
 import com.yello.R
 import com.yello.databinding.ActivitySocialSyncBinding
 import com.yello.presentation.auth.SignInActivity.Companion.EXTRA_KAKAO_ID
@@ -29,16 +28,14 @@ class SocialSyncActivity :
         }
     }
 
-    // TODO: 친구 아이디 리스트 저장
+    // 친구목록 동의 받고 온보딩 뷰로 이동
     private fun getFriendsList() {
         TalkApiClient.instance.friends { friends, error ->
             if (error == null) {
-                val friendList: List<Friend> = friends?.elements ?: listOf()
-                val friendIdList = friendList.map { friend -> friend.id }
                 startOnBoardingActivity()
             } else {
                 yelloSnackbar(binding.root, getString(R.string.msg_error))
-                Timber.tag(TAG_SYNC).e(error, "카카오 프로필 가져오기 실패")
+                Timber.tag(TAG_SYNC).e(error, getString(R.string.social_sync_error_kakao_profile))
             }
         }
     }

@@ -6,11 +6,6 @@
 
     <data>
 
-        <import type="android.view.View" />
-
-        <variable
-            name="vm"
-            type="com.yello.presentation.main.profile.info.ProfileViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -25,7 +20,7 @@
             android:layout_height="wrap_content"
             android:paddingVertical="10dp"
             android:paddingStart="16dp"
-            android:text="프로필"
+            android:text="@string/profile_tv_title"
             android:textAppearance="?textAppearanceHeadline3"
             android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
@@ -39,348 +34,26 @@
             android:layout_marginVertical="10dp"
             android:layout_marginEnd="12dp"
             android:padding="6dp"
-            android:text="관리"
+            android:text="@string/profile_btn_manage"
             android:textAppearance="?textAppearanceLabelLarge"
             android:textColor="@color/grayscales_600"
             app:layout_constraintBottom_toBottomOf="@+id/tv_profile_title"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.core.widget.NestedScrollView
-            android:id="@+id/sv_profile"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:scrollbars="none"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_profile_friends_list"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:nestedScrollingEnabled="false"
+            android:paddingBottom="15dp"
+            android:overScrollMode="never"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_profile_title">
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/layout_profile_scroll"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/layout_profile_info"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="16dp"
-                    android:layout_marginTop="12dp"
-                    android:backgroundTint="@color/grayscales_900"
-                    app:cardCornerRadius="12dp"
-                    app:cardElevation="0dp"
-
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
-
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:paddingBottom="20dp">
-
-                        <ImageView
-                            android:id="@+id/iv_profile_info_thumbnail"
-                            android:layout_width="48dp"
-                            android:layout_height="48dp"
-                            android:layout_margin="20dp"
-                            android:layout_marginStart="20dp"
-                            android:layout_marginTop="20dp"
-                            android:src="@drawable/ic_main_yello_selected"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
-
-                        <TextView
-                            android:id="@+id/tv_profile_info_name"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="12dp"
-                            android:text="@={vm.myName}"
-                            android:textAppearance="?textAppearanceHeadline2"
-                            android:textColor="@color/white"
-                            app:layout_constraintStart_toEndOf="@id/iv_profile_info_thumbnail"
-                            app:layout_constraintTop_toTopOf="@id/iv_profile_info_thumbnail" />
-
-                        <TextView
-                            android:id="@+id/tv_profile_info_id"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="8dp"
-                            android:text="@={vm.myId}"
-                            android:textAppearance="?textAppearanceBody2"
-                            android:textColor="@color/yello_main_500"
-                            app:layout_constraintBaseline_toBaselineOf="@id/tv_profile_info_name"
-                            app:layout_constraintBottom_toBottomOf="@id/tv_profile_info_name"
-                            app:layout_constraintStart_toEndOf="@id/tv_profile_info_name" />
-
-                        <TextView
-                            android:id="@+id/tv_profile_info_school"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="12dp"
-                            android:paddingVertical="2dp"
-                            android:text="@={vm.mySchool}"
-                            android:textAppearance="?textAppearanceLabelLarge"
-                            android:textColor="@color/white"
-                            app:layout_constraintBottom_toBottomOf="@id/iv_profile_info_thumbnail"
-                            app:layout_constraintStart_toEndOf="@id/iv_profile_info_thumbnail" />
-
-                        <com.google.android.material.divider.MaterialDivider
-                            android:id="@+id/divider_profile_info"
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:layout_marginHorizontal="32dp"
-                            android:layout_marginTop="16dp"
-                            app:dividerColor="@color/grayscales_700"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/tv_profile_info_school" />
-
-                        <androidx.constraintlayout.widget.ConstraintLayout
-                            android:id="@+id/layout_profile_friend_total_friend"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="4dp"
-                            android:paddingTop="9dp"
-                            android:paddingBottom="10dp"
-                            app:layout_constraintEnd_toStartOf="@id/layout_profile_total_point"
-                            app:layout_constraintHorizontal_chainStyle="packed"
-                            app:layout_constraintStart_toEndOf="@id/layout_profile_friend_total_msg"
-                            app:layout_constraintTop_toBottomOf="@id/divider_profile_info">
-
-                            <TextView
-                                android:id="@+id/tv_profile_total_friend"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@={vm.myTotalFriends}"
-                                android:textAppearance="?textAppearanceHeadline2"
-                                android:textColor="@color/white"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent" />
-
-                            <TextView
-                                android:id="@+id/tv_profile_total_friend_title"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="내 친구수"
-                                android:textAppearance="?textAppearanceLabelMedium"
-                                android:textColor="@color/grayscales_500"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toBottomOf="@id/tv_profile_total_friend" />
-
-                        </androidx.constraintlayout.widget.ConstraintLayout>
-
-                        <androidx.constraintlayout.widget.ConstraintLayout
-                            android:id="@+id/layout_profile_friend_total_msg"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="26dp"
-                            android:layout_marginTop="4dp"
-                            android:paddingTop="9dp"
-                            android:paddingBottom="10dp"
-                            app:layout_constraintEnd_toStartOf="@id/layout_profile_friend_total_friend"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/divider_profile_info">
-
-                            <TextView
-                                android:id="@+id/tv_profile_total_msg"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@={vm.myTotalMsg}"
-                                android:textAppearance="?textAppearanceHeadline2"
-                                android:textColor="@color/white"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent" />
-
-                            <TextView
-                                android:id="@+id/tv_profile_total_msg_title"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="받은 쪽지"
-                                android:textAppearance="?textAppearanceLabelMedium"
-                                android:textColor="@color/grayscales_500"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toBottomOf="@id/tv_profile_total_msg" />
-
-                        </androidx.constraintlayout.widget.ConstraintLayout>
-
-                        <androidx.constraintlayout.widget.ConstraintLayout
-                            android:id="@+id/layout_profile_total_point"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="4dp"
-                            android:layout_marginEnd="26dp"
-                            android:paddingTop="9dp"
-                            android:paddingBottom="10dp"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toEndOf="@id/layout_profile_friend_total_friend"
-                            app:layout_constraintTop_toBottomOf="@id/divider_profile_info">
-
-                            <TextView
-                                android:id="@+id/tv_profile_total_point"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@={vm.myTotalPoints}"
-                                android:textAppearance="?textAppearanceHeadline2"
-                                android:textColor="@color/white"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent" />
-
-                            <TextView
-                                android:id="@+id/tv_profile_total_msg_point"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="내 포인트"
-                                android:textAppearance="?textAppearanceLabelMedium"
-                                android:textColor="@color/grayscales_500"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toBottomOf="@id/tv_profile_total_point" />
-
-                        </androidx.constraintlayout.widget.ConstraintLayout>
-
-                        <androidx.cardview.widget.CardView
-                            android:id="@+id/btn_profile_add_group"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginHorizontal="20dp"
-                            android:layout_marginTop="10dp"
-                            app:cardBackgroundColor="@color/grayscales_800"
-                            app:cardCornerRadius="8dp"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/layout_profile_friend_total_friend">
-
-                            <androidx.constraintlayout.widget.ConstraintLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent">
-
-                                <ImageView
-                                    android:id="@+id/iv_profile_add_group"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginVertical="12dp"
-                                    android:src="@drawable/ic_yellow_plus"
-                                    app:layout_constraintBottom_toBottomOf="parent"
-                                    app:layout_constraintEnd_toStartOf="@id/tv_profile_add_group"
-                                    app:layout_constraintHorizontal_chainStyle="packed"
-                                    app:layout_constraintStart_toStartOf="parent"
-                                    app:layout_constraintTop_toTopOf="parent" />
-
-                                <TextView
-                                    android:id="@+id/tv_profile_add_group"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginVertical="12dp"
-                                    android:text="그룹 추가"
-                                    android:textColor="@color/yello_main_500"
-                                    app:layout_constraintBottom_toBottomOf="parent"
-                                    app:layout_constraintEnd_toEndOf="parent"
-                                    app:layout_constraintStart_toEndOf="@id/iv_profile_add_group"
-                                    app:layout_constraintTop_toTopOf="parent" />
-
-                            </androidx.constraintlayout.widget.ConstraintLayout>
-
-                        </androidx.cardview.widget.CardView>
-
-                    </androidx.constraintlayout.widget.ConstraintLayout>
-
-                </androidx.cardview.widget.CardView>
-
-                <TextView
-                    android:id="@+id/tv_profile_friend_list_title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="32dp"
-                    android:text="내 친구들"
-                    android:textAppearance="?textAppearanceSubtitle2"
-                    android:textColor="@color/white"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/layout_profile_info" />
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="16dp"
-                    android:paddingBottom="1dp"
-                    app:layout_constraintBottom_toBottomOf="@+id/tv_profile_friend_list_title"
-                    app:layout_constraintEnd_toEndOf="parent">
-
-                    <TextView
-                        android:id="@+id/tv_profile_friend_list_total_back"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="명"
-                        android:textAppearance="?textAppearanceCaption"
-                        android:textColor="@color/grayscales_500"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <TextView
-                        android:id="@+id/tv_profile_friend_list_total_num"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="2dp"
-                        android:fontFamily="@font/pretendard_bold"
-                        android:text="@={vm.myTotalFriends}"
-                        android:textColor="@color/white"
-                        android:textSize="12dp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toStartOf="@id/tv_profile_friend_list_total_back"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <TextView
-                        android:id="@+id/tv_profile_friend_list_total_first"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="4dp"
-                        android:text="친구 수"
-                        android:textAppearance="?textAppearanceCaption"
-                        android:textColor="@color/grayscales_500"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toStartOf="@id/tv_profile_friend_list_total_num"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rv_profile_friends_list"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginHorizontal="16dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginBottom="60dp"
-                    android:nestedScrollingEnabled="false"
-                    android:overScrollMode="never"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tv_profile_friend_list_title"
-                    tools:listitem="@layout/item_friends_list" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/shape_black_fill_rect"
-                    android:text=""
-                    app:layout_constraintBottom_toBottomOf="@id/rv_profile_friends_list"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-        </androidx.core.widget.NestedScrollView>
+            app:layout_constraintTop_toBottomOf="@id/tv_profile_title"
+            tools:listitem="@layout/item_friends_list" />
 
         <ImageView
             android:id="@+id/fab_upward"
@@ -395,7 +68,6 @@
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
-
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

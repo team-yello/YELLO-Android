@@ -24,12 +24,12 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/tv_profile_mamange_title"
+            android:id="@+id/tv_profile_manage_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="1dp"
             android:paddingVertical="12dp"
-            android:text="프로필 관리"
+            android:text="@string/profile_manage_tv_title"
             android:textAppearance="?textAppearanceSubtitle1"
             android:textColor="@color/white"
             app:layout_constraintStart_toEndOf="@id/btn_profile_manage_back"
@@ -44,11 +44,11 @@
             android:background="@drawable/shape_grayscales900_fill_8_rect"
             android:paddingVertical="18dp"
             android:paddingStart="16dp"
-            android:text="고객센터"
+            android:text="@string/profile_manage_tv_center"
             android:textAppearance="?textAppearanceBodySmall"
             android:textColor="@color/white"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_profile_mamange_title" />
+            app:layout_constraintTop_toBottomOf="@id/tv_profile_manage_title" />
 
         <TextView
             android:id="@+id/btn_profile_manage_privacy"
@@ -59,7 +59,7 @@
             android:background="@drawable/shape_grayscales900_fill_8_rect"
             android:paddingVertical="18dp"
             android:paddingStart="16dp"
-            android:text="개인정보 처리방침"
+            android:text="@string/profile_manage_tv_privacy"
             android:textAppearance="?textAppearanceBodySmall"
             android:textColor="@color/white"
             app:layout_constraintStart_toStartOf="parent"
@@ -74,7 +74,7 @@
             android:background="@drawable/shape_grayscales900_fill_8_rect"
             android:paddingVertical="18dp"
             android:paddingStart="16dp"
-            android:text="이용약관"
+            android:text="@string/profile_manage_tv_service"
             android:textAppearance="?textAppearanceBodySmall"
             android:textColor="@color/white"
             app:layout_constraintStart_toStartOf="parent"
@@ -89,7 +89,7 @@
             android:background="@drawable/shape_grayscales900_fill_8_rect"
             android:paddingVertical="18dp"
             android:paddingStart="16dp"
-            android:text="로그아웃"
+            android:text="@string/profile_manage_tv_logout"
             android:textAppearance="?textAppearanceBodySmall"
             android:textColor="@color/white"
             app:layout_constraintStart_toStartOf="parent"
@@ -101,7 +101,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginBottom="25dp"
-            android:text="버전 1.0"
+            android:text="@string/profile_manage_tv_version"
             android:textAppearance="?textAppearanceBody2"
             android:textColor="@color/grayscales_600"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -113,7 +113,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="25dp"
-            android:text="계정 탈퇴"
+            android:text="@string/profile_manage_tv_quit"
             android:textAppearance="?textAppearanceBody2"
             android:textColor="@color/grayscales_600"
             app:layout_constraintBottom_toBottomOf="parent"

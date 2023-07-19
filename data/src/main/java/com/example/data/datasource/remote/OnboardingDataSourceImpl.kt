@@ -38,8 +38,8 @@ class OnboardingDataSourceImpl @Inject constructor(
         return onboardingService.getDepartmentSearchService(school, search, page)
     }
 
-    override suspend fun getIdValidData(yelloId: String): BaseResponse<Boolean> {
-        return onboardingService.getIdValid(yelloId)
+    override suspend fun getValidYelloId(yelloId: String): BaseResponse<Boolean> {
+        return onboardingService.getValidYelloId(yelloId)
     }
 
     override suspend fun postFriendData(

@@ -29,6 +29,10 @@ class OnBoardingViewModel @Inject constructor(
     val postSignupState: LiveData<UiState<UserInfo>>
         get() = _postSignupState
 
+    private val _getValidYelloId = MutableLiveData<UiState<Boolean>>()
+    val getValidYelloId: LiveData<UiState<Boolean>>
+        get() = _getValidYelloId
+
     private val _schoolData = MutableLiveData<UiState<SchoolList>>()
     val schoolData: MutableLiveData<UiState<SchoolList>> = _schoolData
 
@@ -87,7 +91,7 @@ class OnBoardingViewModel @Inject constructor(
 
     val _gender = MutableLiveData("")
     val gender: String
-        get() = _gender.value ?: "MALE"
+        get() = _gender.value ?: ""
 
     private val _code = MutableLiveData("")
     val code: String
@@ -103,13 +107,13 @@ class OnBoardingViewModel @Inject constructor(
 
     val isValidSchool: LiveData<Boolean> = _school.map { school -> checkValidSchool(school) }
     val isEmptyDepartment: LiveData<Boolean> =
-        _department.map { department -> checkEmptyDepartment(department) }
+        _department.map { department -> this.checkEmpty(department) }
 
     val isValidName: LiveData<Boolean> = _name.map { name -> checkName(name) }
     val isValidId: LiveData<Boolean> = _id.map { id -> checkId(id) }
 
     val isEmptyCode: LiveData<Boolean> =
-        _code.map { code -> checkEmptyCode(code) }
+        _code.map { code -> this.checkEmpty(code) }
 
     private val _studentIdResult: MutableLiveData<List<Int>> = MutableLiveData()
     val studentIdResult: LiveData<List<Int>> = _studentIdResult
@@ -238,6 +242,29 @@ class OnBoardingViewModel @Inject constructor(
         }
     }
 
+    fun getValidYelloId() {
+        viewModelScope.launch {
+            onboardingRepository.getValidYelloId(yelloId = id)
+                .onSuccess { isValid ->
+                    Timber.d("GET VALID YELLO ID SUCCESS : $isValid")
+                    if (isValid == null) {
+                        _getValidYelloId.value = UiState.Empty
+                        return@launch
+                    }
+
+                    _getValidYelloId.value = UiState.Success(isValid)
+                }
+                .onFailure { t ->
+                    if (t is HttpException) {
+                        Timber.e("GET VALID YELLO ID FAILURE : $t")
+                        _getValidYelloId.value = UiState.Failure(t.code().toString())
+                        return@launch
+                    }
+                    Timber.e("GET VALID YELLO ID ERROR : $t")
+                }
+        }
+    }
+
     fun setSchool(school: String) {
         _school.value = school
     }
@@ -251,7 +278,7 @@ class OnBoardingViewModel @Inject constructor(
         _studentId.value = studentId
     }
 
-    fun setGender(gender: String) {
+    fun selectGender(gender: String) {
         _gender.value = gender
     }
 
@@ -267,23 +294,11 @@ class OnBoardingViewModel @Inject constructor(
         return school.isNotBlank()
     }
 
-    private fun checkEmptyDepartment(department: String): Boolean {
-        return department.isBlank()
-    }
+    private fun checkEmpty(input: String) = input.isBlank()
 
-    private fun checkName(name: String): Boolean {
-        Timber.d("CHECK NAME : ${Pattern.matches(REGEX_NAME_PATTERN, name)}")
-        return Pattern.matches(REGEX_NAME_PATTERN, name)
-    }
+    private fun checkName(name: String) = Pattern.matches(REGEX_NAME_PATTERN, name)
 
-    private fun checkId(id: String): Boolean {
-        Timber.d("CHECK ID : ${Pattern.matches(REGEX_ID_PATTERN, id)}")
-        return Pattern.matches(REGEX_ID_PATTERN, id)
-    }
-
-    private fun checkEmptyCode(code: String): Boolean {
-        return code.isBlank()
-    }
+    private fun checkId(id: String) = Pattern.matches(REGEX_ID_PATTERN, id)
 
     fun navigateToNextPage() {
         _currentPage.value = currentPage.value?.plus(1)

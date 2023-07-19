@@ -182,7 +182,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
             android:layout_marginBottom="32dp"
-            android:background="@{vm.isValidName() &amp; vm.isValidId() &amp; !vm._name.isEmpty() &amp; !vm._id.isEmpty() ? @drawable/shape_yello_main_500_fill_black_line_rect : @drawable/shape_grayscales_800_fill_8_rect}"
+            android:background="@{vm.isValidName() &amp; vm.isValidId() &amp; !vm._name.isEmpty() &amp; !vm._id.isEmpty() ? @drawable/shape_yello_main_500_fill_black_line_rect : @drawable/shape_grayscales800_fill_8_rect}"
             android:clickable="@{vm.isValidName() &amp; vm.isValidId() &amp; !vm._name.isEmpty() &amp; !vm._id.isEmpty()}"
             android:paddingVertical="12dp"
             android:text="@string/onboarding_btn_next"

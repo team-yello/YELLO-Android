@@ -48,9 +48,9 @@ class OnboardingRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getIdService(yelloId: String): Result<Boolean?> {
+    override suspend fun getValidYelloId(yelloId: String): Result<Boolean?> {
         return runCatching {
-            onboardingDataSource.getIdValidData(
+            onboardingDataSource.getValidYelloId(
                 yelloId,
             ).data
         }

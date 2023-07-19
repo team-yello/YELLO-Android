@@ -34,7 +34,7 @@ interface OnboardingService {
     ): BaseResponse<ResponseDepartmentDto>
 
     @GET("api/v1/auth/valid")
-    suspend fun getIdValid(
+    suspend fun getValidYelloId(
         @Query("yelloId") yelloId: String,
     ): BaseResponse<Boolean>
 

@@ -26,7 +26,7 @@ interface OnboardingDataSource {
         page: Int,
     ): BaseResponse<ResponseDepartmentDto>
 
-    suspend fun getIdValidData(
+    suspend fun getValidYelloId(
         yelloId: String,
     ): BaseResponse<Boolean>
 

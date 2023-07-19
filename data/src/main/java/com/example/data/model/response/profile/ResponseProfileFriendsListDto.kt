@@ -1,6 +1,7 @@
 package com.example.data.model.response.profile
 
 import com.example.domain.entity.ProfileFriendsListModel
+import com.example.domain.entity.ProfileUserModel
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -32,7 +33,7 @@ data class ResponseProfileFriendsListDto(
     fun toProfileFriendsListModel(): ProfileFriendsListModel {
         return ProfileFriendsListModel(
             totalCount, friends.map {
-                ProfileFriendsListModel.ProfileFriendModel(
+                ProfileUserModel(
                     it.userId,
                     it.name,
                     it.profileImageUrl,

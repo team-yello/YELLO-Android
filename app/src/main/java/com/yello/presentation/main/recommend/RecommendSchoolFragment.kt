@@ -64,6 +64,7 @@ class RecommendSchoolFragment :
     // 처음 리스트 설정 및 어댑터 클릭 리스너 설정
     private fun initFirstListWithAdapter() {
         viewModel.addListFromServer()
+        viewModel.addListFromServer()
         adapter = RecommendAdapter { recommendModel, position, holder ->
             viewModel.setPositionAndHolder(position, holder)
             viewModel.addFriendToServer(recommendModel.id.toLong())

@@ -77,6 +77,7 @@ class RecommendKakaoFragment :
     // 처음 리스트 설정 및 어댑터 클릭 리스너 설정
     private fun initFirstListWithAdapter(list: List<String>) {
         viewModel.addListFromServer(list)
+        viewModel.addListFromServer(list)
         adapter = RecommendAdapter { recommendModel, position, holder ->
             viewModel.setPositionAndHolder(position, holder)
             viewModel.addFriendToServer(recommendModel.id.toLong())

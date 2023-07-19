@@ -9,7 +9,6 @@ import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.domain.entity.ProfileFriendsListModel
 import com.example.domain.entity.ProfileUserModel
 import com.example.ui.base.BindingFragment
 import com.example.ui.fragment.toast
@@ -27,7 +26,7 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
 
     private val viewModel by activityViewModels<ProfileViewModel>()
     private var adapter: ProfileFriendAdapter? = null
-    private lateinit var friendsList: List<ProfileFriendsListModel.ProfileFriendModel>
+    private lateinit var friendsList: List<ProfileUserModel>
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -66,6 +65,7 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
         viewModel.currentPage = -1
         viewModel.isPagingFinish = false
         viewModel.totalPage = Int.MAX_VALUE
+        viewModel.getFriendsListFromServer()
         viewModel.getFriendsListFromServer()
     }
 
@@ -117,11 +117,11 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
         viewModel.getUserDataFromServer()
     }
 
-    // 현재 클릭된 아이템 정보 뷰모델에 저장
+    // 어댑터 시작
     private fun initItemClickListenerWithAdapter(model: ProfileUserModel) {
         adapter = ProfileFriendAdapter(model) { profileUserModel, position ->
 
-            // 아이템 클릭 리스너 설정 - 값 저장 이후 바텀 시트 출력
+            // 아이템 클릭 리스너 설정 - 클릭된 아이템 값 저장 뷰모델 이후 바텀 시트 출력
             viewModel.setItemPosition(position)
             viewModel.clickedItemId.value = profileUserModel.userId
             viewModel.clickedItemName.value = profileUserModel.name
@@ -136,7 +136,6 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
         adapter?.setItemList(listOf())
         binding.rvProfileFriendsList.adapter = adapter
     }
-
 
     // 친구 목록 서버 통신 성공 시 어댑터에 리스트 추가
     private fun observeFriendsDataState() {
@@ -167,7 +166,8 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
                     recyclerView.layoutManager?.let { layoutManager ->
                         if (!binding.rvProfileFriendsList.canScrollVertically(1)
                             && layoutManager is LinearLayoutManager
-                            && layoutManager.findLastVisibleItemPosition() == adapter!!.itemCount - 1) {
+                            && layoutManager.findLastVisibleItemPosition() == adapter!!.itemCount - 1
+                        ) {
                             viewModel.getFriendsListFromServer()
                         }
                     }

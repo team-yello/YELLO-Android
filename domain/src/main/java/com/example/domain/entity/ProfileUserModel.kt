@@ -8,5 +8,5 @@ data class ProfileUserModel(
     val yelloId: String,
     val yelloCount: Int,
     val friendCount: Int,
-    val point: Int
+    val point: Int = 0
 )

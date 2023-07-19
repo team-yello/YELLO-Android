@@ -10,5 +10,6 @@ class ProfileHeaderViewHolder(
     RecyclerView.ViewHolder(binding.root) {
     fun onBind(item: ProfileUserModel) {
         binding.model = item
+        binding.tvProfileTotalFriend.text
     }
 }

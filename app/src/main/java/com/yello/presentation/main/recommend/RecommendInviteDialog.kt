@@ -25,8 +25,10 @@ class RecommendInviteDialog :
     }
 
     // 사용자 정의 템플릿 ID & 공유할 url
+    // TODO: 추천인 아이디 설정
     private val templateId = 95890.toLong()
-    private val url = "http://locahost"
+    private val url = "http://naver.com"
+    private val myYelloId: String = "sangho.kk"
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -54,12 +56,15 @@ class RecommendInviteDialog :
         }
     }
 
-    // TODO : 기획에서 제공해줄 템플릿, 링크에 맞춰서 추후 수정
     private fun startKakaoInvite(context: Context) {
         // 카카오톡 설치여부 확인
         if (ShareClient.instance.isKakaoTalkSharingAvailable(context)) {
             // 카카오톡으로 공유
-            ShareClient.instance.shareScrap(context, url, templateId) { sharingResult, error ->
+            ShareClient.instance.shareCustom(
+                context,
+                templateId,
+                mapOf("KEY" to myYelloId)
+            ) { sharingResult, error ->
                 if (error != null) {
                     Timber.tag(TAG_SHARE).e(error, "카카오톡 공유 실패")
                 } else if (sharingResult != null) {
@@ -68,7 +73,8 @@ class RecommendInviteDialog :
             }
         } else {
             // 웹으로 공유
-            val sharerUrl = WebSharerClient.instance.makeScrapUrl(url, templateId)
+            val sharerUrl =
+                WebSharerClient.instance.makeCustomUrl(templateId)
 
             // 1. CustomTabsServiceConnection 지원 브라우저 - Chrome, 삼성 인터넷 등
             try {

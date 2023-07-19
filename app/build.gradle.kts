@@ -133,5 +133,6 @@ dependencies {
         debugImplementation(flipperLeakCanary)
         debugImplementation(leakCanary)
         debugImplementation(soloader)
+        debugImplementation(circleIndicator)
     }
 }

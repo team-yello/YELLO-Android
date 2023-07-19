@@ -5,10 +5,10 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class ResponseCheckName(
-    val index: Int,
-    val name: String,
+    val nameIndex: Int,
+    val name: String
 ) {
     fun toCheckName(): CheckName {
-        return CheckName(index, name)
+        return CheckName(nameIndex, name)
     }
 }

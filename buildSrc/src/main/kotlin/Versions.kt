@@ -36,6 +36,7 @@ object Versions {
     const val lottieVersion = "6.0.0"
     const val circularProgressBar = "3.1.0"
     const val kakaoVersion = "2.14.0"
+    const val circleIndicatorVersion = "2.1.6"
 
     const val gradleVersion = "8.0.1"
 

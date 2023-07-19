@@ -2,6 +2,7 @@ package com.example.data.datasource.local
 
 import com.example.data.datasource.YelloDataSource
 import com.example.data.model.response.BaseResponse
+import com.example.data.model.response.ResponseDto
 import com.example.data.model.response.yello.ResponseCheckKeyword
 import com.example.data.model.response.yello.ResponseCheckName
 import com.example.data.model.response.yello.ResponseMyYello
@@ -50,5 +51,9 @@ class MockYelloDataSourceImpl @Inject constructor(
                 .getOrNull()
         }
         return Json.decodeFromString(file ?: throw IllegalArgumentException("File State Error"))
+    }
+
+    override suspend fun payCheck(index: Int): ResponseDto {
+        TODO("Not yet implemented")
     }
 }

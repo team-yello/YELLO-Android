@@ -10,12 +10,12 @@ data class MyYello(
 data class Yello(
     val id: Long,
     val gender: GenderEnum,
-    val nameHint: Int,
+    var nameHint: Int,
     val senderName: String,
     val vote: Vote,
-    val isHintUsed: Boolean,
-    val isRead: Boolean,
-    val createdAt: String,
+    var isHintUsed: Boolean,
+    var isRead: Boolean,
+    val createdAt: String
 )
 
 data class Vote(

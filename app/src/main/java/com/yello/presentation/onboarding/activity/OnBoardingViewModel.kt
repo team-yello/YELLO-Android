@@ -108,16 +108,18 @@ class OnBoardingViewModel @Inject constructor(
     private val _studentIdResult: MutableLiveData<List<Int>> = MutableLiveData()
     val studentIdResult: LiveData<List<Int>> = _studentIdResult
 
+
     private val _friendState = MutableLiveData<FriendList>()
     val friendState: LiveData<FriendList> = _friendState
 
     var kakaoFriendList: List<String> = listOf()
     var selectedFriendIdList : List<Long> = listOf()
-    var selectedFriendCount: Int = 0
+    var selectedFriendCount: MutableLiveData<Int> = MutableLiveData(0)
 
     private var currentFriendPage: Int = -1
     private var isFriendPagingFinish = false
     private var totalFriendPage = Int.MAX_VALUE
+
 
     // TODO: throttle 및 페이징 처리
     fun getSchoolList(search: String) {

@@ -18,8 +18,7 @@ import com.yello.util.context.yelloSnackbar
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class AddFriendFragment :
-    BindingFragment<FragmentAddfreindBinding>(R.layout.fragment_addfreind) {
+class AddFriendFragment : BindingFragment<FragmentAddfreindBinding>(R.layout.fragment_addfreind) {
 
     private var adapter: AddFriendAdapter? = null
 
@@ -46,10 +45,10 @@ class AddFriendFragment :
             friend.isSelected = !friend.isSelected
             if (friend.isSelected && friend.id !in selectedItemIdList) {
                 selectedItemIdList.add(friend.id)
-                ++viewModel.selectedFriendCount
+                viewModel.selectedFriendCount.value = viewModel.selectedFriendCount.value?.plus(1)
             } else {
                 selectedItemIdList.remove(friend.id)
-                --viewModel.selectedFriendCount
+                viewModel.selectedFriendCount.value = viewModel.selectedFriendCount.value?.minus(1)
             }
             adapter?.notifyItemChanged(position)
         }
@@ -58,7 +57,6 @@ class AddFriendFragment :
 
     private fun setConfirmBtnClickListener() {
         binding.btnAddfriendNext.setOnSingleClickListener {
-            Log.d("sangho", "${selectedItemIdList}")
             viewModel.selectedFriendIdList = selectedItemIdList
             viewModel.navigateToNextPage()
         }
@@ -85,8 +83,7 @@ class AddFriendFragment :
     private fun addFriendListFromServer() {
         viewModel.addFriendList(
             FriendGroup(
-                viewModel.kakaoFriendList,
-                viewModel.groupId
+                viewModel.kakaoFriendList, viewModel.groupId
             )
         )
     }
@@ -98,10 +95,7 @@ class AddFriendFragment :
                 super.onScrolled(recyclerView, dx, dy)
                 if (dy > 0) {
                     recyclerView.layoutManager?.let { layoutManager ->
-                        if (!binding.rvFreindList.canScrollVertically(1) &&
-                            layoutManager is LinearLayoutManager &&
-                            layoutManager.findLastVisibleItemPosition() == adapter!!.itemCount - 1
-                        ) {
+                        if (!binding.rvFreindList.canScrollVertically(1) && layoutManager is LinearLayoutManager && layoutManager.findLastVisibleItemPosition() == adapter!!.itemCount - 1) {
                             addFriendListFromServer()
                         }
                     }
@@ -116,7 +110,8 @@ class AddFriendFragment :
             friendsList = it.friendList
             adapter?.submitList(friendsList)
             selectedItemIdList.addAll(friendsList.map { friend -> friend.id })
-            viewModel.selectedFriendCount += friendsList.size
+            viewModel.selectedFriendCount.value = viewModel.selectedFriendCount.value?.plus(friendsList.size)
+            adapter?.notifyDataSetChanged()
         }
     }
 

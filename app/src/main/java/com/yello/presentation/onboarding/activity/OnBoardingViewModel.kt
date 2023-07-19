@@ -12,6 +12,7 @@ import com.example.domain.entity.onboarding.GroupList
 import com.example.domain.entity.onboarding.SchoolList
 import com.example.domain.entity.onboarding.SignupInfo
 import com.example.domain.entity.onboarding.UserInfo
+import com.example.domain.enum.GenderEnum
 import com.example.domain.repository.OnboardingRepository
 import com.example.ui.view.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -87,7 +88,7 @@ class OnBoardingViewModel @Inject constructor(
 
     val _gender = MutableLiveData("")
     val gender: String
-        get() = _gender.value ?: "MALE"
+        get() = _gender.value ?: ""
 
     private val _code = MutableLiveData("")
     val code: String
@@ -103,13 +104,13 @@ class OnBoardingViewModel @Inject constructor(
 
     val isValidSchool: LiveData<Boolean> = _school.map { school -> checkValidSchool(school) }
     val isEmptyDepartment: LiveData<Boolean> =
-        _department.map { department -> checkEmptyDepartment(department) }
+        _department.map { department -> this.checkEmpty(department) }
 
     val isValidName: LiveData<Boolean> = _name.map { name -> checkName(name) }
     val isValidId: LiveData<Boolean> = _id.map { id -> checkId(id) }
 
     val isEmptyCode: LiveData<Boolean> =
-        _code.map { code -> checkEmptyCode(code) }
+        _code.map { code -> this.checkEmpty(code) }
 
     private val _studentIdResult: MutableLiveData<List<Int>> = MutableLiveData()
     val studentIdResult: LiveData<List<Int>> = _studentIdResult
@@ -251,7 +252,7 @@ class OnBoardingViewModel @Inject constructor(
         _studentId.value = studentId
     }
 
-    fun setGender(gender: String) {
+    fun selectGender(gender: String) {
         _gender.value = gender
     }
 
@@ -267,23 +268,11 @@ class OnBoardingViewModel @Inject constructor(
         return school.isNotBlank()
     }
 
-    private fun checkEmptyDepartment(department: String): Boolean {
-        return department.isBlank()
-    }
+    private fun checkEmpty(input: String) = input.isBlank()
 
-    private fun checkName(name: String): Boolean {
-        Timber.d("CHECK NAME : ${Pattern.matches(REGEX_NAME_PATTERN, name)}")
-        return Pattern.matches(REGEX_NAME_PATTERN, name)
-    }
+    private fun checkName(name: String) = Pattern.matches(REGEX_NAME_PATTERN, name)
 
-    private fun checkId(id: String): Boolean {
-        Timber.d("CHECK ID : ${Pattern.matches(REGEX_ID_PATTERN, id)}")
-        return Pattern.matches(REGEX_ID_PATTERN, id)
-    }
-
-    private fun checkEmptyCode(code: String): Boolean {
-        return code.isBlank()
-    }
+    private fun checkId(id: String) = Pattern.matches(REGEX_ID_PATTERN, id)
 
     fun navigateToNextPage() {
         _currentPage.value = currentPage.value?.plus(1)

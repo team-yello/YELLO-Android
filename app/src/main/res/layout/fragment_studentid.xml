@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -45,6 +46,9 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
             android:layout_marginTop="12dp"
+            android:gravity="center_vertical"
+            android:fontFamily="@font/font_pretendard_medium"
+            android:textSize="16sp"
             android:background="@{vm.isEmptyDepartment() ?@drawable/shape_black_fill_grayscales600_line_8_rect : @drawable/shape_grayscales900_fill_grayscales500_line_8_rect}"
             android:paddingVertical="16dp"
             android:paddingStart="20dp"
@@ -74,7 +78,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
             android:layout_marginTop="12dp"
-            android:background="@{vm.isEmptyStudentId() ? @drawable/shape_black_fill_grayscales600_line_8_rect : @drawable/shape_grayscales900_fill_grayscales500_line_8_rect}"
+            android:background="@{vm._studentId == null ? @drawable/shape_black_fill_grayscales600_line_8_rect : @drawable/shape_grayscales900_fill_grayscales500_line_8_rect}"
             android:fontFamily="@font/font_pretendard_medium"
             android:gravity="center_vertical"
             android:hint="@string/onboarding_tv_hint_select_studentid"
@@ -87,7 +91,8 @@
             app:drawableEndCompat="@drawable/ic_onboarding_studentid_down"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_studentid_what" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_studentid_what"
+            tools:background="shape_black_fill_grayscales600_line_8_rect" />
 
         <android.widget.Button
             android:id="@+id/btn_stdentid_next"
@@ -95,12 +100,12 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
             android:layout_marginBottom="34dp"
-            android:background="@{vm.isEmptyDepartment() || vm.isEmptyStudentId()? @drawable/shape_grayscales_800_fill_8_rect : @drawable/shape_yello_main_500_fill_black_line_rect}"
-            android:clickable="@{!vm.isEmptyDepartment() &amp; !vm.isEmptyStudentId()}"
+            android:background="@{vm.isEmptyDepartment() || vm._studentId == null? @drawable/shape_grayscales_800_fill_8_rect : @drawable/shape_yello_main_500_fill_black_line_rect}"
+            android:clickable="@{!vm.isEmptyDepartment() &amp; vm._studentId != null}"
             android:paddingVertical="12dp"
             android:text="@string/onboarding_btn_next"
             android:textAppearance="?textAppearanceBodyMedium"
-            android:textColor="@{vm.isEmptyDepartment() || vm.isEmptyStudentId()? @color/grayscales_700 : @color/black}"
+            android:textColor="@{vm.isEmptyDepartment() || vm._studentId == null? @color/grayscales_700 : @color/black}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />

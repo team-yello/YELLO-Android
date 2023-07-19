@@ -85,7 +85,7 @@ class OnBoardingViewModel @Inject constructor(
     val friendList: FriendList
         get() = _friendList.value ?: FriendList(0, emptyList())
 
-    private val _gender = MutableLiveData<String>()
+    val _gender = MutableLiveData("")
     val gender: String
         get() = _gender.value ?: "MALE"
 
@@ -104,8 +104,6 @@ class OnBoardingViewModel @Inject constructor(
     val isValidSchool: LiveData<Boolean> = _school.map { school -> checkValidSchool(school) }
     val isEmptyDepartment: LiveData<Boolean> =
         _department.map { department -> checkEmptyDepartment(department) }
-    val isEmptyStudentId: LiveData<Boolean> =
-        _studentId.map { studentId -> checkEmptyStudentId(studentId.toString()) }
 
     val isValidName: LiveData<Boolean> = _name.map { name -> checkName(name) }
     val isValidId: LiveData<Boolean> = _id.map { id -> checkId(id) }
@@ -253,11 +251,15 @@ class OnBoardingViewModel @Inject constructor(
         _studentId.value = studentId
     }
 
+    fun setGender(gender: String) {
+        _gender.value = gender
+    }
+
     fun clearSchoolData() {
         _schoolData.value = UiState.Success(SchoolList(0, emptyList()))
     }
 
-    fun cleaDepartmentData() {
+    fun clearDepartmentData() {
         _departmentData.value = UiState.Success(GroupList(0, emptyList()))
     }
 
@@ -267,10 +269,6 @@ class OnBoardingViewModel @Inject constructor(
 
     private fun checkEmptyDepartment(department: String): Boolean {
         return department.isBlank()
-    }
-
-    private fun checkEmptyStudentId(studentId: String): Boolean {
-        return studentId.isBlank()
     }
 
     private fun checkName(name: String): Boolean {

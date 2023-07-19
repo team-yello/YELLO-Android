@@ -20,7 +20,8 @@
             android:name=".presentation.main.SplashActivity"
             android:exported="true"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustNothing">
+            android:theme="@style/Theme.YELLO.Splash">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -37,6 +38,11 @@
                     android:scheme="kakao${NATIVE_APP_KEY}" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".presentation.onboarding.activity.OnBoardingActivity"
+            android:exported="true"
+            android:windowSoftInputMode="adjustNothing"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".presentation.auth.SignInActivity"
             android:exported="true"

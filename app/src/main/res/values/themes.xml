@@ -25,4 +25,11 @@
     </style>
 
     <style name="Theme.YELLO" parent="Base.Theme.YELLO" />
+
+    <!--splash-->
+    <style name="Theme.YELLO.Splash" parent="Base.Theme.YELLO">
+        <item name="windowSplashScreenBackground">@color/black</item>
+        <item name="windowSplashScreenAnimatedIcon">@android:color/transparent</item>
+        <item name="postSplashScreenTheme">@style/Base.Theme.YELLO</item>
+    </style>
 </resources>

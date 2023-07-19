@@ -121,7 +121,6 @@ class OnBoardingViewModel @Inject constructor(
 
     // TODO: throttle 및 페이징 처리
     fun getSchoolList(search: String) {
-        Timber.d("GET SCHOOL LIST 메서드 호출 : $search")
         // if (isSchoolPagingFinish) return
         viewModelScope.launch {
             _schoolData.value = UiState.Loading
@@ -153,7 +152,6 @@ class OnBoardingViewModel @Inject constructor(
 
     // TODO: throttle 및 페이징 처리
     fun getGroupList(search: String) {
-        Timber.d("GET GROUP LIST 호출")
         // if (isDepartmentPagingFinish) return
         viewModelScope.launch {
             _departmentData.value = UiState.Loading
@@ -303,7 +301,7 @@ class OnBoardingViewModel @Inject constructor(
     }
 
     companion object {
-        private const val REGEX_NAME_PATTERN = "^[ㄱ-ㅎㅏ-ㅣ가-힣]*\$"
-        private const val REGEX_ID_PATTERN = "^[A-Za-z0-9_.]*\$"
+        private const val REGEX_NAME_PATTERN = "^([ㄱ-ㅎㅏ-ㅣ가-힣]*)\$"
+        private const val REGEX_ID_PATTERN = "^([A-Za-z0-9_.]*)\$"
     }
 }

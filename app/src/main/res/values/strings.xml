@@ -35,9 +35,9 @@
     <string name="tv_recommend_tab_kakao">카톡 친구들</string>
     <string name="tv_recommend_tab_school">학교 친구들</string>
     <string name="onboarding_tv_name">이름은</string>
-    <string name="onboarding_tv_name_error">이름은 가입 후 바꿀 수 없으니 정확히 적어주세요!</string>
+    <string name="onboarding_tv_name_description">이름은 가입 후 바꿀 수 없으니 정확히 적어주세요!</string>
     <string name="onboarding_tv_id">아이디는</string>
-    <string name="onboarding_tv_id_error">인스타 아이디로 하면 친구들이 찾기 쉬워요! (최대 20자)</string>
+    <string name="name_id_id_description">인스타 아이디로 하면 친구들이 찾기 쉬워요! (최대 20자)</string>
     <string name="onboarding_et_id">insta_id</string>
     <string name="onboarding_tv_gender">성별은</string>
     <string name="onboarding_tv_code">추천인 코드</string>
@@ -112,5 +112,6 @@
     <string name="code_complete">완료</string>
     <string name="onboarding_student_id">%d학번</string>
     <string name="name_id_name_hint">김옐로</string>
-
+    <string name="name_id_hangul_error">한글만 입력 가능해요.</string>
+    <string name="name_id_id_error">문자, 숫자, 밑줄, 마침표만 사용할 수 있어요.</string>
 </resources>

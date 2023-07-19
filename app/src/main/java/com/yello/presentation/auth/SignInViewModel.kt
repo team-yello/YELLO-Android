@@ -15,18 +15,35 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SignInViewModel @Inject constructor(
-    private val onboardingRepository: OnboardingRepository
+    private val onboardingRepository: OnboardingRepository,
 ) : ViewModel() {
-
     private val _postState = MutableLiveData<UiState<ServiceTokenModel?>>()
     val postState: LiveData<UiState<ServiceTokenModel?>> = _postState
+
+    private val _kakaoUserId = MutableLiveData(-1)
+    val kakaoUserId: LiveData<Int>
+        get() = _kakaoUserId
+
+    private val _email = MutableLiveData("")
+    val email: LiveData<String>
+        get() = _email
+
+    private val _profileImage = MutableLiveData("")
+    val profileImage: LiveData<String>
+        get() = _profileImage
+
+    fun setKakaoInfo(kakaoId: Int, email: String, profileImage: String) {
+        _kakaoUserId.value = kakaoId
+        _email.value = email
+        _profileImage.value = profileImage
+    }
 
     fun changeTokenFromServer(accessToken: String, social: String = "KAKAO") {
         viewModelScope.launch {
             _postState.value = UiState.Loading
             runCatching {
                 onboardingRepository.postTokenToServiceToken(
-                    RequestServiceTokenModel(accessToken, social)
+                    RequestServiceTokenModel(accessToken, social),
                 )
             }.onSuccess {
                 _postState.value = UiState.Success(it)

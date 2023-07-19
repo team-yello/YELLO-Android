@@ -9,14 +9,13 @@ import com.example.data.model.response.yello.ResponseYelloDetail
 import com.example.data.util.FileParser
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 import timber.log.Timber
 import javax.inject.Inject
 
 class MockYelloDataSourceImpl @Inject constructor(
-    private val parser: FileParser
-): YelloDataSource {
+    private val parser: FileParser,
+) : YelloDataSource {
     override suspend fun getMyYelloList(page: Int): BaseResponse<ResponseMyYello> {
         val file = withContext(Dispatchers.IO) {
             runCatching { parser.execute("fake_total_yello.json") }

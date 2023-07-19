@@ -2,6 +2,7 @@ package com.yello.presentation.onboarding.fragment.studentid
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.activityViewModels
 import com.example.ui.base.BindingFragment
 import com.example.ui.view.setOnSingleClickListener
@@ -18,11 +19,14 @@ class StudentIdFragment : BindingFragment<FragmentStudentidBinding>(R.layout.fra
         binding.vm = viewModel
 
         initSearchDepartmentBtnClickListener()
-        initSearchStudentidBtnClickListener()
+        initSearchStudentIdBtnClickListener()
         setConfirmBtnClickListener()
         setBackBtnClickListener()
         setupDepartment()
-        setupStudentid()
+        setupStudentId()
+        binding.tvDepartmentSearch.doAfterTextChanged {
+            it.toString()
+        }
     }
 
     private fun initSearchDepartmentBtnClickListener() {
@@ -31,7 +35,7 @@ class StudentIdFragment : BindingFragment<FragmentStudentidBinding>(R.layout.fra
         }
     }
 
-    private fun initSearchStudentidBtnClickListener() {
+    private fun initSearchStudentIdBtnClickListener() {
         binding.tvStudentidSearch.setOnSingleClickListener {
             StudentidDialogFragment().show(parentFragmentManager, this.tag)
         }
@@ -54,9 +58,9 @@ class StudentIdFragment : BindingFragment<FragmentStudentidBinding>(R.layout.fra
         }
     }
 
-    private fun setupStudentid() {
-        viewModel._studentid.observe(viewLifecycleOwner) { studentid ->
-            binding.tvStudentidSearch.text = studentid
+    private fun setupStudentId() {
+        viewModel._studentId.observe(viewLifecycleOwner) { studentId ->
+            binding.tvStudentidSearch.text = getString(R.string.onboarding_student_id, studentId)
         }
     }
 }

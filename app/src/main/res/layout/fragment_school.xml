@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="vm"
             type="com.yello.presentation.onboarding.activity.OnBoardingViewModel" />
@@ -14,14 +16,14 @@
         android:layout_height="match_parent"
         android:background="@color/black">
 
-        <androidx.appcompat.widget.AppCompatButton
+        <ImageView
             android:id="@+id/btn_school_back_btn"
-            android:layout_width="0dp"
-            android:layout_height="24dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="12dp"
-            android:background="@drawable/ic_onboarding_btn_back"
-            app:layout_constraintDimensionRatio="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="12dp"
+            android:layout_marginStart="4dp"
+            android:background="@null"
+            android:src="@drawable/ic_onboarding_btn_back"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -29,7 +31,7 @@
             android:id="@+id/tv_school_ready"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
+            android:layout_marginHorizontal="16dp"
             android:layout_marginTop="68dp"
             android:text="@string/onboarding_tv_readyto_login"
             android:textAppearance="?textAppearanceBodyMedium"
@@ -42,11 +44,11 @@
             android:id="@+id/tv_school_where"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
+            android:layout_marginHorizontal="16dp"
             android:layout_marginTop="26dp"
             android:text="@string/onboarding_tv_what_school"
-            android:textColor="@color/white"
             android:textAppearance="?textAppearanceHeadline2"
+            android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_school_ready" />
@@ -56,16 +58,23 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
-            android:background="@{vm.isValidSchool() ? @drawable/shape_black_fill_grayscales600_line_8_rect : @drawable/shape_grayscales900_fill_grayscales500_line_8_rect}"
-            android:paddingVertical="14dp"
+            android:layout_marginTop="12dp"
+            android:background="@{vm.isValidSchool() ? @drawable/shape_grayscales900_fill_grayscales500_line_8_rect : @drawable/shape_black_fill_grayscales600_line_8_rect}"
+            android:drawablePadding="12dp"
+            android:ellipsize="end"
+            android:gravity="center_vertical"
+            android:fontFamily="@font/font_pretendard_medium"
+            android:textSize="16sp"
+            android:maxLines="1"
+            android:paddingVertical="18dp"
+            android:paddingStart="20dp"
             android:paddingEnd="12dp"
             android:textColor="@color/white"
-            android:layout_marginTop="12dp"
-            android:paddingStart="20dp"
             app:drawableEndCompat="@drawable/ic_onboarding_search"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_school_where" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_school_where"
+            tools:text="@string/dummy" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_school_next"
@@ -73,9 +82,9 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
             android:layout_marginBottom="32dp"
-            android:background="@{vm.isValidSchool()? @drawable/shape_grayscales_800_fill_8_rect : @drawable/shape_yello_main_500_fill_black_line_rect}"
+            android:background="@{vm.isValidSchool()? @drawable/shape_yello_main_500_fill_black_line_rect : @drawable/shape_grayscales800_fill_8_rect}"
+            android:clickable="@{vm.isValidSchool()}"
             android:paddingVertical="12dp"
-            android:clickable="@{!vm.isValidSchool()}"
             android:text="@string/onboarding_btn_next"
             android:textAppearance="?textAppearanceBodyMedium"
             android:textColor="@{vm.isValidSchool()? @color/black : @color/grayscales_700}"

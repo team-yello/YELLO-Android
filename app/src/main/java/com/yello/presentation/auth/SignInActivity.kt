@@ -1,6 +1,7 @@
 package com.yello.presentation.auth
 
 import android.content.Intent
+import android.content.Intent.EXTRA_EMAIL
 import android.os.Bundle
 import androidx.activity.viewModels
 import com.example.ui.base.BindingActivity
@@ -15,6 +16,7 @@ import com.kakao.sdk.user.UserApiClient
 import com.yello.R
 import com.yello.databinding.ActivitySignInBinding
 import com.yello.presentation.main.MainActivity
+import com.yello.util.context.yelloSnackbar
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
@@ -56,10 +58,8 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
         accountLoginCallback = { token, error ->
             if (error != null) {
                 Timber.tag(TAG_AUTH).e(error, "카카오계정으로 로그인 실패")
-
             } else if (token != null) {
                 setDataFromObserver(token)
-
             } else {
                 Timber.tag(TAG_AUTH).d("빈 카카오 토큰")
             }
@@ -76,14 +76,11 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
                 if (error is ClientError && error.reason == ClientErrorCause.Cancelled) {
                     Timber.tag(TAG_AUTH).e(error, "유저가 로그인 취소")
                 } else {
-
                     // 카카오톡 연결 실패 시, 계정으로 로그인 시도
                     loginWithAccountCallback()
                 }
-
             } else if (token != null) {
                 setDataFromObserver(token)
-
             } else {
                 Timber.tag(TAG_AUTH).d("빈 카카오 토큰")
             }
@@ -93,14 +90,18 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
     // 웹 로그인 실행
     private fun loginWithAccountCallback() {
         UserApiClient.instance.loginWithKakaoAccount(
-            context = this, callback = accountLoginCallback, serviceTerms = serviceTermsList
+            context = this,
+            callback = accountLoginCallback,
+            serviceTerms = serviceTermsList,
         )
     }
 
     // 앱 로그인 실행
     private fun loginWithAppCallback() {
         UserApiClient.instance.loginWithKakaoTalk(
-            context = this, callback = appLoginCallback, serviceTerms = serviceTermsList
+            context = this,
+            callback = appLoginCallback,
+            serviceTerms = serviceTermsList,
         )
     }
 
@@ -131,7 +132,7 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
 
                 is UiState.Failure -> {
                     if (state.msg == "403") {
-                        getUserInfo()
+                        getKakaoInfo()
                         startSocialSyncActivity()
                     } else {
                         toast("서버 통신에 실패했습니다")
@@ -144,32 +145,37 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
         }
     }
 
-    // 카카오 토큰 저장
     // TODO: 카카오 토큰값 저장
     private fun postKakaoAccessToken(token: OAuthToken?) {
         if (token != null) {
             kakaoAccessToken = token.accessToken
-        } else {
-            Timber.tag(TAG_AUTH).d("카카오 토큰 받기 실패")
+            return
         }
+
+        yelloSnackbar(binding.root, getString(R.string.msg_error))
+        Timber.e("카카오 토큰 받기 실패")
     }
 
-    // 사용자 정보 수집
-    // TODO : 유저 추가 정보 저장
-    private fun getUserInfo() {
+    private fun getKakaoInfo() {
         UserApiClient.instance.me { user, _ ->
             if (user != null) {
-                var userKakaoEmail = user.kakaoAccount?.email
-                var userThumbnailUri = user.kakaoAccount?.profile?.thumbnailImageUrl
-            } else {
-                Timber.tag(TAG_AUTH).d("카카오 유저 정보 받기 실패")
+                viewModel.setKakaoInfo(
+                    kakaoId = user.id?.toInt() ?: return@me,
+                    email = user.kakaoAccount?.email ?: "",
+                    profileImage = user.kakaoAccount?.profile?.thumbnailImageUrl ?: "",
+                )
+                return@me
             }
         }
+        Timber.e("카카오 정보 불러오기 실패")
+        yelloSnackbar(binding.root, getString(R.string.msg_error))
     }
 
-    // 다음 화면으로 전환
     private fun startSocialSyncActivity() {
         Intent(this, SocialSyncActivity::class.java).apply {
+            putExtra(EXTRA_KAKAO_ID, viewModel.kakaoUserId.value)
+            putExtra(EXTRA_EMAIL, viewModel.email.value)
+            putExtra(EXTRA_PROFILE_IMAGE, viewModel.profileImage.value)
             addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
             startActivity(this)
         }
@@ -184,7 +190,10 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
         finish()
     }
 
-    private companion object {
+    companion object {
+        const val EXTRA_KAKAO_ID = "KAKAO_ID"
+        const val EXTRA_PROFILE_IMAGE = "PROFILE_IMAGE"
+
         const val TAG_AUTH = "authSignIn"
     }
 }

@@ -1,19 +1,17 @@
 package com.yello.presentation.onboarding.fragment.studentid.dialog.department
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.domain.entity.MyDepartment
+import com.example.domain.entity.onboarding.Group
 import com.example.ui.view.ItemDiffCallback
 import com.example.ui.view.setOnSingleClickListener
 import com.yello.databinding.ItemDepartmentListBinding
 
 class DepartmentAdapter(
-    requireContext: Context,
-    private val storeDepartment: (String) -> Unit,
-) : ListAdapter<MyDepartment, DepartmentAdapter.DepartmentViewHolder>(diffUtil) {
+    private val storeDepartment: (String, Long) -> Unit,
+) : ListAdapter<Group, DepartmentAdapter.DepartmentViewHolder>(diffUtil) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DepartmentViewHolder {
         return DepartmentViewHolder(
             ItemDepartmentListBinding.inflate(
@@ -26,25 +24,28 @@ class DepartmentAdapter(
     }
 
     override fun onBindViewHolder(holder: DepartmentViewHolder, position: Int) {
-        holder.setdepartment(getItem(position))
+        holder.setDepartment(getItem(position))
     }
 
     class DepartmentViewHolder(
         private val binding: ItemDepartmentListBinding,
-        private val storeDepartment: (String) -> Unit,
+        private val storeDepartment: (String, Long) -> Unit,
     ) :
         RecyclerView.ViewHolder(binding.root) {
-        fun setdepartment(department: MyDepartment) {
-            binding.data = department
+        fun setDepartment(department: Group) {
+            binding.data = department.name
             binding.root.setOnSingleClickListener {
-                storeDepartment(binding.tvDepartmentName.text.toString())
+                storeDepartment(department.name, department.groupId)
+            }
+            binding.tvDepartmentName.setOnSingleClickListener {
+                storeDepartment(department.name, department.groupId)
             }
         }
     }
 
     companion object {
-        private val diffUtil = ItemDiffCallback<MyDepartment>(
-            onItemsTheSame = { old, new -> old.department_name == new.department_name },
+        private val diffUtil = ItemDiffCallback<Group>(
+            onItemsTheSame = { old, new -> old == new },
             onContentsTheSame = { old, new -> old == new },
         )
     }

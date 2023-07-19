@@ -9,7 +9,7 @@ data class RequestServiceTokenDto(
     @SerialName("accessToken")
     val accessToken: String,
     @SerialName("social")
-    val social: String
+    val social: String,
 )
 
 fun RequestServiceTokenModel.toRequestDto(): RequestServiceTokenDto {

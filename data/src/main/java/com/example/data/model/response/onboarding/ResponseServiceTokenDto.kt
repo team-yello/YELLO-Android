@@ -9,7 +9,7 @@ data class ResponseServiceTokenDto(
     @SerialName("accessToken")
     val accessToken: String,
     @SerialName("refreshToken")
-    val refreshToken: String
+    val refreshToken: String,
 ) {
 
     fun toServiceTokenModel(): ServiceTokenModel {

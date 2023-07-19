@@ -2,43 +2,75 @@ package com.yello.presentation.onboarding.fragment.school.university
 
 import android.os.Bundle
 import android.view.View
-import androidx.fragment.app.DialogFragment
+import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.activityViewModels
-import com.example.domain.entity.MySchool
 import com.example.ui.base.BindingBottomSheetDialog
+import com.example.ui.context.hideKeyboard
+import com.example.ui.view.UiState
 import com.example.ui.view.setOnSingleClickListener
 import com.yello.R
 import com.yello.databinding.FragmentDialogSchoolBinding
 import com.yello.presentation.onboarding.activity.OnBoardingViewModel
-import com.yello.presentation.onboarding.fragment.school.SchoolAdapter
+import com.yello.util.context.yelloSnackbar
 
 class SearchDialogFragment :
     BindingBottomSheetDialog<FragmentDialogSchoolBinding>(R.layout.fragment_dialog_school) {
-    private lateinit var schoolList: List<MySchool>
+    private var adapter: SchoolAdapter? = null
 
     private val viewModel by activityViewModels<OnBoardingViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.vm = viewModel
-        initSchoolAdapter()
-        setStyle(DialogFragment.STYLE_NORMAL, R.style.AppBottomSheetDialogTheme)
-        binding.layoutSchoolDialog.setOnSingleClickListener {
+        initView()
+        setupSchoolData()
+    }
+
+    private fun initView() {
+        setHideKeyboard()
+        binding.etSchoolSearch.doAfterTextChanged { input ->
+            viewModel.getSchoolList(input.toString())
+        }
+        adapter = SchoolAdapter(storeSchool = ::storeSchool)
+        binding.rvSchoolList.adapter = adapter
+        binding.btnBackDialog.setOnSingleClickListener {
             dismiss()
         }
     }
 
-    private fun initSchoolAdapter() {
-        viewModel.addSchool()
-        schoolList = viewModel.schoolResult.value ?: emptyList()
-        val adapter = SchoolAdapter(requireContext(), storeSchool = ::storeSchool)
-        binding.rvSchoolList.adapter = adapter
-        adapter.submitList(schoolList)
+    private fun setHideKeyboard() {
+        binding.layoutSchoolDialog.setOnSingleClickListener {
+            requireContext().hideKeyboard(
+                requireView(),
+            )
+        }
     }
 
-    fun storeSchool(school: String) {
+    private fun setupSchoolData() {
+        viewModel.schoolData.observe(viewLifecycleOwner) { state ->
+            when (state) {
+                is UiState.Failure -> {
+                    yelloSnackbar(binding.root, getString(R.string.msg_error))
+                }
+
+                is UiState.Loading -> {}
+                is UiState.Empty -> {}
+                is UiState.Success -> {
+                    adapter?.submitList(state.data.schoolList)
+                }
+            }
+        }
+    }
+
+    private fun storeSchool(school: String) {
         viewModel.setSchool(school)
+        viewModel.clearSchoolData()
         dismiss()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        adapter = null
     }
 
     companion object {

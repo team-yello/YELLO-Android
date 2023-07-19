@@ -3,12 +3,12 @@ package com.example.data.remote.interceptor
 import com.example.data.model.response.onboarding.ResponseAuthToken
 import com.example.domain.YelloDataStore
 import com.yello.data.BuildConfig.BASE_URL
+import javax.inject.Inject
 import kotlinx.serialization.json.Json
 import okhttp3.Interceptor
 import okhttp3.Request
 import okhttp3.Response
 import timber.log.Timber
-import javax.inject.Inject
 
 class AuthInterceptor @Inject constructor(
     private val json: Json,
@@ -67,10 +67,10 @@ class AuthInterceptor @Inject constructor(
 
     private fun Request.newAuthBuilder() =
         this.newBuilder().addHeader(HEADER_AUTHORIZATION, "Bearer ${dataStore.userToken}")
+    // datastore.usertoken 대신 eyJ0eXBlIjoiYWNjZXNzVG9rZW4iLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyOTAyMTQ3MTY5IiwianRpIjoiMTYxIiwiaWF0IjoxNjg5NTMzMjgyLCJleHAiOjE2ODk2MTk2ODJ9.yzO71BRbZLoitkr0iv6R2JYEjp-e2RMUZVQHMm81RDI
 
     companion object {
         private const val CODE_TOKEN_EXPIRED = 401
-
         private const val HEADER_AUTHORIZATION = "Authorization"
         private const val HEADER_ACCESS_TOKEN = "accessToken"
         private const val HEADER_REFRESH_TOKEN = "refreshToken"

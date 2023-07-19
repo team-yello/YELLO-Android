@@ -1,22 +1,20 @@
 package com.example.domain.repository
 
+import com.example.domain.entity.RecommendAddModel
 import com.example.domain.entity.RecommendModel
 import com.example.domain.entity.RequestRecommendKakaoModel
-import com.example.domain.entity.RecommendAddModel
 
 interface RecommendRepository {
-
     suspend fun postToGetKakaoFriendList(
         page: Int,
-        request: RequestRecommendKakaoModel
+        request: RequestRecommendKakaoModel,
     ): RecommendModel?
 
     suspend fun getSchoolFriendList(
-        page: Int
+        page: Int,
     ): RecommendModel?
 
     suspend fun postFriendAdd(
-        friendId: Long
+        friendId: Long,
     ): RecommendAddModel
-
 }

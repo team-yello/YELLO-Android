@@ -6,7 +6,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class ResponseCheckName(
     val index: Int,
-    val name: String
+    val name: String,
 ) {
     fun toCheckName(): CheckName {
         return CheckName(index, name)

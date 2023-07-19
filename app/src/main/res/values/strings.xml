@@ -5,6 +5,7 @@
     <string name="msg_error">오류가 발생하였습니다.</string>
     <string name="msg_failure">정보 불러오기에 실패했습니다.</string>
     <string name="to_string">%s</string>
+    <string name="dummy">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</string>
 
     <string name="sign_in_tv_title">Yell:o에 오신 걸 환영해요!</string>
     <string name="sign_in_tv_subtitle">가입을 시작해볼까요?</string>
@@ -39,11 +40,11 @@
     <string name="onboarding_tv_what_school">학교가 어디인가요?</string>
     <string name="onboarding_tv_what_department">무슨 학과인가요?</string>
     <string name="onboarding_tv_hint_select_studentid">학번을 선택해주세요.</string>
-    <string name="onboarding_btn_next">완료</string>
+    <string name="onboarding_btn_next">다음</string>
     <string name="onboarding_tv_name">이름은</string>
-    <string name="onboarding_tv_name_error">이름은 가입 후 바꿀 수 없으니 정확히 적어주세요!</string>
+    <string name="onboarding_tv_name_description">이름은 가입 후 바꿀 수 없으니 정확히 적어주세요!</string>
     <string name="onboarding_tv_id">아이디는</string>
-    <string name="onboarding_tv_id_errror">인스타 아이디로 하면 친구들이 찾기 쉬워요! (최대 20자)</string>
+    <string name="name_id_id_description">인스타 아이디로 하면 친구들이 찾기 쉬워요! (최대 20자)</string>
     <string name="onboarding_et_id">insta_id</string>
     <string name="onboarding_tv_gender">성별은</string>
     <string name="onboarding_tv_code">추천인 코드</string>
@@ -110,6 +111,7 @@
 
     <string name="look_title">둘러보기</string>
     <string name="look_sub_description">아직 구현되지 않은 기능이에요.\n조금만 기다려주세요!</string>
+
     <string name="view_type_error_msg">Unknown View Type : %d</string>
 
     <string name="profile_error_user_data">유저 정보 서버 통신 실패</string>
@@ -178,4 +180,15 @@
     <string name="recommend_invite_no_title">지금 추천된 친구가 없어요!\n친구를 초대해볼까요?</string>
     <string name="recommend_invite_no_subtitle">친구 초대하기</string>
     <string name="recommend_item_btn_add">친구추가</string>
+
+    <string name="splash_title">지금 누군가 당신을 생각하고 있어요!</string>
+
+    <string name="code_complete">완료</string>
+    <string name="onboarding_student_id">%d학번</string>
+    <string name="name_id_name_hint">김옐로</string>
+    <string name="name_id_hangul_error">한글만 입력 가능해요.</string>
+    <string name="name_id_id_error">문자, 숫자, 밑줄, 마침표만 사용할 수 있어요.</string>
+    <string name="gender_female">여자</string>
+    <string name="gender_male">남자</string>
+    <string name="name_id_duplicate_id_msg">이미 사용하고 있는 아이디에요.</string>
 </resources>

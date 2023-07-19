@@ -17,9 +17,11 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".presentation.main.MainActivity"
+            android:name=".presentation.main.SplashActivity"
             android:exported="true"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.YELLO.Splash">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -36,14 +38,11 @@
                     android:scheme="kakao${NATIVE_APP_KEY}" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".presentation.onboarding.activity.OnBoardingActivity"
+            android:exported="true"
             android:windowSoftInputMode="adjustNothing"
-            android:exported="false" />
-        <activity
-            android:name=".presentation.yello.YelloActivity"
-            android:exported="false" />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".presentation.auth.SignInActivity"
             android:exported="true"
@@ -66,12 +65,14 @@
                     android:scheme="kakao${NATIVE_APP_KEY}" />
             </intent-filter>
         </activity>
-
+        <activity
+            android:name=".presentation.main.MainActivity"
+            android:exported="true"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".presentation.main.yello.vote.VoteActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".presentation.main.profile.manage.ProfileManageActivity"
             android:exported="false"
@@ -89,5 +90,4 @@
             android:exported="false"
             android:screenOrientation="portrait" />
     </application>
-
 </manifest>

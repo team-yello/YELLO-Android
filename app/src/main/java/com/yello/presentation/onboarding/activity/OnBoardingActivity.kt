@@ -1,18 +1,35 @@
 package com.yello.presentation.onboarding.activity
+
+import android.content.Intent.EXTRA_EMAIL
 import android.os.Bundle
 import androidx.activity.viewModels
 import com.example.ui.base.BindingActivity
 import com.yello.R
 import com.yello.databinding.ActivityOnboardingBinding
+import com.yello.presentation.auth.SignInActivity.Companion.EXTRA_KAKAO_ID
+import com.yello.presentation.auth.SignInActivity.Companion.EXTRA_PROFILE_IMAGE
 import com.yello.presentation.onboarding.ViewPagerFragmentAdapter
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class OnBoardingActivity :
     BindingActivity<ActivityOnboardingBinding>(R.layout.activity_onboarding) {
     private val viewModel by viewModels<OnBoardingViewModel>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        getIntentExtraData()
         initViewPager()
         setupCurrentPage()
+    }
+
+    private fun getIntentExtraData() {
+        intent.apply {
+            viewModel.kakaoId = getIntExtra(EXTRA_KAKAO_ID, -1)
+            viewModel.email = getStringExtra(EXTRA_EMAIL) ?: ""
+            viewModel.profileImg = getStringExtra(EXTRA_PROFILE_IMAGE) ?: ""
+        }
     }
 
     private fun initViewPager() {

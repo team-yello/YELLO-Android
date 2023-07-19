@@ -11,7 +11,7 @@ class BaseLinearRcvItemDeco(
     private val left: Int,
     private val startPadding: Int,
     private val orientation: Int = RecyclerView.VERTICAL,
-    private val bottomPadding: Int = -1
+    private val bottomPadding: Int = -1,
 ) : RecyclerView.ItemDecoration() {
 
     constructor(
@@ -20,21 +20,20 @@ class BaseLinearRcvItemDeco(
         right: Int,
         left: Int,
         startPadding: Int,
-        orientation: Int
+        orientation: Int,
     ) : this(top, bottom, right, left, startPadding, orientation, -1)
 
     override fun getItemOffsets(
         outRect: Rect,
         view: View,
         parent: RecyclerView,
-        state: RecyclerView.State
+        state: RecyclerView.State,
     ) {
         super.getItemOffsets(outRect, view, parent, state)
 
         // 현재 아이템의 포지션 가져오기
         val position = parent.getChildAdapterPosition(view)
         val itemCount = state.itemCount
-
 
         if (orientation == RecyclerView.VERTICAL) {
             outRect.right = right.dp

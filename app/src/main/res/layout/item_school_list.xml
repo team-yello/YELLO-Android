@@ -7,7 +7,7 @@
 
         <variable
             name="data"
-            type="com.example.domain.entity.MySchool" />
+            type="String" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -36,13 +36,12 @@
             android:inputType="text"
             android:maxLines="1"
             android:layout_marginStart="8dp"
-            android:text="@{data.schoolname}"
+            android:text="@{data}"
             android:textColor="@color/white"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/iv_search_school_profile"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="사을ㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㅁ대" />
+            app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -4,130 +4,301 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.map
-import com.example.domain.entity.MyCode
-import com.example.domain.entity.MyDepartment
-import com.example.domain.entity.MyFriend
-import com.example.domain.entity.MyGender
-import com.example.domain.entity.MyId
-import com.example.domain.entity.MyName
-import com.example.domain.entity.MySchool
-import com.example.domain.entity.MyStudentid
+import androidx.lifecycle.viewModelScope
+import com.example.domain.entity.onboarding.Friend
+import com.example.domain.entity.onboarding.FriendGroup
+import com.example.domain.entity.onboarding.FriendList
+import com.example.domain.entity.onboarding.GroupList
+import com.example.domain.entity.onboarding.SchoolList
+import com.example.domain.entity.onboarding.SignupInfo
+import com.example.domain.entity.onboarding.UserInfo
+import com.example.domain.repository.OnboardingRepository
+import com.example.ui.view.UiState
+import dagger.hilt.android.lifecycle.HiltViewModel
+import java.util.regex.Pattern
+import javax.inject.Inject
+import kotlinx.coroutines.launch
+import retrofit2.HttpException
+import timber.log.Timber
 
-class OnBoardingViewModel : ViewModel() {
+@HiltViewModel
+class OnBoardingViewModel @Inject constructor(
+    private val onboardingRepository: OnboardingRepository,
+) : ViewModel() {
+    private val _postSignupState = MutableLiveData<UiState<UserInfo>>()
+    val postSignupState: LiveData<UiState<UserInfo>>
+        get() = _postSignupState
+
+    private val _getValidYelloId = MutableLiveData<UiState<Boolean>>()
+    val getValidYelloId: LiveData<UiState<Boolean>>
+        get() = _getValidYelloId
+
+    private val _schoolData = MutableLiveData<UiState<SchoolList>>()
+    val schoolData: MutableLiveData<UiState<SchoolList>> = _schoolData
+
+    private val _departmentData = MutableLiveData<UiState<GroupList>>()
+    val departmentData: MutableLiveData<UiState<GroupList>> = _departmentData
+
+    private val _friendData = MutableLiveData<UiState<FriendList>>()
+    val friendData: MutableLiveData<UiState<FriendList>> = _friendData
+
+    private val _currentPage = MutableLiveData(0)
+    val currentPage: LiveData<Int> = _currentPage
+
+    var schoolPage = -1
+    private var isSchoolPagingFinish = false
+    private var totalSchoolPage = Integer.MAX_VALUE
+
+    var departmentPage = -1
+    private var isDepartmentPagingFinish = false
+    private var totalDepartmentPage = Integer.MAX_VALUE
+
+    var friendPage = -1L
+    private var isFriendPagingFinish = false
+    private var totalFriendPage = Long.MAX_VALUE
+
     val _school = MutableLiveData("")
+    val school: String
+        get() = _school.value?.trim() ?: ""
+
+    var kakaoId: Int = -1
+    var email: String = ""
+    var profileImg: String = ""
+
+    private val _groupId = MutableLiveData<Long>()
+    val groupId: Long
+        get() = requireNotNull(_groupId.value)
+
     val _department = MutableLiveData("")
-    val _studentid = MutableLiveData("")
+    private val department: String
+        get() = _department.value?.trim() ?: ""
+
+    val _studentId = MutableLiveData<Int>()
+    private val studentId: Int
+        get() = requireNotNull(_studentId.value)
+
     val _name = MutableLiveData("")
+    private val name: String
+        get() = _name.value?.trim() ?: ""
+
     val _id = MutableLiveData("")
+    private val id: String
+        get() = _id.value?.trim() ?: ""
+
+    private val _friendList = MutableLiveData<FriendList>()
+    val friendList: FriendList
+        get() = _friendList.value ?: FriendList(0, emptyList())
+
     val _gender = MutableLiveData("")
-    val _code = MutableLiveData("")
-    val _profile = MutableLiveData("")
+    val gender: String
+        get() = _gender.value ?: ""
+
+    private val _code = MutableLiveData("")
+    val code: String
+        get() = _code.value?.trim() ?: ""
+
+    private val _profile = MutableLiveData("")
+    val profile: String
+        get() = _profile.value ?: ""
+
+    private val _recommendId = MutableLiveData("")
+    val recommendId: String
+        get() = _recommendId.value ?: ""
+
+    val isValidSchool: LiveData<Boolean> = _school.map { school -> checkValidSchool(school) }
+    val isEmptyDepartment: LiveData<Boolean> =
+        _department.map { department -> this.checkEmpty(department) }
+
+    val isValidName: LiveData<Boolean> = _name.map { name -> checkName(name) }
+    val isValidId: LiveData<Boolean> = _id.map { id -> checkId(id) }
+
+    val isEmptyCode: LiveData<Boolean> =
+        _code.map { code -> this.checkEmpty(code) }
+
+    private val _studentIdResult: MutableLiveData<List<Int>> = MutableLiveData()
+    val studentIdResult: LiveData<List<Int>> = _studentIdResult
+
+    private val _friendResult: MutableLiveData<List<Friend>> = MutableLiveData()
+    val friendResult: LiveData<List<Friend>> = _friendResult
+
+    // TODO: throttle 및 페이징 처리
+    fun getSchoolList(search: String) {
+        // if (isSchoolPagingFinish) return
+        viewModelScope.launch {
+            _schoolData.value = UiState.Loading
+            onboardingRepository.getSchoolList(
+                search,
+                0,
+                // ++schoolPage,
+            ).onSuccess { schoolList ->
+                Timber.d("GET SCHOOL LIST SUCCESS : $schoolList")
+                if (schoolList == null) {
+                    _schoolData.value = UiState.Empty
+                    return@launch
+                }
+                // totalSchoolPage = ceil((schoolList.totalCount * 0.1)).toInt()
+                // if (totalSchoolPage == schoolPage) isSchoolPagingFinish = true
+                _schoolData.value =
+                    when {
+                        schoolList.schoolList.isEmpty() -> UiState.Empty
+                        else -> UiState.Success(schoolList)
+                    }
+            }.onFailure { t ->
+                if (t is HttpException) {
+                    Timber.e("GET SCHOOL LIST FAILURE : $t")
+                    _schoolData.value = UiState.Failure(t.code().toString())
+                }
+            }
+        }
+    }
+
+    // TODO: throttle 및 페이징 처리
+    fun getGroupList(search: String) {
+        // if (isDepartmentPagingFinish) return
+        viewModelScope.launch {
+            _departmentData.value = UiState.Loading
+            onboardingRepository.getGroupList(
+                school,
+                search,
+                0,
+//                ++departmentPage,
+            ).onSuccess { groupList ->
+                if (groupList == null) {
+                    _departmentData.value = UiState.Empty
+                    return@launch
+                }
+
+                // totalDepartmentPage = ceil((department.totalCount * 0.1)).toLong()
+                // if (totalDepartmentPage == departmentPage) isDepartmentPagingFinish = true
+                _departmentData.value =
+                    when {
+                        groupList.groupList.isEmpty() -> UiState.Empty
+                        else -> UiState.Success(groupList)
+                    }
+            }.onFailure { t ->
+                if (t is HttpException) {
+                    Timber.e("GET GROUP LIST FAILURE : $t")
+                    _departmentData.value = UiState.Failure(t.code().toString())
+                }
+                Timber.e("GET GROUP LIST ERROR : $t")
+            }
+        }
+    }
+
+    fun addListFriend(friendGroup: FriendGroup) {
+        if (isFriendPagingFinish) return
+        viewModelScope.launch {
+            _friendData.value = UiState.Loading
+            onboardingRepository.postFriendService(
+                friendGroup,
+                ++friendPage,
+            ).onSuccess { friend ->
+                if (friend == null) {
+                    _friendData.value = UiState.Empty
+                    return@launch
+                }
+                totalFriendPage = kotlin.math.ceil((friend.totalCount * 0.1)).toLong()
+                if (totalFriendPage == friendPage) isFriendPagingFinish = true
+                _friendData.value =
+                    when {
+                        friend.friendList.isEmpty() -> UiState.Empty
+                        else -> UiState.Success(friend)
+                    }
+            }
+        }
+    }
+
+    fun postSignup() {
+        viewModelScope.launch {
+            val signupInfo = SignupInfo(
+                kakaoId = kakaoId,
+                email = email,
+                profileImg = profileImg,
+                groupId = groupId,
+                studentId = studentId,
+                name = name,
+                yelloId = id,
+                gender = gender,
+                friendList = friendList.toIdList(),
+                recommendId = recommendId,
+            )
+            onboardingRepository.postSignup(signupInfo)
+                .onSuccess { userInfo ->
+                    Timber.d("POST SIGN UP SUCCESS : $userInfo")
+                    if (userInfo == null) {
+                        _postSignupState.value = UiState.Empty
+                        return@launch
+                    }
+                    _postSignupState.value = UiState.Success(userInfo)
+                }
+                .onFailure { t ->
+                    if (t is HttpException) {
+                        Timber.e("POST SIGN UP FAILURE : $t")
+                        _postSignupState.value = UiState.Failure(t.code().toString())
+                        return@launch
+                    }
+                    Timber.e("POST SIGN UP ERROR : $t")
+                }
+        }
+    }
+
+    fun getValidYelloId() {
+        viewModelScope.launch {
+            onboardingRepository.getValidYelloId(yelloId = id)
+                .onSuccess { isValid ->
+                    Timber.d("GET VALID YELLO ID SUCCESS : $isValid")
+                    if (isValid == null) {
+                        _getValidYelloId.value = UiState.Empty
+                        return@launch
+                    }
+
+                    _getValidYelloId.value = UiState.Success(isValid)
+                }
+                .onFailure { t ->
+                    if (t is HttpException) {
+                        Timber.e("GET VALID YELLO ID FAILURE : $t")
+                        _getValidYelloId.value = UiState.Failure(t.code().toString())
+                        return@launch
+                    }
+                    Timber.e("GET VALID YELLO ID ERROR : $t")
+                }
+        }
+    }
 
     fun setSchool(school: String) {
         _school.value = school
     }
 
-    fun setDepartment(department: String) {
+    fun setGroupInfo(department: String, groupId: Long) {
         _department.value = department
+        _groupId.value = groupId
     }
 
-    fun setStudentid(studentid: String) {
-        _studentid.value = studentid
+    fun setStudentId(studentId: Int) {
+        _studentId.value = studentId
     }
 
-    val _currentPage = MutableLiveData(0)
-    val currentPage: LiveData<Int> = _currentPage
+    fun selectGender(gender: String) {
+        _gender.value = gender
+    }
 
-    val isValidSchool: LiveData<Boolean> = _school.map { school -> checkValidSchool(school) }
+    fun clearSchoolData() {
+        _schoolData.value = UiState.Success(SchoolList(0, emptyList()))
+    }
 
-    val isEmptyDepartment: LiveData<Boolean> =
-        _department.map { department -> checkEmpty_department(department) }
-    val isEmptyStudentid: LiveData<Boolean> =
-        _studentid.map { studentid -> checkEmpty_studentid(studentid) }
-    val isEmptyName: LiveData<Boolean> =
-        _name.map { name -> checkEmpty_name(name) }
-    val isEmptyId: LiveData<Boolean> =
-        _id.map { id -> checkEmpty_id(id) }
-    val isEmpty_code: LiveData<Boolean> =
-        _code.map { code -> checkEmpty_code(code) }
-
-    private val school: String
-        get() = _school.value?.trim() ?: ""
-    private val department: String
-        get() = _department.value?.trim() ?: ""
-
-    private val studentid: String
-        get() = _studentid.value?.trim() ?: ""
-
-    private val name: String
-        get() = _name.value?.trim() ?: ""
-
-    private val id: String
-        get() = _id.value?.trim() ?: ""
-
-    private val gender: String
-        get() = _gender.value?.trim() ?: ""
-
-    private val code: String
-        get() = _code.value?.trim() ?: ""
-
-    private val _schoolResult: MutableLiveData<List<MySchool>> = MutableLiveData()
-    val schoolResult: LiveData<List<MySchool>> = _schoolResult
-
-    private val _departmentResult: MutableLiveData<List<MyDepartment>> = MutableLiveData()
-    val departmentResult: LiveData<List<MyDepartment>> = _departmentResult
-
-    private val _studentidResult: MutableLiveData<List<MyStudentid>> = MutableLiveData()
-    val studentidResult: LiveData<List<MyStudentid>> = _studentidResult
-
-    private val _friendResult: MutableLiveData<List<MyFriend>> = MutableLiveData()
-    val friendResult: LiveData<List<MyFriend>> = _friendResult
-
-    private val _idResult: MutableLiveData<List<MyId>> = MutableLiveData()
-    val idResult: LiveData<List<MyId>> = _idResult
-
-    private val _nameResult: MutableLiveData<List<MyName>> = MutableLiveData()
-    val nameResult: LiveData<List<MyName>> = _nameResult
-
-    private val _genderResult: MutableLiveData<List<MyGender>> = MutableLiveData()
-    val genderResult: LiveData<List<MyGender>> = _genderResult
-
-    private val _codeResult: MutableLiveData<List<MyCode>> = MutableLiveData()
-    val codeResult: LiveData<List<MyCode>> = _codeResult
+    fun clearDepartmentData() {
+        _departmentData.value = UiState.Success(GroupList(0, emptyList()))
+    }
 
     private fun checkValidSchool(school: String): Boolean {
-        return school.isNullOrBlank()
+        return school.isNotBlank()
     }
 
-    private fun checkEmpty_department(department: String): Boolean {
-        return department.isNullOrBlank()
-    }
+    private fun checkEmpty(input: String) = input.isBlank()
 
-    private fun checkEmpty_studentid(studentid: String): Boolean {
-        return studentid.isNullOrBlank()
-    }
+    private fun checkName(name: String) = Pattern.matches(REGEX_NAME_PATTERN, name)
 
-    private fun checkEmpty_name(name: String): Boolean {
-        return name.isNullOrBlank()
-    }
-    private fun checkEmpty_id(id: String): Boolean {
-        return id.isNullOrBlank()
-    }
-
-    private fun checkEmpty_code(code: String): Boolean {
-        return code.isNullOrBlank()
-    }
-
-    // 목데이터
-    fun addSchool() {
-        val mockList = listOf(
-            MySchool("김상호랑이대학교"),
-            MySchool("전채연습만이살길대학교"),
-            MySchool("이강민머리될떄까지대학교"),
-            MySchool("박민주거라연습대학교"),
-        )
-        _schoolResult.value = mockList
-    }
+    private fun checkId(id: String) = Pattern.matches(REGEX_ID_PATTERN, id)
 
     fun navigateToNextPage() {
         _currentPage.value = currentPage.value?.plus(1)
@@ -137,40 +308,13 @@ class OnBoardingViewModel : ViewModel() {
         _currentPage.value = currentPage.value?.minus(1)
     }
 
-    fun addDepartment() {
-        val mockList = listOf(
-            MyDepartment("경영학과"),
-            MyDepartment("컴퓨터 공학과"),
-            MyDepartment("사랑해학과"),
-            MyDepartment("옐로최고학과"),
-            MyDepartment("개발자양성학과"),
-            MyDepartment("법학과"),
-        )
-        _departmentResult.value = mockList
-    }
-
     fun addStudentId() {
-        val mockList = listOf(
-            MyStudentid("15학번"),
-            MyStudentid("16학번"),
-            MyStudentid("17학번"),
-            MyStudentid("18학번"),
-            MyStudentid("19학번"),
-            MyStudentid("20학번"),
-            MyStudentid("21학번"),
-            MyStudentid("22학번"),
-            MyStudentid("23학번"),
-        )
-        _studentidResult.value = mockList
+        val mockList = listOf(15, 16, 17, 18, 19, 20, 21, 22, 23)
+        _studentIdResult.value = mockList
     }
 
-    fun addFriend() {
-        val mockList = listOf(
-            MyFriend(1, "김나현", "서울여자대학교 시각디자인과"),
-            MyFriend(2, "강국희", "성신여자대학교 산업디자인과"),
-            MyFriend(3, "이의제", "송민호대학교 컴퓨터공화과"),
-            MyFriend(4, "고경표", "상호대학교 컴퓨터공학과"),
-        )
-        _friendResult.value = mockList
+    companion object {
+        private const val REGEX_NAME_PATTERN = "^([ㄱ-ㅎㅏ-ㅣ가-힣]*)\$"
+        private const val REGEX_ID_PATTERN = "^([A-Za-z0-9_.]*)\$"
     }
 }

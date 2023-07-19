@@ -23,7 +23,7 @@ interface OnboardingRepository {
         page: Int,
     ): Result<GroupList?>
 
-    suspend fun getIdService(
+    suspend fun getValidYelloId(
         yelloId: String,
     ): Result<Boolean?>
 

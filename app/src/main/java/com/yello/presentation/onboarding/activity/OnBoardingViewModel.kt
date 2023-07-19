@@ -12,7 +12,6 @@ import com.example.domain.entity.onboarding.GroupList
 import com.example.domain.entity.onboarding.SchoolList
 import com.example.domain.entity.onboarding.SignupInfo
 import com.example.domain.entity.onboarding.UserInfo
-import com.example.domain.enum.GenderEnum
 import com.example.domain.repository.OnboardingRepository
 import com.example.ui.view.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -29,6 +28,10 @@ class OnBoardingViewModel @Inject constructor(
     private val _postSignupState = MutableLiveData<UiState<UserInfo>>()
     val postSignupState: LiveData<UiState<UserInfo>>
         get() = _postSignupState
+
+    private val _getValidYelloId = MutableLiveData<UiState<Boolean>>()
+    val getValidYelloId: LiveData<UiState<Boolean>>
+        get() = _getValidYelloId
 
     private val _schoolData = MutableLiveData<UiState<SchoolList>>()
     val schoolData: MutableLiveData<UiState<SchoolList>> = _schoolData
@@ -235,6 +238,29 @@ class OnBoardingViewModel @Inject constructor(
                         return@launch
                     }
                     Timber.e("POST SIGN UP ERROR : $t")
+                }
+        }
+    }
+
+    fun getValidYelloId() {
+        viewModelScope.launch {
+            onboardingRepository.getValidYelloId(yelloId = id)
+                .onSuccess { isValid ->
+                    Timber.d("GET VALID YELLO ID SUCCESS : $isValid")
+                    if (isValid == null) {
+                        _getValidYelloId.value = UiState.Empty
+                        return@launch
+                    }
+
+                    _getValidYelloId.value = UiState.Success(isValid)
+                }
+                .onFailure { t ->
+                    if (t is HttpException) {
+                        Timber.e("GET VALID YELLO ID FAILURE : $t")
+                        _getValidYelloId.value = UiState.Failure(t.code().toString())
+                        return@launch
+                    }
+                    Timber.e("GET VALID YELLO ID ERROR : $t")
                 }
         }
     }

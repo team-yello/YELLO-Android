@@ -15,7 +15,7 @@ class GenderFragment : BindingFragment<FragmentGenderBinding>(R.layout.fragment_
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        // binding.vm=viewModel
+        binding.vm = viewModel
 
         setConfirmBtnClickListener()
         setBackBtnClickListener()
@@ -35,7 +35,6 @@ class GenderFragment : BindingFragment<FragmentGenderBinding>(R.layout.fragment_
         }
     }
 
-    // 코드가 맘에 들지 않는군요 ...
     private fun clickBoyBtnClickListener() {
         binding.btnGenderX.setOnClickListener {
             binding.btnGenderX.setBackgroundResource(R.drawable.shape_onboarding_semantic_gender_m700_fill_semantic_gender_m300_line)
@@ -50,6 +49,7 @@ class GenderFragment : BindingFragment<FragmentGenderBinding>(R.layout.fragment_
 
             binding.btnGenderNext.setTextColor(Color.parseColor("#191919"))
             binding.btnGenderNext.setBackgroundResource(R.drawable.shape_yello_main_500_fill_8_rect)
+            viewModel.setGender("MALE")
         }
     }
 
@@ -67,6 +67,7 @@ class GenderFragment : BindingFragment<FragmentGenderBinding>(R.layout.fragment_
 
             binding.btnGenderNext.setTextColor(Color.parseColor("#191919"))
             binding.btnGenderNext.setBackgroundResource(R.drawable.shape_yello_main_500_fill_8_rect)
+            viewModel.setGender("FEMALE")
         }
     }
 }

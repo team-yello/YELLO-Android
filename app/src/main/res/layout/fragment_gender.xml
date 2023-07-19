@@ -2,7 +2,11 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <data></data>
+    <data>
+        <variable
+            name="vm"
+            type="com.yello.presentation.onboarding.activity.OnBoardingViewModel" />
+    </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layout_gender"
@@ -10,14 +14,13 @@
         android:layout_height="match_parent"
         android:background="@color/black">
 
-        <androidx.appcompat.widget.AppCompatButton
+        <ImageView
             android:id="@+id/btn_gender_back_btn"
-            android:layout_width="0dp"
-            android:layout_height="24dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="12dp"
-            android:background="@drawable/ic_onboarding_btn_back"
-            app:layout_constraintDimensionRatio="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:src="@drawable/ic_onboarding_btn_back"
+            android:padding="12dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -25,7 +28,7 @@
             android:id="@+id/tv_gender"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
+            android:layout_marginHorizontal="16dp"
             android:layout_marginTop="68dp"
             android:text="@string/onboarding_tv_gender"
             android:textAppearance="?textAppearanceHeadline2"
@@ -41,13 +44,13 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
             android:layout_marginBottom="14dp"
-            android:drawablePadding="4dp"
             android:background="@drawable/shape_grayscales900_fill_grayscales600_line_8_rect"
+            android:drawablePadding="4dp"
             android:paddingHorizontal="70dp"
-            android:text="@string/onboarding_tv_gender_x"
             android:paddingVertical="75dp"
-            android:textColor="@color/semantic_gender_m_500"
+            android:text="@string/onboarding_tv_gender_x"
             android:textAppearance="@style/TextAppearance.Yello.Subtitle02"
+            android:textColor="@color/semantic_gender_m_500"
             app:layout_constraintBottom_toTopOf="@+id/btn_gender_y"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
@@ -69,7 +72,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="15dp"
-            android:text="남자"
+            android:text="@string/gender_male"
             android:textAlignment="center"
             android:textAppearance="?textAppearanceSubtitle2"
             android:textColor="@color/semantic_gender_m_500"
@@ -99,8 +102,8 @@
             android:paddingHorizontal="12dp"
             android:paddingVertical="75dp"
             android:text="@string/onboarding_tv_gender_y"
-            android:textColor="@color/semantic_gender_f_500"
             android:textAppearance="@style/TextAppearance.Yello.Subtitle02"
+            android:textColor="@color/semantic_gender_f_500"
             app:layout_constraintBottom_toTopOf="@+id/btn_gender_next"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -116,14 +119,14 @@
             app:layout_constraintBottom_toBottomOf="@+id/btn_gender_y"
             app:layout_constraintEnd_toEndOf="@+id/btn_gender_y"
             app:layout_constraintStart_toStartOf="@+id/btn_gender_y"
-            app:layout_constraintTop_toTopOf="@+id/btn_gender_y"></ImageView>
+            app:layout_constraintTop_toTopOf="@+id/btn_gender_y" />
 
         <TextView
             android:id="@+id/tv_girl"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="15dp"
-            android:text="여자"
+            android:text="@string/gender_female"
             android:textAlignment="center"
             android:textAppearance="?textAppearanceSubtitle2"
             android:textColor="@color/semantic_gender_f_500"
@@ -152,6 +155,7 @@
             android:backgroundTint="@color/grayscales_800"
             android:paddingVertical="12dp"
             android:text="@string/onboarding_btn_gender_done"
+            android:clickable="@{!vm._gender.isEmpty()}"
             android:textAppearance="?textAppearanceBodyMedium"
             android:textColor="@color/grayscales_700"
             app:layout_constraintBottom_toBottomOf="parent"

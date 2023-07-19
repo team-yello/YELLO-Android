@@ -38,17 +38,15 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
+        <ImageView
             android:id="@+id/btn_back_dialog"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="29dp"
-            android:layout_marginEnd="22dp"
-            android:layout_marginBottom="13dp"
+            android:layout_marginTop="17dp"
+            android:padding="12dp"
+            android:layout_marginEnd="4dp"
             android:background="@null"
             android:src="@drawable/ic_onboarding_x"
-            app:layout_constraintBottom_toTopOf="@+id/et_department_search"
-            app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -59,7 +57,6 @@
             android:layout_marginHorizontal="20dp"
             android:layout_marginTop="12dp"
             android:background="@drawable/shape_grayscales900_fill_grayscales500_line_8_rect"
-            android:textColor="@color/white"
             android:drawableEnd="@drawable/ic_onboarding_search"
             android:drawablePadding="24dp"
             android:fontFamily="@font/font_pretendard_medium"
@@ -68,6 +65,7 @@
             android:paddingVertical="16dp"
             android:paddingStart="20dp"
             android:paddingEnd="12dp"
+            android:textColor="@color/white"
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -80,6 +78,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="1dp"
             android:background="@null"
+            android:paddingHorizontal="12dp"
+            android:paddingVertical="14dp"
             android:text="@string/onboarding_btn_add_department"
             android:textAppearance="?textAppearanceLabelLarge"
             android:textColor="@color/grayscales_500"
@@ -91,7 +91,7 @@
             android:id="@+id/rv_department_list"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="6dp"
             android:orientation="vertical"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintEnd_toEndOf="parent"

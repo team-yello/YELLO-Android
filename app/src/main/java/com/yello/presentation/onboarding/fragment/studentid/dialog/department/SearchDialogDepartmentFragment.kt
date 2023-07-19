@@ -67,7 +67,7 @@ class SearchDialogDepartmentFragment :
 
     private fun storeGroup(department: String, groupId: Long) {
         viewModel.setGroupInfo(department, groupId)
-        viewModel.cleaDepartmentData()
+        viewModel.clearDepartmentData()
         dismiss()
     }
 

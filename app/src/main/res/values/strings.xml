@@ -114,4 +114,6 @@
     <string name="name_id_name_hint">김옐로</string>
     <string name="name_id_hangul_error">한글만 입력 가능해요.</string>
     <string name="name_id_id_error">문자, 숫자, 밑줄, 마침표만 사용할 수 있어요.</string>
+    <string name="gender_female">여자</string>
+    <string name="gender_male">남자</string>
 </resources>

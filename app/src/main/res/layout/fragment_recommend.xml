@@ -20,7 +20,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:paddingVertical="10dp"
-            android:text="추천친구"
+            android:text="@string/recommend_tv_title"
             android:textAppearance="?attr/textAppearanceHeadline3"
             android:textColor="@color/white"
             app:layout_constraintStart_toStartOf="parent"
@@ -42,16 +42,6 @@
             app:tabSelectedTextColor="@color/yello_main_500"
             app:tabTextAppearance="@style/TextAppearance.Yello.Subtitle02"
             app:tabTextColor="@color/grayscales_700">
-
-            <com.google.android.material.tabs.TabItem
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="카톡 친구들" />
-
-            <com.google.android.material.tabs.TabItem
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="학교 친구들" />
 
         </com.google.android.material.tabs.TabLayout>
 

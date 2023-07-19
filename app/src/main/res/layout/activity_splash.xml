@@ -34,10 +34,11 @@
     <ImageView
         android:id="@+id/iv_main_yello"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_marginTop="396dp"
-        android:paddingHorizontal="15dp"
-        android:src="@drawable/ic_yello_splash"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="-200dp"
+        android:paddingHorizontal="-40dp"
+        android:src="@drawable/ic_splash_yello"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -55,7 +56,7 @@
         android:id="@+id/imageView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="6dp"
         android:src="@drawable/ic_yello_face_black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

@@ -12,14 +12,13 @@ import com.example.domain.entity.onboarding.GroupList
 import com.example.domain.entity.onboarding.SchoolList
 import com.example.domain.entity.onboarding.SignupInfo
 import com.example.domain.entity.onboarding.UserInfo
-import com.example.domain.enum.GenderEnum
 import com.example.domain.repository.OnboardingRepository
 import com.example.ui.view.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import timber.log.Timber
-import javax.inject.Inject
 
 @HiltViewModel
 class OnBoardingViewModel @Inject constructor(
@@ -160,7 +159,8 @@ class OnBoardingViewModel @Inject constructor(
             onboardingRepository.getGroupList(
                 school,
                 search,
-                ++departmentPage,
+                0,
+//                ++departmentPage,
             ).onSuccess { groupList ->
                 if (groupList == null) {
                     _departmentData.value = UiState.Empty

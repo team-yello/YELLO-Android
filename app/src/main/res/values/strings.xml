@@ -110,6 +110,6 @@
     <string name="splash_title">지금 누군가 당신을 생각하고 있어요!</string>
 
     <string name="code_complete">완료</string>
-    <string name="onboarding_student_id">%d 학번</string>
+    <string name="onboarding_student_id">%d학번</string>
 
 </resources>

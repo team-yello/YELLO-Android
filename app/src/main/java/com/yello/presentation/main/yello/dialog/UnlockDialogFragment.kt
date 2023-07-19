@@ -31,7 +31,9 @@ class UnlockDialogFragment :
     private val templateId = 95890.toLong()
     private val url = "http://naver.com"
     private val myYelloId: String = "sangho.kk"
-    private val linkText: String = "여기다 링크 넣어주세요"
+    private val linkText: String = "추천인코드: {$myYelloId}\n" +
+            "우리 같이 YELL:O 해요!\n" +
+            "(여기에는 다운로드 링크)"
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

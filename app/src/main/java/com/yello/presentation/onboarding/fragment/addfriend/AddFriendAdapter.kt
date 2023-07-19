@@ -31,11 +31,6 @@ class AddFriendAdapter(private val itemClick: (Friend, Int) -> (Unit)) :
         holder.onBind(getItem(position), position)
     }
 
-    fun addItemList(newItems: List<Friend>) {
-        this.addItemList(newItems)
-        notifyDataSetChanged()
-    }
-
     class AddFriendViewHolder(
         private val binding: ItemAddfriendBinding,
         private val itemClick: (Friend, Int) -> Unit,
@@ -55,7 +50,7 @@ class AddFriendAdapter(private val itemClick: (Friend, Int) -> (Unit)) :
                     if (friend.isSelected) R.color.white else R.color.grayscales_onbarding_light,
                 ),
             )
-            
+
             binding.tvFriendDepartment.setTextColor(
                 ContextCompat.getColor(
                     itemView.context,

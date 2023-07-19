@@ -1,11 +1,11 @@
 package com.yello.presentation.onboarding.fragment.addfriend
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.domain.entity.RecommendModel
 import com.example.domain.entity.onboarding.Friend
 import com.example.domain.entity.onboarding.FriendGroup
 import com.example.ui.base.BindingFragment
@@ -21,14 +21,16 @@ import dagger.hilt.android.AndroidEntryPoint
 class AddFriendFragment :
     BindingFragment<FragmentAddfreindBinding>(R.layout.fragment_addfreind) {
 
-    private lateinit var friendList: List<Friend>
     private var adapter: AddFriendAdapter? = null
 
     private val viewModel by activityViewModels<OnBoardingViewModel>()
     private lateinit var friendsList: List<Friend>
 
+    private var selectedItemIdList = mutableListOf<Long>()
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         binding.vm = viewModel
 
         initFriendAdapter()
@@ -42,6 +44,13 @@ class AddFriendFragment :
     private fun initFriendAdapter() {
         adapter = AddFriendAdapter { friend, position ->
             friend.isSelected = !friend.isSelected
+            if (friend.isSelected && friend.id !in selectedItemIdList) {
+                selectedItemIdList.add(friend.id)
+                ++viewModel.selectedFriendCount
+            } else {
+                selectedItemIdList.remove(friend.id)
+                --viewModel.selectedFriendCount
+            }
             adapter?.notifyItemChanged(position)
         }
         binding.rvFreindList.adapter = adapter
@@ -49,6 +58,8 @@ class AddFriendFragment :
 
     private fun setConfirmBtnClickListener() {
         binding.btnAddfriendNext.setOnSingleClickListener {
+            Log.d("sangho", "${selectedItemIdList}")
+            viewModel.selectedFriendIdList = selectedItemIdList
             viewModel.navigateToNextPage()
         }
     }
@@ -104,7 +115,8 @@ class AddFriendFragment :
         viewModel.friendState.observe(viewLifecycleOwner) {
             friendsList = it.friendList
             adapter?.submitList(friendsList)
-            binding.tvFriendNumber.text = it.totalCount.toString()
+            selectedItemIdList.addAll(friendsList.map { friend -> friend.id })
+            viewModel.selectedFriendCount += friendsList.size
         }
     }
 

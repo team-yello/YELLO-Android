@@ -6,7 +6,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
 import com.example.domain.entity.RequestOnboardingListModel
-import com.example.domain.entity.onboarding.Friend
 import com.example.domain.entity.onboarding.FriendGroup
 import com.example.domain.entity.onboarding.FriendList
 import com.example.domain.entity.onboarding.GroupList
@@ -109,15 +108,14 @@ class OnBoardingViewModel @Inject constructor(
     private val _studentIdResult: MutableLiveData<List<Int>> = MutableLiveData()
     val studentIdResult: LiveData<List<Int>> = _studentIdResult
 
-    private val _friendResult: MutableLiveData<List<Friend>> = MutableLiveData()
-    val friendResult: LiveData<List<Friend>> = _friendResult
-
     private val _friendState = MutableLiveData<FriendList>()
     val friendState: LiveData<FriendList> = _friendState
 
     var kakaoFriendList: List<String> = listOf()
+    var selectedFriendIdList : List<Long> = listOf()
+    var selectedFriendCount: Int = 0
 
-    var currentFriendPage: Int = -1
+    private var currentFriendPage: Int = -1
     private var isFriendPagingFinish = false
     private var totalFriendPage = Int.MAX_VALUE
 
@@ -185,20 +183,18 @@ class OnBoardingViewModel @Inject constructor(
         }
     }
 
-    // TODO : @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
     fun addFriendList(friendGroup: FriendGroup) {
         viewModelScope.launch {
-            //f (isFriendPagingFinish) return@launch
+            if (isFriendPagingFinish) return@launch
             runCatching {
                 onboardingRepository.postToGetFriendList(
                     RequestOnboardingListModel(friendGroup.friendIdList, friendGroup.groupId),
-                    0
-                    //++currentFriendPage
+                    ++currentFriendPage
                 )
             }.onSuccess { friendList ->
                 friendList ?: return@launch
                 totalFriendPage = ceil((friendList.totalCount * 0.1)).toInt() - 1
-                //if (totalFriendPage == currentFriendPage) isFriendPagingFinish = true
+                if (totalFriendPage == currentFriendPage) isFriendPagingFinish = true
                 _friendState.value = friendList
             }.onFailure {
                 Timber.e(it.message)
@@ -217,7 +213,7 @@ class OnBoardingViewModel @Inject constructor(
                 name = name,
                 yelloId = id,
                 gender = gender,
-                friendList = friendState.value?.toIdList() ?: listOf(),
+                friendList = selectedFriendIdList,
                 recommendId = recommendId,
             )
             onboardingRepository.postSignup(signupInfo)

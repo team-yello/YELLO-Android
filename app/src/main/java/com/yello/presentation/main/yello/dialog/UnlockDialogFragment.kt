@@ -13,8 +13,6 @@ import com.kakao.sdk.share.ShareClient
 import com.kakao.sdk.share.WebSharerClient
 import com.yello.R
 import com.yello.databinding.FragmentUnlockDialogBinding
-import com.yello.presentation.main.recommend.RecommendInviteDialog
-import com.yello.util.context.yelloSnackbar
 import timber.log.Timber
 
 class UnlockDialogFragment :
@@ -74,7 +72,7 @@ class UnlockDialogFragment :
             ShareClient.instance.shareCustom(
                 context,
                 templateId,
-                mapOf("KEY" to myYelloId)
+                mapOf("KEY" to myYelloId),
             ) { sharingResult, error ->
                 if (error != null) {
                     Timber.tag(TAG_SHARE).e(error, getString(R.string.invite_error_kakao))

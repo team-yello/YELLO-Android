@@ -4,22 +4,24 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import androidx.activity.viewModels
 import com.example.ui.base.BindingActivity
 import com.example.ui.view.setOnSingleClickListener
 import com.kakao.sdk.user.UserApiClient
 import com.yello.R
 import com.yello.databinding.ActivityProfileManageBinding
+import com.yello.presentation.main.profile.ProfileViewModel
 import timber.log.Timber
 
 class ProfileManageActivity :
     BindingActivity<ActivityProfileManageBinding>(R.layout.activity_profile_manage) {
+    private val viewModel by viewModels<ProfileViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         initBackButton(this)
         initProfileQuitActivityWithoutFinish()
-
 
         binding.btnProfileManageCenter.setOnSingleClickListener {
             // TODO: 버튼 3개 링크 설정
@@ -51,6 +53,7 @@ class ProfileManageActivity :
             if (error != null) {
                 Timber.d(getString(R.string.profile_error_logout))
             } else {
+                viewModel.clearLocalInfo()
                 restartApp(this)
             }
         }

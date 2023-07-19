@@ -37,6 +37,7 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
         Timber.tag(TAG_AUTH).d(keyHash)
 
         initSignInButtonListener()
+        setupGetUserProfileState()
     }
 
     private fun initSignInButtonListener() {
@@ -57,7 +58,6 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
         accountLoginCallback = { token, error ->
             if (error != null) {
                 Timber.tag(TAG_AUTH).e(error, getString(R.string.sign_in_error_kakao_account_login))
-
             } else if (token != null) {
                 setDataFromObserver(token)
             } else {
@@ -125,20 +125,20 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
         viewModel.postState.observe(this) { state ->
             when (state) {
                 is UiState.Success -> {
-                    // 500(가입된 아이디): 온보딩뷰 생략하고 바로 메인화면으로 이동
-                    startMainActivity()
+                    // 500(가입된 아이디): 온보딩 뷰 생략하고 바로 메인 화면으로 이동
+                    viewModel.getUserData()
                 }
 
                 is UiState.Failure -> {
                     if (state.msg == "403") {
-                        // 403(가입되지 않은 아이디): 온보딩뷰로 이동
+                        // 403(가입되지 않은 아이디): 온보딩 뷰로 이동
                         getKakaoInfo()
                         startSocialSyncActivity()
                     } else {
                         // 401 : 에러 발생
                         yelloSnackbar(
                             binding.root.rootView,
-                            getString(R.string.sign_in_error_connection)
+                            getString(R.string.sign_in_error_connection),
                         )
                     }
                 }
@@ -184,6 +184,20 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
             startActivity(this)
         }
         finish()
+    }
+
+    private fun setupGetUserProfileState() {
+        viewModel.getUserProfileState.observe(this) { state ->
+            when (state) {
+                is UiState.Success -> {
+                    startMainActivity()
+                }
+
+                is UiState.Failure -> { yelloSnackbar(binding.root, getString(R.string.msg_error)) }
+                is UiState.Empty -> { yelloSnackbar(binding.root, getString(R.string.msg_error)) }
+                is UiState.Loading -> {}
+            }
+        }
     }
 
     private fun startMainActivity() {

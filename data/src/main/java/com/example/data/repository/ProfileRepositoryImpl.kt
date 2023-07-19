@@ -7,7 +7,7 @@ import com.example.domain.repository.ProfileRepository
 import javax.inject.Inject
 
 class ProfileRepositoryImpl @Inject constructor(
-    private val profileDataSource: ProfileDataSource
+    private val profileDataSource: ProfileDataSource,
 ) : ProfileRepository {
 
     override suspend fun getUserData(): ProfileUserModel? {
@@ -18,12 +18,11 @@ class ProfileRepositoryImpl @Inject constructor(
         return profileDataSource.getFriendsData(page).data?.toProfileFriendsListModel()
     }
 
-    override suspend fun deleteUserData(): Unit {
+    override suspend fun deleteUserData() {
         return profileDataSource.deleteUserData().data ?: Unit
     }
 
-    override suspend fun deleteFriendData(friendId: Int): Unit {
+    override suspend fun deleteFriendData(friendId: Int) {
         return profileDataSource.deleteFriendData(friendId).data ?: Unit
     }
-
 }

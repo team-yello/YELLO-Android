@@ -12,6 +12,7 @@ import com.example.domain.entity.onboarding.GroupList
 import com.example.domain.entity.onboarding.SchoolList
 import com.example.domain.entity.onboarding.SignupInfo
 import com.example.domain.entity.onboarding.UserInfo
+import com.example.domain.repository.AuthRepository
 import com.example.domain.repository.OnboardingRepository
 import com.example.ui.view.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -24,6 +25,7 @@ import timber.log.Timber
 @HiltViewModel
 class OnBoardingViewModel @Inject constructor(
     private val onboardingRepository: OnboardingRepository,
+    private val authRepository: AuthRepository,
 ) : ViewModel() {
     private val _postSignupState = MutableLiveData<UiState<UserInfo>>()
     val postSignupState: LiveData<UiState<UserInfo>>
@@ -230,6 +232,8 @@ class OnBoardingViewModel @Inject constructor(
                         return@launch
                     }
                     _postSignupState.value = UiState.Success(userInfo)
+                    authRepository.setAutoLogin(userInfo.accessToken, userInfo.refreshToken)
+                    authRepository.setYelloId(userInfo.yelloId)
                 }
                 .onFailure { t ->
                     if (t is HttpException) {

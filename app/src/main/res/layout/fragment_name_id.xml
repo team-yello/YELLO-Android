@@ -4,11 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <variable
             name="vm"
             type="com.yello.presentation.onboarding.activity.OnBoardingViewModel" />
-
         <import type="android.view.View" />
     </data>
 

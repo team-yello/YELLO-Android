@@ -15,11 +15,11 @@ import com.example.domain.entity.onboarding.UserInfo
 import com.example.domain.repository.OnboardingRepository
 import com.example.ui.view.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
-import java.util.regex.Pattern
-import javax.inject.Inject
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import timber.log.Timber
+import java.util.regex.Pattern
+import javax.inject.Inject
 
 @HiltViewModel
 class OnBoardingViewModel @Inject constructor(
@@ -93,7 +93,7 @@ class OnBoardingViewModel @Inject constructor(
     val gender: String
         get() = _gender.value ?: ""
 
-    private val _code = MutableLiveData("")
+    val _code = MutableLiveData("")
     val code: String
         get() = _code.value?.trim() ?: ""
 
@@ -112,8 +112,7 @@ class OnBoardingViewModel @Inject constructor(
     val isValidName: LiveData<Boolean> = _name.map { name -> checkName(name) }
     val isValidId: LiveData<Boolean> = _id.map { id -> checkId(id) }
 
-    val isEmptyCode: LiveData<Boolean> =
-        _code.map { code -> this.checkEmpty(code) }
+    val isEmptyCode: LiveData<Boolean> = _code.map { code -> checkEmpty(code) }
 
     private val _studentIdResult: MutableLiveData<List<Int>> = MutableLiveData()
     val studentIdResult: LiveData<List<Int>> = _studentIdResult

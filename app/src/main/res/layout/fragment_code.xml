@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <variable
             name="vm"
             type="com.yello.presentation.onboarding.activity.OnBoardingViewModel" />
+        <import type="android.view.View" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -62,42 +62,47 @@
             android:layout_marginHorizontal="16dp"
             android:fontFamily="@font/font_pretendard_medium"
             android:hint="@string/onboarding_tv_code_hint"
-            android:background="@drawable/sel_onbarding_editext_focus"
+            android:background="@{vm.isEmptyCode() ? @drawable/sel_onbarding_editext_focus : @drawable/shape_fill_red20_line_semantic_status_red500_rect_8}"
             android:inputType="text"
             android:layout_marginTop="24dp"
             android:maxLines="1"
-            android:paddingVertical="14dp"
+            android:gravity="center_vertical"
+            android:paddingVertical="18dp"
+            tools:text="@string/dummy"
             android:paddingStart="39dp"
-            android:paddingEnd="20dp"
-            android:textColor="@color/grayscales_500"
+            android:paddingEnd="12dp"
+            android:textColor="@color/white"
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_code_warning" />
 
-        <ImageButton
+        <ImageView
             android:id="@+id/btn_code_delete"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="12dp"
-            android:layout_marginEnd="34dp"
-            android:background="@null"
-            android:src="@drawable/ic_onboarding_delete"
-            app:layout_constraintBottom_toTopOf="@+id/tv_id_error"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="18dp"
+            android:visibility="@{vm._code.isBlank() ? View.GONE : View.VISIBLE}"
+            android:background="@drawable/ic_onboarding_delete"
+            app:layout_constraintBottom_toBottomOf="@+id/et_code"
+            app:layout_constraintEnd_toEndOf="@id/et_code"
             app:layout_constraintTop_toTopOf="@+id/et_code" />
 
         <TextView
             android:id="@+id/tv_id_error"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="28dp"
+            android:layout_marginHorizontal="12dp"
             android:layout_marginTop="4dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:paddingVertical="2dp"
             android:text="@string/onboarding_tv_code_error"
             android:textAppearance="?textAppearanceLabelLarge"
             android:textColor="@color/grayscales_500"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/et_code"
             app:layout_constraintTop_toBottomOf="@id/et_code" />
 
         <androidx.appcompat.widget.AppCompatButton
@@ -118,8 +123,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
-            android:layout_marginBottom="34dp"
-            android:background="@{vm.isEmptyCode() ?@drawable/shape_grayscales900_fill_grayscales500_line_8_rect : @drawable/shape_yello_main_500_fill_black_line_rect}"
+            android:layout_marginBottom="32dp"
+            android:clickable="@{vm.isValidName() &amp; vm.isValidId() &amp; !vm._name.isEmpty() &amp; !vm._id.isEmpty()}"
             android:paddingVertical="12dp"
             android:text="@string/code_complete"
             android:textAppearance="?textAppearanceBodyMedium"

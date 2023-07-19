@@ -1,9 +1,13 @@
 package com.yello.presentation.onboarding.fragment.school.university
 
+import android.annotation.SuppressLint
 import android.os.Bundle
+import android.view.MotionEvent
 import android.view.View
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.activityViewModels
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.ui.base.BindingBottomSheetDialog
 import com.example.ui.context.hideKeyboard
 import com.example.ui.view.UiState
@@ -19,11 +23,22 @@ class SearchDialogFragment :
 
     private val viewModel by activityViewModels<OnBoardingViewModel>()
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.vm = viewModel
         initView()
         setupSchoolData()
+        setListWithInfinityScroll()
+
+        binding.rvSchoolList.setOnTouchListener { view, motionEvent ->
+            when (motionEvent.action) {
+                MotionEvent.ACTION_MOVE -> {
+                    binding.layoutSchoolDialog.requestDisallowInterceptTouchEvent(true)
+                }
+            }
+            return@setOnTouchListener false
+        }
     }
 
     private fun initView() {
@@ -36,6 +51,24 @@ class SearchDialogFragment :
         binding.btnBackDialog.setOnSingleClickListener {
             dismiss()
         }
+    }
+
+    private fun setListWithInfinityScroll() {
+        binding.rvSchoolList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                if (dy > 0) {
+                    recyclerView.layoutManager?.let { layoutManager ->
+                        if (!binding.rvSchoolList.canScrollVertically(1) &&
+                            layoutManager is LinearLayoutManager &&
+                            layoutManager.findLastVisibleItemPosition() == adapter!!.itemCount - 1
+                        ) {
+                            // viewModel.getSchoolList()
+                        }
+                    }
+                }
+            }
+        })
     }
 
     private fun setHideKeyboard() {

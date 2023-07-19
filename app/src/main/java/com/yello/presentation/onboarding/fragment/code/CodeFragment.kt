@@ -52,6 +52,8 @@ class CodeFragment : BindingFragment<FragmentCodeBinding>(R.layout.fragment_code
         }
     }
 
+
+
     private fun setDeleteIdBtnClickListener() {
         binding.btnCodeDelete.setOnClickListener {
             val editcode = binding.etCode

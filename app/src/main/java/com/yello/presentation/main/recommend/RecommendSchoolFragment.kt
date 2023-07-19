@@ -140,7 +140,7 @@ class RecommendSchoolFragment :
                 is UiState.Loading -> {
                     activity?.window?.setFlags(
                         WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
-                        WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE
+                        WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
                     )
                 }
 
@@ -153,14 +153,13 @@ class RecommendSchoolFragment :
 
     private fun setItemDivider() {
         binding.rvRecommendSchool.addItemDecoration(
-            RecommendItemDecoration(requireContext())
+            RecommendItemDecoration(requireContext()),
         )
     }
 
     private fun setDeleteAnimation() {
         binding.rvRecommendSchool.itemAnimator = object : DefaultItemAnimator() {
             override fun animateRemove(holder: RecyclerView.ViewHolder): Boolean {
-
                 holder.itemView.animation =
                     AnimationUtils.loadAnimation(holder.itemView.context, R.anim.slide_out_right)
 

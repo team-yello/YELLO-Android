@@ -30,15 +30,7 @@ class SearchDialogFragment :
         initView()
         setupSchoolData()
         setListWithInfinityScroll()
-
-        binding.rvSchoolList.setOnTouchListener { view, motionEvent ->
-            when (motionEvent.action) {
-                MotionEvent.ACTION_MOVE -> {
-                    binding.layoutSchoolDialog.requestDisallowInterceptTouchEvent(true)
-                }
-            }
-            return@setOnTouchListener false
-        }
+        recyclerviewScroll()
     }
 
     private fun initView() {
@@ -99,6 +91,18 @@ class SearchDialogFragment :
         viewModel.setSchool(school)
         viewModel.clearSchoolData()
         dismiss()
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    private fun recyclerviewScroll() {
+        binding.rvSchoolList.setOnTouchListener { view, motionEvent ->
+            when (motionEvent.action) {
+                MotionEvent.ACTION_MOVE -> {
+                    binding.layoutSchoolDialog.requestDisallowInterceptTouchEvent(true)
+                }
+            }
+            return@setOnTouchListener false
+        }
     }
 
     override fun onDestroyView() {

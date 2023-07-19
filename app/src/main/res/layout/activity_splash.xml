@@ -33,10 +33,12 @@
 
     <ImageView
         android:id="@+id/iv_main_yello"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_marginTop="396dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="-154dp"
         android:src="@drawable/ic_yello_splash"
+        android:paddingHorizontal="-100dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 

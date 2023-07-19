@@ -26,7 +26,7 @@ class OnBoardingActivity :
 
     private fun getIntentExtraData() {
         intent.apply {
-            viewModel.kakaoId = getIntExtra(EXTRA_KAKAO_ID, -1)
+            viewModel.kakaoId = getLongExtra(EXTRA_KAKAO_ID, -1).toString()
             viewModel.email = getStringExtra(EXTRA_EMAIL) ?: ""
             viewModel.profileImg = getStringExtra(EXTRA_PROFILE_IMAGE) ?: ""
         }

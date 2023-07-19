@@ -133,7 +133,6 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
                     if (state.msg == "403") {
                         // 403(가입되지 않은 아이디): 온보딩 뷰로 이동
                         getKakaoInfo()
-                        startSocialSyncActivity()
                     } else {
                         // 401 : 에러 발생
                         yelloSnackbar(
@@ -162,28 +161,25 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
 
     private fun getKakaoInfo() {
         UserApiClient.instance.me { user, _ ->
-            if (user != null) {
-                viewModel.setKakaoInfo(
-                    kakaoId = user.id?.toInt() ?: return@me,
-                    email = user.kakaoAccount?.email ?: "",
-                    profileImage = user.kakaoAccount?.profile?.thumbnailImageUrl ?: "",
-                )
-                return@me
+            try {
+                if (user != null) {
+                    Timber.d("KAKAO INFO : $user")
+                    Intent(this, SocialSyncActivity::class.java).apply {
+                        putExtra(EXTRA_KAKAO_ID, user.id)
+                        putExtra(EXTRA_EMAIL, user.kakaoAccount?.email)
+                        putExtra(EXTRA_PROFILE_IMAGE, user.kakaoAccount?.profile?.profileImageUrl)
+                        addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                        startActivity(this)
+                    }
+                    finish()
+                    return@me
+                }
+            } catch (e: IllegalArgumentException) {
+                yelloSnackbar(binding.root, getString(R.string.msg_error))
             }
         }
         Timber.e("카카오 정보 불러오기 실패")
         yelloSnackbar(binding.root, getString(R.string.msg_error))
-    }
-
-    private fun startSocialSyncActivity() {
-        Intent(this, SocialSyncActivity::class.java).apply {
-            putExtra(EXTRA_KAKAO_ID, viewModel.kakaoUserId.value)
-            putExtra(EXTRA_EMAIL, viewModel.email.value)
-            putExtra(EXTRA_PROFILE_IMAGE, viewModel.profileImage.value)
-            addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-            startActivity(this)
-        }
-        finish()
     }
 
     private fun setupGetUserProfileState() {
@@ -193,8 +189,14 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
                     startMainActivity()
                 }
 
-                is UiState.Failure -> { yelloSnackbar(binding.root, getString(R.string.msg_error)) }
-                is UiState.Empty -> { yelloSnackbar(binding.root, getString(R.string.msg_error)) }
+                is UiState.Failure -> {
+                    yelloSnackbar(binding.root, getString(R.string.msg_error))
+                }
+
+                is UiState.Empty -> {
+                    yelloSnackbar(binding.root, getString(R.string.msg_error))
+                }
+
                 is UiState.Loading -> {}
             }
         }

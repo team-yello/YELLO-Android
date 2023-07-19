@@ -16,11 +16,11 @@ import com.example.domain.repository.AuthRepository
 import com.example.domain.repository.OnboardingRepository
 import com.example.ui.view.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
-import java.util.regex.Pattern
-import javax.inject.Inject
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import timber.log.Timber
+import java.util.regex.Pattern
+import javax.inject.Inject
 
 @HiltViewModel
 class OnBoardingViewModel @Inject constructor(
@@ -63,7 +63,7 @@ class OnBoardingViewModel @Inject constructor(
     val school: String
         get() = _school.value?.trim() ?: ""
 
-    var kakaoId: Int = -1
+    var kakaoId: String = ""
     var email: String = ""
     var profileImg: String = ""
 
@@ -231,9 +231,9 @@ class OnBoardingViewModel @Inject constructor(
                         _postSignupState.value = UiState.Empty
                         return@launch
                     }
-                    _postSignupState.value = UiState.Success(userInfo)
                     authRepository.setAutoLogin(userInfo.accessToken, userInfo.refreshToken)
                     authRepository.setYelloId(userInfo.yelloId)
+                    _postSignupState.value = UiState.Success(userInfo)
                 }
                 .onFailure { t ->
                     if (t is HttpException) {

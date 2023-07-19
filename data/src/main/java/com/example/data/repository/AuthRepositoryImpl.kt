@@ -1,12 +1,10 @@
 package com.example.data.repository
 
-import android.content.SharedPreferences
 import com.example.domain.YelloDataStore
 import com.example.domain.repository.AuthRepository
 import javax.inject.Inject
 
 class AuthRepositoryImpl @Inject constructor(
-    private val dataStore: SharedPreferences,
     private val yelloDataStore: YelloDataStore,
 ) : AuthRepository {
     override fun setAutoLogin(userToken: String, refreshToken: String) {

@@ -62,7 +62,7 @@
             android:layout_marginHorizontal="16dp"
             android:fontFamily="@font/font_pretendard_medium"
             android:hint="@string/onboarding_tv_code_hint"
-            android:background="@drawable/sel_onbarding_editext_foocus"
+            android:background="@drawable/sel_onbarding_editext_focus"
             android:inputType="text"
             android:layout_marginTop="24dp"
             android:maxLines="1"

@@ -15,6 +15,7 @@ import com.example.domain.entity.onboarding.UserInfo
 import com.example.domain.repository.OnboardingRepository
 import com.example.ui.view.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import java.util.regex.Pattern
 import javax.inject.Inject
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
@@ -76,13 +77,13 @@ class OnBoardingViewModel @Inject constructor(
     private val name: String
         get() = _name.value?.trim() ?: ""
 
-    private val _friendList = MutableLiveData<FriendList>()
-    val friendList: FriendList
-        get() = _friendList.value ?: FriendList(0, emptyList())
-
     val _id = MutableLiveData("")
     private val id: String
         get() = _id.value?.trim() ?: ""
+
+    private val _friendList = MutableLiveData<FriendList>()
+    val friendList: FriendList
+        get() = _friendList.value ?: FriendList(0, emptyList())
 
     private val _gender = MutableLiveData<String>()
     val gender: String
@@ -105,10 +106,10 @@ class OnBoardingViewModel @Inject constructor(
         _department.map { department -> checkEmptyDepartment(department) }
     val isEmptyStudentId: LiveData<Boolean> =
         _studentId.map { studentId -> checkEmptyStudentId(studentId.toString()) }
-    val isEmptyName: LiveData<Boolean> =
-        _name.map { name -> checkEmptyName(name) }
-    val isEmptyId: LiveData<Boolean> =
-        _id.map { id -> checkEmptyId(id) }
+
+    val isValidName: LiveData<Boolean> = _name.map { name -> checkName(name) }
+    val isValidId: LiveData<Boolean> = _id.map { id -> checkId(id) }
+
     val isEmptyCode: LiveData<Boolean> =
         _code.map { code -> checkEmptyCode(code) }
 
@@ -275,20 +276,14 @@ class OnBoardingViewModel @Inject constructor(
         return studentId.isBlank()
     }
 
-    private fun checkEmptyName(name: String): Boolean {
-        return name.isBlank()
+    private fun checkName(name: String): Boolean {
+        Timber.d("CHECK NAME : ${Pattern.matches(REGEX_NAME_PATTERN, name)}")
+        return Pattern.matches(REGEX_NAME_PATTERN, name)
     }
 
-    private fun checkRegexName(name: String): Boolean {
-        return name.matches("^[ㄱ-ㅎㅏ-ㅣ가-힣]\$".toRegex())
-    }
-
-    private fun checkRegexId(id: String): Boolean {
-        return id.matches("^[A-Za-z0-9_.]*\$".toRegex())
-    }
-
-    private fun checkEmptyId(id: String): Boolean {
-        return id.isBlank()
+    private fun checkId(id: String): Boolean {
+        Timber.d("CHECK ID : ${Pattern.matches(REGEX_ID_PATTERN, id)}")
+        return Pattern.matches(REGEX_ID_PATTERN, id)
     }
 
     private fun checkEmptyCode(code: String): Boolean {
@@ -306,5 +301,10 @@ class OnBoardingViewModel @Inject constructor(
     fun addStudentId() {
         val mockList = listOf(15, 16, 17, 18, 19, 20, 21, 22, 23)
         _studentIdResult.value = mockList
+    }
+
+    companion object {
+        private const val REGEX_NAME_PATTERN = "^[ㄱ-ㅎㅏ-ㅣ가-힣]*\$"
+        private const val REGEX_ID_PATTERN = "^[A-Za-z0-9_.]*\$"
     }
 }

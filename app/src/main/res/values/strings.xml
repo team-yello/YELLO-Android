@@ -37,7 +37,7 @@
     <string name="onboarding_tv_name">이름은</string>
     <string name="onboarding_tv_name_error">이름은 가입 후 바꿀 수 없으니 정확히 적어주세요!</string>
     <string name="onboarding_tv_id">아이디는</string>
-    <string name="onboarding_tv_id_errror">인스타 아이디로 하면 친구들이 찾기 쉬워요! (최대 20자)</string>
+    <string name="onboarding_tv_id_error">인스타 아이디로 하면 친구들이 찾기 쉬워요! (최대 20자)</string>
     <string name="onboarding_et_id">insta_id</string>
     <string name="onboarding_tv_gender">성별은</string>
     <string name="onboarding_tv_code">추천인 코드</string>
@@ -111,5 +111,6 @@
 
     <string name="code_complete">완료</string>
     <string name="onboarding_student_id">%d학번</string>
+    <string name="name_id_name_hint">김옐로</string>
 
 </resources>

@@ -5,6 +5,22 @@
     android:layout_height="match_parent"
     android:background="@color/black">
 
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/iv_startapp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ic_launcher_background"
+        app:layout_constraintBottom_toBottomOf="@id/tv_splash_title"
+        app:layout_constraintBottom_toTopOf="@id/tv_splash_title"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/lottie_splash" />
+
     <TextView
         android:id="@+id/tv_splash_title"
         android:layout_width="0dp"
@@ -18,12 +34,14 @@
         android:textAppearance="?textAppearanceBodySmall"
         app:layout_constraintStart_toStartOf="parent" />
 
+
     <ImageView
         android:id="@+id/iv_main_yello"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_marginTop="394dp"
         android:src="@drawable/ic_yello_splash"
+
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/tv_splash_title" />

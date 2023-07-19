@@ -2,6 +2,7 @@ package com.yello.presentation.main.recommend
 
 import android.os.Bundle
 import android.view.View
+import android.view.WindowManager
 import android.view.animation.AnimationUtils
 import androidx.core.view.isVisible
 import androidx.core.view.setPadding
@@ -14,8 +15,6 @@ import com.example.ui.base.BindingFragment
 import com.example.ui.intent.dpToPx
 import com.example.ui.view.UiState
 import com.example.ui.view.setOnSingleClickListener
-import com.kakao.sdk.talk.TalkApiClient
-import com.kakao.sdk.talk.model.Friend
 import com.yello.R
 import com.yello.databinding.FragmentRecommendSchoolBinding
 import com.yello.util.context.yelloSnackbar
@@ -24,7 +23,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import timber.log.Timber
 
 @AndroidEntryPoint
 class RecommendSchoolFragment :
@@ -36,13 +34,11 @@ class RecommendSchoolFragment :
     private var recommendInviteDialog: RecommendInviteDialog = RecommendInviteDialog()
 
     private lateinit var friendsList: List<RecommendModel.RecommendFriend>
-    private lateinit var kakaoFriendIdList: List<String>
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        getFriendIdList()
-        initFirstList()
+        initFirstListWithAdapter()
         initInviteButtonListener()
         observeAddListState()
         observeAddFriendState()
@@ -56,29 +52,18 @@ class RecommendSchoolFragment :
         dismissDialog()
     }
 
-    private fun getFriendIdList() {
-        TalkApiClient.instance.friends { friends, error ->
-            if (error != null) {
-                Timber.e(error, "카카오 친구목록 가져오기 실패")
-            } else if (friends != null) {
-                val friendList: List<Friend>? = friends.elements
-                kakaoFriendIdList = friendList?.map { friend -> friend.id.toString() } ?: listOf()
-            } else {
-                Timber.d("연동 가능한 카카오톡 친구 없음")
-            }
-        }
-    }
-
     private fun initInviteButtonListener() {
         binding.layoutInviteFriend.setOnSingleClickListener {
-            recommendInviteDialog.show(parentFragmentManager, "Dialog")
+            recommendInviteDialog.show(parentFragmentManager, DIALOG)
         }
         binding.btnRecommendNoFriend.setOnSingleClickListener {
-            recommendInviteDialog.show(parentFragmentManager, "Dialog")
+            recommendInviteDialog.show(parentFragmentManager, DIALOG)
         }
     }
 
-    private fun initFirstList() {
+    // 처음 리스트 설정 및 어댑터 클릭 리스너 설정
+    private fun initFirstListWithAdapter() {
+        viewModel.addListFromServer()
         viewModel.addListFromServer()
         adapter = RecommendAdapter { recommendModel, position, holder ->
             viewModel.setPositionAndHolder(position, holder)
@@ -87,21 +72,26 @@ class RecommendSchoolFragment :
         binding.rvRecommendSchool.adapter = adapter
     }
 
+    // 무한 스크롤 구현
     private fun setListWithInfinityScroll() {
         binding.rvRecommendSchool.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
                 if (dy > 0) {
-                    if (!binding.rvRecommendSchool.canScrollVertically(1) &&
-                        (recyclerView.layoutManager as LinearLayoutManager).findLastVisibleItemPosition() == adapter!!.itemCount - 1
-                    ) {
-                        viewModel.addListFromServer()
+                    recyclerView.layoutManager?.let { layoutManager ->
+                        if (!binding.rvRecommendSchool.canScrollVertically(1) &&
+                            layoutManager is LinearLayoutManager &&
+                            layoutManager.findLastVisibleItemPosition() == adapter!!.itemCount - 1
+                        ) {
+                            viewModel.addListFromServer()
+                        }
                     }
                 }
             }
         })
     }
 
+    // 추천친구 리스트 추가 서버 통신 성공 시 어댑터에 리스트 추가
     private fun observeAddListState() {
         viewModel.postState.observe(viewLifecycleOwner) { state ->
             when (state) {
@@ -114,7 +104,7 @@ class RecommendSchoolFragment :
                 is UiState.Failure -> {
                     binding.layoutRecommendFriendsList.isVisible = false
                     binding.layoutRecommendNoFriendsList.isVisible = true
-                    yelloSnackbar(requireView(), "학교 추천친구 서버 통신 실패")
+                    yelloSnackbar(requireView(), getString(R.string.recommend_error_school_friend_connection))
                 }
 
                 is UiState.Loading -> {}
@@ -124,6 +114,7 @@ class RecommendSchoolFragment :
         }
     }
 
+    // 친구 추가 서버 통신 성공 시 리스트에서 아이템 삭제 & 서버 통신 중 액티비티 클릭 방지
     private fun observeAddFriendState() {
         viewModel.addState.observe(viewLifecycleOwner) { state ->
             when (state) {
@@ -132,6 +123,8 @@ class RecommendSchoolFragment :
                     val holder = viewModel.itemHolder
                     if (position != null && holder != null) {
                         removeItemWithAnimation(holder, position)
+                    } else {
+                        activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
                     }
                     if (adapter?.itemCount == 0) {
                         binding.layoutRecommendFriendsList.isVisible = false
@@ -140,12 +133,20 @@ class RecommendSchoolFragment :
                 }
 
                 is UiState.Failure -> {
-                    yelloSnackbar(requireView(), "친구 추가 서버 통신 실패")
+                    yelloSnackbar(requireView(), getString(R.string.recommend_error_add_friend_connection))
+                    activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
                 }
 
-                is UiState.Loading -> {}
+                is UiState.Loading -> {
+                    activity?.window?.setFlags(
+                        WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                        WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE
+                    )
+                }
 
-                is UiState.Empty -> {}
+                is UiState.Empty -> {
+                    activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
+                }
             }
         }
     }
@@ -172,11 +173,13 @@ class RecommendSchoolFragment :
         if (recommendInviteDialog.isAdded) recommendInviteDialog.dismiss()
     }
 
+    // 삭제 시 체크 버튼으로 전환 후 0.3초 뒤 애니메이션 적용
     private fun removeItemWithAnimation(holder: RecommendViewHolder, position: Int) {
         CoroutineScope(Dispatchers.Main).launch {
             changeToCheckIcon(holder)
             delay(300)
             adapter?.removeItem(position)
+            activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
         }
     }
 
@@ -188,5 +191,9 @@ class RecommendSchoolFragment :
             iconPadding = dpToPx(holder.binding.root.context, -2)
             setPadding(dpToPx(holder.binding.root.context, 10))
         }
+    }
+
+    private companion object {
+        const val DIALOG = "dialog"
     }
 }

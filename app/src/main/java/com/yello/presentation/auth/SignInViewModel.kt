@@ -17,6 +17,7 @@ import javax.inject.Inject
 class SignInViewModel @Inject constructor(
     private val onboardingRepository: OnboardingRepository,
 ) : ViewModel() {
+
     private val _postState = MutableLiveData<UiState<ServiceTokenModel?>>()
     val postState: LiveData<UiState<ServiceTokenModel?>> = _postState
 
@@ -38,7 +39,8 @@ class SignInViewModel @Inject constructor(
         _profileImage.value = profileImage
     }
 
-    fun changeTokenFromServer(accessToken: String, social: String = "KAKAO") {
+    // 서버통신 - 카카오 토큰 보내서 서비스 토큰 받아오기
+    fun changeTokenFromServer(accessToken: String, social: String = KAKAO) {
         viewModelScope.launch {
             _postState.value = UiState.Loading
             runCatching {
@@ -57,5 +59,9 @@ class SignInViewModel @Inject constructor(
                 }
             }
         }
+    }
+
+    private companion object {
+        const val KAKAO = "KAKAO"
     }
 }

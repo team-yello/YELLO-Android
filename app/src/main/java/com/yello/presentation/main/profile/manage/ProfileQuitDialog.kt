@@ -6,16 +6,22 @@ import android.content.res.Resources
 import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
+import androidx.fragment.app.activityViewModels
 import com.example.ui.base.BindingDialogFragment
+import com.example.ui.view.UiState
 import com.example.ui.view.setOnSingleClickListener
 import com.kakao.sdk.user.UserApiClient
 import com.yello.R
 import com.yello.databinding.FragmentProfileQuitDialogBinding
+import com.yello.presentation.main.profile.ProfileViewModel
+import com.yello.util.context.yelloSnackbar
 import timber.log.Timber
 
 
 class ProfileQuitDialog :
     BindingDialogFragment<FragmentProfileQuitDialogBinding>(R.layout.fragment_profile_quit_dialog) {
+
+    private val viewModel by activityViewModels<ProfileViewModel>()
 
     override fun onStart() {
         super.onStart()
@@ -25,17 +31,12 @@ class ProfileQuitDialog :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.btnProfileDialogQuit.setOnSingleClickListener {
-            // TODO: 회원 탈퇴 로직 설정
-            restartApp(requireContext())
-        }
-
-        binding.btnProfileDialogReject.setOnSingleClickListener {
-            unlinkKakaoAccount()
-            dismiss()
-        }
+        initQuitButtonListener()
+        initRejectButtonListener()
+        observeUserDeleteState()
     }
 
+    // 다이얼로그 배경 설정
     private fun setDialogBackground() {
         val deviceWidth = Resources.getSystem().displayMetrics.widthPixels
         val dialogHorizontalMargin = (Resources.getSystem().displayMetrics.density * 16) * 2
@@ -51,16 +52,53 @@ class ProfileQuitDialog :
         dialog?.setCancelable(true)
     }
 
+    private fun initRejectButtonListener() {
+        binding.btnProfileDialogReject.setOnSingleClickListener {
+            dismiss()
+        }
+    }
+
+    private fun initQuitButtonListener() {
+        binding.btnProfileDialogQuit.setOnSingleClickListener {
+            unlinkYelloAccount()
+        }
+    }
+
+    private fun unlinkYelloAccount() {
+        viewModel.deleteUserDataToServer()
+    }
+
+    // 유저 탈퇴 서버 통신 성공 시 카카오 연결 해제 진행
+    private fun observeUserDeleteState() {
+        viewModel.deleteUserState.observe(viewLifecycleOwner) { state ->
+            when (state) {
+                is UiState.Success -> {
+                    unlinkKakaoAccount()
+                }
+
+                is UiState.Failure -> {
+                    yelloSnackbar(requireView(), getString(R.string.profile_error_unlink))
+                }
+
+                is UiState.Loading -> {}
+
+                is UiState.Empty -> {}
+            }
+        }
+    }
+
+    // 카카오 연결 해제 성공 시 앱 재시작
     private fun unlinkKakaoAccount() {
         UserApiClient.instance.unlink { error ->
             if (error != null) {
-                Timber.d("로그아웃 실패")
+                Timber.d(getString(R.string.profile_error_unlink_kakao))
             } else {
                 restartApp(requireContext())
             }
         }
     }
 
+    // 앱 재시작 로직
     private fun restartApp(context: Context) {
         val packageManager = context.packageManager
         val intent = packageManager.getLaunchIntentForPackage(context.packageName)

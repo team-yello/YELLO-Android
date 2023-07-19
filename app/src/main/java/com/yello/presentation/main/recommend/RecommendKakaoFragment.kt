@@ -2,6 +2,7 @@ package com.yello.presentation.main.recommend
 
 import android.os.Bundle
 import android.view.View
+import android.view.WindowManager
 import android.view.animation.AnimationUtils
 import androidx.core.view.isVisible
 import androidx.core.view.setPadding
@@ -54,25 +55,28 @@ class RecommendKakaoFragment :
         dismissDialog()
     }
 
+    // 카카오에서 친구 목록 받아오기
     private fun getFriendIdList() {
         TalkApiClient.instance.friends { friends, error ->
             if (error != null) {
-                Timber.e(error, "카카오 친구목록 가져오기 실패")
+                Timber.e(error, getString(R.string.recommend_error_friends_list))
 
             } else if (friends != null) {
                 val friendList: List<Friend>? = friends.elements
                 kakaoFriendIdList = friendList?.map { friend -> friend.id.toString() } ?: listOf()
 
-                initFirstList(kakaoFriendIdList)
+                initFirstListWithAdapter(kakaoFriendIdList)
                 setListWithInfinityScroll(kakaoFriendIdList)
 
             } else {
-                Timber.d("연동 가능한 카카오톡 친구 없음")
+                Timber.d(getString(R.string.recommend_error_no_kakao_friend))
             }
         }
     }
 
-    private fun initFirstList(list: List<String>) {
+    // 처음 리스트 설정 및 어댑터 클릭 리스너 설정
+    private fun initFirstListWithAdapter(list: List<String>) {
+        viewModel.addListFromServer(list)
         viewModel.addListFromServer(list)
         adapter = RecommendAdapter { recommendModel, position, holder ->
             viewModel.setPositionAndHolder(position, holder)
@@ -81,15 +85,19 @@ class RecommendKakaoFragment :
         binding.rvRecommendKakao.adapter = adapter
     }
 
+    // 무한 스크롤 구현
     private fun setListWithInfinityScroll(list: List<String>) {
         binding.rvRecommendKakao.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
                 if (dy > 0) {
-                    if (!binding.rvRecommendKakao.canScrollVertically(1) &&
-                        (recyclerView.layoutManager as LinearLayoutManager).findLastVisibleItemPosition() == adapter!!.itemCount - 1
-                    ) {
-                        viewModel.addListFromServer(list)
+                    recyclerView.layoutManager?.let { layoutManager ->
+                        if (!binding.rvRecommendKakao.canScrollVertically(1) &&
+                            layoutManager is LinearLayoutManager &&
+                            layoutManager.findLastVisibleItemPosition() == adapter!!.itemCount - 1
+                        ) {
+                            viewModel.addListFromServer(list)
+                        }
                     }
                 }
             }
@@ -98,13 +106,14 @@ class RecommendKakaoFragment :
 
     private fun initInviteButtonListener() {
         binding.layoutInviteFriend.setOnSingleClickListener {
-            recommendInviteDialog.show(parentFragmentManager, "Dialog")
+            recommendInviteDialog.show(parentFragmentManager, DIALOG)
         }
         binding.btnRecommendNoFriend.setOnSingleClickListener {
-            recommendInviteDialog.show(parentFragmentManager, "Dialog")
+            recommendInviteDialog.show(parentFragmentManager, DIALOG)
         }
     }
 
+    // 추천친구 리스트 추가 서버 통신 성공 시 어댑터에 리스트 추가
     private fun observeAddListState() {
         viewModel.postState.observe(viewLifecycleOwner) { state ->
             when (state) {
@@ -117,7 +126,7 @@ class RecommendKakaoFragment :
                 is UiState.Failure -> {
                     binding.layoutRecommendFriendsList.isVisible = false
                     binding.layoutRecommendNoFriendsList.isVisible = true
-                    yelloSnackbar(requireView(), "카카오 추천친구 서버 통신 실패")
+                    yelloSnackbar(requireView(), getString(R.string.recommend_error_friend_connection))
                 }
 
                 is UiState.Loading -> {}
@@ -127,7 +136,7 @@ class RecommendKakaoFragment :
         }
     }
 
-
+    // 친구 추가 서버 통신 성공 시 리스트에서 아이템 삭제 & 서버 통신 중 액티비티 클릭 방지
     private fun observeAddFriendState() {
         viewModel.addState.observe(viewLifecycleOwner) { state ->
             when (state) {
@@ -136,6 +145,8 @@ class RecommendKakaoFragment :
                     val holder = viewModel.itemHolder
                     if (position != null && holder != null) {
                         removeItemWithAnimation(holder, position)
+                    } else {
+                        activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
                     }
                     if (adapter?.itemCount == 0) {
                         binding.layoutRecommendFriendsList.isVisible = false
@@ -144,12 +155,20 @@ class RecommendKakaoFragment :
                 }
 
                 is UiState.Failure -> {
-                    yelloSnackbar(requireView(), "친구 추가 서버 통신 실패")
+                    yelloSnackbar(requireView(), getString(R.string.recommend_error_add_friend_connection))
+                    activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
                 }
 
-                is UiState.Loading -> {}
+                is UiState.Loading -> {
+                    activity?.window?.setFlags(
+                        WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                        WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE
+                    )
+                }
 
-                is UiState.Empty -> {}
+                is UiState.Empty -> {
+                    activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
+                }
             }
         }
     }
@@ -176,11 +195,13 @@ class RecommendKakaoFragment :
         if (recommendInviteDialog.isAdded) recommendInviteDialog.dismiss()
     }
 
+    // 삭제 시 체크 버튼으로 전환 후 0.3초 뒤 애니메이션 적용
     private fun removeItemWithAnimation(holder: RecommendViewHolder, position: Int) {
         CoroutineScope(Dispatchers.Main).launch {
             changeToCheckIcon(holder)
             delay(300)
             adapter?.removeItem(position)
+            activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
         }
     }
 
@@ -192,5 +213,9 @@ class RecommendKakaoFragment :
             iconPadding = dpToPx(holder.binding.root.context, -2)
             setPadding(dpToPx(holder.binding.root.context, 10))
         }
+    }
+
+    private companion object {
+        const val DIALOG = "dialog"
     }
 }

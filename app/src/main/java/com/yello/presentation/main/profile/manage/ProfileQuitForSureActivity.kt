@@ -26,7 +26,11 @@ class ProfileQuitForSureActivity :
 
     private fun initInviteDialogButtonListener() {
         binding.btnProfileQuitForSure.setOnSingleClickListener {
-            profileQuitDialog.show(supportFragmentManager, "Dialog")
+            profileQuitDialog.show(supportFragmentManager, DIALOG)
         }
+    }
+
+    private companion object {
+        const val DIALOG = "dialog"
     }
 }

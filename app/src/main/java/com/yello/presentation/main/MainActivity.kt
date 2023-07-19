@@ -11,7 +11,7 @@ import com.yello.databinding.ActivityMainBinding
 import com.yello.presentation.main.look.LookFragment
 import com.yello.presentation.main.myyello.MyYelloFragment
 import com.yello.presentation.main.profile.info.ProfileFragment
-import com.yello.presentation.main.profile.info.ProfileViewModel
+import com.yello.presentation.main.profile.ProfileViewModel
 import com.yello.presentation.main.recommend.RecommendFragment
 import com.yello.presentation.main.yello.YelloFragment
 import dagger.hilt.android.AndroidEntryPoint

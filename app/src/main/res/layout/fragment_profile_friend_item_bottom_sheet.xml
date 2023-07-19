@@ -7,7 +7,7 @@
 
         <variable
             name="vm"
-            type="com.yello.presentation.main.profile.info.ProfileViewModel" />
+            type="com.yello.presentation.main.profile.ProfileViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -56,7 +56,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
-            android:text="@={vm.clickedItemId}"
+            android:text="@={vm.clickedItemYelloId}"
             android:textAppearance="?textAppearanceLabelLarge"
             android:textColor="@color/yello_main_500"
             app:layout_constraintBaseline_toBaselineOf="@id/tv_profile_friend_name"
@@ -108,7 +108,7 @@
                 android:id="@+id/tv_profile_total_friend_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="친구 수"
+                android:text="@string/profile_item_bottom_sheet_tv_friend"
                 android:textAppearance="?textAppearanceLabelMedium"
                 android:textColor="@color/grayscales_500"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -144,7 +144,7 @@
                 android:id="@+id/tv_profile_total_msg_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="받은 쪽지"
+                android:text="@string/profile_item_bottom_sheet_tv_msg"
                 android:textAppearance="?textAppearanceLabelMedium"
                 android:textColor="@color/grayscales_500"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -161,7 +161,7 @@
             android:backgroundTint="@color/grayscales_800"
             android:paddingHorizontal="26dp"
             android:paddingVertical="8dp"
-            android:text="친구 끊기"
+            android:text="@string/profile_item_bottom_sheet_btn_delete"
             android:textAppearance="?textAppearanceLabelLarge"
             android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"

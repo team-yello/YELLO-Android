@@ -9,6 +9,7 @@ import com.example.ui.base.BindingBottomSheetDialog
 import com.example.ui.view.setOnSingleClickListener
 import com.yello.R
 import com.yello.databinding.FragmentProfileFriendItemBottomSheetBinding
+import com.yello.presentation.main.profile.ProfileViewModel
 
 class ProfileFriendItemBottomSheet :
     BindingBottomSheetDialog<FragmentProfileFriendItemBottomSheetBinding>(R.layout.fragment_profile_friend_item_bottom_sheet) {
@@ -27,9 +28,9 @@ class ProfileFriendItemBottomSheet :
 
         binding.vm = viewModel
         initDeleteButton()
+        setItemData()
     }
 
-    // TODO: 추후 바인딩어댑터 적용하기
     private fun setItemData() {
         if (viewModel.clickedItemThumbnail.value != "") {
             binding.ivProfileFriendThumbnail.load(viewModel.clickedItemThumbnail.value) {
@@ -38,10 +39,15 @@ class ProfileFriendItemBottomSheet :
         }
     }
 
+    // 다음 바텀시트 출력
     private fun initDeleteButton() {
         binding.btnProfileFriendDelete.setOnSingleClickListener {
+            profileFriendDeleteBottomSheet.show(parentFragmentManager, DIALOG)
             dismiss()
-            profileFriendDeleteBottomSheet.show(parentFragmentManager, "Dialog")
         }
+    }
+
+    private companion object {
+        const val DIALOG = "dialog"
     }
 }

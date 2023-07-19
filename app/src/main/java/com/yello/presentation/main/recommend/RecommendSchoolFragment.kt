@@ -15,8 +15,6 @@ import com.example.ui.base.BindingFragment
 import com.example.ui.intent.dpToPx
 import com.example.ui.view.UiState
 import com.example.ui.view.setOnSingleClickListener
-import com.kakao.sdk.talk.TalkApiClient
-import com.kakao.sdk.talk.model.Friend
 import com.yello.R
 import com.yello.databinding.FragmentRecommendSchoolBinding
 import com.yello.util.context.yelloSnackbar
@@ -25,7 +23,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import timber.log.Timber
 
 @AndroidEntryPoint
 class RecommendSchoolFragment :
@@ -37,13 +34,11 @@ class RecommendSchoolFragment :
     private var recommendInviteDialog: RecommendInviteDialog = RecommendInviteDialog()
 
     private lateinit var friendsList: List<RecommendModel.RecommendFriend>
-    private lateinit var kakaoFriendIdList: List<String>
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        getFriendIdList()
-        initFirstList()
+        initFirstListWithAdapter()
         initInviteButtonListener()
         observeAddListState()
         observeAddFriendState()
@@ -57,19 +52,6 @@ class RecommendSchoolFragment :
         dismissDialog()
     }
 
-    private fun getFriendIdList() {
-        TalkApiClient.instance.friends { friends, error ->
-            if (error != null) {
-                Timber.e(error, "카카오 친구목록 가져오기 실패")
-            } else if (friends != null) {
-                val friendList: List<Friend>? = friends.elements
-                kakaoFriendIdList = friendList?.map { friend -> friend.id.toString() } ?: listOf()
-            } else {
-                Timber.d("연동 가능한 카카오톡 친구 없음")
-            }
-        }
-    }
-
     private fun initInviteButtonListener() {
         binding.layoutInviteFriend.setOnSingleClickListener {
             recommendInviteDialog.show(parentFragmentManager, "Dialog")
@@ -79,7 +61,8 @@ class RecommendSchoolFragment :
         }
     }
 
-    private fun initFirstList() {
+    // 처음 리스트 설정 및 어댑터 클릭 리스너 설정
+    private fun initFirstListWithAdapter() {
         viewModel.addListFromServer()
         adapter = RecommendAdapter { recommendModel, position, holder ->
             viewModel.setPositionAndHolder(position, holder)
@@ -88,6 +71,7 @@ class RecommendSchoolFragment :
         binding.rvRecommendSchool.adapter = adapter
     }
 
+    // 무한 스크롤 구현
     private fun setListWithInfinityScroll() {
         binding.rvRecommendSchool.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
@@ -104,9 +88,9 @@ class RecommendSchoolFragment :
                 }
             }
         })
-        binding
     }
 
+    // 추천친구 리스트 추가 서버 통신 성공 시 어댑터에 리스트 추가
     private fun observeAddListState() {
         viewModel.postState.observe(viewLifecycleOwner) { state ->
             when (state) {
@@ -129,6 +113,7 @@ class RecommendSchoolFragment :
         }
     }
 
+    // 친구 추가 서버 통신 성공 시 리스트에서 아이템 삭제 & 서버 통신 중 액티비티 클릭 방지
     private fun observeAddFriendState() {
         viewModel.addState.observe(viewLifecycleOwner) { state ->
             when (state) {
@@ -187,6 +172,7 @@ class RecommendSchoolFragment :
         if (recommendInviteDialog.isAdded) recommendInviteDialog.dismiss()
     }
 
+    // 삭제 시 체크 버튼으로 전환 후 0.3초 뒤 애니메이션 적용
     private fun removeItemWithAnimation(holder: RecommendViewHolder, position: Int) {
         CoroutineScope(Dispatchers.Main).launch {
             changeToCheckIcon(holder)

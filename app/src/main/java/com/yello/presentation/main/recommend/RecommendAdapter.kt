@@ -34,6 +34,13 @@ class RecommendAdapter(private val itemClick: (RecommendModel.RecommendFriend, I
         notifyDataSetChanged()
     }
 
+    fun removeItem(position: Int) {
+        itemList.removeAt(position)
+        notifyItemRemoved(position)
+        notifyItemRangeChanged(position, itemCount)
+    }
+
+    // 초기 아이템 텍스트 버튼으로 설정
     private fun changeToTextButton(holder: RecommendViewHolder) {
         holder.binding.btnRecommendItemAdd.apply {
             text = "친구추가"
@@ -45,11 +52,5 @@ class RecommendAdapter(private val itemClick: (RecommendModel.RecommendFriend, I
                 0
             )
         }
-    }
-
-    fun removeItem(position: Int) {
-        itemList.removeAt(position)
-        notifyItemRemoved(position)
-        notifyItemRangeChanged(position, itemCount)
     }
 }

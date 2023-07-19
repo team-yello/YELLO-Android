@@ -55,6 +55,7 @@ class RecommendKakaoFragment :
         dismissDialog()
     }
 
+    // 카카오에서 친구 목록 받아오기
     private fun getFriendIdList() {
         TalkApiClient.instance.friends { friends, error ->
             if (error != null) {
@@ -64,7 +65,7 @@ class RecommendKakaoFragment :
                 val friendList: List<Friend>? = friends.elements
                 kakaoFriendIdList = friendList?.map { friend -> friend.id.toString() } ?: listOf()
 
-                initFirstList(kakaoFriendIdList)
+                initFirstListWithAdapter(kakaoFriendIdList)
                 setListWithInfinityScroll(kakaoFriendIdList)
 
             } else {
@@ -73,7 +74,8 @@ class RecommendKakaoFragment :
         }
     }
 
-    private fun initFirstList(list: List<String>) {
+    // 처음 리스트 설정 및 어댑터 클릭 리스너 설정
+    private fun initFirstListWithAdapter(list: List<String>) {
         viewModel.addListFromServer(list)
         adapter = RecommendAdapter { recommendModel, position, holder ->
             viewModel.setPositionAndHolder(position, holder)
@@ -82,6 +84,7 @@ class RecommendKakaoFragment :
         binding.rvRecommendKakao.adapter = adapter
     }
 
+    // 무한 스크롤 구현
     private fun setListWithInfinityScroll(list: List<String>) {
         binding.rvRecommendKakao.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
@@ -109,6 +112,7 @@ class RecommendKakaoFragment :
         }
     }
 
+    // 추천친구 리스트 추가 서버 통신 성공 시 어댑터에 리스트 추가
     private fun observeAddListState() {
         viewModel.postState.observe(viewLifecycleOwner) { state ->
             when (state) {
@@ -131,7 +135,7 @@ class RecommendKakaoFragment :
         }
     }
 
-
+    // 친구 추가 서버 통신 성공 시 리스트에서 아이템 삭제 & 서버 통신 중 액티비티 클릭 방지
     private fun observeAddFriendState() {
         viewModel.addState.observe(viewLifecycleOwner) { state ->
             when (state) {
@@ -190,6 +194,7 @@ class RecommendKakaoFragment :
         if (recommendInviteDialog.isAdded) recommendInviteDialog.dismiss()
     }
 
+    // 삭제 시 체크 버튼으로 전환 후 0.3초 뒤 애니메이션 적용
     private fun removeItemWithAnimation(holder: RecommendViewHolder, position: Int) {
         CoroutineScope(Dispatchers.Main).launch {
             changeToCheckIcon(holder)

@@ -36,6 +36,7 @@ class RecommendKakaoViewModel @Inject constructor(
         itemHolder = holder
     }
 
+    // 서버 통신 - 추천 친구 리스트 추가
     fun addListFromServer(friendKakaoId: List<String>) {
         viewModelScope.launch {
             if (isPagingFinish) return@launch
@@ -56,6 +57,7 @@ class RecommendKakaoViewModel @Inject constructor(
         }
     }
 
+    // 서버 통신 -친구 추가
     fun addFriendToServer(friendId: Long) {
         viewModelScope.launch {
             _addState.value = UiState.Loading

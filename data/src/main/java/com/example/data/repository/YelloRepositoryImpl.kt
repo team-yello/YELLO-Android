@@ -4,6 +4,7 @@ import com.example.data.datasource.YelloDataSource
 import com.example.domain.entity.CheckKeyword
 import com.example.domain.entity.CheckName
 import com.example.domain.entity.MyYello
+import com.example.domain.entity.Response
 import com.example.domain.entity.YelloDetail
 import com.example.domain.repository.YelloRepository
 import javax.inject.Inject
@@ -25,5 +26,9 @@ class YelloRepositoryImpl @Inject constructor(
 
     override suspend fun checkName(id: Long): Result<CheckName?> {
         return runCatching { dataSource.checkName(id).data?.toCheckName() }
+    }
+
+    override suspend fun payCheck(index: Int): Result<Response> {
+        return runCatching { dataSource.payCheck(index).toResponse() }
     }
 }

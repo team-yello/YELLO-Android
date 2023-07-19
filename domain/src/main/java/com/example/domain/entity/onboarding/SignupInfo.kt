@@ -1,7 +1,5 @@
 package com.example.domain.entity.onboarding
 
-import com.example.domain.enum.GenderEnum
-
 data class SignupInfo(
     val kakaoId: Int,
     val email: String,
@@ -10,7 +8,7 @@ data class SignupInfo(
     val studentId: Int,
     val name: String,
     val yelloId: String,
-    val gender: GenderEnum,
+    val gender: String,
     val friendList: List<Long>,
     val recommendId: String? = null,
 )

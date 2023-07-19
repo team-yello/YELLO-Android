@@ -59,8 +59,8 @@ class StudentIdFragment : BindingFragment<FragmentStudentidBinding>(R.layout.fra
     }
 
     private fun setupStudentId() {
-        viewModel._studentId.observe(viewLifecycleOwner) { studentid ->
-            binding.tvStudentidSearch.text = studentid
+        viewModel._studentId.observe(viewLifecycleOwner) { studentId ->
+            binding.tvStudentidSearch.text = getString(R.string.onboarding_student_id, studentId)
         }
     }
 }

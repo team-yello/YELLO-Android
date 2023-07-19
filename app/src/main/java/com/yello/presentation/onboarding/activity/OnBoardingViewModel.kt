@@ -5,16 +5,14 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
-import com.example.domain.entity.MyName
-import com.example.domain.entity.MyStudentId
 import com.example.domain.entity.onboarding.Friend
 import com.example.domain.entity.onboarding.FriendGroup
 import com.example.domain.entity.onboarding.FriendList
 import com.example.domain.entity.onboarding.GroupList
-import com.example.domain.entity.onboarding.MyCode
-import com.example.domain.entity.onboarding.MyGender
-import com.example.domain.entity.onboarding.MyId
 import com.example.domain.entity.onboarding.SchoolList
+import com.example.domain.entity.onboarding.SignupInfo
+import com.example.domain.entity.onboarding.UserInfo
+import com.example.domain.enum.GenderEnum
 import com.example.domain.repository.OnboardingRepository
 import com.example.ui.view.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -27,6 +25,10 @@ import javax.inject.Inject
 class OnBoardingViewModel @Inject constructor(
     private val onboardingRepository: OnboardingRepository,
 ) : ViewModel() {
+    private val _postSignupState = MutableLiveData<UiState<UserInfo>>()
+    val postSignupState: LiveData<UiState<UserInfo>>
+        get() = _postSignupState
+
     private val _schoolData = MutableLiveData<UiState<SchoolList>>()
     val schoolData: MutableLiveData<UiState<SchoolList>> = _schoolData
 
@@ -55,17 +57,21 @@ class OnBoardingViewModel @Inject constructor(
     val school: String
         get() = _school.value?.trim() ?: ""
 
+    var kakaoId: Int = -1
+    var email: String = ""
+    var profileImg: String = ""
+
     private val _groupId = MutableLiveData<Long>()
-    val groupId: LiveData<Long>
-        get() = _groupId
+    val groupId: Long
+        get() = requireNotNull(_groupId.value)
 
     val _department = MutableLiveData("")
     private val department: String
         get() = _department.value?.trim() ?: ""
 
-    val _studentId = MutableLiveData("")
-    private val studentId: String
-        get() = _studentId.value?.trim() ?: ""
+    val _studentId = MutableLiveData<Int>()
+    private val studentId: Int
+        get() = requireNotNull(_studentId.value)
 
     val _name = MutableLiveData("")
     private val name: String
@@ -79,9 +85,9 @@ class OnBoardingViewModel @Inject constructor(
     private val id: String
         get() = _id.value?.trim() ?: ""
 
-    private val _gender = MutableLiveData("")
+    private val _gender = MutableLiveData<String>()
     val gender: String
-        get() = _gender.value ?: ""
+        get() = _gender.value ?: "MALE"
 
     private val _code = MutableLiveData("")
     val code: String
@@ -94,6 +100,24 @@ class OnBoardingViewModel @Inject constructor(
     private val _recommendId = MutableLiveData("")
     val recommendId: String
         get() = _recommendId.value ?: ""
+
+    val isValidSchool: LiveData<Boolean> = _school.map { school -> checkValidSchool(school) }
+    val isEmptyDepartment: LiveData<Boolean> =
+        _department.map { department -> checkEmptyDepartment(department) }
+    val isEmptyStudentId: LiveData<Boolean> =
+        _studentId.map { studentId -> checkEmptyStudentId(studentId.toString()) }
+    val isEmptyName: LiveData<Boolean> =
+        _name.map { name -> checkEmptyName(name) }
+    val isEmptyId: LiveData<Boolean> =
+        _id.map { id -> checkEmptyId(id) }
+    val isEmptyCode: LiveData<Boolean> =
+        _code.map { code -> checkEmptyCode(code) }
+
+    private val _studentIdResult: MutableLiveData<List<Int>> = MutableLiveData()
+    val studentIdResult: LiveData<List<Int>> = _studentIdResult
+
+    private val _friendResult: MutableLiveData<List<Friend>> = MutableLiveData()
+    val friendResult: LiveData<List<Friend>> = _friendResult
 
     // TODO: throttle 및 페이징 처리
     fun getSchoolList(search: String) {
@@ -183,6 +207,41 @@ class OnBoardingViewModel @Inject constructor(
         }
     }
 
+    fun postSignup() {
+        viewModelScope.launch {
+            val signupInfo = SignupInfo(
+                kakaoId = kakaoId,
+                email = email,
+                profileImg = profileImg,
+                groupId = groupId,
+                studentId = studentId,
+                name = name,
+                yelloId = id,
+                gender = gender,
+                friendList = friendList.toIdList(),
+                recommendId = recommendId,
+            )
+            onboardingRepository.postSignup(signupInfo)
+                .onSuccess { userInfo ->
+                    Timber.d("POST SIGN UP SUCCESS : $userInfo")
+                    if (userInfo == null) {
+                        _postSignupState.value = UiState.Empty
+                        return@launch
+                    }
+
+                    _postSignupState.value = UiState.Success(userInfo)
+                }
+                .onFailure { t ->
+                    if (t is HttpException) {
+                        Timber.e("POST SIGN UP FAILURE : $t")
+                        _postSignupState.value = UiState.Failure(t.code().toString())
+                        return@launch
+                    }
+                    Timber.e("POST SIGN UP ERROR : $t")
+                }
+        }
+    }
+
     fun setSchool(school: String) {
         _school.value = school
     }
@@ -192,7 +251,7 @@ class OnBoardingViewModel @Inject constructor(
         _groupId.value = groupId
     }
 
-    fun setStudentId(studentId: String) {
+    fun setStudentId(studentId: Int) {
         _studentId.value = studentId
     }
 
@@ -203,43 +262,6 @@ class OnBoardingViewModel @Inject constructor(
     fun cleaDepartmentData() {
         _departmentData.value = UiState.Success(GroupList(0, emptyList()))
     }
-
-    val isValidSchool: LiveData<Boolean> = _school.map { school -> checkValidSchool(school) }
-
-    val isEmptyDepartment: LiveData<Boolean> =
-        _department.map { department -> checkEmptyDepartment(department) }
-    val isEmptyStudentId: LiveData<Boolean> =
-        _studentId.map { studentId -> checkEmptyStudentId(studentId) }
-    val isEmptyName: LiveData<Boolean> =
-        _name.map { name -> checkEmptyName(name) }
-    val isEmptyId: LiveData<Boolean> =
-        _id.map { id -> checkEmptyId(id) }
-    val isEmptyCode: LiveData<Boolean> =
-        _code.map { code -> checkEmptyCode(code) }
-
-    private val _schoolResult: MutableLiveData<List<String>> = MutableLiveData()
-    val schoolResult: LiveData<List<String>> = _schoolResult
-
-    private val _departmentResult: MutableLiveData<List<GroupList>> = MutableLiveData()
-    val departmentResult: LiveData<List<GroupList>> = _departmentResult
-
-    private val _studentIdResult: MutableLiveData<List<MyStudentId>> = MutableLiveData()
-    val studentIdResult: LiveData<List<MyStudentId>> = _studentIdResult
-
-    private val _friendResult: MutableLiveData<List<Friend>> = MutableLiveData()
-    val friendResult: LiveData<List<Friend>> = _friendResult
-
-    private val _idResult: MutableLiveData<List<MyId>> = MutableLiveData()
-    val idResult: LiveData<List<MyId>> = _idResult
-
-    private val _nameResult: MutableLiveData<List<MyName>> = MutableLiveData()
-    val nameResult: LiveData<List<MyName>> = _nameResult
-
-    private val _genderResult: MutableLiveData<List<MyGender>> = MutableLiveData()
-    val genderResult: LiveData<List<MyGender>> = _genderResult
-
-    private val _codeResult: MutableLiveData<List<MyCode>> = MutableLiveData()
-    val codeResult: LiveData<List<MyCode>> = _codeResult
 
     private fun checkValidSchool(school: String): Boolean {
         return school.isNotBlank()
@@ -282,17 +304,7 @@ class OnBoardingViewModel @Inject constructor(
     }
 
     fun addStudentId() {
-        val mockList = listOf(
-            MyStudentId("15학번"),
-            MyStudentId("16학번"),
-            MyStudentId("17학번"),
-            MyStudentId("18학번"),
-            MyStudentId("19학번"),
-            MyStudentId("20학번"),
-            MyStudentId("21학번"),
-            MyStudentId("22학번"),
-            MyStudentId("23학번"),
-        )
+        val mockList = listOf(15, 16, 17, 18, 19, 20, 21, 22, 23)
         _studentIdResult.value = mockList
     }
 }

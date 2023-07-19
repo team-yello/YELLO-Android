@@ -1,6 +1,7 @@
 package com.yello.presentation.auth
 
 import android.content.Intent
+import android.content.Intent.EXTRA_EMAIL
 import android.os.Bundle
 import androidx.activity.viewModels
 import com.example.ui.base.BindingActivity
@@ -159,20 +160,22 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
         UserApiClient.instance.me { user, _ ->
             if (user != null) {
                 viewModel.setKakaoInfo(
-                    kakaoId = user.id.toString(),
+                    kakaoId = user.id?.toInt() ?: return@me,
                     email = user.kakaoAccount?.email ?: "",
                     profileImage = user.kakaoAccount?.profile?.thumbnailImageUrl ?: "",
                 )
                 return@me
             }
-
-            Timber.e("카카오 정보 불러오기 실패")
-            yelloSnackbar(binding.root, getString(R.string.msg_error))
         }
+        Timber.e("카카오 정보 불러오기 실패")
+        yelloSnackbar(binding.root, getString(R.string.msg_error))
     }
 
     private fun startSocialSyncActivity() {
         Intent(this, SocialSyncActivity::class.java).apply {
+            putExtra(EXTRA_KAKAO_ID, viewModel.kakaoUserId.value)
+            putExtra(EXTRA_EMAIL, viewModel.email.value)
+            putExtra(EXTRA_PROFILE_IMAGE, viewModel.profileImage.value)
             addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
             startActivity(this)
         }
@@ -187,7 +190,10 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
         finish()
     }
 
-    private companion object {
+    companion object {
+        const val EXTRA_KAKAO_ID = "KAKAO_ID"
+        const val EXTRA_PROFILE_IMAGE = "PROFILE_IMAGE"
+
         const val TAG_AUTH = "authSignIn"
     }
 }

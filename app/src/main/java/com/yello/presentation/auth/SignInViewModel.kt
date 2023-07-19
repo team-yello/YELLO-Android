@@ -20,19 +20,19 @@ class SignInViewModel @Inject constructor(
     private val _postState = MutableLiveData<UiState<ServiceTokenModel?>>()
     val postState: LiveData<UiState<ServiceTokenModel?>> = _postState
 
-    private val _kakaoUserId = MutableLiveData("")
-    val kakaoUserId: LiveData<String>
+    private val _kakaoUserId = MutableLiveData(-1)
+    val kakaoUserId: LiveData<Int>
         get() = _kakaoUserId
 
     private val _email = MutableLiveData("")
     val email: LiveData<String>
-        get() = _kakaoUserId
+        get() = _email
 
     private val _profileImage = MutableLiveData("")
     val profileImage: LiveData<String>
         get() = _profileImage
 
-    fun setKakaoInfo(kakaoId: String, email: String, profileImage: String) {
+    fun setKakaoInfo(kakaoId: Int, email: String, profileImage: String) {
         _kakaoUserId.value = kakaoId
         _email.value = email
         _profileImage.value = profileImage

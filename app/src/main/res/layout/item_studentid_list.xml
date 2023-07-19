@@ -4,9 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
-            name="data"
-            type="com.example.domain.entity.MyStudentId" />
+            name="studentId"
+            type="Integer" />
 
     </data>
 
@@ -23,9 +24,9 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:text="@{data.studentId}"
-            android:textAlignment="center"
             android:paddingVertical="8dp"
+            android:text="@{@string/onboarding_student_id(studentId)}"
+            android:textAlignment="center"
             android:textAppearance="?textAppearanceBodyLarge"
             android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"

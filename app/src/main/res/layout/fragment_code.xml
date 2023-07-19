@@ -121,7 +121,7 @@
             android:layout_marginBottom="34dp"
             android:background="@{vm.isEmptyCode() ?@drawable/shape_grayscales900_fill_grayscales500_line_8_rect : @drawable/shape_yello_main_500_fill_black_line_rect}"
             android:paddingVertical="12dp"
-            android:text="@string/onboarding_btn_next"
+            android:text="@string/code_complete"
             android:textAppearance="?textAppearanceBodyMedium"
             android:textColor="@{vm.isEmptyCode()? @color/black : @color/grayscales_700}"
             app:layout_constraintBottom_toBottomOf="parent"

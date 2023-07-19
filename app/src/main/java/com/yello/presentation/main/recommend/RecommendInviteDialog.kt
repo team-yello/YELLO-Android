@@ -1,6 +1,8 @@
 package com.yello.presentation.main.recommend
 
 import android.content.ActivityNotFoundException
+import android.content.ClipData
+import android.content.ClipboardManager
 import android.content.Context
 import android.os.Bundle
 import android.view.View
@@ -11,7 +13,6 @@ import com.kakao.sdk.share.ShareClient
 import com.kakao.sdk.share.WebSharerClient
 import com.yello.R
 import com.yello.databinding.FragmentRecommendInviteDialogBinding
-import com.yello.util.context.yelloSnackbar
 import timber.log.Timber
 
 class RecommendInviteDialog :
@@ -25,17 +26,23 @@ class RecommendInviteDialog :
     }
 
     // 사용자 정의 템플릿 ID & 공유할 url
-    // TODO: 추천인 아이디 설정
+    // TODO: 추천인 아이디 설정 & 링크 생기면 넣기
     private val templateId = 95890.toLong()
     private val url = "http://naver.com"
     private val myYelloId: String = "sangho.kk"
+    private val linkText: String = "여기다 링크 넣어주세요"
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setRecommendId()
         initExitButton()
         initKakaoInviteButton()
         initLinkInviteButton()
+    }
+
+    private fun setRecommendId() {
+        binding.tvRecommendDialogInviteId.text = myYelloId
     }
 
     private fun initExitButton() {
@@ -52,7 +59,10 @@ class RecommendInviteDialog :
 
     private fun initLinkInviteButton() {
         binding.btnInviteLink.setOnSingleClickListener {
-            yelloSnackbar(binding.root, "링크가 복사되었습니다.")
+            val clipboardManager =
+                requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+            val clipData = ClipData.newPlainText("label", linkText)
+            clipboardManager.setPrimaryClip(clipData)
         }
     }
 

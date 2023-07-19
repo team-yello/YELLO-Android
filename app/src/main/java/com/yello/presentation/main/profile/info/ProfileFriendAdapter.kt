@@ -10,9 +10,10 @@ import com.example.ui.view.ItemDiffCallback
 import com.yello.R
 import com.yello.databinding.HeaderFriendsListBinding
 import com.yello.databinding.ItemFriendsListBinding
+import com.yello.presentation.main.profile.ProfileViewModel
 
 class ProfileFriendAdapter(
-    private val model: ProfileUserModel,
+    private val viewModel: ProfileViewModel,
     private val itemClick: (ProfileUserModel, Int) -> (Unit)
 ) : ListAdapter<ProfileUserModel, RecyclerView.ViewHolder>(diffUtil) {
 
@@ -45,7 +46,7 @@ class ProfileFriendAdapter(
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if (holder is ProfileHeaderViewHolder) {
-            holder.onBind(model)
+            holder.onBind(viewModel)
         }
         if (holder is ProfileFriendViewHolder) {
             val itemPosition = position - HEADER_COUNT

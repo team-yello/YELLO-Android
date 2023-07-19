@@ -11,7 +11,6 @@ import com.example.ui.view.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
-import timber.log.Timber
 import javax.inject.Inject
 import kotlin.math.ceil
 
@@ -36,6 +35,14 @@ class ProfileViewModel @Inject constructor(
     var currentPage = -1
     var isPagingFinish = false
     var totalPage = Int.MAX_VALUE
+
+    val myName: MutableLiveData<String> = MutableLiveData("")
+    val myId: MutableLiveData<String> = MutableLiveData("")
+    val mySchool: MutableLiveData<String> = MutableLiveData("")
+    val myThumbnail: MutableLiveData<String> = MutableLiveData("")
+    val myTotalMsg: MutableLiveData<String> = MutableLiveData("")
+    val myTotalFriends: MutableLiveData<String> = MutableLiveData("")
+    val myTotalPoints: MutableLiveData<String> = MutableLiveData("")
 
     val clickedItemId: MutableLiveData<Int> = MutableLiveData()
     val clickedItemName: MutableLiveData<String> = MutableLiveData("")

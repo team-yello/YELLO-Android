@@ -8,8 +8,8 @@
         <import type="android.view.View" />
 
         <variable
-            name="model"
-            type="com.example.domain.entity.ProfileUserModel" />
+            name="vm"
+            type="com.yello.presentation.main.profile.ProfileViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -54,7 +54,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="12dp"
-                    android:text="@{model.name}"
+                    android:text="@{vm.myName}"
                     android:textAppearance="?textAppearanceHeadline2"
                     android:textColor="@color/white"
                     app:layout_constraintStart_toEndOf="@id/iv_profile_info_thumbnail"
@@ -65,7 +65,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
-                    android:text="@{model.yelloId}"
+                    android:text="@{vm.myId}"
                     android:textAppearance="?textAppearanceBody2"
                     android:textColor="@color/yello_main_500"
                     app:layout_constraintBaseline_toBaselineOf="@id/tv_profile_info_name"
@@ -79,7 +79,7 @@
                     android:layout_marginStart="12dp"
                     android:layout_marginTop="2dp"
                     android:paddingVertical="2dp"
-                    android:text="@{model.group}"
+                    android:text="@{vm.mySchool}"
                     android:textAppearance="?textAppearanceLabelLarge"
                     android:textColor="@color/white"
                     app:layout_constraintBottom_toBottomOf="@id/iv_profile_info_thumbnail"
@@ -112,7 +112,7 @@
                         android:id="@+id/tv_profile_total_friend"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@{@string/to_string(model.friendCount)}"
+                        android:text="@{vm.myTotalFriends}"
                         android:textAppearance="?textAppearanceHeadline2"
                         android:textColor="@color/white"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -149,7 +149,7 @@
                         android:id="@+id/tv_profile_total_msg"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@{@string/to_string(model.yelloCount)}"
+                        android:text="@{vm.myTotalMsg}"
                         android:textAppearance="?textAppearanceHeadline2"
                         android:textColor="@color/white"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -186,7 +186,7 @@
                         android:id="@+id/tv_profile_total_point"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@{@string/to_string(model.point)}"
+                        android:text="@{vm.myTotalPoints}"
                         android:textAppearance="?textAppearanceHeadline2"
                         android:textColor="@color/white"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -293,9 +293,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
                 android:fontFamily="@font/pretendard_bold"
-                android:text="@{@string/to_string(model.friendCount)}"
+                android:text="@{vm.myTotalFriends}"
                 android:textColor="@color/white"
-                android:textSize="12dp"
+                android:textSize="12sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/tv_profile_friend_list_total_back"
                 app:layout_constraintTop_toTopOf="parent" />

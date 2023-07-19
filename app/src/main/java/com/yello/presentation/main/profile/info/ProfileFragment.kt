@@ -31,6 +31,7 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        initItemClickListenerWithAdapter()
         initProfileSetting()
         setUserDataFromServer()
         setFriendsListDataFromServer()
@@ -98,8 +99,14 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
         viewModel.getState.observe(viewLifecycleOwner) { state ->
             when (state) {
                 is UiState.Success -> {
-                    // 서버 통신으로 받은 유저 정보 헤더 뷰홀더로 보냄
-                    initItemClickListenerWithAdapter(state.data)
+                    // 서버 통신으로 받은 유저 정보 뷰모델에 저장
+                    viewModel.myName.value = state.data.name
+                    viewModel.myId.value = "@" + state.data.yelloId
+                    viewModel.mySchool.value = state.data.group
+                    viewModel.myThumbnail.value = state.data.profileImageUrl
+                    viewModel.myTotalMsg.value = state.data.yelloCount.toString()
+                    viewModel.myTotalFriends.value = state.data.friendCount.toString()
+                    viewModel.myTotalPoints.value = state.data.point.toString()
                 }
 
                 is UiState.Failure -> {
@@ -118,8 +125,8 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
     }
 
     // 어댑터 시작
-    private fun initItemClickListenerWithAdapter(model: ProfileUserModel) {
-        adapter = ProfileFriendAdapter(model) { profileUserModel, position ->
+    private fun initItemClickListenerWithAdapter() {
+        adapter = ProfileFriendAdapter(viewModel) { profileUserModel, position ->
 
             // 아이템 클릭 리스너 설정 - 클릭된 아이템 값 저장 뷰모델 이후 바텀 시트 출력
             viewModel.setItemPosition(position)
@@ -188,7 +195,12 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
         viewModel.deleteFriendState.observe(viewLifecycleOwner) { state ->
             when (state) {
                 is UiState.Success -> {
-                    viewModel.clickedItemPosition?.let { adapter?.removeItem(it) }
+                    viewModel.clickedItemPosition?.let { position -> adapter?.removeItem(position) }
+                    if (viewModel.myTotalFriends.value != "") {
+                        viewModel.myTotalFriends.value =
+                            viewModel.myTotalFriends.value?.toInt()?.minus(1).toString()
+                        adapter?.notifyDataSetChanged()
+                    }
                 }
 
                 is UiState.Failure -> {

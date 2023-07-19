@@ -54,10 +54,10 @@ class RecommendSchoolFragment :
 
     private fun initInviteButtonListener() {
         binding.layoutInviteFriend.setOnSingleClickListener {
-            recommendInviteDialog.show(parentFragmentManager, "Dialog")
+            recommendInviteDialog.show(parentFragmentManager, DIALOG)
         }
         binding.btnRecommendNoFriend.setOnSingleClickListener {
-            recommendInviteDialog.show(parentFragmentManager, "Dialog")
+            recommendInviteDialog.show(parentFragmentManager, DIALOG)
         }
     }
 
@@ -103,7 +103,7 @@ class RecommendSchoolFragment :
                 is UiState.Failure -> {
                     binding.layoutRecommendFriendsList.isVisible = false
                     binding.layoutRecommendNoFriendsList.isVisible = true
-                    yelloSnackbar(requireView(), "학교 추천친구 서버 통신 실패")
+                    yelloSnackbar(requireView(), getString(R.string.recommend_error_school_friend_connection))
                 }
 
                 is UiState.Loading -> {}
@@ -132,7 +132,7 @@ class RecommendSchoolFragment :
                 }
 
                 is UiState.Failure -> {
-                    yelloSnackbar(requireView(), "친구 추가 서버 통신 실패")
+                    yelloSnackbar(requireView(), getString(R.string.recommend_error_add_friend_connection))
                     activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
                 }
 
@@ -190,5 +190,9 @@ class RecommendSchoolFragment :
             iconPadding = dpToPx(holder.binding.root.context, -2)
             setPadding(dpToPx(holder.binding.root.context, 10))
         }
+    }
+
+    private companion object {
+        const val DIALOG = "dialog"
     }
 }

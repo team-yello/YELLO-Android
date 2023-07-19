@@ -77,7 +77,7 @@ class UnlockDialogFragment :
                 mapOf("KEY" to myYelloId)
             ) { sharingResult, error ->
                 if (error != null) {
-                    Timber.tag(TAG_SHARE).e(error, "카카오톡 공유 실패")
+                    Timber.tag(TAG_SHARE).e(error, getString(R.string.invite_error_kakao))
                 } else if (sharingResult != null) {
                     startActivity(sharingResult.intent)
                 }
@@ -91,14 +91,14 @@ class UnlockDialogFragment :
             try {
                 KakaoCustomTabsClient.openWithDefault(context, sharerUrl)
             } catch (error: UnsupportedOperationException) {
-                Timber.tag(TAG_SHARE).e(error, "지원 가능한 브라우저 없음")
+                Timber.tag(TAG_SHARE).e(error, getString(R.string.invite_error_browser))
             }
 
             // 2. CustomTabsServiceConnection 미지원 브라우저 - 네이버 앱
             try {
                 KakaoCustomTabsClient.open(context, sharerUrl)
             } catch (error: ActivityNotFoundException) {
-                Timber.tag(TAG_SHARE).e(error, "가능한 브라우저 없음")
+                Timber.tag(TAG_SHARE).e(error, getString(R.string.invite_error_browser))
             }
         }
     }

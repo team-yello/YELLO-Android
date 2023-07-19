@@ -40,8 +40,6 @@
     <string name="onboarding_tv_what_department">무슨 학과인가요?</string>
     <string name="onboarding_tv_hint_select_studentid">학번을 선택해주세요.</string>
     <string name="onboarding_btn_next">완료</string>
-    <string name="tv_recommend_tab_kakao">카톡 친구들</string>
-    <string name="tv_recommend_tab_school">학교 친구들</string>
     <string name="onboarding_tv_name">이름은</string>
     <string name="onboarding_tv_name_error">이름은 가입 후 바꿀 수 없으니 정확히 적어주세요!</string>
     <string name="onboarding_tv_id">아이디는</string>
@@ -113,10 +111,22 @@
     <string name="look_title">둘러보기</string>
     <string name="look_sub_description">아직 구현되지 않은 기능이에요.\n조금만 기다려주세요!</string>
     <string name="view_type_error_msg">Unknown View Type : %d</string>
+
     <string name="profile_error_user_data">유저 정보 서버 통신 실패</string>
     <string name="profile_error_friend_list">친구 목록 서버 통신 실패</string>
     <string name="profile_error_delete_friend">친구 삭제 실패</string>
     <string name="profile_error_logout">로그아웃 실패</string>
     <string name="profile_error_unlink">회원 탈퇴 서버 통신 실패</string>
     <string name="profile_error_unlink_kakao">카카오 연동 해제 실패</string>
+
+    <string name="invite_error_kakao">카카오톡 공유 실패</string>
+    <string name="invite_error_browser">가능한 브라우저 없음</string>
+
+    <string name="recommend_tab_kakao">카톡 친구들</string>
+    <string name="recommend_tab_school">학교 친구들</string>
+    <string name="recommend_error_friends_list">카카오 친구목록 가져오기 실패</string>
+    <string name="recommend_error_no_kakao_friend">연동 가능한 카카오톡 친구 없음</string>
+    <string name="recommend_error_friend_connection">카카오 추천친구 서버 통신 실패</string>
+    <string name="recommend_error_school_friend_connection">학교 추천친구 서버 통신 실패</string>
+    <string name="recommend_error_add_friend_connection">친구 추가 서버 통신 실패</string>
 </resources>

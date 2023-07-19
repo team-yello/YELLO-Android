@@ -51,13 +51,13 @@ class ProfileViewModel @Inject constructor(
         clickedItemPosition = position
     }
 
+    // 서버 통신 - 유저 정보 받아오기
     fun getUserDataFromServer() {
         viewModelScope.launch {
             _getState.value = UiState.Loading
             runCatching {
                 profileRepository.getUserData()
             }.onSuccess { profile ->
-                Timber.d("GET USER DATA SUCCESS : $profile")
                 if (profile == null) {
                     _getState.value = UiState.Empty
                     return@launch
@@ -65,13 +65,13 @@ class ProfileViewModel @Inject constructor(
                 _getState.value = UiState.Success(profile)
             }.onFailure { t ->
                 if (t is HttpException) {
-                    Timber.e("GET USER DATA FAILURE: $t")
                     _getState.value = UiState.Failure(t.message.toString())
-                } else Timber.e("GET USER DATA ERROR: $t")
+                }
             }
         }
     }
 
+    // 서버 통신 - 친구 목록 정보 받아오기 & 페이징 적용
     fun getFriendsListFromServer() {
         viewModelScope.launch {
             if (isPagingFinish) return@launch
@@ -90,6 +90,7 @@ class ProfileViewModel @Inject constructor(
         }
     }
 
+    // 서버 통신 - 회원 탈퇴
     fun deleteUserDataToServer() {
         viewModelScope.launch {
             _deleteUserState.value = UiState.Loading
@@ -103,6 +104,7 @@ class ProfileViewModel @Inject constructor(
         }
     }
 
+    // 서버 통신 - 친구 식제
     fun deleteFriendDataToServer(friendId: Int) {
         viewModelScope.launch {
             _deleteFriendState.value = UiState.Loading

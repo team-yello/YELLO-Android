@@ -32,25 +32,73 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        initViewModel()
+        initProfileSetting()
+        setUserDataFromServer()
+        setFriendsListDataFromServer()
+        setFriendDeleteToServer()
+    }
+
+    private fun initProfileSetting() {
+        initViewModelWithFirstList()
         initProfileManageActivityWithoutFinish()
         initFabUpwardListener()
-
-        observeUserDataState()
-        observeFriendsDataState()
-        observeFriendDeleteState()
-
-        setUserData()
-        setDeleteAnimation()
-        setItemDivider()
-        setListWithInfinityScroll()
         setFabVisibility()
     }
 
+    private fun setUserDataFromServer() {
+        observeUserDataState()
+        setUserData()
+    }
+
+    private fun setFriendsListDataFromServer() {
+        observeFriendsDataState()
+        setListWithInfinityScroll()
+        setItemDivider()
+    }
+
+    private fun setFriendDeleteToServer() {
+        observeFriendDeleteState()
+        setDeleteAnimation()
+    }
+
+    // 프래그먼트 생성될 때마다 뷰모델 변수값 초기화
+    private fun initViewModelWithFirstList() {
+        viewModel.currentPage = -1
+        viewModel.isPagingFinish = false
+        viewModel.totalPage = Int.MAX_VALUE
+        viewModel.getFriendsListFromServer()
+    }
+
+    // 관리 액티비티 실행 & 뒤로가기 누를 때 다시 돌아오도록 현재 화면 finish 진행 X
+    private fun initProfileManageActivityWithoutFinish() {
+        binding.btnProfileManage.setOnSingleClickListener {
+            Intent(activity, ProfileManageActivity::class.java).apply {
+                addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                startActivity(this)
+            }
+        }
+    }
+
+    // 플로팅 버튼 클릭 시 리사이클러 최상단으로 이동
+    private fun initFabUpwardListener() {
+        binding.fabUpward.setOnSingleClickListener {
+            binding.rvProfileFriendsList.scrollToPosition(0)
+        }
+    }
+
+    // 최상단에 위치한 경우에만 플로팅 버튼 GONE 표시
+    private fun setFabVisibility() {
+        binding.rvProfileFriendsList.setOnScrollChangeListener { view, _, _, _, _ ->
+            binding.fabUpward.isVisible = view.canScrollVertically(-1)
+        }
+    }
+
+    // 유저 정보 서버 통신 성공 시 어댑터 생성 후 리사이클러뷰에 부착
     private fun observeUserDataState() {
         viewModel.getState.observe(viewLifecycleOwner) { state ->
             when (state) {
                 is UiState.Success -> {
+                    // 서버 통신으로 받은 유저 정보 헤더 뷰홀더로 보냄
                     initItemClickListenerWithAdapter(state.data)
                 }
 
@@ -69,6 +117,28 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
         viewModel.getUserDataFromServer()
     }
 
+    // 현재 클릭된 아이템 정보 뷰모델에 저장
+    private fun initItemClickListenerWithAdapter(model: ProfileUserModel) {
+        adapter = ProfileFriendAdapter(model) { profileUserModel, position ->
+
+            // 아이템 클릭 리스너 설정 - 값 저장 이후 바텀 시트 출력
+            viewModel.setItemPosition(position)
+            viewModel.clickedItemId.value = profileUserModel.userId
+            viewModel.clickedItemName.value = profileUserModel.name
+            viewModel.clickedItemYelloId.value = "@" + profileUserModel.yelloId
+            viewModel.clickedItemSchool.value = profileUserModel.group
+            viewModel.clickedItemThumbnail.value = profileUserModel.profileImageUrl
+            viewModel.clickedItemTotalMsg.value = profileUserModel.yelloCount.toString()
+            viewModel.clickedItemTotalFriends.value = profileUserModel.friendCount.toString()
+
+            ProfileFriendItemBottomSheet().show(parentFragmentManager, "dialog")
+        }
+        adapter?.setItemList(listOf())
+        binding.rvProfileFriendsList.adapter = adapter
+    }
+
+
+    // 친구 목록 서버 통신 성공 시 어댑터에 리스트 추가
     private fun observeFriendsDataState() {
         viewModel.getListState.observe(viewLifecycleOwner) { state ->
             when (state) {
@@ -88,6 +158,7 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
         }
     }
 
+    // 무한 스크롤 구현
     private fun setListWithInfinityScroll() {
         binding.rvProfileFriendsList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
@@ -103,6 +174,14 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
         })
     }
 
+    // 리스트 디바이더 설정
+    private fun setItemDivider() {
+        binding.rvProfileFriendsList.addItemDecoration(
+            ProfileItemDecoration(requireContext())
+        )
+    }
+
+    // 친구 삭제 서버 통신 성공 시 리스트에서 아이템 삭제
     private fun observeFriendDeleteState() {
         viewModel.deleteFriendState.observe(viewLifecycleOwner) { state ->
             when (state) {
@@ -121,19 +200,7 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
         }
     }
 
-    private fun setFabVisibility() {
-        binding.rvProfileFriendsList.setOnScrollChangeListener { view, _, _, _, _ ->
-            // 최상단인 경우에만 GONE 표시
-            binding.fabUpward.isVisible = view.canScrollVertically(-1)
-        }
-    }
-
-    private fun setItemDivider() {
-        binding.rvProfileFriendsList.addItemDecoration(
-            ProfileItemDecoration(requireContext())
-        )
-    }
-
+    // 친구 삭제 시 오른쪽으로 스와이프 되는 애니메이션 추가
     private fun setDeleteAnimation() {
         binding.rvProfileFriendsList.itemAnimator = object : DefaultItemAnimator() {
             override fun animateRemove(holder: RecyclerView.ViewHolder): Boolean {
@@ -144,45 +211,5 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
                 return super.animateRemove(holder)
             }
         }
-    }
-
-    private fun initViewModel() {
-        viewModel.currentPage = -1
-        viewModel.isPagingFinish = false
-        viewModel.totalPage = Int.MAX_VALUE
-        viewModel.getFriendsListFromServer()
-    }
-
-    private fun initFabUpwardListener() {
-        binding.fabUpward.setOnSingleClickListener {
-            binding.rvProfileFriendsList.scrollToPosition(0)
-        }
-    }
-
-    private fun initProfileManageActivityWithoutFinish() {
-        binding.btnProfileManage.setOnSingleClickListener {
-            Intent(activity, ProfileManageActivity::class.java).apply {
-                addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                startActivity(this)
-            }
-        }
-    }
-
-    private fun initItemClickListenerWithAdapter(model: ProfileUserModel) {
-        adapter = ProfileFriendAdapter(model) { profileUserModel, position ->
-
-            viewModel.setItemPosition(position)
-            viewModel.clickedItemId.value = profileUserModel.userId
-            viewModel.clickedItemName.value = profileUserModel.name
-            viewModel.clickedItemYelloId.value = "@" + profileUserModel.yelloId
-            viewModel.clickedItemSchool.value = profileUserModel.group
-            viewModel.clickedItemThumbnail.value = profileUserModel.profileImageUrl
-            viewModel.clickedItemTotalMsg.value = profileUserModel.yelloCount.toString()
-            viewModel.clickedItemTotalFriends.value = profileUserModel.friendCount.toString()
-
-            ProfileFriendItemBottomSheet().show(parentFragmentManager, "dialog")
-        }
-        adapter?.setItemList(listOf())
-        binding.rvProfileFriendsList.adapter = adapter
     }
 }

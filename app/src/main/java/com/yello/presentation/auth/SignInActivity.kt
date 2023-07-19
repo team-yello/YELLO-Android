@@ -4,7 +4,6 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
 import com.example.ui.base.BindingActivity
-import com.example.ui.context.toast
 import com.example.ui.view.UiState
 import com.example.ui.view.setOnSingleClickListener
 import com.kakao.sdk.auth.model.OAuthToken
@@ -15,6 +14,7 @@ import com.kakao.sdk.user.UserApiClient
 import com.yello.R
 import com.yello.databinding.ActivitySignInBinding
 import com.yello.presentation.main.MainActivity
+import com.yello.util.context.yelloSnackbar
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
@@ -124,6 +124,7 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
         viewModel.postState.observe(this) { state ->
             when (state) {
                 is UiState.Success -> {
+                    // 500(가입된 아이디): 온보딩뷰 생략하고 바로 메인화면으로 이동
                     // TODO: 서비스 토큰 값 저장
                     val serviceAccessToken = state.data?.accessToken
                     startMainActivity()
@@ -131,10 +132,12 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
 
                 is UiState.Failure -> {
                     if (state.msg == "403") {
+                        // 403(가입되지 않은 아이디): 온보딩뷰로 이동
                         getUserInfo()
                         startSocialSyncActivity()
                     } else {
-                        toast("서버 통신에 실패했습니다")
+                        // 401 : 에러 발생
+                        yelloSnackbar(binding.root.rootView, "서버 통신에 실패했습니다")
                     }
                 }
 
@@ -167,7 +170,6 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
         }
     }
 
-    // 다음 화면으로 전환
     private fun startSocialSyncActivity() {
         Intent(this, SocialSyncActivity::class.java).apply {
             addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)

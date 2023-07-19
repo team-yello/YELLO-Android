@@ -26,7 +26,6 @@ class ProfileManageActivity :
         }
 
         binding.btnProfileManageLogout.setOnSingleClickListener {
-            // TODO: 로그아웃 로직 설정
             logoutKakaoAccount()
         }
     }
@@ -46,6 +45,7 @@ class ProfileManageActivity :
         }
     }
 
+    // 카카오 로그아웃 후 앱 재시작
     private fun logoutKakaoAccount() {
         UserApiClient.instance.logout { error ->
             if (error != null) {
@@ -56,6 +56,7 @@ class ProfileManageActivity :
         }
     }
 
+    // 앱 재시작 로직
     private fun restartApp(context: Context) {
         val packageManager = context.packageManager
         val intent = packageManager.getLaunchIntentForPackage(context.packageName)

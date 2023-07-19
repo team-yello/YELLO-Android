@@ -36,6 +36,7 @@ class ProfileQuitDialog :
         observeUserDeleteState()
     }
 
+    // 다이얼로그 배경 설정
     private fun setDialogBackground() {
         val deviceWidth = Resources.getSystem().displayMetrics.widthPixels
         val dialogHorizontalMargin = (Resources.getSystem().displayMetrics.density * 16) * 2
@@ -51,15 +52,15 @@ class ProfileQuitDialog :
         dialog?.setCancelable(true)
     }
 
-    private fun initQuitButtonListener() {
-        binding.btnProfileDialogQuit.setOnSingleClickListener {
-            unlinkYelloAccount()
-        }
-    }
-
     private fun initRejectButtonListener() {
         binding.btnProfileDialogReject.setOnSingleClickListener {
             dismiss()
+        }
+    }
+
+    private fun initQuitButtonListener() {
+        binding.btnProfileDialogQuit.setOnSingleClickListener {
+            unlinkYelloAccount()
         }
     }
 
@@ -67,6 +68,7 @@ class ProfileQuitDialog :
         viewModel.deleteUserDataToServer()
     }
 
+    // 유저 탈퇴 서버 통신 성공 시 카카오 연결 해제 진행
     private fun observeUserDeleteState() {
         viewModel.deleteUserState.observe(viewLifecycleOwner) { state ->
             when (state) {
@@ -85,6 +87,7 @@ class ProfileQuitDialog :
         }
     }
 
+    // 카카오 연결 해제 성공 시 앱 재시작
     private fun unlinkKakaoAccount() {
         UserApiClient.instance.unlink { error ->
             if (error != null) {
@@ -95,6 +98,7 @@ class ProfileQuitDialog :
         }
     }
 
+    // 앱 재시작 로직
     private fun restartApp(context: Context) {
         val packageManager = context.packageManager
         val intent = packageManager.getLaunchIntentForPackage(context.packageName)

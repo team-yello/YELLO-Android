@@ -14,13 +14,13 @@ import com.yello.databinding.ItemFriendsListBinding
 class ProfileFriendAdapter(
     private val model: ProfileUserModel,
     private val itemClick: (ProfileFriendsListModel.ProfileFriendModel, Int) -> (Unit)
-) :
-    ListAdapter<ProfileFriendsListModel.ProfileFriendModel, RecyclerView.ViewHolder>(diffUtil) {
+) : ListAdapter<ProfileFriendsListModel.ProfileFriendModel, RecyclerView.ViewHolder>(diffUtil) {
 
     private var itemList = mutableListOf<ProfileFriendsListModel.ProfileFriendModel>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
 
+        // 멀티뷰타입 구현 - 헤더 & 아이템 리스트
         return when (viewType) {
             VIEW_TYPE_HEADER -> ProfileHeaderViewHolder(
                 HeaderFriendsListBinding.inflate(
@@ -44,12 +44,12 @@ class ProfileFriendAdapter(
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        if (holder is ProfileHeaderViewHolder) {
+            holder.onBind(model)
+        }
         if (holder is ProfileFriendViewHolder) {
             val itemPosition = position - HEADER_COUNT
             holder.onBind(itemList[itemPosition], itemPosition)
-        }
-        if (holder is ProfileHeaderViewHolder) {
-            holder.onBind(model)
         }
     }
 

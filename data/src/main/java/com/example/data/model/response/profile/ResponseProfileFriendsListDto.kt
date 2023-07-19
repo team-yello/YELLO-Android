@@ -1,19 +1,18 @@
 package com.example.data.model.response.profile
 
-import com.example.domain.entity.ProfileFriendsModel
-import com.example.domain.entity.ProfileUserModel
+import com.example.domain.entity.ProfileFriendsListModel
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class ResponseProfileFriendsDto(
+data class ResponseProfileFriendsListDto(
     @SerialName("totalCount")
     val totalCount: Int,
     @SerialName("friends")
-    val friends: List<ResponseProfileUserModel>
+    val friends: List<ResponseProfileFriendModel>
 ) {
     @Serializable
-    data class ResponseProfileUserModel(
+    data class ResponseProfileFriendModel(
         @SerialName("userId")
         val userId: Int,
         @SerialName("name")
@@ -27,16 +26,20 @@ data class ResponseProfileFriendsDto(
         @SerialName("yelloCount")
         val yelloCount: Int,
         @SerialName("friendCount")
-        val friendCount: Int,
-        @SerialName("point")
-        val point: Int
+        val friendCount: Int
     )
 
-    fun toProfileFriendsModel(): ProfileFriendsModel {
-        return ProfileFriendsModel(
+    fun toProfileFriendsListModel(): ProfileFriendsListModel {
+        return ProfileFriendsListModel(
             totalCount, friends.map {
-                ProfileUserModel(
-                    it.userId, it.name, it.profileImageUrl, it.group, it.yelloId, it.yelloCount, it.friendCount, it.point
+                ProfileFriendsListModel.ProfileFriendModel(
+                    it.userId,
+                    it.name,
+                    it.profileImageUrl,
+                    it.group,
+                    it.yelloId,
+                    it.yelloCount,
+                    it.friendCount
                 )
             }
         )

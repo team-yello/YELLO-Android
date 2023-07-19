@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.example.domain.entity.ProfileFriendsListModel
 import com.example.domain.entity.ProfileUserModel
 import com.example.ui.view.ItemDiffCallback
 import com.yello.R
@@ -12,11 +13,11 @@ import com.yello.databinding.ItemFriendsListBinding
 
 class ProfileFriendAdapter(
     private val model: ProfileUserModel,
-    private val itemClick: (ProfileUserModel, Int) -> (Unit)
+    private val itemClick: (ProfileFriendsListModel.ProfileFriendModel, Int) -> (Unit)
 ) :
-    ListAdapter<ProfileUserModel, RecyclerView.ViewHolder>(diffUtil) {
+    ListAdapter<ProfileFriendsListModel.ProfileFriendModel, RecyclerView.ViewHolder>(diffUtil) {
 
-    private var itemList = mutableListOf<ProfileUserModel>()
+    private var itemList = mutableListOf<ProfileFriendsListModel.ProfileFriendModel>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
 
@@ -63,12 +64,12 @@ class ProfileFriendAdapter(
         }
     }
 
-    fun addItemList(newItems: List<ProfileUserModel>) {
+    fun addItemList(newItems: List<ProfileFriendsListModel.ProfileFriendModel>) {
         this.itemList.addAll(newItems)
         notifyDataSetChanged()
     }
 
-    fun setItemList(itemList: List<ProfileUserModel>) {
+    fun setItemList(itemList: List<ProfileFriendsListModel.ProfileFriendModel>) {
         this.itemList = itemList.toMutableList()
         notifyDataSetChanged()
     }
@@ -80,7 +81,7 @@ class ProfileFriendAdapter(
     }
 
     companion object {
-        private val diffUtil = ItemDiffCallback<ProfileUserModel>(
+        private val diffUtil = ItemDiffCallback<ProfileFriendsListModel.ProfileFriendModel>(
             onItemsTheSame = { old, new -> old.userId == new.userId },
             onContentsTheSame = { old, new -> old == new },
         )

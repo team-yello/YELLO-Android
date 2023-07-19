@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.domain.entity.ProfileFriendsModel
+import com.example.domain.entity.ProfileFriendsListModel
 import com.example.domain.entity.ProfileUserModel
 import com.example.domain.repository.ProfileRepository
 import com.example.ui.view.UiState
@@ -23,8 +23,8 @@ class ProfileViewModel @Inject constructor(
     private val _getState = MutableLiveData<UiState<ProfileUserModel>>()
     val getState: LiveData<UiState<ProfileUserModel>> = _getState
 
-    private val _getListState = MutableLiveData<UiState<ProfileFriendsModel?>>()
-    val getListState: LiveData<UiState<ProfileFriendsModel?>> = _getListState
+    private val _getListState = MutableLiveData<UiState<ProfileFriendsListModel?>>()
+    val getListState: LiveData<UiState<ProfileFriendsListModel?>> = _getListState
 
     private val _deleteUserState = MutableLiveData<UiState<Unit>>()
     val deleteUserState: LiveData<UiState<Unit>> = _deleteUserState
@@ -59,11 +59,11 @@ class ProfileViewModel @Inject constructor(
         clickedItemPosition = position
     }
 
-    fun getUserDataFromServer(userId: Int) {
+    fun getUserDataFromServer() {
         viewModelScope.launch {
             _getState.value = UiState.Loading
             runCatching {
-                profileRepository.getUserData(userId)
+                profileRepository.getUserData()
             }.onSuccess { profile ->
                 Timber.d("GET USER DATA SUCCESS : $profile")
                 if (profile == null) {

@@ -9,6 +9,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.domain.entity.ProfileFriendsListModel
 import com.example.domain.entity.ProfileUserModel
 import com.example.ui.base.BindingFragment
 import com.example.ui.fragment.toast
@@ -26,7 +27,7 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
 
     private val viewModel by activityViewModels<ProfileViewModel>()
     private var adapter: ProfileFriendAdapter? = null
-    private lateinit var friendsList: List<ProfileUserModel>
+    private lateinit var friendsList: List<ProfileFriendsListModel.ProfileFriendModel>
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -39,8 +40,7 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
         observeFriendsDataState()
         observeFriendDeleteState()
 
-        // TODO: 유저 아이디 가져오기
-        setUserData(148)
+        setUserData()
         setDeleteAnimation()
         setItemDivider()
         setListWithInfinityScroll()
@@ -65,8 +65,8 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
         }
     }
 
-    private fun setUserData(userId: Int) {
-        viewModel.getUserDataFromServer(userId)
+    private fun setUserData() {
+        viewModel.getUserDataFromServer()
     }
 
     private fun observeFriendsDataState() {

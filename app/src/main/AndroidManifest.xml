@@ -3,6 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
+    <queries>
+        <package android:name="com.instagram.android" />
+    </queries>
 
     <application
         android:name=".MyApp"
@@ -87,6 +92,15 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".presentation.main.myyello.read.MyYelloReadActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".presentation.pay.PayActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".presentation.pay.PayEndActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
     </application>

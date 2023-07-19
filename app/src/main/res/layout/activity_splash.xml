@@ -11,13 +11,12 @@
         android:layout_height="wrap_content"
         android:text="@string/splash_title"
         android:textColor="@color/grayscales_300"
-        app:layout_constraintBottom_toTopOf="@+id/iv_main_yello"
+        app:layout_constraintBottom_toTopOf="@+id/iv_yello_head"
         app:layout_constraintEnd_toEndOf="parent"
         android:textAlignment="center"
-        android:layout_marginBottom="160dp"
+        android:layout_marginBottom="127dp"
         android:textAppearance="?textAppearanceBodySmall"
-        app:layout_constraintStart_toStartOf="parent"
-      />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <ImageView
         android:id="@+id/iv_main_yello"
@@ -30,7 +29,7 @@
         app:layout_constraintTop_toTopOf="@id/tv_splash_title" />
 
     <ImageView
-        android:id="@+id/imageView2"
+        android:id="@+id/iv_yello_head"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="13.61dp"
@@ -40,6 +39,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <ImageView
+        android:id="@+id/imageView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"

@@ -225,7 +225,6 @@ class OnBoardingViewModel @Inject constructor(
                         _postSignupState.value = UiState.Empty
                         return@launch
                     }
-
                     _postSignupState.value = UiState.Success(userInfo)
                 }
                 .onFailure { t ->

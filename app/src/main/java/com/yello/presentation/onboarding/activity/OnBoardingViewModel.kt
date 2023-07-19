@@ -185,11 +185,12 @@ class OnBoardingViewModel @Inject constructor(
         }
     }
 
+    // TODO : @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
     fun addListFriend(friendGroup: FriendGroup) {
         if (isFriendPagingFinish) return
         viewModelScope.launch {
             _friendData.value = UiState.Loading
-            onboardingRepository.postFriendService(
+            onboardingRepository.postToGetFriendList(
                 friendGroup,
                 ++friendPage,
             ).onSuccess { friend ->

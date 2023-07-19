@@ -76,8 +76,8 @@ class ProfileFriendAdapter(
 
     fun removeItem(position: Int) {
         itemList.removeAt(position)
-        notifyItemRemoved(position)
-        notifyItemRangeChanged(position, itemCount)
+        notifyItemRemoved(position + HEADER_COUNT)
+        notifyItemRangeChanged(position + HEADER_COUNT, itemCount)
     }
 
     companion object {

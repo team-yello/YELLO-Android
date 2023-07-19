@@ -108,8 +108,6 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
             when (state) {
                 is UiState.Success -> {
                     viewModel.clickedItemPosition?.let { adapter?.removeItem(it) }
-                    viewModel.myTotalFriends.value =
-                        ((viewModel.myTotalFriends.value?.toInt() ?: 1) - 1).toString()
                 }
 
                 is UiState.Failure -> {

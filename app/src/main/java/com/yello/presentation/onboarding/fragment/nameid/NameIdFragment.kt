@@ -48,16 +48,13 @@ class NameIdFragment : BindingFragment<FragmentNameIdBinding>(R.layout.fragment_
                 is UiState.Empty -> {
                     yelloSnackbar(binding.root, getString(R.string.msg_error))
                 }
-
                 is UiState.Success -> {
                     if (state.data) {
                         viewModel.navigateToNextPage()
                         return@observe
                     }
-
                     initIdEditTextViewError()
                 }
-
                 is UiState.Failure -> {
                     if (state.msg == "404") {
                         viewModel.navigateToNextPage()

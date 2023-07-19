@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -11,38 +12,56 @@
         android:layout_height="wrap_content"
         android:background="@color/grayscales_900">
 
-        <ImageView
-            android:id="@+id/iv_close"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
-            android:src="@drawable/ic_exit"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
         <TextView
             android:id="@+id/tv_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
-            android:text="포인트가 부족해요!"
+            android:text="보낸 사람의 초성을 얻었어요!"
             android:textAppearance="@style/TextAppearance.Yello.Subtitle02"
             android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <TextView
+            android:id="@+id/tv_sub_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="이름 중 랜덤으로 뽑은 초성이에요."
+            android:textAppearance="@style/TextAppearance.Yello.LabelMedium"
+            android:textColor="@color/grayscales_400"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_title" />
+
+        <TextView
+            android:id="@+id/tv_initial"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
+            android:background="@color/yello_main_500"
+            android:paddingHorizontal="14dp"
+            app:layout_goneMarginTop="24dp"
+            android:paddingVertical="6dp"
+            android:rotation="-3"
+            android:textAppearance="@style/TextAppearance.Yello.BodyLarge"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_sub_title"
+            tools:text="ㄱ" />
+
         <androidx.cardview.widget.CardView
             android:id="@+id/card_point"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="18dp"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="50dp"
             android:backgroundTint="@color/gray_point"
             app:cardCornerRadius="8dp"
             app:cardElevation="0dp"
-            app:layout_constraintTop_toBottomOf="@id/tv_title">
+            app:layout_constraintTop_toBottomOf="@id/tv_initial">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -64,7 +83,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="4dp"
-                    android:text="내 포인트"
+                    android:text="사용 후 포인트"
                     android:textAppearance="@style/TextAppearance.Yello.BodySmall"
                     android:textColor="@color/white"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -100,39 +119,21 @@
         </androidx.cardview.widget.CardView>
 
         <TextView
-            android:id="@+id/tv_no"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="18dp"
-            android:gravity="center"
-            android:paddingVertical="11dp"
-            android:text="아니요"
-            android:textAppearance="@style/TextAppearance.Yello.Button"
-            android:textColor="@color/grayscales_500"
-            app:layout_constraintEnd_toStartOf="@id/tv_ok"
-            app:layout_constraintHorizontal_weight="0.6"
-            app:layout_constraintTop_toTopOf="@id/tv_ok"
-            app:layout_constraintBottom_toBottomOf="@id/tv_ok"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <TextView
             android:id="@+id/tv_ok"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="46dp"
-            android:layout_marginEnd="18dp"
-            android:layout_marginBottom="40dp"
-            android:background="@drawable/shape_fill_yello500_8dp"
+            android:layout_marginHorizontal="18dp"
+            android:layout_marginTop="14dp"
+            android:layout_marginBottom="22dp"
             android:gravity="center"
             android:paddingVertical="11dp"
-            android:text="키워드 얻기"
+            android:text="확인"
             android:textAppearance="@style/TextAppearance.Yello.Button"
+            android:textColor="@color/grayscales_500"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_weight="1"
-            app:layout_constraintStart_toEndOf="@id/tv_no"
-            app:layout_constraintTop_toBottomOf="@id/card_point"
-            app:layout_goneMarginStart="18dp" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/card_point" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

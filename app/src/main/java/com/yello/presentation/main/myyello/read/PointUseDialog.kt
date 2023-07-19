@@ -5,41 +5,66 @@ import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
 import androidx.core.view.isVisible
+import androidx.fragment.app.activityViewModels
 import com.example.domain.enum.PointEnum
 import com.example.ui.base.BindingDialogFragment
-import com.example.ui.intent.boolArgs
-import com.example.ui.intent.intArgs
+import com.example.ui.view.setOnSingleClickListener
 import com.yello.R
 import com.yello.databinding.DialogPointUseBinding
 
 class PointUseDialog : BindingDialogFragment<DialogPointUseBinding>(R.layout.dialog_point_use) {
-    private val isTwoButton by boolArgs()
-    private val pointType by intArgs()
+    private val viewModel by activityViewModels<MyYelloReadViewModel>()
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         initView()
         setDialogBackground()
+        initEvent()
     }
 
     private fun initView() {
-        setButtonView()
+        viewModel.setPointAndIsTwoButton(
+            arguments?.getInt("point_type") ?: 0,
+            arguments?.getBoolean("is_two_button") ?: false
+        )
+        setDataView()
+        binding.tvPoint.text = viewModel.myPoint.toString()
     }
 
-    private fun setButtonView() {
-        binding.tvNo.isVisible = !isTwoButton
-        if (!isTwoButton) {
-            binding.tvNo.text = "투표하고 포인트 받기"
+    private fun setDataView() {
+        binding.tvNo.isVisible = viewModel.isTwoButton
+        binding.ivClose.isVisible = !viewModel.isTwoButton
+        if (!viewModel.isTwoButton) {
+            binding.tvOk.text = "투표하고 포인트 받기"
         } else {
-            if (pointType == PointEnum.INITIAL.ordinal) {
+            if (viewModel.pointType == PointEnum.INITIAL.ordinal) {
                 binding.tvTitle.text = "300 포인트로 초성을 얻을까요?"
+                binding.tvOk.text = "초성 얻기"
+            } else {
+                binding.tvTitle.text = "100 포인트로 키워드를 얻을까요?"
+                binding.tvOk.text = "키워드 얻기"
             }
+        }
+    }
+
+    private fun initEvent() {
+        binding.tvOk.setOnSingleClickListener {
+            dismiss()
+            PointAfterDialog.newInstance().show(parentFragmentManager, "dialog")
+        }
+
+        binding.tvNo.setOnSingleClickListener {
+            dismiss()
+        }
+
+        binding.ivClose.setOnSingleClickListener {
+            dismiss()
         }
     }
 
     private fun setDialogBackground() {
         val deviceWidth = Resources.getSystem().displayMetrics.widthPixels
-        val dialogHorizontalMargin = (Resources.getSystem().displayMetrics.density * 40) * 2
+        val dialogHorizontalMargin = (Resources.getSystem().displayMetrics.density * 16) * 2
 
         dialog?.window?.apply {
             setLayout(

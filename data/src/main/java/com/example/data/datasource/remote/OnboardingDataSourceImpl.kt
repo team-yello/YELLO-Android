@@ -43,10 +43,10 @@ class OnboardingDataSourceImpl @Inject constructor(
     }
 
     override suspend fun postFriendData(
-        requestSignFriendDto: RequestOnboardingListDto,
-        page: Long,
+        requestOnboardingListDto: RequestOnboardingListDto,
+        page: Int,
     ): BaseResponse<ResponseFriendDto> {
-        return onboardingService.postFriend(requestSignFriendDto, page)
+        return onboardingService.postFriend(requestOnboardingListDto, page)
     }
 
     override suspend fun postSignup(requestPostSignupDto: RequestPostSignupDto): BaseResponse<ResponsePostSignupDto> =

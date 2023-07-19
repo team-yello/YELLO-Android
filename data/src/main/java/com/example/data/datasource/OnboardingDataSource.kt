@@ -31,8 +31,8 @@ interface OnboardingDataSource {
     ): BaseResponse<Boolean>
 
     suspend fun postFriendData(
-        requestSignFriendDto: RequestOnboardingListDto,
-        page: Long,
+        requestOnboardingListDto: RequestOnboardingListDto,
+        page: Int,
     ): BaseResponse<ResponseFriendDto>
 
     suspend fun postSignup(

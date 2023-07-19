@@ -40,8 +40,8 @@ interface OnboardingService {
 
     @POST("api/v1/auth/friend")
     suspend fun postFriend(
-        @Body requestSignFriendDto: RequestOnboardingListDto,
-        @Query("page") page: Long,
+        @Body requestOnboardingListDto: RequestOnboardingListDto,
+        @Query("page") page: Int,
     ): BaseResponse<ResponseFriendDto>
 
     @POST("api/v1/auth/signup")

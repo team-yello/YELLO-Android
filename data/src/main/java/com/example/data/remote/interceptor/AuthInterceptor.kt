@@ -19,8 +19,7 @@ class AuthInterceptor @Inject constructor(
         val authRequest = if (dataStore.isLogin) {
             originalRequest.newAuthBuilder().build()
         } else {
-            // TODO: 수정
-            originalRequest.newAuthBuilder().build()
+            originalRequest
         }
         val response = chain.proceed(authRequest)
 
@@ -66,9 +65,8 @@ class AuthInterceptor @Inject constructor(
         return response
     }
 
-    // TODO: Bearer ${dataStore.userToken}
     private fun Request.newAuthBuilder() =
-        this.newBuilder().addHeader(HEADER_AUTHORIZATION, "Bearer eyJ0eXBlIjoiYWNjZXNzVG9rZW4iLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyOTExNzI0MDAyIiwianRpIjoiMTQ4IiwiaWF0IjoxNjg5NzA3NTUyLCJleHAiOjE2ODk3OTM5NTJ9.u5nsIFvwcDDl1aUjti_d1cMclqdCzkmRg4ZYqElg7lE")
+        this.newBuilder().addHeader(HEADER_AUTHORIZATION, "Bearer ${dataStore.userToken}")
 
 
     companion object {

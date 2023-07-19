@@ -8,13 +8,13 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class RequestOnboardingListDto(
-    @SerialName("friendKaKaoId")
-    val friendKaKaoId: List<String>,
+    @SerialName("friendKakaoId")
+    val friendKakaoId: List<String>,
     @SerialName("groupId")
     val groupId: Long,
 )
 
 fun RequestOnboardingListModel.toRequestDto() = RequestOnboardingListDto(
-    friendKaKaoId = friendKakaoId,
+    friendKakaoId = friendKakaoId,
     groupId = groupId,
 )

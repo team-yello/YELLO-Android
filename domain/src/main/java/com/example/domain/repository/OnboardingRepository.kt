@@ -29,7 +29,7 @@ interface OnboardingRepository {
 
     suspend fun postToGetFriendList(
         request: RequestOnboardingListModel,
-        page: Long,
+        page: Int,
     ): FriendList?
 
     suspend fun postSignup(

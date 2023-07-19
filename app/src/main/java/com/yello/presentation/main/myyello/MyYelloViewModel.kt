@@ -14,7 +14,6 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-import kotlin.math.ceil
 
 @HiltViewModel
 class MyYelloViewModel @Inject constructor(
@@ -26,9 +25,16 @@ class MyYelloViewModel @Inject constructor(
     private val _totalCount = MutableStateFlow<Int>(0)
     val totalCount: StateFlow<Int> = _totalCount.asStateFlow()
 
+    var position: Int = -1
+        private set
+
     private var currentPage = -1
     private var isPagingFinish = false
     private var totalPage = Int.MAX_VALUE
+
+    fun setPosition(pos: Int) {
+        position = pos
+    }
 
     fun getMyYelloList() {
         if (isPagingFinish) return
@@ -36,16 +42,19 @@ class MyYelloViewModel @Inject constructor(
         viewModelScope.launch {
             repository.getMyYelloList(++currentPage)
                 .onSuccess {
-                    it ?: return@launch
-                    totalPage = ceil((it.totalCount * 0.1)).toInt()
-                    if (totalPage == currentPage) isPagingFinish = true
-                    _myYelloData.emit(
-                        when {
-                            it.yello.isEmpty() -> UiState.Empty
-                            else -> UiState.Success(it)
-                        }
-                    )
-                    _totalCount.value = it.totalCount
+                    if (it == null) _myYelloData.emit(UiState.Empty)
+                    else {
+                        totalPage = Math.ceil((it.totalCount * 0.1)).toInt() - 1
+                        if (totalPage == currentPage) isPagingFinish = true
+                        _myYelloData.emit(
+                            when {
+                                it.yello.isEmpty() -> UiState.Empty
+                                else -> UiState.Success(it)
+                            }
+                        )
+                        _totalCount.value = it.totalCount
+                    }
+
                 }.onFailure {
                     _myYelloData.emit(UiState.Failure("옐로 리스트 서버 통신 실패"))
                 }

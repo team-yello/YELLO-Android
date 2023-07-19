@@ -12,7 +12,7 @@ import com.yello.R
 import com.yello.databinding.ItemMyYelloBinding
 import com.yello.util.Utils
 
-class MyYelloAdapter(private val itemClick: (Yello) -> (Unit)) :
+class MyYelloAdapter(private val itemClick: (Yello, Int) -> (Unit)) :
     RecyclerView.Adapter<MyYelloAdapter.MyYelloViewHolder>() {
     private val yelloList = mutableListOf<Yello>()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyYelloViewHolder {
@@ -25,25 +25,45 @@ class MyYelloAdapter(private val itemClick: (Yello) -> (Unit)) :
     }
 
     override fun onBindViewHolder(holder: MyYelloViewHolder, position: Int) {
-        holder.onBind(yelloList[position])
+        holder.onBind(yelloList[position], position)
     }
 
     override fun getItemCount(): Int = yelloList.size
+
+    override fun getItemId(position: Int): Long {
+        return position.toLong()
+    }
 
     fun addItem(newItems: List<Yello>) {
         yelloList.addAll(newItems)
         notifyDataSetChanged()
     }
 
+    fun currentList(): List<Yello> {
+        return yelloList
+    }
+
+    fun changeItem(position: Int, newItem: Yello) {
+        yelloList[position] = newItem
+        notifyItemChanged(position)
+    }
+
     class MyYelloViewHolder(
         private val binding: ItemMyYelloBinding,
-        private val itemClick: (Yello) -> Unit
+        private val itemClick: (Yello, Int) -> Unit
     ) : RecyclerView.ViewHolder(binding.root) {
-        fun onBind(item: Yello) {
+        fun onBind(item: Yello, position: Int) {
+            binding.data = item
             binding.ivReadYelloPoint.isVisible = !item.isRead && !item.isHintUsed
             binding.tvTime.text = item.createdAt
             binding.clSendCheck.isVisible = item.isHintUsed
             binding.tvGender.isVisible = !item.isHintUsed
+            binding.cardMyYello.setCardBackgroundColor(
+                ContextCompat.getColor(
+                    itemView.context,
+                    R.color.grayscales_900
+                )
+            )
             if (item.gender == GenderEnum.M) {
                 if (item.isHintUsed) {
                     binding.cardMyYello.setCardBackgroundColor(
@@ -91,7 +111,7 @@ class MyYelloAdapter(private val itemClick: (Yello) -> (Unit)) :
             }
 
             binding.root.setOnSingleClickListener {
-                itemClick(item)
+                itemClick(item, position)
             }
         }
     }

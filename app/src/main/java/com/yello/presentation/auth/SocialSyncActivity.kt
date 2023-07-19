@@ -30,7 +30,7 @@ class SocialSyncActivity :
             if (error == null) {
                 startOnBoardingActivity()
             } else {
-                Timber.tag(TAG_SYNC).e(error, "카카오 프로필 가져오기 실패")
+                Timber.tag(TAG_SYNC).e(error, getString(R.string.social_sync_error_kakao_profile))
             }
         }
     }

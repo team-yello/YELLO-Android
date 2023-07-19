@@ -55,13 +55,13 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
     private fun setAccountLoginCallback() {
         accountLoginCallback = { token, error ->
             if (error != null) {
-                Timber.tag(TAG_AUTH).e(error, "카카오계정으로 로그인 실패")
+                Timber.tag(TAG_AUTH).e(error, getString(R.string.sign_in_error_kakao_account_login))
 
             } else if (token != null) {
                 setDataFromObserver(token)
 
             } else {
-                Timber.tag(TAG_AUTH).d("빈 카카오 토큰")
+                Timber.tag(TAG_AUTH).d(getString(R.string.sign_in_error_empty_kakao_token))
             }
         }
     }
@@ -70,11 +70,11 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
     private fun setAppLoginCallback() {
         appLoginCallback = { token, error ->
             if (error != null) {
-                Timber.tag(TAG_AUTH).e(error, "카카오톡으로 로그인 실패")
+                Timber.tag(TAG_AUTH).e(error, getString(R.string.sign_in_error_kakao_app_login))
 
                 // 뒤로가기 경우 예외 처리
                 if (error is ClientError && error.reason == ClientErrorCause.Cancelled) {
-                    Timber.tag(TAG_AUTH).e(error, "유저가 로그인 취소")
+                    Timber.tag(TAG_AUTH).e(error, getString(R.string.sign_in_error_cancelled))
                 } else {
 
                     // 카카오톡 연결 실패 시, 계정으로 로그인 시도
@@ -85,7 +85,7 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
                 setDataFromObserver(token)
 
             } else {
-                Timber.tag(TAG_AUTH).d("빈 카카오 토큰")
+                Timber.tag(TAG_AUTH).d(getString(R.string.sign_in_error_empty_kakao_token))
             }
         }
     }
@@ -137,7 +137,7 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
                         startSocialSyncActivity()
                     } else {
                         // 401 : 에러 발생
-                        yelloSnackbar(binding.root.rootView, "서버 통신에 실패했습니다")
+                        yelloSnackbar(binding.root.rootView, getString(R.string.sign_in_error_connection))
                     }
                 }
 
@@ -153,7 +153,7 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
         if (token != null) {
             kakaoAccessToken = token.accessToken
         } else {
-            Timber.tag(TAG_AUTH).d("카카오 토큰 받기 실패")
+            Timber.tag(TAG_AUTH).d(getString(R.string.sign_in_error_kakao_token))
         }
     }
 
@@ -165,7 +165,7 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
                 var userKakaoEmail = user.kakaoAccount?.email
                 var userThumbnailUri = user.kakaoAccount?.profile?.thumbnailImageUrl
             } else {
-                Timber.tag(TAG_AUTH).d("카카오 유저 정보 받기 실패")
+                Timber.tag(TAG_AUTH).d(getString(R.string.sign_in_error_kakao_user_data))
             }
         }
     }

@@ -22,7 +22,7 @@ class SignInViewModel @Inject constructor(
     val postState: LiveData<UiState<ServiceTokenModel?>> = _postState
 
     // 서버통신 - 카카오 토큰 보내서 서비스 토큰 받아오기
-    fun changeTokenFromServer(accessToken: String, social: String = "KAKAO") {
+    fun changeTokenFromServer(accessToken: String, social: String = KAKAO) {
         viewModelScope.launch {
             _postState.value = UiState.Loading
             runCatching {
@@ -41,5 +41,9 @@ class SignInViewModel @Inject constructor(
                 }
             }
         }
+    }
+
+    private companion object {
+        const val KAKAO = "KAKAO"
     }
 }

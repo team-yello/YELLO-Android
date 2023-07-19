@@ -9,25 +9,26 @@ import com.example.domain.repository.RecommendRepository
 import javax.inject.Inject
 
 class RecommendRepositoryImpl @Inject constructor(
-    private val recommendDataSource: RecommendDataSource
+    private val recommendDataSource: RecommendDataSource,
 ) : RecommendRepository {
 
     override suspend fun postToGetKakaoFriendList(
-        page: Int, request: RequestRecommendKakaoModel
+        page: Int,
+        request: RequestRecommendKakaoModel,
     ): RecommendModel? {
         return recommendDataSource.postToGetKakaoListData(
-            page, request.toRequestDto()
+            page,
+            request.toRequestDto(),
         ).data?.toRecommendModel()
     }
 
     override suspend fun getSchoolFriendList(page: Int): RecommendModel? {
         return recommendDataSource.getSchoolListData(
-            page
+            page,
         ).data?.toRecommendModel()
     }
 
     override suspend fun postFriendAdd(friendId: Long): RecommendAddModel {
         return recommendDataSource.postFriendAdd(friendId).toRecommendAddModel()
     }
-
 }

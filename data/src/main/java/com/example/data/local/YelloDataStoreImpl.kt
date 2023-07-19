@@ -20,9 +20,16 @@ class YelloDataStoreImpl @Inject constructor(
         get() = dataStore.getBoolean(PREF_IS_LOGIN, false)
         set(value) = dataStore.edit { putBoolean(PREF_IS_LOGIN, value) }
 
+    override var yelloId: String
+        get() = dataStore.getString(PREF_YELLO_ID, "") ?: ""
+        set(value) = dataStore.edit { putString(PREF_YELLO_ID, value) }
+
+    override fun clearLocalPref() = dataStore.edit { clear() }
+
     companion object {
         private const val PREF_USER_TOKEN = "USER_TOKEN"
         private const val PREF_REFRESH_TOKEN = "REFRESH_TOKEN"
         private const val PREF_IS_LOGIN = "IS_LOGIN"
+        private const val PREF_YELLO_ID = "YELLO_ID"
     }
 }

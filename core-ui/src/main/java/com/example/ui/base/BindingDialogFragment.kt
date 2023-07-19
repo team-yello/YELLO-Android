@@ -17,16 +17,6 @@ abstract class BindingDialogFragment<T : ViewDataBinding>(
     protected val binding: T
         get() = requireNotNull(_binding) { "binding object is not initialized" }
 
-    override fun onStart() {
-        super.onStart()
-        dialog?.window?.apply {
-            setLayout(
-                WindowManager.LayoutParams.MATCH_PARENT,
-                WindowManager.LayoutParams.WRAP_CONTENT,
-            )
-        }
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,

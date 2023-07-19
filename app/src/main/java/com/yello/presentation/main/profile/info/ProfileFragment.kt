@@ -103,7 +103,7 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
                 }
 
                 is UiState.Failure -> {
-                    yelloSnackbar(requireView(), "유저 정보 서버 통신 실패")
+                    yelloSnackbar(requireView(), getString(R.string.profile_error_user_data))
                 }
 
                 is UiState.Empty -> {}
@@ -131,7 +131,7 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
             viewModel.clickedItemTotalMsg.value = profileUserModel.yelloCount.toString()
             viewModel.clickedItemTotalFriends.value = profileUserModel.friendCount.toString()
 
-            ProfileFriendItemBottomSheet().show(parentFragmentManager, "dialog")
+            ProfileFriendItemBottomSheet().show(parentFragmentManager, DIALOG)
         }
         adapter?.setItemList(listOf())
         binding.rvProfileFriendsList.adapter = adapter
@@ -148,7 +148,7 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
                 }
 
                 is UiState.Failure -> {
-                    yelloSnackbar(requireView(), "친구 목록 서버 통신 실패")
+                    yelloSnackbar(requireView(), getString(R.string.profile_error_friend_list))
                 }
 
                 is UiState.Empty -> {}
@@ -165,7 +165,9 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
                 super.onScrolled(recyclerView, dx, dy)
                 if (dy > 0) {
                     recyclerView.layoutManager?.let { layoutManager ->
-                        if (!binding.rvProfileFriendsList.canScrollVertically(1) && layoutManager is LinearLayoutManager && layoutManager.findLastVisibleItemPosition() == adapter!!.itemCount - 1) {
+                        if (!binding.rvProfileFriendsList.canScrollVertically(1)
+                            && layoutManager is LinearLayoutManager
+                            && layoutManager.findLastVisibleItemPosition() == adapter!!.itemCount - 1) {
                             viewModel.getFriendsListFromServer()
                         }
                     }
@@ -190,7 +192,7 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
                 }
 
                 is UiState.Failure -> {
-                    toast("친구 삭제 실패")
+                    toast(getString(R.string.profile_error_delete_friend))
                 }
 
                 is UiState.Loading -> {}
@@ -211,5 +213,9 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
                 return super.animateRemove(holder)
             }
         }
+    }
+
+    private companion object {
+        const val DIALOG = "dialog"
     }
 }

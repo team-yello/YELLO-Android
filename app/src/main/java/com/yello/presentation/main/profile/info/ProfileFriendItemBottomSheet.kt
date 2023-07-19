@@ -42,8 +42,12 @@ class ProfileFriendItemBottomSheet :
     // 다음 바텀시트 출력
     private fun initDeleteButton() {
         binding.btnProfileFriendDelete.setOnSingleClickListener {
-            profileFriendDeleteBottomSheet.show(parentFragmentManager, "Dialog")
+            profileFriendDeleteBottomSheet.show(parentFragmentManager, DIALOG)
             dismiss()
         }
+    }
+
+    private companion object {
+        const val DIALOG = "dialog"
     }
 }

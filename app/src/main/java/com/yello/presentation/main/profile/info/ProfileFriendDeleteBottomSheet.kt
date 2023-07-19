@@ -69,7 +69,7 @@ class ProfileFriendDeleteBottomSheet :
                 }
 
                 is UiState.Failure -> {
-                    toast("친구 삭제 서버 통신 실패")
+                    toast(getString(R.string.profile_error_delete_friend))
                 }
 
                 is UiState.Loading -> {}

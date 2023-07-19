@@ -49,7 +49,7 @@ class ProfileManageActivity :
     private fun logoutKakaoAccount() {
         UserApiClient.instance.logout { error ->
             if (error != null) {
-                Timber.d("로그아웃 실패")
+                Timber.d(getString(R.string.profile_error_logout))
             } else {
                 restartApp(this)
             }

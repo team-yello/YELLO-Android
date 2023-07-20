@@ -1,15 +1,18 @@
 package com.yello.presentation.main.profile.manage
 
 import android.os.Bundle
+import androidx.activity.viewModels
 import com.example.ui.base.BindingActivity
 import com.example.ui.view.setOnSingleClickListener
 import com.yello.R
 import com.yello.databinding.ActivityProfileQuitForSureBinding
+import com.yello.presentation.main.profile.ProfileViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class ProfileQuitForSureActivity :
     BindingActivity<ActivityProfileQuitForSureBinding>(R.layout.activity_profile_quit_for_sure) {
-
-    private var profileQuitDialog: ProfileQuitDialog = ProfileQuitDialog()
+    private val viewModel by viewModels<ProfileViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,7 +29,7 @@ class ProfileQuitForSureActivity :
 
     private fun initInviteDialogButtonListener() {
         binding.btnProfileQuitForSure.setOnSingleClickListener {
-            profileQuitDialog.show(supportFragmentManager, DIALOG)
+            ProfileQuitDialog().show(supportFragmentManager, DIALOG)
         }
     }
 

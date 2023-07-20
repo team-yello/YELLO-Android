@@ -1,8 +1,12 @@
 package com.example.data.remote.interceptor
 
+import android.content.Context
+import android.content.Intent
+import androidx.core.content.ContextCompat.startActivity
 import com.example.data.model.response.onboarding.ResponseAuthToken
 import com.example.domain.YelloDataStore
 import com.yello.data.BuildConfig.BASE_URL
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.serialization.json.Json
 import okhttp3.Interceptor
 import okhttp3.Request
@@ -13,6 +17,7 @@ import javax.inject.Inject
 class AuthInterceptor @Inject constructor(
     private val json: Json,
     private val dataStore: YelloDataStore,
+    @ApplicationContext private val context: Context,
 ) : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         Timber.d("ACCESS TOKEN : ${dataStore.userToken}")
@@ -52,15 +57,35 @@ class AuthInterceptor @Inject constructor(
                     }
 
                     with(dataStore) {
+                        isLogin = false
                         userToken = ""
                         refreshToken = ""
-                        // TODO: 앱 재시작
                     }
+                    startActivity(
+                        context,
+                        Intent.makeRestartActivityTask(
+                            context.packageManager.getLaunchIntentForPackage(
+                                context.packageName,
+                            )?.component,
+                        ),
+                        null,
+                    )
                 } catch (t: Throwable) {
                     Timber.e(t)
-                    dataStore.userToken = ""
-                    dataStore.refreshToken = ""
-                    // TODO: 앱 재시작
+                    with(dataStore) {
+                        isLogin = false
+                        dataStore.userToken = ""
+                        dataStore.refreshToken = ""
+                    }
+                    startActivity(
+                        context,
+                        Intent.makeRestartActivityTask(
+                            context.packageManager.getLaunchIntentForPackage(
+                                context.packageName,
+                            )?.component,
+                        ),
+                        null,
+                    )
                 }
             }
         }
@@ -69,6 +94,9 @@ class AuthInterceptor @Inject constructor(
 
     private fun Request.newAuthBuilder() =
         this.newBuilder().addHeader(HEADER_AUTHORIZATION, "Bearer ${dataStore.userToken}")
+
+    private fun navigateToMainScreen() {
+    }
 
     companion object {
         private const val CODE_TOKEN_EXPIRED = 401

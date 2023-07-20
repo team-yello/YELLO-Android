@@ -6,7 +6,7 @@ import android.content.res.Resources
 import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
-import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import com.example.ui.base.BindingDialogFragment
 import com.example.ui.view.UiState
 import com.example.ui.view.setOnSingleClickListener
@@ -15,15 +15,17 @@ import com.yello.R
 import com.yello.databinding.FragmentProfileQuitDialogBinding
 import com.yello.presentation.main.profile.ProfileViewModel
 import com.yello.util.context.yelloSnackbar
+import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
+@AndroidEntryPoint
 class ProfileQuitDialog :
     BindingDialogFragment<FragmentProfileQuitDialogBinding>(R.layout.fragment_profile_quit_dialog) {
-
-    private val viewModel by activityViewModels<ProfileViewModel>()
+    private val viewModel by viewModels<ProfileViewModel>()
 
     override fun onStart() {
         super.onStart()
+
         setDialogBackground()
     }
 
@@ -102,5 +104,10 @@ class ProfileQuitDialog :
         val mainIntent = Intent.makeRestartActivityTask(componentName)
         context.startActivity(mainIntent)
         Runtime.getRuntime().exit(0)
+    }
+
+    companion object {
+        @JvmStatic
+        fun newInstance() = ProfileQuitDialog()
     }
 }

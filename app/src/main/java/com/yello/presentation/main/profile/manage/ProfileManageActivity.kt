@@ -12,8 +12,10 @@ import com.kakao.sdk.user.UserApiClient
 import com.yello.R
 import com.yello.databinding.ActivityProfileManageBinding
 import com.yello.presentation.main.profile.ProfileViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
+@AndroidEntryPoint
 class ProfileManageActivity :
     BindingActivity<ActivityProfileManageBinding>(R.layout.activity_profile_manage) {
     private val viewModel by viewModels<ProfileViewModel>()

@@ -27,6 +27,9 @@ class ProfileViewModel @Inject constructor(
     private val _getListState = MutableLiveData<UiState<ProfileFriendsListModel?>>()
     val getListState: LiveData<UiState<ProfileFriendsListModel?>> = _getListState
 
+    private val _deleteUserState = MutableLiveData<UiState<Unit>>()
+    val deleteUserState: LiveData<UiState<Unit>> = _deleteUserState
+
     // TODO: 세터 설정 필요
     val _deleteFriendState = MutableLiveData<UiState<Unit>>()
     val deleteFriendState: LiveData<UiState<Unit>> = _deleteFriendState
@@ -92,6 +95,21 @@ class ProfileViewModel @Inject constructor(
                 _getListState.value = UiState.Success(it)
             }.onFailure {
                 _getListState.value = UiState.Failure(it.message.toString())
+            }
+        }
+    }
+
+    // 서버 통신 - 회원 탈퇴
+    fun deleteUserDataToServer() {
+        viewModelScope.launch {
+            _deleteUserState.value = UiState.Loading
+            runCatching {
+                profileRepository.deleteUserData()
+                clearLocalInfo()
+            }.onSuccess {
+                _deleteUserState.value = UiState.Success(it)
+            }.onFailure {
+                _deleteUserState.value = UiState.Failure(it.message.toString())
             }
         }
     }

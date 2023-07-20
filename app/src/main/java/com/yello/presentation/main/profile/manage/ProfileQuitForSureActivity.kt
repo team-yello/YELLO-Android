@@ -5,7 +5,9 @@ import com.example.ui.base.BindingActivity
 import com.example.ui.view.setOnSingleClickListener
 import com.yello.R
 import com.yello.databinding.ActivityProfileQuitForSureBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class ProfileQuitForSureActivity :
     BindingActivity<ActivityProfileQuitForSureBinding>(R.layout.activity_profile_quit_for_sure) {
 

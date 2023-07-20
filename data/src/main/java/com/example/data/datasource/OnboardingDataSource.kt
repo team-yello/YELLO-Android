@@ -2,7 +2,7 @@ package com.example.data.datasource
 
 import com.example.data.model.request.onboarding.RequestPostSignupDto
 import com.example.data.model.request.onboarding.RequestServiceTokenDto
-import com.example.data.model.request.onboarding.RequestSignFriendDto
+import com.example.data.model.request.onboarding.RequestOnboardingListDto
 import com.example.data.model.response.BaseResponse
 import com.example.data.model.response.onboarding.ResponseDepartmentDto
 import com.example.data.model.response.onboarding.ResponseFriendDto
@@ -31,8 +31,8 @@ interface OnboardingDataSource {
     ): BaseResponse<Boolean>
 
     suspend fun postFriendData(
-        requestSignFriendDto: RequestSignFriendDto,
-        page: Long,
+        requestOnboardingListDto: RequestOnboardingListDto,
+        page: Int,
     ): BaseResponse<ResponseFriendDto>
 
     suspend fun postSignup(

@@ -36,7 +36,7 @@ class RecommendInviteDialog :
 
     private val templateId = 95890.toLong()
     private lateinit var myYelloId: String
-    private val linkText: String = "여기다 링크 넣어주세요"
+    private lateinit var linkText: String
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -51,6 +51,9 @@ class RecommendInviteDialog :
     private fun getBundleArgs() {
         arguments ?: return
         myYelloId = arguments?.getString(ARGS_YELLO_ID) ?: ""
+        linkText = "추천인코드: {$myYelloId}\n" +
+            "우리 같이 YELL:O 해요!\n" +
+            "(여기에는 다운로드 링크)"
     }
 
     private fun setRecommendId() {

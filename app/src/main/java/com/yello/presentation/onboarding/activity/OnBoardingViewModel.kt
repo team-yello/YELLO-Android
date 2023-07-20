@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
-import com.example.domain.entity.onboarding.Friend
+import com.example.domain.entity.RequestOnboardingListModel
 import com.example.domain.entity.onboarding.FriendGroup
 import com.example.domain.entity.onboarding.FriendList
 import com.example.domain.entity.onboarding.GroupList
@@ -16,11 +16,12 @@ import com.example.domain.repository.AuthRepository
 import com.example.domain.repository.OnboardingRepository
 import com.example.ui.view.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import java.util.regex.Pattern
+import javax.inject.Inject
+import kotlin.math.ceil
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import timber.log.Timber
-import java.util.regex.Pattern
-import javax.inject.Inject
 
 @HiltViewModel
 class OnBoardingViewModel @Inject constructor(
@@ -41,9 +42,6 @@ class OnBoardingViewModel @Inject constructor(
     private val _departmentData = MutableLiveData<UiState<GroupList>>()
     val departmentData: MutableLiveData<UiState<GroupList>> = _departmentData
 
-    private val _friendData = MutableLiveData<UiState<FriendList>>()
-    val friendData: MutableLiveData<UiState<FriendList>> = _friendData
-
     private val _currentPage = MutableLiveData(0)
     val currentPage: LiveData<Int> = _currentPage
 
@@ -54,10 +52,6 @@ class OnBoardingViewModel @Inject constructor(
     var departmentPage = -1
     private var isDepartmentPagingFinish = false
     private var totalDepartmentPage = Integer.MAX_VALUE
-
-    var friendPage = -1L
-    private var isFriendPagingFinish = false
-    private var totalFriendPage = Long.MAX_VALUE
 
     val _school = MutableLiveData("")
     val school: String
@@ -87,15 +81,11 @@ class OnBoardingViewModel @Inject constructor(
     private val id: String
         get() = _id.value?.trim() ?: ""
 
-    private val _friendList = MutableLiveData<FriendList>()
-    val friendList: FriendList
-        get() = _friendList.value ?: FriendList(0, emptyList())
-
     val _gender = MutableLiveData("")
     val gender: String
         get() = _gender.value ?: ""
 
-    private val _code = MutableLiveData("")
+    val _code = MutableLiveData("")
     val code: String
         get() = _code.value?.trim() ?: ""
 
@@ -114,14 +104,21 @@ class OnBoardingViewModel @Inject constructor(
     val isValidName: LiveData<Boolean> = _name.map { name -> checkName(name) }
     val isValidId: LiveData<Boolean> = _id.map { id -> checkId(id) }
 
-    val isEmptyCode: LiveData<Boolean> =
-        _code.map { code -> this.checkEmpty(code) }
+    val isEmptyCode: LiveData<Boolean> = _code.map { code -> checkEmpty(code) }
 
     private val _studentIdResult: MutableLiveData<List<Int>> = MutableLiveData()
     val studentIdResult: LiveData<List<Int>> = _studentIdResult
 
-    private val _friendResult: MutableLiveData<List<Friend>> = MutableLiveData()
-    val friendResult: LiveData<List<Friend>> = _friendResult
+    private val _friendState = MutableLiveData<FriendList>()
+    val friendState: LiveData<FriendList> = _friendState
+
+    var kakaoFriendList: List<String> = listOf()
+    var selectedFriendIdList: List<Long> = listOf()
+    var selectedFriendCount: MutableLiveData<Int> = MutableLiveData(0)
+
+    private var currentFriendPage: Int = -1
+    private var isFriendPagingFinish = false
+    private var totalFriendPage = Int.MAX_VALUE
 
     // TODO: throttle 및 페이징 처리
     fun getSchoolList(search: String) {
@@ -187,25 +184,21 @@ class OnBoardingViewModel @Inject constructor(
         }
     }
 
-    fun addListFriend(friendGroup: FriendGroup) {
-        if (isFriendPagingFinish) return
+    fun addFriendList(friendGroup: FriendGroup) {
         viewModelScope.launch {
-            _friendData.value = UiState.Loading
-            onboardingRepository.postFriendService(
-                friendGroup,
-                ++friendPage,
-            ).onSuccess { friend ->
-                if (friend == null) {
-                    _friendData.value = UiState.Empty
-                    return@launch
-                }
-                totalFriendPage = kotlin.math.ceil((friend.totalCount * 0.1)).toLong()
-                if (totalFriendPage == friendPage) isFriendPagingFinish = true
-                _friendData.value =
-                    when {
-                        friend.friendList.isEmpty() -> UiState.Empty
-                        else -> UiState.Success(friend)
-                    }
+            if (isFriendPagingFinish) return@launch
+            runCatching {
+                onboardingRepository.postToGetFriendList(
+                    RequestOnboardingListModel(friendGroup.friendIdList, friendGroup.groupId),
+                    ++currentFriendPage,
+                )
+            }.onSuccess { friendList ->
+                friendList ?: return@launch
+                totalFriendPage = ceil((friendList.totalCount * 0.1)).toInt() - 1
+                if (totalFriendPage == currentFriendPage) isFriendPagingFinish = true
+                _friendState.value = friendList
+            }.onFailure {
+                Timber.e(it.message)
             }
         }
     }
@@ -221,7 +214,7 @@ class OnBoardingViewModel @Inject constructor(
                 name = name,
                 yelloId = id,
                 gender = gender,
-                friendList = friendList.toIdList(),
+                friendList = selectedFriendIdList,
                 recommendId = recommendId,
             )
             onboardingRepository.postSignup(signupInfo)

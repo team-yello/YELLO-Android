@@ -1,6 +1,10 @@
 package com.yello.presentation.onboarding.fragment.studentid.dialog.department
 
+import android.annotation.SuppressLint
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.view.MotionEvent
 import android.view.View
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.activityViewModels
@@ -26,6 +30,8 @@ class SearchDialogDepartmentFragment :
 
         initDepartmentAdapter()
         setupDepartmentData()
+        recyclerviewScroll()
+        seClicktDepartmentform()
     }
 
     private fun initDepartmentAdapter() {
@@ -69,6 +75,25 @@ class SearchDialogDepartmentFragment :
         viewModel.setGroupInfo(department, groupId)
         viewModel.clearDepartmentData()
         dismiss()
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    private fun recyclerviewScroll() {
+        binding.rvDepartmentList.setOnTouchListener { view, motionEvent ->
+            when (motionEvent.action) {
+                MotionEvent.ACTION_MOVE -> {
+                    binding.layoutDepartmentDialog.requestDisallowInterceptTouchEvent(true)
+                }
+            }
+            return@setOnTouchListener false
+        }
+    }
+
+    private fun seClicktDepartmentform() {
+        binding.tvDepartmentAdd.setOnClickListener {
+            var intent = Intent(Intent.ACTION_VIEW, Uri.parse("https:/bit.ly/3pO0ijD"))
+            startActivity(intent)
+        }
     }
 
     override fun onDestroyView() {

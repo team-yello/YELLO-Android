@@ -1,9 +1,15 @@
 package com.yello.presentation.onboarding.fragment.school.university
 
+import android.annotation.SuppressLint
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.view.MotionEvent
 import android.view.View
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.activityViewModels
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.ui.base.BindingBottomSheetDialog
 import com.example.ui.context.hideKeyboard
 import com.example.ui.view.UiState
@@ -13,7 +19,7 @@ import com.yello.databinding.FragmentDialogSchoolBinding
 import com.yello.presentation.onboarding.activity.OnBoardingViewModel
 import com.yello.util.context.yelloSnackbar
 
-class SearchDialogFragment :
+class SearchDialogSchoolFragment :
     BindingBottomSheetDialog<FragmentDialogSchoolBinding>(R.layout.fragment_dialog_school) {
     private var adapter: SchoolAdapter? = null
 
@@ -24,6 +30,9 @@ class SearchDialogFragment :
         binding.vm = viewModel
         initView()
         setupSchoolData()
+        setListWithInfinityScroll()
+        recyclerviewScroll()
+        seClicktoSchoolform()
     }
 
     private fun initView() {
@@ -36,6 +45,24 @@ class SearchDialogFragment :
         binding.btnBackDialog.setOnSingleClickListener {
             dismiss()
         }
+    }
+
+    private fun setListWithInfinityScroll() {
+        binding.rvSchoolList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                if (dy > 0) {
+                    recyclerView.layoutManager?.let { layoutManager ->
+                        if (!binding.rvSchoolList.canScrollVertically(1) &&
+                            layoutManager is LinearLayoutManager &&
+                            layoutManager.findLastVisibleItemPosition() == adapter!!.itemCount - 1
+                        ) {
+                            // viewModel.getSchoolList()
+                        }
+                    }
+                }
+            }
+        })
     }
 
     private fun setHideKeyboard() {
@@ -68,6 +95,25 @@ class SearchDialogFragment :
         dismiss()
     }
 
+    @SuppressLint("ClickableViewAccessibility")
+    private fun recyclerviewScroll() {
+        binding.rvSchoolList.setOnTouchListener { view, motionEvent ->
+            when (motionEvent.action) {
+                MotionEvent.ACTION_MOVE -> {
+                    binding.layoutSchoolDialog.requestDisallowInterceptTouchEvent(true)
+                }
+            }
+            return@setOnTouchListener false
+        }
+    }
+
+    private fun seClicktoSchoolform() {
+        binding.tvSchoolAdd.setOnClickListener {
+            var intent = Intent(Intent.ACTION_VIEW, Uri.parse("https:/bit.ly/46Yv0Hc"))
+            startActivity(intent)
+        }
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         adapter = null
@@ -75,6 +121,6 @@ class SearchDialogFragment :
 
     companion object {
         @JvmStatic
-        fun newInstance() = SearchDialogFragment()
+        fun newInstance() = SearchDialogSchoolFragment()
     }
 }

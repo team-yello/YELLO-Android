@@ -60,7 +60,7 @@
             android:layout_marginStart="4dp"
             android:layout_marginTop="78dp"
             android:fontFamily="@font/font_pretendard_bold"
-            tools:text="40"
+            tools:text="@{@string/to_string(vm.selectedFriendCount)}"
             android:textColor="@color/purple_sub_400"
             android:textSize="12sp"
             app:layout_constraintBottom_toBottomOf="@+id/tv_friend_howmany"

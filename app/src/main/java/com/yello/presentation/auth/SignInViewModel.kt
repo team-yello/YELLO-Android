@@ -6,20 +6,29 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.domain.entity.RequestServiceTokenModel
 import com.example.domain.entity.ServiceTokenModel
+import com.example.domain.repository.AuthRepository
 import com.example.domain.repository.OnboardingRepository
+import com.example.domain.repository.ProfileRepository
 import com.example.ui.view.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
-import javax.inject.Inject
+import timber.log.Timber
 
 @HiltViewModel
 class SignInViewModel @Inject constructor(
     private val onboardingRepository: OnboardingRepository,
+    private val authRepository: AuthRepository,
+    private val profileRepository: ProfileRepository,
 ) : ViewModel() {
 
     private val _postState = MutableLiveData<UiState<ServiceTokenModel?>>()
     val postState: LiveData<UiState<ServiceTokenModel?>> = _postState
+
+    private val _getUserProfileState = MutableLiveData<UiState<Unit>>()
+    val getUserProfileState: LiveData<UiState<Unit>>
+        get() = _getUserProfileState
 
     private val _kakaoUserId = MutableLiveData(-1)
     val kakaoUserId: LiveData<Int>
@@ -48,7 +57,12 @@ class SignInViewModel @Inject constructor(
                     RequestServiceTokenModel(accessToken, social),
                 )
             }.onSuccess {
+                if (it == null) {
+                    _postState.value = UiState.Empty
+                    return@launch
+                }
                 _postState.value = UiState.Success(it)
+                authRepository.setAutoLogin(it.accessToken, it.refreshToken)
             }.onFailure {
                 if (it is HttpException && it.code() == 403) {
                     _postState.value = UiState.Failure("403")
@@ -58,6 +72,28 @@ class SignInViewModel @Inject constructor(
                     _postState.value = UiState.Failure("error")
                 }
             }
+        }
+    }
+
+    fun getUserData() {
+        viewModelScope.launch {
+            runCatching {
+                profileRepository.getUserData()
+            }.onSuccess { profile ->
+                if (profile == null) {
+                    _getUserProfileState.value = UiState.Empty
+                    return@launch
+                }
+
+                _getUserProfileState.value = UiState.Success(Unit)
+                authRepository.setYelloId(profile.yelloId)
+            }
+                .onFailure { t ->
+                    if (t is HttpException) {
+                        Timber.e("GET USER PROFILE FAILURE : $t")
+                        _getUserProfileState.value = UiState.Failure(t.code().toString())
+                    }
+                }
         }
     }
 

@@ -17,7 +17,6 @@ import com.yello.presentation.main.profile.ProfileViewModel
 import com.yello.util.context.yelloSnackbar
 import timber.log.Timber
 
-
 class ProfileQuitDialog :
     BindingDialogFragment<FragmentProfileQuitDialogBinding>(R.layout.fragment_profile_quit_dialog) {
 
@@ -28,15 +27,6 @@ class ProfileQuitDialog :
         setDialogBackground()
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        initQuitButtonListener()
-        initRejectButtonListener()
-        observeUserDeleteState()
-    }
-
-    // 다이얼로그 배경 설정
     private fun setDialogBackground() {
         val deviceWidth = Resources.getSystem().displayMetrics.widthPixels
         val dialogHorizontalMargin = (Resources.getSystem().displayMetrics.density * 16) * 2
@@ -44,12 +34,20 @@ class ProfileQuitDialog :
         dialog?.window?.apply {
             setLayout(
                 (deviceWidth - dialogHorizontalMargin * 2).toInt(),
-                WindowManager.LayoutParams.WRAP_CONTENT
+                WindowManager.LayoutParams.WRAP_CONTENT,
             )
             setBackgroundDrawableResource(R.color.transparent)
         }
         dialog?.setCanceledOnTouchOutside(false)
         dialog?.setCancelable(true)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        initQuitButtonListener()
+        initRejectButtonListener()
+        observeUserDeleteState()
     }
 
     private fun initRejectButtonListener() {
@@ -87,7 +85,6 @@ class ProfileQuitDialog :
         }
     }
 
-    // 카카오 연결 해제 성공 시 앱 재시작
     private fun unlinkKakaoAccount() {
         UserApiClient.instance.unlink { error ->
             if (error != null) {
@@ -98,7 +95,6 @@ class ProfileQuitDialog :
         }
     }
 
-    // 앱 재시작 로직
     private fun restartApp(context: Context) {
         val packageManager = context.packageManager
         val intent = packageManager.getLaunchIntentForPackage(context.packageName)

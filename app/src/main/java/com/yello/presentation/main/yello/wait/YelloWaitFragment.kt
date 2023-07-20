@@ -33,7 +33,8 @@ class YelloWaitFragment : BindingFragment<FragmentYelloWaitBinding>(R.layout.fra
 
     private fun initInviteBtnClickListener() {
         binding.btnWaitInvite.setOnSingleClickListener {
-            UnlockDialogFragment().show(parentFragmentManager, TAG_UNLOCK_DIALOG)
+            UnlockDialogFragment.newInstance(viewModel.getYelloId())
+                .show(parentFragmentManager, TAG_UNLOCK_DIALOG)
         }
     }
 

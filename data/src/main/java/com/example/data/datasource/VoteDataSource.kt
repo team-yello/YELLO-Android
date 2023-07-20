@@ -1,6 +1,6 @@
 package com.example.data.datasource
 
-import com.example.data.model.request.RequestPostVoteDto
+import com.example.data.model.request.vote.RequestPostVoteDto
 import com.example.data.model.response.BaseResponse
 import com.example.data.model.response.vote.ResponseGetFriendShuffleDto
 import com.example.data.model.response.vote.ResponseGetVoteAvailableDto

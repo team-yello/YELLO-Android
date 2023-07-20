@@ -4,27 +4,27 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.domain.YelloDataStore
 import com.example.domain.entity.type.YelloState
 import com.example.domain.entity.type.YelloState.Lock
 import com.example.domain.entity.type.YelloState.Valid
 import com.example.domain.entity.type.YelloState.Wait
+import com.example.domain.repository.AuthRepository
 import com.example.domain.repository.VoteRepository
 import com.example.ui.view.UiState
 import com.example.ui.view.UiState.Empty
 import com.example.ui.view.UiState.Failure
 import com.example.ui.view.UiState.Success
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import timber.log.Timber
-import javax.inject.Inject
 
 @HiltViewModel
 class YelloViewModel @Inject constructor(
     private val voteRepository: VoteRepository,
-    private val dataStore: YelloDataStore,
+    private val authRepository: AuthRepository,
 ) : ViewModel() {
     val _yelloState = MutableLiveData<UiState<YelloState>>()
     val yelloState: LiveData<UiState<YelloState>>
@@ -34,9 +34,7 @@ class YelloViewModel @Inject constructor(
     val leftTime: LiveData<Long>
         get() = _leftTime
 
-    val _point = MutableLiveData<Int>()
-    val point: Int
-        get() = _point.value ?: 0
+    val _point = MutableLiveData(0)
 
     private val _isDecreasing = MutableLiveData(false)
     private val isDecreasing: Boolean
@@ -94,6 +92,8 @@ class YelloViewModel @Inject constructor(
                 }
         }
     }
+
+    fun getYelloId() = authRepository.getYelloId() ?: ""
 
     companion object {
         const val SEC_MAX_LOCK_TIME = 2400L

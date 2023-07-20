@@ -1,4 +1,4 @@
-package com.example.data.model.request
+package com.example.data.model.request.vote
 
 import com.example.domain.entity.vote.Choice
 import com.example.domain.entity.vote.ChoiceList

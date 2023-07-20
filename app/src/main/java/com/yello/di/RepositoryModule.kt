@@ -1,10 +1,12 @@
 package com.yello.di
 
+import com.example.data.repository.AuthRepositoryImpl
 import com.example.data.repository.OnboardingRepositoryImpl
 import com.example.data.repository.ProfileRepositoryImpl
 import com.example.data.repository.RecommendRepositoryImpl
 import com.example.data.repository.VoteRepositoryImpl
 import com.example.data.repository.YelloRepositoryImpl
+import com.example.domain.repository.AuthRepository
 import com.example.domain.repository.OnboardingRepository
 import com.example.domain.repository.ProfileRepository
 import com.example.domain.repository.RecommendRepository
@@ -43,4 +45,8 @@ object RepositoryModule {
     @Singleton
     fun provideRecommendRepository(recommendRepositoryImpl: RecommendRepositoryImpl): RecommendRepository =
         recommendRepositoryImpl
+
+    @Provides
+    @Singleton
+    fun provideAuthRepository(authRepositoryImpl: AuthRepositoryImpl): AuthRepository = authRepositoryImpl
 }

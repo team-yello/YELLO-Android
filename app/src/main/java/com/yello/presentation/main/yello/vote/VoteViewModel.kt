@@ -204,7 +204,7 @@ class VoteViewModel @Inject constructor(
     private fun initCurrentChoice() {
         _currentChoice.value = Choice(
             questionId = voteList[currentNoteIndex].questionId,
-            backgroundIndex = backgroundIndex + currentNoteIndex,
+            backgroundIndex = (backgroundIndex + currentNoteIndex) % 12 + 1,
         )
     }
 

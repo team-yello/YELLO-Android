@@ -37,6 +37,7 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
         Timber.tag(TAG_AUTH).d(keyHash)
 
         initSignInButtonListener()
+        setupGetUserProfileState()
     }
 
     private fun initSignInButtonListener() {
@@ -57,7 +58,6 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
         accountLoginCallback = { token, error ->
             if (error != null) {
                 Timber.tag(TAG_AUTH).e(error, getString(R.string.sign_in_error_kakao_account_login))
-
             } else if (token != null) {
                 setDataFromObserver(token)
             } else {
@@ -125,22 +125,19 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
         viewModel.postState.observe(this) { state ->
             when (state) {
                 is UiState.Success -> {
-                    // 500(가입된 아이디): 온보딩뷰 생략하고 바로 메인화면으로 이동
-                    // TODO: 서비스 토큰 값 저장
-                    val serviceAccessToken = state.data?.accessToken
-                    startMainActivity()
+                    // 500(가입된 아이디): 온보딩 뷰 생략하고 바로 메인 화면으로 이동
+                    viewModel.getUserData()
                 }
 
                 is UiState.Failure -> {
                     if (state.msg == "403") {
-                        // 403(가입되지 않은 아이디): 온보딩뷰로 이동
+                        // 403(가입되지 않은 아이디): 온보딩 뷰로 이동
                         getKakaoInfo()
-                        startSocialSyncActivity()
                     } else {
                         // 401 : 에러 발생
                         yelloSnackbar(
                             binding.root.rootView,
-                            getString(R.string.sign_in_error_connection)
+                            getString(R.string.sign_in_error_connection),
                         )
                     }
                 }
@@ -164,28 +161,45 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
 
     private fun getKakaoInfo() {
         UserApiClient.instance.me { user, _ ->
-            if (user != null) {
-                viewModel.setKakaoInfo(
-                    kakaoId = user.id?.toInt() ?: return@me,
-                    email = user.kakaoAccount?.email ?: "",
-                    profileImage = user.kakaoAccount?.profile?.thumbnailImageUrl ?: "",
-                )
-                return@me
+            try {
+                if (user != null) {
+                    Timber.d("KAKAO INFO : $user")
+                    Intent(this, SocialSyncActivity::class.java).apply {
+                        putExtra(EXTRA_KAKAO_ID, user.id)
+                        putExtra(EXTRA_EMAIL, user.kakaoAccount?.email)
+                        putExtra(EXTRA_PROFILE_IMAGE, user.kakaoAccount?.profile?.profileImageUrl)
+                        addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                        startActivity(this)
+                    }
+                    finish()
+                    return@me
+                }
+            } catch (e: IllegalArgumentException) {
+                yelloSnackbar(binding.root, getString(R.string.msg_error))
             }
         }
         Timber.e("카카오 정보 불러오기 실패")
         yelloSnackbar(binding.root, getString(R.string.msg_error))
     }
 
-    private fun startSocialSyncActivity() {
-        Intent(this, SocialSyncActivity::class.java).apply {
-            putExtra(EXTRA_KAKAO_ID, viewModel.kakaoUserId.value)
-            putExtra(EXTRA_EMAIL, viewModel.email.value)
-            putExtra(EXTRA_PROFILE_IMAGE, viewModel.profileImage.value)
-            addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-            startActivity(this)
+    private fun setupGetUserProfileState() {
+        viewModel.getUserProfileState.observe(this) { state ->
+            when (state) {
+                is UiState.Success -> {
+                    startMainActivity()
+                }
+
+                is UiState.Failure -> {
+                    yelloSnackbar(binding.root, getString(R.string.msg_error))
+                }
+
+                is UiState.Empty -> {
+                    yelloSnackbar(binding.root, getString(R.string.msg_error))
+                }
+
+                is UiState.Loading -> {}
+            }
         }
-        finish()
     }
 
     private fun startMainActivity() {

@@ -3,18 +3,19 @@ package com.example.data.remote.interceptor
 import com.example.data.model.response.onboarding.ResponseAuthToken
 import com.example.domain.YelloDataStore
 import com.yello.data.BuildConfig.BASE_URL
-import javax.inject.Inject
 import kotlinx.serialization.json.Json
 import okhttp3.Interceptor
 import okhttp3.Request
 import okhttp3.Response
 import timber.log.Timber
+import javax.inject.Inject
 
 class AuthInterceptor @Inject constructor(
     private val json: Json,
     private val dataStore: YelloDataStore,
 ) : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
+        Timber.d("ACCESS TOKEN : ${dataStore.userToken}")
         val originalRequest = chain.request()
         val authRequest = if (dataStore.isLogin) {
             originalRequest.newAuthBuilder().build()
@@ -32,6 +33,7 @@ class AuthInterceptor @Inject constructor(
                         .addHeader(HEADER_REFRESH_TOKEN, dataStore.refreshToken)
                         .build()
                     val refreshTokenResponse = chain.proceed(refreshTokenRequest)
+                    Timber.d("GET REFRESH TOKEN : $refreshTokenResponse")
 
                     if (refreshTokenResponse.isSuccessful) {
                         val responseToken: ResponseAuthToken =
@@ -67,7 +69,6 @@ class AuthInterceptor @Inject constructor(
 
     private fun Request.newAuthBuilder() =
         this.newBuilder().addHeader(HEADER_AUTHORIZATION, "Bearer ${dataStore.userToken}")
-
 
     companion object {
         private const val CODE_TOKEN_EXPIRED = 401

@@ -6,8 +6,10 @@ import android.os.Handler
 import android.os.Looper
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import com.kakao.sdk.template.model.Social
 import com.yello.R
 import com.yello.presentation.auth.SignInActivity
+import com.yello.presentation.auth.SocialSyncActivity
 import com.yello.presentation.main.MainActivity
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -25,7 +27,7 @@ class SplashActivity : AppCompatActivity() {
                 return@postDelayed
             }
 
-            val intent = Intent(this, SignInActivity::class.java)
+            val intent = Intent(this, SocialSyncActivity::class.java)
             startActivity(intent)
             finish()
         }, 3000)

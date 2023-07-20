@@ -16,12 +16,12 @@ import com.example.domain.repository.AuthRepository
 import com.example.domain.repository.OnboardingRepository
 import com.example.ui.view.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
-import java.util.regex.Pattern
-import javax.inject.Inject
-import kotlin.math.ceil
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import timber.log.Timber
+import java.util.regex.Pattern
+import javax.inject.Inject
+import kotlin.math.ceil
 
 @HiltViewModel
 class OnBoardingViewModel @Inject constructor(
@@ -308,6 +308,10 @@ class OnBoardingViewModel @Inject constructor(
     fun addStudentId() {
         val mockList = listOf(15, 16, 17, 18, 19, 20, 21, 22, 23)
         _studentIdResult.value = mockList
+    }
+
+    fun validYellIdLoading() {
+        _getValidYelloId.value = UiState.Loading
     }
 
     companion object {

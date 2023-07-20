@@ -44,9 +44,6 @@ class YelloViewModel @Inject constructor(
 
     init {
         getVoteState()
-        dataStore.isLogin = true
-        dataStore.userToken =
-            "eyJ0eXBlIjoiYWNjZXNzVG9rZW4iLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyOTExNzI0MDAyIiwianRpIjoiMTQ4IiwiaWF0IjoxNjg5NjE5NzkzLCJleHAiOjE2ODk3MDYxOTN9.pBvnzLuwAg2wDZZ77HUBbdZvE0-Xvp6XRhqF9ZDA1xc"
     }
 
     fun decreaseTime() {

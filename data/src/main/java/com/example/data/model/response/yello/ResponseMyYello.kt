@@ -44,13 +44,13 @@ data class YelloDto(
 
 @Serializable
 data class VoteDto(
-    val nameHead: String,
-    val nameFoot: String,
-    val keywordHead: String,
+    val nameHead: String?,
+    val nameFoot: String?,
+    val keywordHead: String?,
     val keyword: String,
-    val keywordFoot: String,
+    val keywordFoot: String?
 ) {
     fun toVote(): Vote {
-        return Vote(nameHead, nameFoot, keywordHead, keyword, keywordFoot)
+        return Vote(nameHead ?:"", nameFoot ?: "", keywordHead ?: "", keyword, keywordFoot ?: "")
     }
 }

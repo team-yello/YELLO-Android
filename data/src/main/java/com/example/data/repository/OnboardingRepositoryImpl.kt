@@ -3,10 +3,9 @@ package com.example.data.repository
 import com.example.data.datasource.OnboardingDataSource
 import com.example.data.model.request.onboarding.toRequestDto
 import com.example.data.model.request.onboarding.toRequestPostSignupDto
-import com.example.data.model.request.onboarding.toRequestSignFriendDto
+import com.example.domain.entity.RequestOnboardingListModel
 import com.example.domain.entity.RequestServiceTokenModel
 import com.example.domain.entity.ServiceTokenModel
-import com.example.domain.entity.onboarding.FriendGroup
 import com.example.domain.entity.onboarding.FriendList
 import com.example.domain.entity.onboarding.GroupList
 import com.example.domain.entity.onboarding.SchoolList
@@ -56,16 +55,13 @@ class OnboardingRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun postFriendService(
-        friendGroup: FriendGroup,
-        page: Long,
-    ): Result<FriendList?> {
-        return runCatching {
-            onboardingDataSource.postFriendData(
-                friendGroup.toRequestSignFriendDto(),
-                page,
-            ).data?.toMyFriend()
-        }
+    override suspend fun postToGetFriendList(
+        request: RequestOnboardingListModel,
+        page: Int
+    ): FriendList? {
+        return onboardingDataSource.postFriendData(
+            request.toRequestDto(), page
+        ).data?.toMyFriend()
     }
 
     override suspend fun postSignup(signupInfo: SignupInfo): Result<UserInfo?> = runCatching {

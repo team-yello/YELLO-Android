@@ -15,6 +15,7 @@ import com.yello.databinding.ItemAddfriendBinding
 
 class AddFriendAdapter(private val itemClick: (Friend, Int) -> (Unit)) :
     ListAdapter<Friend, AddFriendAdapter.AddFriendViewHolder>(diffUtil) {
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AddFriendViewHolder {
         return AddFriendViewHolder(
             ItemAddfriendBinding.inflate(
@@ -27,26 +28,29 @@ class AddFriendAdapter(private val itemClick: (Friend, Int) -> (Unit)) :
     }
 
     override fun onBindViewHolder(holder: AddFriendViewHolder, position: Int) {
-        holder.setFriend(getItem(position), position)
+        holder.onBind(getItem(position), position)
     }
 
     class AddFriendViewHolder(
         private val binding: ItemAddfriendBinding,
         private val itemClick: (Friend, Int) -> Unit,
     ) : RecyclerView.ViewHolder(binding.root) {
-        fun setFriend(friend: Friend, position: Int) {
+
+        fun onBind(friend: Friend, position: Int) {
             binding.ivFriendProfile.load(friend.profileImage) {
                 transformations(CircleCropTransformation())
             }
             binding.tvFriendName.text = friend.name
             binding.tvFriendDepartment.text = friend.groupName
             binding.ivFreindCheck.isSelected = friend.isSelected
+
             binding.tvFriendName.setTextColor(
                 ContextCompat.getColor(
                     itemView.context,
                     if (friend.isSelected) R.color.white else R.color.grayscales_onbarding_light,
                 ),
             )
+
             binding.tvFriendDepartment.setTextColor(
                 ContextCompat.getColor(
                     itemView.context,
@@ -54,7 +58,7 @@ class AddFriendAdapter(private val itemClick: (Friend, Int) -> (Unit)) :
                 ),
             )
 
-            binding.root.setOnSingleClickListener {
+            binding.ivFreindCheck.setOnSingleClickListener {
                 itemClick(friend, position)
             }
         }

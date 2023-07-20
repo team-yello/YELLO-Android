@@ -1,11 +1,15 @@
 package com.example.data.remote.service
 
+import com.example.data.model.request.RequestPayDto
 import com.example.data.model.response.BaseResponse
+import com.example.data.model.response.ResponseDto
 import com.example.data.model.response.yello.ResponseCheckKeyword
 import com.example.data.model.response.yello.ResponseCheckName
 import com.example.data.model.response.yello.ResponseMyYello
 import com.example.data.model.response.yello.ResponseYelloDetail
+import retrofit2.http.Body
 import retrofit2.http.GET
+import retrofit2.http.PATCH
 import retrofit2.http.POST
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -21,13 +25,18 @@ interface YelloService {
         @Path("id") id: Long,
     ): BaseResponse<ResponseYelloDetail>
 
-    @POST("/api/v1/yello/{id}/keyword")
+    @PATCH("api/v1/vote/{id}/keyword")
     suspend fun checkKeyword(
         @Path("id") id: Long,
     ): BaseResponse<ResponseCheckKeyword>
 
-    @POST("/api/v1/yello/{id}/name")
+    @PATCH("api/v1/vote/{id}/name")
     suspend fun checkName(
         @Path("id") id: Long,
     ): BaseResponse<ResponseCheckName>
+
+    @POST("api/v1/pay")
+    suspend fun payCheck(
+        @Body body: RequestPayDto
+    ): ResponseDto
 }

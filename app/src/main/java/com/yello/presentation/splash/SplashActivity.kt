@@ -25,7 +25,7 @@ class SplashActivity : AppCompatActivity() {
                 return@postDelayed
             }
 
-            val intent = Intent(this, SignInActivity::class.java)
+            val intent = Intent(this, ::class.java)
             startActivity(intent)
             finish()
         }, 3000)

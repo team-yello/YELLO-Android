@@ -20,6 +20,11 @@ class CodeFragment : BindingFragment<FragmentCodeBinding>(R.layout.fragment_code
         setConfirmBtnCLickListener()
         setDeleteIdBtnClickListener()
         setupPostSignupState()
+    }
+
+    override fun onResume() {
+        super.onResume()
+
         setupGetValidYelloIdState()
     }
 

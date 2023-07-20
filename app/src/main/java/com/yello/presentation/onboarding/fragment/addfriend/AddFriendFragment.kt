@@ -117,7 +117,7 @@ class AddFriendFragment : BindingFragment<FragmentAddfreindBinding>(R.layout.fra
     }
 
     override fun onDestroyView() {
-        adapter = null
         super.onDestroyView()
+        adapter = null
     }
 }

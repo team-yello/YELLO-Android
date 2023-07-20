@@ -10,6 +10,7 @@ import com.example.domain.repository.AuthRepository
 import com.example.domain.repository.ProfileRepository
 import com.example.ui.view.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import javax.inject.Inject
@@ -106,6 +107,7 @@ class ProfileViewModel @Inject constructor(
             runCatching {
                 profileRepository.deleteUserData()
                 clearLocalInfo()
+                delay(500)
             }.onSuccess {
                 _deleteUserState.value = UiState.Success(it)
             }.onFailure {

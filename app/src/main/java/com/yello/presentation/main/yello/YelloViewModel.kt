@@ -87,6 +87,7 @@ class YelloViewModel @Inject constructor(
                             CODE_NO_FRIEND -> _yelloState.value = Success(Lock)
                             else -> {
                                 authRepository.clearLocalPref()
+                                delay(500)
                                 _yelloState.value = Failure(t.code().toString())
                             }
                         }

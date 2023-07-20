@@ -5,6 +5,8 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
+import androidx.lifecycle.lifecycleScope
+import com.example.domain.YelloDataStore
 import com.example.ui.base.BindingActivity
 import com.example.ui.view.setOnSingleClickListener
 import com.kakao.sdk.user.UserApiClient
@@ -12,7 +14,10 @@ import com.yello.R
 import com.yello.databinding.ActivityProfileManageBinding
 import com.yello.presentation.main.profile.ProfileViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import timber.log.Timber
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class ProfileManageActivity :
@@ -54,8 +59,12 @@ class ProfileManageActivity :
             if (error != null) {
                 Timber.d(getString(R.string.profile_error_logout) + ": $error")
             } else {
-                viewModel.clearLocalInfo()
-                restartApp(this)
+                lifecycleScope.launch {
+                    viewModel.clearLocalInfo()
+                    delay(500)
+                    restartApp(this@ProfileManageActivity)
+                }
+
             }
         }
     }

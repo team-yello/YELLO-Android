@@ -6,22 +6,22 @@ import android.content.res.Resources
 import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import com.example.ui.base.BindingDialogFragment
+import com.example.ui.fragment.toast
 import com.example.ui.view.UiState
 import com.example.ui.view.setOnSingleClickListener
 import com.kakao.sdk.user.UserApiClient
 import com.yello.R
 import com.yello.databinding.FragmentProfileQuitDialogBinding
 import com.yello.presentation.main.profile.ProfileViewModel
-import com.yello.util.context.yelloSnackbar
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
 @AndroidEntryPoint
 class ProfileQuitDialog :
     BindingDialogFragment<FragmentProfileQuitDialogBinding>(R.layout.fragment_profile_quit_dialog) {
-    private val viewModel by viewModels<ProfileViewModel>()
+    private val viewModel by activityViewModels<ProfileViewModel>()
 
     override fun onStart() {
         super.onStart()
@@ -77,7 +77,7 @@ class ProfileQuitDialog :
                 }
 
                 is UiState.Failure -> {
-                    yelloSnackbar(requireView(), getString(R.string.profile_error_unlink))
+                    toast(getString(R.string.profile_error_unlink))
                 }
 
                 is UiState.Loading -> {}

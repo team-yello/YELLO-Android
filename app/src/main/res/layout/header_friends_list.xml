@@ -5,6 +5,7 @@
     tools:context=".presentation.main.profile.info.ProfileFragment">
 
     <data>
+
         <import type="android.view.View" />
 
         <variable
@@ -14,10 +15,10 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layout_profile_data"
-        android:background="@color/black"
-        android:paddingBottom="8dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@color/black"
+        android:paddingBottom="8dp">
 
         <androidx.cardview.widget.CardView
             android:id="@+id/layout_profile_info"

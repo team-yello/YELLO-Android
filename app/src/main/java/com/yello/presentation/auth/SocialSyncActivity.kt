@@ -2,6 +2,7 @@ package com.yello.presentation.auth
 
 import android.content.Intent
 import android.content.Intent.EXTRA_EMAIL
+import android.net.Uri
 import android.os.Bundle
 import com.example.ui.base.BindingActivity
 import com.example.ui.view.setOnSingleClickListener
@@ -20,11 +21,18 @@ class SocialSyncActivity :
         super.onCreate(savedInstanceState)
 
         initSocialSyncButtonListener()
+        initinfoButton()
     }
 
     private fun initSocialSyncButtonListener() {
         binding.btnSocialSync.setOnSingleClickListener {
             getFriendsList()
+        }
+    }
+
+    private fun initinfoButton() {
+        binding.tvSocialSyncInfo.setOnSingleClickListener {
+            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://yell0.notion.site/2afc2a1e60774dfdb47c4d459f01b1d9")))
         }
     }
 

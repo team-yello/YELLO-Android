@@ -16,12 +16,12 @@ import com.example.domain.repository.AuthRepository
 import com.example.domain.repository.OnboardingRepository
 import com.example.ui.view.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
-import java.util.regex.Pattern
-import javax.inject.Inject
-import kotlin.math.ceil
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import timber.log.Timber
+import java.util.regex.Pattern
+import javax.inject.Inject
+import kotlin.math.ceil
 
 @HiltViewModel
 class OnBoardingViewModel @Inject constructor(

@@ -51,7 +51,7 @@ class UnlockDialogFragment :
     private fun getBundleArgs() {
         arguments ?: return
         myYelloId = arguments?.getString(ARGS_YELLO_ID) ?: ""
-        linkText = "추천인코드: {$myYelloId}\n" +
+        linkText = "추천인코드: $myYelloId\n" +
             "우리 같이 YELL:O 해요!\n" +
             "(여기에는 다운로드 링크)"
     }

@@ -116,9 +116,15 @@ class RecommendKakaoFragment :
         viewModel.postState.observe(viewLifecycleOwner) { state ->
             when (state) {
                 is UiState.Success -> {
-                    binding.layoutRecommendFriendsList.isVisible = true
-                    friendsList = state.data?.friends ?: listOf()
-                    adapter?.addItemList(friendsList)
+                    if (state.data?.friends?.isEmpty() == true) {
+                        binding.layoutRecommendFriendsList.isVisible = false
+                        binding.layoutRecommendNoFriendsList.isVisible = true
+                    } else {
+                        binding.layoutRecommendFriendsList.isVisible = true
+                        binding.layoutRecommendNoFriendsList.isVisible = false
+                        friendsList = state.data?.friends ?: listOf()
+                        adapter?.addItemList(friendsList)
+                    }
                 }
 
                 is UiState.Failure -> {
@@ -148,10 +154,6 @@ class RecommendKakaoFragment :
                         removeItemWithAnimation(holder, position)
                     } else {
                         activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
-                    }
-                    if (adapter?.itemCount == 0) {
-                        binding.layoutRecommendFriendsList.isVisible = false
-                        binding.layoutRecommendNoFriendsList.isVisible = true
                     }
                 }
 
@@ -205,6 +207,10 @@ class RecommendKakaoFragment :
             delay(300)
             adapter?.removeItem(position)
             activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
+            if (adapter?.itemCount == 0) {
+                binding.layoutRecommendFriendsList.isVisible = false
+                binding.layoutRecommendNoFriendsList.isVisible = true
+            }
         }
     }
 

@@ -50,6 +50,7 @@ class OnBoardingActivity :
     }
 
     override fun onBackPressed() {
+        if (binding.vpOnboarding.currentItem == 6) return
         if (binding.vpOnboarding.currentItem == 0) {
             val intent = Intent(this, SocialSyncActivity::class.java)
             startActivity(intent)

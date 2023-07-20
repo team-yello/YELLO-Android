@@ -3,6 +3,7 @@ package com.yello.presentation.main.profile.manage
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import androidx.activity.viewModels
 import com.example.ui.base.BindingActivity
@@ -22,11 +23,31 @@ class ProfileManageActivity :
 
         initBackButton(this)
         initProfileQuitActivityWithoutFinish()
+        initCenterButton()
+        initPrivacyButton()
+        initServiceButton()
+        initLogoutButton()
+    }
 
+    private fun initCenterButton() {
         binding.btnProfileManageCenter.setOnSingleClickListener {
-            // TODO: 버튼 3개 링크 설정
+            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://yell0.notion.site/YELLO-34028220a873416b91d5d2f1cd827432?pvs=4")))
         }
+    }
 
+    private fun initPrivacyButton() {
+        binding.btnProfileManagePrivacy.setOnSingleClickListener {
+            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://yell0.notion.site/97f57eaed6c749bbb134c7e8dc81ab3f")))
+        }
+    }
+
+    private fun initServiceButton() {
+        binding.btnProfileManageService.setOnSingleClickListener {
+            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://yell0.notion.site/2afc2a1e60774dfdb47c4d459f01b1d9")))
+        }
+    }
+
+    private fun initLogoutButton() {
         binding.btnProfileManageLogout.setOnSingleClickListener {
             logoutKakaoAccount()
         }

@@ -1,5 +1,6 @@
 package com.yello.presentation.onboarding.activity
 
+import android.content.Intent
 import android.content.Intent.EXTRA_EMAIL
 import android.os.Bundle
 import androidx.activity.viewModels
@@ -8,6 +9,7 @@ import com.yello.R
 import com.yello.databinding.ActivityOnboardingBinding
 import com.yello.presentation.auth.SignInActivity.Companion.EXTRA_KAKAO_ID
 import com.yello.presentation.auth.SignInActivity.Companion.EXTRA_PROFILE_IMAGE
+import com.yello.presentation.auth.SocialSyncActivity
 import com.yello.presentation.onboarding.ViewPagerFragmentAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -45,5 +47,15 @@ class OnBoardingActivity :
         viewModel.currentPage.observe(this) { page ->
             binding.vpOnboarding.currentItem = page
         }
+    }
+
+    override fun onBackPressed() {
+        if (binding.vpOnboarding.currentItem == 6) return
+        if (binding.vpOnboarding.currentItem == 0) {
+            val intent = Intent(this, SocialSyncActivity::class.java)
+            startActivity(intent)
+            return
+        }
+        viewModel.navigateToBackPage()
     }
 }

@@ -11,10 +11,10 @@ import com.example.domain.repository.OnboardingRepository
 import com.example.domain.repository.ProfileRepository
 import com.example.ui.view.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import timber.log.Timber
+import javax.inject.Inject
 
 @HiltViewModel
 class SignInViewModel @Inject constructor(

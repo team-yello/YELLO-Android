@@ -4,7 +4,6 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.domain.entity.ProfileFriendsListModel
 import com.example.domain.entity.ProfileUserModel
 import com.example.ui.view.ItemDiffCallback
 import com.yello.R
@@ -14,7 +13,9 @@ import com.yello.presentation.main.profile.ProfileViewModel
 
 class ProfileFriendAdapter(
     private val viewModel: ProfileViewModel,
-    private val itemClick: (ProfileUserModel, Int) -> (Unit)
+    private val itemClick: (ProfileUserModel, Int) -> (Unit),
+    private val buttonClick: (ProfileViewModel) -> (Unit)
+
 ) : ListAdapter<ProfileUserModel, RecyclerView.ViewHolder>(diffUtil) {
 
     private var itemList = mutableListOf<ProfileUserModel>()
@@ -26,7 +27,7 @@ class ProfileFriendAdapter(
             VIEW_TYPE_HEADER -> ProfileHeaderViewHolder(
                 HeaderFriendsListBinding.inflate(
                     LayoutInflater.from(parent.context), parent, false
-                )
+                ), buttonClick
             )
 
             VIEW_TYPE_ITEM -> ProfileFriendViewHolder(

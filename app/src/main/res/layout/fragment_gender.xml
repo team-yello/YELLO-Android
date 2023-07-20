@@ -152,7 +152,6 @@
             android:layout_marginBottom="34dp"
             android:background="@{vm._gender.isEmpty() ? @drawable/shape_black_fill_grayscales600_line_8_rect : @drawable/shape_yello_main_500_fill_black_line_rect}"
             android:clickable="@{!vm._gender.isEmpty()}"
-            android:onClick="@{()->vm.navigateToNextPage()}"
             android:paddingVertical="16dp"
             android:text="@string/onboarding_btn_gender_done"
             android:textAppearance="?textAppearanceBodyMedium"

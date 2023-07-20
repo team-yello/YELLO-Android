@@ -1,6 +1,7 @@
 package com.yello.presentation.main.profile.info
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.view.animation.AnimationUtils
@@ -125,7 +126,7 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
 
     // 어댑터 시작
     private fun initItemClickListenerWithAdapter() {
-        adapter = ProfileFriendAdapter(viewModel) { profileUserModel, position ->
+        adapter = ProfileFriendAdapter((viewModel), { profileUserModel, position ->
 
             // 아이템 클릭 리스너 설정 - 클릭된 아이템 값 저장 뷰모델 이후 바텀 시트 출력
             viewModel.setItemPosition(position)
@@ -138,7 +139,9 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
             viewModel.clickedItemTotalFriends.value = profileUserModel.friendCount.toString()
 
             ProfileFriendItemBottomSheet().show(parentFragmentManager, DIALOG)
-        }
+        }, {
+            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("bit.ly/44xDDqC")))
+        })
         adapter?.setItemList(listOf())
         binding.rvProfileFriendsList.adapter = adapter
     }

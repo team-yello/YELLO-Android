@@ -21,6 +21,11 @@ class CodeFragment : BindingFragment<FragmentCodeBinding>(R.layout.fragment_code
         setDeleteIdBtnClickListener()
         setupPostSignupState()
         viewModel.validYellIdLoading()
+    }
+
+    override fun onResume() {
+        super.onResume()
+
         setupGetValidYelloIdState()
     }
 
@@ -56,6 +61,7 @@ class CodeFragment : BindingFragment<FragmentCodeBinding>(R.layout.fragment_code
                     }
                     viewModel.postSignup()
                 }
+
                 is UiState.Failure -> {
                     if (state.msg == "404") {
                         viewModel.postSignup()
@@ -63,7 +69,11 @@ class CodeFragment : BindingFragment<FragmentCodeBinding>(R.layout.fragment_code
                     }
                     yelloSnackbar(binding.root, getString(R.string.msg_error))
                 }
-                is UiState.Empty -> { yelloSnackbar(binding.root, getString(R.string.msg_error)) }
+
+                is UiState.Empty -> {
+                    yelloSnackbar(binding.root, getString(R.string.msg_error))
+                }
+
                 is UiState.Loading -> {}
             }
         }

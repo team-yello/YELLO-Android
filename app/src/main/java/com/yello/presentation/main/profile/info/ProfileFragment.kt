@@ -68,7 +68,6 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
         viewModel.isPagingFinish = false
         viewModel.totalPage = Int.MAX_VALUE
         viewModel.getFriendsListFromServer()
-        viewModel.getFriendsListFromServer()
     }
 
     // 관리 액티비티 실행 & 뒤로가기 누를 때 다시 돌아오도록 현재 화면 finish 진행 X

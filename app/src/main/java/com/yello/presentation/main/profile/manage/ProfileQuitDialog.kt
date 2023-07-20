@@ -25,6 +25,7 @@ class ProfileQuitDialog :
 
     override fun onStart() {
         super.onStart()
+
         setDialogBackground()
     }
 
@@ -103,5 +104,10 @@ class ProfileQuitDialog :
         val mainIntent = Intent.makeRestartActivityTask(componentName)
         context.startActivity(mainIntent)
         Runtime.getRuntime().exit(0)
+    }
+
+    companion object {
+        @JvmStatic
+        fun newInstance() = ProfileQuitDialog()
     }
 }

@@ -6,7 +6,9 @@ import com.example.ui.base.BindingActivity
 import com.example.ui.view.setOnSingleClickListener
 import com.yello.R
 import com.yello.databinding.ActivityProfileQuitBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class ProfileQuitActivity :
     BindingActivity<ActivityProfileQuitBinding>(R.layout.activity_profile_quit) {
 

@@ -22,13 +22,11 @@ class SchoolFragment : BindingFragment<FragmentSchoolBinding>(R.layout.fragment_
         initSearchSchoolBtnClickListener()
         setConfirmBtnClickListener()
         setupSchool()
-        binding.btnSchoolBackBtn.setOnSingleClickListener{
+        binding.btnSchoolBackBtn.setOnSingleClickListener {
             val intent = Intent(getActivity(), SocialSyncActivity::class.java)
             startActivity(intent)
         }
-
     }
-
 
     private fun initSearchSchoolBtnClickListener() {
         binding.tvSchoolSearch.setOnSingleClickListener {

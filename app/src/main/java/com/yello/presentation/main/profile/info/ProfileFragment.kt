@@ -68,6 +68,7 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
         viewModel.isPagingFinish = false
         viewModel.totalPage = Int.MAX_VALUE
         viewModel.getFriendsListFromServer()
+        viewModel.getFriendsListFromServer()
     }
 
     // 관리 액티비티 실행 & 뒤로가기 누를 때 다시 돌아오도록 현재 화면 finish 진행 X
@@ -126,7 +127,7 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
 
     // 어댑터 시작
     private fun initItemClickListenerWithAdapter() {
-        adapter = ProfileFriendAdapter(viewModel) { profileUserModel, position ->
+        adapter = ProfileFriendAdapter((viewModel), { profileUserModel, position ->
 
             // 아이템 클릭 리스너 설정 - 클릭된 아이템 값 저장 뷰모델 이후 바텀 시트 출력
             viewModel.setItemPosition(position)
@@ -139,7 +140,9 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
             viewModel.clickedItemTotalFriends.value = profileUserModel.friendCount.toString()
 
             ProfileFriendItemBottomSheet().show(parentFragmentManager, DIALOG)
-        }
+        }, {
+            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("bit.ly/44xDDqC")))
+        })
         adapter?.setItemList(listOf())
         binding.rvProfileFriendsList.adapter = adapter
     }

@@ -8,7 +8,7 @@
 
         <variable
             name="vm"
-            type="com.yello.presentation.main.yello.YelloViewModel" />
+            type="com.el.yello.presentation.main.yello.YelloViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

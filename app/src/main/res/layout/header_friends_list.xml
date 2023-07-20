@@ -10,7 +10,7 @@
 
         <variable
             name="vm"
-            type="com.yello.presentation.main.profile.ProfileViewModel" />
+            type="com.el.yello.presentation.main.profile.ProfileViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

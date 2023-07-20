@@ -128,11 +128,11 @@ dependencies {
         implementation(kakaoAuth)
         implementation(kakaoTalk)
         implementation(kakaoShare)
+        implementation(circleIndicator)
         debugImplementation(flipper)
         debugImplementation(flipperNetwork)
         debugImplementation(flipperLeakCanary)
         debugImplementation(leakCanary)
         debugImplementation(soloader)
-        debugImplementation(circleIndicator)
     }
 }

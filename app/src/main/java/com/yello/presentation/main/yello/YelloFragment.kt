@@ -1,5 +1,7 @@
 package com.yello.presentation.main.yello
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
@@ -10,6 +12,7 @@ import com.example.domain.entity.type.YelloState.Lock
 import com.example.domain.entity.type.YelloState.Valid
 import com.example.domain.entity.type.YelloState.Wait
 import com.example.ui.base.BindingFragment
+import com.example.ui.fragment.toast
 import com.example.ui.view.UiState.Empty
 import com.example.ui.view.UiState.Failure
 import com.example.ui.view.UiState.Loading
@@ -51,10 +54,10 @@ class YelloFragment : BindingFragment<FragmentYelloBinding>(R.layout.fragment_ye
                     )
                 }
 
-                is Failure -> yelloSnackbar(
-                    binding.root,
-                    getString(R.string.msg_failure),
-                )
+                is Failure -> {
+                    toast(getString(R.string.msg_auto_login_error))
+                    restartApp(requireContext())
+                }
             }
         }
     }
@@ -63,6 +66,15 @@ class YelloFragment : BindingFragment<FragmentYelloBinding>(R.layout.fragment_ye
         requireActivity().supportFragmentManager.commit {
             replace<T>(R.id.fcv_yello, T::class.java.canonicalName)
         }
+    }
+
+    private fun restartApp(context: Context) {
+        val packageManager = context.packageManager
+        val intent = packageManager.getLaunchIntentForPackage(context.packageName)
+        val componentName = intent!!.component
+        val mainIntent = Intent.makeRestartActivityTask(componentName)
+        context.startActivity(mainIntent)
+        Runtime.getRuntime().exit(0)
     }
 
     override fun onResume() {

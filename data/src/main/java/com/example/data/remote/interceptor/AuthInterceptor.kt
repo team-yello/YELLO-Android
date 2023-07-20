@@ -2,17 +2,16 @@ package com.example.data.remote.interceptor
 
 import android.content.Context
 import android.content.Intent
-import androidx.core.content.ContextCompat.startActivity
 import com.example.data.model.response.onboarding.ResponseAuthToken
 import com.example.domain.YelloDataStore
 import com.yello.data.BuildConfig.BASE_URL
 import dagger.hilt.android.qualifiers.ApplicationContext
+import javax.inject.Inject
 import kotlinx.serialization.json.Json
 import okhttp3.Interceptor
 import okhttp3.Request
 import okhttp3.Response
 import timber.log.Timber
-import javax.inject.Inject
 
 class AuthInterceptor @Inject constructor(
     private val json: Json,
@@ -61,15 +60,7 @@ class AuthInterceptor @Inject constructor(
                         userToken = ""
                         refreshToken = ""
                     }
-                    startActivity(
-                        context,
-                        Intent.makeRestartActivityTask(
-                            context.packageManager.getLaunchIntentForPackage(
-                                context.packageName,
-                            )?.component,
-                        ),
-                        null,
-                    )
+                    restartApp(context)
                 } catch (t: Throwable) {
                     Timber.e(t)
                     with(dataStore) {
@@ -77,15 +68,7 @@ class AuthInterceptor @Inject constructor(
                         dataStore.userToken = ""
                         dataStore.refreshToken = ""
                     }
-                    startActivity(
-                        context,
-                        Intent.makeRestartActivityTask(
-                            context.packageManager.getLaunchIntentForPackage(
-                                context.packageName,
-                            )?.component,
-                        ),
-                        null,
-                    )
+                    restartApp(context)
                 }
             }
         }
@@ -95,7 +78,13 @@ class AuthInterceptor @Inject constructor(
     private fun Request.newAuthBuilder() =
         this.newBuilder().addHeader(HEADER_AUTHORIZATION, "Bearer ${dataStore.userToken}")
 
-    private fun navigateToMainScreen() {
+    private fun restartApp(context: Context) {
+        val packageManager = context.packageManager
+        val intent = packageManager.getLaunchIntentForPackage(context.packageName)
+        val componentName = intent!!.component
+        val mainIntent = Intent.makeRestartActivityTask(componentName)
+        context.startActivity(mainIntent)
+        Runtime.getRuntime().exit(0)
     }
 
     companion object {

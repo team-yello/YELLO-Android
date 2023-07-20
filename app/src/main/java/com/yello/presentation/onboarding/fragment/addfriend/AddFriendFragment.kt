@@ -1,7 +1,6 @@
 package com.yello.presentation.onboarding.fragment.addfriend
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -83,8 +82,9 @@ class AddFriendFragment : BindingFragment<FragmentAddfreindBinding>(R.layout.fra
     private fun addFriendListFromServer() {
         viewModel.addFriendList(
             FriendGroup(
-                viewModel.kakaoFriendList, viewModel.groupId
-            )
+                viewModel.kakaoFriendList,
+                viewModel.groupId,
+            ),
         )
     }
 
@@ -110,7 +110,8 @@ class AddFriendFragment : BindingFragment<FragmentAddfreindBinding>(R.layout.fra
             friendsList = it.friendList
             adapter?.submitList(friendsList)
             selectedItemIdList.addAll(friendsList.map { friend -> friend.id })
-            viewModel.selectedFriendCount.value = viewModel.selectedFriendCount.value?.plus(friendsList.size)
+            viewModel.selectedFriendCount.value =
+                viewModel.selectedFriendCount.value?.plus(friendsList.size)
             adapter?.notifyDataSetChanged()
         }
     }

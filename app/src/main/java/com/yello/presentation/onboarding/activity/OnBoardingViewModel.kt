@@ -83,7 +83,7 @@ class OnBoardingViewModel @Inject constructor(
     val gender: String
         get() = _gender.value ?: ""
 
-    private val _code = MutableLiveData("")
+    val _code = MutableLiveData("")
     val code: String
         get() = _code.value?.trim() ?: ""
 
@@ -102,24 +102,21 @@ class OnBoardingViewModel @Inject constructor(
     val isValidName: LiveData<Boolean> = _name.map { name -> checkName(name) }
     val isValidId: LiveData<Boolean> = _id.map { id -> checkId(id) }
 
-    val isEmptyCode: LiveData<Boolean> =
-        _code.map { code -> this.checkEmpty(code) }
+    val isEmptyCode: LiveData<Boolean> = _code.map { code -> checkEmpty(code) }
 
     private val _studentIdResult: MutableLiveData<List<Int>> = MutableLiveData()
     val studentIdResult: LiveData<List<Int>> = _studentIdResult
-
 
     private val _friendState = MutableLiveData<FriendList>()
     val friendState: LiveData<FriendList> = _friendState
 
     var kakaoFriendList: List<String> = listOf()
-    var selectedFriendIdList : List<Long> = listOf()
+    var selectedFriendIdList: List<Long> = listOf()
     var selectedFriendCount: MutableLiveData<Int> = MutableLiveData(0)
 
     private var currentFriendPage: Int = -1
     private var isFriendPagingFinish = false
     private var totalFriendPage = Int.MAX_VALUE
-
 
     // TODO: throttle 및 페이징 처리
     fun getSchoolList(search: String) {
@@ -191,7 +188,7 @@ class OnBoardingViewModel @Inject constructor(
             runCatching {
                 onboardingRepository.postToGetFriendList(
                     RequestOnboardingListModel(friendGroup.friendIdList, friendGroup.groupId),
-                    ++currentFriendPage
+                    ++currentFriendPage,
                 )
             }.onSuccess { friendList ->
                 friendList ?: return@launch

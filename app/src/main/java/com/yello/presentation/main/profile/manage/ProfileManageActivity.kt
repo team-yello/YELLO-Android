@@ -6,6 +6,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import androidx.activity.viewModels
+import androidx.lifecycle.lifecycleScope
 import com.example.ui.base.BindingActivity
 import com.example.ui.view.setOnSingleClickListener
 import com.kakao.sdk.user.UserApiClient
@@ -13,6 +14,8 @@ import com.yello.R
 import com.yello.databinding.ActivityProfileManageBinding
 import com.yello.presentation.main.profile.ProfileViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import timber.log.Timber
 
 @AndroidEntryPoint
@@ -33,19 +36,34 @@ class ProfileManageActivity :
 
     private fun initCenterButton() {
         binding.btnProfileManageCenter.setOnSingleClickListener {
-            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://yell0.notion.site/YELLO-34028220a873416b91d5d2f1cd827432?pvs=4")))
+            startActivity(
+                Intent(
+                    Intent.ACTION_VIEW,
+                    Uri.parse("https://yell0.notion.site/YELLO-34028220a873416b91d5d2f1cd827432?pvs=4"),
+                ),
+            )
         }
     }
 
     private fun initPrivacyButton() {
         binding.btnProfileManagePrivacy.setOnSingleClickListener {
-            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://yell0.notion.site/97f57eaed6c749bbb134c7e8dc81ab3f")))
+            startActivity(
+                Intent(
+                    Intent.ACTION_VIEW,
+                    Uri.parse("https://yell0.notion.site/97f57eaed6c749bbb134c7e8dc81ab3f"),
+                ),
+            )
         }
     }
 
     private fun initServiceButton() {
         binding.btnProfileManageService.setOnSingleClickListener {
-            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://yell0.notion.site/2afc2a1e60774dfdb47c4d459f01b1d9")))
+            startActivity(
+                Intent(
+                    Intent.ACTION_VIEW,
+                    Uri.parse("https://yell0.notion.site/2afc2a1e60774dfdb47c4d459f01b1d9"),
+                ),
+            )
         }
     }
 
@@ -75,8 +93,11 @@ class ProfileManageActivity :
             if (error != null) {
                 Timber.d(getString(R.string.profile_error_logout) + ": $error")
             } else {
-                viewModel.clearLocalInfo()
-                restartApp(this)
+                lifecycleScope.launch {
+                    viewModel.clearLocalInfo()
+                    delay(500)
+                    restartApp(this@ProfileManageActivity)
+                }
             }
         }
     }

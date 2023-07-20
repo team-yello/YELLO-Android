@@ -15,11 +15,11 @@ import com.example.ui.view.UiState.Empty
 import com.example.ui.view.UiState.Failure
 import com.example.ui.view.UiState.Success
 import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import timber.log.Timber
+import javax.inject.Inject
 
 @HiltViewModel
 class YelloViewModel @Inject constructor(
@@ -85,7 +85,11 @@ class YelloViewModel @Inject constructor(
                         Timber.e("GET VOTE STATE FAILURE : $t")
                         when (t.code()) {
                             CODE_NO_FRIEND -> _yelloState.value = Success(Lock)
-                            else -> _yelloState.value = Failure(t.message())
+                            else -> {
+                                authRepository.clearLocalPref()
+                                delay(500)
+                                _yelloState.value = Failure(t.code().toString())
+                            }
                         }
                     }
                     Timber.e("GET VOTE STATE ERROR : $t")

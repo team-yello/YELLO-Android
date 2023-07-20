@@ -10,6 +10,7 @@ import com.example.domain.repository.AuthRepository
 import com.example.domain.repository.ProfileRepository
 import com.example.ui.view.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import javax.inject.Inject
@@ -24,7 +25,7 @@ class ProfileViewModel @Inject constructor(
     private val _getState = MutableLiveData<UiState<ProfileUserModel>>()
     val getState: LiveData<UiState<ProfileUserModel>> = _getState
 
-    private val _getListState = MutableLiveData<UiState<ProfileFriendsListModel?>>()
+    private val _getListState = MutableLiveData<UiState<ProfileFriendsListModel?>>(UiState.Loading)
     val getListState: LiveData<UiState<ProfileFriendsListModel?>> = _getListState
 
     private val _deleteUserState = MutableLiveData<UiState<Unit>>()
@@ -82,8 +83,9 @@ class ProfileViewModel @Inject constructor(
 
     // 서버 통신 - 친구 목록 정보 받아오기 & 페이징 적용
     fun getFriendsListFromServer() {
+        if (isPagingFinish) return
+        _getListState.value = UiState.Loading
         viewModelScope.launch {
-            if (isPagingFinish) return@launch
             runCatching {
                 profileRepository.getFriendsData(
                     ++currentPage,
@@ -106,6 +108,7 @@ class ProfileViewModel @Inject constructor(
             runCatching {
                 profileRepository.deleteUserData()
                 clearLocalInfo()
+                delay(500)
             }.onSuccess {
                 _deleteUserState.value = UiState.Success(it)
             }.onFailure {

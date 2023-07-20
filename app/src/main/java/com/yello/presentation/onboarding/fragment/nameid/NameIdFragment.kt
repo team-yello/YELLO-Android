@@ -55,6 +55,7 @@ class NameIdFragment : BindingFragment<FragmentNameIdBinding>(R.layout.fragment_
                     }
                     initIdEditTextViewError()
                 }
+
                 is UiState.Failure -> {
                     if (state.msg == "404") {
                         viewModel.navigateToNextPage()
@@ -70,7 +71,7 @@ class NameIdFragment : BindingFragment<FragmentNameIdBinding>(R.layout.fragment_
     private fun initIdEditTextViewError() {
         binding.etId.setBackgroundResource(R.drawable.shape_fill_red20_line_semantic_status_red500_rect_8)
         binding.btnIdDelete.setBackgroundResource(R.drawable.ic_onboarding_delete_red)
-        binding.tvIdError.text = getString(R.string.name_id_duplicate_id_msg)
+        binding.tvIdError.text = getString(R.string.code_duplicate_msg)
         binding.tvIdError.setTextColor(resources.getColor(R.color.semantic_red_500))
     }
 }

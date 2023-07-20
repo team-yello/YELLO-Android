@@ -19,9 +19,9 @@ class CodeFragment : BindingFragment<FragmentCodeBinding>(R.layout.fragment_code
         binding.vm = viewModel
 
         setConfirmBtnCLickListener()
-        setDeleteCodeBtnClickListener()
         setDeleteIdBtnClickListener()
         setupPostSignupState()
+        setupGetValidYelloIdState()
     }
 
     private fun setConfirmBtnCLickListener() {
@@ -34,46 +34,51 @@ class CodeFragment : BindingFragment<FragmentCodeBinding>(R.layout.fragment_code
         viewModel.postSignupState.observe(viewLifecycleOwner) { state ->
             when (state) {
                 is UiState.Loading -> {}
-                is UiState.Empty -> {
-                    yelloSnackbar(binding.root, getString(R.string.msg_error))
-                }
-                is UiState.Success -> {
-                    if (state.data) {
-                        viewModel.navigateToNextPage()
-                        return@observe
-                    }
-                    initIdEditTextViewError()
-                }
                 is UiState.Failure -> {
-                    if (state.msg == "404") {
-                        viewModel.navigateToNextPage()
-                        return@observe
-                    }
-
                     yelloSnackbar(binding.root, getString(R.string.msg_error))
+                }
+
+                is UiState.Empty -> {}
+                is UiState.Success -> {
+                    viewModel.navigateToNextPage()
                 }
             }
         }
     }
 
-    private fun setDeleteCodeBtnClickListener() {
-        binding.btnCodeDelete.setOnSingleClickListener {
-            val editcode = binding.etCode
-            editcode.setText("")
+    private fun setupGetValidYelloIdState() {
+        viewModel.getValidYelloId.observe(viewLifecycleOwner) { state ->
+            when (state) {
+                is UiState.Success -> {
+                    if (state.data) {
+                        initIdEditTextViewError()
+                        return@observe
+                    }
+                    viewModel.postSignup()
+                }
+                is UiState.Failure -> {
+                    if (state.msg == "404") {
+                        viewModel.postSignup()
+                        return@observe
+                    }
+                    yelloSnackbar(binding.root, getString(R.string.msg_error))
+                }
+                is UiState.Empty -> { yelloSnackbar(binding.root, getString(R.string.msg_error)) }
+                is UiState.Loading -> {}
+            }
         }
     }
 
     private fun setDeleteIdBtnClickListener() {
         binding.btnCodeDelete.setOnClickListener {
-            val editcode = binding.etCode
-            editcode.setText("")
+            binding.etCode.setText("")
         }
     }
 
     private fun initIdEditTextViewError() {
         binding.etCode.setBackgroundResource(R.drawable.shape_fill_red20_line_semantic_status_red500_rect_8)
         binding.btnCodeDelete.setBackgroundResource(R.drawable.ic_onboarding_delete_red)
-        binding.tvIdError.text = getString(R.string.name_id_duplicate_id_msg)
+        binding.tvIdError.text = getString(R.string.code_duplicate_msg)
         binding.tvIdError.setTextColor(resources.getColor(R.color.semantic_red_500))
     }
 }

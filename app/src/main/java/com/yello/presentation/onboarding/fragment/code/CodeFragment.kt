@@ -36,6 +36,7 @@ class CodeFragment : BindingFragment<FragmentCodeBinding>(R.layout.fragment_code
                 is UiState.Failure -> {
                     yelloSnackbar(binding.root, getString(R.string.msg_error))
                 }
+
                 is UiState.Empty -> {}
                 is UiState.Success -> {
                     viewModel.navigateToNextPage()
@@ -54,6 +55,7 @@ class CodeFragment : BindingFragment<FragmentCodeBinding>(R.layout.fragment_code
                     }
                     viewModel.postSignup()
                 }
+
                 is UiState.Failure -> {
                     if (state.msg == "404") {
                         viewModel.postSignup()
@@ -61,7 +63,11 @@ class CodeFragment : BindingFragment<FragmentCodeBinding>(R.layout.fragment_code
                     }
                     yelloSnackbar(binding.root, getString(R.string.msg_error))
                 }
-                is UiState.Empty -> { yelloSnackbar(binding.root, getString(R.string.msg_error)) }
+
+                is UiState.Empty -> {
+                    yelloSnackbar(binding.root, getString(R.string.msg_error))
+                }
+
                 is UiState.Loading -> {}
             }
         }

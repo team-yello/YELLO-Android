@@ -33,8 +33,7 @@ class RecommendKakaoFragment :
 
     private val viewModel by viewModels<RecommendKakaoViewModel>()
     private var adapter: RecommendAdapter? = null
-
-    private var recommendInviteDialog: RecommendInviteDialog = RecommendInviteDialog()
+    private var recommendInviteDialog: RecommendInviteDialog? = null
 
     private lateinit var friendsList: List<RecommendModel.RecommendFriend>
     private lateinit var kakaoFriendIdList: List<String>
@@ -60,14 +59,12 @@ class RecommendKakaoFragment :
         TalkApiClient.instance.friends { friends, error ->
             if (error != null) {
                 Timber.e(error, getString(R.string.recommend_error_friends_list))
-
             } else if (friends != null) {
                 val friendList: List<Friend>? = friends.elements
                 kakaoFriendIdList = friendList?.map { friend -> friend.id.toString() } ?: listOf()
 
                 initFirstListWithAdapter(kakaoFriendIdList)
                 setListWithInfinityScroll(kakaoFriendIdList)
-
             } else {
                 Timber.d(getString(R.string.recommend_error_no_kakao_friend))
             }
@@ -105,11 +102,12 @@ class RecommendKakaoFragment :
     }
 
     private fun initInviteButtonListener() {
+        recommendInviteDialog = RecommendInviteDialog.newInstance(viewModel.getYelloId())
         binding.layoutInviteFriend.setOnSingleClickListener {
-            recommendInviteDialog.show(parentFragmentManager, DIALOG)
+            recommendInviteDialog?.show(parentFragmentManager, DIALOG)
         }
         binding.btnRecommendNoFriend.setOnSingleClickListener {
-            recommendInviteDialog.show(parentFragmentManager, DIALOG)
+            recommendInviteDialog?.show(parentFragmentManager, DIALOG)
         }
     }
 
@@ -126,7 +124,10 @@ class RecommendKakaoFragment :
                 is UiState.Failure -> {
                     binding.layoutRecommendFriendsList.isVisible = false
                     binding.layoutRecommendNoFriendsList.isVisible = true
-                    yelloSnackbar(requireView(), getString(R.string.recommend_error_friend_connection))
+                    yelloSnackbar(
+                        requireView(),
+                        getString(R.string.recommend_error_friend_connection),
+                    )
                 }
 
                 is UiState.Loading -> {}
@@ -155,14 +156,17 @@ class RecommendKakaoFragment :
                 }
 
                 is UiState.Failure -> {
-                    yelloSnackbar(requireView(), getString(R.string.recommend_error_add_friend_connection))
+                    yelloSnackbar(
+                        requireView(),
+                        getString(R.string.recommend_error_add_friend_connection),
+                    )
                     activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
                 }
 
                 is UiState.Loading -> {
                     activity?.window?.setFlags(
                         WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
-                        WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE
+                        WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
                     )
                 }
 
@@ -175,14 +179,13 @@ class RecommendKakaoFragment :
 
     private fun setItemDivider() {
         binding.rvRecommendKakao.addItemDecoration(
-            RecommendItemDecoration(requireContext())
+            RecommendItemDecoration(requireContext()),
         )
     }
 
     private fun setDeleteAnimation() {
         binding.rvRecommendKakao.itemAnimator = object : DefaultItemAnimator() {
             override fun animateRemove(holder: RecyclerView.ViewHolder): Boolean {
-
                 holder.itemView.animation =
                     AnimationUtils.loadAnimation(holder.itemView.context, R.anim.slide_out_right)
 
@@ -192,7 +195,7 @@ class RecommendKakaoFragment :
     }
 
     private fun dismissDialog() {
-        if (recommendInviteDialog.isAdded) recommendInviteDialog.dismiss()
+        if (recommendInviteDialog?.isAdded == true) recommendInviteDialog?.dismiss()
     }
 
     // 삭제 시 체크 버튼으로 전환 후 0.3초 뒤 애니메이션 적용

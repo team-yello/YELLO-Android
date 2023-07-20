@@ -47,11 +47,10 @@ class ProfileManageActivity :
         }
     }
 
-    // 카카오 로그아웃 후 앱 재시작
     private fun logoutKakaoAccount() {
         UserApiClient.instance.logout { error ->
             if (error != null) {
-                Timber.d(getString(R.string.profile_error_logout))
+                Timber.d(getString(R.string.profile_error_logout) + ": $error")
             } else {
                 viewModel.clearLocalInfo()
                 restartApp(this)
@@ -59,7 +58,6 @@ class ProfileManageActivity :
         }
     }
 
-    // 앱 재시작 로직
     private fun restartApp(context: Context) {
         val packageManager = context.packageManager
         val intent = packageManager.getLaunchIntentForPackage(context.packageName)

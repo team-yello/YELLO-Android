@@ -6,6 +6,8 @@ import android.content.ClipboardManager
 import android.content.Context
 import android.os.Bundle
 import android.view.View
+import android.view.WindowManager
+import androidx.core.os.bundleOf
 import com.example.ui.base.BindingDialogFragment
 import com.example.ui.view.setOnSingleClickListener
 import com.kakao.sdk.common.util.KakaoCustomTabsClient
@@ -17,27 +19,38 @@ import timber.log.Timber
 
 class UnlockDialogFragment :
     BindingDialogFragment<FragmentUnlockDialogBinding>(R.layout.fragment_unlock_dialog) {
+
+    private val templateId = 95890.toLong()
+    private val url = "http://naver.com"
+    private lateinit var myYelloId: String
+    private val linkText: String = "여기다 링크 넣어주세요"
+
     override fun onStart() {
         super.onStart()
         dialog?.window?.apply {
+            dialog?.window?.apply {
+                setLayout(
+                    WindowManager.LayoutParams.MATCH_PARENT,
+                    WindowManager.LayoutParams.WRAP_CONTENT,
+                )
+            }
             setBackgroundDrawableResource(R.color.transparent)
         }
     }
 
-    // 사용자 정의 템플릿 ID & 공유할 url
-    // TODO: 추천인 아이디 설정 & 링크 생기면 넣기
-    private val templateId = 95890.toLong()
-    private val url = "http://naver.com"
-    private val myYelloId: String = "sangho.kk"
-    private val linkText: String = "여기다 링크 넣어주세요"
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        getBundleArgs()
         setRecommendId()
         initExitButton()
         initKakaoInviteButton()
         initLinkInviteButton()
+    }
+
+    private fun getBundleArgs() {
+        arguments ?: return
+        myYelloId = arguments?.getString(ARGS_YELLO_ID) ?: ""
     }
 
     private fun setRecommendId() {
@@ -101,10 +114,17 @@ class UnlockDialogFragment :
         }
     }
 
-    private companion object {
+    companion object {
         const val TAG_SHARE = "UNLOCK"
 
+        const val ARGS_YELLO_ID = "YELLO_ID"
+
         @JvmStatic
-        fun newInstance() = UnlockDialogFragment()
+        fun newInstance(yelloId: String) = UnlockDialogFragment().apply {
+            val args = bundleOf(
+                ARGS_YELLO_ID to yelloId,
+            )
+            arguments = args
+        }
     }
 }

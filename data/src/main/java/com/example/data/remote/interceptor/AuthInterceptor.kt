@@ -15,6 +15,7 @@ class AuthInterceptor @Inject constructor(
     private val dataStore: YelloDataStore,
 ) : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
+        Timber.d("ACCESS TOKEN : ${dataStore.userToken}")
         val originalRequest = chain.request()
         val authRequest = if (dataStore.isLogin) {
             originalRequest.newAuthBuilder().build()

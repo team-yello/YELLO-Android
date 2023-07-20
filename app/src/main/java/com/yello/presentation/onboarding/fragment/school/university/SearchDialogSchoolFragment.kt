@@ -110,7 +110,7 @@ class SearchDialogSchoolFragment :
 
     private fun seClicktoSchoolform() {
         binding.tvSchoolAdd.setOnClickListener {
-            var intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://bit.ly/46Yv0Hc"))
+            var intent = Intent(Intent.ACTION_VIEW, Uri.parse("https:/bit.ly/46Yv0Hc"))
             startActivity(intent)
         }
     }

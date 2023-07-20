@@ -1,5 +1,6 @@
 package com.yello.presentation.main.myyello.read
 
+import android.content.Intent
 import android.content.res.Resources
 import android.os.Bundle
 import android.view.View
@@ -11,6 +12,7 @@ import com.example.ui.base.BindingDialogFragment
 import com.example.ui.view.setOnSingleClickListener
 import com.yello.R
 import com.yello.databinding.DialogPointUseBinding
+import com.yello.presentation.main.MainActivity
 
 class PointUseDialog : BindingDialogFragment<DialogPointUseBinding>(R.layout.dialog_point_use) {
     private val viewModel by activityViewModels<MyYelloReadViewModel>()
@@ -25,7 +27,7 @@ class PointUseDialog : BindingDialogFragment<DialogPointUseBinding>(R.layout.dia
     private fun initView() {
         viewModel.setPointAndIsTwoButton(
             arguments?.getInt("point_type") ?: 0,
-            arguments?.getBoolean("is_two_button") ?: false
+            arguments?.getBoolean("is_two_button") ?: false,
         )
         setDataView()
         binding.tvPoint.text = viewModel.myPoint.toString()
@@ -49,8 +51,17 @@ class PointUseDialog : BindingDialogFragment<DialogPointUseBinding>(R.layout.dia
 
     private fun initEvent() {
         binding.tvOk.setOnSingleClickListener {
-            dismiss()
-            PointAfterDialog.newInstance().show(parentFragmentManager, "dialog")
+            if (binding.tvOk.text.contains("투표")) {
+                Intent(activity, MainActivity::class.java).apply {
+                    addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                    addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                    startActivity(this)
+                }
+                requireActivity().finish()
+            } else {
+                dismiss()
+                PointAfterDialog.newInstance().show(parentFragmentManager, "dialog")
+            }
         }
 
         binding.tvNo.setOnSingleClickListener {
@@ -69,7 +80,7 @@ class PointUseDialog : BindingDialogFragment<DialogPointUseBinding>(R.layout.dia
         dialog?.window?.apply {
             setLayout(
                 (deviceWidth - dialogHorizontalMargin * 2).toInt(),
-                WindowManager.LayoutParams.WRAP_CONTENT
+                WindowManager.LayoutParams.WRAP_CONTENT,
             )
             setBackgroundDrawableResource(R.drawable.shape_fill_gray900_12dp)
         }

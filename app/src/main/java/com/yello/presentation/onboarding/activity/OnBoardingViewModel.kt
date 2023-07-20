@@ -310,6 +310,10 @@ class OnBoardingViewModel @Inject constructor(
         _studentIdResult.value = mockList
     }
 
+    fun validYellIdLoading() {
+        _getValidYelloId.value = UiState.Loading
+    }
+
     companion object {
         private const val REGEX_NAME_PATTERN = "^([ㄱ-ㅎㅏ-ㅣ가-힣]*)\$"
         private const val REGEX_ID_PATTERN = "^([A-Za-z0-9_.]*)\$"

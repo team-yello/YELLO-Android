@@ -1,5 +1,6 @@
 package com.yello.presentation.main.myyello
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
@@ -53,6 +54,7 @@ class MyYelloAdapter(private val itemClick: (Yello, Int) -> (Unit)) :
         private val itemClick: (Yello, Int) -> Unit
     ) : RecyclerView.ViewHolder(binding.root) {
         fun onBind(item: Yello, position: Int) {
+            Log.d("kangmi", item.gender.toString())
             binding.data = item
             binding.ivReadYelloPoint.isVisible = !item.isRead && !item.isHintUsed
             binding.tvTime.text = item.createdAt

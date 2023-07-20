@@ -28,7 +28,7 @@ data class YelloDto(
     val createdAt: String,
 ) {
     fun toYello(): Yello {
-        val genderEnum = if (senderGender.contains("MALE")) GenderEnum.M else GenderEnum.W
+        val genderEnum = if (senderGender.contains("FE")) GenderEnum.W else GenderEnum.M
         return Yello(
             id,
             genderEnum,
@@ -51,6 +51,6 @@ data class VoteDto(
     val keywordFoot: String?
 ) {
     fun toVote(): Vote {
-        return Vote(nameHead ?:"", nameFoot ?: "", keywordHead ?: "", keyword, keywordFoot ?: "")
+        return Vote(nameHead ?: "", nameFoot ?: "", keywordHead ?: "", keyword, keywordFoot ?: "")
     }
 }

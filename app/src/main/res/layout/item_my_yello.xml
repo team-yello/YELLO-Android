@@ -112,21 +112,25 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="4dp"
+                    android:layout_marginTop="4dp"
                     android:text="@string/my_yello_you"
                     android:textAppearance="@style/TextAppearance.Yello.BodySmall"
                     android:textColor="@color/white"
                     app:layout_constraintStart_toEndOf="@id/tv_name_head"
-                    app:layout_constraintTop_toTopOf="@id/tv_name_head"
-                    app:layout_goneMarginStart="0dp" />
+                    app:layout_constraintTop_toBottomOf="@id/cl_send_name"
+                    app:layout_goneMarginStart="0dp"
+                    app:layout_goneMarginTop="0dp" />
 
                 <TextView
                     android:id="@+id/tv_name_foot"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
                     android:textAppearance="@style/TextAppearance.Yello.BodySmall"
                     android:textColor="@color/white"
                     app:layout_constraintStart_toEndOf="@id/tv_name_middle"
-                    app:layout_constraintTop_toTopOf="@id/tv_name_head"
+                    app:layout_constraintTop_toBottomOf="@id/cl_send_name"
+                    app:layout_goneMarginTop="0dp"
                     tools:text="가" />
 
                 <TextView
@@ -138,7 +142,7 @@
                     android:textAppearance="@style/TextAppearance.Yello.BodySmall"
                     android:textColor="@color/white"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tv_name_head"
+                    app:layout_constraintTop_toBottomOf="@id/tv_name_middle"
                     tools:text="사라진다면" />
 
                 <TextView
@@ -146,10 +150,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="4dp"
+                    android:layout_marginTop="4dp"
                     android:textAppearance="@style/TextAppearance.Yello.BodySmall"
                     android:textColor="@color/white"
                     app:layout_constraintStart_toEndOf="@id/tv_keyword_head"
-                    app:layout_constraintTop_toTopOf="@id/tv_keyword_head"
+                    app:layout_constraintTop_toBottomOf="@id/tv_name_middle"
                     app:layout_goneMarginStart="0dp"
                     tools:text="달빛산책 간거" />
 
@@ -159,11 +164,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="4dp"
+                    android:layout_marginTop="4dp"
                     android:text="(이)야"
                     android:textAppearance="@style/TextAppearance.Yello.BodySmall"
                     android:textColor="@color/white"
                     app:layout_constraintStart_toEndOf="@id/tv_keyword"
-                    app:layout_constraintTop_toTopOf="@id/tv_keyword_head"
+                    app:layout_constraintTop_toBottomOf="@id/tv_name_middle"
                     app:layout_goneMarginStart="0dp" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>

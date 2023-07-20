@@ -36,7 +36,6 @@ import java.io.ByteArrayOutputStream
 import java.text.SimpleDateFormat
 import java.util.Date
 
-
 @AndroidEntryPoint
 class MyYelloReadActivity :
     BindingActivity<ActivityMyYelloReadBinding>(R.layout.activity_my_yello_read) {
@@ -64,10 +63,18 @@ class MyYelloReadActivity :
             PointUseDialog.newInstance(
                 if (binding.tvInitialCheck.text.toString()
                         .contains("300")
-                ) viewModel.myPoint > 300 else viewModel.myPoint > 100,
+                ) {
+                    viewModel.myPoint > 300
+                } else {
+                    viewModel.myPoint > 100
+                },
                 if (binding.tvInitialCheck.text.toString()
                         .contains("300")
-                ) PointEnum.INITIAL.ordinal else PointEnum.KEYWORD.ordinal
+                ) {
+                    PointEnum.INITIAL.ordinal
+                } else {
+                    PointEnum.KEYWORD.ordinal
+                },
             ).show(supportFragmentManager, "dialog")
         }
 
@@ -113,7 +120,6 @@ class MyYelloReadActivity :
                     delay(300)
                     if (it) viewModel.getYelloDetail(id)
                 }
-
             }.launchIn(lifecycleScope)
     }
 
@@ -126,13 +132,19 @@ class MyYelloReadActivity :
     private fun setData(yello: YelloDetail) {
         binding.tvSendName.isVisible = yello.nameHint != -1
         binding.tvNameNotYet.isVisible = yello.nameHint == -1
-        if (yello.nameHint >= 0) binding.tvSendName.text =
-            Utils.setChosungText(yello.senderName, yello.nameHint)
+        if (yello.nameHint >= 0) {
+            binding.tvSendName.text =
+                Utils.setChosungText(yello.senderName, yello.nameHint)
+        }
         binding.tvInitialCheck.isVisible = !(yello.nameHint >= 0 && yello.isAnswerRevealed)
         binding.tvGender.text =
-            if (yello.senderGender.contains("MALE")) getString(R.string.my_yello_male) else getString(
-                R.string.my_yello_female
-            )
+            if (yello.senderGender.contains("MALE")) {
+                getString(R.string.my_yello_male)
+            } else {
+                getString(
+                    R.string.my_yello_female,
+                )
+            }
         binding.tvInitialCheck.text =
             if (yello.isAnswerRevealed) "300포인트로 초성 1개 확인하기" else "100포인트로 키워드 확인하기"
         viewModel.setMyPoint(yello.currentPoint)
@@ -181,7 +193,7 @@ class MyYelloReadActivity :
     }
 
     private val instagramLauncher = registerForActivityResult(
-        ActivityResultContracts.StartActivityForResult()
+        ActivityResultContracts.StartActivityForResult(),
     ) {
         setViewInstagram(false)
     }

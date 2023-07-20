@@ -25,7 +25,7 @@ class ProfileViewModel @Inject constructor(
     private val _getState = MutableLiveData<UiState<ProfileUserModel>>()
     val getState: LiveData<UiState<ProfileUserModel>> = _getState
 
-    private val _getListState = MutableLiveData<UiState<ProfileFriendsListModel?>>()
+    private val _getListState = MutableLiveData<UiState<ProfileFriendsListModel?>>(UiState.Loading)
     val getListState: LiveData<UiState<ProfileFriendsListModel?>> = _getListState
 
     private val _deleteUserState = MutableLiveData<UiState<Unit>>()
@@ -83,8 +83,9 @@ class ProfileViewModel @Inject constructor(
 
     // 서버 통신 - 친구 목록 정보 받아오기 & 페이징 적용
     fun getFriendsListFromServer() {
+        if (isPagingFinish) return
+        _getListState.value = UiState.Loading
         viewModelScope.launch {
-            if (isPagingFinish) return@launch
             runCatching {
                 profileRepository.getFriendsData(
                     ++currentPage,

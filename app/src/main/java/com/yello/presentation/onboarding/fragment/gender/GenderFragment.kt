@@ -7,6 +7,7 @@ import androidx.core.content.ContextCompat.getColor
 import androidx.fragment.app.activityViewModels
 import com.example.domain.enum.GenderEnum
 import com.example.ui.base.BindingFragment
+import com.example.ui.view.setOnSingleClickListener
 import com.yello.R
 import com.yello.databinding.FragmentGenderBinding
 import com.yello.presentation.onboarding.activity.OnBoardingViewModel
@@ -21,6 +22,20 @@ class GenderFragment : BindingFragment<FragmentGenderBinding>(R.layout.fragment_
         binding.female = GenderEnum.W.toString()
 
         setupGender()
+        setBackBtnClickListener()
+        setConfirmBtnClickListener()
+    }
+
+    private fun setBackBtnClickListener() {
+        binding.btnGenderBack.setOnSingleClickListener {
+            viewModel.navigateToBackPage()
+        }
+    }
+
+    private fun setConfirmBtnClickListener() {
+        binding.btnGenderNext.setOnSingleClickListener {
+            viewModel.navigateToNextPage()
+        }
     }
 
     private fun setupGender() {
@@ -45,4 +60,6 @@ class GenderFragment : BindingFragment<FragmentGenderBinding>(R.layout.fragment_
             }
         }
     }
+
+
 }

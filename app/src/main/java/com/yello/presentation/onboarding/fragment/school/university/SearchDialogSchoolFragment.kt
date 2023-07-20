@@ -1,6 +1,8 @@
 package com.yello.presentation.onboarding.fragment.school.university
 
 import android.annotation.SuppressLint
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.MotionEvent
 import android.view.View
@@ -17,7 +19,7 @@ import com.yello.databinding.FragmentDialogSchoolBinding
 import com.yello.presentation.onboarding.activity.OnBoardingViewModel
 import com.yello.util.context.yelloSnackbar
 
-class SearchDialogFragment :
+class SearchDialogSchoolFragment :
     BindingBottomSheetDialog<FragmentDialogSchoolBinding>(R.layout.fragment_dialog_school) {
     private var adapter: SchoolAdapter? = null
 
@@ -31,6 +33,7 @@ class SearchDialogFragment :
         setupSchoolData()
         setListWithInfinityScroll()
         recyclerviewScroll()
+        seClicktoSchoolform()
     }
 
     private fun initView() {
@@ -105,6 +108,13 @@ class SearchDialogFragment :
         }
     }
 
+    private fun seClicktoSchoolform() {
+        binding.tvSchoolAdd.setOnClickListener {
+            var intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://bit.ly/46Yv0Hc"))
+            startActivity(intent)
+        }
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         adapter = null
@@ -112,6 +122,6 @@ class SearchDialogFragment :
 
     companion object {
         @JvmStatic
-        fun newInstance() = SearchDialogFragment()
+        fun newInstance() = SearchDialogSchoolFragment()
     }
 }

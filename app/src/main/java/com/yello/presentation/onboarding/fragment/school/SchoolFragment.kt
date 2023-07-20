@@ -8,7 +8,7 @@ import com.example.ui.view.setOnSingleClickListener
 import com.yello.R
 import com.yello.databinding.FragmentSchoolBinding
 import com.yello.presentation.onboarding.activity.OnBoardingViewModel
-import com.yello.presentation.onboarding.fragment.school.university.SearchDialogFragment
+import com.yello.presentation.onboarding.fragment.school.university.SearchDialogSchoolFragment
 
 class SchoolFragment : BindingFragment<FragmentSchoolBinding>(R.layout.fragment_school) {
     private val viewModel by activityViewModels<OnBoardingViewModel>()
@@ -24,7 +24,7 @@ class SchoolFragment : BindingFragment<FragmentSchoolBinding>(R.layout.fragment_
 
     private fun initSearchSchoolBtnClickListener() {
         binding.tvSchoolSearch.setOnSingleClickListener {
-            SearchDialogFragment().show(parentFragmentManager, this.tag)
+            SearchDialogSchoolFragment().show(parentFragmentManager, this.tag)
         }
     }
 

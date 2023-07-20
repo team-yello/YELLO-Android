@@ -105,9 +105,9 @@ class ProfileViewModel @Inject constructor(
             _deleteUserState.value = UiState.Loading
             runCatching {
                 profileRepository.deleteUserData()
-                clearLocalInfo()
             }.onSuccess {
                 _deleteUserState.value = UiState.Success(it)
+                clearLocalInfo()
             }.onFailure {
                 _deleteUserState.value = UiState.Failure(it.message.toString())
             }

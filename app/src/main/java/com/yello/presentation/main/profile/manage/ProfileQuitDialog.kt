@@ -8,6 +8,7 @@ import android.view.View
 import android.view.WindowManager
 import androidx.fragment.app.activityViewModels
 import com.example.ui.base.BindingDialogFragment
+import com.example.ui.fragment.toast
 import com.example.ui.view.UiState
 import com.example.ui.view.setOnSingleClickListener
 import com.kakao.sdk.user.UserApiClient
@@ -75,7 +76,7 @@ class ProfileQuitDialog :
                 }
 
                 is UiState.Failure -> {
-                    yelloSnackbar(requireView(), getString(R.string.profile_error_unlink))
+                    toast(getString(R.string.profile_error_unlink))
                 }
 
                 is UiState.Loading -> {}

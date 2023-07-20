@@ -32,10 +32,6 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // TODO : 4명 키 해시 모두 받은 다음에 코드 지우기
-        val keyHash = Utility.getKeyHash(this)
-        Timber.tag(TAG_AUTH).d(keyHash)
-
         initSignInButtonListener()
         setupGetUserProfileState()
     }

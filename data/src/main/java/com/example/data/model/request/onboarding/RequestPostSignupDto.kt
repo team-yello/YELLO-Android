@@ -7,9 +7,9 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class RequestPostSignupDto(
     @SerialName("social")
-    val social: String = "KAKAO",
+    val social: String,
     @SerialName("uuid")
-    val uuid: Int,
+    val uuid: String,
     @SerialName("email")
     val email: String,
     @SerialName("profileImage")
@@ -31,6 +31,7 @@ data class RequestPostSignupDto(
 )
 
 fun SignupInfo.toRequestPostSignupDto() = RequestPostSignupDto(
+    social = "KAKAO",
     uuid = kakaoId,
     email = email,
     profileImage = profileImg,
@@ -38,7 +39,7 @@ fun SignupInfo.toRequestPostSignupDto() = RequestPostSignupDto(
     groupAdmissionYear = studentId,
     name = name,
     yelloId = yelloId,
-    gender = gender.toString(),
+    gender = gender,
     friends = friendList,
     recommendId = recommendId,
 )

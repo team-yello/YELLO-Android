@@ -12,19 +12,21 @@ import com.example.domain.entity.onboarding.GroupList
 import com.example.domain.entity.onboarding.SchoolList
 import com.example.domain.entity.onboarding.SignupInfo
 import com.example.domain.entity.onboarding.UserInfo
+import com.example.domain.repository.AuthRepository
 import com.example.domain.repository.OnboardingRepository
 import com.example.ui.view.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.launch
-import retrofit2.HttpException
-import timber.log.Timber
 import java.util.regex.Pattern
 import javax.inject.Inject
 import kotlin.math.ceil
+import kotlinx.coroutines.launch
+import retrofit2.HttpException
+import timber.log.Timber
 
 @HiltViewModel
 class OnBoardingViewModel @Inject constructor(
     private val onboardingRepository: OnboardingRepository,
+    private val authRepository: AuthRepository,
 ) : ViewModel() {
     private val _postSignupState = MutableLiveData<UiState<UserInfo>>()
     val postSignupState: LiveData<UiState<UserInfo>>
@@ -55,7 +57,7 @@ class OnBoardingViewModel @Inject constructor(
     val school: String
         get() = _school.value?.trim() ?: ""
 
-    var kakaoId: Int = -1
+    var kakaoId: String = ""
     var email: String = ""
     var profileImg: String = ""
 
@@ -222,6 +224,8 @@ class OnBoardingViewModel @Inject constructor(
                         _postSignupState.value = UiState.Empty
                         return@launch
                     }
+                    authRepository.setAutoLogin(userInfo.accessToken, userInfo.refreshToken)
+                    authRepository.setYelloId(userInfo.yelloId)
                     _postSignupState.value = UiState.Success(userInfo)
                 }
                 .onFailure { t ->

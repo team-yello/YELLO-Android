@@ -1,7 +1,7 @@
 package com.example.domain.entity.onboarding
 
 data class SignupInfo(
-    val kakaoId: Int,
+    val kakaoId: String,
     val email: String,
     val profileImg: String,
     val groupId: Long,

@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.domain.entity.ProfileFriendsListModel
 import com.example.domain.entity.ProfileUserModel
+import com.example.domain.repository.AuthRepository
 import com.example.domain.repository.ProfileRepository
 import com.example.ui.view.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -16,7 +17,8 @@ import kotlin.math.ceil
 
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
-    private val profileRepository: ProfileRepository
+    private val profileRepository: ProfileRepository,
+    private val authRepository: AuthRepository,
 ) : ViewModel() {
 
     private val _getState = MutableLiveData<UiState<ProfileUserModel>>()
@@ -84,7 +86,7 @@ class ProfileViewModel @Inject constructor(
             if (isPagingFinish) return@launch
             runCatching {
                 profileRepository.getFriendsData(
-                    ++currentPage
+                    ++currentPage,
                 )
             }.onSuccess {
                 it ?: return@launch
@@ -103,6 +105,7 @@ class ProfileViewModel @Inject constructor(
             _deleteUserState.value = UiState.Loading
             runCatching {
                 profileRepository.deleteUserData()
+                clearLocalInfo()
             }.onSuccess {
                 _deleteUserState.value = UiState.Success(it)
             }.onFailure {
@@ -117,7 +120,7 @@ class ProfileViewModel @Inject constructor(
             _deleteFriendState.value = UiState.Loading
             runCatching {
                 profileRepository.deleteFriendData(
-                    friendId
+                    friendId,
                 )
             }.onSuccess {
                 _deleteFriendState.value = UiState.Success(it)
@@ -125,5 +128,9 @@ class ProfileViewModel @Inject constructor(
                 _deleteFriendState.value = UiState.Failure(it.message.toString())
             }
         }
+    }
+
+    fun clearLocalInfo() {
+        authRepository.clearLocalPref()
     }
 }

@@ -1,7 +1,7 @@
 package com.example.data.repository
 
 import com.example.data.datasource.VoteDataSource
-import com.example.data.model.request.toRequestPostVoteDto
+import com.example.data.model.request.vote.toRequestPostVoteDto
 import com.example.domain.entity.vote.ChoiceList
 import com.example.domain.entity.vote.Note
 import com.example.domain.entity.vote.Note.Friend

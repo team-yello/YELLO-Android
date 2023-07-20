@@ -1,6 +1,6 @@
 package com.example.data.remote.service
 
-import com.example.data.model.request.RequestPostVoteDto
+import com.example.data.model.request.vote.RequestPostVoteDto
 import com.example.data.model.response.BaseResponse
 import com.example.data.model.response.vote.ResponseGetFriendShuffleDto
 import com.example.data.model.response.vote.ResponseGetVoteAvailableDto

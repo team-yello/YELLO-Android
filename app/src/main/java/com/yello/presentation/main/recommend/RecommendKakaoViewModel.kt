@@ -6,16 +6,18 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.domain.entity.RecommendModel
 import com.example.domain.entity.RequestRecommendKakaoModel
+import com.example.domain.repository.AuthRepository
 import com.example.domain.repository.RecommendRepository
 import com.example.ui.view.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 import kotlin.math.ceil
+import kotlinx.coroutines.launch
 
 @HiltViewModel
 class RecommendKakaoViewModel @Inject constructor(
-    private val recommendRepository: RecommendRepository
+    private val recommendRepository: RecommendRepository,
+    private val authRepository: AuthRepository,
 ) : ViewModel() {
 
     private val _postState = MutableLiveData<UiState<RecommendModel?>>()
@@ -44,7 +46,7 @@ class RecommendKakaoViewModel @Inject constructor(
             runCatching {
                 recommendRepository.postToGetKakaoFriendList(
                     ++currentPage,
-                    RequestRecommendKakaoModel(friendKakaoId)
+                    RequestRecommendKakaoModel(friendKakaoId),
                 )
             }.onSuccess {
                 it ?: return@launch
@@ -63,7 +65,7 @@ class RecommendKakaoViewModel @Inject constructor(
             _addState.value = UiState.Loading
             runCatching {
                 recommendRepository.postFriendAdd(
-                    friendId
+                    friendId,
                 )
             }.onSuccess {
                 _addState.value = UiState.Success(it)
@@ -72,4 +74,6 @@ class RecommendKakaoViewModel @Inject constructor(
             }
         }
     }
+
+    fun getYelloId() = authRepository.getYelloId() ?: ""
 }

@@ -6,6 +6,8 @@ import android.content.ClipboardManager
 import android.content.Context
 import android.os.Bundle
 import android.view.View
+import android.view.WindowManager
+import androidx.core.os.bundleOf
 import com.example.ui.base.BindingDialogFragment
 import com.example.ui.view.setOnSingleClickListener
 import com.kakao.sdk.common.util.KakaoCustomTabsClient
@@ -13,35 +15,45 @@ import com.kakao.sdk.share.ShareClient
 import com.kakao.sdk.share.WebSharerClient
 import com.yello.R
 import com.yello.databinding.FragmentUnlockDialogBinding
-import com.yello.presentation.main.recommend.RecommendInviteDialog
-import com.yello.util.context.yelloSnackbar
 import timber.log.Timber
 
 class UnlockDialogFragment :
     BindingDialogFragment<FragmentUnlockDialogBinding>(R.layout.fragment_unlock_dialog) {
+
+    private val templateId = 95890.toLong()
+    private val url = "http://naver.com"
+    private lateinit var myYelloId: String
+    private lateinit var linkText: String
+
     override fun onStart() {
         super.onStart()
         dialog?.window?.apply {
+            dialog?.window?.apply {
+                setLayout(
+                    WindowManager.LayoutParams.MATCH_PARENT,
+                    WindowManager.LayoutParams.WRAP_CONTENT,
+                )
+            }
             setBackgroundDrawableResource(R.color.transparent)
         }
     }
 
-    // 사용자 정의 템플릿 ID & 공유할 url
-    // TODO: 추천인 아이디 설정 & 링크 생기면 넣기
-    private val templateId = 95890.toLong()
-    private val url = "http://naver.com"
-    private val myYelloId: String = "sangho.kk"
-    private val linkText: String = "추천인코드: {$myYelloId}\n" +
-            "우리 같이 YELL:O 해요!\n" +
-            "(여기에는 다운로드 링크)"
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        getBundleArgs()
         setRecommendId()
         initExitButton()
         initKakaoInviteButton()
         initLinkInviteButton()
+    }
+
+    private fun getBundleArgs() {
+        arguments ?: return
+        myYelloId = arguments?.getString(ARGS_YELLO_ID) ?: ""
+        linkText = "추천인코드: {$myYelloId}\n" +
+            "우리 같이 YELL:O 해요!\n" +
+            "(여기에는 다운로드 링크)"
     }
 
     private fun setRecommendId() {
@@ -76,7 +88,7 @@ class UnlockDialogFragment :
             ShareClient.instance.shareCustom(
                 context,
                 templateId,
-                mapOf("KEY" to myYelloId)
+                mapOf("KEY" to myYelloId),
             ) { sharingResult, error ->
                 if (error != null) {
                     Timber.tag(TAG_SHARE).e(error, getString(R.string.invite_error_kakao))
@@ -105,10 +117,17 @@ class UnlockDialogFragment :
         }
     }
 
-    private companion object {
+    companion object {
         const val TAG_SHARE = "UNLOCK"
 
+        const val ARGS_YELLO_ID = "YELLO_ID"
+
         @JvmStatic
-        fun newInstance() = UnlockDialogFragment()
+        fun newInstance(yelloId: String) = UnlockDialogFragment().apply {
+            val args = bundleOf(
+                ARGS_YELLO_ID to yelloId,
+            )
+            arguments = args
+        }
     }
 }

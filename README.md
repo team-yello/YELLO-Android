@@ -94,3 +94,8 @@
  ┣ 📂entity
  ┣ 📂repository
 ```
+
+## SCREENSHOTS
+| 온보딩 | 옐로하기 | 내 옐로 | 프로필 |
+| :---: | :---: | :---: | :---: |
+| <img width="200px" src="https://github.com/team-yello/YELLO-Android/assets/70993562/9f751926-4d30-4b04-bd6a-9e29bd605ff1"/> | <img width="200px" src="https://github.com/team-yello/YELLO-Android/assets/70993562/44ad9dd6-2831-453f-8c20-7c80c1640e0f"/> | <img width="200px" src="https://github.com/team-yello/YELLO-Android/assets/70993562/03627c42-90b4-470a-b905-a0603aa0a9cf"/> | <img width="200px" src="https://github.com/team-yello/YELLO-Android/assets/70993562/971d7dc2-6752-42c2-91e4-ed54cc20d4f9"/> |

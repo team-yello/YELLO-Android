@@ -6,10 +6,10 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.activityViewModels
 import com.el.yello.R
 import com.el.yello.databinding.FragmentNoteBinding
-import com.el.yello.util.context.yelloSnackbar
-import com.example.ui.base.BindingFragment
 import com.el.yello.presentation.main.yello.vote.NoteState
 import com.el.yello.presentation.main.yello.vote.VoteViewModel
+import com.el.yello.util.context.yelloSnackbar
+import com.example.ui.base.BindingFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

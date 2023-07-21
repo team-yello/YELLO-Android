@@ -4,6 +4,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.el.yello.presentation.main.yello.vote.NoteState.InvalidCancel
+import com.el.yello.presentation.main.yello.vote.NoteState.InvalidShuffle
+import com.el.yello.presentation.main.yello.vote.NoteState.InvalidSkip
 import com.example.domain.entity.vote.Choice
 import com.example.domain.entity.vote.ChoiceList
 import com.example.domain.entity.vote.Note
@@ -11,15 +14,12 @@ import com.example.domain.repository.VoteRepository
 import com.example.ui.view.UiState
 import com.example.ui.view.UiState.Empty
 import com.example.ui.view.UiState.Success
-import com.el.yello.presentation.main.yello.vote.NoteState.InvalidCancel
-import com.el.yello.presentation.main.yello.vote.NoteState.InvalidShuffle
-import com.el.yello.presentation.main.yello.vote.NoteState.InvalidSkip
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import timber.log.Timber
-import javax.inject.Inject
 
 @HiltViewModel
 class VoteViewModel @Inject constructor(

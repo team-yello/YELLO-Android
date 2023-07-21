@@ -434,7 +434,7 @@
                 android:textSize="8sp"
                 android:fontFamily="@font/unbounded_regular"
                 android:text="\@yelloworld_official"
-                android:textColor="#99C9BCFC"
+                android:textColor="#99FFFFFF"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />

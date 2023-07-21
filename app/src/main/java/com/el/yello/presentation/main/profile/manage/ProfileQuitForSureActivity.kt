@@ -4,10 +4,9 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import com.el.yello.R
 import com.el.yello.databinding.ActivityProfileQuitForSureBinding
-import com.el.yello.presentation.main.profile.manage.ProfileQuitDialog
+import com.el.yello.presentation.main.profile.ProfileViewModel
 import com.example.ui.base.BindingActivity
 import com.example.ui.view.setOnSingleClickListener
-import com.el.yello.presentation.main.profile.ProfileViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

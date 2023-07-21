@@ -93,8 +93,9 @@ class MyYelloReadViewModel @Inject constructor(
         viewModelScope.launch {
             repository.checkKeyword(voteId)
                 .onSuccess {
-                    if (it == null) _keywordData.value = UiState.Empty
-                    else {
+                    if (it == null) {
+                        _keywordData.value = UiState.Empty
+                    } else {
                         _keywordData.value = UiState.Success(it)
                     }
                 }.onFailure {
@@ -107,8 +108,9 @@ class MyYelloReadViewModel @Inject constructor(
         viewModelScope.launch {
             repository.checkName(voteId)
                 .onSuccess {
-                    if (it == null) _nameData.value = UiState.Empty
-                    else {
+                    if (it == null) {
+                        _nameData.value = UiState.Empty
+                    } else {
                         _nameData.value = UiState.Success(it)
                     }
                 }.onFailure {

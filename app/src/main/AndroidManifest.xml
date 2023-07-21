@@ -4,6 +4,7 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="com.google.android.gms.permission.AD_ID" />
 
     <queries>
         <package android:name="com.instagram.android" />
@@ -45,12 +46,12 @@
         </activity>
         <activity
             android:name=".presentation.onboarding.activity.OnBoardingActivity"
-            android:exported="true"
-            android:windowSoftInputMode="adjustNothing"
-            android:screenOrientation="portrait" />
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustNothing" />
         <activity
             android:name=".presentation.auth.SignInActivity"
-            android:exported="true"
+            android:exported="false"
             android:screenOrientation="portrait" />
         <activity
             android:name=".presentation.auth.SocialSyncActivity"
@@ -72,7 +73,7 @@
         </activity>
         <activity
             android:name=".presentation.main.MainActivity"
-            android:exported="true"
+            android:exported="false"
             android:screenOrientation="portrait" />
         <activity
             android:name=".presentation.main.yello.vote.VoteActivity"
@@ -93,8 +94,7 @@
         <activity
             android:name=".presentation.main.myyello.read.MyYelloReadActivity"
             android:exported="false"
-            android:screenOrientation="portrait" >
-        </activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".presentation.pay.PayActivity"
             android:exported="false"

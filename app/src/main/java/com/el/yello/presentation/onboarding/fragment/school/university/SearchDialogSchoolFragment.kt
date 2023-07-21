@@ -9,7 +9,6 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
-import android.widget.LinearLayout
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -17,18 +16,17 @@ import androidx.recyclerview.widget.RecyclerView
 import com.el.yello.R
 import com.el.yello.databinding.FragmentDialogSchoolBinding
 import com.el.yello.presentation.onboarding.activity.OnBoardingViewModel
+import com.el.yello.util.context.yelloSnackbar
 import com.example.ui.base.BindingBottomSheetDialog
 import com.example.ui.context.hideKeyboard
 import com.example.ui.view.UiState
 import com.example.ui.view.setOnSingleClickListener
-import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.el.yello.util.context.yelloSnackbar
 
 class SearchDialogSchoolFragment :
     BindingBottomSheetDialog<FragmentDialogSchoolBinding>(R.layout.fragment_dialog_school) {
     private var adapter: SchoolAdapter? = null
     private val viewModel by activityViewModels<OnBoardingViewModel>()
-    private lateinit var bottomSheetBehavior: BottomSheetBehavior<LinearLayout>
+    private var inputText: String = ""
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -37,7 +35,7 @@ class SearchDialogSchoolFragment :
         setupSchoolData()
         setListWithInfinityScroll()
         recyclerviewScroll()
-        seClicktoSchoolform()
+        setClickToSchoolForm()
 
         dialog?.window?.setLayout(
             ViewGroup.LayoutParams.MATCH_PARENT,
@@ -50,7 +48,8 @@ class SearchDialogSchoolFragment :
     private fun initView() {
         setHideKeyboard()
         binding.etSchoolSearch.doAfterTextChanged { input ->
-            viewModel.getSchoolList(input.toString())
+            inputText = input.toString()
+            viewModel.getSchoolList(inputText)
         }
         adapter = SchoolAdapter(storeSchool = ::storeSchool)
         binding.rvSchoolList.adapter = adapter
@@ -65,11 +64,10 @@ class SearchDialogSchoolFragment :
                 super.onScrolled(recyclerView, dx, dy)
                 if (dy > 0) {
                     recyclerView.layoutManager?.let { layoutManager ->
-                        if (!binding.rvSchoolList.canScrollVertically(1) &&
-                            layoutManager is LinearLayoutManager &&
-                            layoutManager.findLastVisibleItemPosition() == adapter!!.itemCount - 1
-                        ) {
-                            // viewModel.getSchoolList()
+                        if (!binding.rvSchoolList.canScrollVertically(1)
+                            && layoutManager is LinearLayoutManager
+                            && layoutManager.findLastVisibleItemPosition() == adapter!!.itemCount - 1) {
+                            viewModel.getSchoolList(inputText)
                         }
                     }
                 }
@@ -106,6 +104,7 @@ class SearchDialogSchoolFragment :
         viewModel.clearSchoolData()
         dismiss()
     }
+
     private fun recyclerviewScroll() {
         binding.rvSchoolList.setOnTouchListener { view, motionEvent ->
             when (motionEvent.action) {
@@ -117,9 +116,9 @@ class SearchDialogSchoolFragment :
         }
     }
 
-    private fun seClicktoSchoolform() {
+    private fun setClickToSchoolForm() {
         binding.tvSchoolAdd.setOnClickListener {
-            var intent = Intent(Intent.ACTION_VIEW, Uri.parse("https:/bit.ly/46Yv0Hc"))
+            var intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://bit.ly/46Yv0Hc"))
             startActivity(intent)
         }
     }

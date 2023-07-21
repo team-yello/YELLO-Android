@@ -1,4 +1,4 @@
-package com.yello.presentation.main.profile.manage
+package com.el.yello.presentation.main.profile.manage
 
 import android.os.Bundle
 import androidx.activity.viewModels

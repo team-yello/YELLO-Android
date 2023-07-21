@@ -102,7 +102,7 @@ class SearchDialogDepartmentFragment :
 
     private fun seClicktDepartmentform() {
         binding.tvDepartmentAdd.setOnClickListener {
-            var intent = Intent(Intent.ACTION_VIEW, Uri.parse("https:/bit.ly/3pO0ijD"))
+            var intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://bit.ly/3pO0ijD"))
             startActivity(intent)
         }
     }

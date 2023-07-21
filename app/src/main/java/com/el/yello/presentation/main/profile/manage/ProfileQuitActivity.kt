@@ -6,7 +6,6 @@ import com.el.yello.R
 import com.el.yello.databinding.ActivityProfileQuitBinding
 import com.example.ui.base.BindingActivity
 import com.example.ui.view.setOnSingleClickListener
-import com.yello.presentation.main.profile.manage.ProfileQuitForSureActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

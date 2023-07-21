@@ -140,7 +140,7 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
 
             ProfileFriendItemBottomSheet().show(parentFragmentManager, DIALOG)
         }, {
-            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("bit.ly/44xDDqC")))
+            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://bit.ly/44xDDqC")))
         })
         adapter?.setItemList(listOf())
         binding.rvProfileFriendsList.adapter = adapter

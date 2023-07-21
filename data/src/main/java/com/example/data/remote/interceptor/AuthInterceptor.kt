@@ -6,12 +6,12 @@ import com.example.data.model.response.onboarding.ResponseAuthToken
 import com.example.domain.YelloDataStore
 import com.yello.data.BuildConfig.BASE_URL
 import dagger.hilt.android.qualifiers.ApplicationContext
-import javax.inject.Inject
 import kotlinx.serialization.json.Json
 import okhttp3.Interceptor
 import okhttp3.Request
 import okhttp3.Response
 import timber.log.Timber
+import javax.inject.Inject
 
 class AuthInterceptor @Inject constructor(
     private val json: Json,

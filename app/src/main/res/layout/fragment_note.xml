@@ -16,7 +16,7 @@
 
         <variable
             name="vm"
-            type="com.yello.presentation.main.yello.vote.VoteViewModel" />
+            type="com.el.yello.presentation.main.yello.vote.VoteViewModel" />
 
         <import type="android.view.View" />
     </data>

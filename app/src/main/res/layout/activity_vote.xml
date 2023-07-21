@@ -8,7 +8,7 @@
 
         <variable
             name="vm"
-            type="com.yello.presentation.main.yello.vote.VoteViewModel" />
+            type="com.el.yello.presentation.main.yello.vote.VoteViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

@@ -1,7 +1,6 @@
 package com.example.data.remote.interceptor
 
 import android.content.Context
-import android.content.Intent
 import com.example.data.model.response.onboarding.ResponseAuthToken
 import com.example.domain.YelloDataStore
 import com.yello.data.BuildConfig.BASE_URL
@@ -60,7 +59,6 @@ class AuthInterceptor @Inject constructor(
                         userToken = ""
                         refreshToken = ""
                     }
-                    restartApp(context)
                 } catch (t: Throwable) {
                     Timber.e(t)
                     with(dataStore) {
@@ -68,7 +66,6 @@ class AuthInterceptor @Inject constructor(
                         dataStore.userToken = ""
                         dataStore.refreshToken = ""
                     }
-                    restartApp(context)
                 }
             }
         }
@@ -77,15 +74,6 @@ class AuthInterceptor @Inject constructor(
 
     private fun Request.newAuthBuilder() =
         this.newBuilder().addHeader(HEADER_AUTHORIZATION, "Bearer ${dataStore.userToken}")
-
-    private fun restartApp(context: Context) {
-        val packageManager = context.packageManager
-        val intent = packageManager.getLaunchIntentForPackage(context.packageName)
-        val componentName = intent!!.component
-        val mainIntent = Intent.makeRestartActivityTask(componentName)
-        context.startActivity(mainIntent)
-        Runtime.getRuntime().exit(0)
-    }
 
     companion object {
         private const val CODE_TOKEN_EXPIRED = 401

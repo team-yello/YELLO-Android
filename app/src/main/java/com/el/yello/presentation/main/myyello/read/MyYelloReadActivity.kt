@@ -138,11 +138,11 @@ class MyYelloReadActivity :
         }
         binding.tvInitialCheck.isVisible = !(yello.nameHint >= 0 && yello.isAnswerRevealed)
         binding.tvGender.text =
-            if (yello.senderGender.contains("MALE")) {
-                getString(R.string.my_yello_male)
+            if (yello.senderGender.contains("FEMALE")) {
+                getString(R.string.my_yello_female)
             } else {
                 getString(
-                    R.string.my_yello_female,
+                    R.string.my_yello_male,
                 )
             }
         binding.tvInitialCheck.text =

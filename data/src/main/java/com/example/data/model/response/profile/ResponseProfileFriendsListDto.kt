@@ -39,8 +39,8 @@ data class ResponseProfileFriendsListDto(
                     it.profileImageUrl,
                     it.group,
                     it.yelloId,
-                    it.yelloCount,
-                    it.friendCount
+                    yelloCount = it.yelloCount,
+                    friendCount = it.friendCount
                 )
             }
         )

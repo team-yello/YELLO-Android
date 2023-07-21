@@ -420,8 +420,21 @@
                 android:id="@+id/iv_yello_face"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="72dp"
                 android:src="@drawable/ic_yello_face"
+                app:layout_constraintBottom_toTopOf="@id/tv_yello_id"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_yello_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="83dp"
+                android:paddingVertical="6dp"
+                android:textSize="8sp"
+                android:fontFamily="@font/unbounded_regular"
+                android:text="\@yelloworld_official"
+                android:textColor="#99C9BCFC"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />

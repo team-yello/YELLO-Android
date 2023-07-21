@@ -1,4 +1,6 @@
 # YELL:O
+<p align="center"><img src="https://github.com/team-yello/YELLO-Android/assets/70993562/96e4be19-e35f-479d-8354-8ef83f005b76" height=280></p>
+
 ```
 투표로 관계의 재미를 찾아가는 서비스, YELL:O
 ```
@@ -9,6 +11,16 @@
 | :---: | :---: | :---: | :---: |
 | <img width="200px" src="https://avatars.githubusercontent.com/u/56147398?v=4"/> | <img width="200px" src="https://avatars.githubusercontent.com/u/70993562?v=4"/> | <img width="200px" src="https://avatars.githubusercontent.com/u/97405341?v=4"/> | <img width="200px" src="https://avatars.githubusercontent.com/u/76741702?v=4"/> |
 | `내 옐로`<br/>`친구들 옐로` | `투표` | `내 프로필`<br/>`추천 친구` | `온보딩` |
+<br>
+
+## TECH STACK
+- Android App Architecture
+- Multi-Module
+- Hilt
+- Coroutine
+- Data Binding
+- Kakao Open API
+- Coil
 <br>
 
 ## COMMON TYPE

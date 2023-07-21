@@ -57,10 +57,11 @@ class OnboardingRepositoryImpl @Inject constructor(
 
     override suspend fun postToGetFriendList(
         request: RequestOnboardingListModel,
-        page: Int
+        page: Int,
     ): FriendList? {
         return onboardingDataSource.postFriendData(
-            request.toRequestDto(), page
+            request.toRequestDto(),
+            page,
         ).data?.toMyFriend()
     }
 

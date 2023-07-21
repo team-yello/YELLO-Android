@@ -44,7 +44,7 @@ class YelloViewModel @Inject constructor(
         getVoteState()
     }
 
-    fun decreaseTime() {
+    private fun decreaseTime() {
         leftTime.value ?: return
         if (isDecreasing) return
         viewModelScope.launch {

@@ -5,11 +5,15 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
-import androidx.fragment.app.viewModels
 import com.el.yello.R
 import com.el.yello.databinding.FragmentYelloBinding
+import com.el.yello.presentation.main.yello.lock.YelloLockFragment
+import com.el.yello.presentation.main.yello.start.YelloStartFragment
+import com.el.yello.presentation.main.yello.wait.YelloWaitFragment
+import com.el.yello.util.context.yelloSnackbar
 import com.example.domain.entity.type.YelloState.Lock
 import com.example.domain.entity.type.YelloState.Valid
 import com.example.domain.entity.type.YelloState.Wait
@@ -19,15 +23,11 @@ import com.example.ui.view.UiState.Empty
 import com.example.ui.view.UiState.Failure
 import com.example.ui.view.UiState.Loading
 import com.example.ui.view.UiState.Success
-import com.el.yello.presentation.main.yello.lock.YelloLockFragment
-import com.el.yello.presentation.main.yello.start.YelloStartFragment
-import com.el.yello.presentation.main.yello.wait.YelloWaitFragment
-import com.el.yello.util.context.yelloSnackbar
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class YelloFragment : BindingFragment<FragmentYelloBinding>(R.layout.fragment_yello) {
-    val viewModel by viewModels<YelloViewModel>()
+    val viewModel by activityViewModels<YelloViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

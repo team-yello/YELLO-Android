@@ -192,5 +192,5 @@
     <string name="gender_male">남자</string>
     <string name="name_id_duplicate_id_msg">이미 사용하고 있는 아이디에요.</string>
     <string name="code_duplicate_msg">존재하지 않는 추천인 코드입니다.</string>
-    <string name="msg_auto_login_error">자동 로그인에 실패하였습니다. 다시 로그인해주세요.</string>
+    <string name="msg_auto_login_error">다시 한 번 로그인해주세요.</string>
 </resources>

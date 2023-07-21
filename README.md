@@ -94,6 +94,7 @@
  ┣ 📂entity
  ┣ 📂repository
 ```
+<br>
 
 ## SCREENSHOTS
 | 온보딩 | 옐로하기 | 내 옐로 | 프로필 |

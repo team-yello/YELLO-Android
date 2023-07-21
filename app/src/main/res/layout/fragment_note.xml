@@ -590,7 +590,7 @@
                     android:fontFamily="@font/font_pretendard_medium"
                     android:lineHeight="10sp"
                     android:onClick="@{()->vm.selectName(2)}"
-                    android:text="@{@string/note_yello_id(vm._voteList.get(index).friendList.get(1).yelloId)}"
+                    android:text="@{@string/note_yello_id(vm._voteList.get(index).friendList.get(2).yelloId)}"
                     android:textSize="10sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"

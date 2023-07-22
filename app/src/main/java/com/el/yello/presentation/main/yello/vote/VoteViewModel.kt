@@ -1,5 +1,6 @@
 package com.el.yello.presentation.main.yello.vote
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -220,10 +221,10 @@ class VoteViewModel @Inject constructor(
             postVote()
             return
         }
-        initCurrentChoice()
         _noteState.value = NoteState.Success
         _shuffleCount.value = MAX_COUNT_SHUFFLE
         _currentNoteIndex.value = currentNoteIndex + 1
+        initCurrentChoice()
     }
 
     private fun isOptionSelected() =

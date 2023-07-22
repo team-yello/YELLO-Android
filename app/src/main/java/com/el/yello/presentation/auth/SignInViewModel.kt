@@ -57,13 +57,15 @@ class SignInViewModel @Inject constructor(
                     RequestServiceTokenModel(accessToken, social),
                 )
             }.onSuccess {
+                Timber.d("GET USER DATA SUCCESS : $it")
                 if (it == null) {
                     _postState.value = UiState.Empty
                     return@launch
                 }
-                _postState.value = UiState.Success(it)
                 authRepository.setAutoLogin(it.accessToken, it.refreshToken)
+                _postState.value = UiState.Success(it)
             }.onFailure {
+                Timber.e("GET USER DATA FAILURE : $it")
                 if (it is HttpException && it.code() == 403) {
                     _postState.value = UiState.Failure("403")
                 } else if (it is HttpException && it.code() == 401) {

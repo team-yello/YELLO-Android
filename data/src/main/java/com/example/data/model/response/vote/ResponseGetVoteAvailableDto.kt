@@ -32,9 +32,9 @@ data class ResponseGetVoteAvailableDto(
             val targetDateTime = dateFormat.parse(this)?.time ?: return 0
             val timeDifference = targetDateTime - currentTime
 
-            Timber.d("REMAINING TIME : ${(timeDifference / 1000) + 2400}")
+            Timber.d("REMAINING TIME : ${timeDifference / 1000}")
 
-            (timeDifference / 1000) + 2400
+            timeDifference / 1000
         } catch (e: ParseException) {
             e.printStackTrace()
             2400

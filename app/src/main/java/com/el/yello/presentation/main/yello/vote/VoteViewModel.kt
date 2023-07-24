@@ -220,10 +220,10 @@ class VoteViewModel @Inject constructor(
             postVote()
             return
         }
-        initCurrentChoice()
         _noteState.value = NoteState.Success
         _shuffleCount.value = MAX_COUNT_SHUFFLE
         _currentNoteIndex.value = currentNoteIndex + 1
+        initCurrentChoice()
     }
 
     private fun isOptionSelected() =

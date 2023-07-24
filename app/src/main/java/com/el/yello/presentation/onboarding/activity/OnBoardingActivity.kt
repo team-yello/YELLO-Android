@@ -6,11 +6,11 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import com.el.yello.R
 import com.el.yello.databinding.ActivityOnboardingBinding
-import com.example.ui.base.BindingActivity
 import com.el.yello.presentation.auth.SignInActivity.Companion.EXTRA_KAKAO_ID
 import com.el.yello.presentation.auth.SignInActivity.Companion.EXTRA_PROFILE_IMAGE
 import com.el.yello.presentation.auth.SocialSyncActivity
 import com.el.yello.presentation.onboarding.ViewPagerFragmentAdapter
+import com.example.ui.base.BindingActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

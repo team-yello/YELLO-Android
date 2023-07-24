@@ -5,11 +5,11 @@ import android.view.View
 import androidx.fragment.app.activityViewModels
 import com.el.yello.R
 import com.el.yello.databinding.FragmentYelloWaitBinding
+import com.el.yello.presentation.main.yello.YelloViewModel
 import com.el.yello.presentation.main.yello.dialog.UnlockDialogFragment
 import com.el.yello.presentation.main.yello.lock.YelloLockFragment.Companion.TAG_UNLOCK_DIALOG
 import com.example.ui.base.BindingFragment
 import com.example.ui.view.setOnSingleClickListener
-import com.el.yello.presentation.main.yello.YelloViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

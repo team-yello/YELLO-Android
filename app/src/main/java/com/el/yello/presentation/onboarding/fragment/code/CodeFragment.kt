@@ -6,9 +6,9 @@ import androidx.fragment.app.activityViewModels
 import com.el.yello.R
 import com.el.yello.databinding.FragmentCodeBinding
 import com.el.yello.presentation.onboarding.activity.OnBoardingViewModel
+import com.el.yello.util.context.yelloSnackbar
 import com.example.ui.base.BindingFragment
 import com.example.ui.view.UiState
-import com.el.yello.util.context.yelloSnackbar
 
 class CodeFragment : BindingFragment<FragmentCodeBinding>(R.layout.fragment_code) {
     private val viewModel by activityViewModels<OnBoardingViewModel>()

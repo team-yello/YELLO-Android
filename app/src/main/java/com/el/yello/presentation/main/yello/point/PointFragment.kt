@@ -5,10 +5,10 @@ import android.view.View
 import androidx.fragment.app.activityViewModels
 import com.el.yello.R
 import com.el.yello.databinding.FragmentPointBinding
-import com.example.ui.base.BindingFragment
-import com.example.ui.view.setOnSingleClickListener
 import com.el.yello.presentation.main.yello.YelloViewModel
 import com.el.yello.presentation.main.yello.vote.VoteViewModel
+import com.example.ui.base.BindingFragment
+import com.example.ui.view.setOnSingleClickListener
 
 class PointFragment : BindingFragment<FragmentPointBinding>(R.layout.fragment_point) {
     val viewModel by activityViewModels<YelloViewModel>()

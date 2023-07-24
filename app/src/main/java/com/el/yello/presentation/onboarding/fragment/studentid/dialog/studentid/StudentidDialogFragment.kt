@@ -33,6 +33,7 @@ class StudentidDialogFragment :
         viewModel.setStudentId(studentId)
         dismiss()
     }
+
     companion object {
         @JvmStatic
         fun newInstance() = StudentidDialogFragment()

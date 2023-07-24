@@ -1,6 +1,5 @@
 package com.el.yello.presentation.main.yello.vote
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -16,11 +15,11 @@ import com.example.ui.view.UiState
 import com.example.ui.view.UiState.Empty
 import com.example.ui.view.UiState.Success
 import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import timber.log.Timber
+import javax.inject.Inject
 
 @HiltViewModel
 class VoteViewModel @Inject constructor(

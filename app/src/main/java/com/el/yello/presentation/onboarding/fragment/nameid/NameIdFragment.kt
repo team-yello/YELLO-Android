@@ -6,10 +6,10 @@ import androidx.fragment.app.activityViewModels
 import com.el.yello.R
 import com.el.yello.databinding.FragmentNameIdBinding
 import com.el.yello.presentation.onboarding.activity.OnBoardingViewModel
+import com.el.yello.util.context.yelloSnackbar
 import com.example.ui.base.BindingFragment
 import com.example.ui.view.UiState
 import com.example.ui.view.setOnSingleClickListener
-import com.el.yello.util.context.yelloSnackbar
 
 class NameIdFragment : BindingFragment<FragmentNameIdBinding>(R.layout.fragment_name_id) {
     private val viewModel by activityViewModels<OnBoardingViewModel>()
@@ -48,6 +48,7 @@ class NameIdFragment : BindingFragment<FragmentNameIdBinding>(R.layout.fragment_
                 is UiState.Empty -> {
                     yelloSnackbar(binding.root, getString(R.string.msg_error))
                 }
+
                 is UiState.Success -> {
                     if (state.data) {
                         viewModel.navigateToNextPage()

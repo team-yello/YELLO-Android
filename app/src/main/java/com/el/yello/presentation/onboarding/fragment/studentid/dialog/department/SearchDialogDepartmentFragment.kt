@@ -15,11 +15,11 @@ import androidx.fragment.app.activityViewModels
 import com.el.yello.R
 import com.el.yello.databinding.FragmentDialogDepartmentBinding
 import com.el.yello.presentation.onboarding.activity.OnBoardingViewModel
+import com.el.yello.util.context.yelloSnackbar
 import com.example.ui.base.BindingBottomSheetDialog
 import com.example.ui.context.hideKeyboard
 import com.example.ui.view.UiState
 import com.example.ui.view.setOnSingleClickListener
-import com.el.yello.util.context.yelloSnackbar
 import timber.log.Timber
 
 class SearchDialogDepartmentFragment :

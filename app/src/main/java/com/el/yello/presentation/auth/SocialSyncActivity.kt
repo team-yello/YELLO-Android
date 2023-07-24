@@ -21,7 +21,7 @@ class SocialSyncActivity :
         super.onCreate(savedInstanceState)
 
         initSocialSyncButtonListener()
-        initinfoButton()
+        initInfoButton()
     }
 
     private fun initSocialSyncButtonListener() {
@@ -30,15 +30,21 @@ class SocialSyncActivity :
         }
     }
 
-    private fun initinfoButton() {
+    // 개인정보처리방침 버튼의 링크 이동 리스너
+    private fun initInfoButton() {
         binding.tvSocialSyncInfo.setOnSingleClickListener {
-            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://yell0.notion.site/2afc2a1e60774dfdb47c4d459f01b1d9")))
+            startActivity(
+                Intent(
+                    Intent.ACTION_VIEW,
+                    Uri.parse("https://yell0.notion.site/2afc2a1e60774dfdb47c4d459f01b1d9")
+                )
+            )
         }
     }
 
-    // 친구목록 동의 받고 온보딩 뷰로 이동
+    // 친구목록 동의만 받고 온보딩 뷰로 이동 (친구 목록은 이후에 추가)
     private fun getFriendsList() {
-        TalkApiClient.instance.friends { friends, error ->
+        TalkApiClient.instance.friends { _, error ->
             if (error == null) {
                 startOnBoardingActivity()
             } else {

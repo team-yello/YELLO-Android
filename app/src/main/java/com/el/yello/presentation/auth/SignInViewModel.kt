@@ -30,23 +30,6 @@ class SignInViewModel @Inject constructor(
     val getUserProfileState: LiveData<UiState<Unit>>
         get() = _getUserProfileState
 
-    private val _kakaoUserId = MutableLiveData(-1)
-    val kakaoUserId: LiveData<Int>
-        get() = _kakaoUserId
-
-    private val _email = MutableLiveData("")
-    val email: LiveData<String>
-        get() = _email
-
-    private val _profileImage = MutableLiveData("")
-    val profileImage: LiveData<String>
-        get() = _profileImage
-
-    fun setKakaoInfo(kakaoId: Int, email: String, profileImage: String) {
-        _kakaoUserId.value = kakaoId
-        _email.value = email
-        _profileImage.value = profileImage
-    }
 
     // 서버통신 - 카카오 토큰 보내서 서비스 토큰 받아오기
     fun changeTokenFromServer(accessToken: String, social: String = KAKAO) {
@@ -77,6 +60,7 @@ class SignInViewModel @Inject constructor(
         }
     }
 
+    // 서버통신 - (가입되어 있는) 유저 정보 가져오기
     fun getUserData() {
         viewModelScope.launch {
             runCatching {

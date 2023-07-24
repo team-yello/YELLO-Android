@@ -6,6 +6,7 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import com.el.yello.R
 import com.el.yello.databinding.ActivitySignInBinding
+import com.el.yello.presentation.main.MainActivity
 import com.el.yello.util.context.yelloSnackbar
 import com.example.ui.base.BindingActivity
 import com.example.ui.view.UiState
@@ -14,7 +15,6 @@ import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.model.ClientError
 import com.kakao.sdk.common.model.ClientErrorCause
 import com.kakao.sdk.user.UserApiClient
-import com.el.yello.presentation.main.MainActivity
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
@@ -32,7 +32,8 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
         super.onCreate(savedInstanceState)
 
         initSignInButtonListener()
-        setupGetUserProfileState()
+        observeChangeTokenState()
+        observeUserDataExists()
     }
 
     private fun initSignInButtonListener() {
@@ -54,7 +55,9 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
             if (error != null) {
                 Timber.tag(TAG_AUTH).e(error, getString(R.string.sign_in_error_kakao_account_login))
             } else if (token != null) {
-                setDataFromObserver(token)
+                // 로그인 성공 시 토큰 저장 & 토큰 교체 서버통신 진행
+                setKakaoAccessToken(token)
+                viewModel.changeTokenFromServer(kakaoAccessToken)
             } else {
                 Timber.tag(TAG_AUTH).d(getString(R.string.sign_in_error_empty_kakao_token))
             }
@@ -70,12 +73,15 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
                 // 뒤로가기 경우 예외 처리
                 if (error is ClientError && error.reason == ClientErrorCause.Cancelled) {
                     Timber.tag(TAG_AUTH).e(error, getString(R.string.sign_in_error_cancelled))
+
                 } else {
-                    // 카카오톡 연결 실패 시, 계정으로 로그인 시도
+                    // 카카오톡 연결 실패 시, 웹 계정으로 로그인 시도
                     loginWithAccountCallback()
                 }
             } else if (token != null) {
-                setDataFromObserver(token)
+                // 로그인 성공 시 토큰 저장 & 토큰 교체 서버통신 진행
+                setKakaoAccessToken(token)
+                viewModel.changeTokenFromServer(kakaoAccessToken)
             } else {
                 Timber.tag(TAG_AUTH).d(getString(R.string.sign_in_error_empty_kakao_token))
             }
@@ -109,24 +115,18 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
         }
     }
 
-    // 뷰모델에서 서비스 메서드 실행 & 옵저버로 토큰 받기
-    private fun setDataFromObserver(token: OAuthToken?) {
-        observeChangeTokenState()
-        postKakaoAccessToken(token)
-        viewModel.changeTokenFromServer(kakaoAccessToken)
-    }
-
+    // 서비스 토큰 교체 서버 통신 결과에 따라서 분기 처리 진행
     private fun observeChangeTokenState() {
         viewModel.postState.observe(this) { state ->
             when (state) {
                 is UiState.Success -> {
-                    // 500(가입된 아이디): 온보딩 뷰 생략하고 바로 메인 화면으로 이동
+                    // 500(가입된 아이디): 온보딩 뷰 생략하고 바로 메인 화면으로 이동 위해 유저 정보 받기
                     viewModel.getUserData()
                 }
 
                 is UiState.Failure -> {
                     if (state.msg == "403") {
-                        // 403(가입되지 않은 아이디): 온보딩 뷰로 이동
+                        // 403(가입되지 않은 아이디): 온보딩 뷰로 이동 위해 카카오 유저 정보 얻기
                         getKakaoInfo()
                     } else {
                         // 401 : 에러 발생
@@ -138,22 +138,22 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
                 }
 
                 is UiState.Loading -> {}
+
                 is UiState.Empty -> {}
             }
         }
     }
 
-    // TODO: 카카오 토큰값 저장
-    private fun postKakaoAccessToken(token: OAuthToken?) {
+    // 카카오 로그인으로 받은 토큰 전역변수로 저장
+    private fun setKakaoAccessToken(token: OAuthToken?) {
         if (token != null) {
             kakaoAccessToken = token.accessToken
             return
         }
-
         yelloSnackbar(binding.root, getString(R.string.msg_error))
-        Timber.e("카카오 토큰 받기 실패")
     }
 
+    // 카카오에 등록된 유저 정보 받아온 후 친구목록 동의 화면으로 이동
     private fun getKakaoInfo() {
         UserApiClient.instance.me { user, _ ->
             try {
@@ -177,7 +177,8 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
         yelloSnackbar(binding.root, getString(R.string.msg_error))
     }
 
-    private fun setupGetUserProfileState() {
+    // 서버에 등록된 유저 정보가 있는지 확인 후 메인 액티비티로 이동
+    private fun observeUserDataExists() {
         viewModel.getUserProfileState.observe(this) { state ->
             when (state) {
                 is UiState.Success -> {

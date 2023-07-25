@@ -52,7 +52,7 @@ class ProfileFriendDeleteBottomSheet :
         binding.btnProfileFriendDeleteResume.setOnSingleClickListener {
             viewModel.clickedItemId.value?.let { friendId ->
                 viewModel.deleteFriendDataToServer(
-                    friendId
+                    friendId,
                 )
             }
         }

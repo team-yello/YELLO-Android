@@ -5,10 +5,10 @@ import android.view.View
 import androidx.fragment.app.viewModels
 import com.el.yello.R
 import com.el.yello.databinding.FragmentYelloLockBinding
+import com.el.yello.presentation.main.yello.YelloViewModel
 import com.el.yello.presentation.main.yello.dialog.UnlockDialogFragment
 import com.example.ui.base.BindingFragment
 import com.example.ui.view.setOnSingleClickListener
-import com.el.yello.presentation.main.yello.YelloViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -23,7 +23,8 @@ class YelloLockFragment : BindingFragment<FragmentYelloLockBinding>(R.layout.fra
 
     private fun initInviteBtnClickListener() {
         binding.btnLockVote.setOnSingleClickListener {
-            UnlockDialogFragment.newInstance(viewModel.getYelloId()).show(parentFragmentManager, TAG_UNLOCK_DIALOG)
+            UnlockDialogFragment.newInstance(viewModel.getYelloId())
+                .show(parentFragmentManager, TAG_UNLOCK_DIALOG)
         }
     }
 

@@ -7,10 +7,10 @@ import androidx.fragment.app.activityViewModels
 import com.el.yello.R
 import com.el.yello.databinding.FragmentStudentidBinding
 import com.el.yello.presentation.onboarding.activity.OnBoardingViewModel
-import com.example.ui.base.BindingFragment
-import com.example.ui.view.setOnSingleClickListener
 import com.el.yello.presentation.onboarding.fragment.studentid.dialog.department.SearchDialogDepartmentFragment
 import com.el.yello.presentation.onboarding.fragment.studentid.dialog.studentid.StudentidDialogFragment
+import com.example.ui.base.BindingFragment
+import com.example.ui.view.setOnSingleClickListener
 
 class StudentIdFragment : BindingFragment<FragmentStudentidBinding>(R.layout.fragment_studentid) {
     private val viewModel by activityViewModels<OnBoardingViewModel>()
@@ -52,6 +52,7 @@ class StudentIdFragment : BindingFragment<FragmentStudentidBinding>(R.layout.fra
             viewModel.navigateToBackPage()
         }
     }
+
     private fun setupDepartment() {
         viewModel._department.observe(viewLifecycleOwner) { department ->
             binding.tvDepartmentSearch.text = department

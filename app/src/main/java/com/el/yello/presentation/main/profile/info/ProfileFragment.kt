@@ -12,14 +12,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.el.yello.R
 import com.el.yello.databinding.FragmentProfileBinding
+import com.el.yello.presentation.main.profile.ProfileViewModel
+import com.el.yello.presentation.main.profile.manage.ProfileManageActivity
 import com.el.yello.util.context.yelloSnackbar
 import com.example.domain.entity.ProfileUserModel
 import com.example.ui.base.BindingFragment
 import com.example.ui.fragment.toast
 import com.example.ui.view.UiState
 import com.example.ui.view.setOnSingleClickListener
-import com.el.yello.presentation.main.profile.ProfileViewModel
-import com.el.yello.presentation.main.profile.manage.ProfileManageActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -173,9 +173,9 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
                 super.onScrolled(recyclerView, dx, dy)
                 if (dy > 0) {
                     recyclerView.layoutManager?.let { layoutManager ->
-                        if (!binding.rvProfileFriendsList.canScrollVertically(1)
-                            && layoutManager is LinearLayoutManager
-                            && layoutManager.findLastVisibleItemPosition() == adapter!!.itemCount - 1
+                        if (!binding.rvProfileFriendsList.canScrollVertically(1) &&
+                            layoutManager is LinearLayoutManager &&
+                            layoutManager.findLastVisibleItemPosition() == adapter!!.itemCount - 1
                         ) {
                             viewModel.getFriendsListFromServer()
                         }
@@ -188,7 +188,7 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
     // 리스트 디바이더 설정
     private fun setItemDivider() {
         binding.rvProfileFriendsList.addItemDecoration(
-            ProfileItemDecoration(requireContext())
+            ProfileItemDecoration(requireContext()),
         )
     }
 
@@ -220,7 +220,6 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
     private fun setDeleteAnimation() {
         binding.rvProfileFriendsList.itemAnimator = object : DefaultItemAnimator() {
             override fun animateRemove(holder: RecyclerView.ViewHolder): Boolean {
-
                 holder.itemView.animation =
                     AnimationUtils.loadAnimation(holder.itemView.context, R.anim.slide_out_right)
 

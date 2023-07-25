@@ -64,9 +64,10 @@ class SearchDialogSchoolFragment :
                 super.onScrolled(recyclerView, dx, dy)
                 if (dy > 0) {
                     recyclerView.layoutManager?.let { layoutManager ->
-                        if (!binding.rvSchoolList.canScrollVertically(1)
-                            && layoutManager is LinearLayoutManager
-                            && layoutManager.findLastVisibleItemPosition() == adapter!!.itemCount - 1) {
+                        if (!binding.rvSchoolList.canScrollVertically(1) &&
+                            layoutManager is LinearLayoutManager &&
+                            layoutManager.findLastVisibleItemPosition() == adapter!!.itemCount - 1
+                        ) {
                             viewModel.getSchoolList(inputText)
                         }
                     }

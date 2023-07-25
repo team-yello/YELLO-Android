@@ -7,7 +7,6 @@ import com.el.yello.databinding.ItemRecommendListBinding
 import com.example.domain.entity.RecommendModel
 import com.example.ui.intent.dpToPx
 
-
 class RecommendAdapter(private val itemClick: (RecommendModel.RecommendFriend, Int, RecommendViewHolder) -> (Unit)) :
     RecyclerView.Adapter<RecommendViewHolder>() {
 
@@ -25,7 +24,6 @@ class RecommendAdapter(private val itemClick: (RecommendModel.RecommendFriend, I
 
         changeToTextButton(holder)
     }
-
 
     override fun getItemCount(): Int = itemList.size
 
@@ -49,7 +47,7 @@ class RecommendAdapter(private val itemClick: (RecommendModel.RecommendFriend, I
                 dpToPx(holder.binding.root.context, 13),
                 0,
                 dpToPx(holder.binding.root.context, 13),
-                0
+                0,
             )
         }
     }

@@ -14,10 +14,11 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlin.math.ceil
 
 @HiltViewModel
 class MyYelloViewModel @Inject constructor(
-    private val repository: YelloRepository
+    private val repository: YelloRepository,
 ) : ViewModel() {
     private val _myYelloData = MutableSharedFlow<UiState<MyYello>>()
     val myYelloData: SharedFlow<UiState<MyYello>> = _myYelloData.asSharedFlow()
@@ -42,19 +43,19 @@ class MyYelloViewModel @Inject constructor(
         viewModelScope.launch {
             repository.getMyYelloList(++currentPage)
                 .onSuccess {
-                    if (it == null) _myYelloData.emit(UiState.Empty)
-                    else {
-                        totalPage = Math.ceil((it.totalCount * 0.1)).toInt() - 1
+                    if (it == null) {
+                        _myYelloData.emit(UiState.Empty)
+                    } else {
+                        totalPage = ceil((it.totalCount * 0.1)).toInt() - 1
                         if (totalPage == currentPage) isPagingFinish = true
                         _myYelloData.emit(
                             when {
                                 it.yello.isEmpty() -> UiState.Empty
                                 else -> UiState.Success(it)
-                            }
+                            },
                         )
                         _totalCount.value = it.totalCount
                     }
-
                 }.onFailure {
                     _myYelloData.emit(UiState.Failure("옐로 리스트 서버 통신 실패"))
                 }

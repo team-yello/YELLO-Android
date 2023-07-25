@@ -9,10 +9,10 @@ import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.el.yello.R
 import com.el.yello.databinding.ActivityProfileManageBinding
+import com.el.yello.presentation.main.profile.ProfileViewModel
 import com.example.ui.base.BindingActivity
 import com.example.ui.view.setOnSingleClickListener
 import com.kakao.sdk.user.UserApiClient
-import com.el.yello.presentation.main.profile.ProfileViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch

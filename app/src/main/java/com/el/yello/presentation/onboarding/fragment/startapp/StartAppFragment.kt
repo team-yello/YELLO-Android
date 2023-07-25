@@ -5,9 +5,9 @@ import android.os.Bundle
 import android.view.View
 import com.el.yello.R
 import com.el.yello.databinding.FragmentStartappBinding
+import com.el.yello.presentation.main.MainActivity
 import com.example.ui.base.BindingFragment
 import com.example.ui.view.setOnSingleClickListener
-import com.el.yello.presentation.main.MainActivity
 
 class StartAppFragment : BindingFragment<FragmentStartappBinding>(R.layout.fragment_startapp) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

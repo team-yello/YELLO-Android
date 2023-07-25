@@ -7,9 +7,9 @@ import coil.load
 import coil.transform.CircleCropTransformation
 import com.el.yello.R
 import com.el.yello.databinding.FragmentProfileFriendItemBottomSheetBinding
+import com.el.yello.presentation.main.profile.ProfileViewModel
 import com.example.ui.base.BindingBottomSheetDialog
 import com.example.ui.view.setOnSingleClickListener
-import com.el.yello.presentation.main.profile.ProfileViewModel
 
 class ProfileFriendItemBottomSheet :
     BindingBottomSheetDialog<FragmentProfileFriendItemBottomSheetBinding>(R.layout.fragment_profile_friend_item_bottom_sheet) {

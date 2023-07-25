@@ -24,7 +24,7 @@ class RecommendItemDecoration(context: Context) : RecyclerView.ItemDecoration() 
         outRect: Rect,
         view: View,
         parent: RecyclerView,
-        state: RecyclerView.State
+        state: RecyclerView.State,
     ) {
         super.getItemOffsets(outRect, view, parent, state)
         outRect.bottom = dividerHeight
@@ -47,7 +47,7 @@ class RecommendItemDecoration(context: Context) : RecyclerView.ItemDecoration() 
                 top.toFloat(),
                 right.toFloat(),
                 bottom.toFloat(),
-                dividerPaint
+                dividerPaint,
             )
         }
     }

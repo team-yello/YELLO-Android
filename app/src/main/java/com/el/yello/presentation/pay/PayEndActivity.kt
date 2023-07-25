@@ -6,7 +6,7 @@ import com.el.yello.databinding.ActivityPayEndBinding
 import com.example.ui.base.BindingActivity
 import com.example.ui.view.setOnSingleClickListener
 
-class PayEndActivity: BindingActivity<ActivityPayEndBinding>(R.layout.activity_pay_end) {
+class PayEndActivity : BindingActivity<ActivityPayEndBinding>(R.layout.activity_pay_end) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 

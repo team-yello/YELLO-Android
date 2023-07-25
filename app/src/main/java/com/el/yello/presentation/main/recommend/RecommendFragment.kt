@@ -21,7 +21,7 @@ class RecommendFragment : BindingFragment<FragmentRecommendBinding>(R.layout.fra
     private fun setTabLayout() {
         val tabTextList = listOf(
             getString(R.string.recommend_tab_kakao),
-            getString(R.string.recommend_tab_school)
+            getString(R.string.recommend_tab_school),
         )
 
         TabLayoutMediator(binding.tabRecommend, binding.vpRecommend) { tab, pos ->

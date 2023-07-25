@@ -7,33 +7,38 @@ import androidx.recyclerview.widget.RecyclerView
 import com.el.yello.R
 import com.el.yello.databinding.HeaderFriendsListBinding
 import com.el.yello.databinding.ItemFriendsListBinding
+import com.el.yello.presentation.main.profile.ProfileViewModel
 import com.example.domain.entity.ProfileUserModel
 import com.example.ui.view.ItemDiffCallback
-import com.el.yello.presentation.main.profile.ProfileViewModel
 
 class ProfileFriendAdapter(
     private val viewModel: ProfileViewModel,
     private val itemClick: (ProfileUserModel, Int) -> (Unit),
-    private val buttonClick: (ProfileViewModel) -> (Unit)
+    private val buttonClick: (ProfileViewModel) -> (Unit),
 
 ) : ListAdapter<ProfileUserModel, RecyclerView.ViewHolder>(diffUtil) {
 
     private var itemList = mutableListOf<ProfileUserModel>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-
         // 멀티뷰타입 구현 - 헤더 & 아이템 리스트
         return when (viewType) {
             VIEW_TYPE_HEADER -> ProfileHeaderViewHolder(
                 HeaderFriendsListBinding.inflate(
-                    LayoutInflater.from(parent.context), parent, false
-                ), buttonClick
+                    LayoutInflater.from(parent.context),
+                    parent,
+                    false,
+                ),
+                buttonClick,
             )
 
             VIEW_TYPE_ITEM -> ProfileFriendViewHolder(
                 ItemFriendsListBinding.inflate(
-                    LayoutInflater.from(parent.context), parent, false
-                ), itemClick
+                    LayoutInflater.from(parent.context),
+                    parent,
+                    false,
+                ),
+                itemClick,
             )
 
             else -> throw ClassCastException(

@@ -7,13 +7,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.el.yello.R
 import com.el.yello.databinding.FragmentAddfreindBinding
+import com.el.yello.presentation.onboarding.activity.OnBoardingViewModel
+import com.el.yello.util.context.yelloSnackbar
 import com.example.domain.entity.onboarding.Friend
 import com.example.domain.entity.onboarding.FriendGroup
 import com.example.ui.base.BindingFragment
 import com.example.ui.view.setOnSingleClickListener
 import com.kakao.sdk.talk.TalkApiClient
-import com.el.yello.presentation.onboarding.activity.OnBoardingViewModel
-import com.el.yello.util.context.yelloSnackbar
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

@@ -15,11 +15,11 @@ import com.example.ui.view.UiState
 import com.example.ui.view.UiState.Empty
 import com.example.ui.view.UiState.Success
 import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import timber.log.Timber
+import javax.inject.Inject
 
 @HiltViewModel
 class VoteViewModel @Inject constructor(
@@ -220,10 +220,10 @@ class VoteViewModel @Inject constructor(
             postVote()
             return
         }
-        initCurrentChoice()
         _noteState.value = NoteState.Success
         _shuffleCount.value = MAX_COUNT_SHUFFLE
         _currentNoteIndex.value = currentNoteIndex + 1
+        initCurrentChoice()
     }
 
     private fun isOptionSelected() =

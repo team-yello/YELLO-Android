@@ -48,6 +48,7 @@ class GenderFragment : BindingFragment<FragmentGenderBinding>(R.layout.fragment_
                     binding.tvGenderMale.setTextColor(resources.getColor(R.color.white))
                     binding.tvGenderFemale.setTextColor(Color.parseColor("#FF495057"))
                 }
+
                 GenderEnum.W.toString() -> {
                     binding.btnGenderFemale.setBackgroundResource(R.drawable.shape_female700_fill_female300_line_8_rect)
                     binding.btnGenderMale.setBackgroundResource(R.drawable.shape_grayscales800_fill_8_rect)
@@ -59,6 +60,4 @@ class GenderFragment : BindingFragment<FragmentGenderBinding>(R.layout.fragment_
             }
         }
     }
-
-
 }

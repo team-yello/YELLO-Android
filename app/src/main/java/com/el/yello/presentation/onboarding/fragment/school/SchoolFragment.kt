@@ -6,11 +6,11 @@ import android.view.View
 import androidx.fragment.app.activityViewModels
 import com.el.yello.R
 import com.el.yello.databinding.FragmentSchoolBinding
+import com.el.yello.presentation.auth.SocialSyncActivity
 import com.el.yello.presentation.onboarding.activity.OnBoardingViewModel
 import com.el.yello.presentation.onboarding.fragment.school.university.SearchDialogSchoolFragment
 import com.example.ui.base.BindingFragment
 import com.example.ui.view.setOnSingleClickListener
-import com.el.yello.presentation.auth.SocialSyncActivity
 
 class SchoolFragment : BindingFragment<FragmentSchoolBinding>(R.layout.fragment_school) {
     private val viewModel by activityViewModels<OnBoardingViewModel>()

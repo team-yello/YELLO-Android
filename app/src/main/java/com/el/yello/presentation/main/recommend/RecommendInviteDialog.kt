@@ -10,12 +10,12 @@ import android.view.WindowManager
 import androidx.core.os.bundleOf
 import com.el.yello.R
 import com.el.yello.databinding.FragmentRecommendInviteDialogBinding
+import com.el.yello.presentation.main.yello.dialog.UnlockDialogFragment.Companion.ARGS_YELLO_ID
 import com.example.ui.base.BindingDialogFragment
 import com.example.ui.view.setOnSingleClickListener
 import com.kakao.sdk.common.util.KakaoCustomTabsClient
 import com.kakao.sdk.share.ShareClient
 import com.kakao.sdk.share.WebSharerClient
-import com.el.yello.presentation.main.yello.dialog.UnlockDialogFragment.Companion.ARGS_YELLO_ID
 import timber.log.Timber
 
 class RecommendInviteDialog :

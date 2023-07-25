@@ -140,26 +140,6 @@ object BindingAdapter {
         text = String.format(context.getString(R.string.wait_time_format), minutes, seconds)
     }
 
-    // 친구 추가 뷰 profile
-    @JvmStatic
-    @BindingAdapter("setCircleImage")
-    fun ImageView.setCircleImage(index: Int) {
-        setImageResource(
-            when (index) {
-                0 -> R.drawable.img_note_face1
-                1 -> R.drawable.img_note_face2
-                2 -> R.drawable.img_note_face3
-                3 -> R.drawable.img_note_face4
-                4 -> R.drawable.img_note_face5
-                5 -> R.drawable.img_note_face6
-                6 -> R.drawable.img_note_face7
-                7 -> R.drawable.img_note_face8
-                8 -> R.drawable.img_note_face9
-                else -> R.drawable.img_note_face10
-            },
-        )
-    }
-
     @JvmStatic
     @BindingAdapter("setNullOrBlankVisible")
     fun TextView.setNullOrBlankVisible(text: String?) {

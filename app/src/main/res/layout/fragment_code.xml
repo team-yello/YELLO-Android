@@ -130,7 +130,7 @@
             android:layout_marginHorizontal="16dp"
             android:layout_marginBottom="32dp"
             android:paddingVertical="12dp"
-            android:text="@string/code_complete"
+            android:text="@string/onboarding_code_complete"
             android:onClick="@{()->vm.getValidYelloId()}"
             android:textAppearance="?textAppearanceBodyMedium"
             android:textColor="@{!vm._code.isEmpty()? @color/black : @color/grayscales_700}"

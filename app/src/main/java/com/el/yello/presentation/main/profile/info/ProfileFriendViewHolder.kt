@@ -9,7 +9,7 @@ import com.example.ui.view.setOnSingleClickListener
 
 class ProfileFriendViewHolder(
     val binding: ItemFriendsListBinding,
-    private val itemClick: (ProfileUserModel, Int) -> (Unit)
+    private val itemClick: (ProfileUserModel, Int) -> (Unit),
 ) :
     RecyclerView.ViewHolder(binding.root) {
 

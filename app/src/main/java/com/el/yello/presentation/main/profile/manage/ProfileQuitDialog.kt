@@ -9,12 +9,12 @@ import android.view.WindowManager
 import androidx.fragment.app.activityViewModels
 import com.el.yello.R
 import com.el.yello.databinding.FragmentProfileQuitDialogBinding
+import com.el.yello.presentation.main.profile.ProfileViewModel
 import com.example.ui.base.BindingDialogFragment
 import com.example.ui.fragment.toast
 import com.example.ui.view.UiState
 import com.example.ui.view.setOnSingleClickListener
 import com.kakao.sdk.user.UserApiClient
-import com.el.yello.presentation.main.profile.ProfileViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 

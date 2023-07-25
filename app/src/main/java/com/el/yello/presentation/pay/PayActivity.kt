@@ -34,7 +34,8 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
         binding.vpBanner.adapter = payAdapter
         binding.dotIndicator.setViewPager(binding.vpBanner)
 
-        binding.tvOriginalPrice.paintFlags = binding.tvOriginalPrice.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+        binding.tvOriginalPrice.paintFlags =
+            binding.tvOriginalPrice.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
     }
 
     private fun initEvent() {
@@ -68,19 +69,20 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
                             payEndActivityLauncher.launch(this)
                         }
                     }
+
                     is UiState.Failure -> {
                         Intent(this, PayEndActivity::class.java).apply {
                             payEndActivityLauncher.launch(this)
                         }
                     }
+
                     else -> {}
                 }
-
             }.launchIn(lifecycleScope)
     }
 
     private val payEndActivityLauncher = registerForActivityResult(
-    ActivityResultContracts.StartActivityForResult()
+        ActivityResultContracts.StartActivityForResult(),
     ) {
         if (it.resultCode == Activity.RESULT_OK) {
             finish()

@@ -6,10 +6,10 @@ import android.view.View
 import androidx.fragment.app.viewModels
 import com.el.yello.R
 import com.el.yello.databinding.FragmentYelloStartBinding
-import com.example.ui.base.BindingFragment
-import com.example.ui.view.setOnSingleClickListener
 import com.el.yello.presentation.main.yello.YelloViewModel
 import com.el.yello.presentation.main.yello.vote.VoteActivity
+import com.example.ui.base.BindingFragment
+import com.example.ui.view.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

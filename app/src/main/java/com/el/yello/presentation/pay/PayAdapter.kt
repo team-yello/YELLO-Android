@@ -15,7 +15,7 @@ class PayAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     enum class Type {
         ONE,
         TWO,
-        THREE
+        THREE,
     }
 
     override fun getItemViewType(position: Int): Int {
@@ -24,7 +24,6 @@ class PayAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             1 -> Type.TWO.ordinal
             else -> Type.THREE.ordinal
         }
-
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -33,7 +32,7 @@ class PayAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                 val binding = ItemPayFirstBinding.inflate(
                     LayoutInflater.from(parent.context),
                     parent,
-                    false
+                    false,
                 )
                 PayOneViewHolder(binding)
             }
@@ -42,7 +41,7 @@ class PayAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                 val binding = ItemPaySecondBinding.inflate(
                     LayoutInflater.from(parent.context),
                     parent,
-                    false
+                    false,
                 )
                 PayTwoViewHolder(binding)
             }
@@ -51,7 +50,7 @@ class PayAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                 val binding = ItemPayThirdBinding.inflate(
                     LayoutInflater.from(parent.context),
                     parent,
-                    false
+                    false,
                 )
                 PayThreeViewHolder(binding)
             }
@@ -70,26 +69,22 @@ class PayAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 }
 
 class PayOneViewHolder(
-    private val binding: ItemPayFirstBinding
-): RecyclerView.ViewHolder(binding.root) {
+    private val binding: ItemPayFirstBinding,
+) : RecyclerView.ViewHolder(binding.root) {
     fun onBind() {
-
     }
-
 }
 
 class PayTwoViewHolder(
-    private val binding: ItemPaySecondBinding
-): RecyclerView.ViewHolder(binding.root) {
+    private val binding: ItemPaySecondBinding,
+) : RecyclerView.ViewHolder(binding.root) {
     fun onBind() {
-
     }
 }
 
 class PayThreeViewHolder(
-    private val binding: ItemPayThirdBinding
-): RecyclerView.ViewHolder(binding.root) {
+    private val binding: ItemPayThirdBinding,
+) : RecyclerView.ViewHolder(binding.root) {
     fun onBind() {
-
     }
 }

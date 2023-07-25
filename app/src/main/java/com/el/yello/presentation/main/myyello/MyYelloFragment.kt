@@ -23,7 +23,6 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
-
 @AndroidEntryPoint
 class MyYelloFragment : BindingFragment<FragmentMyYelloBinding>(R.layout.fragment_my_yello) {
     private val viewModel by viewModels<MyYelloViewModel>()
@@ -46,8 +45,8 @@ class MyYelloFragment : BindingFragment<FragmentMyYelloBinding>(R.layout.fragmen
                     requireContext(),
                     it.id,
                     it.nameHint,
-                    it.isHintUsed
-                )
+                    it.isHintUsed,
+                ),
             )
         }
         binding.rvMyYelloReceive.addItemDecoration(
@@ -58,8 +57,8 @@ class MyYelloFragment : BindingFragment<FragmentMyYelloBinding>(R.layout.fragmen
                 0,
                 5,
                 RecyclerView.VERTICAL,
-                94
-            )
+                94,
+            ),
         )
         adapter?.setHasStableIds(true)
         binding.rvMyYelloReceive.adapter = adapter
@@ -115,7 +114,7 @@ class MyYelloFragment : BindingFragment<FragmentMyYelloBinding>(R.layout.fragmen
     }
 
     private val myYelloReadActivityLauncher = registerForActivityResult(
-        ActivityResultContracts.StartActivityForResult()
+        ActivityResultContracts.StartActivityForResult(),
     ) {
         if (it.resultCode == Activity.RESULT_OK) {
             it.data?.let { intent ->

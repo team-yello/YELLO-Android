@@ -6,16 +6,16 @@ import com.example.domain.entity.Response
 import com.example.domain.repository.YelloRepository
 import com.example.ui.view.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @HiltViewModel
 class PayViewModel @Inject constructor(
-    private val repository: YelloRepository
-): ViewModel() {
+    private val repository: YelloRepository,
+) : ViewModel() {
     private val _payCheck = MutableSharedFlow<UiState<Response>>()
     val payCheck: SharedFlow<UiState<Response>> = _payCheck.asSharedFlow()
 

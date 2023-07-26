@@ -27,28 +27,25 @@ class ProfileFriendDeleteBottomSheet :
         super.onViewCreated(view, savedInstanceState)
 
         binding.vm = viewModel
-
-        initReturnButton()
-        initDeleteButton()
+        setItemImage()
+        initReturnBtnListener()
+        initDeleteBtnListener()
         observeFriendDeleteState()
-        setItemData()
     }
 
-    private fun setItemData() {
-        if (viewModel.clickedItemThumbnail.value != "") {
-            binding.ivProfileFriendDeleteThumbnail.load(viewModel.clickedItemThumbnail.value) {
-                transformations(CircleCropTransformation())
-            }
+    private fun setItemImage() {
+        binding.ivProfileFriendDeleteThumbnail.load(viewModel.clickedItemThumbnail.value) {
+            transformations(CircleCropTransformation())
         }
     }
 
-    private fun initReturnButton() {
+    private fun initReturnBtnListener() {
         binding.btnProfileFriendDeleteReturn.setOnSingleClickListener {
             dismiss()
         }
     }
 
-    private fun initDeleteButton() {
+    private fun initDeleteBtnListener() {
         binding.btnProfileFriendDeleteResume.setOnSingleClickListener {
             viewModel.clickedItemId.value?.let { friendId ->
                 viewModel.deleteFriendDataToServer(
@@ -64,8 +61,8 @@ class ProfileFriendDeleteBottomSheet :
             when (state) {
                 is UiState.Success -> {
                     toast("${viewModel.clickedItemName.value} 님과 친구 끊기를 완료했어요.")
+                    viewModel.setDeleteFriendStateEmpty()
                     dismiss()
-                    viewModel._deleteFriendState.value = UiState.Empty
                 }
 
                 is UiState.Failure -> {

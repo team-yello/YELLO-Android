@@ -21,20 +21,21 @@ import timber.log.Timber
 @AndroidEntryPoint
 class ProfileManageActivity :
     BindingActivity<ActivityProfileManageBinding>(R.layout.activity_profile_manage) {
+
     private val viewModel by viewModels<ProfileViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        initBackButton(this)
-        initProfileQuitActivityWithoutFinish()
-        initCenterButton()
-        initPrivacyButton()
-        initServiceButton()
-        initLogoutButton()
+        initBackBtnListener(this)
+        initQuitBtnListener()
+        initCenterBtnListener()
+        initPrivacyBtnListener()
+        initServiceBtnListener()
+        initLogoutBtnListener()
     }
 
-    private fun initCenterButton() {
+    private fun initCenterBtnListener() {
         binding.btnProfileManageCenter.setOnSingleClickListener {
             startActivity(
                 Intent(
@@ -45,7 +46,7 @@ class ProfileManageActivity :
         }
     }
 
-    private fun initPrivacyButton() {
+    private fun initPrivacyBtnListener() {
         binding.btnProfileManagePrivacy.setOnSingleClickListener {
             startActivity(
                 Intent(
@@ -56,7 +57,7 @@ class ProfileManageActivity :
         }
     }
 
-    private fun initServiceButton() {
+    private fun initServiceBtnListener() {
         binding.btnProfileManageService.setOnSingleClickListener {
             startActivity(
                 Intent(
@@ -67,19 +68,19 @@ class ProfileManageActivity :
         }
     }
 
-    private fun initLogoutButton() {
+    private fun initLogoutBtnListener() {
         binding.btnProfileManageLogout.setOnSingleClickListener {
             logoutKakaoAccount()
         }
     }
 
-    private fun initBackButton(activity: Activity) {
+    private fun initBackBtnListener(activity: Activity) {
         binding.btnProfileManageBack.setOnSingleClickListener {
             activity.finish()
         }
     }
 
-    private fun initProfileQuitActivityWithoutFinish() {
+    private fun initQuitBtnListener() {
         binding.btnProfileManageQuit.setOnSingleClickListener {
             Intent(this, ProfileQuitActivity::class.java).apply {
                 addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)

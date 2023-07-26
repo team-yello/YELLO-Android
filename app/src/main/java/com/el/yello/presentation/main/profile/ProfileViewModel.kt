@@ -31,8 +31,7 @@ class ProfileViewModel @Inject constructor(
     private val _deleteUserState = MutableLiveData<UiState<Unit>>()
     val deleteUserState: LiveData<UiState<Unit>> = _deleteUserState
 
-    // TODO: 세터 설정 필요
-    val _deleteFriendState = MutableLiveData<UiState<Unit>>()
+    private val _deleteFriendState = MutableLiveData<UiState<Unit>>()
     val deleteFriendState: LiveData<UiState<Unit>> = _deleteFriendState
 
     var currentPage = -1
@@ -59,6 +58,9 @@ class ProfileViewModel @Inject constructor(
 
     fun setItemPosition(position: Int) {
         clickedItemPosition = position
+    }
+    fun setDeleteFriendStateEmpty() {
+        _deleteFriendState.value = UiState.Empty
     }
 
     // 서버 통신 - 유저 정보 받아오기

@@ -27,20 +27,18 @@ class ProfileFriendItemBottomSheet :
         super.onViewCreated(view, savedInstanceState)
 
         binding.vm = viewModel
-        initDeleteButton()
-        setItemData()
+        initDeleteBtnListener()
+        setItemImage()
     }
 
-    private fun setItemData() {
-        if (viewModel.clickedItemThumbnail.value != "") {
-            binding.ivProfileFriendThumbnail.load(viewModel.clickedItemThumbnail.value) {
-                transformations(CircleCropTransformation())
-            }
+    private fun setItemImage() {
+        binding.ivProfileFriendThumbnail.load(viewModel.clickedItemThumbnail.value) {
+            transformations(CircleCropTransformation())
         }
     }
 
     // 다음 바텀시트 출력
-    private fun initDeleteButton() {
+    private fun initDeleteBtnListener() {
         binding.btnProfileFriendDelete.setOnSingleClickListener {
             profileFriendDeleteBottomSheet.show(parentFragmentManager, DIALOG)
             dismiss()

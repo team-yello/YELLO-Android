@@ -27,12 +27,12 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
 
     private val viewModel by activityViewModels<ProfileViewModel>()
     private var adapter: ProfileFriendAdapter? = null
+
     private lateinit var friendsList: List<ProfileUserModel>
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        initItemClickListenerWithAdapter()
         initProfileSetting()
         setUserDataFromServer()
         setFriendsListDataFromServer()
@@ -40,21 +40,23 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
     }
 
     private fun initProfileSetting() {
-        initViewModelWithFirstList()
-        initProfileManageActivityWithoutFinish()
-        initFabUpwardListener()
-        setFabVisibility()
+        initViewModelVariables()
+        initProfileManageBtnListener()
+        initUpwardBtnListener()
+        initUpwardBtnVisibility()
+        initAdapterWithClickListener()
     }
 
     private fun setUserDataFromServer() {
         observeUserDataState()
-        setUserData()
+        viewModel.getUserDataFromServer()
     }
 
     private fun setFriendsListDataFromServer() {
         observeFriendsDataState()
         setListWithInfinityScroll()
         setItemDivider()
+        viewModel.getFriendsListFromServer()
     }
 
     private fun setFriendDeleteToServer() {
@@ -63,15 +65,14 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
     }
 
     // 프래그먼트 생성될 때마다 뷰모델 변수값 초기화
-    private fun initViewModelWithFirstList() {
+    private fun initViewModelVariables() {
         viewModel.currentPage = -1
         viewModel.isPagingFinish = false
         viewModel.totalPage = Int.MAX_VALUE
-        viewModel.getFriendsListFromServer()
     }
 
     // 관리 액티비티 실행 & 뒤로가기 누를 때 다시 돌아오도록 현재 화면 finish 진행 X
-    private fun initProfileManageActivityWithoutFinish() {
+    private fun initProfileManageBtnListener() {
         binding.btnProfileManage.setOnSingleClickListener {
             Intent(activity, ProfileManageActivity::class.java).apply {
                 addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
@@ -81,17 +82,40 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
     }
 
     // 플로팅 버튼 클릭 시 리사이클러 최상단으로 이동
-    private fun initFabUpwardListener() {
+    private fun initUpwardBtnListener() {
         binding.fabUpward.setOnSingleClickListener {
             binding.rvProfileFriendsList.scrollToPosition(0)
         }
     }
 
     // 최상단에 위치한 경우에만 플로팅 버튼 GONE 표시
-    private fun setFabVisibility() {
+    private fun initUpwardBtnVisibility() {
         binding.rvProfileFriendsList.setOnScrollChangeListener { view, _, _, _, _ ->
             binding.fabUpward.isVisible = view.canScrollVertically(-1)
         }
+    }
+
+    // 어댑터 시작
+    private fun initAdapterWithClickListener() {
+        adapter = ProfileFriendAdapter((viewModel), { profileUserModel, position ->
+
+            // 리스트 아이템 클릭 리스너 설정 - 클릭된 아이템 값 저장 뷰모델 이후 바텀 시트 출력
+            viewModel.setItemPosition(position)
+            viewModel.clickedItemId.value = profileUserModel.userId
+            viewModel.clickedItemName.value = profileUserModel.name
+            viewModel.clickedItemYelloId.value = "@" + profileUserModel.yelloId
+            viewModel.clickedItemSchool.value = profileUserModel.group
+            viewModel.clickedItemThumbnail.value = profileUserModel.profileImageUrl
+            viewModel.clickedItemTotalMsg.value = profileUserModel.yelloCount.toString()
+            viewModel.clickedItemTotalFriends.value = profileUserModel.friendCount.toString()
+
+            ProfileFriendItemBottomSheet().show(parentFragmentManager, DIALOG)
+        }, {
+            // 헤더 버튼 클릭 리스너 설정
+            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://bit.ly/44xDDqC")))
+        })
+        adapter?.setItemList(listOf())
+        binding.rvProfileFriendsList.adapter = adapter
     }
 
     // 유저 정보 서버 통신 성공 시 어댑터 생성 후 리사이클러뷰에 부착
@@ -118,32 +142,6 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
                 is UiState.Loading -> {}
             }
         }
-    }
-
-    private fun setUserData() {
-        viewModel.getUserDataFromServer()
-    }
-
-    // 어댑터 시작
-    private fun initItemClickListenerWithAdapter() {
-        adapter = ProfileFriendAdapter((viewModel), { profileUserModel, position ->
-
-            // 아이템 클릭 리스너 설정 - 클릭된 아이템 값 저장 뷰모델 이후 바텀 시트 출력
-            viewModel.setItemPosition(position)
-            viewModel.clickedItemId.value = profileUserModel.userId
-            viewModel.clickedItemName.value = profileUserModel.name
-            viewModel.clickedItemYelloId.value = "@" + profileUserModel.yelloId
-            viewModel.clickedItemSchool.value = profileUserModel.group
-            viewModel.clickedItemThumbnail.value = profileUserModel.profileImageUrl
-            viewModel.clickedItemTotalMsg.value = profileUserModel.yelloCount.toString()
-            viewModel.clickedItemTotalFriends.value = profileUserModel.friendCount.toString()
-
-            ProfileFriendItemBottomSheet().show(parentFragmentManager, DIALOG)
-        }, {
-            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://bit.ly/44xDDqC")))
-        })
-        adapter?.setItemList(listOf())
-        binding.rvProfileFriendsList.adapter = adapter
     }
 
     // 친구 목록 서버 통신 성공 시 어댑터에 리스트 추가

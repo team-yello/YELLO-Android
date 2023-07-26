@@ -25,7 +25,6 @@ class ProfileQuitDialog :
 
     override fun onStart() {
         super.onStart()
-
         setDialogBackground()
     }
 
@@ -47,25 +46,21 @@ class ProfileQuitDialog :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        initQuitButtonListener()
-        initRejectButtonListener()
+        initQuitBtnListener()
+        initRejectBtnListener()
         observeUserDeleteState()
     }
 
-    private fun initRejectButtonListener() {
+    private fun initRejectBtnListener() {
         binding.btnProfileDialogReject.setOnSingleClickListener {
             dismiss()
         }
     }
 
-    private fun initQuitButtonListener() {
+    private fun initQuitBtnListener() {
         binding.btnProfileDialogQuit.setOnSingleClickListener {
-            unlinkYelloAccount()
+            viewModel.deleteUserDataToServer()
         }
-    }
-
-    private fun unlinkYelloAccount() {
-        viewModel.deleteUserDataToServer()
     }
 
     // 유저 탈퇴 서버 통신 성공 시 카카오 연결 해제 진행
@@ -104,10 +99,5 @@ class ProfileQuitDialog :
         val mainIntent = Intent.makeRestartActivityTask(componentName)
         context.startActivity(mainIntent)
         Runtime.getRuntime().exit(0)
-    }
-
-    companion object {
-        @JvmStatic
-        fun newInstance() = ProfileQuitDialog()
     }
 }

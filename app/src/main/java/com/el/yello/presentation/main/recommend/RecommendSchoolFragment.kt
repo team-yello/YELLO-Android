@@ -38,11 +38,12 @@ class RecommendSchoolFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        initFirstListWithAdapter()
-        initInviteButtonListener()
+        initFirstList()
+        initInviteBtnListener()
+        setAdapterWithClickListener()
+        setListWithInfinityScroll()
         observeAddListState()
         observeAddFriendState()
-        setListWithInfinityScroll()
         setItemDivider()
         setDeleteAnimation()
     }
@@ -52,7 +53,7 @@ class RecommendSchoolFragment :
         dismissDialog()
     }
 
-    private fun initInviteButtonListener() {
+    private fun initInviteBtnListener() {
         recommendInviteDialog = RecommendInviteDialog.newInstance(viewModel.getYelloId())
         binding.layoutInviteFriend.setOnSingleClickListener {
             recommendInviteDialog?.show(parentFragmentManager, DIALOG)
@@ -62,10 +63,13 @@ class RecommendSchoolFragment :
         }
     }
 
+    private fun initFirstList() {
+        viewModel.addListFromServer()
+        viewModel.addListFromServer()
+    }
+
     // 처음 리스트 설정 및 어댑터 클릭 리스너 설정
-    private fun initFirstListWithAdapter() {
-        viewModel.addListFromServer()
-        viewModel.addListFromServer()
+    private fun setAdapterWithClickListener() {
         adapter = RecommendAdapter { recommendModel, position, holder ->
             viewModel.setPositionAndHolder(position, holder)
             viewModel.addFriendToServer(recommendModel.id.toLong())
@@ -98,19 +102,16 @@ class RecommendSchoolFragment :
             when (state) {
                 is UiState.Success -> {
                     if (state.data?.friends?.isEmpty() == true) {
-                        binding.layoutRecommendFriendsList.isVisible = false
-                        binding.layoutRecommendNoFriendsList.isVisible = true
+                        showNoFriendScreen()
                     } else {
-                        binding.layoutRecommendFriendsList.isVisible = true
-                        binding.layoutRecommendNoFriendsList.isVisible = false
+                        showFriendListScreen()
                         friendsList = state.data?.friends ?: listOf()
                         adapter?.addItemList(friendsList)
                     }
                 }
 
                 is UiState.Failure -> {
-                    binding.layoutRecommendFriendsList.isVisible = false
-                    binding.layoutRecommendNoFriendsList.isVisible = true
+                    showNoFriendScreen()
                     yelloSnackbar(
                         requireView(),
                         getString(R.string.recommend_error_school_friend_connection),
@@ -171,7 +172,6 @@ class RecommendSchoolFragment :
             override fun animateRemove(holder: RecyclerView.ViewHolder): Boolean {
                 holder.itemView.animation =
                     AnimationUtils.loadAnimation(holder.itemView.context, R.anim.slide_out_right)
-
                 return super.animateRemove(holder)
             }
         }
@@ -189,8 +189,7 @@ class RecommendSchoolFragment :
             adapter?.removeItem(position)
             activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
             if (adapter?.itemCount == 0) {
-                binding.layoutRecommendFriendsList.isVisible = false
-                binding.layoutRecommendNoFriendsList.isVisible = true
+                showNoFriendScreen()
             }
         }
     }
@@ -203,6 +202,16 @@ class RecommendSchoolFragment :
             iconPadding = dpToPx(holder.binding.root.context, -2)
             setPadding(dpToPx(holder.binding.root.context, 10))
         }
+    }
+
+    private fun showFriendListScreen() {
+        binding.layoutRecommendFriendsList.isVisible = true
+        binding.layoutRecommendNoFriendsList.isVisible = false
+    }
+
+    private fun showNoFriendScreen() {
+        binding.layoutRecommendFriendsList.isVisible = false
+        binding.layoutRecommendNoFriendsList.isVisible = true
     }
 
     private companion object {

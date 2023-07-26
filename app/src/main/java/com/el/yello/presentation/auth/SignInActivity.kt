@@ -40,7 +40,7 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
         binding.btnSignIn.setOnSingleClickListener {
             setServiceTerms()
             setAppLoginCallback()
-            setAccountLoginCallback()
+            setWebLoginCallback()
             startKakaoLogin()
         }
     }
@@ -50,7 +50,7 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
     }
 
     // 웹에서 계정 로그인 callback 구성
-    private fun setAccountLoginCallback() {
+    private fun setWebLoginCallback() {
         accountLoginCallback = { token, error ->
             if (error != null) {
                 Timber.tag(TAG_AUTH).e(error, getString(R.string.sign_in_error_kakao_account_login))
@@ -76,7 +76,7 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
 
                 } else {
                     // 카카오톡 연결 실패 시, 웹 계정으로 로그인 시도
-                    loginWithAccountCallback()
+                    loginWithWebCallback()
                 }
             } else if (token != null) {
                 // 로그인 성공 시 토큰 저장 & 토큰 교체 서버통신 진행
@@ -89,7 +89,7 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
     }
 
     // 웹 로그인 실행
-    private fun loginWithAccountCallback() {
+    private fun loginWithWebCallback() {
         UserApiClient.instance.loginWithKakaoAccount(
             context = this,
             callback = accountLoginCallback,
@@ -111,7 +111,7 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
         if (UserApiClient.instance.isKakaoTalkLoginAvailable(this)) {
             loginWithAppCallback()
         } else {
-            loginWithAccountCallback()
+            loginWithWebCallback()
         }
     }
 

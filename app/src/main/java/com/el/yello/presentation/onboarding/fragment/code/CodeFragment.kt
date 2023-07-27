@@ -18,7 +18,7 @@ class CodeFragment : BindingFragment<FragmentCodeBinding>(R.layout.fragment_code
         binding.vm = viewModel
 
         setConfirmBtnCLickListener()
-        setDeleteIdBtnClickListener()
+        setDeleteCodeBtnClickListener()
         setupPostSignupState()
         viewModel.validYellIdLoading()
     }
@@ -79,7 +79,7 @@ class CodeFragment : BindingFragment<FragmentCodeBinding>(R.layout.fragment_code
         }
     }
 
-    private fun setDeleteIdBtnClickListener() {
+    private fun setDeleteCodeBtnClickListener() {
         binding.btnCodeDelete.setOnClickListener {
             binding.etCode.setText("")
         }

@@ -25,7 +25,6 @@ import timber.log.Timber
 class SearchDialogDepartmentFragment :
     BindingBottomSheetDialog<FragmentDialogDepartmentBinding>(R.layout.fragment_dialog_department) {
     private val viewModel by activityViewModels<OnBoardingViewModel>()
-
     private var adapter: DepartmentAdapter? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -36,13 +35,7 @@ class SearchDialogDepartmentFragment :
         setupDepartmentData()
         recyclerviewScroll()
         seClicktDepartmentform()
-
-        dialog?.window?.setLayout(
-            ViewGroup.LayoutParams.MATCH_PARENT,
-            ViewGroup.LayoutParams.MATCH_PARENT,
-        )
-        dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        dialog?.window?.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
+        setFullDialog()
     }
 
     private fun initDepartmentAdapter() {
@@ -72,7 +65,6 @@ class SearchDialogDepartmentFragment :
                 is UiState.Failure -> {
                     yelloSnackbar(binding.root, getString(R.string.msg_error))
                 }
-
                 is UiState.Loading -> {}
                 is UiState.Empty -> {}
                 is UiState.Success -> {
@@ -102,9 +94,18 @@ class SearchDialogDepartmentFragment :
 
     private fun seClicktDepartmentform() {
         binding.tvDepartmentAdd.setOnClickListener {
-            var intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://bit.ly/3pO0ijD"))
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://bit.ly/3pO0ijD"))
             startActivity(intent)
         }
+    }
+
+    private fun setFullDialog() {
+        dialog?.window?.setLayout(
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.MATCH_PARENT,
+        )
+        dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog?.window?.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
     }
 
     override fun onDestroyView() {

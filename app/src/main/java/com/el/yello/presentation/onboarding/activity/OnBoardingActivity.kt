@@ -49,6 +49,7 @@ class OnBoardingActivity :
         }
     }
 
+    // 내장된 백버튼 클릭 시 이전 화면으로 이동
     override fun onBackPressed() {
         if (binding.vpOnboarding.currentItem == 6) return
         if (binding.vpOnboarding.currentItem == 0) {

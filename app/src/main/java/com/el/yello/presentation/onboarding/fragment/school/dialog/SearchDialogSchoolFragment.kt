@@ -1,5 +1,6 @@
-package com.el.yello.presentation.onboarding.fragment.school.university
+package com.el.yello.presentation.onboarding.fragment.school.dialog
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -36,13 +37,7 @@ class SearchDialogSchoolFragment :
         setListWithInfinityScroll()
         recyclerviewScroll()
         setClickToSchoolForm()
-
-        dialog?.window?.setLayout(
-            ViewGroup.LayoutParams.MATCH_PARENT,
-            ViewGroup.LayoutParams.MATCH_PARENT,
-        )
-        dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        dialog?.window?.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
+        setFullDialog()
     }
 
     private fun initView() {
@@ -90,7 +85,6 @@ class SearchDialogSchoolFragment :
                 is UiState.Failure -> {
                     yelloSnackbar(binding.root, getString(R.string.msg_error))
                 }
-
                 is UiState.Loading -> {}
                 is UiState.Empty -> {}
                 is UiState.Success -> {
@@ -106,6 +100,7 @@ class SearchDialogSchoolFragment :
         dismiss()
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     private fun recyclerviewScroll() {
         binding.rvSchoolList.setOnTouchListener { view, motionEvent ->
             when (motionEvent.action) {
@@ -119,9 +114,18 @@ class SearchDialogSchoolFragment :
 
     private fun setClickToSchoolForm() {
         binding.tvSchoolAdd.setOnClickListener {
-            var intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://bit.ly/46Yv0Hc"))
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://bit.ly/46Yv0Hc"))
             startActivity(intent)
         }
+    }
+
+    private fun setFullDialog() {
+        dialog?.window?.setLayout(
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.MATCH_PARENT,
+        )
+        dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog?.window?.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
     }
 
     override fun onDestroyView() {

@@ -33,7 +33,6 @@ class AddFriendFragment : BindingFragment<FragmentAddfreindBinding>(R.layout.fra
 
         initFriendAdapter()
         setConfirmBtnClickListener()
-        setBackBtnClickListener()
         setListWithInfinityScroll()
         observeAddListState()
         getFriendIdList()
@@ -59,9 +58,6 @@ class AddFriendFragment : BindingFragment<FragmentAddfreindBinding>(R.layout.fra
             viewModel.selectedFriendIdList = selectedItemIdList
             viewModel.navigateToNextPage()
         }
-    }
-
-    private fun setBackBtnClickListener() {
         binding.btnAddfriendBackBtn.setOnSingleClickListener {
             viewModel.navigateToBackPage()
         }

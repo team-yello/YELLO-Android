@@ -18,10 +18,8 @@ class StudentIdFragment : BindingFragment<FragmentStudentidBinding>(R.layout.fra
         super.onViewCreated(view, savedInstanceState)
         binding.vm = viewModel
 
-        initSearchDepartmentBtnClickListener()
-        initSearchStudentIdBtnClickListener()
+        initSearchBtnClickListener()
         setConfirmBtnClickListener()
-        setBackBtnClickListener()
         setupDepartment()
         setupStudentId()
         binding.tvDepartmentSearch.doAfterTextChanged {
@@ -29,13 +27,10 @@ class StudentIdFragment : BindingFragment<FragmentStudentidBinding>(R.layout.fra
         }
     }
 
-    private fun initSearchDepartmentBtnClickListener() {
+    private fun initSearchBtnClickListener() {
         binding.tvDepartmentSearch.setOnSingleClickListener {
             SearchDialogDepartmentFragment().show(parentFragmentManager, this.tag)
         }
-    }
-
-    private fun initSearchStudentIdBtnClickListener() {
         binding.tvStudentidSearch.setOnSingleClickListener {
             StudentidDialogFragment().show(parentFragmentManager, this.tag)
         }
@@ -45,14 +40,10 @@ class StudentIdFragment : BindingFragment<FragmentStudentidBinding>(R.layout.fra
         binding.btnStdentidNext.setOnSingleClickListener {
             viewModel.navigateToNextPage()
         }
-    }
-
-    private fun setBackBtnClickListener() {
         binding.btnStudentidBackBtn.setOnSingleClickListener {
             viewModel.navigateToBackPage()
         }
     }
-
     private fun setupDepartment() {
         viewModel._department.observe(viewLifecycleOwner) { department ->
             binding.tvDepartmentSearch.text = department

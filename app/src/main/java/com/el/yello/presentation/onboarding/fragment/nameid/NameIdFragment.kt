@@ -19,11 +19,11 @@ class NameIdFragment : BindingFragment<FragmentNameIdBinding>(R.layout.fragment_
         binding.vm = viewModel
 
         setDeleteBtnClickListener()
-        setBtnClickListener()
+        setConfirmBtnClickListener()
         setupGetValidYelloId()
     }
 
-    private fun setBtnClickListener() {
+    private fun setConfirmBtnClickListener() {
         binding.btnNameidNext.setOnSingleClickListener {
             viewModel.getValidYelloId()
         }

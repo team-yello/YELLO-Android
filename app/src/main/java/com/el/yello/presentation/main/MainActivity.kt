@@ -46,6 +46,10 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
             }
             true
         }
+
+        binding.bnvMain.setOnItemReselectedListener {
+            return@setOnItemReselectedListener
+        }
     }
 
     private inline fun <reified T : Fragment> navigateTo() {

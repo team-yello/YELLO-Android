@@ -14,18 +14,29 @@ import com.el.yello.presentation.main.profile.info.ProfileFragment
 import com.el.yello.presentation.main.recommend.RecommendFragment
 import com.el.yello.presentation.main.yello.YelloFragment
 import com.example.ui.base.BindingActivity
+import com.example.ui.context.toast
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main) {
 
     val viewModel by viewModels<ProfileViewModel>()
+    private var backPressedTime: Long = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         initBnvItemIconTintList()
         initBnvItemSelectedListener()
+    }
+
+    override fun onBackPressed() {
+        if (System.currentTimeMillis() - backPressedTime >= 2000) {
+            backPressedTime = System.currentTimeMillis()
+            toast("'뒤로' 버튼을 한번 더 누르면 종료됩니다.")
+        } else {
+            finish()
+        }
     }
 
     private fun initBnvItemIconTintList() {
@@ -45,6 +56,10 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
                 R.id.menu_profile -> navigateTo<ProfileFragment>()
             }
             true
+        }
+
+        binding.bnvMain.setOnItemReselectedListener {
+            return@setOnItemReselectedListener
         }
     }
 

@@ -31,11 +31,11 @@ data class ResponseGetVoteQuestionDto(
 
     @Serializable
     data class FriendDto(
-        @SerialName("id")
+        @SerialName("friendId")
         val id: Int,
-        @SerialName("yelloId")
+        @SerialName("friendYelloId")
         val yelloId: String,
-        @SerialName("name")
+        @SerialName("friendName")
         val name: String,
     ) {
         fun toFriend() = Note.Friend(

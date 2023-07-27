@@ -20,8 +20,9 @@
             android:paddingStart="16dp"
             android:paddingEnd="8dp"
             android:src="@drawable/ic_arrow_left"
+            app:layout_constraintBottom_toBottomOf="@id/tv_profile_manage_title"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="@id/tv_profile_manage_title" />
 
         <TextView
             android:id="@+id/tv_profile_manage_title"
@@ -33,7 +34,7 @@
             android:textAppearance="?textAppearanceSubtitle1"
             android:textColor="@color/white"
             app:layout_constraintStart_toEndOf="@id/btn_profile_manage_back"
-            app:layout_constraintTop_toTopOf="@id/btn_profile_manage_back" />
+            app:layout_constraintTop_toTopOf="parent"/>
 
         <TextView
             android:id="@+id/btn_profile_manage_center"
@@ -42,11 +43,13 @@
             android:layout_marginHorizontal="16dp"
             android:layout_marginTop="12dp"
             android:background="@drawable/shape_grayscales900_fill_8_rect"
+            android:maxLines="1"
             android:paddingVertical="18dp"
             android:paddingStart="16dp"
             android:text="@string/profile_manage_tv_center"
             android:textAppearance="?textAppearanceBodySmall"
             android:textColor="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_profile_manage_title" />
 
@@ -57,11 +60,13 @@
             android:layout_marginHorizontal="16dp"
             android:layout_marginTop="4dp"
             android:background="@drawable/shape_grayscales900_fill_8_rect"
+            android:maxLines="1"
             android:paddingVertical="18dp"
             android:paddingStart="16dp"
             android:text="@string/profile_manage_tv_privacy"
             android:textAppearance="?textAppearanceBodySmall"
             android:textColor="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/btn_profile_manage_center" />
 
@@ -72,11 +77,13 @@
             android:layout_marginHorizontal="16dp"
             android:layout_marginTop="4dp"
             android:background="@drawable/shape_grayscales900_fill_8_rect"
+            android:maxLines="1"
             android:paddingVertical="18dp"
             android:paddingStart="16dp"
             android:text="@string/profile_manage_tv_service"
             android:textAppearance="?textAppearanceBodySmall"
             android:textColor="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/btn_profile_manage_privacy" />
 
@@ -87,11 +94,13 @@
             android:layout_marginHorizontal="16dp"
             android:layout_marginTop="4dp"
             android:background="@drawable/shape_grayscales900_fill_8_rect"
+            android:maxLines="1"
             android:paddingVertical="18dp"
             android:paddingStart="16dp"
             android:text="@string/profile_manage_tv_logout"
             android:textAppearance="?textAppearanceBodySmall"
             android:textColor="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/btn_profile_manage_service" />
 

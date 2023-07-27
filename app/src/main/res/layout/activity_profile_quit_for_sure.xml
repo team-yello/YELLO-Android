@@ -20,7 +20,8 @@
             android:paddingEnd="8dp"
             android:src="@drawable/ic_arrow_left"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="@id/tv_profile_quit_for_sure_title"
+            app:layout_constraintBottom_toBottomOf="@id/tv_profile_quit_for_sure_title"/>
 
         <TextView
             android:id="@+id/tv_profile_quit_for_sure_title"
@@ -32,7 +33,7 @@
             android:textAppearance="?textAppearanceSubtitle1"
             android:textColor="@color/white"
             app:layout_constraintStart_toEndOf="@id/btn_profile_quit_for_sure_back"
-            app:layout_constraintTop_toTopOf="@id/btn_profile_quit_for_sure_back" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ScrollView
             android:layout_width="match_parent"

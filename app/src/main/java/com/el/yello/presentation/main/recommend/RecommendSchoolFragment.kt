@@ -101,7 +101,7 @@ class RecommendSchoolFragment :
         viewModel.postState.observe(viewLifecycleOwner) { state ->
             when (state) {
                 is UiState.Success -> {
-                    if (state.data?.friends?.isEmpty() == true) {
+                    if (state.data?.friends?.isEmpty() == true && adapter?.itemCount == 0) {
                         showNoFriendScreen()
                     } else {
                         showFriendListScreen()

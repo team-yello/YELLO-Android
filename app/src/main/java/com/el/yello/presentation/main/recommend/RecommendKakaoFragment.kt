@@ -204,6 +204,7 @@ class RecommendKakaoFragment :
             delay(300)
             adapter?.removeItem(position)
             activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
+            delay(400)
             if (adapter?.itemCount == 0) {
                 showNoFriendScreen()
             }

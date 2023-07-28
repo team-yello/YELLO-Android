@@ -4,6 +4,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
+import android.view.WindowManager
 import android.view.animation.AnimationUtils
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
@@ -21,6 +22,10 @@ import com.example.ui.fragment.toast
 import com.example.ui.view.UiState
 import com.example.ui.view.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragment_profile) {
@@ -195,11 +200,14 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
         viewModel.deleteFriendState.observe(viewLifecycleOwner) { state ->
             when (state) {
                 is UiState.Success -> {
-                    viewModel.clickedItemPosition?.let { position -> adapter?.removeItem(position) }
-                    if (viewModel.myTotalFriends.value != "") {
-                        viewModel.myTotalFriends.value =
-                            viewModel.myTotalFriends.value?.toInt()?.minus(1).toString()
-                        adapter?.notifyDataSetChanged()
+                    CoroutineScope(Dispatchers.Main).launch {
+                        viewModel.clickedItemPosition?.let { position -> adapter?.removeItem(position) }
+                        delay(300)
+                        if (viewModel.myTotalFriends.value != "") {
+                            viewModel.myTotalFriends.value =
+                                viewModel.myTotalFriends.value?.toInt()?.minus(1).toString()
+                            adapter?.notifyDataSetChanged()
+                        }
                     }
                 }
 

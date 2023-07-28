@@ -15,8 +15,8 @@ import com.el.yello.databinding.FragmentMyYelloBinding
 import com.el.yello.presentation.main.myyello.read.MyYelloReadActivity
 import com.el.yello.presentation.pay.PayActivity
 import com.el.yello.presentation.util.BaseLinearRcvItemDeco
+import com.el.yello.util.context.yelloSnackbar
 import com.example.ui.base.BindingFragment
-import com.example.ui.fragment.toast
 import com.example.ui.view.UiState
 import com.example.ui.view.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
@@ -84,7 +84,7 @@ class MyYelloFragment : BindingFragment<FragmentMyYelloBinding>(R.layout.fragmen
                     }
 
                     is UiState.Failure -> {
-                        toast(it.msg)
+                        yelloSnackbar(requireView(), it.msg)
                     }
 
                     else -> {}

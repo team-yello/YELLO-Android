@@ -31,6 +31,9 @@ class StudentIdFragment : BindingFragment<FragmentStudentidBinding>(R.layout.fra
         binding.tvDepartmentSearch.setOnSingleClickListener {
             SearchDialogDepartmentFragment().show(parentFragmentManager, this.tag)
         }
+    }
+
+    private fun initSearchStudentIdBtnClickListener() {
         binding.tvStudentidSearch.setOnSingleClickListener {
             StudentidDialogFragment().show(parentFragmentManager, this.tag)
         }

@@ -34,7 +34,7 @@ class SearchDialogDepartmentFragment :
         initDepartmentAdapter()
         setupDepartmentData()
         recyclerviewScroll()
-        seClicktDepartmentform()
+        seClicktoDepartmentform()
         setFullDialog()
     }
 
@@ -92,7 +92,7 @@ class SearchDialogDepartmentFragment :
         }
     }
 
-    private fun seClicktDepartmentform() {
+    private fun seClicktoDepartmentform() {
         binding.tvDepartmentAdd.setOnClickListener {
             val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://bit.ly/3pO0ijD"))
             startActivity(intent)

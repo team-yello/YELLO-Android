@@ -34,6 +34,7 @@ class OnBoardingViewModel @Inject constructor(
     private var totalFriendPage = Int.MAX_VALUE
 
     // 학교 viewmodel (step 1)
+
     private val _schoolData = MutableLiveData<UiState<SchoolList>>()
     val _school = MutableLiveData("")
     val schoolData: MutableLiveData<UiState<SchoolList>> = _schoolData
@@ -84,6 +85,7 @@ class OnBoardingViewModel @Inject constructor(
     }
 
     // 학과 학번 viewmodel (step 2)
+
     val _department = MutableLiveData("")
     private val department: String get() = _department.value?.trim() ?: ""
 
@@ -177,6 +179,7 @@ class OnBoardingViewModel @Inject constructor(
     fun selectGender(gender: String) {
         _gender.value = gender
     }
+
     // 친구 추가 viewmodel (step 5)
 
     var kakaoId: String = ""
@@ -294,7 +297,8 @@ class OnBoardingViewModel @Inject constructor(
         }
     }
 
-    // 화면 이동
+    // fragment 화면 이동
+
     private val _currentPage = MutableLiveData(0)
     val currentPage: LiveData<Int> = _currentPage
     fun navigateToNextPage() {

@@ -70,6 +70,7 @@
             android:inputType="text"
             android:layout_marginTop="24dp"
             android:maxLines="1"
+            android:maxLength="20"
             android:gravity="center_vertical"
             android:paddingVertical="18dp"
             android:text="@={vm._code}"

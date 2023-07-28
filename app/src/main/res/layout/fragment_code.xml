@@ -40,7 +40,7 @@
             android:maxLines="1"
             android:text="@string/onboarding_tv_code_skip"
             android:textAppearance="?textAppearanceBodySmall"
-            android:textColor="@color/grayscales_600"
+            android:textColor="@color/grayscales_500"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_name" />

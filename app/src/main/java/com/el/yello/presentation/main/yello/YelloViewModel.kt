@@ -26,7 +26,7 @@ class YelloViewModel @Inject constructor(
     private val voteRepository: VoteRepository,
     private val authRepository: AuthRepository,
 ) : ViewModel() {
-    val _yelloState = MutableLiveData<UiState<YelloState>>()
+    private val _yelloState = MutableLiveData<UiState<YelloState>>()
     val yelloState: LiveData<UiState<YelloState>>
         get() = _yelloState
 

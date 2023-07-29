@@ -4,7 +4,7 @@ import android.view.View
 import androidx.recyclerview.widget.DiffUtil
 
 inline fun View.setOnSingleClickListener(
-    delay: Long = 500L,
+    delay: Long = 1000L,
     crossinline block: (View) -> Unit,
 ) {
     var previousClickedTime = 0L

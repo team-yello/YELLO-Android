@@ -5,6 +5,7 @@
     tools:context=".presentation.main.yello.start.YelloStartFragment">
 
     <data>
+
         <variable
             name="vm"
             type="com.el.yello.presentation.main.yello.YelloViewModel" />
@@ -19,6 +20,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layout_lock_welcome"
             android:layout_width="0dp"
+            android:layout_marginHorizontal="16dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="44dp"
             app:layout_constraintBottom_toTopOf="@id/btn_start_vote"
@@ -31,6 +33,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingVertical="4dp"
+                android:gravity="center_horizontal"
                 android:text="@string/yello_start_description"
                 android:textAppearance="?textAppearanceHeadline3"
                 android:textColor="@color/white"
@@ -93,10 +96,10 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="4dp"
                     android:text="@{@string/to_string(vm._point)}"
-                    tools:text="2500"
                     android:textColor="@color/white"
                     app:layout_constraintBaseline_toBaselineOf="@id/tv_start_point_label"
-                    app:layout_constraintEnd_toStartOf="@id/tv_start_point_label" />
+                    app:layout_constraintEnd_toStartOf="@id/tv_start_point_label"
+                    tools:text="2500" />
 
                 <TextView
                     android:id="@+id/tv_start_point_label"

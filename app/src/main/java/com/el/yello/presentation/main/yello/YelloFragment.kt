@@ -27,7 +27,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class YelloFragment : BindingFragment<FragmentYelloBinding>(R.layout.fragment_yello) {
-    val viewModel by activityViewModels<YelloViewModel>()
+    private val viewModel by activityViewModels<YelloViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

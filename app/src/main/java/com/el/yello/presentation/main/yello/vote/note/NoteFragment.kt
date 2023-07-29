@@ -10,6 +10,7 @@ import com.el.yello.presentation.main.yello.vote.NoteState
 import com.el.yello.presentation.main.yello.vote.VoteViewModel
 import com.el.yello.util.context.yelloSnackbar
 import com.example.ui.base.BindingFragment
+import com.example.ui.view.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -30,6 +31,8 @@ class NoteFragment : BindingFragment<FragmentNoteBinding>(R.layout.fragment_note
 
         getBundleArgs()
         addOvalProgressItems()
+        initShuffleBtnClickListener()
+        initSkipBtnClickListener()
     }
 
     private fun getBundleArgs() {
@@ -56,6 +59,18 @@ class NoteFragment : BindingFragment<FragmentNoteBinding>(R.layout.fragment_note
             )
             binding.layoutNoteProgressAfter.getChildAt(i - noteIndex - 1).rotation =
                 progressDegree[i]
+        }
+    }
+
+    private fun initShuffleBtnClickListener() {
+        binding.btnNoteShuffle.setOnSingleClickListener {
+            viewModel.shuffle()
+        }
+    }
+
+    private fun initSkipBtnClickListener() {
+        binding.btnNoteSkip.setOnSingleClickListener {
+            viewModel.skip()
         }
     }
 

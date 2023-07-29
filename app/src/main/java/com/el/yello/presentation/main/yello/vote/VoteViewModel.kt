@@ -29,11 +29,11 @@ class VoteViewModel @Inject constructor(
     val noteState: LiveData<NoteState>
         get() = _noteState
 
-    val _voteState = MutableLiveData<UiState<List<Note>>>()
+    private val _voteState = MutableLiveData<UiState<List<Note>>>()
     val voteState: LiveData<UiState<List<Note>>>
         get() = _voteState
 
-    val _postVoteState = MutableLiveData<UiState<Int>>()
+    private val _postVoteState = MutableLiveData<UiState<Int>>()
     val postVoteState: LiveData<UiState<Int>>
         get() = _postVoteState
 
@@ -68,6 +68,8 @@ class VoteViewModel @Inject constructor(
     private val _totalPoint = MutableLiveData(0)
     val totalPoint: Int
         get() = _totalPoint.value ?: 0
+
+    private var isTransitioning = false
 
     init {
         getVoteQuestions()
@@ -176,6 +178,9 @@ class VoteViewModel @Inject constructor(
             _noteState.value = InvalidSkip
             return
         }
+
+        if (isTransitioning) return
+
         skipToNextVote()
     }
 
@@ -220,10 +225,15 @@ class VoteViewModel @Inject constructor(
             postVote()
             return
         }
+        isTransitioning = true
         _noteState.value = NoteState.Success
         _shuffleCount.value = MAX_COUNT_SHUFFLE
         _currentNoteIndex.value = currentNoteIndex + 1
         initCurrentChoice()
+        viewModelScope.launch {
+            delay(500L)
+            isTransitioning = false
+        }
     }
 
     private fun isOptionSelected() =

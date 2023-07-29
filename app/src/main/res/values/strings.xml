@@ -85,6 +85,17 @@
     <string name="yello_lock_invite">친구 초대하기</string>
     <string name="yello_lock_sub_description">친구가 4명 이상 모이면 투표할 수 있어요.\n친구들을 초대해볼까요?</string>
 
+
+    <string name="unlock_invite_and_unlock">친구 초대하고 기다리지 않기</string>
+    <string name="unlock_description1">친구가 내 추천인 코드로 가입하면</string>
+    <string name="unlock_description2_1">기다리지 않고 </string>
+    <string name="unlock_description2_2_bold">바로 투표</string>
+    <string name="unlock_description2_3">할 수 있어요!</string>
+    <string name="unlock_my_yello_id_label">내 추천인 코드</string>
+    <string name="unlock_close">닫기</string>
+    <string name="unlock_my_yello_id">\@%s</string>
+    <string name="unlock_link_text">추천인 코드: %s\n우리 같이 YELL:O 해요!\n(여기에는 다운로드 링크)</string>
+
     <string name="note_index_of_vote">&#160;of 10</string>
     <string name="note_friend_shuffle">친구 셔플</string>
     <string name="note_shuffle_count">%d/3</string>
@@ -138,10 +149,10 @@
 
     <string name="recommend_tab_kakao">카톡 친구들</string>
     <string name="recommend_tab_school">학교 친구들</string>
-    <string name="recommend_error_friends_list">카카오 친구목록 가져오기 실패</string>
+    <string name="recommend_error_friends_list">카카오 친구 목록 가져오기 실패</string>
     <string name="recommend_error_no_kakao_friend">연동 가능한 카카오톡 친구 없음</string>
-    <string name="recommend_error_friend_connection">카카오 추천친구 서버 통신 실패</string>
-    <string name="recommend_error_school_friend_connection">학교 추천친구 서버 통신 실패</string>
+    <string name="recommend_error_friend_connection">카카오 추천 친구 서버 통신 실패</string>
+    <string name="recommend_error_school_friend_connection">학교 추천 친구 서버 통신 실패</string>
     <string name="recommend_error_add_friend_connection">친구 추가 서버 통신 실패</string>
 
     <string name="profile_manage_tv_title">프로필 관리</string>

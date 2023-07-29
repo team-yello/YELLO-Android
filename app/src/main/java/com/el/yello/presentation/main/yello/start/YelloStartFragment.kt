@@ -3,7 +3,7 @@ package com.el.yello.presentation.main.yello.start
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import com.el.yello.R
 import com.el.yello.databinding.FragmentYelloStartBinding
 import com.el.yello.presentation.main.yello.YelloViewModel
@@ -15,7 +15,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class YelloStartFragment :
     BindingFragment<FragmentYelloStartBinding>(R.layout.fragment_yello_start) {
-    private val viewModel by viewModels<YelloViewModel>()
+    private val viewModel by activityViewModels<YelloViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

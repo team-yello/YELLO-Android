@@ -730,7 +730,6 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:background="@drawable/shape_white35_fill_100_rect"
-                android:onClick="@{()->vm.shuffle()}"
                 android:paddingVertical="17dp"
                 app:layout_constraintHorizontal_weight="37">
 
@@ -740,7 +739,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:drawablePadding="4dp"
-                    android:onClick="@{()->vm.shuffle()}"
                     android:text="@string/note_friend_shuffle"
                     android:textAppearance="?textAppearanceBodySmall"
                     android:textColor="@{vm._currentChoice.friendId != null ? @color/gray_66 : @color/black}"
@@ -758,7 +756,6 @@
                     android:layout_marginStart="6dp"
                     android:fontFamily="@font/font_pretendard_bold"
                     android:lineHeight="16sp"
-                    android:onClick="@{()->vm.shuffle()}"
                     android:text="@{@string/note_shuffle_count(vm.shuffleCount)}"
                     android:textColor="@{vm._currentChoice.friendId != null ? @color/gray_66 : @color/black}"
                     android:textSize="12sp"
@@ -774,7 +771,6 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:background="@drawable/shape_white35_fill_100_rect"
-                android:onClick="@{()->vm.skip()}"
                 android:paddingVertical="17dp"
                 app:layout_constraintHorizontal_weight="49">
 
@@ -784,7 +780,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:drawablePadding="4dp"
-                    android:onClick="@{()->vm.skip()}"
                     android:text="@string/note_skip"
                     android:textAppearance="?attr/textAppearanceBodySmall"
                     android:textColor="@{vm._currentChoice.friendId != null || vm._currentChoice.keywordName != null ? @color/gray_66 : @color/black}"

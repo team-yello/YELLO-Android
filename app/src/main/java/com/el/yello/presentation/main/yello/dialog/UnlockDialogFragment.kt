@@ -10,6 +10,7 @@ import android.view.WindowManager
 import androidx.core.os.bundleOf
 import com.el.yello.R
 import com.el.yello.databinding.FragmentUnlockDialogBinding
+import com.el.yello.util.context.yelloSnackbar
 import com.example.ui.base.BindingDialogFragment
 import com.example.ui.view.setOnSingleClickListener
 import com.kakao.sdk.common.util.KakaoCustomTabsClient
@@ -106,6 +107,7 @@ class UnlockDialogFragment :
         try {
             KakaoCustomTabsClient.open(context, sharerUrl)
         } catch (error: ActivityNotFoundException) {
+            yelloSnackbar(binding.root, getString(R.string.unlock_browser_error_msg))
             Timber.tag(TAG_UNLOCK).e(error, getString(R.string.invite_error_browser))
         }
     }
@@ -116,7 +118,7 @@ class UnlockDialogFragment :
         const val TAG_UNLOCK = "UNLOCK"
 
         private const val UNLOCK_TEMPLATE_ID = 95890.toLong()
-        private const val KEY_YELLO_ID = "YELLO_ID"
+        private const val KEY_YELLO_ID = "KEY"
         private const val LABEL_UNLOCK_LINK_TEXT = "UNLOCK_LINK"
 
         @JvmStatic

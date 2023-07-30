@@ -38,15 +38,17 @@ class CodeFragment : BindingFragment<FragmentCodeBinding>(R.layout.fragment_code
     private fun setupPostSignupState() {
         viewModel.postSignupState.observe(viewLifecycleOwner) { state ->
             when (state) {
-                is UiState.Loading -> {}
+                is UiState.Success -> {
+                    viewModel.navigateToNextPage()
+                }
+
                 is UiState.Failure -> {
                     yelloSnackbar(binding.root, getString(R.string.msg_error))
                 }
 
+                is UiState.Loading -> {}
+
                 is UiState.Empty -> {}
-                is UiState.Success -> {
-                    viewModel.navigateToNextPage()
-                }
             }
         }
     }
@@ -70,11 +72,11 @@ class CodeFragment : BindingFragment<FragmentCodeBinding>(R.layout.fragment_code
                     yelloSnackbar(binding.root, getString(R.string.msg_error))
                 }
 
+                is UiState.Loading -> {}
+
                 is UiState.Empty -> {
                     yelloSnackbar(binding.root, getString(R.string.msg_error))
                 }
-
-                is UiState.Loading -> {}
             }
         }
     }

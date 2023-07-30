@@ -34,7 +34,7 @@ class SearchDialogDepartmentFragment :
         initDepartmentAdapter()
         setupDepartmentData()
         recyclerviewScroll()
-        seClicktDepartmentform()
+        setClicktoDepartmentform()
         setFullDialog()
     }
 
@@ -62,14 +62,14 @@ class SearchDialogDepartmentFragment :
         viewModel.departmentData.observe(viewLifecycleOwner) { state ->
             Timber.d("GET GROUP LIST OBSERVE : $state")
             when (state) {
+                is UiState.Success -> {
+                    adapter?.submitList(state.data.groupList)
+                }
                 is UiState.Failure -> {
                     yelloSnackbar(binding.root, getString(R.string.msg_error))
                 }
                 is UiState.Loading -> {}
                 is UiState.Empty -> {}
-                is UiState.Success -> {
-                    adapter?.submitList(state.data.groupList)
-                }
             }
         }
     }
@@ -92,7 +92,7 @@ class SearchDialogDepartmentFragment :
         }
     }
 
-    private fun seClicktDepartmentform() {
+    private fun setClicktoDepartmentform() {
         binding.tvDepartmentAdd.setOnClickListener {
             val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://bit.ly/3pO0ijD"))
             startActivity(intent)

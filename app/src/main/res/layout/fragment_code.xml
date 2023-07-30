@@ -40,7 +40,7 @@
             android:maxLines="1"
             android:text="@string/onboarding_tv_code_skip"
             android:textAppearance="?textAppearanceBodySmall"
-            android:textColor="@color/grayscales_600"
+            android:textColor="@color/grayscales_500"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_name" />
@@ -66,6 +66,7 @@
             android:fontFamily="@font/font_pretendard_medium"
             android:hint="@string/onboarding_tv_code_hint"
             android:ellipsize="end"
+            android:maxLength="20"
             android:background="@{@drawable/sel_onbarding_editext_focus}"
             android:inputType="text"
             android:layout_marginTop="24dp"

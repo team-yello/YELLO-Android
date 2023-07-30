@@ -82,14 +82,14 @@ class SearchDialogSchoolFragment :
     private fun setupSchoolData() {
         viewModel.schoolData.observe(viewLifecycleOwner) { state ->
             when (state) {
+                is UiState.Success -> {
+                    adapter?.submitList(state.data.schoolList)
+                }
                 is UiState.Failure -> {
                     yelloSnackbar(binding.root, getString(R.string.msg_error))
                 }
                 is UiState.Loading -> {}
                 is UiState.Empty -> {}
-                is UiState.Success -> {
-                    adapter?.submitList(state.data.schoolList)
-                }
             }
         }
     }

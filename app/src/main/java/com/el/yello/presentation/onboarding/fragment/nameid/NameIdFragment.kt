@@ -44,11 +44,6 @@ class NameIdFragment : BindingFragment<FragmentNameIdBinding>(R.layout.fragment_
     private fun setupGetValidYelloId() {
         viewModel.getValidYelloId.observe(viewLifecycleOwner) { state ->
             when (state) {
-                is UiState.Loading -> {}
-                is UiState.Empty -> {
-                    yelloSnackbar(binding.root, getString(R.string.msg_error))
-                }
-
                 is UiState.Success -> {
                     if (state.data) {
                         viewModel.navigateToNextPage()
@@ -62,7 +57,11 @@ class NameIdFragment : BindingFragment<FragmentNameIdBinding>(R.layout.fragment_
                         viewModel.navigateToNextPage()
                         return@observe
                     }
+                    yelloSnackbar(binding.root, getString(R.string.msg_error))
+                }
 
+                is UiState.Loading -> {}
+                is UiState.Empty -> {
                     yelloSnackbar(binding.root, getString(R.string.msg_error))
                 }
             }

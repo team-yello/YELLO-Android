@@ -15,6 +15,7 @@ import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.model.ClientError
 import com.kakao.sdk.common.model.ClientErrorCause
 import com.kakao.sdk.user.UserApiClient
+import com.kakao.sdk.user.model.User
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
@@ -22,8 +23,7 @@ import timber.log.Timber
 class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_sign_in) {
 
     private lateinit var appLoginCallback: (OAuthToken?, Throwable?) -> Unit
-    private lateinit var accountLoginCallback: (OAuthToken?, Throwable?) -> Unit
-    private lateinit var serviceTermsList: List<String>
+    private lateinit var webLoginCallback: (OAuthToken?, Throwable?) -> Unit
     private lateinit var kakaoAccessToken: String
 
     private val viewModel by viewModels<SignInViewModel>()
@@ -32,26 +32,22 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
         super.onCreate(savedInstanceState)
 
         initSignInButtonListener()
+        observeKakaoUserDataState()
         observeChangeTokenState()
         observeUserDataExists()
     }
 
     private fun initSignInButtonListener() {
         binding.btnSignIn.setOnSingleClickListener {
-            setServiceTerms()
-            setAppLoginCallback()
             setWebLoginCallback()
+            setAppLoginCallback()
             startKakaoLogin()
         }
     }
 
-    private fun setServiceTerms() {
-        serviceTermsList = listOf("profile_image", "account_email", "friends")
-    }
-
     // 웹에서 계정 로그인 callback 구성
     private fun setWebLoginCallback() {
-        accountLoginCallback = { token, error ->
+        webLoginCallback = { token, error ->
             if (error != null) {
                 Timber.tag(TAG_AUTH).e(error, getString(R.string.sign_in_error_kakao_account_login))
             } else if (token != null) {
@@ -75,8 +71,7 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
                     Timber.tag(TAG_AUTH).e(error, getString(R.string.sign_in_error_cancelled))
 
                 } else {
-                    // 카카오톡 연결 실패 시, 웹 계정으로 로그인 시도
-                    loginWithWebCallback()
+                    viewModel.loginWithWebCallback(this, webLoginCallback)
                 }
             } else if (token != null) {
                 // 로그인 성공 시 토큰 저장 & 토큰 교체 서버통신 진행
@@ -88,30 +83,12 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
         }
     }
 
-    // 웹 로그인 실행
-    private fun loginWithWebCallback() {
-        UserApiClient.instance.loginWithKakaoAccount(
-            context = this,
-            callback = accountLoginCallback,
-            serviceTerms = serviceTermsList,
-        )
-    }
-
-    // 앱 로그인 실행
-    private fun loginWithAppCallback() {
-        UserApiClient.instance.loginWithKakaoTalk(
-            context = this,
-            callback = appLoginCallback,
-            serviceTerms = serviceTermsList,
-        )
-    }
-
     // 카카오톡 앱 설치 유무에 따라 로그인 진행
     private fun startKakaoLogin() {
         if (UserApiClient.instance.isKakaoTalkLoginAvailable(this)) {
-            loginWithAppCallback()
+            viewModel.loginWithAppCallback(this, appLoginCallback)
         } else {
-            loginWithWebCallback()
+            viewModel.loginWithWebCallback(this, webLoginCallback)
         }
     }
 
@@ -127,7 +104,7 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
                 is UiState.Failure -> {
                     if (state.msg == "403") {
                         // 403(가입되지 않은 아이디): 온보딩 뷰로 이동 위해 카카오 유저 정보 얻기
-                        getKakaoInfo()
+                        viewModel.getKakaoInfo()
                     } else {
                         // 401 : 에러 발생
                         yelloSnackbar(
@@ -154,27 +131,24 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
     }
 
     // 카카오에 등록된 유저 정보 받아온 후 친구목록 동의 화면으로 이동
-    private fun getKakaoInfo() {
-        UserApiClient.instance.me { user, _ ->
-            try {
-                if (user != null) {
-                    Timber.d("KAKAO INFO : $user")
-                    Intent(this, SocialSyncActivity::class.java).apply {
-                        putExtra(EXTRA_KAKAO_ID, user.id)
-                        putExtra(EXTRA_EMAIL, user.kakaoAccount?.email)
-                        putExtra(EXTRA_PROFILE_IMAGE, user.kakaoAccount?.profile?.profileImageUrl)
-                        addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                        startActivity(this)
-                    }
-                    finish()
-                    return@me
+    private fun observeKakaoUserDataState() {
+        viewModel.getKakaoDataState.observe(this) { state ->
+            when (state) {
+                is UiState.Success -> {
+                    startSocialSyncActivity(state.data)
                 }
-            } catch (e: IllegalArgumentException) {
-                yelloSnackbar(binding.root, getString(R.string.msg_error))
+
+                is UiState.Failure -> {
+                    yelloSnackbar(binding.root, getString(R.string.msg_error))
+                }
+
+                is UiState.Empty -> {
+                    yelloSnackbar(binding.root, getString(R.string.msg_error))
+                }
+
+                is UiState.Loading -> {}
             }
         }
-        Timber.e("카카오 정보 불러오기 실패")
-        yelloSnackbar(binding.root, getString(R.string.msg_error))
     }
 
     // 서버에 등록된 유저 정보가 있는지 확인 후 메인 액티비티로 이동
@@ -196,6 +170,17 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
                 is UiState.Loading -> {}
             }
         }
+    }
+
+    private fun startSocialSyncActivity(data: User?) {
+        Intent(this, SocialSyncActivity::class.java).apply {
+            putExtra(EXTRA_KAKAO_ID, data?.id)
+            putExtra(EXTRA_EMAIL, data?.kakaoAccount?.email)
+            putExtra(EXTRA_PROFILE_IMAGE, data?.kakaoAccount?.profile?.profileImageUrl)
+            addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            startActivity(this)
+        }
+        finish()
     }
 
     private fun startMainActivity() {

@@ -142,9 +142,7 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
                     yelloSnackbar(binding.root, getString(R.string.msg_error))
                 }
 
-                is UiState.Empty -> {
-                    yelloSnackbar(binding.root, getString(R.string.msg_error))
-                }
+                is UiState.Empty -> {}
 
                 is UiState.Loading -> {}
             }

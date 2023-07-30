@@ -1,13 +1,10 @@
 package com.el.yello.presentation.auth
 
 import android.content.Context
-import android.content.Intent
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.el.yello.R
-import com.el.yello.util.context.yelloSnackbar
 import com.example.domain.entity.RequestServiceTokenModel
 import com.example.domain.entity.ServiceTokenModel
 import com.example.domain.repository.AuthRepository
@@ -34,15 +31,18 @@ class SignInViewModel @Inject constructor(
     val postState: LiveData<UiState<ServiceTokenModel?>> = _postState
 
     private val _getUserProfileState = MutableLiveData<UiState<Unit>>()
-    val getUserProfileState: LiveData<UiState<Unit>> =  _getUserProfileState
+    val getUserProfileState: LiveData<UiState<Unit>> = _getUserProfileState
 
     private val _getKakaoDataState = MutableLiveData<UiState<User?>>()
-    val getKakaoDataState: LiveData<UiState<User?>> =  _getKakaoDataState
+    val getKakaoDataState: LiveData<UiState<User?>> = _getKakaoDataState
 
     private val serviceTermsList = listOf("profile_image", "account_email", "friends")
 
     // 웹 로그인 실행
-    fun loginWithWebCallback(context: Context, callback: (token: OAuthToken?, error: Throwable?) -> Unit) {
+    fun loginWithWebCallback(
+        context: Context,
+        callback: (token: OAuthToken?, error: Throwable?) -> Unit
+    ) {
         UserApiClient.instance.loginWithKakaoAccount(
             context = context,
             callback = callback,
@@ -51,7 +51,10 @@ class SignInViewModel @Inject constructor(
     }
 
     // 앱 로그인 실행
-    fun loginWithAppCallback(context: Context, callback: (token: OAuthToken?, error: Throwable?) -> Unit) {
+    fun loginWithAppCallback(
+        context: Context,
+        callback: (token: OAuthToken?, error: Throwable?) -> Unit
+    ) {
         UserApiClient.instance.loginWithKakaoTalk(
             context = context,
             callback = callback,

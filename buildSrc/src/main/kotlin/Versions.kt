@@ -9,7 +9,7 @@ object Versions {
 
     const val coreKtxVersion = "1.10.1"
     const val appCompatVersion = "1.6.1"
-    const val materialDesignVersion = "1.6.1"
+    const val materialDesignVersion = "1.9.0"
     const val constraintLayoutVersion = "2.1.4"
     const val appStartUpVersion = "1.1.1"
     const val legacySupportVersion = "1.0.0"

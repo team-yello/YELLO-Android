@@ -8,12 +8,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.el.yello.R
 import com.el.yello.databinding.FragmentAddfreindBinding
 import com.el.yello.presentation.onboarding.activity.OnBoardingViewModel
-import com.el.yello.util.context.yelloSnackbar
 import com.example.domain.entity.onboarding.Friend
-import com.example.domain.entity.onboarding.FriendGroup
 import com.example.ui.base.BindingFragment
 import com.example.ui.view.setOnSingleClickListener
-import com.kakao.sdk.talk.TalkApiClient
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -34,9 +31,8 @@ class AddFriendFragment : BindingFragment<FragmentAddfreindBinding>(R.layout.fra
         initFriendAdapter()
         setConfirmBtnClickListener()
         setBackBtnClickListener()
-        setListWithInfinityScroll()
+        setKakaoRecommendList()
         observeAddListState()
-        getFriendIdList()
     }
 
     private fun initFriendAdapter() {
@@ -67,25 +63,11 @@ class AddFriendFragment : BindingFragment<FragmentAddfreindBinding>(R.layout.fra
         }
     }
 
-    private fun getFriendIdList() {
-        TalkApiClient.instance.friends(limit = 100) { friends, error ->
-            if (error == null) {
-                viewModel.kakaoFriendList = friends?.elements?.map { it.id.toString() } ?: listOf()
-                addFriendListFromServer()
-                addFriendListFromServer()
-            } else {
-                yelloSnackbar(binding.root, getString(R.string.msg_error))
-            }
-        }
-    }
-
-    private fun addFriendListFromServer() {
-        viewModel.addFriendList(
-            FriendGroup(
-                viewModel.kakaoFriendList,
-                viewModel.groupId,
-            ),
-        )
+    // 서버 통신 성공 시 카카오 추천 친구 추가
+    private fun setKakaoRecommendList() {
+        setListWithInfinityScroll()
+        viewModel.initFriendPagingVariable()
+        viewModel.addListWithKakaoIdList()
     }
 
     // 무한 스크롤 구현
@@ -95,8 +77,11 @@ class AddFriendFragment : BindingFragment<FragmentAddfreindBinding>(R.layout.fra
                 super.onScrolled(recyclerView, dx, dy)
                 if (dy > 0) {
                     recyclerView.layoutManager?.let { layoutManager ->
-                        if (!binding.rvFreindList.canScrollVertically(1) && layoutManager is LinearLayoutManager && layoutManager.findLastVisibleItemPosition() == adapter!!.itemCount - 1) {
-                            addFriendListFromServer()
+                        if (!binding.rvFreindList.canScrollVertically(1)
+                            && layoutManager is LinearLayoutManager
+                            && layoutManager.findLastVisibleItemPosition() == adapter!!.itemCount - 1
+                        ) {
+                            viewModel.addListWithKakaoIdList()
                         }
                     }
                 }

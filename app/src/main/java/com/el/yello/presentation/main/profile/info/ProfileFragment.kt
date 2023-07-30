@@ -234,6 +234,11 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
         }
     }
 
+    override fun onDestroyView() {
+        adapter = null
+        super.onDestroyView()
+    }
+
     private companion object {
         const val DIALOG = "dialog"
     }

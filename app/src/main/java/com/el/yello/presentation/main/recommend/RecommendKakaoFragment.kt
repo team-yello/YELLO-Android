@@ -51,8 +51,9 @@ class RecommendKakaoFragment :
     }
 
     override fun onDestroyView() {
-        super.onDestroyView()
+        adapter = null
         dismissDialog()
+        super.onDestroyView()
     }
 
     // 카카오에서 친구 목록 받아오기

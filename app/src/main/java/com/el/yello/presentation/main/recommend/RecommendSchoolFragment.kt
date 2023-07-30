@@ -49,8 +49,9 @@ class RecommendSchoolFragment :
     }
 
     override fun onDestroyView() {
-        super.onDestroyView()
+        adapter = null
         dismissDialog()
+        super.onDestroyView()
     }
 
     private fun initInviteBtnListener() {

@@ -14,7 +14,6 @@ import com.example.ui.base.BindingDialogFragment
 import com.example.ui.fragment.toast
 import com.example.ui.view.UiState
 import com.example.ui.view.setOnSingleClickListener
-import com.kakao.sdk.user.UserApiClient
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
@@ -49,6 +48,7 @@ class ProfileQuitDialog :
         initQuitBtnListener()
         initRejectBtnListener()
         observeUserDeleteState()
+        observeKakaoQuitState()
     }
 
     private fun initRejectBtnListener() {
@@ -68,7 +68,7 @@ class ProfileQuitDialog :
         viewModel.deleteUserState.observe(viewLifecycleOwner) { state ->
             when (state) {
                 is UiState.Success -> {
-                    unlinkKakaoAccount()
+                    viewModel.quitKakaoAccount()
                 }
 
                 is UiState.Failure -> {
@@ -82,12 +82,21 @@ class ProfileQuitDialog :
         }
     }
 
-    private fun unlinkKakaoAccount() {
-        UserApiClient.instance.unlink { error ->
-            if (error != null) {
-                Timber.d(getString(R.string.profile_error_unlink_kakao))
-            } else {
-                restartApp(requireContext())
+    private fun observeKakaoQuitState() {
+        viewModel.kakaoQuitState.observe(this) { state ->
+            when (state) {
+                is UiState.Success -> {
+                    restartApp(requireContext())
+                }
+
+                is UiState.Failure -> {
+                    toast(getString(R.string.profile_error_unlink_kakao))
+                    Timber.d(getString(R.string.profile_error_unlink_kakao) + ": ${state.msg}")
+                }
+
+                is UiState.Empty -> {}
+
+                is UiState.Loading -> {}
             }
         }
     }

@@ -10,7 +10,9 @@ import androidx.lifecycle.lifecycleScope
 import com.el.yello.R
 import com.el.yello.databinding.ActivityProfileManageBinding
 import com.el.yello.presentation.main.profile.ProfileViewModel
+import com.el.yello.util.context.yelloSnackbar
 import com.example.ui.base.BindingActivity
+import com.example.ui.view.UiState
 import com.example.ui.view.setOnSingleClickListener
 import com.kakao.sdk.user.UserApiClient
 import dagger.hilt.android.AndroidEntryPoint
@@ -33,6 +35,7 @@ class ProfileManageActivity :
         initPrivacyBtnListener()
         initServiceBtnListener()
         initLogoutBtnListener()
+        observeKakaoLogoutState()
     }
 
     private fun initCenterBtnListener() {
@@ -70,7 +73,7 @@ class ProfileManageActivity :
 
     private fun initLogoutBtnListener() {
         binding.btnProfileManageLogout.setOnSingleClickListener {
-            logoutKakaoAccount()
+           viewModel.logoutKakaoAccount()
         }
     }
 
@@ -99,6 +102,29 @@ class ProfileManageActivity :
                     delay(500)
                     restartApp(this@ProfileManageActivity)
                 }
+            }
+        }
+    }
+
+    private fun observeKakaoLogoutState() {
+        viewModel.kakaoLogoutState.observe(this) { state ->
+            when (state) {
+                is UiState.Success -> {
+                    lifecycleScope.launch {
+                        viewModel.clearLocalInfo()
+                        delay(500)
+                        restartApp(this@ProfileManageActivity)
+                    }
+                }
+
+                is UiState.Failure -> {
+                    yelloSnackbar(binding.root, getString(R.string.msg_error))
+                    Timber.d(getString(R.string.profile_error_logout) + ": ${state.msg}")
+                }
+
+                is UiState.Empty -> {}
+
+                is UiState.Loading -> {}
             }
         }
     }

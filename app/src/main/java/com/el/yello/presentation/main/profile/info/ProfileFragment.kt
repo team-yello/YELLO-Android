@@ -45,7 +45,7 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
     }
 
     private fun initProfileSetting() {
-        initViewModelVariables()
+        viewModel.initPagingVariable()
         initProfileManageBtnListener()
         initUpwardBtnListener()
         initUpwardBtnVisibility()
@@ -67,13 +67,6 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
     private fun setFriendDeleteToServer() {
         observeFriendDeleteState()
         setDeleteAnimation()
-    }
-
-    // 프래그먼트 생성될 때마다 뷰모델 변수값 초기화
-    private fun initViewModelVariables() {
-        viewModel.currentPage = -1
-        viewModel.isPagingFinish = false
-        viewModel.totalPage = Int.MAX_VALUE
     }
 
     // 관리 액티비티 실행 & 뒤로가기 누를 때 다시 돌아오도록 현재 화면 finish 진행 X

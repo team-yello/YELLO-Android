@@ -27,13 +27,21 @@ class ProfileFriendItemBottomSheet :
         super.onViewCreated(view, savedInstanceState)
 
         binding.vm = viewModel
+        viewModel.isBottomSheetRunning = true
         initDeleteBtnListener()
+        initDialogDismissListener()
         setItemImage()
     }
 
     private fun setItemImage() {
         binding.ivProfileFriendThumbnail.load(viewModel.clickedItemThumbnail.value) {
             transformations(CircleCropTransformation())
+        }
+    }
+
+    private fun initDialogDismissListener() {
+        dialog?.setOnDismissListener {
+            viewModel.isBottomSheetRunning = false
         }
     }
 

@@ -107,7 +107,7 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
             viewModel.clickedItemTotalMsg.value = profileUserModel.yelloCount.toString()
             viewModel.clickedItemTotalFriends.value = profileUserModel.friendCount.toString()
 
-            ProfileFriendItemBottomSheet().show(parentFragmentManager, DIALOG)
+            if (!viewModel.isBottomSheetRunning) ProfileFriendItemBottomSheet().show(parentFragmentManager, DIALOG)
         }, {
             // 헤더 버튼 클릭 리스너 설정
             startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://bit.ly/44xDDqC")))

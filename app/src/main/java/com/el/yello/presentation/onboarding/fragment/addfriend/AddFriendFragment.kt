@@ -68,7 +68,7 @@ class AddFriendFragment : BindingFragment<FragmentAddfreindBinding>(R.layout.fra
     }
 
     private fun getFriendIdList() {
-        TalkApiClient.instance.friends { friends, error ->
+        TalkApiClient.instance.friends(limit = 100) { friends, error ->
             if (error == null) {
                 viewModel.kakaoFriendList = friends?.elements?.map { it.id.toString() } ?: listOf()
                 addFriendListFromServer()

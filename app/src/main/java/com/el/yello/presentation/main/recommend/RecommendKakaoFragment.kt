@@ -57,7 +57,7 @@ class RecommendKakaoFragment :
 
     // 카카오에서 친구 목록 받아오기
     private fun getKakaoFriendIdList() {
-        TalkApiClient.instance.friends { friends, error ->
+        TalkApiClient.instance.friends(limit = 100) { friends, error ->
             if (error != null) {
                 Timber.e(error, getString(R.string.recommend_error_friends_list))
             } else if (friends != null) {

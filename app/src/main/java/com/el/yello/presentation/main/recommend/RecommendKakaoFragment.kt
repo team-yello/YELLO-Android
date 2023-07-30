@@ -18,14 +18,11 @@ import com.example.ui.base.BindingFragment
 import com.example.ui.intent.dpToPx
 import com.example.ui.view.UiState
 import com.example.ui.view.setOnSingleClickListener
-import com.kakao.sdk.talk.TalkApiClient
-import com.kakao.sdk.talk.model.Friend
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import timber.log.Timber
 
 @AndroidEntryPoint
 class RecommendKakaoFragment :
@@ -36,13 +33,12 @@ class RecommendKakaoFragment :
     private var recommendInviteDialog: RecommendInviteDialog? = null
 
     private lateinit var friendsList: List<RecommendModel.RecommendFriend>
-    private lateinit var kakaoFriendIdList: List<String>
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        getKakaoFriendIdList()
         initInviteBtnListener()
+        setKakaoRecommendList()
         setAdapterWithClickListener()
         observeAddListState()
         observeAddFriendState()
@@ -56,27 +52,15 @@ class RecommendKakaoFragment :
         super.onDestroyView()
     }
 
-    // 카카오에서 친구 목록 받아오기
-    private fun getKakaoFriendIdList() {
-        TalkApiClient.instance.friends(limit = 100) { friends, error ->
-            if (error != null) {
-                Timber.e(error, getString(R.string.recommend_error_friends_list))
-            } else if (friends != null) {
-                val friendList: List<Friend>? = friends.elements
-                kakaoFriendIdList = friendList?.map { friend -> friend.id.toString() } ?: listOf()
-
-                // 처음 20명 리스트 받아온 후 무한 스크롤 리스너 설정
-                viewModel.addListFromServer(kakaoFriendIdList)
-                viewModel.addListFromServer(kakaoFriendIdList)
-                setListWithInfinityScroll(kakaoFriendIdList)
-            } else {
-                Timber.d(getString(R.string.recommend_error_no_kakao_friend))
-            }
-        }
+    // 서버 통신 성공 시 카카오 추천 친구 추가
+    private fun setKakaoRecommendList() {
+        setListWithInfinityScroll()
+        viewModel.initPagingVariable()
+        viewModel.addListWithKakaoIdList()
     }
 
     // 무한 스크롤 구현
-    private fun setListWithInfinityScroll(list: List<String>) {
+    private fun setListWithInfinityScroll() {
         binding.rvRecommendKakao.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
@@ -86,7 +70,7 @@ class RecommendKakaoFragment :
                             layoutManager is LinearLayoutManager &&
                             layoutManager.findLastVisibleItemPosition() == adapter!!.itemCount - 1
                         ) {
-                            viewModel.addListFromServer(list)
+                            viewModel.addListWithKakaoIdList()
                         }
                     }
                 }

@@ -31,7 +31,7 @@ class RecommendKakaoViewModel @Inject constructor(
     var itemPosition: Int? = null
     var itemHolder: RecommendViewHolder? = null
 
-    private var currentOffset = -10
+    private var currentOffset = -100
     private var currentPage = -1
     private var isPagingFinish = false
     private var totalPage = Int.MAX_VALUE
@@ -42,7 +42,7 @@ class RecommendKakaoViewModel @Inject constructor(
     }
 
     fun initPagingVariable() {
-        currentOffset = -10
+        currentOffset = -100
         currentPage = -1
         isPagingFinish = false
         totalPage = Int.MAX_VALUE
@@ -51,9 +51,9 @@ class RecommendKakaoViewModel @Inject constructor(
     // 서버 통신 - 카카오 리스트 통신 후 친구 리스트 추가 서버 통신 진행
     fun addListWithKakaoIdList() {
         if (isPagingFinish) return
-        currentOffset += 10
+        currentOffset += 100
         currentPage += 1
-        TalkApiClient.instance.friends(offset = currentOffset, limit = 10) { friends, error ->
+        TalkApiClient.instance.friends(offset = currentOffset, limit = 100) { friends, error ->
             if (error != null) {
                 Timber.e(error, "카카오톡 친구목록 가져오기 실패")
             } else if (friends != null) {
@@ -80,7 +80,6 @@ class RecommendKakaoViewModel @Inject constructor(
             }.onSuccess {
                 it ?: return@launch
                 _postState.value = UiState.Success(it)
-                if (currentPage < 3 && !isPagingFinish) addListWithKakaoIdList()
             }.onFailure {
                 _postState.value = UiState.Failure(it.message.toString())
             }

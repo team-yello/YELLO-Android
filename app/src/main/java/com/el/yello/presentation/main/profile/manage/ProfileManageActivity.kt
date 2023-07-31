@@ -28,7 +28,7 @@ class ProfileManageActivity :
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        initBackBtnListener(this)
+        initBackBtnListener()
         initQuitBtnListener()
         initCenterBtnListener()
         initPrivacyBtnListener()
@@ -67,9 +67,9 @@ class ProfileManageActivity :
         }
     }
 
-    private fun initBackBtnListener(activity: Activity) {
+    private fun initBackBtnListener() {
         binding.btnProfileManageBack.setOnSingleClickListener {
-            activity.finish()
+            finish()
         }
     }
 
@@ -94,7 +94,7 @@ class ProfileManageActivity :
 
                 is UiState.Failure -> {
                     yelloSnackbar(binding.root, getString(R.string.msg_error))
-                    Timber.d(getString(R.string.profile_error_logout) + ": ${state.msg}")
+                    Timber.d(getString(R.string.profile_error_logout, state.msg))
                 }
 
                 is UiState.Empty -> {}

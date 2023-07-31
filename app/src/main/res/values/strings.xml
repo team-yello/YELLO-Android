@@ -130,7 +130,7 @@
     <string name="profile_error_user_data">유저 정보 서버 통신 실패</string>
     <string name="profile_error_friend_list">친구 목록 서버 통신 실패</string>
     <string name="profile_error_delete_friend">친구 삭제 실패</string>
-    <string name="profile_error_logout">로그아웃 실패</string>
+    <string name="profile_error_logout">로그아웃 실패 : %s</string>
     <string name="profile_error_unlink">회원 탈퇴 서버 통신 실패</string>
     <string name="profile_error_unlink_kakao">카카오 연동 해제 실패</string>
 
@@ -171,7 +171,7 @@
     <string name="profile_delete_bottom_sheet_tv_subtitle">정말로 친구를 끊으실 건가요?</string>
     <string name="profile_delete_bottom_sheet_btn_return">취소</string>
     <string name="profile_delete_bottom_sheet_btn_resume">네, 친구를 끊을게요</string>
-    <string name="profile_delete_bottom_sheet_toast">" 님과 친구 끊기를 완료했어요."</string>
+    <string name="profile_delete_bottom_sheet_toast">%s 님과 친구 끊기를 완료했어요.</string>
     <string name="profile_item_bottom_sheet_tv_friend">친구 수</string>
     <string name="profile_item_bottom_sheet_tv_msg">받은 쪽지</string>
     <string name="profile_item_bottom_sheet_btn_delete">친구 끊기</string>

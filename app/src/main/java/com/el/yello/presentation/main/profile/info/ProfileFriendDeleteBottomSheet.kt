@@ -68,7 +68,7 @@ class ProfileFriendDeleteBottomSheet :
         viewModel.deleteFriendState.observe(viewLifecycleOwner) { state ->
             when (state) {
                 is UiState.Success -> {
-                    toast(viewModel.clickedItemName.value.toString() + getString(R.string.profile_delete_bottom_sheet_toast))
+                    toast(getString(R.string.profile_delete_bottom_sheet_toast, viewModel.clickedItemName.value.toString()))
                     viewModel.setDeleteFriendStateEmpty()
                     viewModel.isBottomSheetRunning = false
                     this@ProfileFriendDeleteBottomSheet.dismiss()

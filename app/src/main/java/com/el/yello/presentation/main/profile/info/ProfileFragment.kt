@@ -4,7 +4,6 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
-import android.view.WindowManager
 import android.view.animation.AnimationUtils
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
@@ -107,10 +106,13 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
             viewModel.clickedItemTotalMsg.value = profileUserModel.yelloCount.toString()
             viewModel.clickedItemTotalFriends.value = profileUserModel.friendCount.toString()
 
-            if (!viewModel.isBottomSheetRunning) ProfileFriendItemBottomSheet().show(parentFragmentManager, DIALOG)
+            if (!viewModel.isBottomSheetRunning) ProfileFriendItemBottomSheet().show(
+                parentFragmentManager,
+                ITEM_BOTTOM_SHEET
+            )
         }, {
             // 헤더 버튼 클릭 리스너 설정
-            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://bit.ly/44xDDqC")))
+            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(ADD_GROUP_URL)))
         })
         adapter?.setItemList(listOf())
         binding.rvProfileFriendsList.adapter = adapter
@@ -194,7 +196,11 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
             when (state) {
                 is UiState.Success -> {
                     CoroutineScope(Dispatchers.Main).launch {
-                        viewModel.clickedItemPosition?.let { position -> adapter?.removeItem(position) }
+                        viewModel.clickedItemPosition?.let { position ->
+                            adapter?.removeItem(
+                                position
+                            )
+                        }
                         delay(300)
                         if (viewModel.myTotalFriends.value != "") {
                             viewModel.myTotalFriends.value =
@@ -221,7 +227,6 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
             override fun animateRemove(holder: RecyclerView.ViewHolder): Boolean {
                 holder.itemView.animation =
                     AnimationUtils.loadAnimation(holder.itemView.context, R.anim.slide_out_right)
-
                 return super.animateRemove(holder)
             }
         }
@@ -233,6 +238,7 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
     }
 
     private companion object {
-        const val DIALOG = "dialog"
+        const val ITEM_BOTTOM_SHEET = "itemBottomSheet"
+        const val ADD_GROUP_URL = "https://bit.ly/44xDDqC"
     }
 }

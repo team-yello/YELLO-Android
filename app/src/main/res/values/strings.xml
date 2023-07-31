@@ -172,6 +172,7 @@
     <string name="profile_delete_bottom_sheet_tv_subtitle">정말로 친구를 끊으실 건가요?</string>
     <string name="profile_delete_bottom_sheet_btn_return">취소</string>
     <string name="profile_delete_bottom_sheet_btn_resume">네, 친구를 끊을게요</string>
+    <string name="profile_delete_bottom_sheet_toast">" 님과 친구 끊기를 완료했어요."</string>
     <string name="profile_item_bottom_sheet_tv_friend">친구 수</string>
     <string name="profile_item_bottom_sheet_tv_msg">받은 쪽지</string>
     <string name="profile_item_bottom_sheet_btn_delete">친구 끊기</string>

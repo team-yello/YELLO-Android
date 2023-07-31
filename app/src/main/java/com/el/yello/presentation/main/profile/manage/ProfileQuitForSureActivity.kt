@@ -26,11 +26,11 @@ class ProfileQuitForSureActivity :
 
     private fun initInviteDialogBtnListener() {
         binding.btnProfileQuitForSure.setOnSingleClickListener {
-            ProfileQuitDialog().show(supportFragmentManager, DIALOG)
+            ProfileQuitDialog().show(supportFragmentManager, QUIT_DIALOG)
         }
     }
 
     private companion object {
-        const val DIALOG = "dialog"
+        const val QUIT_DIALOG = "quitDialog"
     }
 }

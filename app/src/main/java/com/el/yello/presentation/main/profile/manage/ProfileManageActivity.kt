@@ -41,10 +41,7 @@ class ProfileManageActivity :
     private fun initCenterBtnListener() {
         binding.btnProfileManageCenter.setOnSingleClickListener {
             startActivity(
-                Intent(
-                    Intent.ACTION_VIEW,
-                    Uri.parse("https://yell0.notion.site/YELLO-34028220a873416b91d5d2f1cd827432?pvs=4"),
-                ),
+                Intent(Intent.ACTION_VIEW, Uri.parse(CUSTOMER_CENTER_URL)),
             )
         }
     }
@@ -52,10 +49,7 @@ class ProfileManageActivity :
     private fun initPrivacyBtnListener() {
         binding.btnProfileManagePrivacy.setOnSingleClickListener {
             startActivity(
-                Intent(
-                    Intent.ACTION_VIEW,
-                    Uri.parse("https://yell0.notion.site/97f57eaed6c749bbb134c7e8dc81ab3f"),
-                ),
+                Intent(Intent.ACTION_VIEW, Uri.parse(PRIVACY_URL)),
             )
         }
     }
@@ -63,17 +57,14 @@ class ProfileManageActivity :
     private fun initServiceBtnListener() {
         binding.btnProfileManageService.setOnSingleClickListener {
             startActivity(
-                Intent(
-                    Intent.ACTION_VIEW,
-                    Uri.parse("https://yell0.notion.site/2afc2a1e60774dfdb47c4d459f01b1d9"),
-                ),
+                Intent(Intent.ACTION_VIEW, Uri.parse(SERVICE_URL)),
             )
         }
     }
 
     private fun initLogoutBtnListener() {
         binding.btnProfileManageLogout.setOnSingleClickListener {
-           viewModel.logoutKakaoAccount()
+            viewModel.logoutKakaoAccount()
         }
     }
 
@@ -136,5 +127,14 @@ class ProfileManageActivity :
         val mainIntent = Intent.makeRestartActivityTask(componentName)
         context.startActivity(mainIntent)
         Runtime.getRuntime().exit(0)
+    }
+
+    private companion object {
+        const val CUSTOMER_CENTER_URL =
+            "https://yell0.notion.site/YELLO-34028220a873416b91d5d2f1cd827432?pvs=4"
+        const val PRIVACY_URL =
+            "https://yell0.notion.site/97f57eaed6c749bbb134c7e8dc81ab3f"
+        const val SERVICE_URL =
+            "https://yell0.notion.site/2afc2a1e60774dfdb47c4d459f01b1d9"
     }
 }

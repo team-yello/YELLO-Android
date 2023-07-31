@@ -8,7 +8,7 @@ import com.el.yello.R
 import com.el.yello.databinding.FragmentSchoolBinding
 import com.el.yello.presentation.auth.SocialSyncActivity
 import com.el.yello.presentation.onboarding.activity.OnBoardingViewModel
-import com.el.yello.presentation.onboarding.fragment.school.university.SearchDialogSchoolFragment
+import com.el.yello.presentation.onboarding.fragment.school.dialog.SearchDialogSchoolFragment
 import com.example.ui.base.BindingFragment
 import com.example.ui.view.setOnSingleClickListener
 
@@ -22,12 +22,7 @@ class SchoolFragment : BindingFragment<FragmentSchoolBinding>(R.layout.fragment_
         initSearchSchoolBtnClickListener()
         setConfirmBtnClickListener()
         setupSchool()
-        binding.btnSchoolBackBtn.setOnSingleClickListener {
-            val intent = Intent(getActivity(), SocialSyncActivity::class.java)
-            startActivity(intent)
-        }
     }
-
     private fun initSearchSchoolBtnClickListener() {
         binding.tvSchoolSearch.setOnSingleClickListener {
             SearchDialogSchoolFragment().show(parentFragmentManager, this.tag)
@@ -37,6 +32,10 @@ class SchoolFragment : BindingFragment<FragmentSchoolBinding>(R.layout.fragment_
     private fun setConfirmBtnClickListener() {
         binding.btnSchoolNext.setOnSingleClickListener {
             viewModel.navigateToNextPage()
+        }
+        binding.btnSchoolBackBtn.setOnSingleClickListener {
+            val intent = Intent(activity, SocialSyncActivity::class.java)
+            startActivity(intent)
         }
     }
 

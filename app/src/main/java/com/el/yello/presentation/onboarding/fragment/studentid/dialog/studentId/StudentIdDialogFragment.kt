@@ -1,4 +1,4 @@
-package com.el.yello.presentation.onboarding.fragment.studentid.dialog.studentid
+package com.el.yello.presentation.onboarding.fragment.studentid.dialog.studentId
 
 import android.os.Bundle
 import android.view.View
@@ -8,7 +8,7 @@ import com.el.yello.databinding.FragmentDialogStudentIdBinding
 import com.el.yello.presentation.onboarding.activity.OnBoardingViewModel
 import com.example.ui.base.BindingBottomSheetDialog
 
-class StudentidDialogFragment :
+class StudentIdDialogFragment :
     BindingBottomSheetDialog<FragmentDialogStudentIdBinding>(R.layout.fragment_dialog_student_id) {
 
     private lateinit var idList: List<Int>
@@ -24,7 +24,7 @@ class StudentidDialogFragment :
     private fun initStudentidAdapter() {
         viewModel.addStudentId()
         idList = viewModel.studentIdResult.value ?: emptyList()
-        val adapter = StudentidDialogAdapter(storeStudentId = ::storeStudentId)
+        val adapter = StudentIdDialogAdapter(storeStudentId = ::storeStudentId)
         binding.rvStudentid.adapter = adapter
         adapter.submitList(idList)
     }
@@ -36,6 +36,6 @@ class StudentidDialogFragment :
 
     companion object {
         @JvmStatic
-        fun newInstance() = StudentidDialogFragment()
+        fun newInstance() = StudentIdDialogFragment()
     }
 }

@@ -1,6 +1,7 @@
 package com.el.yello.presentation.onboarding.fragment.school.dialog
 
 import android.annotation.SuppressLint
+import android.app.Dialog
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -22,6 +23,8 @@ import com.example.ui.base.BindingBottomSheetDialog
 import com.example.ui.context.hideKeyboard
 import com.example.ui.view.UiState
 import com.example.ui.view.setOnSingleClickListener
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.bottomsheet.BottomSheetDialog
 
 class SearchDialogSchoolFragment :
     BindingBottomSheetDialog<FragmentDialogSchoolBinding>(R.layout.fragment_dialog_school) {
@@ -32,12 +35,34 @@ class SearchDialogSchoolFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.vm = viewModel
+
         initView()
         setupSchoolData()
         setListWithInfinityScroll()
         recyclerviewScroll()
         setClickToSchoolForm()
-        setFullDialog()
+    }
+
+    // 바텀 시트 fullScreen
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        val dialog = BottomSheetDialog(requireContext(), theme)
+        dialog.setOnShowListener {
+            val bottomSheetDialog = it as BottomSheetDialog
+            val parentLayout =
+                bottomSheetDialog.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet)
+            parentLayout?.let { it ->
+                val behaviour = BottomSheetBehavior.from(it)
+                setupFullHeight(it)
+                behaviour.state = BottomSheetBehavior.STATE_EXPANDED
+            }
+        }
+        return dialog
+    }
+
+    private fun setupFullHeight(bottomSheet: View) {
+        val layoutParams = bottomSheet.layoutParams
+        layoutParams.height = WindowManager.LayoutParams.MATCH_PARENT
+        bottomSheet.layoutParams = layoutParams
     }
 
     private fun initView() {

@@ -29,14 +29,11 @@ class OnBoardingViewModel @Inject constructor(
     private val authRepository: AuthRepository,
 ) : ViewModel() {
 
-    private var currentFriendPage: Int = -1
-    private var isFriendPagingFinish = false
-    private var totalFriendPage = Int.MAX_VALUE
-
     // 학교 viewmodel (step 1)
+
     private val _schoolData = MutableLiveData<UiState<SchoolList>>()
-    val _school = MutableLiveData("")
     val schoolData: MutableLiveData<UiState<SchoolList>> = _schoolData
+    val _school = MutableLiveData("")
     val school: String
         get() = _school.value?.trim() ?: ""
     val isValidSchool: LiveData<Boolean> = _school.map { school -> checkValidSchool(school) }
@@ -193,6 +190,10 @@ class OnBoardingViewModel @Inject constructor(
     var kakaoFriendList: List<String> = listOf()
     var selectedFriendIdList: List<Long> = listOf()
     var selectedFriendCount: MutableLiveData<Int> = MutableLiveData(0)
+
+    private var currentFriendPage: Int = -1
+    private var isFriendPagingFinish = false
+    private var totalFriendPage = Int.MAX_VALUE
 
     fun addFriendList(friendGroup: FriendGroup) {
         viewModelScope.launch {

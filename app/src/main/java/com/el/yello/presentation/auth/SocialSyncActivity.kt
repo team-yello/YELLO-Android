@@ -40,12 +40,7 @@ class SocialSyncActivity :
     // 개인정보처리방침 버튼의 링크 이동 리스너
     private fun initInfoBtnListener() {
         binding.tvSocialSyncInfo.setOnSingleClickListener {
-            startActivity(
-                Intent(
-                    Intent.ACTION_VIEW,
-                    Uri.parse("https://yell0.notion.site/2afc2a1e60774dfdb47c4d459f01b1d9")
-                )
-            )
+            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(PERSONAL_INFO_URL)))
         }
     }
 
@@ -83,5 +78,9 @@ class SocialSyncActivity :
             }
             finish()
         }
+    }
+
+    private companion object {
+        const val PERSONAL_INFO_URL = "https://yell0.notion.site/2afc2a1e60774dfdb47c4d459f01b1d9"
     }
 }

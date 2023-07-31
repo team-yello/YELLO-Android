@@ -102,7 +102,7 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
                 }
 
                 is UiState.Failure -> {
-                    if (state.msg == "403") {
+                    if (state.msg == NOT_SIGNED_IN) {
                         // 403(가입되지 않은 아이디): 온보딩 뷰로 이동 위해 카카오 유저 정보 얻기
                         viewModel.getKakaoInfo()
                     } else {
@@ -192,6 +192,8 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
     companion object {
         const val EXTRA_KAKAO_ID = "KAKAO_ID"
         const val EXTRA_PROFILE_IMAGE = "PROFILE_IMAGE"
+
+        const val NOT_SIGNED_IN = "403"
 
         const val TAG_AUTH = "authSignIn"
     }

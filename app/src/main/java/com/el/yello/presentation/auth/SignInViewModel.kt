@@ -36,7 +36,7 @@ class SignInViewModel @Inject constructor(
     private val _getKakaoDataState = MutableLiveData<UiState<User?>>()
     val getKakaoDataState: LiveData<UiState<User?>> = _getKakaoDataState
 
-    private val serviceTermsList = listOf("profile_image", "account_email", "friends")
+    private val serviceTermsList = listOf(THUMBNAIL, EMAIL, FRIEND_LIST)
 
     // 웹 로그인 실행
     fun loginWithWebCallback(
@@ -87,7 +87,6 @@ class SignInViewModel @Inject constructor(
                     RequestServiceTokenModel(accessToken, social),
                 )
             }.onSuccess {
-                Timber.d("GET USER DATA SUCCESS : $it")
                 if (it == null) {
                     _postState.value = UiState.Empty
                     return@launch
@@ -95,13 +94,10 @@ class SignInViewModel @Inject constructor(
                 authRepository.setAutoLogin(it.accessToken, it.refreshToken)
                 _postState.value = UiState.Success(it)
             }.onFailure {
-                Timber.e("GET USER DATA FAILURE : $it")
                 if (it is HttpException && it.code() == 403) {
-                    _postState.value = UiState.Failure("403")
-                } else if (it is HttpException && it.code() == 401) {
-                    _postState.value = UiState.Failure("401")
+                    _postState.value = UiState.Failure(NOT_SIGNED)
                 } else {
-                    _postState.value = UiState.Failure("error")
+                    _postState.value = UiState.Failure(ERROR)
                 }
             }
         }
@@ -117,13 +113,11 @@ class SignInViewModel @Inject constructor(
                     _getUserProfileState.value = UiState.Empty
                     return@launch
                 }
-
                 _getUserProfileState.value = UiState.Success(Unit)
                 authRepository.setYelloId(profile.yelloId)
             }
                 .onFailure { t ->
                     if (t is HttpException) {
-                        Timber.e("GET USER PROFILE FAILURE : $t")
                         _getUserProfileState.value = UiState.Failure(t.code().toString())
                     }
                 }
@@ -132,5 +126,12 @@ class SignInViewModel @Inject constructor(
 
     private companion object {
         const val KAKAO = "KAKAO"
+
+        const val THUMBNAIL = "profile_image"
+        const val EMAIL = "account_email"
+        const val FRIEND_LIST = "friends"
+
+        const val NOT_SIGNED = "403"
+        const val ERROR = "error"
     }
 }

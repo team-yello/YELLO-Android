@@ -65,7 +65,7 @@ class CodeFragment : BindingFragment<FragmentCodeBinding>(R.layout.fragment_code
                 }
 
                 is UiState.Failure -> {
-                    if (state.msg == "404") {
+                    if (state.msg == NOT_FOUND) {
                         viewModel.postSignup()
                         return@observe
                     }
@@ -92,5 +92,9 @@ class CodeFragment : BindingFragment<FragmentCodeBinding>(R.layout.fragment_code
         binding.btnCodeDelete.setBackgroundResource(R.drawable.ic_onboarding_delete_red)
         binding.tvIdError.text = getString(R.string.onboarding_code_duplicate_msg)
         binding.tvIdError.setTextColor(resources.getColor(R.color.semantic_red_500))
+    }
+
+    companion object {
+        const val NOT_FOUND = "404"
     }
 }

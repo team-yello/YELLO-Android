@@ -36,10 +36,6 @@ class OnBoardingViewModel @Inject constructor(
     val _school = MutableLiveData("")
     val school: String
         get() = _school.value?.trim() ?: ""
-    val isValidSchool: LiveData<Boolean> = _school.map { school -> checkValidSchool(school) }
-    private fun checkValidSchool(school: String): Boolean {
-        return school.isNotBlank()
-    }
 
     fun setSchool(school: String) {
         _school.value = school
@@ -112,8 +108,8 @@ class OnBoardingViewModel @Inject constructor(
     }
 
     fun addStudentId() {
-        val mockList = listOf(15, 16, 17, 18, 19, 20, 21, 22, 23)
-        _studentIdResult.value = mockList
+        val studentIdList = listOf(15, 16, 17, 18, 19, 20, 21, 22, 23)
+        _studentIdResult.value = studentIdList
     }
 
     fun clearDepartmentData() {
@@ -129,7 +125,7 @@ class OnBoardingViewModel @Inject constructor(
                 school,
                 search,
                 0,
-//                ++departmentPage,
+               // ++departmentPage,
             ).onSuccess { groupList ->
                 if (groupList == null) {
                     _departmentData.value = UiState.Empty

@@ -8,7 +8,7 @@ import com.el.yello.R
 import com.el.yello.databinding.FragmentStudentidBinding
 import com.el.yello.presentation.onboarding.activity.OnBoardingViewModel
 import com.el.yello.presentation.onboarding.fragment.studentid.dialog.department.SearchDialogDepartmentFragment
-import com.el.yello.presentation.onboarding.fragment.studentid.dialog.studentid.StudentidDialogFragment
+import com.el.yello.presentation.onboarding.fragment.studentid.dialog.studentId.StudentIdDialogFragment
 import com.example.ui.base.BindingFragment
 import com.example.ui.view.setOnSingleClickListener
 
@@ -32,7 +32,7 @@ class StudentIdFragment : BindingFragment<FragmentStudentidBinding>(R.layout.fra
             SearchDialogDepartmentFragment().show(parentFragmentManager, this.tag)
         }
         binding.tvStudentidSearch.setOnSingleClickListener {
-            StudentidDialogFragment().show(parentFragmentManager, this.tag)
+            StudentIdDialogFragment().show(parentFragmentManager, this.tag)
         }
     }
 

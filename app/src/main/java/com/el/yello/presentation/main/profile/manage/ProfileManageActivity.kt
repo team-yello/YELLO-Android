@@ -1,7 +1,5 @@
 package com.el.yello.presentation.main.profile.manage
 
-import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -88,7 +86,7 @@ class ProfileManageActivity :
                 is UiState.Success -> {
                     lifecycleScope.launch {
                         delay(500)
-                        restartApp(this@ProfileManageActivity)
+                        restartApp()
                     }
                 }
 
@@ -104,12 +102,11 @@ class ProfileManageActivity :
         }
     }
 
-    private fun restartApp(context: Context) {
-        val packageManager = context.packageManager
-        val intent = packageManager.getLaunchIntentForPackage(context.packageName)
-        val componentName = intent!!.component
-        val mainIntent = Intent.makeRestartActivityTask(componentName)
-        context.startActivity(mainIntent)
+    private fun restartApp() {
+        val componentName = packageManager.getLaunchIntentForPackage(packageName)?.component
+        Intent.makeRestartActivityTask(componentName).apply {
+            startActivity(this)
+        }
         Runtime.getRuntime().exit(0)
     }
 

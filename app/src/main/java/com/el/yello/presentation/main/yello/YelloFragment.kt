@@ -70,10 +70,9 @@ class YelloFragment : BindingFragment<FragmentYelloBinding>(R.layout.fragment_ye
 
     private fun restartApp(context: Context) {
         val packageManager = context.packageManager
-        val intent = packageManager.getLaunchIntentForPackage(context.packageName)
-        val componentName = intent!!.component
-        val mainIntent = Intent.makeRestartActivityTask(componentName)
-        context.startActivity(mainIntent)
+        val packageName = context.packageName
+        val componentName = packageManager.getLaunchIntentForPackage(packageName)?.component
+        context.startActivity(Intent.makeRestartActivityTask(componentName))
         Runtime.getRuntime().exit(0)
     }
 

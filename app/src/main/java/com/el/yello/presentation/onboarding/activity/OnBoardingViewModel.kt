@@ -40,6 +40,7 @@ class OnBoardingViewModel @Inject constructor(
     private val _inputText = MutableLiveData<String>()
     val inputText: LiveData<String>
         get() = _inputText
+
     fun setInputText(text: String) {
         _inputText.value = text
     }
@@ -181,12 +182,8 @@ class OnBoardingViewModel @Inject constructor(
     var email: String = ""
     var profileImg: String = ""
 
-    private val _profile = MutableLiveData("")
-    val profile: String
-        get() = _profile.value ?: ""
-
-    private val _friendState = MutableLiveData<FriendList>()
-    val friendState: LiveData<FriendList> = _friendState
+    private val _friendListState = MutableLiveData<FriendList>()
+    val friendListState: LiveData<FriendList> = _friendListState
 
     var selectedFriendIdList: List<Long> = listOf()
     var selectedFriendCount: MutableLiveData<Int> = MutableLiveData(0)
@@ -236,7 +233,7 @@ class OnBoardingViewModel @Inject constructor(
                 )
             }.onSuccess { friendList ->
                 friendList ?: return@launch
-                _friendState.value = friendList
+                _friendListState.value = friendList
             }.onFailure {
                 Timber.e(it.message)
             }

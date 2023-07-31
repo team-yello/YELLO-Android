@@ -91,7 +91,7 @@ class AddFriendFragment : BindingFragment<FragmentAddfreindBinding>(R.layout.fra
 
     // 리스트 추가 서버 통신 성공 시 어댑터에 리스트 추가
     private fun observeAddListState() {
-        viewModel.friendState.observe(viewLifecycleOwner) {
+        viewModel.friendListState.observe(viewLifecycleOwner) {
             friendsList = it.friendList
             adapter?.submitList(friendsList)
             selectedItemIdList.addAll(friendsList.map { friend -> friend.id })

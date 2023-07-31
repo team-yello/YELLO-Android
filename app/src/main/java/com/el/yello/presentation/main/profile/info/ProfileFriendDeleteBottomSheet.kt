@@ -30,7 +30,6 @@ class ProfileFriendDeleteBottomSheet :
         setItemImage()
         initReturnBtnListener()
         initDeleteBtnListener()
-        initDialogDismissListener()
         observeFriendDeleteState()
     }
 
@@ -42,7 +41,6 @@ class ProfileFriendDeleteBottomSheet :
 
     private fun initReturnBtnListener() {
         binding.btnProfileFriendDeleteReturn.setOnSingleClickListener {
-            viewModel.isBottomSheetRunning = false
             dismiss()
         }
     }
@@ -57,12 +55,6 @@ class ProfileFriendDeleteBottomSheet :
         }
     }
 
-    private fun initDialogDismissListener() {
-        dialog?.setOnDismissListener {
-            viewModel.isBottomSheetRunning = false
-        }
-    }
-
     // 친구 삭제 서버 통신 성공 시 토스트 띄우고 바텀시트 종료
     private fun observeFriendDeleteState() {
         viewModel.deleteFriendState.observe(viewLifecycleOwner) { state ->
@@ -70,7 +62,6 @@ class ProfileFriendDeleteBottomSheet :
                 is UiState.Success -> {
                     toast(getString(R.string.profile_delete_bottom_sheet_toast, viewModel.clickedItemName.value.toString()))
                     viewModel.setDeleteFriendStateEmpty()
-                    viewModel.isBottomSheetRunning = false
                     this@ProfileFriendDeleteBottomSheet.dismiss()
                 }
 

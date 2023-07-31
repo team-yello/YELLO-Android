@@ -1,5 +1,6 @@
 package com.el.yello.presentation.main.profile.info
 
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.activityViewModels
@@ -27,21 +28,19 @@ class ProfileFriendItemBottomSheet :
         super.onViewCreated(view, savedInstanceState)
 
         binding.vm = viewModel
-        viewModel.isBottomSheetRunning = true
+        viewModel.isItemBottomSheetRunning = true
         initDeleteBtnListener()
-        initDialogDismissListener()
         setItemImage()
+    }
+
+    override fun onDismiss(dialog: DialogInterface) {
+        super.onDismiss(dialog)
+        viewModel.isItemBottomSheetRunning = false
     }
 
     private fun setItemImage() {
         binding.ivProfileFriendThumbnail.load(viewModel.clickedItemThumbnail.value) {
             transformations(CircleCropTransformation())
-        }
-    }
-
-    private fun initDialogDismissListener() {
-        dialog?.setOnDismissListener {
-            viewModel.isBottomSheetRunning = false
         }
     }
 

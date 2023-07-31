@@ -1,4 +1,4 @@
-package com.el.yello.presentation.main.recommend
+package com.el.yello.presentation.main.recommend.kakao
 
 import android.os.Bundle
 import android.view.View
@@ -13,8 +13,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.el.yello.R
 import com.el.yello.databinding.FragmentRecommendKakaoBinding
+import com.el.yello.presentation.main.recommend.list.RecommendAdapter
+import com.el.yello.presentation.main.recommend.RecommendInviteDialog
+import com.el.yello.presentation.main.recommend.list.RecommendItemDecoration
+import com.el.yello.presentation.main.recommend.list.RecommendViewHolder
 import com.el.yello.util.context.yelloSnackbar
-import com.example.domain.entity.RecommendModel
 import com.example.ui.base.BindingFragment
 import com.example.ui.intent.dpToPx
 import com.example.ui.view.UiState
@@ -30,8 +33,6 @@ class RecommendKakaoFragment :
     private val viewModel by viewModels<RecommendKakaoViewModel>()
     private var adapter: RecommendAdapter? = null
     private var recommendInviteDialog: RecommendInviteDialog? = null
-
-    private lateinit var friendsList: List<RecommendModel.RecommendFriend>
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -113,8 +114,7 @@ class RecommendKakaoFragment :
                         showNoFriendScreen()
                     } else {
                         showFriendListScreen()
-                        friendsList = state.data?.friends ?: listOf()
-                        adapter?.addItemList(friendsList)
+                        adapter?.addItemList(state.data?.friends ?: listOf())
                     }
                 }
 

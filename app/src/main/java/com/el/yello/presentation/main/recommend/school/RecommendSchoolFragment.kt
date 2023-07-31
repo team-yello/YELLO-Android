@@ -1,4 +1,4 @@
-package com.el.yello.presentation.main.recommend
+package com.el.yello.presentation.main.recommend.school
 
 import android.os.Bundle
 import android.view.View
@@ -13,6 +13,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.el.yello.R
 import com.el.yello.databinding.FragmentRecommendSchoolBinding
+import com.el.yello.presentation.main.recommend.list.RecommendAdapter
+import com.el.yello.presentation.main.recommend.RecommendInviteDialog
+import com.el.yello.presentation.main.recommend.list.RecommendItemDecoration
+import com.el.yello.presentation.main.recommend.list.RecommendViewHolder
 import com.el.yello.util.context.yelloSnackbar
 import com.example.domain.entity.RecommendModel
 import com.example.ui.base.BindingFragment

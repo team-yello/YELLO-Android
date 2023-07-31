@@ -3,6 +3,7 @@ package com.el.yello.presentation.onboarding.activity
 import android.content.Intent
 import android.content.Intent.EXTRA_EMAIL
 import android.os.Bundle
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.viewModels
 import com.el.yello.R
 import com.el.yello.databinding.ActivityOnboardingBinding
@@ -20,7 +21,7 @@ class OnBoardingActivity :
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        onBackPressedDispatcher.addCallback(this, onBackPressedCallback)
         getIntentExtraData()
         initViewPager()
         setupCurrentPage()
@@ -50,14 +51,22 @@ class OnBoardingActivity :
     }
 
     // 내장된 백버튼 클릭 시 이전 화면으로 이동
-    override fun onBackPressed() {
-        if (binding.vpOnboarding.currentItem == CURRENT_ITEM_LAST) return
-        if (binding.vpOnboarding.currentItem == CURRENT_ITEM_START) {
-            val intent = Intent(this, SocialSyncActivity::class.java)
-            startActivity(intent)
-            return
+
+    private val onBackPressedCallback = object : OnBackPressedCallback(true) {
+        override fun handleOnBackPressed() {
+            if (binding.vpOnboarding.currentItem == CURRENT_ITEM_LAST) return
+            if (binding.vpOnboarding.currentItem == CURRENT_ITEM_START) {
+                val intent = Intent(this@OnBoardingActivity, SocialSyncActivity::class.java)
+                startActivity(intent)
+                return
+            }
+            viewModel.navigateToBackPage()
         }
-        viewModel.navigateToBackPage()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        onBackPressedCallback.remove()
     }
 
     companion object {

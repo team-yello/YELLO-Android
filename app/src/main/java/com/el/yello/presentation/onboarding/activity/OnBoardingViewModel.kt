@@ -84,10 +84,6 @@ class OnBoardingViewModel @Inject constructor(
     private val _departmentData = MutableLiveData<UiState<GroupList>>()
     val departmentData: MutableLiveData<UiState<GroupList>> = _departmentData
 
-    private fun checkEmpty(input: String) = input.isBlank()
-    val isEmptyDepartment: LiveData<Boolean> =
-        _department.map { department -> this.checkEmpty(department) }
-
     private val _groupId = MutableLiveData<Long>()
     val _studentId = MutableLiveData<Int>()
 
@@ -125,7 +121,7 @@ class OnBoardingViewModel @Inject constructor(
                 school,
                 search,
                 0,
-               // ++departmentPage,
+                // ++departmentPage,
             ).onSuccess { groupList ->
                 if (groupList == null) {
                     _departmentData.value = UiState.Empty

@@ -78,6 +78,7 @@ class SearchDialogSchoolFragment :
         }
     }
 
+    // recyclerview in bottomsheet 스크롤
     private fun setListWithInfinityScroll() {
         binding.rvSchoolList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {

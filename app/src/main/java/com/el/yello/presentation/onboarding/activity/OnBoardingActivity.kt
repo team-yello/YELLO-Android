@@ -51,12 +51,17 @@ class OnBoardingActivity :
 
     // 내장된 백버튼 클릭 시 이전 화면으로 이동
     override fun onBackPressed() {
-        if (binding.vpOnboarding.currentItem == 6) return
-        if (binding.vpOnboarding.currentItem == 0) {
+        if (binding.vpOnboarding.currentItem == CURRENT_ITEM_LAST) return
+        if (binding.vpOnboarding.currentItem == CURRENT_ITEM_START) {
             val intent = Intent(this, SocialSyncActivity::class.java)
             startActivity(intent)
             return
         }
         viewModel.navigateToBackPage()
+    }
+
+    companion object {
+        private const val CURRENT_ITEM_START = 0
+        private const val CURRENT_ITEM_LAST = 6
     }
 }

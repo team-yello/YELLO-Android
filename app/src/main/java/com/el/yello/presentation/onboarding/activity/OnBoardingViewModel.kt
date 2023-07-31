@@ -37,6 +37,13 @@ class OnBoardingViewModel @Inject constructor(
     val school: String
         get() = _school.value?.trim() ?: ""
 
+    private val _inputText = MutableLiveData<String>()
+    val inputText: LiveData<String>
+        get() = _inputText
+    fun setInputText(text: String) {
+        _inputText.value = text
+    }
+
     fun setSchool(school: String) {
         _school.value = school
     }

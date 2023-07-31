@@ -1,6 +1,5 @@
 package com.el.yello.presentation.onboarding.fragment.school.dialog
 
-import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.Intent
 import android.net.Uri
@@ -27,6 +26,8 @@ class SearchDialogSchoolFragment :
     BindingBottomSheetDialog<FragmentDialogSchoolBinding>(R.layout.fragment_dialog_school) {
     private var adapter: SchoolAdapter? = null
     private val viewModel by activityViewModels<OnBoardingViewModel>()
+
+    // TODO : viewmodel 이동
     private var inputText: String = ""
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -75,7 +76,6 @@ class SearchDialogSchoolFragment :
         }
     }
 
-    // recyclerview in bottomsheet 스크롤
     private fun setListWithInfinityScroll() {
         binding.rvSchoolList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
@@ -122,8 +122,6 @@ class SearchDialogSchoolFragment :
         viewModel.clearSchoolData()
         dismiss()
     }
-
-    @SuppressLint("ClickableViewAccessibility")
     private fun recyclerviewScroll() {
         binding.rvSchoolList.setOnTouchListener { view, motionEvent ->
             when (motionEvent.action) {
@@ -137,8 +135,9 @@ class SearchDialogSchoolFragment :
 
     private fun setClickToSchoolForm() {
         binding.tvSchoolAdd.setOnClickListener {
-            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://bit.ly/46Yv0Hc"))
-            startActivity(intent)
+            Intent(Intent.ACTION_VIEW, Uri.parse(SCHOOL_FORM_URL)).apply {
+                startActivity(this)
+            }
         }
     }
 
@@ -150,5 +149,6 @@ class SearchDialogSchoolFragment :
     companion object {
         @JvmStatic
         fun newInstance() = SearchDialogSchoolFragment()
+        private const val SCHOOL_FORM_URL = "https://bit.ly/46Yv0Hc"
     }
 }

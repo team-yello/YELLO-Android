@@ -9,6 +9,7 @@ import com.el.yello.presentation.onboarding.activity.OnBoardingViewModel
 import com.el.yello.util.context.yelloSnackbar
 import com.example.ui.base.BindingFragment
 import com.example.ui.view.UiState
+import com.example.ui.view.setOnSingleClickListener
 
 class CodeFragment : BindingFragment<FragmentCodeBinding>(R.layout.fragment_code) {
     private val viewModel by activityViewModels<OnBoardingViewModel>()
@@ -25,13 +26,15 @@ class CodeFragment : BindingFragment<FragmentCodeBinding>(R.layout.fragment_code
 
     override fun onResume() {
         super.onResume()
-
         setupGetValidYelloIdState()
     }
 
     private fun setConfirmBtnCLickListener() {
         binding.btnCodeSkip.setOnClickListener {
             viewModel.postSignup()
+        }
+        binding.btnCodeNext.setOnSingleClickListener {
+            viewModel.navigateToNextPage()
         }
     }
 
@@ -82,14 +85,14 @@ class CodeFragment : BindingFragment<FragmentCodeBinding>(R.layout.fragment_code
     }
 
     private fun setDeleteCodeBtnClickListener() {
-        binding.btnCodeDelete.setOnClickListener {
+        binding.ivCodeDelete.setOnClickListener {
             binding.etCode.setText("")
         }
     }
 
     private fun initIdEditTextViewError() {
         binding.etCode.setBackgroundResource(R.drawable.shape_fill_red20_line_semantic_status_red500_rect_8)
-        binding.btnCodeDelete.setBackgroundResource(R.drawable.ic_onboarding_delete_red)
+        binding.ivCodeDelete.setBackgroundResource(R.drawable.ic_onboarding_delete_red)
         binding.tvIdError.text = getString(R.string.onboarding_code_duplicate_msg)
         binding.tvIdError.setTextColor(resources.getColor(R.color.semantic_red_500))
     }

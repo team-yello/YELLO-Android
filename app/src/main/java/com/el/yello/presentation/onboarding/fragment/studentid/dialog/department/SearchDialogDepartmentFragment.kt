@@ -1,15 +1,11 @@
 package com.el.yello.presentation.onboarding.fragment.studentid.dialog.department
 
-import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.Intent
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.view.MotionEvent
 import android.view.View
-import android.view.ViewGroup
 import android.view.WindowManager
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.activityViewModels
@@ -103,8 +99,6 @@ class SearchDialogDepartmentFragment :
         viewModel.clearDepartmentData()
         dismiss()
     }
-
-    @SuppressLint("ClickableViewAccessibility")
     private fun recyclerviewScroll() {
         binding.rvDepartmentList.setOnTouchListener { view, motionEvent ->
             when (motionEvent.action) {
@@ -118,8 +112,9 @@ class SearchDialogDepartmentFragment :
 
     private fun setClicktoDepartmentform() {
         binding.tvDepartmentAdd.setOnClickListener {
-            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://bit.ly/3pO0ijD"))
-            startActivity(intent)
+            Intent(Intent.ACTION_VIEW, Uri.parse(DEPARTMENT_FORM_URL)).apply {
+                startActivity(this)
+            }
         }
     }
 
@@ -131,5 +126,6 @@ class SearchDialogDepartmentFragment :
     companion object {
         @JvmStatic
         fun newInstance() = SearchDialogDepartmentFragment()
+        private const val DEPARTMENT_FORM_URL = "https://bit.ly/3pO0ijD"
     }
 }

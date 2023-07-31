@@ -1,4 +1,4 @@
-package com.el.yello.presentation.onboarding.fragment.studentid.dialog.studentid
+package com.el.yello.presentation.onboarding.fragment.studentid.dialog.studentId
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -9,9 +9,9 @@ import com.el.yello.databinding.ItemStudentidListBinding
 import com.example.ui.view.ItemDiffCallback
 import com.example.ui.view.setOnSingleClickListener
 
-class StudentidDialogAdapter(
+class StudentIdDialogAdapter(
     private val storeStudentId: (Int) -> Unit,
-) : ListAdapter<Int, StudentidDialogAdapter.StudentIdViewHolder>(diffUtil) {
+) : ListAdapter<Int, StudentIdDialogAdapter.StudentIdViewHolder>(diffUtil) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StudentIdViewHolder {
         return StudentIdViewHolder(
             ItemStudentidListBinding.inflate(

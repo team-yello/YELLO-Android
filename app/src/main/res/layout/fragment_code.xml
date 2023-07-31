@@ -21,9 +21,11 @@
             android:layout_width="0dp"
             android:textColor="@color/white"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
+            android:layout_marginHorizontal="16dp"
             android:layout_marginTop="68dp"
             android:text="@string/onboarding_tv_code"
+            tools:text="@string/dummy"
+            android:maxLines="1"
             android:textAppearance="?textAppearanceHeadline2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -33,20 +35,19 @@
             android:id="@+id/tv_code_warning"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
             android:layout_marginHorizontal="12dp"
             android:layout_marginTop="4dp"
             android:ellipsize="end"
             android:maxLines="1"
             android:text="@string/onboarding_tv_code_skip"
             android:textAppearance="?textAppearanceBodySmall"
-            android:textColor="@color/grayscales_600"
+            android:textColor="@color/grayscales_500"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_name" />
 
         <TextView
-            android:id="@+id/iv_code_fix"
+            android:id="@+id/tv_code_fix"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="36dp"
@@ -66,6 +67,7 @@
             android:fontFamily="@font/font_pretendard_medium"
             android:hint="@string/onboarding_tv_code_hint"
             android:ellipsize="end"
+            android:maxLength="20"
             android:background="@{@drawable/sel_onbarding_editext_focus}"
             android:inputType="text"
             android:layout_marginTop="24dp"
@@ -83,7 +85,7 @@
             app:layout_constraintTop_toBottomOf="@+id/tv_code_warning" />
 
         <ImageView
-            android:id="@+id/btn_code_delete"
+            android:id="@+id/iv_code_delete"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="12dp"
@@ -110,12 +112,13 @@
             app:layout_constraintStart_toStartOf="@+id/et_code"
             app:layout_constraintTop_toBottomOf="@id/et_code" />
 
-        <androidx.appcompat.widget.AppCompatButton
+        <TextView
             android:id="@+id/btn_code_skip"
             android:layout_width="0dp"
             android:text="@string/onboarding_btn_code_skip"
             android:background="@null"
             android:gravity="center"
+            android:layout_marginBottom="14dp"
             android:textColor="@color/grayscales_200"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             android:layout_height="wrap_content"
@@ -131,7 +134,7 @@
             android:layout_marginBottom="32dp"
             android:paddingVertical="12dp"
             android:text="@string/onboarding_code_complete"
-            android:onClick="@{()->vm.getValidYelloId()}"
+            android:clickable="@{!vm._code.isEmpty()}"
             android:textAppearance="?textAppearanceBodyMedium"
             android:textColor="@{!vm._code.isEmpty()? @color/black : @color/grayscales_700}"
             app:layout_constraintBottom_toBottomOf="parent"

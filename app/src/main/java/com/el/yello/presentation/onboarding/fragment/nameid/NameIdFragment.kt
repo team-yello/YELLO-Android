@@ -19,11 +19,11 @@ class NameIdFragment : BindingFragment<FragmentNameIdBinding>(R.layout.fragment_
         binding.vm = viewModel
 
         setDeleteBtnClickListener()
-        setBtnClickListener()
+        setConfirmBtnClickListener()
         setupGetValidYelloId()
     }
 
-    private fun setBtnClickListener() {
+    private fun setConfirmBtnClickListener() {
         binding.btnNameidNext.setOnSingleClickListener {
             viewModel.getValidYelloId()
         }
@@ -44,11 +44,6 @@ class NameIdFragment : BindingFragment<FragmentNameIdBinding>(R.layout.fragment_
     private fun setupGetValidYelloId() {
         viewModel.getValidYelloId.observe(viewLifecycleOwner) { state ->
             when (state) {
-                is UiState.Loading -> {}
-                is UiState.Empty -> {
-                    yelloSnackbar(binding.root, getString(R.string.msg_error))
-                }
-
                 is UiState.Success -> {
                     if (state.data) {
                         viewModel.navigateToNextPage()
@@ -58,11 +53,15 @@ class NameIdFragment : BindingFragment<FragmentNameIdBinding>(R.layout.fragment_
                 }
 
                 is UiState.Failure -> {
-                    if (state.msg == "404") {
+                    if (state.msg == NOT_FOUND) {
                         viewModel.navigateToNextPage()
                         return@observe
                     }
+                    yelloSnackbar(binding.root, getString(R.string.msg_error))
+                }
 
+                is UiState.Loading -> {}
+                is UiState.Empty -> {
                     yelloSnackbar(binding.root, getString(R.string.msg_error))
                 }
             }
@@ -74,5 +73,9 @@ class NameIdFragment : BindingFragment<FragmentNameIdBinding>(R.layout.fragment_
         binding.btnIdDelete.setBackgroundResource(R.drawable.ic_onboarding_delete_red)
         binding.tvIdError.text = getString(R.string.onboarding_code_duplicate_msg)
         binding.tvIdError.setTextColor(resources.getColor(R.color.semantic_red_500))
+    }
+
+    companion object {
+        const val NOT_FOUND = "404"
     }
 }

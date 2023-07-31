@@ -145,15 +145,6 @@ class SearchDialogSchoolFragment :
         }
     }
 
-    private fun setFullDialog() {
-        dialog?.window?.setLayout(
-            ViewGroup.LayoutParams.MATCH_PARENT,
-            ViewGroup.LayoutParams.MATCH_PARENT,
-        )
-        dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        dialog?.window?.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
-    }
-
     override fun onDestroyView() {
         super.onDestroyView()
         adapter = null

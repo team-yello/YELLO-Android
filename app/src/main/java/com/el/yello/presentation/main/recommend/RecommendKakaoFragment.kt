@@ -7,6 +7,7 @@ import android.view.animation.AnimationUtils
 import androidx.core.view.isVisible
 import androidx.core.view.setPadding
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -19,7 +20,6 @@ import com.example.ui.intent.dpToPx
 import com.example.ui.view.UiState
 import com.example.ui.view.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -184,7 +184,7 @@ class RecommendKakaoFragment :
 
     // 삭제 시 체크 버튼으로 전환 후 0.3초 뒤 애니메이션 적용
     private fun removeItemWithAnimation(holder: RecommendViewHolder, position: Int) {
-        CoroutineScope(Dispatchers.Main).launch {
+        lifecycleScope.launch {
             changeToCheckIcon(holder)
             delay(300)
             adapter?.removeItem(position)

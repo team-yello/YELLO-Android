@@ -7,6 +7,7 @@ import android.view.View
 import android.view.animation.AnimationUtils
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -21,8 +22,6 @@ import com.example.ui.fragment.toast
 import com.example.ui.view.UiState
 import com.example.ui.view.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -195,7 +194,7 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
         viewModel.deleteFriendState.observe(viewLifecycleOwner) { state ->
             when (state) {
                 is UiState.Success -> {
-                    CoroutineScope(Dispatchers.Main).launch {
+                    lifecycleScope.launch {
                         viewModel.clickedItemPosition?.let { position ->
                             adapter?.removeItem(
                                 position

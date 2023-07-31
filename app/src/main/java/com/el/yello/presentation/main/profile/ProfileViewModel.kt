@@ -157,6 +157,7 @@ class ProfileViewModel @Inject constructor(
             _kakaoLogoutState.value = UiState.Loading
             if (error == null) {
                 _kakaoLogoutState.value = UiState.Success(Unit)
+                clearLocalInfo()
             } else {
                 _kakaoLogoutState.value = UiState.Failure(error.message ?: "")
             }

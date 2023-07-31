@@ -14,7 +14,6 @@ import com.el.yello.util.context.yelloSnackbar
 import com.example.ui.base.BindingActivity
 import com.example.ui.view.UiState
 import com.example.ui.view.setOnSingleClickListener
-import com.kakao.sdk.user.UserApiClient
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -83,26 +82,11 @@ class ProfileManageActivity :
         }
     }
 
-    private fun logoutKakaoAccount() {
-        UserApiClient.instance.logout { error ->
-            if (error != null) {
-                Timber.d(getString(R.string.profile_error_logout) + ": $error")
-            } else {
-                lifecycleScope.launch {
-                    viewModel.clearLocalInfo()
-                    delay(500)
-                    restartApp(this@ProfileManageActivity)
-                }
-            }
-        }
-    }
-
     private fun observeKakaoLogoutState() {
         viewModel.kakaoLogoutState.observe(this) { state ->
             when (state) {
                 is UiState.Success -> {
                     lifecycleScope.launch {
-                        viewModel.clearLocalInfo()
                         delay(500)
                         restartApp(this@ProfileManageActivity)
                     }

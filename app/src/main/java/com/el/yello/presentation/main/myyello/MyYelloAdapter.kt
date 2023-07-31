@@ -1,6 +1,5 @@
 package com.el.yello.presentation.main.myyello
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
@@ -65,6 +64,7 @@ class MyYelloAdapter(private val itemClick: (Yello, Int) -> (Unit)) :
                     R.color.grayscales_900
                 )
             )
+            binding.tvTime.setTextColor(ContextCompat.getColor(itemView.context, R.color.grayscales_600))
             if (item.gender == GenderEnum.M) {
                 if (item.isHintUsed) {
                     binding.cardMyYello.setCardBackgroundColor(
@@ -73,6 +73,11 @@ class MyYelloAdapter(private val itemClick: (Yello, Int) -> (Unit)) :
                             R.color.semantic_gender_m_700
                         )
                     )
+                    ContextCompat.getColor(itemView.context, R.color.semantic_gender_m_300).apply {
+                        binding.tvSendName.setTextColor(this)
+                        binding.tvSendNameEnd.setTextColor(this)
+                    }
+                    binding.tvTime.setTextColor(ContextCompat.getColor(itemView.context, R.color.semantic_gender_m_500))
                 }
                 binding.ivYello.setImageDrawable(
                     ContextCompat.getDrawable(
@@ -89,6 +94,11 @@ class MyYelloAdapter(private val itemClick: (Yello, Int) -> (Unit)) :
                             R.color.semantic_gender_f_700
                         )
                     )
+                    ContextCompat.getColor(itemView.context, R.color.semantic_gender_f_300).apply {
+                        binding.tvSendName.setTextColor(this)
+                        binding.tvSendNameEnd.setTextColor(this)
+                    }
+                    binding.tvTime.setTextColor(ContextCompat.getColor(itemView.context, R.color.semantic_gender_f_500))
                 }
                 binding.ivYello.setImageDrawable(
                     ContextCompat.getDrawable(

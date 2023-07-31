@@ -33,7 +33,7 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
     override fun onBackPressed() {
         if (System.currentTimeMillis() - backPressedTime >= 2000) {
             backPressedTime = System.currentTimeMillis()
-            toast("'뒤로' 버튼을 한번 더 누르면 종료됩니다.")
+            toast(getString(R.string.main_toast_back_pressed))
         } else {
             finish()
         }

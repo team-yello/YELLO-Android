@@ -57,10 +57,10 @@ class RecommendSchoolFragment :
     private fun initInviteBtnListener() {
         recommendInviteDialog = RecommendInviteDialog.newInstance(viewModel.getYelloId())
         binding.layoutInviteFriend.setOnSingleClickListener {
-            recommendInviteDialog?.show(parentFragmentManager, DIALOG)
+            recommendInviteDialog?.show(parentFragmentManager, INVITE_DIALOG)
         }
         binding.btnRecommendNoFriend.setOnSingleClickListener {
-            recommendInviteDialog?.show(parentFragmentManager, DIALOG)
+            recommendInviteDialog?.show(parentFragmentManager, INVITE_DIALOG)
         }
     }
 
@@ -217,6 +217,6 @@ class RecommendSchoolFragment :
     }
 
     private companion object {
-        const val DIALOG = "dialog"
+        const val INVITE_DIALOG = "inviteDialog"
     }
 }

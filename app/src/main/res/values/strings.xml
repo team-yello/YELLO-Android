@@ -32,6 +32,7 @@
     <string name="main_yello">옐로하기</string>
     <string name="main_my_yello">내 쪽지</string>
     <string name="main_profile">프로필</string>
+    <string name="main_toast_back_pressed">\'뒤로\' 버튼을 한번 더 누르면 종료됩니다.</string>
 
     <string name="onboarding_tv_what_studentid">몇 학번인가요?</string>
     <string name="onboarding_tv_search_department">학과 검색하기</string>
@@ -136,8 +137,6 @@
     <string name="invite_error_kakao">카카오톡 공유 실패</string>
     <string name="invite_error_browser">가능한 브라우저 없음</string>
 
-    <string name="recommend_tab_kakao">카톡 친구들</string>
-    <string name="recommend_tab_school">학교 친구들</string>
     <string name="recommend_error_friends_list">카카오 친구목록 가져오기 실패</string>
     <string name="recommend_error_no_kakao_friend">연동 가능한 카카오톡 친구 없음</string>
     <string name="recommend_error_friend_connection">카카오 추천친구 서버 통신 실패</string>

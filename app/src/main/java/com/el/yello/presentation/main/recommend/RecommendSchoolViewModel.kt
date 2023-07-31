@@ -9,9 +9,9 @@ import com.example.domain.repository.AuthRepository
 import com.example.domain.repository.RecommendRepository
 import com.example.ui.view.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 import kotlin.math.ceil
-import kotlinx.coroutines.launch
 
 @HiltViewModel
 class RecommendSchoolViewModel @Inject constructor(
@@ -19,11 +19,11 @@ class RecommendSchoolViewModel @Inject constructor(
     private val authRepository: AuthRepository,
 ) : ViewModel() {
 
-    private val _postState = MutableLiveData<UiState<RecommendModel?>>()
-    val postState: LiveData<UiState<RecommendModel?>> = _postState
+    private val _postFriendsListState = MutableLiveData<UiState<RecommendModel?>>()
+    val postFriendsListState: LiveData<UiState<RecommendModel?>> = _postFriendsListState
 
-    private val _addState = MutableLiveData<UiState<Unit>>()
-    val addState: LiveData<UiState<Unit>> = _addState
+    private val _addFriendState = MutableLiveData<UiState<Unit>>()
+    val addFriendState: LiveData<UiState<Unit>> = _addFriendState
 
     var itemPosition: Int? = null
     var itemHolder: RecommendViewHolder? = null
@@ -41,7 +41,7 @@ class RecommendSchoolViewModel @Inject constructor(
     fun addListFromServer() {
         viewModelScope.launch {
             if (isPagingFinish) return@launch
-            _postState.value = UiState.Loading
+            _postFriendsListState.value = UiState.Loading
             runCatching {
                 recommendRepository.getSchoolFriendList(
                     ++currentPage,
@@ -50,9 +50,9 @@ class RecommendSchoolViewModel @Inject constructor(
                 it ?: return@launch
                 totalPage = ceil((it.totalCount * 0.1)).toInt() - 1
                 if (totalPage == currentPage) isPagingFinish = true
-                _postState.value = UiState.Success(it)
+                _postFriendsListState.value = UiState.Success(it)
             }.onFailure {
-                _postState.value = UiState.Failure(it.message ?: "")
+                _postFriendsListState.value = UiState.Failure(it.message ?: "")
             }
         }
     }
@@ -60,15 +60,15 @@ class RecommendSchoolViewModel @Inject constructor(
     // 서버 통신 -친구 추가
     fun addFriendToServer(friendId: Long) {
         viewModelScope.launch {
-            _addState.value = UiState.Loading
+            _addFriendState.value = UiState.Loading
             runCatching {
                 recommendRepository.postFriendAdd(
                     friendId,
                 )
             }.onSuccess {
-                _addState.value = UiState.Success(it)
+                _addFriendState.value = UiState.Success(it)
             }.onFailure {
-                _addState.value = UiState.Failure(it.message ?: "")
+                _addFriendState.value = UiState.Failure(it.message ?: "")
             }
         }
     }

@@ -4,6 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.el.yello.R
+import com.el.yello.util.context.yelloSnackbar
 import com.example.domain.entity.RecommendModel
 import com.example.domain.entity.RequestRecommendKakaoModel
 import com.example.domain.repository.AuthRepository
@@ -22,11 +24,14 @@ class RecommendKakaoViewModel @Inject constructor(
     private val authRepository: AuthRepository,
 ) : ViewModel() {
 
-    private val _postState = MutableLiveData<UiState<RecommendModel?>>()
-    val postState: LiveData<UiState<RecommendModel?>> = _postState
+    private val _getKakaoErrorResult = MutableLiveData<String>()
+    val getKakaoErrorResult : LiveData<String> = _getKakaoErrorResult
 
-    private val _addState = MutableLiveData<UiState<Unit>>()
-    val addState: LiveData<UiState<Unit>> = _addState
+    private val _postFriendsListState = MutableLiveData<UiState<RecommendModel?>>()
+    val postFriendsListState: LiveData<UiState<RecommendModel?>> = _postFriendsListState
+
+    private val _addFriendState = MutableLiveData<UiState<Unit>>()
+    val addFriendState: LiveData<UiState<Unit>> = _addFriendState
 
     var itemPosition: Int? = null
     var itemHolder: RecommendViewHolder? = null
@@ -55,23 +60,23 @@ class RecommendKakaoViewModel @Inject constructor(
         currentPage += 1
         TalkApiClient.instance.friends(offset = currentOffset, limit = 100) { friends, error ->
             if (error != null) {
-                Timber.e(error, "카카오톡 친구목록 가져오기 실패")
+                _getKakaoErrorResult.value = error.message
             } else if (friends != null) {
                 totalPage = ceil((friends.totalCount * 0.1)).toInt() - 1
                 if (totalPage == currentPage) isPagingFinish = true
                 val friendIdList: List<String> =
                     friends.elements?.map { friend -> friend.id.toString() } ?: listOf()
                 getListFromServer(friendIdList)
-            } else {
-                Timber.d("연동 가능한 카카오톡 친구 없음")
             }
         }
     }
 
+
+
     // 서버 통신 - 추천 친구 리스트 추가
     private fun getListFromServer(friendKakaoId: List<String>) {
         viewModelScope.launch {
-            _postState.value = UiState.Loading
+            _postFriendsListState.value = UiState.Loading
             runCatching {
                 recommendRepository.postToGetKakaoFriendList(
                     0,
@@ -79,9 +84,9 @@ class RecommendKakaoViewModel @Inject constructor(
                 )
             }.onSuccess {
                 it ?: return@launch
-                _postState.value = UiState.Success(it)
+                _postFriendsListState.value = UiState.Success(it)
             }.onFailure {
-                _postState.value = UiState.Failure(it.message.toString())
+                _postFriendsListState.value = UiState.Failure(it.message.toString())
             }
         }
     }
@@ -89,15 +94,15 @@ class RecommendKakaoViewModel @Inject constructor(
     // 서버 통신 - 친구 추가
     fun addFriendToServer(friendId: Long) {
         viewModelScope.launch {
-            _addState.value = UiState.Loading
+            _addFriendState.value = UiState.Loading
             runCatching {
                 recommendRepository.postFriendAdd(
                     friendId,
                 )
             }.onSuccess {
-                _addState.value = UiState.Success(it)
+                _addFriendState.value = UiState.Success(it)
             }.onFailure {
-                _addState.value = UiState.Failure(it.message.toString())
+                _addFriendState.value = UiState.Failure(it.message.toString())
             }
         }
     }

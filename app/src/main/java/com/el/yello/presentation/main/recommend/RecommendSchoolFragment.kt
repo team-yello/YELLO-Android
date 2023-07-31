@@ -98,7 +98,7 @@ class RecommendSchoolFragment :
 
     // 추천친구 리스트 추가 서버 통신 성공 시 어댑터에 리스트 추가
     private fun observeAddListState() {
-        viewModel.postState.observe(viewLifecycleOwner) { state ->
+        viewModel.postFriendsListState.observe(viewLifecycleOwner) { state ->
             when (state) {
                 is UiState.Success -> {
                     if (state.data?.friends?.isEmpty() == true && adapter?.itemCount == 0) {
@@ -127,7 +127,7 @@ class RecommendSchoolFragment :
 
     // 친구 추가 서버 통신 성공 시 리스트에서 아이템 삭제 & 서버 통신 중 액티비티 클릭 방지
     private fun observeAddFriendState() {
-        viewModel.addState.observe(viewLifecycleOwner) { state ->
+        viewModel.addFriendState.observe(viewLifecycleOwner) { state ->
             when (state) {
                 is UiState.Success -> {
                     val position = viewModel.itemPosition

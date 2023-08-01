@@ -96,7 +96,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
             android:layout_marginBottom="34dp"
-            android:background="@drawable/shape_black_fill_grayscales600_line_8_rect"
+            android:background="@drawable/shape_yello_main_500_fill_100_rect"
             android:backgroundTint="@color/yello_main_500"
             android:paddingVertical="12dp"
             android:text="@string/onboarding_btn_addfriend_next"

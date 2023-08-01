@@ -61,7 +61,7 @@
             android:layout_marginHorizontal="16dp"
             android:layout_marginTop="90dp"
             android:layout_marginBottom="34dp"
-            android:background="@drawable/shape_yello_main_500_fill_8_rect"
+            android:background="@drawable/shape_yello_main_500_fill_100_rect"
             android:paddingVertical="6dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

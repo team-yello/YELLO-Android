@@ -27,9 +27,6 @@ class SearchDialogSchoolFragment :
     private var adapter: SchoolAdapter? = null
     private val viewModel by activityViewModels<OnBoardingViewModel>()
 
-    // TODO : viewmodel 이동
-    private var inputText: String = ""
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.vm = viewModel
@@ -66,8 +63,8 @@ class SearchDialogSchoolFragment :
     private fun initView() {
         setHideKeyboard()
         binding.etSchoolSearch.doAfterTextChanged { input ->
-            inputText = input.toString()
-            viewModel.getSchoolList(inputText)
+            viewModel.setInputText(input.toString())
+            viewModel.getSchoolList(input.toString())
         }
         adapter = SchoolAdapter(storeSchool = ::storeSchool)
         binding.rvSchoolList.adapter = adapter
@@ -86,7 +83,10 @@ class SearchDialogSchoolFragment :
                             layoutManager is LinearLayoutManager &&
                             layoutManager.findLastVisibleItemPosition() == adapter!!.itemCount - 1
                         ) {
-                            viewModel.getSchoolList(inputText)
+                            val inputText = viewModel.inputText.value
+                            if (!inputText.isNullOrBlank()) {
+                                viewModel.getSchoolList(inputText)
+                            }
                         }
                     }
                 }

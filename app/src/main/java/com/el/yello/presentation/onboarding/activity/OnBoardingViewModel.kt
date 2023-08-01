@@ -33,13 +33,16 @@ class OnBoardingViewModel @Inject constructor(
 
     private val _schoolData = MutableLiveData<UiState<SchoolList>>()
     val schoolData: MutableLiveData<UiState<SchoolList>> = _schoolData
+
+    // 양방향 데이터 바인딩
     val _school = MutableLiveData("")
     val school: String
         get() = _school.value?.trim() ?: ""
 
-    private val _inputText = MutableLiveData<String>()
-    val inputText: LiveData<String>
+    private val _inputText = MutableLiveData<String>() // LiveData로 변경
+    val inputText: LiveData<String> // LiveData로 변경
         get() = _inputText
+
     fun setInputText(text: String) {
         _inputText.value = text
     }
@@ -85,21 +88,21 @@ class OnBoardingViewModel @Inject constructor(
 
     // 학과 학번 viewmodel (step 2)
 
+    // 양방향 데이터 바인딩
     val _department = MutableLiveData("")
-    private val department: String get() = _department.value?.trim() ?: ""
 
     private val _departmentData = MutableLiveData<UiState<GroupList>>()
     val departmentData: MutableLiveData<UiState<GroupList>> = _departmentData
 
     private val _groupId = MutableLiveData<Long>()
+    val groupId: Long
+        get() = requireNotNull(_groupId.value)
     val _studentId = MutableLiveData<Int>()
+    private val studentId: Int
+        get() = requireNotNull(_studentId.value)
 
     private val _studentIdResult: MutableLiveData<List<Int>> = MutableLiveData()
     val studentIdResult: LiveData<List<Int>> = _studentIdResult
-    val groupId: Long
-        get() = requireNotNull(_groupId.value)
-    private val studentId: Int
-        get() = requireNotNull(_studentId.value)
 
     fun setGroupInfo(department: String, groupId: Long) {
         _department.value = department

@@ -27,6 +27,20 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <ProgressBar
+            android:id="@+id/progressbar"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="4dp"
+            android:max="100"
+            android:progress="20"
+            android:progressDrawable="@drawable/layerlist_onboarding_progressbar"
+            app:layout_constraintBottom_toTopOf="@+id/tv_school_ready"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btn_school_back_btn"
+            app:layout_constraintWidth_percent="1" />
+
         <TextView
             android:id="@+id/tv_school_ready"
             android:layout_width="0dp"
@@ -75,6 +89,17 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_school_where"
             tools:text="@string/dummy" />
+
+        <Button
+            android:id="@+id/btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="52dp"
+            android:text=" 증가"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_school_search" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_school_next"

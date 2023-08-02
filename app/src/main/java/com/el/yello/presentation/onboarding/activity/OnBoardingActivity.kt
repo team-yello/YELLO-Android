@@ -35,6 +35,7 @@ class OnBoardingActivity :
         }
     }
 
+    // TODO : 고등학생, 대학생 분기 처리
     private fun initViewPager() {
         val viewPager = binding.vpOnboarding
         val viewPagerAdapter = ViewPagerFragmentAdapter(this)

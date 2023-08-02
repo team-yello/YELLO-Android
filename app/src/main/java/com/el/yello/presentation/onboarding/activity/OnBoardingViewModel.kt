@@ -52,7 +52,7 @@ class OnBoardingViewModel @Inject constructor(
         _schoolData.value = UiState.Success(SchoolList(0, emptyList()))
     }
 
-    // TODO: throttle 및 페이징 처리
+    // TODO: Debounce 및 Paging3
     fun getSchoolList(search: String) {
         // if (isSchoolPagingFinish) return
         viewModelScope.launch {
@@ -119,7 +119,7 @@ class OnBoardingViewModel @Inject constructor(
         _departmentData.value = UiState.Success(GroupList(0, emptyList()))
     }
 
-    // TODO: throttle 및 페이징 처리
+    // TODO: Debounce 및 Paging3
     fun getGroupList(search: String) {
         // if (isDepartmentPagingFinish) return
         viewModelScope.launch {
@@ -272,7 +272,8 @@ class OnBoardingViewModel @Inject constructor(
                 yelloId = id,
                 gender = gender,
                 friendList = selectedFriendIdList,
-                recommendId = recommendId,
+                // TODO : 이거 바꿨삼
+                recommendId = code,
             )
             onboardingRepository.postSignup(signupInfo)
                 .onSuccess { userInfo ->

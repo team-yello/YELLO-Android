@@ -192,4 +192,5 @@
     <string name="recommend_invite_no_title">지금 추천된 친구가 없어요!\n친구를 초대해볼까요?</string>
     <string name="recommend_invite_no_subtitle">친구 초대하기</string>
     <string name="recommend_item_btn_add">친구추가</string>
+    <string name="onboarding_select_student_Type_title">해당되는 곳에 체크해주세요.</string>
 </resources>

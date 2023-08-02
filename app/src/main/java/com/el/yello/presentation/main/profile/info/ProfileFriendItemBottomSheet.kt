@@ -7,13 +7,13 @@ import androidx.fragment.app.activityViewModels
 import coil.load
 import coil.transform.CircleCropTransformation
 import com.el.yello.R
-import com.el.yello.databinding.FragmentProfileFriendItemBottomSheetBinding
+import com.el.yello.databinding.FragmentProfileItemBottomSheetBinding
 import com.el.yello.presentation.main.profile.ProfileViewModel
 import com.example.ui.base.BindingBottomSheetDialog
 import com.example.ui.view.setOnSingleClickListener
 
 class ProfileFriendItemBottomSheet :
-    BindingBottomSheetDialog<FragmentProfileFriendItemBottomSheetBinding>(R.layout.fragment_profile_friend_item_bottom_sheet) {
+    BindingBottomSheetDialog<FragmentProfileItemBottomSheetBinding>(R.layout.fragment_profile_item_bottom_sheet) {
 
     private var profileFriendDeleteBottomSheet: ProfileFriendDeleteBottomSheet? =
         ProfileFriendDeleteBottomSheet()

@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <import type="android.view.View" />
 
         <variable
@@ -17,11 +19,12 @@
         android:background="@drawable/shape_grayscales900_fill_top10_rect"
         android:paddingBottom="46dp">
 
-        <ImageView
+        <View
+            android:id="@+id/iv_profile_friend_handler"
             android:layout_width="80dp"
             android:layout_height="4dp"
             android:layout_marginTop="8dp"
-            android:src="@drawable/shape_grayscales800_fill_8_rect"
+            android:background="@drawable/shape_grayscales800_fill_8_rect"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -30,12 +33,12 @@
             android:id="@+id/iv_profile_friend_thumbnail"
             android:layout_width="72dp"
             android:layout_height="0dp"
-            android:layout_marginTop="40dp"
-            android:src="@drawable/ic_main_yello_selected"
+            android:layout_marginTop="28dp"
             app:layout_constraintDimensionRatio="1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@id/iv_profile_friend_handler"
+            tools:src="@drawable/ic_main_yello_selected" />
 
         <TextView
             android:id="@+id/tv_profile_friend_name"
@@ -49,25 +52,29 @@
             app:layout_constraintEnd_toStartOf="@id/tv_profile_friend_id"
             app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/iv_profile_friend_thumbnail" />
+            app:layout_constraintTop_toBottomOf="@id/iv_profile_friend_thumbnail"
+            tools:text="김상호" />
 
         <TextView
             android:id="@+id/tv_profile_friend_id"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
+            android:layout_marginTop="16dp"
             android:text="@={vm.clickedItemYelloId}"
             android:textAppearance="?textAppearanceLabelLarge"
             android:textColor="@color/yello_main_500"
             app:layout_constraintBaseline_toBaselineOf="@id/tv_profile_friend_name"
             app:layout_constraintBottom_toBottomOf="@id/tv_profile_friend_name"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/tv_profile_friend_name" />
+            app:layout_constraintStart_toEndOf="@id/tv_profile_friend_name"
+            tools:text="\@sangho.kk" />
 
         <TextView
             android:id="@+id/tv_profile_friend_school"
             android:layout_width="0dp"
-            android:layout_height="40dp"
+            android:layout_height="wrap_content"
+            android:minHeight="40dp"
             android:layout_marginHorizontal="80dp"
             android:layout_marginTop="7dp"
             android:gravity="center_horizontal"
@@ -78,7 +85,8 @@
             app:layout_constrainedWidth="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_profile_friend_id" />
+            app:layout_constraintTop_toBottomOf="@id/tv_profile_friend_id"
+            tools:text="고려대학교 소프트웨어벤처융합전공 산업경영공학부 19학번" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layout_profile_friend_total_friend"
@@ -102,7 +110,8 @@
                 android:textColor="@color/white"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="27" />
 
             <TextView
                 android:id="@+id/tv_profile_total_friend_title"
@@ -138,7 +147,8 @@
                 android:textColor="@color/white"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="30" />
 
             <TextView
                 android:id="@+id/tv_profile_total_msg_title"

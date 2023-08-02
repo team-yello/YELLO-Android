@@ -104,9 +104,7 @@ class ProfileManageActivity :
 
     private fun restartApp() {
         val componentName = packageManager.getLaunchIntentForPackage(packageName)?.component
-        Intent.makeRestartActivityTask(componentName).apply {
-            startActivity(this)
-        }
+        startActivity(Intent.makeRestartActivityTask(componentName))
         Runtime.getRuntime().exit(0)
     }
 

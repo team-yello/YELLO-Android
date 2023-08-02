@@ -1,12 +1,12 @@
 package com.el.yello.presentation.auth
 
 import android.content.Intent
-import android.content.Intent.EXTRA_EMAIL
 import android.net.Uri
 import android.os.Bundle
 import androidx.activity.viewModels
 import com.el.yello.R
 import com.el.yello.databinding.ActivitySocialSyncBinding
+import com.el.yello.presentation.auth.SignInActivity.Companion.EXTRA_EMAIL
 import com.el.yello.presentation.auth.SignInActivity.Companion.EXTRA_KAKAO_ID
 import com.el.yello.presentation.auth.SignInActivity.Companion.EXTRA_PROFILE_IMAGE
 import com.el.yello.presentation.onboarding.activity.OnBoardingActivity

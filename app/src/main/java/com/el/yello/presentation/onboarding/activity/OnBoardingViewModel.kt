@@ -178,10 +178,6 @@ class OnBoardingViewModel @Inject constructor(
 
     // 친구 추가 viewmodel (step 5)
 
-    var kakaoId: String = ""
-    var email: String = ""
-    var profileImg: String = ""
-
     private val _friendListState = MutableLiveData<FriendList>()
     val friendListState: LiveData<FriendList> = _friendListState
 
@@ -284,6 +280,10 @@ class OnBoardingViewModel @Inject constructor(
     fun validYellIdLoading() {
         _getValidYelloId.value = UiState.Loading
     }
+
+    var kakaoId: String = ""
+    var email: String = ""
+    var profileImg: String = ""
 
     fun postSignup() {
         viewModelScope.launch {

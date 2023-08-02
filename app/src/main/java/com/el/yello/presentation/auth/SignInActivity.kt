@@ -191,6 +191,7 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
 
     companion object {
         const val EXTRA_KAKAO_ID = "KAKAO_ID"
+        const val EXTRA_EMAIL = "KAKAO_EMAIL"
         const val EXTRA_PROFILE_IMAGE = "PROFILE_IMAGE"
 
         const val NOT_SIGNED_IN = "403"

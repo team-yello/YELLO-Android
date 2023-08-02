@@ -13,8 +13,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.el.yello.R
 import com.el.yello.databinding.FragmentRecommendKakaoBinding
-import com.el.yello.presentation.main.recommend.list.RecommendAdapter
 import com.el.yello.presentation.main.recommend.RecommendInviteDialog
+import com.el.yello.presentation.main.recommend.list.RecommendAdapter
 import com.el.yello.presentation.main.recommend.list.RecommendItemDecoration
 import com.el.yello.presentation.main.recommend.list.RecommendViewHolder
 import com.el.yello.util.context.yelloSnackbar
@@ -30,8 +30,11 @@ import kotlinx.coroutines.launch
 class RecommendKakaoFragment :
     BindingFragment<FragmentRecommendKakaoBinding>(R.layout.fragment_recommend_kakao) {
 
+    private var _adapter: RecommendAdapter? = null
+    private val adapter
+        get() = requireNotNull(_adapter) { getString(R.string.adapter_not_initialized_error_msg) }
+
     private val viewModel by viewModels<RecommendKakaoViewModel>()
-    private var adapter: RecommendAdapter? = null
     private var recommendInviteDialog: RecommendInviteDialog? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -48,7 +51,7 @@ class RecommendKakaoFragment :
     }
 
     override fun onDestroyView() {
-        adapter = null
+        _adapter = null
         dismissDialog()
         super.onDestroyView()
     }
@@ -69,7 +72,7 @@ class RecommendKakaoFragment :
                     recyclerView.layoutManager?.let { layoutManager ->
                         if (!binding.rvRecommendKakao.canScrollVertically(1) &&
                             layoutManager is LinearLayoutManager &&
-                            layoutManager.findLastVisibleItemPosition() == adapter!!.itemCount - 1
+                            layoutManager.findLastVisibleItemPosition() == adapter.itemCount - 1
                         ) {
                             viewModel.addListWithKakaoIdList()
                         }
@@ -91,7 +94,7 @@ class RecommendKakaoFragment :
 
     // 어댑터 클릭 리스너 설정
     private fun setAdapterWithClickListener() {
-        adapter = RecommendAdapter { recommendModel, position, holder ->
+        _adapter = RecommendAdapter { recommendModel, position, holder ->
             viewModel.setPositionAndHolder(position, holder)
             viewModel.addFriendToServer(recommendModel.id.toLong())
         }
@@ -110,11 +113,11 @@ class RecommendKakaoFragment :
         viewModel.postFriendsListState.observe(viewLifecycleOwner) { state ->
             when (state) {
                 is UiState.Success -> {
-                    if (state.data?.friends?.isEmpty() == true && adapter?.itemCount == 0) {
+                    if (state.data?.friends?.isEmpty() == true && adapter.itemCount == 0) {
                         showNoFriendScreen()
                     } else {
                         showFriendListScreen()
-                        adapter?.addItemList(state.data?.friends ?: listOf())
+                        adapter.addItemList(state.data?.friends ?: listOf())
                     }
                 }
 
@@ -194,10 +197,10 @@ class RecommendKakaoFragment :
         lifecycleScope.launch {
             changeToCheckIcon(holder)
             delay(300)
-            adapter?.removeItem(position)
+            adapter.removeItem(position)
             activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
             delay(400)
-            if (adapter?.itemCount == 0) {
+            if (adapter.itemCount == 0) {
                 showNoFriendScreen()
             }
         }

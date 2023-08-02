@@ -13,8 +13,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.el.yello.R
 import com.el.yello.databinding.FragmentRecommendSchoolBinding
-import com.el.yello.presentation.main.recommend.list.RecommendAdapter
 import com.el.yello.presentation.main.recommend.RecommendInviteDialog
+import com.el.yello.presentation.main.recommend.list.RecommendAdapter
 import com.el.yello.presentation.main.recommend.list.RecommendItemDecoration
 import com.el.yello.presentation.main.recommend.list.RecommendViewHolder
 import com.el.yello.util.context.yelloSnackbar
@@ -31,8 +31,11 @@ import kotlinx.coroutines.launch
 class RecommendSchoolFragment :
     BindingFragment<FragmentRecommendSchoolBinding>(R.layout.fragment_recommend_school) {
 
+    private var _adapter: RecommendAdapter? = null
+    private val adapter
+        get() = requireNotNull(_adapter) { getString(R.string.adapter_not_initialized_error_msg) }
+
     private val viewModel by viewModels<RecommendSchoolViewModel>()
-    private var adapter: RecommendAdapter? = null
 
     private var recommendInviteDialog: RecommendInviteDialog? = null
 
@@ -52,7 +55,7 @@ class RecommendSchoolFragment :
     }
 
     override fun onDestroyView() {
-        adapter = null
+        _adapter = null
         dismissDialog()
         super.onDestroyView()
     }
@@ -74,7 +77,7 @@ class RecommendSchoolFragment :
 
     // 처음 리스트 설정 및 어댑터 클릭 리스너 설정
     private fun setAdapterWithClickListener() {
-        adapter = RecommendAdapter { recommendModel, position, holder ->
+        _adapter = RecommendAdapter { recommendModel, position, holder ->
             viewModel.setPositionAndHolder(position, holder)
             viewModel.addFriendToServer(recommendModel.id.toLong())
         }
@@ -90,7 +93,7 @@ class RecommendSchoolFragment :
                     recyclerView.layoutManager?.let { layoutManager ->
                         if (!binding.rvRecommendSchool.canScrollVertically(1) &&
                             layoutManager is LinearLayoutManager &&
-                            layoutManager.findLastVisibleItemPosition() == adapter!!.itemCount - 1
+                            layoutManager.findLastVisibleItemPosition() == adapter.itemCount - 1
                         ) {
                             viewModel.addListFromServer()
                         }
@@ -110,7 +113,7 @@ class RecommendSchoolFragment :
                     } else {
                         showFriendListScreen()
                         friendsList = state.data?.friends ?: listOf()
-                        adapter?.addItemList(friendsList)
+                        adapter.addItemList(friendsList)
                     }
                 }
 
@@ -190,10 +193,10 @@ class RecommendSchoolFragment :
         lifecycleScope.launch {
             changeToCheckIcon(holder)
             delay(300)
-            adapter?.removeItem(position)
+            adapter.removeItem(position)
             activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
             delay(400)
-            if (adapter?.itemCount == 0) {
+            if (adapter.itemCount == 0) {
                 showNoFriendScreen()
             }
         }

@@ -28,8 +28,11 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragment_profile) {
 
+    private var _adapter: ProfileFriendAdapter? = null
+    private val adapter
+        get() = requireNotNull(_adapter) { getString(R.string.adapter_not_initialized_error_msg) }
+
     private val viewModel by activityViewModels<ProfileViewModel>()
-    private var adapter: ProfileFriendAdapter? = null
 
     private lateinit var friendsList: List<ProfileUserModel>
 
@@ -93,7 +96,7 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
 
     // 어댑터 시작
     private fun initAdapterWithClickListener() {
-        adapter = ProfileFriendAdapter((viewModel), { profileUserModel, position ->
+        _adapter = ProfileFriendAdapter((viewModel), { profileUserModel, position ->
 
             // 리스트 아이템 클릭 리스너 설정 - 클릭된 아이템 값 저장 뷰모델 이후 바텀 시트 출력
             viewModel.setItemPosition(position)
@@ -114,7 +117,7 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
             // 헤더 버튼 클릭 리스너 설정
             startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(ADD_GROUP_URL)))
         })
-        adapter?.setItemList(listOf())
+        adapter.setItemList(listOf())
         binding.rvProfileFriendsList.adapter = adapter
     }
 
@@ -150,7 +153,7 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
             when (state) {
                 is UiState.Success -> {
                     friendsList = state.data?.friends ?: listOf()
-                    adapter?.addItemList(friendsList)
+                    adapter.addItemList(friendsList)
                 }
 
                 is UiState.Failure -> {
@@ -173,7 +176,7 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
                     recyclerView.layoutManager?.let { layoutManager ->
                         if (!binding.rvProfileFriendsList.canScrollVertically(1) &&
                             layoutManager is LinearLayoutManager &&
-                            layoutManager.findLastVisibleItemPosition() == adapter!!.itemCount - 1
+                            layoutManager.findLastVisibleItemPosition() == adapter.itemCount - 1
                         ) {
                             viewModel.getFriendsListFromServer()
                         }
@@ -197,7 +200,7 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
                 is UiState.Success -> {
                     lifecycleScope.launch {
                         viewModel.clickedItemPosition?.let { position ->
-                            adapter?.removeItem(
+                            adapter.removeItem(
                                 position
                             )
                         }
@@ -205,7 +208,7 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
                         if (viewModel.myTotalFriends.value != "") {
                             viewModel.myTotalFriends.value =
                                 viewModel.myTotalFriends.value?.toInt()?.minus(1).toString()
-                            adapter?.notifyDataSetChanged()
+                            adapter.notifyDataSetChanged()
                         }
                     }
                 }
@@ -233,7 +236,7 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
     }
 
     override fun onDestroyView() {
-        adapter = null
+        _adapter = null
         super.onDestroyView()
     }
 

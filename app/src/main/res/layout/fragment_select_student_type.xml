@@ -5,6 +5,17 @@
 
     <data>
 
+        <variable
+            name="vm"
+            type="com.el.yello.presentation.onboarding.activity.OnBoardingViewModel" />
+
+        <variable
+            name="highschool"
+            type="String" />
+
+        <variable
+            name="university"
+            type="String" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -45,6 +56,7 @@
             android:background="@drawable/shape_black_fill_grayscales700_line_8_rect"
             android:paddingHorizontal="12dp"
             android:paddingTop="12dp"
+            android:onClick="@{()->vm.selectStudenttype(highschool)}"
             android:paddingBottom="31dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -54,79 +66,81 @@
                 android:id="@+id/iv_student_highschool_check"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:src="@{vm._studenttype == highschool ? @drawable/ic_student_type_check_selected : @drawable/ic_student_type_check_unselected}"
                 tools:src="@drawable/ic_student_type_check_unselected"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
-                android:id="@+id/iv_gender_male"
+                android:id="@+id/iv_student_highschool"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="9dp"
-                android:src="@drawable/ic_gender_male_face"
+                android:src="@drawable/ic_student_highschool_face_default"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/iv_student_highschool_check" />
 
             <TextView
-                android:id="@+id/tv_gender_male"
+                android:id="@+id/tv_student_highschool"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:paddingVertical="3dp"
-                android:text="@string/onboarding_gender_male"
+                android:text="@string/onboarding_tv_select_student_highschool"
                 android:textAppearance="?textAppearanceSubtitle2"
-                android:textColor="@color/semantic_gender_m_500"
+                android:textColor="@color/grayscales_500"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/iv_gender_male" />
+                app:layout_constraintTop_toBottomOf="@id/iv_student_highschool" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/btn_gender_female"
+            android:id="@+id/btn_school_university"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
             android:layout_marginTop="14dp"
             android:background="@drawable/shape_black_fill_grayscales700_line_8_rect"
-
             android:paddingHorizontal="12dp"
             android:paddingTop="12dp"
+            android:onClick="@{()->vm.selectStudenttype(university)}"
             android:paddingBottom="31dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/btn_school_highschool">
 
             <ImageView
-                android:id="@+id/iv_gender_female_check"
+                android:id="@+id/iv_student_university_check"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:src="@{vm._studenttype == university ? @drawable/ic_student_type_check_selected : @drawable/ic_student_type_check_unselected}"
                 tools:src="@drawable/ic_student_type_check_unselected"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
-                android:id="@+id/iv_gender_female"
+                android:id="@+id/iv_student_university"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="9dp"
-                android:src="@drawable/ic_gender_female_face"
+                android:src="@drawable/ic_student_university_face_default"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/iv_gender_female_check" />
+                app:layout_constraintTop_toBottomOf="@id/iv_student_university_check" />
 
             <TextView
-                android:id="@+id/tv_gender_female"
+                android:id="@+id/tv_student_university"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:paddingVertical="3dp"
-                android:text="@string/onboarding_gender_female"
+                android:text="@string/onboarding_tv_select_student_university"
                 android:textAppearance="?textAppearanceSubtitle2"
-                android:textColor="@color/semantic_gender_f_500"
+                android:textColor="@color/grayscales_500"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/iv_gender_female" />
+                app:layout_constraintTop_toBottomOf="@id/iv_student_university" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <android.widget.Button
@@ -135,11 +149,12 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
             android:layout_marginBottom="34dp"
-
             android:paddingVertical="16dp"
+            android:background="@{vm._studenttype.isEmpty() ? @drawable/shape_grayscales_800_fill_100_rect : @drawable/shape_yello_main_500_fill_100_rect}"
             android:text="@string/onboarding_btn_gender_done"
+            android:clickable="@{!vm._studenttype.isEmpty()}"
+            android:textColor="@{vm._studenttype.isEmpty() ? @color/grayscales_700 : @color/black}"
             android:textAppearance="?textAppearanceBodyMedium"
-
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />

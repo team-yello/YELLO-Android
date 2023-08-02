@@ -72,6 +72,6 @@ class OnBoardingActivity :
 
     companion object {
         private const val CURRENT_ITEM_START = 0
-        private const val CURRENT_ITEM_LAST = 6
+        private const val CURRENT_ITEM_LAST = 7
     }
 }

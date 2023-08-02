@@ -29,6 +29,14 @@ class OnBoardingViewModel @Inject constructor(
     private val authRepository: AuthRepository,
 ) : ViewModel() {
 
+    val _studenttype = MutableLiveData("")
+    val studenttype: String
+        get() = _studenttype.value ?: ""
+
+    fun selectStudenttype(studenttype: String) {
+        _studenttype.value = studenttype
+    }
+
     // 학교 viewmodel (step 1)
 
     private val _schoolData = MutableLiveData<UiState<SchoolList>>()

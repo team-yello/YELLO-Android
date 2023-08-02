@@ -1,13 +1,10 @@
 package com.el.yello.presentation.onboarding.fragment.school
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.widget.ProgressBar
 import androidx.fragment.app.activityViewModels
 import com.el.yello.R
 import com.el.yello.databinding.FragmentSchoolBinding
-import com.el.yello.presentation.auth.SocialSyncActivity
 import com.el.yello.presentation.onboarding.activity.OnBoardingViewModel
 import com.el.yello.presentation.onboarding.fragment.school.dialog.SearchDialogSchoolFragment
 import com.example.ui.base.BindingFragment
@@ -53,8 +50,7 @@ class SchoolFragment : BindingFragment<FragmentSchoolBinding>(R.layout.fragment_
             viewModel.navigateToNextPage()
         }
         binding.btnSchoolBackBtn.setOnSingleClickListener {
-            val intent = Intent(activity, SocialSyncActivity::class.java)
-            startActivity(intent)
+            viewModel.navigateToBackPage()
         }
     }
 

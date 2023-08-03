@@ -197,4 +197,11 @@
     <string name="recommend_invite_no_title">지금 추천된 친구가 없어요!\n친구를 초대해볼까요?</string>
     <string name="recommend_invite_no_subtitle">친구 초대하기</string>
     <string name="recommend_item_btn_add">친구추가</string>
+    <string name="onboarding_highschool_hint">ex. 옐로고등학교</string>
+    <string name="onboarding_grade_title">몇 학년인가요?</string>
+    <string name="onboarding_group_title">몇 반인가요?</string>
+    <string name="onboarding_group_hint">ex. 1반</string>
+    <string name="onboarding_highschool_firstgrade">1학년</string>
+    <string name="onboarding_highschool_secondgrade">2학년</string>
+    <string name="onboarding_highschool_thirdgrade">3학년</string>
 </resources>

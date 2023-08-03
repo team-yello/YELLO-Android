@@ -15,7 +15,7 @@ import com.example.ui.view.setOnSingleClickListener
 import java.util.Timer
 import kotlin.concurrent.timer
 
-class UniversityInfoFragment : BindingFragment<FragmentSchoolBinding>(R.layout.fragment_school) {
+class UniversityInfoFragment : BindingFragment<FragmentSchoolBinding>(R.layout.fragment_university) {
     private val viewModel by activityViewModels<OnBoardingViewModel>()
 
     var timer: Timer? = null

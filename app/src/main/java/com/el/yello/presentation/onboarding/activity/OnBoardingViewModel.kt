@@ -45,9 +45,15 @@ class OnBoardingViewModel @Inject constructor(
     val school: String
         get() = _school.value?.trim() ?: ""
 
+    // 고등학생
+    val _highschool = MutableLiveData("")
+    val highschool: String
+        get() = _highschool.value?.trim() ?: ""
+
     private val _inputText = MutableLiveData<String>()
     val inputText: LiveData<String>
         get() = _inputText
+
     fun setInputText(text: String) {
         _inputText.value = text
     }
@@ -108,6 +114,14 @@ class OnBoardingViewModel @Inject constructor(
         get() = requireNotNull(_groupId.value)
     private val studentId: Int
         get() = requireNotNull(_studentId.value)
+
+    // 고등학교 학년
+    val _grade = MutableLiveData("")
+    private val grade: String get() = _grade.value?.trim() ?: ""
+
+    // 고등학교 반
+    val _group = MutableLiveData("")
+    private val group: String get() = _group.value?.trim() ?: ""
 
     fun setGroupInfo(department: String, groupId: Long) {
         _department.value = department
@@ -280,7 +294,6 @@ class OnBoardingViewModel @Inject constructor(
                 yelloId = id,
                 gender = gender,
                 friendList = selectedFriendIdList,
-                // TODO : 이거 바꿨삼
                 recommendId = code,
             )
             onboardingRepository.postSignup(signupInfo)

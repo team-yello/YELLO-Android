@@ -40,7 +40,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <ProgressBar
-            android:id="@+id/progressbar"
+            android:id="@+id/highschool_progressbar"
             style="@style/Widget.AppCompat.ProgressBar.Horizontal"
             android:layout_width="match_parent"
             android:layout_height="4dp"
@@ -63,7 +63,7 @@
             android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/progressbar" />
+            app:layout_constraintTop_toTopOf="@id/highschool_progressbar" />
 
         <Button
             android:id="@+id/btn"

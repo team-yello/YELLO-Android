@@ -15,6 +15,8 @@ import com.example.ui.base.BindingFragment
 import com.example.ui.view.setOnSingleClickListener
 import com.kakao.sdk.talk.TalkApiClient
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.Timer
+import kotlin.concurrent.timer
 
 @AndroidEntryPoint
 class AddFriendFragment : BindingFragment<FragmentAddfreindBinding>(R.layout.fragment_addfreind) {
@@ -26,6 +28,9 @@ class AddFriendFragment : BindingFragment<FragmentAddfreindBinding>(R.layout.fra
 
     private var selectedItemIdList = mutableListOf<Long>()
 
+    var timer: Timer? = null
+    var deltaTime = 48
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -36,6 +41,17 @@ class AddFriendFragment : BindingFragment<FragmentAddfreindBinding>(R.layout.fra
         setListWithInfinityScroll()
         observeAddListState()
         getFriendIdList()
+        ProgressBarTimerFun()
+    }
+    private fun ProgressBarTimerFun() {
+        binding.addfriendProgressbar.progress = 48
+        timer?.cancel()
+        timer = Timer()
+        timer = timer(period = 8, initialDelay = 300) {
+            if (deltaTime > 64) cancel()
+            binding.addfriendProgressbar.setProgress(++deltaTime)
+            println(binding.addfriendProgressbar.progress)
+        }
     }
 
     private fun initFriendAdapter() {

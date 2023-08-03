@@ -10,10 +10,14 @@ import com.el.yello.util.context.yelloSnackbar
 import com.example.ui.base.BindingFragment
 import com.example.ui.view.UiState
 import com.example.ui.view.setOnSingleClickListener
+import java.util.Timer
+import kotlin.concurrent.timer
 
 class CodeFragment : BindingFragment<FragmentCodeBinding>(R.layout.fragment_code) {
     private val viewModel by activityViewModels<OnBoardingViewModel>()
 
+    var timer: Timer? = null
+    var deltaTime = 64
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.vm = viewModel
@@ -22,6 +26,18 @@ class CodeFragment : BindingFragment<FragmentCodeBinding>(R.layout.fragment_code
         setDeleteCodeBtnClickListener()
         setupPostSignupState()
         viewModel.validYellIdLoading()
+        ProgressBarTimerFun()
+    }
+
+    private fun ProgressBarTimerFun() {
+        binding.codeProgressbar.progress = 64
+        timer?.cancel()
+        timer = Timer()
+        timer = timer(period = 8, initialDelay = 300) {
+            if (deltaTime > 80) cancel()
+            binding.codeProgressbar.setProgress(++deltaTime)
+            println(binding.codeProgressbar.progress)
+        }
     }
 
     override fun onResume() {

@@ -20,29 +20,26 @@ class UniversityInfoFragment :
     private val viewModel by activityViewModels<OnBoardingViewModel>()
 
     var timer: Timer? = null
-    var deltaTime = 0
+    var deltaTime = 16
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.vm = viewModel
-        binding.progressbar.progress = 20
+        ProgressBarTimerFun()
         initSearchInfoBtnClickListener()
         setConfirmBtnClickListener()
         setupSchool()
         setupDepartment()
         setupStudentId()
         initSearchInfoBtnClickListener()
-
-        binding.btn.setOnClickListener { ProgressBarTimerFun() }
     }
-    fun ProgressBarTimerFun() {
-        deltaTime = 20 // 기존의 20%를 채움
-        binding.progressbar.progress = 20
+    private fun ProgressBarTimerFun() {
+        binding.universityInfoProgressbar.progress = 16
         timer?.cancel()
         timer = Timer()
-        timer = timer(period = 10, initialDelay = 1000) {
-            if (deltaTime > 40) cancel()
-            binding.progressbar.setProgress(++deltaTime)
-            println(binding.progressbar.progress)
+        timer = timer(period = 8, initialDelay = 300) {
+            if (deltaTime > 32) cancel()
+            binding.universityInfoProgressbar.setProgress(++deltaTime)
+            println(binding.universityInfoProgressbar.progress)
         }
     }
 

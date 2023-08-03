@@ -11,19 +11,35 @@ import com.el.yello.presentation.onboarding.activity.OnBoardingViewModel
 import com.example.domain.enum.StudentTypeEnum
 import com.example.ui.base.BindingFragment
 import com.example.ui.view.setOnSingleClickListener
+import java.util.Timer
+import kotlin.concurrent.timer
 
 class SelectStudentFragment :
     BindingFragment<FragmentSelectStudentTypeBinding>(R.layout.fragment_select_student_type) {
     private val viewModel by activityViewModels<OnBoardingViewModel>()
 
+    var timer: Timer? = null
+    var deltaTime = 0
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.vm = viewModel
         binding.highschool = StudentTypeEnum.H.toString()
         binding.university = StudentTypeEnum.U.toString()
 
+        ProgressBarTimerFun()
         setupStudentType()
         setConfirmBtnClickListener()
+    }
+
+    private fun ProgressBarTimerFun() {
+        binding.studenttypeProgressbar.progress = 0
+        timer?.cancel()
+        timer = Timer()
+        timer = timer(period = 8, initialDelay = 300) {
+            if (deltaTime > 16) cancel()
+            binding.studenttypeProgressbar.setProgress(++deltaTime)
+            println(binding.studenttypeProgressbar.progress)
+        }
     }
 
     private fun setConfirmBtnClickListener() {

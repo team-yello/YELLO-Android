@@ -275,7 +275,7 @@ class OnBoardingViewModel @Inject constructor(
                 yelloId = id,
                 gender = gender,
                 friendList = selectedFriendIdList,
-                recommendId = recommendId,
+                recommendId = code,
             )
             onboardingRepository.postSignup(signupInfo)
                 .onSuccess { userInfo ->

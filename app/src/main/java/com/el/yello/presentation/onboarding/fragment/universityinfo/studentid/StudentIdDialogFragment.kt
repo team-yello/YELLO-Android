@@ -1,4 +1,4 @@
-package com.el.yello.presentation.onboarding.fragment.studentid.dialog.studentId
+package com.el.yello.presentation.onboarding.fragment.universityinfo.studentid
 
 import android.os.Bundle
 import android.view.View
@@ -6,7 +6,6 @@ import androidx.fragment.app.activityViewModels
 import com.el.yello.R
 import com.el.yello.databinding.FragmentDialogStudentIdBinding
 import com.el.yello.presentation.onboarding.activity.OnBoardingViewModel
-import com.el.yello.presentation.onboarding.fragment.studentid.dialog.studentid.StudentIdDialogAdapter
 import com.example.ui.base.BindingBottomSheetDialog
 
 class StudentIdDialogFragment :

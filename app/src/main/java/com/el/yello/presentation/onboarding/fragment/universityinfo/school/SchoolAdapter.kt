@@ -1,4 +1,4 @@
-package com.el.yello.presentation.onboarding.fragment.school.dialog
+package com.el.yello.presentation.onboarding.fragment.universityinfo.school
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

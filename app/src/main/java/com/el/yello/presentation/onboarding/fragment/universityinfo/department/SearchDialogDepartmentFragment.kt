@@ -1,4 +1,4 @@
-package com.el.yello.presentation.onboarding.fragment.school.dialog
+package com.el.yello.presentation.onboarding.fragment.universityinfo.department
 
 import android.app.Dialog
 import android.content.Intent
@@ -9,10 +9,8 @@ import android.view.View
 import android.view.WindowManager
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.activityViewModels
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.el.yello.R
-import com.el.yello.databinding.FragmentDialogSchoolBinding
+import com.el.yello.databinding.FragmentDialogDepartmentBinding
 import com.el.yello.presentation.onboarding.activity.OnBoardingViewModel
 import com.el.yello.util.context.yelloSnackbar
 import com.example.ui.base.BindingBottomSheetDialog
@@ -21,24 +19,21 @@ import com.example.ui.view.UiState
 import com.example.ui.view.setOnSingleClickListener
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import timber.log.Timber
 
-class SearchDialogSchoolFragment :
-    BindingBottomSheetDialog<FragmentDialogSchoolBinding>(R.layout.fragment_dialog_school) {
-    private var adapter: SchoolAdapter? = null
+class SearchDialogDepartmentFragment :
+    BindingBottomSheetDialog<FragmentDialogDepartmentBinding>(R.layout.fragment_dialog_department) {
     private val viewModel by activityViewModels<OnBoardingViewModel>()
-
-    // TODO : viewmodel 이동
-    private var inputText: String = ""
+    private var adapter: DepartmentAdapter? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.vm = viewModel
 
-        initView()
-        setupSchoolData()
-        setListWithInfinityScroll()
+        initDepartmentAdapter()
+        setupDepartmentData()
         recyclerviewScroll()
-        setClickToSchoolForm()
+        setClicktoDepartmentform()
     }
 
     // 바텀 시트 fullScreen
@@ -63,50 +58,32 @@ class SearchDialogSchoolFragment :
         bottomSheet.layoutParams = layoutParams
     }
 
-    private fun initView() {
+    private fun initDepartmentAdapter() {
         setHideKeyboard()
-        binding.etSchoolSearch.doAfterTextChanged { input ->
-            inputText = input.toString()
-            viewModel.getSchoolList(inputText)
+        binding.etDepartmentSearch.doAfterTextChanged { input ->
+            viewModel.getGroupList(input.toString())
         }
-        adapter = SchoolAdapter(storeSchool = ::storeSchool)
-        binding.rvSchoolList.adapter = adapter
+        adapter = DepartmentAdapter(storeDepartment = ::storeGroup)
+        binding.rvDepartmentList.adapter = adapter
         binding.btnBackDialog.setOnSingleClickListener {
             dismiss()
         }
     }
 
-    private fun setListWithInfinityScroll() {
-        binding.rvSchoolList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                super.onScrolled(recyclerView, dx, dy)
-                if (dy > 0) {
-                    recyclerView.layoutManager?.let { layoutManager ->
-                        if (!binding.rvSchoolList.canScrollVertically(1) &&
-                            layoutManager is LinearLayoutManager &&
-                            layoutManager.findLastVisibleItemPosition() == adapter!!.itemCount - 1
-                        ) {
-                            viewModel.getSchoolList(inputText)
-                        }
-                    }
-                }
-            }
-        })
-    }
-
     private fun setHideKeyboard() {
-        binding.layoutSchoolDialog.setOnSingleClickListener {
+        binding.layoutDepartmentDialog.setOnSingleClickListener {
             requireContext().hideKeyboard(
                 requireView(),
             )
         }
     }
 
-    private fun setupSchoolData() {
-        viewModel.schoolData.observe(viewLifecycleOwner) { state ->
+    private fun setupDepartmentData() {
+        viewModel.departmentData.observe(viewLifecycleOwner) { state ->
+            Timber.d("GET GROUP LIST OBSERVE : $state")
             when (state) {
                 is UiState.Success -> {
-                    adapter?.submitList(state.data.schoolList)
+                    adapter?.submitList(state.data.groupList)
                 }
                 is UiState.Failure -> {
                     yelloSnackbar(binding.root, getString(R.string.msg_error))
@@ -117,38 +94,38 @@ class SearchDialogSchoolFragment :
         }
     }
 
-    private fun storeSchool(school: String) {
-        viewModel.setSchool(school)
-        viewModel.clearSchoolData()
+    private fun storeGroup(department: String, groupId: Long) {
+        viewModel.setGroupInfo(department, groupId)
+        viewModel.clearDepartmentData()
         dismiss()
     }
     private fun recyclerviewScroll() {
-        binding.rvSchoolList.setOnTouchListener { view, motionEvent ->
+        binding.rvDepartmentList.setOnTouchListener { view, motionEvent ->
             when (motionEvent.action) {
                 MotionEvent.ACTION_MOVE -> {
-                    binding.layoutSchoolDialog.requestDisallowInterceptTouchEvent(true)
+                    binding.layoutDepartmentDialog.requestDisallowInterceptTouchEvent(true)
                 }
             }
             return@setOnTouchListener false
         }
     }
 
-    private fun setClickToSchoolForm() {
-        binding.tvSchoolAdd.setOnClickListener {
-            Intent(Intent.ACTION_VIEW, Uri.parse(SCHOOL_FORM_URL)).apply {
+    private fun setClicktoDepartmentform() {
+        binding.tvDepartmentAdd.setOnClickListener {
+            Intent(Intent.ACTION_VIEW, Uri.parse(DEPARTMENT_FORM_URL)).apply {
                 startActivity(this)
             }
         }
     }
 
     override fun onDestroyView() {
-        super.onDestroyView()
         adapter = null
+        super.onDestroyView()
     }
 
     companion object {
         @JvmStatic
-        fun newInstance() = SearchDialogSchoolFragment()
-        private const val SCHOOL_FORM_URL = "https://bit.ly/46Yv0Hc"
+        fun newInstance() = SearchDialogDepartmentFragment()
+        private const val DEPARTMENT_FORM_URL = "https://bit.ly/3pO0ijD"
     }
 }

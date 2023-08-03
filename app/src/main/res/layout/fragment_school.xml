@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <variable
             name="vm"
             type="com.el.yello.presentation.onboarding.activity.OnBoardingViewModel" />
@@ -17,7 +16,7 @@
         android:background="@color/black">
 
         <ImageView
-            android:id="@+id/btn_school_back_btn"
+            android:id="@+id/btn_studentinfo_back_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="12dp"
@@ -35,37 +34,34 @@
             android:max="100"
             android:progress="20"
             android:progressDrawable="@drawable/layerlist_onboarding_progressbar"
-            app:layout_constraintBottom_toTopOf="@+id/tv_school_ready"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btn_school_back_btn"
+            app:layout_constraintTop_toBottomOf="@+id/btn_studentinfo_back_btn"
             app:layout_constraintWidth_percent="1" />
-
-        <TextView
-            android:id="@+id/tv_school_ready"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="16dp"
-            android:layout_marginTop="68dp"
-            android:text="@string/onboarding_tv_readyto_login"
-            android:textAppearance="?textAppearanceBodyMedium"
-            android:textColor="@color/grayscales_500"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/tv_school_where"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
-            android:layout_marginTop="26dp"
+            android:layout_marginTop="24dp"
             android:text="@string/onboarding_tv_what_school"
             android:textAppearance="?textAppearanceHeadline2"
             android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_school_ready" />
+           app:layout_constraintTop_toTopOf="@id/progressbar" />
+
+        <Button
+            android:id="@+id/btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="52dp"
+            android:text=" 증가"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
             android:id="@+id/tv_school_search"
@@ -90,29 +86,85 @@
             app:layout_constraintTop_toBottomOf="@+id/tv_school_where"
             tools:text="@string/dummy" />
 
-        <Button
-            android:id="@+id/btn"
-            android:layout_width="wrap_content"
+        <TextView
+            android:id="@+id/tv_department_where"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="52dp"
-            android:text=" 증가"
+            android:layout_marginHorizontal="16dp"
+            android:text="@string/onboarding_tv_what_department"
+            android:textAppearance="?textAppearanceHeadline2"
+            android:textColor="@color/white"
+            android:layout_marginTop="30dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_school_search" />
 
+        <TextView
+            android:id="@+id/tv_department_search"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="12dp"
+            android:gravity="center_vertical"
+            android:fontFamily="@font/font_pretendard_medium"
+            android:textSize="16sp"
+            android:background="@{vm._department.isEmpty() ?@drawable/shape_black_fill_grayscales600_line_8_rect : @drawable/shape_grayscales900_fill_grayscales500_line_8_rect}"
+            android:paddingVertical="16dp"
+            android:paddingStart="20dp"
+            android:paddingEnd="12dp"
+            android:textColor="@color/white"
+            app:drawableEndCompat="@drawable/ic_onboarding_search"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_department_where" />
+
+        <TextView
+            android:id="@+id/tv_studentid_what"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="76dp"
+            android:text="@string/onboarding_tv_what_studentid"
+            android:textAppearance="?textAppearanceHeadline2"
+            android:textColor="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tv_department_search" />
+
+        <TextView
+            android:id="@+id/tv_studentid_search"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="12dp"
+            android:background="@{vm._studentId == null ? @drawable/shape_black_fill_grayscales600_line_8_rect : @drawable/shape_grayscales900_fill_grayscales500_line_8_rect}"
+            android:fontFamily="@font/font_pretendard_medium"
+            android:gravity="center_vertical"
+            android:hint="@string/onboarding_tv_hint_select_studentid"
+            android:paddingVertical="16dp"
+            android:paddingStart="20dp"
+            android:paddingEnd="12dp"
+            android:textColor="@color/white"
+            android:textColorHint="@color/grayscales_500"
+            android:textSize="16sp"
+            app:drawableEndCompat="@drawable/ic_onboarding_studentid_down"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_studentid_what"
+            tools:background="shape_black_fill_grayscales600_line_8_rect" />
+
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btn_school_next"
+            android:id="@+id/btn_studentinfo_next"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
             android:layout_marginBottom="32dp"
-            android:background="@{vm._school.isEmpty()? @drawable/shape_grayscales_800_fill_100_rect : @drawable/shape_yello_main_500_fill_100_rect}"
-            android:clickable="@{!vm._school.isEmpty()}"
+            android:background="@{vm._school.isEmpty() || vm._department.isEmpty() || vm._studentId == null ? @drawable/shape_grayscales_800_fill_100_rect : @drawable/shape_yello_main_500_fill_100_rect}"
+            android:clickable="@{!vm._school.isEmpty() &amp; !vm._department.isEmpty() &amp; vm._studentId != null }"
             android:paddingVertical="12dp"
             android:text="@string/onboarding_btn_next"
             android:textAppearance="?textAppearanceBodyMedium"
-            android:textColor="@{vm._school.isEmpty()? @color/grayscales_700 : @color/black}"
+            android:textColor="@{vm._school.isEmpty() || vm._department.isEmpty()|| vm._studentId == null? @color/grayscales_700 : @color/black}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />

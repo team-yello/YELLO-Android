@@ -8,17 +8,15 @@ import com.el.yello.presentation.onboarding.fragment.code.CodeFragment
 import com.el.yello.presentation.onboarding.fragment.gender.GenderFragment
 import com.el.yello.presentation.onboarding.fragment.gender.SelectStudentFragment
 import com.el.yello.presentation.onboarding.fragment.nameid.NameIdFragment
-import com.el.yello.presentation.onboarding.fragment.school.SchoolFragment
 import com.el.yello.presentation.onboarding.fragment.startapp.StartAppFragment
-import com.el.yello.presentation.onboarding.fragment.studentid.StudentIdFragment
+import com.el.yello.presentation.onboarding.fragment.universityinfo.StudentInfoFragment
 
 class ViewPagerFragmentAdapter(fragmentActivity: FragmentActivity) :
     FragmentStateAdapter(fragmentActivity) {
 
     private val fragments = listOf<Fragment>(
         SelectStudentFragment(),
-        SchoolFragment(),
-        StudentIdFragment(),
+        StudentInfoFragment(),
         NameIdFragment(),
         GenderFragment(),
         AddFriendFragment(),

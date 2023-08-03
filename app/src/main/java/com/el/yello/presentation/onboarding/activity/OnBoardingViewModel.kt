@@ -305,8 +305,6 @@ class OnBoardingViewModel @Inject constructor(
         }
     }
 
-    // fragment 화면 이동
-
     private val _currentPage = MutableLiveData(0)
     val currentPage: LiveData<Int> = _currentPage
     fun navigateToNextPage() {

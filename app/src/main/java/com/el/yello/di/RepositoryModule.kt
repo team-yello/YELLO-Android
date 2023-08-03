@@ -23,13 +23,13 @@ import javax.inject.Singleton
 object RepositoryModule {
     @Provides
     @Singleton
-    fun provideYelloRepository(yelloRepository: YelloRepositoryImpl): YelloRepository =
-        yelloRepository
+    fun provideYelloRepository(yelloRepositoryImpl: YelloRepositoryImpl): YelloRepository =
+        yelloRepositoryImpl
 
     @Provides
     @Singleton
-    fun provideVoteRepository(voteRepository: VoteRepositoryImpl): VoteRepository =
-        voteRepository
+    fun provideVoteRepository(voteRepositoryImpl: VoteRepositoryImpl): VoteRepository =
+        voteRepositoryImpl
 
     @Provides
     @Singleton
@@ -48,5 +48,6 @@ object RepositoryModule {
 
     @Provides
     @Singleton
-    fun provideAuthRepository(authRepositoryImpl: AuthRepositoryImpl): AuthRepository = authRepositoryImpl
+    fun provideAuthRepository(authRepositoryImpl: AuthRepositoryImpl): AuthRepository =
+        authRepositoryImpl
 }

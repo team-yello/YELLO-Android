@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.el.yello.databinding.ItemSchoolListBinding
+import com.el.yello.databinding.ItemUniversityListBinding
 import com.example.ui.view.ItemDiffCallback
 import com.example.ui.view.setOnSingleClickListener
 
@@ -13,7 +13,7 @@ class SchoolAdapter(
 ) : ListAdapter<String, SchoolAdapter.SchoolViewHolder>(diffUtil) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SchoolViewHolder {
         return SchoolViewHolder(
-            ItemSchoolListBinding.inflate(
+            ItemUniversityListBinding.inflate(
                 LayoutInflater.from(parent.context),
                 parent,
                 false,
@@ -27,7 +27,7 @@ class SchoolAdapter(
     }
 
     class SchoolViewHolder(
-        private val binding: ItemSchoolListBinding,
+        private val binding: ItemUniversityListBinding,
         private val storeSchool: (String) -> Unit,
     ) :
         RecyclerView.ViewHolder(binding.root) {

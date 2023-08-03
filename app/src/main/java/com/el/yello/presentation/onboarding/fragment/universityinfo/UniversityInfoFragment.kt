@@ -5,7 +5,7 @@ import android.view.View
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.activityViewModels
 import com.el.yello.R
-import com.el.yello.databinding.FragmentSchoolBinding
+import com.el.yello.databinding.FragmentUniversityBinding
 import com.el.yello.presentation.onboarding.activity.OnBoardingViewModel
 import com.el.yello.presentation.onboarding.fragment.universityinfo.department.SearchDialogDepartmentFragment
 import com.el.yello.presentation.onboarding.fragment.universityinfo.school.SearchDialogSchoolFragment
@@ -15,7 +15,8 @@ import com.example.ui.view.setOnSingleClickListener
 import java.util.Timer
 import kotlin.concurrent.timer
 
-class UniversityInfoFragment : BindingFragment<FragmentSchoolBinding>(R.layout.fragment_university) {
+class UniversityInfoFragment :
+    BindingFragment<FragmentUniversityBinding>(R.layout.fragment_university) {
     private val viewModel by activityViewModels<OnBoardingViewModel>()
 
     var timer: Timer? = null
@@ -46,7 +47,7 @@ class UniversityInfoFragment : BindingFragment<FragmentSchoolBinding>(R.layout.f
     }
 
     private fun initSearchInfoBtnClickListener() {
-        binding.tvSchoolSearch.setOnSingleClickListener {
+        binding.tvUniversitySearch.setOnSingleClickListener {
             SearchDialogSchoolFragment().show(parentFragmentManager, this.tag)
         }
         binding.tvDepartmentSearch.setOnSingleClickListener {
@@ -59,7 +60,7 @@ class UniversityInfoFragment : BindingFragment<FragmentSchoolBinding>(R.layout.f
 
     private fun setupSchool() {
         viewModel._school.observe(viewLifecycleOwner) { school ->
-            binding.tvSchoolSearch.text = school
+            binding.tvUniversitySearch.text = school
         }
     }
     private fun setupDepartment() {
@@ -78,10 +79,10 @@ class UniversityInfoFragment : BindingFragment<FragmentSchoolBinding>(R.layout.f
     }
 
     private fun setConfirmBtnClickListener() {
-        binding.btnStudentinfoNext.setOnSingleClickListener {
+        binding.btnUniversityinfoNext.setOnSingleClickListener {
             viewModel.navigateToNextPage()
         }
-        binding.btnStudentinfoBackBtn.setOnSingleClickListener {
+        binding.btnUniversityinfoBackBtn.setOnSingleClickListener {
             viewModel.navigateToBackPage()
         }
     }

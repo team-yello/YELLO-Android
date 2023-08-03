@@ -4,13 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="vm"
             type="com.el.yello.presentation.onboarding.activity.OnBoardingViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/layout_school_dialog"
+        android:id="@+id/layout_highschool_dialog"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/shape_rounded_dialog">
@@ -25,7 +26,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/tv_school_dialog"
+            android:id="@+id/tv_highschool_dialog"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="28dp"
@@ -38,7 +39,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <android.widget.ImageButton
-            android:id="@+id/btn_back_dialog"
+            android:id="@+id/btn_highschool_back_dialog"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="17dp"
@@ -47,13 +48,13 @@
             android:background="@null"
             android:padding="12dp"
             android:src="@drawable/ic_onboarding_x"
-            app:layout_constraintBottom_toTopOf="@+id/et_school_search"
+            app:layout_constraintBottom_toTopOf="@+id/et_highschool_search"
             app:layout_constraintDimensionRatio="1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
-            android:id="@+id/et_school_search"
+            android:id="@+id/et_highschool_search"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="20dp"
@@ -71,11 +72,11 @@
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_school_dialog"
+            app:layout_constraintTop_toBottomOf="@+id/tv_highschool_dialog"
             tools:text="디자dfsdfsdfdsfsdfdsfsdfdsfsdfdsfsdsdfsdfsdfsdfsdfsdfs" />
 
         <TextView
-            android:id="@+id/tv_school_add"
+            android:id="@+id/tv_highschool_add"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="1dp"
@@ -87,19 +88,19 @@
             android:textSize="12sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/et_school_search" />
+            app:layout_constraintTop_toBottomOf="@+id/et_highschool_search" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_school_list"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginTop="8dp"
-            app:layout_constraintBottom_toBottomOf="parent"
             android:orientation="vertical"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_school_add"
+            app:layout_constraintTop_toBottomOf="@id/tv_highschool_add"
             tools:listitem="@layout/item_highschool_list" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

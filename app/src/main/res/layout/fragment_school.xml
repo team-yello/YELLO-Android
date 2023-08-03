@@ -69,12 +69,13 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
             android:layout_marginTop="12dp"
-            android:background="@{vm._school.isEmpty() ? @drawable/shape_black_fill_grayscales600_line_8_rect : @drawable/shape_grayscales900_fill_grayscales500_line_8_rect}"
+            android:background="@{vm._school.isEmpty() ? @drawable/shape_black_fill_grayscales500_line_8_rect : @drawable/shape_black_fill_grayscales600_line_8_rect}"
+            android:hint="@string/onboarding_school_hint"
+            android:textAppearance="?textAppearanceBodyLarge"
             android:drawablePadding="12dp"
             android:ellipsize="end"
             android:gravity="center_vertical"
-            android:fontFamily="@font/font_pretendard_medium"
-            android:textSize="16sp"
+            android:textColorHint="@color/grayscales_700"
             android:maxLines="1"
             android:paddingVertical="18dp"
             android:paddingStart="20dp"
@@ -83,8 +84,7 @@
             app:drawableEndCompat="@drawable/ic_onboarding_search"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_school_where"
-            tools:text="@string/dummy" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_school_where" />
 
         <TextView
             android:id="@+id/tv_department_where"
@@ -106,9 +106,11 @@
             android:layout_marginHorizontal="16dp"
             android:layout_marginTop="12dp"
             android:gravity="center_vertical"
+            android:background="@{vm._department.isEmpty() ?@drawable/shape_black_fill_grayscales500_line_8_rect : @drawable/shape_black_fill_grayscales600_line_8_rect}"
+            android:hint="@string/onboarding_department_hint"
             android:fontFamily="@font/font_pretendard_medium"
             android:textSize="16sp"
-            android:background="@{vm._department.isEmpty() ?@drawable/shape_black_fill_grayscales600_line_8_rect : @drawable/shape_grayscales900_fill_grayscales500_line_8_rect}"
+            android:textColorHint="@color/grayscales_700"
             android:paddingVertical="16dp"
             android:paddingStart="20dp"
             android:paddingEnd="12dp"
@@ -123,13 +125,13 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
-            android:layout_marginTop="76dp"
+            android:layout_marginTop="30dp"
             android:text="@string/onboarding_tv_what_studentid"
             android:textAppearance="?textAppearanceHeadline2"
             android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/tv_department_search" />
+            app:layout_constraintTop_toBottomOf="@id/tv_department_search" />
 
         <TextView
             android:id="@+id/tv_studentid_search"
@@ -137,7 +139,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
             android:layout_marginTop="12dp"
-            android:background="@{vm._studentId == null ? @drawable/shape_black_fill_grayscales600_line_8_rect : @drawable/shape_grayscales900_fill_grayscales500_line_8_rect}"
+            android:background="@{vm._studentId == null ? @drawable/shape_black_fill_grayscales500_line_8_rect : @drawable/shape_black_fill_grayscales600_line_8_rect}"
             android:fontFamily="@font/font_pretendard_medium"
             android:gravity="center_vertical"
             android:hint="@string/onboarding_tv_hint_select_studentid"
@@ -145,7 +147,7 @@
             android:paddingStart="20dp"
             android:paddingEnd="12dp"
             android:textColor="@color/white"
-            android:textColorHint="@color/grayscales_500"
+            android:textColorHint="@color/grayscales_700"
             android:textSize="16sp"
             app:drawableEndCompat="@drawable/ic_onboarding_studentid_down"
             app:layout_constraintEnd_toEndOf="parent"

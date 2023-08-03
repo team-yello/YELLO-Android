@@ -42,7 +42,6 @@
     <string name="onboarding_tv_readyto_login">옐로에 가입하기 위한 첫 절차예요.</string>
     <string name="onboarding_tv_what_school">학교가 어디인가요?</string>
     <string name="onboarding_tv_what_department">무슨 학과인가요?</string>
-    <string name="onboarding_tv_hint_select_studentid">학번을 선택해주세요.</string>
     <string name="onboarding_btn_next">다음</string>
     <string name="onboarding_tv_name">이름은</string>
     <string name="onboarding_tv_name_description">이름은 가입 후 바꿀 수 없으니 정확히 적어주세요!</string>
@@ -75,6 +74,12 @@
     <string name="onboarding_gender_male">남자</string>
     <string name="onboarding_name_id_duplicate_id_msg">이미 사용하고 있는 아이디에요.</string>
     <string name="onboarding_code_duplicate_msg">존재하지 않는 추천인 코드입니다.</string>
+    <string name="onboarding_select_student_Type_title">해당되는 곳에 체크해주세요.</string>
+    <string name="onboarding_tv_select_student_highschool">고등학생</string>
+    <string name="onboarding_tv_select_student_university">대학생</string>
+    <string name="onboarding_school_hint">ex. 옐로대학교</string>
+    <string name="onboarding_department_hint">ex. 노랑학과</string>
+    <string name="onboarding_tv_hint_select_studentid">ex. 23학번</string>
 
     <string name="yello_start_my_point">내 포인트</string>
     <string name="yello_start_description">누구에게 어떤 메시지를 보낼까?</string>
@@ -192,7 +197,4 @@
     <string name="recommend_invite_no_title">지금 추천된 친구가 없어요!\n친구를 초대해볼까요?</string>
     <string name="recommend_invite_no_subtitle">친구 초대하기</string>
     <string name="recommend_item_btn_add">친구추가</string>
-    <string name="onboarding_select_student_Type_title">해당되는 곳에 체크해주세요.</string>
-    <string name="onboarding_tv_select_student_highschool">고등학생</string>
-    <string name="onboarding_tv_select_student_university">대학생</string>
 </resources>

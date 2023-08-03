@@ -7,8 +7,8 @@ import androidx.fragment.app.activityViewModels
 import com.el.yello.R
 import com.el.yello.databinding.FragmentSchoolBinding
 import com.el.yello.presentation.onboarding.activity.OnBoardingViewModel
-import com.el.yello.presentation.onboarding.fragment.universityinfo.school.SearchDialogSchoolFragment
 import com.el.yello.presentation.onboarding.fragment.universityinfo.department.SearchDialogDepartmentFragment
+import com.el.yello.presentation.onboarding.fragment.universityinfo.school.SearchDialogSchoolFragment
 import com.el.yello.presentation.onboarding.fragment.universityinfo.studentid.StudentIdDialogFragment
 import com.example.ui.base.BindingFragment
 import com.example.ui.view.setOnSingleClickListener
@@ -24,7 +24,6 @@ class StudentInfoFragment : BindingFragment<FragmentSchoolBinding>(R.layout.frag
         super.onViewCreated(view, savedInstanceState)
         binding.vm = viewModel
         binding.progressbar.progress = 20
-        initSearchSchoolBtnClickListener()
         initSearchInfoBtnClickListener()
         setConfirmBtnClickListener()
         setupSchool()
@@ -46,13 +45,10 @@ class StudentInfoFragment : BindingFragment<FragmentSchoolBinding>(R.layout.frag
         }
     }
 
-    private fun initSearchSchoolBtnClickListener() {
+    private fun initSearchInfoBtnClickListener() {
         binding.tvSchoolSearch.setOnSingleClickListener {
             SearchDialogSchoolFragment().show(parentFragmentManager, this.tag)
         }
-    }
-
-    private fun initSearchInfoBtnClickListener() {
         binding.tvDepartmentSearch.setOnSingleClickListener {
             SearchDialogDepartmentFragment().show(parentFragmentManager, this.tag)
         }

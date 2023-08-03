@@ -6,5 +6,5 @@
         android:color="@color/grayscales_500" />
     <corners android:radius="8dp" />
     <solid
-        android:color="@color/grayscales_900" />
+        android:color="@color/black" />
 </shape>

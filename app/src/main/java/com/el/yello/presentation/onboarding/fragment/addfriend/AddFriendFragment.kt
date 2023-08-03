@@ -16,7 +16,9 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class AddFriendFragment : BindingFragment<FragmentAddfreindBinding>(R.layout.fragment_addfreind) {
 
-    private var adapter: AddFriendAdapter? = null
+    private var _adapter: AddFriendAdapter? = null
+    private val adapter
+        get() = requireNotNull(_adapter) { getString(R.string.adapter_not_initialized_error_msg) }
 
     private val viewModel by activityViewModels<OnBoardingViewModel>()
     private lateinit var friendsList: List<Friend>
@@ -36,7 +38,7 @@ class AddFriendFragment : BindingFragment<FragmentAddfreindBinding>(R.layout.fra
     }
 
     private fun initFriendAdapter() {
-        adapter = AddFriendAdapter { friend, position ->
+        _adapter = AddFriendAdapter { friend, position ->
             friend.isSelected = !friend.isSelected
             if (friend.isSelected && friend.id !in selectedItemIdList) {
                 selectedItemIdList.add(friend.id)
@@ -45,7 +47,7 @@ class AddFriendFragment : BindingFragment<FragmentAddfreindBinding>(R.layout.fra
                 selectedItemIdList.remove(friend.id)
                 viewModel.selectedFriendCount.value = viewModel.selectedFriendCount.value?.minus(1)
             }
-            adapter?.notifyItemChanged(position)
+            adapter.notifyItemChanged(position)
         }
         binding.rvFreindList.adapter = adapter
     }
@@ -79,7 +81,7 @@ class AddFriendFragment : BindingFragment<FragmentAddfreindBinding>(R.layout.fra
                     recyclerView.layoutManager?.let { layoutManager ->
                         if (!binding.rvFreindList.canScrollVertically(1)
                             && layoutManager is LinearLayoutManager
-                            && layoutManager.findLastVisibleItemPosition() == adapter!!.itemCount - 1
+                            && layoutManager.findLastVisibleItemPosition() == adapter.itemCount - 1
                         ) {
                             viewModel.addListWithKakaoIdList()
                         }
@@ -93,16 +95,16 @@ class AddFriendFragment : BindingFragment<FragmentAddfreindBinding>(R.layout.fra
     private fun observeAddListState() {
         viewModel.friendListState.observe(viewLifecycleOwner) {
             friendsList = it.friendList
-            adapter?.submitList(friendsList)
+            adapter.submitList(friendsList)
             selectedItemIdList.addAll(friendsList.map { friend -> friend.id })
             viewModel.selectedFriendCount.value =
                 viewModel.selectedFriendCount.value?.plus(friendsList.size)
-            adapter?.notifyDataSetChanged()
+            adapter.notifyDataSetChanged()
         }
     }
 
     override fun onDestroyView() {
-        adapter = null
+        _adapter = null
         super.onDestroyView()
     }
 }

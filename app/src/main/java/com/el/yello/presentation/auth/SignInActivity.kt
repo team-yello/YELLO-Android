@@ -1,7 +1,6 @@
 package com.el.yello.presentation.auth
 
 import android.content.Intent
-import android.content.Intent.EXTRA_EMAIL
 import android.os.Bundle
 import androidx.activity.viewModels
 import com.el.yello.R
@@ -9,6 +8,7 @@ import com.el.yello.databinding.ActivitySignInBinding
 import com.el.yello.presentation.main.MainActivity
 import com.el.yello.util.context.yelloSnackbar
 import com.example.ui.base.BindingActivity
+import com.example.ui.context.toast
 import com.example.ui.view.UiState
 import com.example.ui.view.setOnSingleClickListener
 import com.kakao.sdk.auth.model.OAuthToken
@@ -107,10 +107,7 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
                         viewModel.getKakaoInfo()
                     } else {
                         // 401 : 에러 발생
-                        yelloSnackbar(
-                            binding.root.rootView,
-                            getString(R.string.sign_in_error_connection),
-                        )
+                        toast(getString(R.string.sign_in_error_connection))
                     }
                 }
 

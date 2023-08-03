@@ -15,6 +15,7 @@ import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.user.UserApiClient
 import com.kakao.sdk.user.model.User
 import dagger.hilt.android.lifecycle.HiltViewModel
+import com.el.yello.presentation.auth.SignInActivity.Companion.NOT_SIGNED_IN
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import javax.inject.Inject
@@ -94,9 +95,9 @@ class SignInViewModel @Inject constructor(
                 _postState.value = UiState.Success(it)
             }.onFailure {
                 if (it is HttpException && it.code() == 403) {
-                    _postState.value = UiState.Failure(NOT_SIGNED)
+                    _postState.value = UiState.Failure(NOT_SIGNED_IN)
                 } else {
-                    _postState.value = UiState.Failure(ERROR)
+                    _postState.value = UiState.Failure("ERROR")
                 }
             }
         }
@@ -129,8 +130,5 @@ class SignInViewModel @Inject constructor(
         const val THUMBNAIL = "profile_image"
         const val EMAIL = "account_email"
         const val FRIEND_LIST = "friends"
-
-        const val NOT_SIGNED = "403"
-        const val ERROR = "error"
     }
 }

@@ -93,8 +93,10 @@ class CodeFragment : BindingFragment<FragmentCodeBinding>(R.layout.fragment_code
     private fun initIdEditTextViewError() {
         binding.etCode.setBackgroundResource(R.drawable.shape_fill_red20_line_semantic_status_red500_rect_8)
         binding.ivCodeDelete.setBackgroundResource(R.drawable.ic_onboarding_delete_red)
-        binding.tvIdError.text = getString(R.string.onboarding_code_duplicate_msg)
-        binding.tvIdError.setTextColor(resources.getColor(R.color.semantic_red_500))
+        binding.tvCodeHint.text = getString(R.string.onboarding_code_duplicate_msg)
+        binding.tvCodeHint.setTextColor(resources.getColor(R.color.semantic_red_500))
+        binding.tvCodeHintPoint.visibility=View.INVISIBLE
+        binding.tvCodeHintEnd.visibility=View.INVISIBLE
     }
 
     companion object {

@@ -27,12 +27,10 @@ class RecommendInviteDialog :
     override fun onStart() {
         super.onStart()
         dialog?.window?.apply {
-            dialog?.window?.apply {
-                setLayout(
-                    WindowManager.LayoutParams.MATCH_PARENT,
-                    WindowManager.LayoutParams.WRAP_CONTENT,
-                )
-            }
+            setLayout(
+                WindowManager.LayoutParams.MATCH_PARENT,
+                WindowManager.LayoutParams.WRAP_CONTENT,
+            )
             setBackgroundDrawableResource(R.color.transparent)
         }
     }

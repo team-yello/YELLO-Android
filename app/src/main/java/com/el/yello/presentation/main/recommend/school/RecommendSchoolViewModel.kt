@@ -58,7 +58,7 @@ class RecommendSchoolViewModel @Inject constructor(
         }
     }
 
-    // 서버 통신 -친구 추가
+    // 서버 통신 - 친구 추가
     fun addFriendToServer(friendId: Long) {
         viewModelScope.launch {
             _addFriendState.value = UiState.Loading

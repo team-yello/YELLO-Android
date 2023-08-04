@@ -69,8 +69,6 @@ class RecommendKakaoViewModel @Inject constructor(
         }
     }
 
-
-
     // 서버 통신 - 추천 친구 리스트 추가
     private fun getListFromServer(friendKakaoId: List<String>) {
         viewModelScope.launch {

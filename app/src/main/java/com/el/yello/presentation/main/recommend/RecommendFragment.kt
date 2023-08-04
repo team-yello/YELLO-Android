@@ -19,13 +19,15 @@ class RecommendFragment : BindingFragment<FragmentRecommendBinding>(R.layout.fra
     }
 
     private fun setTabLayout() {
-        val tabTextList = listOf(
-            getString(R.string.recommend_tab_kakao),
-            getString(R.string.recommend_tab_school),
-        )
+        val tabTextList = listOf(TAB_KAKAO, TAB_SCHOOL)
 
         TabLayoutMediator(binding.tabRecommend, binding.vpRecommend) { tab, pos ->
             tab.text = tabTextList[pos]
         }.attach()
+    }
+
+    private companion object {
+        const val TAB_KAKAO = "카톡 친구들"
+        const val TAB_SCHOOL = "학교 친구들"
     }
 }

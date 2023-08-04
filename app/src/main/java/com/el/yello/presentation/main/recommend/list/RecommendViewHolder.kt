@@ -1,4 +1,4 @@
-package com.el.yello.presentation.main.recommend
+package com.el.yello.presentation.main.recommend.list
 
 import androidx.recyclerview.widget.RecyclerView
 import coil.load

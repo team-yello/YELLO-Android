@@ -19,7 +19,7 @@ class AuthRepositoryImpl @Inject constructor(
         yelloDataStore.yelloId = yelloId
     }
 
-    override fun getYelloId(): String? = yelloDataStore.yelloId
+    override fun getYelloId(): String = yelloDataStore.yelloId
 
     override fun clearLocalPref() = yelloDataStore.clearLocalPref()
 }

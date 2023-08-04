@@ -22,18 +22,22 @@ class SplashActivity : AppCompatActivity() {
         Handler(Looper.getMainLooper()).postDelayed({
             if (viewModel.getIsAutoLogin()) {
                 navigateToMainScreen()
-                return@postDelayed
+            } else {
+                navigateToSignInScreen()
             }
-
-            val intent = Intent(this, SignInActivity::class.java)
-            startActivity(intent)
-            finish()
         }, 3000)
     }
 
     private fun navigateToMainScreen() {
         Intent(this@SplashActivity, MainActivity::class.java).apply {
             addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            startActivity(this)
+        }
+        finish()
+    }
+
+    private fun navigateToSignInScreen() {
+        Intent(this, SignInActivity::class.java).apply {
             startActivity(this)
         }
         finish()

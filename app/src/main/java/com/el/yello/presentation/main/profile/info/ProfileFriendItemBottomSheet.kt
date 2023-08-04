@@ -1,20 +1,21 @@
 package com.el.yello.presentation.main.profile.info
 
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.activityViewModels
 import coil.load
 import coil.transform.CircleCropTransformation
 import com.el.yello.R
-import com.el.yello.databinding.FragmentProfileFriendItemBottomSheetBinding
+import com.el.yello.databinding.FragmentProfileItemBottomSheetBinding
 import com.el.yello.presentation.main.profile.ProfileViewModel
 import com.example.ui.base.BindingBottomSheetDialog
 import com.example.ui.view.setOnSingleClickListener
 
 class ProfileFriendItemBottomSheet :
-    BindingBottomSheetDialog<FragmentProfileFriendItemBottomSheetBinding>(R.layout.fragment_profile_friend_item_bottom_sheet) {
+    BindingBottomSheetDialog<FragmentProfileItemBottomSheetBinding>(R.layout.fragment_profile_item_bottom_sheet) {
 
-    private val profileFriendDeleteBottomSheet: ProfileFriendDeleteBottomSheet =
+    private var profileFriendDeleteBottomSheet: ProfileFriendDeleteBottomSheet? =
         ProfileFriendDeleteBottomSheet()
     private val viewModel by activityViewModels<ProfileViewModel>()
 
@@ -27,27 +28,36 @@ class ProfileFriendItemBottomSheet :
         super.onViewCreated(view, savedInstanceState)
 
         binding.vm = viewModel
-        initDeleteButton()
-        setItemData()
+        viewModel.isItemBottomSheetRunning = true
+        initDeleteBtnListener()
+        setItemImage()
     }
 
-    private fun setItemData() {
-        if (viewModel.clickedItemThumbnail.value != "") {
-            binding.ivProfileFriendThumbnail.load(viewModel.clickedItemThumbnail.value) {
-                transformations(CircleCropTransformation())
-            }
+    override fun onDismiss(dialog: DialogInterface) {
+        viewModel.isItemBottomSheetRunning = false
+        super.onDismiss(dialog)
+    }
+
+    override fun onDestroyView() {
+        profileFriendDeleteBottomSheet = null
+        super.onDestroyView()
+    }
+
+    private fun setItemImage() {
+        binding.ivProfileFriendThumbnail.load(viewModel.clickedItemThumbnail.value) {
+            transformations(CircleCropTransformation())
         }
     }
 
     // 다음 바텀시트 출력
-    private fun initDeleteButton() {
+    private fun initDeleteBtnListener() {
         binding.btnProfileFriendDelete.setOnSingleClickListener {
-            profileFriendDeleteBottomSheet.show(parentFragmentManager, DIALOG)
+            profileFriendDeleteBottomSheet?.show(parentFragmentManager, DELETE_BOTTOM_SHEET)
             dismiss()
         }
     }
 
     private companion object {
-        const val DIALOG = "dialog"
+        const val DELETE_BOTTOM_SHEET = "deleteBottomSheet"
     }
 }

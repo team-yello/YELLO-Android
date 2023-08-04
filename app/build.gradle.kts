@@ -20,26 +20,43 @@ android {
         versionCode = Constants.versionCode
         versionName = Constants.versionName
 
-        buildConfigField(
-            "String",
-            "BASE_URL",
-            gradleLocalProperties(rootDir).getProperty("base.url"),
-        )
-
-        buildConfigField(
-            "String",
-            "NATIVE_APP_KEY",
-            gradleLocalProperties(rootDir).getProperty("native.app.key"),
-        )
-
-        manifestPlaceholders["NATIVE_APP_KEY"] =
-            gradleLocalProperties(rootDir).getProperty("nativeAppKey")
-
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
-        getByName("release") {
+        debug {
+            buildConfigField(
+                "String",
+                "BASE_URL",
+                gradleLocalProperties(rootDir).getProperty("test.base.url"),
+            )
+
+            buildConfigField(
+                "String",
+                "NATIVE_APP_KEY",
+                gradleLocalProperties(rootDir).getProperty("test.native.app.key"),
+            )
+
+            manifestPlaceholders["NATIVE_APP_KEY"] =
+                gradleLocalProperties(rootDir).getProperty("testNativeAppKey")
+        }
+
+        release {
+            buildConfigField(
+                "String",
+                "BASE_URL",
+                gradleLocalProperties(rootDir).getProperty("base.url"),
+            )
+
+            buildConfigField(
+                "String",
+                "NATIVE_APP_KEY",
+                gradleLocalProperties(rootDir).getProperty("native.app.key"),
+            )
+
+            manifestPlaceholders["NATIVE_APP_KEY"] =
+                gradleLocalProperties(rootDir).getProperty("nativeAppKey")
+
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),

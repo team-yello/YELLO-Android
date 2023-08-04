@@ -2,10 +2,10 @@ package com.example.data.remote.service
 
 import com.example.data.model.request.onboarding.RequestPostSignupDto
 import com.example.data.model.request.onboarding.RequestServiceTokenDto
-import com.example.data.model.request.onboarding.RequestOnboardingListDto
+import com.example.data.model.request.onboarding.RequestAddFriendDto
 import com.example.data.model.response.BaseResponse
 import com.example.data.model.response.onboarding.ResponseDepartmentDto
-import com.example.data.model.response.onboarding.ResponseFriendDto
+import com.example.data.model.response.onboarding.ResponseFriendListDto
 import com.example.data.model.response.onboarding.ResponsePostSignupDto
 import com.example.data.model.response.onboarding.ResponseSchoolDto
 import com.example.data.model.response.onboarding.ResponseServiceTokenDto
@@ -39,10 +39,10 @@ interface OnboardingService {
     ): BaseResponse<Boolean>
 
     @POST("api/v1/auth/friend")
-    suspend fun postFriend(
-        @Body requestOnboardingListDto: RequestOnboardingListDto,
+    suspend fun postToGetFriendsList(
+        @Body requestAddFriendDto: RequestAddFriendDto,
         @Query("page") page: Int,
-    ): BaseResponse<ResponseFriendDto>
+    ): BaseResponse<ResponseFriendListDto>
 
     @POST("api/v1/auth/signup")
     suspend fun postSignup(

@@ -1,20 +1,18 @@
 package com.example.data.model.request.onboarding
 
-import com.example.data.model.request.recommend.RequestRecommendKakaoDto
-import com.example.domain.entity.RequestOnboardingListModel
-import com.example.domain.entity.RequestRecommendKakaoModel
+import com.example.domain.entity.onboarding.RequestAddFriendModel
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class RequestOnboardingListDto(
+data class RequestAddFriendDto(
     @SerialName("friendKakaoId")
     val friendKakaoId: List<String>,
     @SerialName("groupId")
     val groupId: Long,
 )
 
-fun RequestOnboardingListModel.toRequestDto() = RequestOnboardingListDto(
+fun RequestAddFriendModel.toRequestDto() = RequestAddFriendDto(
     friendKakaoId = friendKakaoId,
     groupId = groupId,
 )

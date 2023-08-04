@@ -5,8 +5,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
-import com.example.domain.entity.RequestOnboardingListModel
-import com.example.domain.entity.onboarding.FriendList
+import com.example.domain.entity.onboarding.RequestAddFriendModel
+import com.example.domain.entity.onboarding.AddFriendListModel
 import com.example.domain.entity.onboarding.GroupList
 import com.example.domain.entity.onboarding.SchoolList
 import com.example.domain.entity.onboarding.SignupInfo
@@ -178,8 +178,8 @@ class OnBoardingViewModel @Inject constructor(
 
     // 친구 추가 viewmodel (step 5)
 
-    private val _friendListState = MutableLiveData<FriendList>()
-    val friendListState: LiveData<FriendList> = _friendListState
+    private val _friendListState = MutableLiveData<AddFriendListModel>()
+    val friendListState: LiveData<AddFriendListModel> = _friendListState
 
     var selectedFriendIdList: List<Long> = listOf()
     var selectedFriendCount: MutableLiveData<Int> = MutableLiveData(0)
@@ -224,7 +224,7 @@ class OnBoardingViewModel @Inject constructor(
         viewModelScope.launch {
             runCatching {
                 onboardingRepository.postToGetFriendList(
-                    RequestOnboardingListModel(friendKakaoId, groupId),
+                    RequestAddFriendModel(friendKakaoId, groupId),
                     0
                 )
             }.onSuccess { friendList ->

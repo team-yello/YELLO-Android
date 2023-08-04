@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.el.yello.R
 import com.el.yello.databinding.FragmentAddfreindBinding
 import com.el.yello.presentation.onboarding.activity.OnBoardingViewModel
-import com.example.domain.entity.onboarding.Friend
+import com.example.domain.entity.onboarding.AddFriendListModel.FriendModel
 import com.example.ui.base.BindingFragment
 import com.example.ui.view.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
@@ -21,7 +21,7 @@ class AddFriendFragment : BindingFragment<FragmentAddfreindBinding>(R.layout.fra
         get() = requireNotNull(_adapter) { getString(R.string.adapter_not_initialized_error_msg) }
 
     private val viewModel by activityViewModels<OnBoardingViewModel>()
-    private lateinit var friendsList: List<Friend>
+    private lateinit var friendsList: List<FriendModel>
 
     private var selectedItemIdList = mutableListOf<Long>()
 

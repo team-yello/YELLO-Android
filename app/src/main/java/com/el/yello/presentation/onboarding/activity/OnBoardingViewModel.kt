@@ -117,11 +117,13 @@ class OnBoardingViewModel @Inject constructor(
 
     // 고등학교 학년
     val _grade = MutableLiveData("")
-    private val grade: String get() = _grade.value?.trim() ?: ""
+    val grade: String
+        get() = _grade.value ?: ""
 
-    // 고등학교 반
-    val _group = MutableLiveData("")
-    private val group: String get() = _group.value?.trim() ?: ""
+    fun selectGrade(grade: String?) {
+        _grade.value = grade ?: ""
+    }
+
 
     fun setGroupInfo(department: String, groupId: Long) {
         _department.value = department

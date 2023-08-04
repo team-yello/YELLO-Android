@@ -91,7 +91,7 @@
             app:layout_constraintTop_toBottomOf="@+id/et_highschool_search" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_school_list"
+            android:id="@+id/rv_highschool_list"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginTop="8dp"

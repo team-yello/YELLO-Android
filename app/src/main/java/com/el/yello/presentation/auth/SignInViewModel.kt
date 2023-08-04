@@ -15,7 +15,8 @@ import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.user.UserApiClient
 import com.kakao.sdk.user.model.User
 import dagger.hilt.android.lifecycle.HiltViewModel
-import com.el.yello.presentation.auth.SignInActivity.Companion.NOT_SIGNED_IN
+import com.el.yello.presentation.auth.SignInActivity.Companion.CODE_NOT_SIGNED_IN
+import com.el.yello.presentation.auth.SignInActivity.Companion.CODE_NO_UUID
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import javax.inject.Inject
@@ -95,7 +96,9 @@ class SignInViewModel @Inject constructor(
                 _postState.value = UiState.Success(it)
             }.onFailure {
                 if (it is HttpException && it.code() == 403) {
-                    _postState.value = UiState.Failure(NOT_SIGNED_IN)
+                    _postState.value = UiState.Failure(CODE_NOT_SIGNED_IN)
+                } else if (it is HttpException && it.code() == 404) {
+                    _postState.value = UiState.Failure(CODE_NO_UUID)
                 } else {
                     _postState.value = UiState.Failure("ERROR")
                 }

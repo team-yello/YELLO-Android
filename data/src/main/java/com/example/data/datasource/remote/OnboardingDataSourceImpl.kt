@@ -3,10 +3,10 @@ package com.example.data.datasource.remote
 import com.example.data.datasource.OnboardingDataSource
 import com.example.data.model.request.onboarding.RequestPostSignupDto
 import com.example.data.model.request.onboarding.RequestServiceTokenDto
-import com.example.data.model.request.onboarding.RequestOnboardingListDto
+import com.example.data.model.request.onboarding.RequestAddFriendDto
 import com.example.data.model.response.BaseResponse
 import com.example.data.model.response.onboarding.ResponseDepartmentDto
-import com.example.data.model.response.onboarding.ResponseFriendDto
+import com.example.data.model.response.onboarding.ResponseFriendListDto
 import com.example.data.model.response.onboarding.ResponsePostSignupDto
 import com.example.data.model.response.onboarding.ResponseSchoolDto
 import com.example.data.model.response.onboarding.ResponseServiceTokenDto
@@ -42,11 +42,11 @@ class OnboardingDataSourceImpl @Inject constructor(
         return onboardingService.getValidYelloId(yelloId)
     }
 
-    override suspend fun postFriendData(
-        requestOnboardingListDto: RequestOnboardingListDto,
+    override suspend fun postToGetFriendsListData(
+        requestAddFriendDto: RequestAddFriendDto,
         page: Int,
-    ): BaseResponse<ResponseFriendDto> {
-        return onboardingService.postFriend(requestOnboardingListDto, page)
+    ): BaseResponse<ResponseFriendListDto> {
+        return onboardingService.postToGetFriendsList(requestAddFriendDto, page)
     }
 
     override suspend fun postSignup(requestPostSignupDto: RequestPostSignupDto): BaseResponse<ResponsePostSignupDto> =

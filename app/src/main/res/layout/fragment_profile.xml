@@ -53,7 +53,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_profile_title"
-            tools:listitem="@layout/item_friends_list" />
+            tools:listitem="@layout/item_profile_friends_list" />
 
         <ImageView
             android:id="@+id/fab_upward"

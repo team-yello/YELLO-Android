@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <import type="android.view.View" />
 
         <variable
@@ -17,11 +19,12 @@
         android:background="@drawable/shape_grayscales900_fill_top10_rect"
         android:paddingBottom="56dp">
 
-        <ImageView
+        <View
+            android:id="@+id/iv_profile_friend_delete_handler"
             android:layout_width="80dp"
             android:layout_height="4dp"
             android:layout_marginTop="8dp"
-            android:src="@drawable/shape_grayscales800_fill_8_rect"
+            android:background="@drawable/shape_grayscales800_fill_8_rect"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -30,44 +33,48 @@
             android:id="@+id/iv_profile_friend_delete_thumbnail"
             android:layout_width="72dp"
             android:layout_height="0dp"
-            android:layout_marginTop="40dp"
-            android:src="@drawable/ic_main_yello_selected"
+            android:layout_marginTop="28dp"
             app:layout_constraintDimensionRatio="1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@id/iv_profile_friend_delete_handler"
+            tools:src="@drawable/ic_main_yello_selected" />
 
         <TextView
             android:id="@+id/tv_profile_friend_delete_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="12dp"
             android:layout_marginTop="16dp"
             android:text="@={vm.clickedItemName}"
             android:textAppearance="?textAppearanceHeadline3"
             android:textColor="@color/white"
+            android:layout_marginEnd="4dp"
             app:layout_constraintEnd_toStartOf="@id/tv_profile_friend_delete_id"
             app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/iv_profile_friend_delete_thumbnail" />
+            app:layout_constraintTop_toBottomOf="@id/iv_profile_friend_delete_thumbnail"
+            tools:text="김상호" />
 
         <TextView
             android:id="@+id/tv_profile_friend_delete_id"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="16dp"
             android:text="@={vm.clickedItemYelloId}"
             android:textAppearance="?textAppearanceLabelLarge"
             android:textColor="@color/yello_main_500"
             app:layout_constraintBaseline_toBaselineOf="@id/tv_profile_friend_delete_name"
             app:layout_constraintBottom_toBottomOf="@id/tv_profile_friend_delete_name"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/tv_profile_friend_delete_name" />
+            app:layout_constraintStart_toEndOf="@id/tv_profile_friend_delete_name"
+            tools:text="\@sangho.kk" />
 
         <TextView
             android:id="@+id/tv_profile_friend_delete_school"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="wrap_content"
+            android:minHeight="40dp"
             android:layout_marginHorizontal="80dp"
             android:layout_marginTop="7dp"
             android:gravity="center_horizontal"
@@ -75,18 +82,20 @@
             android:text="@={vm.clickedItemSchool}"
             android:textAppearance="?textAppearanceBody2"
             android:textColor="@color/grayscales_500"
-            app:layout_constrainedWidth="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_profile_friend_delete_id" />
+            app:layout_constraintTop_toBottomOf="@id/tv_profile_friend_delete_id"
+            tools:text="고려대학교 소프트웨어벤처융합전공 산업경영공학부 19학번" />
 
         <TextView
             android:id="@+id/tv_profile_friend_delete_subtitle"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="12dp"
             android:layout_marginTop="30dp"
-            android:text="@string/profile_delete_bottom_sheet_tv_subtitle"
+            android:gravity="center"
             android:padding="3dp"
+            android:text="@string/profile_delete_bottom_sheet_tv_subtitle"
             android:textAppearance="?textAppearanceSubtitle2"
             android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
@@ -99,15 +108,15 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="28dp"
             android:layout_marginTop="28dp"
+            android:layout_marginEnd="2dp"
             android:background="@drawable/shape_grayscales800_fill_8_rect"
             android:gravity="center"
             android:paddingVertical="12dp"
             android:text="@string/profile_delete_bottom_sheet_btn_return"
             android:textAppearance="?textAppearanceButton"
-            app:layout_constraintHorizontal_chainStyle="packed"
             android:textColor="@color/white"
-            android:layout_marginEnd="2dp"
             app:layout_constraintEnd_toStartOf="@id/btn_profile_friend_delete_resume"
+            app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_profile_friend_delete_subtitle" />
 
@@ -115,8 +124,8 @@
             android:id="@+id/btn_profile_friend_delete_resume"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="28dp"
             android:layout_marginStart="2dp"
+            android:layout_marginTop="28dp"
             android:layout_marginEnd="28dp"
             android:background="@drawable/shape_grayscales800_fill_8_rect"
             android:gravity="center"
@@ -127,7 +136,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/btn_profile_friend_delete_return"
             app:layout_constraintTop_toBottomOf="@id/tv_profile_friend_delete_subtitle" />
-
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

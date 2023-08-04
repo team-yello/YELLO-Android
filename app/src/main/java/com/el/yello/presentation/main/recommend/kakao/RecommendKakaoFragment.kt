@@ -1,4 +1,4 @@
-package com.el.yello.presentation.main.recommend
+package com.el.yello.presentation.main.recommend.kakao
 
 import android.os.Bundle
 import android.view.View
@@ -7,84 +7,74 @@ import android.view.animation.AnimationUtils
 import androidx.core.view.isVisible
 import androidx.core.view.setPadding
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.el.yello.R
-import com.el.yello.databinding.FragmentRecommendSchoolBinding
+import com.el.yello.databinding.FragmentRecommendKakaoBinding
+import com.el.yello.presentation.main.recommend.RecommendInviteDialog
+import com.el.yello.presentation.main.recommend.list.RecommendAdapter
+import com.el.yello.presentation.main.recommend.list.RecommendItemDecoration
+import com.el.yello.presentation.main.recommend.list.RecommendViewHolder
 import com.el.yello.util.context.yelloSnackbar
-import com.example.domain.entity.RecommendModel
 import com.example.ui.base.BindingFragment
 import com.example.ui.intent.dpToPx
 import com.example.ui.view.UiState
 import com.example.ui.view.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class RecommendSchoolFragment :
-    BindingFragment<FragmentRecommendSchoolBinding>(R.layout.fragment_recommend_school) {
+class RecommendKakaoFragment :
+    BindingFragment<FragmentRecommendKakaoBinding>(R.layout.fragment_recommend_kakao) {
 
-    private val viewModel by viewModels<RecommendSchoolViewModel>()
-    private var adapter: RecommendAdapter? = null
+    private var _adapter: RecommendAdapter? = null
+    private val adapter
+        get() = requireNotNull(_adapter) { getString(R.string.adapter_not_initialized_error_msg) }
 
+    private val viewModel by viewModels<RecommendKakaoViewModel>()
     private var recommendInviteDialog: RecommendInviteDialog? = null
-
-    private lateinit var friendsList: List<RecommendModel.RecommendFriend>
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        initFirstListWithAdapter()
-        initInviteButtonListener()
+        initInviteBtnListener()
+        setKakaoRecommendList()
+        setAdapterWithClickListener()
+        observeKakaoError()
         observeAddListState()
         observeAddFriendState()
-        setListWithInfinityScroll()
         setItemDivider()
         setDeleteAnimation()
     }
 
     override fun onDestroyView() {
-        super.onDestroyView()
+        _adapter = null
         dismissDialog()
+        super.onDestroyView()
     }
 
-    private fun initInviteButtonListener() {
-        recommendInviteDialog = RecommendInviteDialog.newInstance(viewModel.getYelloId())
-        binding.layoutInviteFriend.setOnSingleClickListener {
-            recommendInviteDialog?.show(parentFragmentManager, DIALOG)
-        }
-        binding.btnRecommendNoFriend.setOnSingleClickListener {
-            recommendInviteDialog?.show(parentFragmentManager, DIALOG)
-        }
-    }
-
-    // 처음 리스트 설정 및 어댑터 클릭 리스너 설정
-    private fun initFirstListWithAdapter() {
-        viewModel.addListFromServer()
-        viewModel.addListFromServer()
-        adapter = RecommendAdapter { recommendModel, position, holder ->
-            viewModel.setPositionAndHolder(position, holder)
-            viewModel.addFriendToServer(recommendModel.id.toLong())
-        }
-        binding.rvRecommendSchool.adapter = adapter
+    // 서버 통신 성공 시 카카오 추천 친구 추가
+    private fun setKakaoRecommendList() {
+        setListWithInfinityScroll()
+        viewModel.initPagingVariable()
+        viewModel.addListWithKakaoIdList()
     }
 
     // 무한 스크롤 구현
     private fun setListWithInfinityScroll() {
-        binding.rvRecommendSchool.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+        binding.rvRecommendKakao.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
                 if (dy > 0) {
                     recyclerView.layoutManager?.let { layoutManager ->
-                        if (!binding.rvRecommendSchool.canScrollVertically(1) &&
+                        if (!binding.rvRecommendKakao.canScrollVertically(1) &&
                             layoutManager is LinearLayoutManager &&
-                            layoutManager.findLastVisibleItemPosition() == adapter!!.itemCount - 1
+                            layoutManager.findLastVisibleItemPosition() == adapter.itemCount - 1
                         ) {
-                            viewModel.addListFromServer()
+                            viewModel.addListWithKakaoIdList()
                         }
                     }
                 }
@@ -92,28 +82,50 @@ class RecommendSchoolFragment :
         })
     }
 
+    private fun initInviteBtnListener() {
+        recommendInviteDialog = RecommendInviteDialog.newInstance(viewModel.getYelloId())
+        binding.layoutInviteFriend.setOnSingleClickListener {
+            recommendInviteDialog?.show(parentFragmentManager, INVITE_DIALOG)
+        }
+        binding.btnRecommendNoFriend.setOnSingleClickListener {
+            recommendInviteDialog?.show(parentFragmentManager, INVITE_DIALOG)
+        }
+    }
+
+    // 어댑터 클릭 리스너 설정
+    private fun setAdapterWithClickListener() {
+        _adapter = RecommendAdapter { recommendModel, position, holder ->
+            viewModel.setPositionAndHolder(position, holder)
+            viewModel.addFriendToServer(recommendModel.id.toLong())
+        }
+        binding.rvRecommendKakao.adapter = adapter
+    }
+
+    private fun observeKakaoError() {
+        viewModel.getKakaoErrorResult.observe(viewLifecycleOwner) {
+            yelloSnackbar(requireView(), getString(R.string.recommend_error_friends_list))
+            showNoFriendScreen()
+        }
+    }
+
     // 추천친구 리스트 추가 서버 통신 성공 시 어댑터에 리스트 추가
     private fun observeAddListState() {
-        viewModel.postState.observe(viewLifecycleOwner) { state ->
+        viewModel.postFriendsListState.observe(viewLifecycleOwner) { state ->
             when (state) {
                 is UiState.Success -> {
-                    if (state.data?.friends?.isEmpty() == true) {
-                        binding.layoutRecommendFriendsList.isVisible = false
-                        binding.layoutRecommendNoFriendsList.isVisible = true
+                    if (state.data?.friends?.isEmpty() == true && adapter.itemCount == 0) {
+                        showNoFriendScreen()
                     } else {
-                        binding.layoutRecommendFriendsList.isVisible = true
-                        binding.layoutRecommendNoFriendsList.isVisible = false
-                        friendsList = state.data?.friends ?: listOf()
-                        adapter?.addItemList(friendsList)
+                        showFriendListScreen()
+                        adapter.addItemList(state.data?.friends ?: listOf())
                     }
                 }
 
                 is UiState.Failure -> {
-                    binding.layoutRecommendFriendsList.isVisible = false
-                    binding.layoutRecommendNoFriendsList.isVisible = true
+                    showNoFriendScreen()
                     yelloSnackbar(
                         requireView(),
-                        getString(R.string.recommend_error_school_friend_connection),
+                        getString(R.string.recommend_error_friend_connection),
                     )
                 }
 
@@ -126,7 +138,7 @@ class RecommendSchoolFragment :
 
     // 친구 추가 서버 통신 성공 시 리스트에서 아이템 삭제 & 서버 통신 중 액티비티 클릭 방지
     private fun observeAddFriendState() {
-        viewModel.addState.observe(viewLifecycleOwner) { state ->
+        viewModel.addFriendState.observe(viewLifecycleOwner) { state ->
             when (state) {
                 is UiState.Success -> {
                     val position = viewModel.itemPosition
@@ -161,17 +173,16 @@ class RecommendSchoolFragment :
     }
 
     private fun setItemDivider() {
-        binding.rvRecommendSchool.addItemDecoration(
+        binding.rvRecommendKakao.addItemDecoration(
             RecommendItemDecoration(requireContext()),
         )
     }
 
     private fun setDeleteAnimation() {
-        binding.rvRecommendSchool.itemAnimator = object : DefaultItemAnimator() {
+        binding.rvRecommendKakao.itemAnimator = object : DefaultItemAnimator() {
             override fun animateRemove(holder: RecyclerView.ViewHolder): Boolean {
                 holder.itemView.animation =
                     AnimationUtils.loadAnimation(holder.itemView.context, R.anim.slide_out_right)
-
                 return super.animateRemove(holder)
             }
         }
@@ -183,14 +194,14 @@ class RecommendSchoolFragment :
 
     // 삭제 시 체크 버튼으로 전환 후 0.3초 뒤 애니메이션 적용
     private fun removeItemWithAnimation(holder: RecommendViewHolder, position: Int) {
-        CoroutineScope(Dispatchers.Main).launch {
+        lifecycleScope.launch {
             changeToCheckIcon(holder)
             delay(300)
-            adapter?.removeItem(position)
+            adapter.removeItem(position)
             activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
-            if (adapter?.itemCount == 0) {
-                binding.layoutRecommendFriendsList.isVisible = false
-                binding.layoutRecommendNoFriendsList.isVisible = true
+            delay(400)
+            if (adapter.itemCount == 0) {
+                showNoFriendScreen()
             }
         }
     }
@@ -205,7 +216,17 @@ class RecommendSchoolFragment :
         }
     }
 
+    private fun showFriendListScreen() {
+        binding.layoutRecommendFriendsList.isVisible = true
+        binding.layoutRecommendNoFriendsList.isVisible = false
+    }
+
+    private fun showNoFriendScreen() {
+        binding.layoutRecommendFriendsList.isVisible = false
+        binding.layoutRecommendNoFriendsList.isVisible = true
+    }
+
     private companion object {
-        const val DIALOG = "dialog"
+        const val INVITE_DIALOG = "inviteDialog"
     }
 }

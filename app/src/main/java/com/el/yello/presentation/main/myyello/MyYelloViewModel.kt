@@ -57,7 +57,7 @@ class MyYelloViewModel @Inject constructor(
                         _totalCount.value = it.totalCount
                     }
                 }.onFailure {
-                    _myYelloData.emit(UiState.Failure("옐로 리스트 서버 통신 실패"))
+                    _myYelloData.emit(UiState.Failure("내 쪽지 목록 서버 통신 실패"))
                 }
         }
     }

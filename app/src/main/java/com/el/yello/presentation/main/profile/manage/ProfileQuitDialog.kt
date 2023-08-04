@@ -14,7 +14,6 @@ import com.example.ui.base.BindingDialogFragment
 import com.example.ui.fragment.toast
 import com.example.ui.view.UiState
 import com.example.ui.view.setOnSingleClickListener
-import com.kakao.sdk.user.UserApiClient
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
@@ -25,7 +24,6 @@ class ProfileQuitDialog :
 
     override fun onStart() {
         super.onStart()
-
         setDialogBackground()
     }
 
@@ -47,25 +45,22 @@ class ProfileQuitDialog :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        initQuitButtonListener()
-        initRejectButtonListener()
+        initQuitBtnListener()
+        initRejectBtnListener()
         observeUserDeleteState()
+        observeKakaoQuitState()
     }
 
-    private fun initRejectButtonListener() {
+    private fun initRejectBtnListener() {
         binding.btnProfileDialogReject.setOnSingleClickListener {
             dismiss()
         }
     }
 
-    private fun initQuitButtonListener() {
+    private fun initQuitBtnListener() {
         binding.btnProfileDialogQuit.setOnSingleClickListener {
-            unlinkYelloAccount()
+            viewModel.deleteUserDataToServer()
         }
-    }
-
-    private fun unlinkYelloAccount() {
-        viewModel.deleteUserDataToServer()
     }
 
     // 유저 탈퇴 서버 통신 성공 시 카카오 연결 해제 진행
@@ -73,7 +68,7 @@ class ProfileQuitDialog :
         viewModel.deleteUserState.observe(viewLifecycleOwner) { state ->
             when (state) {
                 is UiState.Success -> {
-                    unlinkKakaoAccount()
+                    viewModel.quitKakaoAccount()
                 }
 
                 is UiState.Failure -> {
@@ -87,27 +82,30 @@ class ProfileQuitDialog :
         }
     }
 
-    private fun unlinkKakaoAccount() {
-        UserApiClient.instance.unlink { error ->
-            if (error != null) {
-                Timber.d(getString(R.string.profile_error_unlink_kakao))
-            } else {
-                restartApp(requireContext())
+    private fun observeKakaoQuitState() {
+        viewModel.kakaoQuitState.observe(this) { state ->
+            when (state) {
+                is UiState.Success -> {
+                    restartApp(requireContext())
+                }
+
+                is UiState.Failure -> {
+                    toast(getString(R.string.profile_error_unlink_kakao))
+                    Timber.d(getString(R.string.profile_error_unlink_kakao) + ": ${state.msg}")
+                }
+
+                is UiState.Empty -> {}
+
+                is UiState.Loading -> {}
             }
         }
     }
 
     private fun restartApp(context: Context) {
         val packageManager = context.packageManager
-        val intent = packageManager.getLaunchIntentForPackage(context.packageName)
-        val componentName = intent!!.component
-        val mainIntent = Intent.makeRestartActivityTask(componentName)
-        context.startActivity(mainIntent)
+        val packageName = context.packageName
+        val componentName = packageManager.getLaunchIntentForPackage(packageName)?.component
+        context.startActivity(Intent.makeRestartActivityTask(componentName))
         Runtime.getRuntime().exit(0)
-    }
-
-    companion object {
-        @JvmStatic
-        fun newInstance() = ProfileQuitDialog()
     }
 }

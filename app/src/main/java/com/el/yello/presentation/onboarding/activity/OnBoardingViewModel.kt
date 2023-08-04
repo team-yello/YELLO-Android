@@ -5,9 +5,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
-import com.example.domain.entity.RequestOnboardingListModel
-import com.example.domain.entity.onboarding.FriendGroup
-import com.example.domain.entity.onboarding.FriendList
+import com.example.domain.entity.onboarding.RequestAddFriendModel
+import com.example.domain.entity.onboarding.AddFriendListModel
 import com.example.domain.entity.onboarding.GroupList
 import com.example.domain.entity.onboarding.SchoolList
 import com.example.domain.entity.onboarding.SignupInfo
@@ -15,6 +14,7 @@ import com.example.domain.entity.onboarding.UserInfo
 import com.example.domain.repository.AuthRepository
 import com.example.domain.repository.OnboardingRepository
 import com.example.ui.view.UiState
+import com.kakao.sdk.talk.TalkApiClient
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
@@ -40,6 +40,7 @@ class OnBoardingViewModel @Inject constructor(
     private val _inputText = MutableLiveData<String>()
     val inputText: LiveData<String>
         get() = _inputText
+
     fun setInputText(text: String) {
         _inputText.value = text
     }
@@ -177,38 +178,58 @@ class OnBoardingViewModel @Inject constructor(
 
     // 친구 추가 viewmodel (step 5)
 
-    var kakaoId: String = ""
-    var email: String = ""
-    var profileImg: String = ""
+    private val _friendListState = MutableLiveData<AddFriendListModel>()
+    val friendListState: LiveData<AddFriendListModel> = _friendListState
 
-    private val _profile = MutableLiveData("")
-    val profile: String
-        get() = _profile.value ?: ""
-
-    private val _friendState = MutableLiveData<FriendList>()
-    val friendState: LiveData<FriendList> = _friendState
-
-    var kakaoFriendList: List<String> = listOf()
     var selectedFriendIdList: List<Long> = listOf()
     var selectedFriendCount: MutableLiveData<Int> = MutableLiveData(0)
 
-    private var currentFriendPage: Int = -1
+    private var currentFriendOffset = -100
+    private var currentFriendPage = -1
     private var isFriendPagingFinish = false
     private var totalFriendPage = Int.MAX_VALUE
 
-    fun addFriendList(friendGroup: FriendGroup) {
+    fun initFriendPagingVariable() {
+        currentFriendOffset = -100
+        currentFriendPage = -1
+        isFriendPagingFinish = false
+        totalFriendPage = Int.MAX_VALUE
+    }
+
+    // 서버 통신 - 카카오 리스트 통신 후 친구 리스트 추가 서버 통신 진행
+    fun addListWithKakaoIdList() {
+        if (isFriendPagingFinish) return
+        currentFriendOffset += 100
+        currentFriendPage += 1
+        TalkApiClient.instance.friends(
+            offset = currentFriendOffset,
+            limit = 100
+        ) { friends, error ->
+            if (error != null) {
+                Timber.e(error, "카카오톡 친구목록 가져오기 실패")
+            } else if (friends != null) {
+                totalFriendPage = ceil((friends.totalCount * 0.1)).toInt() - 1
+                if (totalFriendPage == currentFriendPage) isFriendPagingFinish = true
+                val friendIdList: List<String> =
+                    friends.elements?.map { friend -> friend.id.toString() } ?: listOf()
+                getListFromServer(friendIdList, groupId)
+            } else {
+                Timber.d("연동 가능한 카카오톡 친구 없음")
+            }
+        }
+    }
+
+    // 서버 통신 - 추천 친구 리스트 추가
+    private fun getListFromServer(friendKakaoId: List<String>, groupId: Long) {
         viewModelScope.launch {
-            if (isFriendPagingFinish) return@launch
             runCatching {
                 onboardingRepository.postToGetFriendList(
-                    RequestOnboardingListModel(friendGroup.friendIdList, friendGroup.groupId),
-                    ++currentFriendPage,
+                    RequestAddFriendModel(friendKakaoId, groupId),
+                    0
                 )
             }.onSuccess { friendList ->
                 friendList ?: return@launch
-                totalFriendPage = ceil((friendList.totalCount * 0.1)).toInt() - 1
-                if (totalFriendPage == currentFriendPage) isFriendPagingFinish = true
-                _friendState.value = friendList
+                _friendListState.value = friendList
             }.onFailure {
                 Timber.e(it.message)
             }
@@ -259,6 +280,10 @@ class OnBoardingViewModel @Inject constructor(
     fun validYellIdLoading() {
         _getValidYelloId.value = UiState.Loading
     }
+
+    var kakaoId: String = ""
+    var email: String = ""
+    var profileImg: String = ""
 
     fun postSignup() {
         viewModelScope.launch {

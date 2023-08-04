@@ -19,8 +19,9 @@
             android:paddingStart="16dp"
             android:paddingEnd="8dp"
             android:src="@drawable/ic_arrow_left"
+            app:layout_constraintBottom_toBottomOf="@id/tv_profile_quit_for_sure_title"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="@id/tv_profile_quit_for_sure_title" />
 
         <TextView
             android:id="@+id/tv_profile_quit_for_sure_title"
@@ -32,7 +33,7 @@
             android:textAppearance="?textAppearanceSubtitle1"
             android:textColor="@color/white"
             app:layout_constraintStart_toEndOf="@id/btn_profile_quit_for_sure_back"
-            app:layout_constraintTop_toTopOf="@id/btn_profile_quit_for_sure_back" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ScrollView
             android:layout_width="match_parent"
@@ -49,9 +50,12 @@
 
                 <TextView
                     android:id="@+id/tv_profile_quit_for_sure_subtitle_1"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="12dp"
                     android:layout_marginTop="39dp"
+                    android:gravity="center"
+                    android:lineHeight="36dp"
                     android:text="@string/profile_quit_for_sure_tv_subtitle_1"
                     android:textAppearance="?textAppearanceSubtitle1"
                     android:textColor="@color/white"
@@ -60,12 +64,14 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/tv_profile_quit_for_sure_subtitle_2"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/tv_profile_quit_for_sure_subtitle_2_top"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="12dp"
                     android:layout_marginTop="10dp"
                     android:gravity="center"
-                    android:text="@string/profile_quit_for_sure_tv_subtitle_2"
+                    android:lineHeight="28dp"
+                    android:text="@string/profile_quit_for_sure_tv_subtitle_2_top"
                     android:textAppearance="?textAppearanceBodySmall"
                     android:textColor="@color/grayscales_500"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -73,17 +79,35 @@
                     app:layout_constraintTop_toBottomOf="@id/tv_profile_quit_for_sure_subtitle_1" />
 
                 <TextView
-                    android:id="@+id/tv_profile_quit_for_sure_reason_1"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/tv_profile_quit_for_sure_subtitle_2_bottom"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="12dp"
+                    android:layout_marginTop="4dp"
+                    android:gravity="center"
+                    android:lineHeight="28dp"
+                    android:text="@string/profile_quit_for_sure_tv_subtitle_2_bottom"
+                    android:textAppearance="?textAppearanceBodySmall"
+                    android:textColor="@color/grayscales_500"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_profile_quit_for_sure_subtitle_2_top" />
+
+                <TextView
+                    android:id="@+id/tv_profile_quit_for_sure_reason_1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="12dp"
                     android:layout_marginTop="72dp"
+                    android:gravity="center"
+                    android:lineHeight="32dp"
                     android:paddingVertical="4dp"
                     android:text="@string/profile_quit_for_sure_tv_reason_1"
                     android:textAppearance="?textAppearanceBodyLarge"
                     android:textColor="@color/white"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tv_profile_quit_for_sure_subtitle_2" />
+                    app:layout_constraintTop_toBottomOf="@id/tv_profile_quit_for_sure_subtitle_2_bottom" />
 
                 <ImageView
                     android:id="@+id/iv_profile_quit_for_sure_reason_1"
@@ -98,9 +122,12 @@
 
                 <TextView
                     android:id="@+id/tv_profile_quit_for_sure_reason_2"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="12dp"
                     android:layout_marginTop="40dp"
+                    android:gravity="center"
+                    android:lineHeight="32dp"
                     android:paddingVertical="4dp"
                     android:text="@string/profile_quit_for_sure_tv_reason_2"
                     android:textAppearance="?textAppearanceBodyLarge"
@@ -122,9 +149,12 @@
 
                 <TextView
                     android:id="@+id/tv_profile_quit_for_sure_reason_3"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="12dp"
                     android:layout_marginTop="40dp"
+                    android:gravity="center"
+                    android:lineHeight="32dp"
                     android:paddingVertical="4dp"
                     android:text="@string/profile_quit_for_sure_tv_reason_3"
                     android:textAppearance="?textAppearanceBodyLarge"
@@ -146,10 +176,12 @@
 
                 <TextView
                     android:id="@+id/tv_profile_quit_for_sure_rule"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="12dp"
                     android:layout_marginTop="43dp"
                     android:gravity="center"
+                    android:lineHeight="15dp"
                     android:text="@string/profile_quit_for_sure_tv_rule"
                     android:textAppearance="?textAppearanceLabelMedium"
                     android:textColor="@color/grayscales_600"

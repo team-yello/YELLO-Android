@@ -6,7 +6,7 @@ import androidx.fragment.app.activityViewModels
 import coil.load
 import coil.transform.CircleCropTransformation
 import com.el.yello.R
-import com.el.yello.databinding.FragmentProfileFriendDeleteBottomSheetBinding
+import com.el.yello.databinding.FragmentProfileDeleteBottomSheetBinding
 import com.el.yello.presentation.main.profile.ProfileViewModel
 import com.example.ui.base.BindingBottomSheetDialog
 import com.example.ui.fragment.toast
@@ -14,7 +14,7 @@ import com.example.ui.view.UiState
 import com.example.ui.view.setOnSingleClickListener
 
 class ProfileFriendDeleteBottomSheet :
-    BindingBottomSheetDialog<FragmentProfileFriendDeleteBottomSheetBinding>(R.layout.fragment_profile_friend_delete_bottom_sheet) {
+    BindingBottomSheetDialog<FragmentProfileDeleteBottomSheetBinding>(R.layout.fragment_profile_delete_bottom_sheet) {
 
     private val viewModel by activityViewModels<ProfileViewModel>()
 
@@ -27,28 +27,25 @@ class ProfileFriendDeleteBottomSheet :
         super.onViewCreated(view, savedInstanceState)
 
         binding.vm = viewModel
-
-        initReturnButton()
-        initDeleteButton()
+        setItemImage()
+        initReturnBtnListener()
+        initDeleteBtnListener()
         observeFriendDeleteState()
-        setItemData()
     }
 
-    private fun setItemData() {
-        if (viewModel.clickedItemThumbnail.value != "") {
-            binding.ivProfileFriendDeleteThumbnail.load(viewModel.clickedItemThumbnail.value) {
-                transformations(CircleCropTransformation())
-            }
+    private fun setItemImage() {
+        binding.ivProfileFriendDeleteThumbnail.load(viewModel.clickedItemThumbnail.value) {
+            transformations(CircleCropTransformation())
         }
     }
 
-    private fun initReturnButton() {
+    private fun initReturnBtnListener() {
         binding.btnProfileFriendDeleteReturn.setOnSingleClickListener {
             dismiss()
         }
     }
 
-    private fun initDeleteButton() {
+    private fun initDeleteBtnListener() {
         binding.btnProfileFriendDeleteResume.setOnSingleClickListener {
             viewModel.clickedItemId.value?.let { friendId ->
                 viewModel.deleteFriendDataToServer(
@@ -63,9 +60,14 @@ class ProfileFriendDeleteBottomSheet :
         viewModel.deleteFriendState.observe(viewLifecycleOwner) { state ->
             when (state) {
                 is UiState.Success -> {
-                    toast("${viewModel.clickedItemName.value} 님과 친구 끊기를 완료했어요.")
-                    dismiss()
-                    viewModel._deleteFriendState.value = UiState.Empty
+                    toast(
+                        getString(
+                            R.string.profile_delete_bottom_sheet_toast,
+                            viewModel.clickedItemName.value.toString()
+                        )
+                    )
+                    viewModel.setDeleteFriendStateEmpty()
+                    this@ProfileFriendDeleteBottomSheet.dismiss()
                 }
 
                 is UiState.Failure -> {

@@ -1,12 +1,12 @@
 package com.example.data.model.response.onboarding
 
-import com.example.domain.entity.onboarding.Friend
-import com.example.domain.entity.onboarding.FriendList
+import com.example.domain.entity.onboarding.AddFriendListModel.FriendModel
+import com.example.domain.entity.onboarding.AddFriendListModel
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class ResponseFriendDto(
+data class ResponseFriendListDto(
     @SerialName("totalCount")
     val totalCount: Int,
     @SerialName("friendList")
@@ -26,12 +26,12 @@ data class ResponseFriendDto(
         val groupName: String,
 
     ) {
-        fun toFriendList(): Friend {
-            return Friend(group, id, name, profileImage, groupName)
+        fun toFriendModel(): FriendModel {
+            return FriendModel(group, id, name, profileImage, groupName)
         }
     }
 
-    fun toMyFriend(): FriendList {
-        return FriendList(totalCount, friendList.map { it.toFriendList() })
+    fun toFriendListModel(): AddFriendListModel {
+        return AddFriendListModel(totalCount, friendList.map { it.toFriendModel() })
     }
 }

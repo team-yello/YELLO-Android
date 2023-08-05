@@ -9,12 +9,13 @@ import com.el.yello.presentation.main.yello.vote.note.NoteFragment
 class VoteAdapter(
     fragmentActivity: FragmentActivity,
     private val bgIndex: Int,
+    private val voteListSize: Int
 ) : FragmentStateAdapter(fragmentActivity) {
-    override fun getItemCount() = COUNT_NOTE_FRAGMENT + COUNT_POINT_FRAGMENT
+    override fun getItemCount() = voteListSize + COUNT_POINT_FRAGMENT
 
     override fun createFragment(position: Int): Fragment {
         return when (position) {
-            in INDEX_START_POSITION until COUNT_NOTE_FRAGMENT -> NoteFragment.newInstance(
+            in INDEX_START_POSITION until voteListSize -> NoteFragment.newInstance(
                 position,
                 bgIndex,
             )
@@ -25,8 +26,6 @@ class VoteAdapter(
 
     companion object {
         private const val INDEX_START_POSITION = 0
-
-        private const val COUNT_NOTE_FRAGMENT = 10
         private const val COUNT_POINT_FRAGMENT = 1
     }
 }

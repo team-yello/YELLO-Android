@@ -87,7 +87,7 @@
     <string name="yello_lock_invite">친구 초대하기</string>
     <string name="yello_lock_sub_description">친구가 4명 이상 모이면 투표할 수 있어요.\n친구들을 초대해볼까요?</string>
 
-    <string name="note_index_of_vote">&#160;of 10</string>
+    <string name="note_index_of_vote">&#160;of %s</string>
     <string name="note_friend_shuffle">친구 셔플</string>
     <string name="note_shuffle_count">%d/3</string>
     <string name="note_skip">이 질문 건너뛰기</string>

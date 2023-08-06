@@ -1,24 +1,23 @@
 package com.el.yello.presentation.auth
 
 import android.content.Context
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.el.yello.presentation.auth.SignInActivity.Companion.CODE_NOT_SIGNED_IN
+import com.el.yello.presentation.auth.SignInActivity.Companion.CODE_NO_UUID
 import com.example.domain.entity.RequestServiceTokenModel
 import com.example.domain.entity.ServiceTokenModel
 import com.example.domain.repository.AuthRepository
 import com.example.domain.repository.OnboardingRepository
 import com.example.domain.repository.ProfileRepository
 import com.example.ui.view.UiState
+import com.google.firebase.messaging.FirebaseMessaging
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.user.UserApiClient
 import com.kakao.sdk.user.model.User
 import dagger.hilt.android.lifecycle.HiltViewModel
-import com.el.yello.presentation.auth.SignInActivity.Companion.CODE_NOT_SIGNED_IN
-import com.el.yello.presentation.auth.SignInActivity.Companion.CODE_NO_UUID
-import com.google.firebase.messaging.FirebaseMessaging
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import javax.inject.Inject
@@ -132,6 +131,7 @@ class SignInViewModel @Inject constructor(
         }
     }
 
+    // 디바이스 토큰 FCM에서 받아 로컬에 저장
     fun getDeviceToken() {
         FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
             _getDeviceTokenState.value = UiState.Loading

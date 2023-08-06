@@ -298,6 +298,7 @@ class OnBoardingViewModel @Inject constructor(
                 gender = gender,
                 friendList = selectedFriendIdList,
                 recommendId = recommendId,
+                deviceToken = authRepository.getDeviceToken()
             )
             onboardingRepository.postSignup(signupInfo)
                 .onSuccess { userInfo ->

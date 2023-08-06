@@ -6,5 +6,6 @@ interface YelloDataStore {
     var deviceToken: String
     var isLogin: Boolean
     var yelloId: String
+
     fun clearLocalPref()
 }

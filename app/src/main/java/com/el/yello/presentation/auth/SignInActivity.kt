@@ -32,6 +32,7 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
         super.onCreate(savedInstanceState)
 
         initSignInButtonListener()
+        viewModel.getDeviceToken()
         observeKakaoUserDataState()
         observeChangeTokenState()
         observeUserDataExists()
@@ -53,7 +54,10 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
             } else if (token != null) {
                 // 로그인 성공 시 토큰 저장 & 토큰 교체 서버통신 진행
                 setKakaoAccessToken(token)
-                viewModel.changeTokenFromServer(kakaoAccessToken)
+                viewModel.changeTokenFromServer(
+                    accessToken = kakaoAccessToken,
+                    deviceToken = viewModel.deviceToken
+                )
             } else {
                 Timber.tag(TAG_AUTH).d(getString(R.string.sign_in_error_empty_kakao_token))
             }
@@ -76,7 +80,10 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
             } else if (token != null) {
                 // 로그인 성공 시 토큰 저장 & 토큰 교체 서버통신 진행
                 setKakaoAccessToken(token)
-                viewModel.changeTokenFromServer(kakaoAccessToken)
+                viewModel.changeTokenFromServer(
+                    accessToken = kakaoAccessToken,
+                    deviceToken = viewModel.deviceToken
+                )
             } else {
                 Timber.tag(TAG_AUTH).d(getString(R.string.sign_in_error_empty_kakao_token))
             }
@@ -97,7 +104,7 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
         viewModel.postState.observe(this) { state ->
             when (state) {
                 is UiState.Success -> {
-                    // 500(가입된 아이디): 온보딩 뷰 생략하고 바로 메인 화면으로 이동 위해 유저 정보 받기
+                    // 200(가입된 아이디): 온보딩 뷰 생략하고 바로 메인 화면으로 이동 위해 유저 정보 받기
                     viewModel.getUserData()
                 }
 

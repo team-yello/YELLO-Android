@@ -17,6 +17,7 @@ import com.kakao.sdk.user.model.User
 import dagger.hilt.android.lifecycle.HiltViewModel
 import com.el.yello.presentation.auth.SignInActivity.Companion.CODE_NOT_SIGNED_IN
 import com.el.yello.presentation.auth.SignInActivity.Companion.CODE_NO_UUID
+import com.google.firebase.messaging.FirebaseMessaging
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import javax.inject.Inject
@@ -38,6 +39,8 @@ class SignInViewModel @Inject constructor(
     val getKakaoDataState: LiveData<UiState<User?>> = _getKakaoDataState
 
     private val serviceTermsList = listOf(THUMBNAIL, EMAIL, FRIEND_LIST)
+
+    var deviceToken: String = ""
 
     // 웹 로그인 실행
     fun loginWithWebCallback(
@@ -80,12 +83,12 @@ class SignInViewModel @Inject constructor(
     }
 
     // 서버통신 - 카카오 토큰 보내서 서비스 토큰 받아오기
-    fun changeTokenFromServer(accessToken: String, social: String = KAKAO) {
+    fun changeTokenFromServer(accessToken: String, social: String = KAKAO, deviceToken: String) {
         viewModelScope.launch {
             _postState.value = UiState.Loading
             runCatching {
                 onboardingRepository.postTokenToServiceToken(
-                    RequestServiceTokenModel(accessToken, social),
+                    RequestServiceTokenModel(accessToken, social, deviceToken),
                 )
             }.onSuccess {
                 if (it == null) {
@@ -124,6 +127,14 @@ class SignInViewModel @Inject constructor(
                         _getUserProfileState.value = UiState.Failure(t.code().toString())
                     }
                 }
+        }
+    }
+
+    fun getDeviceToken() {
+        FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                deviceToken = task.result
+            }
         }
     }
 

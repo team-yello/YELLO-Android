@@ -2,6 +2,7 @@ package com.el.yello.presentation.auth
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.viewModels
 import com.el.yello.R
 import com.el.yello.databinding.ActivitySignInBinding
@@ -33,7 +34,8 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
         super.onCreate(savedInstanceState)
 
         initSignInButtonListener()
-        setDeviceToken()
+        viewModel.getDeviceToken()
+        observeDeviceTokenState()
         observeKakaoUserDataState()
         observeChangeTokenState()
         observeUserDataExists()
@@ -45,11 +47,6 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
             setAppLoginCallback()
             startKakaoLogin()
         }
-    }
-
-    private fun setDeviceToken() {
-        viewModel.getDeviceToken()
-        deviceToken = viewModel.getDeviceTokenFromStore()
     }
 
     // 웹에서 계정 로그인 callback 구성
@@ -102,6 +99,25 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
             viewModel.loginWithAppCallback(this, appLoginCallback)
         } else {
             viewModel.loginWithWebCallback(this, webLoginCallback)
+        }
+    }
+
+    // Firebase에서 디바이스 토큰 받아와 저장
+    private fun observeDeviceTokenState() {
+        viewModel.getDeviceTokenState.observe(this) { state ->
+            when (state) {
+                is UiState.Success -> {
+                    deviceToken = state.data
+                }
+
+                is UiState.Failure -> {
+                    toast(getString(R.string.sign_in_error_connection))
+                }
+
+                is UiState.Loading -> {}
+
+                is UiState.Empty -> {}
+            }
         }
     }
 

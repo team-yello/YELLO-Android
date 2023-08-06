@@ -1,6 +1,7 @@
 package com.el.yello.presentation.auth
 
 import android.content.Context
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -37,6 +38,9 @@ class SignInViewModel @Inject constructor(
 
     private val _getKakaoDataState = MutableLiveData<UiState<User?>>()
     val getKakaoDataState: LiveData<UiState<User?>> = _getKakaoDataState
+
+    private val _getDeviceTokenState = MutableLiveData<UiState<String>>()
+    val getDeviceTokenState: LiveData<UiState<String>> = _getDeviceTokenState
 
     private val serviceTermsList = listOf(THUMBNAIL, EMAIL, FRIEND_LIST)
 
@@ -130,13 +134,15 @@ class SignInViewModel @Inject constructor(
 
     fun getDeviceToken() {
         FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
+            _getDeviceTokenState.value = UiState.Loading
             if (task.isSuccessful) {
                 authRepository.setDeviceToken(task.result)
+                _getDeviceTokenState.value = UiState.Success(task.result)
+                return@addOnCompleteListener
             }
+            _getDeviceTokenState.value = UiState.Failure(task.result)
         }
     }
-
-    fun getDeviceTokenFromStore() = authRepository.getDeviceToken()
 
     private companion object {
         const val KAKAO = "KAKAO"

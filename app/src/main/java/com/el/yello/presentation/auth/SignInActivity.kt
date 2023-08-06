@@ -25,6 +25,7 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
     private lateinit var appLoginCallback: (OAuthToken?, Throwable?) -> Unit
     private lateinit var webLoginCallback: (OAuthToken?, Throwable?) -> Unit
     private lateinit var kakaoAccessToken: String
+    private lateinit var deviceToken: String
 
     private val viewModel by viewModels<SignInViewModel>()
 
@@ -32,7 +33,7 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
         super.onCreate(savedInstanceState)
 
         initSignInButtonListener()
-        viewModel.getDeviceToken()
+        setDeviceToken()
         observeKakaoUserDataState()
         observeChangeTokenState()
         observeUserDataExists()
@@ -46,6 +47,11 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
         }
     }
 
+    private fun setDeviceToken() {
+        viewModel.getDeviceToken()
+        deviceToken = viewModel.getDeviceTokenFromStore()
+    }
+
     // 웹에서 계정 로그인 callback 구성
     private fun setWebLoginCallback() {
         webLoginCallback = { token, error ->
@@ -56,7 +62,7 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
                 setKakaoAccessToken(token)
                 viewModel.changeTokenFromServer(
                     accessToken = kakaoAccessToken,
-                    deviceToken = viewModel.deviceToken
+                    deviceToken = deviceToken
                 )
             } else {
                 Timber.tag(TAG_AUTH).d(getString(R.string.sign_in_error_empty_kakao_token))
@@ -82,7 +88,7 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
                 setKakaoAccessToken(token)
                 viewModel.changeTokenFromServer(
                     accessToken = kakaoAccessToken,
-                    deviceToken = viewModel.deviceToken
+                    deviceToken = deviceToken
                 )
             } else {
                 Timber.tag(TAG_AUTH).d(getString(R.string.sign_in_error_empty_kakao_token))

@@ -40,8 +40,6 @@ class SignInViewModel @Inject constructor(
 
     private val serviceTermsList = listOf(THUMBNAIL, EMAIL, FRIEND_LIST)
 
-    var deviceToken: String = ""
-
     // 웹 로그인 실행
     fun loginWithWebCallback(
         context: Context,
@@ -133,10 +131,12 @@ class SignInViewModel @Inject constructor(
     fun getDeviceToken() {
         FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
             if (task.isSuccessful) {
-                deviceToken = task.result
+                authRepository.setDeviceToken(task.result)
             }
         }
     }
+
+    fun getDeviceTokenFromStore() = authRepository.getDeviceToken()
 
     private companion object {
         const val KAKAO = "KAKAO"

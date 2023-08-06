@@ -37,7 +37,10 @@ jobs:
 
       - name: Create Local Properties
         run: touch local.properties
-        
+
+      - name: Access Firebase Service
+        run: echo '${{ secrets.GOOGLE_SERVICES_JSON }}' > ./app/google-services.json
+
       - name: Access Local Properties
         env:
           base_url: ${{ secrets.BASE_URL }}

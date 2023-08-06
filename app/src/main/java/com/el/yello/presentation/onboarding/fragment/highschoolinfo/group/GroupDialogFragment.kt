@@ -22,20 +22,18 @@ class GroupDialogFragment :
     }
 
     private fun initGroupAdapter() {
-        viewModel.addStudentId()
-        //   groupList = viewModel.studentIdResult.value ?: emptyList()
-        //   val adapter = StudentIdDialogAdapter(storeStudentId = ::storeStudentId)
-        //  binding.rvGroup.adapter = adapter
-        //   adapter.submitList(groupList)
+        viewModel.addGroup()
+        groupList = viewModel.groupResult.value ?: emptyList()
+        val adapter = GroupDialogAdapter(storeGroup = ::storeGroup)
+        binding.rvGroup.adapter = adapter
+        adapter.submitList(groupList)
     }
 
-    // TODO
-    /*
-    fun storeStudentId(studentId: Int) {
-        viewModel.setStudentId(studentId)
+    fun storeGroup(group: Int) {
+        viewModel.setGroup(group)
         dismiss()
     }
-*/
+
     companion object {
         @JvmStatic
         fun newInstance() = GroupDialogFragment()

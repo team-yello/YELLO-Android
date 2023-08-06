@@ -5,9 +5,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
-import com.example.domain.entity.onboarding.RequestAddFriendModel
 import com.example.domain.entity.onboarding.AddFriendListModel
 import com.example.domain.entity.onboarding.GroupList
+import com.example.domain.entity.onboarding.RequestAddFriendModel
 import com.example.domain.entity.onboarding.SchoolList
 import com.example.domain.entity.onboarding.SignupInfo
 import com.example.domain.entity.onboarding.UserInfo
@@ -29,12 +29,41 @@ class OnBoardingViewModel @Inject constructor(
     private val authRepository: AuthRepository,
 ) : ViewModel() {
 
+    // 학교 선택
     val _studenttype = MutableLiveData("")
     val studenttype: String
         get() = _studenttype.value ?: ""
 
     fun selectStudenttype(studenttype: String) {
         _studenttype.value = studenttype
+    }
+
+    // 학년
+    val _grade = MutableLiveData("")
+    val grade: String
+        get() = _grade.value ?: ""
+
+    fun selectGrade(grade: String?) {
+        _grade.value = grade ?: ""
+    }
+
+    // 반
+
+    val _group = MutableLiveData<Int>()
+    private val group: Int
+        get() = requireNotNull(_group.value)
+
+    private val _groupResult: MutableLiveData<List<Int>> = MutableLiveData()
+    val groupResult: LiveData<List<Int>> = _groupResult
+
+    fun setGroup(group: Int) {
+        _group.value = group
+    }
+
+    fun addGroup() {
+        val studentGroupList =
+            listOf(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20)
+        _groupResult.value = studentGroupList
     }
 
     // 학교 viewmodel (step 1)
@@ -45,7 +74,6 @@ class OnBoardingViewModel @Inject constructor(
     val school: String
         get() = _school.value?.trim() ?: ""
 
-    // 고등학생
     val _highschool = MutableLiveData("")
     val highschool: String
         get() = _highschool.value?.trim() ?: ""
@@ -106,32 +134,22 @@ class OnBoardingViewModel @Inject constructor(
     val departmentData: MutableLiveData<UiState<GroupList>> = _departmentData
 
     private val _groupId = MutableLiveData<Long>()
-    val _studentId = MutableLiveData<Int>()
 
     private val _studentIdResult: MutableLiveData<List<Int>> = MutableLiveData()
     val studentIdResult: LiveData<List<Int>> = _studentIdResult
     val groupId: Long
         get() = requireNotNull(_groupId.value)
+    val _studentId = MutableLiveData<Int>()
     private val studentId: Int
         get() = requireNotNull(_studentId.value)
 
-    // 고등학교 학년
-    val _grade = MutableLiveData("")
-    val grade: String
-        get() = _grade.value ?: ""
-
-    fun selectGrade(grade: String?) {
-        _grade.value = grade ?: ""
+    fun setStudentId(studentId: Int) {
+        _studentId.value = studentId
     }
-
 
     fun setGroupInfo(department: String, groupId: Long) {
         _department.value = department
         _groupId.value = groupId
-    }
-
-    fun setStudentId(studentId: Int) {
-        _studentId.value = studentId
     }
 
     fun addStudentId() {
@@ -226,7 +244,7 @@ class OnBoardingViewModel @Inject constructor(
         currentFriendPage += 1
         TalkApiClient.instance.friends(
             offset = currentFriendOffset,
-            limit = 100
+            limit = 100,
         ) { friends, error ->
             if (error != null) {
                 Timber.e(error, "카카오톡 친구목록 가져오기 실패")
@@ -248,7 +266,7 @@ class OnBoardingViewModel @Inject constructor(
             runCatching {
                 onboardingRepository.postToGetFriendList(
                     RequestAddFriendModel(friendKakaoId, groupId),
-                    0
+                    0,
                 )
             }.onSuccess { friendList ->
                 friendList ?: return@launch

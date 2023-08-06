@@ -6,6 +6,7 @@ import androidx.fragment.app.activityViewModels
 import com.el.yello.R
 import com.el.yello.databinding.FragmentHighschoolBinding
 import com.el.yello.presentation.onboarding.activity.OnBoardingViewModel
+import com.el.yello.presentation.onboarding.fragment.highschoolinfo.group.GroupDialogFragment
 import com.el.yello.presentation.onboarding.fragment.highschoolinfo.school.SearchDialogHighSchoolFragment
 import com.example.domain.enum.GradeEnum
 import com.example.ui.base.BindingFragment
@@ -28,6 +29,7 @@ class HighschoolInfoFragment :
         binding.second = GradeEnum.B.toString()
         binding.third = GradeEnum.C.toString()
         setupGrade()
+        setupGroup()
         initSearchInfoBtnClickListener()
     }
 
@@ -46,7 +48,8 @@ class HighschoolInfoFragment :
         binding.tvHighschoolSearch.setOnSingleClickListener {
             SearchDialogHighSchoolFragment().show(parentFragmentManager, this.tag)
         }
-        binding.tvGroupSearch.setOnSingleClickListener{
+        binding.tvGroupSearch.setOnSingleClickListener {
+            GroupDialogFragment().show(parentFragmentManager, this.tag)
         }
     }
 
@@ -80,6 +83,12 @@ class HighschoolInfoFragment :
                     binding.tvGradeThird.setTextColor(resources.getColor(R.color.yello_main_500))
                 }
             }
+        }
+    }
+
+    private fun setupGroup() {
+        viewModel._group.observe(viewLifecycleOwner) { group ->
+            binding.tvGroupSearch.text = getString(R.string.onboarding_group, group)
         }
     }
 }

@@ -65,17 +65,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/highschool_progressbar" />
 
-        <Button
-            android:id="@+id/btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="52dp"
-            android:text=" 증가"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.498"
-            app:layout_constraintStart_toStartOf="parent" />
-
         <TextView
             android:id="@+id/tv_highschool_search"
             android:layout_width="0dp"
@@ -122,6 +111,7 @@
             android:background="@drawable/shape_black_fill_grayscales500_line_8_rect"
             android:gravity="center_vertical"
             android:paddingVertical="16dp"
+            android:clickable="true"
             android:onClick="@{()->vm.selectGrade(first)}"
             android:paddingStart="43dp"
             android:paddingEnd="42dp"
@@ -142,6 +132,7 @@
             android:gravity="center_vertical"
             android:paddingVertical="16dp"
             android:paddingStart="43dp"
+            android:clickable="true"
             android:onClick="@{()->vm.selectGrade(second)}"
             android:paddingEnd="42dp"
             android:text="@string/onboarding_highschool_secondgrade"
@@ -163,6 +154,7 @@
             android:gravity="center_vertical"
             android:paddingVertical="16dp"
             android:paddingStart="43dp"
+            android:clickable="true"
             android:onClick="@{()->vm.selectGrade(third)}"
             android:paddingEnd="42dp"
             android:text="@string/onboarding_highschool_thirdgrade"
@@ -213,8 +205,8 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
             android:layout_marginBottom="32dp"
-            android:background="@{vm._highschool.isEmpty() || vm._grade.isEmpty() || vm._group.isEmpty() ? @drawable/shape_grayscales_800_fill_100_rect : @drawable/shape_yello_main_500_fill_100_rect}"
-            android:clickable="@{!vm._highschool.isEmpty() &amp; !vm._grade.isEmpty() &amp; !vm._group.isEmpty() }"
+            android:background="@{vm._highschool.isEmpty() || vm._grade.isEmpty() || vm._group == null ? @drawable/shape_grayscales_800_fill_100_rect : @drawable/shape_yello_main_500_fill_100_rect}"
+            android:clickable="@{!vm._highschool.isEmpty() &amp; !vm._grade.isEmpty() &amp; vm._group == null }"
             android:paddingVertical="12dp"
             android:text="@string/onboarding_btn_next"
             android:textAppearance="?textAppearanceBodyMedium"

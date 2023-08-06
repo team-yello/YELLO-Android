@@ -4,6 +4,10 @@
     <color name="white">#FFFFFFFF</color>
     <color name="black">#FF191919</color>
 
+    <color name="animate_start">#D96AFF</color>
+    <color name="animate_center">#683CFF</color>
+    <color name="animate_end">#7C57FF</color>
+
     <!-- Grayscales -->
     <color name="grayscales_50">#FFFBFBFB</color>
     <color name="grayscales_100">#FFF1F3F5</color>

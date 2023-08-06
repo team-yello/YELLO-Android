@@ -14,12 +14,6 @@ android {
         minSdk = Constants.minSdk
         targetSdk = Constants.targetSdk
 
-        buildConfigField(
-            "String",
-            "BASE_URL",
-            gradleLocalProperties(rootDir).getProperty("base.url"),
-        )
-
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
     }
@@ -31,6 +25,24 @@ android {
 
     kotlinOptions {
         jvmTarget = Versions.jvmVersion
+    }
+
+    buildTypes {
+        debug {
+            buildConfigField(
+                "String",
+                "BASE_URL",
+                gradleLocalProperties(rootDir).getProperty("test.base.url"),
+            )
+        }
+
+        release {
+            buildConfigField(
+                "String",
+                "BASE_URL",
+                gradleLocalProperties(rootDir).getProperty("base.url"),
+            )
+        }
     }
 
     buildFeatures {

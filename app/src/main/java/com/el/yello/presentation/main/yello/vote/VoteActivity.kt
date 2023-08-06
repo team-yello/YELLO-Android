@@ -16,7 +16,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class VoteActivity : BindingActivity<ActivityVoteBinding>(R.layout.activity_vote) {
     private val viewModel by viewModels<VoteViewModel>()
 
-    private val voteAdapter by lazy { VoteAdapter(this, viewModel.backgroundIndex) }
+    private val voteAdapter by lazy { VoteAdapter(this, viewModel.backgroundIndex, viewModel.totalListCount + 1) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

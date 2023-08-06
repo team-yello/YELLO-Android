@@ -77,6 +77,7 @@
     <string name="onboarding_gender_male">남자</string>
     <string name="onboarding_name_id_duplicate_id_msg">이미 사용하고 있는 아이디에요.</string>
     <string name="onboarding_code_duplicate_msg">존재하지 않는 추천인 코드입니다.</string>
+    <string name="onboarding_add_friend_error">추천친구 서버통신 실패</string>
 
     <string name="yello_start_my_point">내 포인트</string>
     <string name="yello_start_description">누구에게 어떤 메시지를 보낼까?</string>

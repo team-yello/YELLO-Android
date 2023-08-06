@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="vm"
             type="com.el.yello.presentation.onboarding.activity.OnBoardingViewModel" />
@@ -32,9 +33,9 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="48dp"
-            android:textColor="@color/white"
             android:text="@string/onboarding_tv_addfriend"
             android:textAppearance="?textAppearanceHeadline2"
+            android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -60,7 +61,7 @@
             android:layout_marginStart="4dp"
             android:layout_marginTop="78dp"
             android:fontFamily="@font/font_pretendard_bold"
-            tools:text="@{@string/to_string(vm.selectedFriendCount)}"
+            android:text="@{@string/to_string(vm.selectedFriendCount)}"
             android:textColor="@color/purple_sub_400"
             android:textSize="12sp"
             app:layout_constraintBottom_toBottomOf="@+id/tv_friend_howmany"
@@ -73,8 +74,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="78dp"
             android:text="@string/onboarding_tv_freind_end"
-            android:textColor="@color/grayscales_200"
             android:textAppearance="@style/TextAppearance.Yello.LabelLarge"
+            android:textColor="@color/grayscales_200"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/tv_friend_number"
             app:layout_constraintTop_toTopOf="parent" />
@@ -82,9 +83,10 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_friend_list"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:orientation="vertical"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_friend_howmany"
@@ -105,5 +107,55 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
+
+        <com.facebook.shimmer.ShimmerFrameLayout
+            android:id="@+id/shimmer_friend_list"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_friend_howmany">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <include layout="@layout/item_add_friend_shimmer" />
+
+                <include layout="@layout/item_add_friend_shimmer" />
+
+                <include layout="@layout/item_add_friend_shimmer" />
+
+                <include layout="@layout/item_add_friend_shimmer" />
+
+                <include layout="@layout/item_add_friend_shimmer" />
+
+                <include layout="@layout/item_add_friend_shimmer" />
+
+                <include layout="@layout/item_add_friend_shimmer" />
+
+                <include layout="@layout/item_add_friend_shimmer" />
+
+                <include layout="@layout/item_add_friend_shimmer" />
+
+                <include layout="@layout/item_add_friend_shimmer" />
+
+                <include layout="@layout/item_add_friend_shimmer" />
+
+                <include layout="@layout/item_add_friend_shimmer" />
+
+                <include layout="@layout/item_add_friend_shimmer" />
+
+                <include layout="@layout/item_add_friend_shimmer" />
+
+                <include layout="@layout/item_add_friend_shimmer" />
+
+            </LinearLayout>
+
+        </com.facebook.shimmer.ShimmerFrameLayout>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </layout>

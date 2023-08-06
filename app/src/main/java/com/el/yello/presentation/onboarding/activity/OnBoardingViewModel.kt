@@ -5,9 +5,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
-import com.example.domain.entity.onboarding.RequestAddFriendModel
 import com.example.domain.entity.onboarding.AddFriendListModel
 import com.example.domain.entity.onboarding.GroupList
+import com.example.domain.entity.onboarding.RequestAddFriendModel
 import com.example.domain.entity.onboarding.SchoolList
 import com.example.domain.entity.onboarding.SignupInfo
 import com.example.domain.entity.onboarding.UserInfo
@@ -178,8 +178,8 @@ class OnBoardingViewModel @Inject constructor(
 
     // 친구 추가 viewmodel (step 5)
 
-    private val _friendListState = MutableLiveData<AddFriendListModel>()
-    val friendListState: LiveData<AddFriendListModel> = _friendListState
+    private val _friendListState = MutableLiveData<UiState<AddFriendListModel>>()
+    val friendListState: LiveData<UiState<AddFriendListModel>> = _friendListState
 
     var selectedFriendIdList: List<Long> = listOf()
     var selectedFriendCount: MutableLiveData<Int> = MutableLiveData(0)
@@ -188,8 +188,10 @@ class OnBoardingViewModel @Inject constructor(
     private var currentFriendPage = -1
     private var isFriendPagingFinish = false
     private var totalFriendPage = Int.MAX_VALUE
+    private var isFirstFriendsListPage: Boolean = true
 
     fun initFriendPagingVariable() {
+        isFirstFriendsListPage = true
         currentFriendOffset = -100
         currentFriendPage = -1
         isFriendPagingFinish = false
@@ -221,6 +223,10 @@ class OnBoardingViewModel @Inject constructor(
 
     // 서버 통신 - 추천 친구 리스트 추가
     private fun getListFromServer(friendKakaoId: List<String>, groupId: Long) {
+        if (isFirstFriendsListPage) {
+            _friendListState.value = UiState.Loading
+            isFirstFriendsListPage = false
+        }
         viewModelScope.launch {
             runCatching {
                 onboardingRepository.postToGetFriendList(
@@ -229,9 +235,9 @@ class OnBoardingViewModel @Inject constructor(
                 )
             }.onSuccess { friendList ->
                 friendList ?: return@launch
-                _friendListState.value = friendList
+                _friendListState.value = UiState.Success(friendList)
             }.onFailure {
-                Timber.e(it.message)
+                _friendListState.value = UiState.Failure(it.message.toString())
             }
         }
     }

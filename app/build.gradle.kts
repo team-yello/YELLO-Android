@@ -7,6 +7,9 @@ plugins {
     id("kotlin-parcelize")
     id("dagger.hilt.android.plugin")
     id("com.google.android.gms.oss-licenses-plugin")
+    id("com.google.gms.google-services")
+    id("com.google.firebase.appdistribution")
+    id("com.google.firebase.crashlytics")
 }
 
 android {
@@ -107,6 +110,14 @@ dependencies {
         implementation(pagingRuntime)
         implementation(workManager)
         implementation(hiltWorkManager)
+    }
+
+    FirebaseDependencies.run {
+        implementation(platform(bom))
+        implementation(messaging)
+        implementation(analytics)
+        implementation(crashlytics)
+        implementation(remoteConfig)
     }
 
     KaptDependencies.run {

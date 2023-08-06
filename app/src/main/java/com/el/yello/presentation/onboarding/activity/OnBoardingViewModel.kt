@@ -154,10 +154,11 @@ class OnBoardingViewModel @Inject constructor(
     // 이름 아이디 viewmodel (step 3)
 
     val _name = MutableLiveData("")
-    val _id = MutableLiveData("")
-    private val name: String
+    val name: String
         get() = _name.value?.trim() ?: ""
-    private val id: String
+
+    val _id = MutableLiveData("")
+    val id: String
         get() = _id.value?.trim() ?: ""
 
     val isValidName: LiveData<Boolean> = _name.map { name -> checkName(name) }
@@ -242,20 +243,14 @@ class OnBoardingViewModel @Inject constructor(
 
     // 추천인 코드 viewmodel (step 6)
 
-    val _code = MutableLiveData("")
-    val code: String
-        get() = _code.value?.trim() ?: ""
-
-    private val _recommendId = MutableLiveData("")
-    val recommendId: String
-        get() = _recommendId.value ?: ""
+    val codeText = MutableLiveData("")
 
     private val _getValidYelloId = MutableLiveData<UiState<Boolean>>()
     val getValidYelloId: LiveData<UiState<Boolean>> get() = _getValidYelloId
 
-    fun getValidYelloId() {
+    fun getValidYelloId(unknownId: String) {
         viewModelScope.launch {
-            onboardingRepository.getValidYelloId(yelloId = id).onSuccess { isValid ->
+            onboardingRepository.getValidYelloId(yelloId = unknownId).onSuccess { isValid ->
                     Timber.d("GET VALID YELLO ID SUCCESS : $isValid")
                     if (isValid == null) {
                         _getValidYelloId.value = UiState.Empty
@@ -298,7 +293,7 @@ class OnBoardingViewModel @Inject constructor(
                 yelloId = id,
                 gender = gender,
                 friendList = selectedFriendIdList,
-                recommendId = recommendId,
+                recommendId = codeText.value,
             )
             onboardingRepository.postSignup(signupInfo).onSuccess { userInfo ->
                     Timber.d("POST SIGN UP SUCCESS : $userInfo")
@@ -324,6 +319,7 @@ class OnBoardingViewModel @Inject constructor(
 
     private val _currentPage = MutableLiveData(0)
     val currentPage: LiveData<Int> = _currentPage
+
     fun navigateToNextPage() {
         _currentPage.value = currentPage.value?.plus(1)
     }

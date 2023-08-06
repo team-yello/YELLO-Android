@@ -34,7 +34,7 @@ class CodeFragment : BindingFragment<FragmentCodeBinding>(R.layout.fragment_code
             viewModel.postSignup()
         }
         binding.btnCodeNext.setOnSingleClickListener {
-            viewModel.navigateToNextPage()
+            viewModel.getValidYelloId(viewModel.codeText.value.toString())
         }
     }
 
@@ -60,7 +60,7 @@ class CodeFragment : BindingFragment<FragmentCodeBinding>(R.layout.fragment_code
         viewModel.getValidYelloId.observe(viewLifecycleOwner) { state ->
             when (state) {
                 is UiState.Success -> {
-                    if (state.data) {
+                    if (!state.data) {
                         initIdEditTextViewError()
                         return@observe
                     }
@@ -68,10 +68,6 @@ class CodeFragment : BindingFragment<FragmentCodeBinding>(R.layout.fragment_code
                 }
 
                 is UiState.Failure -> {
-                    if (state.msg == NOT_FOUND) {
-                        viewModel.postSignup()
-                        return@observe
-                    }
                     yelloSnackbar(binding.root, getString(R.string.msg_error))
                 }
 

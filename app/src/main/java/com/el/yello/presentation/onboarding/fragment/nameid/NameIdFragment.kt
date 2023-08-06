@@ -25,7 +25,7 @@ class NameIdFragment : BindingFragment<FragmentNameIdBinding>(R.layout.fragment_
 
     private fun setConfirmBtnClickListener() {
         binding.btnNameidNext.setOnSingleClickListener {
-            viewModel.getValidYelloId()
+            viewModel.getValidYelloId(viewModel.id)
         }
         binding.btnNameidBackBtn.setOnSingleClickListener {
             viewModel.navigateToBackPage()
@@ -45,18 +45,14 @@ class NameIdFragment : BindingFragment<FragmentNameIdBinding>(R.layout.fragment_
         viewModel.getValidYelloId.observe(viewLifecycleOwner) { state ->
             when (state) {
                 is UiState.Success -> {
-                    if (!state.data) {
-                        viewModel.navigateToNextPage()
+                    if (state.data) {
+                        initIdEditTextViewError()
                         return@observe
                     }
-                    initIdEditTextViewError()
+                    viewModel.navigateToNextPage()
                 }
 
                 is UiState.Failure -> {
-                    if (state.msg == NOT_FOUND) {
-                        viewModel.navigateToNextPage()
-                        return@observe
-                    }
                     yelloSnackbar(binding.root, getString(R.string.msg_error))
                 }
 
@@ -74,9 +70,5 @@ class NameIdFragment : BindingFragment<FragmentNameIdBinding>(R.layout.fragment_
         binding.btnIdDelete.setBackgroundResource(R.drawable.ic_onboarding_delete_red)
         binding.tvIdError.text = getString(R.string.onboarding_name_id_duplicate_id_msg)
         binding.tvIdError.setTextColor(resources.getColor(R.color.semantic_red_500))
-    }
-
-    companion object {
-        const val NOT_FOUND = "404"
     }
 }

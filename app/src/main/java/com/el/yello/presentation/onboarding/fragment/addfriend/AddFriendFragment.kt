@@ -6,7 +6,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.el.yello.R
-import com.el.yello.databinding.FragmentAddfreindBinding
+import com.el.yello.databinding.FragmentAddFriendBinding
 import com.el.yello.presentation.onboarding.activity.OnBoardingViewModel
 import com.example.domain.entity.onboarding.AddFriendListModel.FriendModel
 import com.example.ui.base.BindingFragment
@@ -14,7 +14,7 @@ import com.example.ui.view.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class AddFriendFragment : BindingFragment<FragmentAddfreindBinding>(R.layout.fragment_addfreind) {
+class AddFriendFragment : BindingFragment<FragmentAddFriendBinding>(R.layout.fragment_add_friend) {
 
     private var _adapter: AddFriendAdapter? = null
     private val adapter
@@ -49,11 +49,11 @@ class AddFriendFragment : BindingFragment<FragmentAddfreindBinding>(R.layout.fra
             }
             adapter.notifyItemChanged(position)
         }
-        binding.rvFreindList.adapter = adapter
+        binding.rvFriendList.adapter = adapter
     }
 
     private fun setConfirmBtnClickListener() {
-        binding.btnAddfriendNext.setOnSingleClickListener {
+        binding.btnAddFriendNext.setOnSingleClickListener {
             viewModel.selectedFriendIdList = selectedItemIdList
             viewModel.navigateToNextPage()
         }
@@ -74,12 +74,12 @@ class AddFriendFragment : BindingFragment<FragmentAddfreindBinding>(R.layout.fra
 
     // 무한 스크롤 구현
     private fun setListWithInfinityScroll() {
-        binding.rvFreindList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+        binding.rvFriendList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
                 if (dy > 0) {
                     recyclerView.layoutManager?.let { layoutManager ->
-                        if (!binding.rvFreindList.canScrollVertically(1)
+                        if (!binding.rvFriendList.canScrollVertically(1)
                             && layoutManager is LinearLayoutManager
                             && layoutManager.findLastVisibleItemPosition() == adapter.itemCount - 1
                         ) {

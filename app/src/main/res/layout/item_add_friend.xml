@@ -11,7 +11,7 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/layout_addfriend"
+        android:id="@+id/layout_add_friend"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="0dp"
@@ -38,7 +38,7 @@
             android:layout_marginBottom="2dp"
             android:textAppearance="@style/TextAppearance.Yello.BodyMedium"
             app:layout_constraintBottom_toTopOf="@+id/tv_friend_department"
-            app:layout_constraintEnd_toStartOf="@id/iv_freind_check"
+            app:layout_constraintEnd_toStartOf="@id/iv_friend_check"
             app:layout_constraintStart_toEndOf="@id/iv_friend_profile"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="김나현" />
@@ -53,12 +53,12 @@
             android:textAppearance="@style/TextAppearance.Yello.LabelMedium"
             android:textColor="@color/grayscales_500"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/iv_freind_check"
+            app:layout_constraintEnd_toStartOf="@id/iv_friend_check"
             app:layout_constraintStart_toEndOf="@id/iv_friend_profile"
             tools:text="서울여자대학교 시각디자인과" />
 
         <ImageView
-            android:id="@+id/iv_freind_check"
+            android:id="@+id/btn_friend_check"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:paddingVertical="1dp"

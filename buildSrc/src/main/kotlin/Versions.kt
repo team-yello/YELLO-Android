@@ -37,6 +37,7 @@ object Versions {
     const val circularProgressBar = "3.1.0"
     const val kakaoVersion = "2.14.0"
     const val circleIndicatorVersion = "2.1.6"
+    const val shimmerVersion = "0.5.0"
 
     const val gradleVersion = "8.0.1"
 

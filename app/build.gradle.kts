@@ -145,5 +145,6 @@ dependencies {
         implementation(flipperNetwork)
         implementation(flipperLeakCanary)
         implementation(soloader)
+        implementation(shimmer)
     }
 }

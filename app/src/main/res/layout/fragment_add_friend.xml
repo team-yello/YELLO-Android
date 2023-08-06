@@ -74,7 +74,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="78dp"
-            android:layout_marginEnd="16dp"
+            android:layout_marginEnd="17dp"
             android:text="@string/onboarding_tv_freind_end"
             android:textAppearance="@style/TextAppearance.Yello.LabelLarge"
             android:textColor="@color/grayscales_200"
@@ -87,11 +87,11 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="76dp"
             android:layout_marginEnd="16dp"
-            android:background="@drawable/shape_shimmer_greyscale800_fill_2_rect"
+            android:background="@drawable/shape_shimmer_greyscale_off_fill_2_rect"
             android:paddingVertical="2dp"
             android:text="------------------"
             android:textAppearance="@style/TextAppearance.Yello.LabelLarge"
-            android:textColor="@color/grayscales_800"
+            android:textColor="@color/grayscales_shimmer_off"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
 

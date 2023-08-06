@@ -45,7 +45,7 @@ class NameIdFragment : BindingFragment<FragmentNameIdBinding>(R.layout.fragment_
         viewModel.getValidYelloId.observe(viewLifecycleOwner) { state ->
             when (state) {
                 is UiState.Success -> {
-                    if (state.data) {
+                    if (!state.data) {
                         viewModel.navigateToNextPage()
                         return@observe
                     }
@@ -61,6 +61,7 @@ class NameIdFragment : BindingFragment<FragmentNameIdBinding>(R.layout.fragment_
                 }
 
                 is UiState.Loading -> {}
+
                 is UiState.Empty -> {
                     yelloSnackbar(binding.root, getString(R.string.msg_error))
                 }
@@ -71,7 +72,7 @@ class NameIdFragment : BindingFragment<FragmentNameIdBinding>(R.layout.fragment_
     private fun initIdEditTextViewError() {
         binding.etId.setBackgroundResource(R.drawable.shape_fill_red20_line_semantic_status_red500_rect_8)
         binding.btnIdDelete.setBackgroundResource(R.drawable.ic_onboarding_delete_red)
-        binding.tvIdError.text = getString(R.string.onboarding_code_duplicate_msg)
+        binding.tvIdError.text = getString(R.string.onboarding_name_id_duplicate_id_msg)
         binding.tvIdError.setTextColor(resources.getColor(R.color.semantic_red_500))
     }
 

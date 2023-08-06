@@ -162,6 +162,7 @@ class OnBoardingViewModel @Inject constructor(
 
     val isValidName: LiveData<Boolean> = _name.map { name -> checkName(name) }
     val isValidId: LiveData<Boolean> = _id.map { id -> checkId(id) }
+
     private fun checkName(name: String) = Pattern.matches(REGEX_NAME_PATTERN, name)
     private fun checkId(id: String) = Pattern.matches(REGEX_ID_PATTERN, id)
 
@@ -249,6 +250,9 @@ class OnBoardingViewModel @Inject constructor(
     val recommendId: String
         get() = _recommendId.value ?: ""
 
+    private val _getValidYelloId = MutableLiveData<UiState<Boolean>>()
+    val getValidYelloId: LiveData<UiState<Boolean>> get() = _getValidYelloId
+
     fun getValidYelloId() {
         viewModelScope.launch {
             onboardingRepository.getValidYelloId(yelloId = id).onSuccess { isValid ->
@@ -257,7 +261,6 @@ class OnBoardingViewModel @Inject constructor(
                         _getValidYelloId.value = UiState.Empty
                         return@launch
                     }
-
                     _getValidYelloId.value = UiState.Success(isValid)
                 }.onFailure { t ->
                     if (t is HttpException) {
@@ -274,9 +277,6 @@ class OnBoardingViewModel @Inject constructor(
 
     private val _postSignupState = MutableLiveData<UiState<UserInfo>>()
     val postSignupState: LiveData<UiState<UserInfo>> get() = _postSignupState
-
-    private val _getValidYelloId = MutableLiveData<UiState<Boolean>>()
-    val getValidYelloId: LiveData<UiState<Boolean>> get() = _getValidYelloId
 
     fun validYellIdLoading() {
         _getValidYelloId.value = UiState.Loading

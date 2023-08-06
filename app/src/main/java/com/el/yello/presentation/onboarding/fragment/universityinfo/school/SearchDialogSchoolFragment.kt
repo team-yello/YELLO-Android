@@ -27,7 +27,6 @@ class SearchDialogSchoolFragment :
     private var adapter: SchoolAdapter? = null
     private val viewModel by activityViewModels<OnBoardingViewModel>()
 
-    // TODO : viewmodel 이동
     private var inputText: String = ""
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -41,7 +40,6 @@ class SearchDialogSchoolFragment :
         setClickToSchoolForm()
     }
 
-    // 바텀 시트 fullScreen
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialog = BottomSheetDialog(requireContext(), theme)
         dialog.setOnShowListener {

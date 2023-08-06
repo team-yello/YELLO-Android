@@ -25,7 +25,7 @@
         android:background="@color/black">
 
         <ImageView
-            android:id="@+id/btn_select_student_type_back"
+            android:id="@+id/btn_select_type_back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
@@ -43,7 +43,7 @@
             android:progressDrawable="@drawable/layerlist_onboarding_progressbar"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btn_select_student_type_back"
+            app:layout_constraintTop_toBottomOf="@+id/btn_select_type_back"
             app:layout_constraintWidth_percent="1" />
 
         <TextView
@@ -156,7 +156,7 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <android.widget.Button
-            android:id="@+id/btn_gender_next"
+            android:id="@+id/btn_select_type_next"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"

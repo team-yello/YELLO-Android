@@ -10,7 +10,6 @@ import com.el.yello.presentation.onboarding.fragment.gender.SelectStudentFragmen
 import com.el.yello.presentation.onboarding.fragment.highschoolinfo.HighschoolInfoFragment
 import com.el.yello.presentation.onboarding.fragment.nameid.NameIdFragment
 import com.el.yello.presentation.onboarding.fragment.startapp.StartAppFragment
-import com.el.yello.presentation.onboarding.fragment.universityinfo.UniversityInfoFragment
 
 class ViewPagerUniversityAdapter(fragmentActivity: FragmentActivity) :
     FragmentStateAdapter(fragmentActivity) {

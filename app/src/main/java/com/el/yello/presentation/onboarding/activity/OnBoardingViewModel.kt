@@ -38,7 +38,13 @@ class OnBoardingViewModel @Inject constructor(
         _studenttype.value = studenttype
     }
 
-    // 학년
+    // 고등학생 - 학교
+
+    val _highschool = MutableLiveData("")
+    val highschool: String
+        get() = _highschool.value?.trim() ?: ""
+
+    // 고등학생 - 학년
     val _grade = MutableLiveData("")
     val grade: String
         get() = _grade.value ?: ""
@@ -47,7 +53,7 @@ class OnBoardingViewModel @Inject constructor(
         _grade.value = grade ?: ""
     }
 
-    // 반
+    // 고등학생 - 반
 
     val _group = MutableLiveData<Int>()
     private val group: Int
@@ -73,10 +79,6 @@ class OnBoardingViewModel @Inject constructor(
     val _school = MutableLiveData("")
     val school: String
         get() = _school.value?.trim() ?: ""
-
-    val _highschool = MutableLiveData("")
-    val highschool: String
-        get() = _highschool.value?.trim() ?: ""
 
     private val _inputText = MutableLiveData<String>()
     val inputText: LiveData<String>

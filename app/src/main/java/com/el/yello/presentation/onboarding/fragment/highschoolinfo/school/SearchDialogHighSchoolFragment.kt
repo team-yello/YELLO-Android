@@ -24,7 +24,6 @@ class SearchDialogHighSchoolFragment :
     private val viewModel by activityViewModels<OnBoardingViewModel>()
     private var adapter: HighSchoolAdapter? = null
 
-    // TODO : viewmodel 이동
     private var inputText: String = ""
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -34,13 +33,11 @@ class SearchDialogHighSchoolFragment :
             dismiss()
         }
         // initView()
-        // setupSchoolData()
+        // setupHighSchoolData()
         setListWithInfinityScroll()
         recyclerviewScroll()
         setClickToSchoolForm()
     }
-
-    // 바텀 시트 fullScreen
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialog = BottomSheetDialog(requireContext(), theme)
         dialog.setOnShowListener {
@@ -88,9 +85,7 @@ class SearchDialogHighSchoolFragment :
         }
     }
     /*
-        //TODO : 서버통신
-
-
+    //TODO : 서버통신
     private fun initView() {
         setHideKeyboard()
         binding.etHighschoolSearch.doAfterTextChanged { input ->
@@ -103,7 +98,7 @@ class SearchDialogHighSchoolFragment :
             dismiss()
         }
     }
-        private fun setupSchoolData() {
+        private fun setupHighSchoolData() {
             viewModel.schoolData.observe(viewLifecycleOwner) { state ->
                 when (state) {
                     is UiState.Success -> {
@@ -117,7 +112,6 @@ class SearchDialogHighSchoolFragment :
                 }
             }
         }
-
          private fun storeHighSchool(school: String) {
             viewModel.setSchool(school)
             viewModel.clearSchoolData()
@@ -135,7 +129,7 @@ class SearchDialogHighSchoolFragment :
             return@setOnTouchListener false
         }
     }
-
+    //TODO : 학교 링크 변경
     private fun setClickToSchoolForm() {
         binding.tvHighschoolAdd.setOnClickListener {
             Intent(Intent.ACTION_VIEW, Uri.parse(SCHOOL_FORM_URL)).apply {

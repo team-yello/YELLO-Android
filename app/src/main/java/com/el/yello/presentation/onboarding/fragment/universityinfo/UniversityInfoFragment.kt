@@ -24,6 +24,7 @@ class UniversityInfoFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.vm = viewModel
+
         ProgressBarTimerFun()
         initSearchInfoBtnClickListener()
         setConfirmBtnClickListener()

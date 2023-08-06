@@ -43,10 +43,10 @@ class SelectStudentFragment :
     }
 
     private fun setConfirmBtnClickListener() {
-        binding.btnGenderNext.setOnSingleClickListener {
+        binding.btnSelectTypeNext.setOnSingleClickListener {
             viewModel.navigateToNextPage()
         }
-        binding.btnSelectStudentTypeBack.setOnSingleClickListener {
+        binding.btnSelectTypeBack.setOnSingleClickListener {
             val intent = Intent(activity, SocialSyncActivity::class.java)
             startActivity(intent)
         }

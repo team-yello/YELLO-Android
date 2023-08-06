@@ -8,8 +8,10 @@ import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
 import androidx.core.os.bundleOf
+import com.el.yello.BuildConfig
 import com.el.yello.R
 import com.el.yello.databinding.FragmentUnlockDialogBinding
+import com.el.yello.presentation.main.recommend.RecommendInviteDialog
 import com.example.ui.base.BindingDialogFragment
 import com.example.ui.view.setOnSingleClickListener
 import com.kakao.sdk.common.util.KakaoCustomTabsClient
@@ -20,10 +22,10 @@ import timber.log.Timber
 class UnlockDialogFragment :
     BindingDialogFragment<FragmentUnlockDialogBinding>(R.layout.fragment_unlock_dialog) {
 
-    private val templateId = 95890.toLong()
     private val url = "http://naver.com"
     private lateinit var myYelloId: String
     private lateinit var linkText: String
+    private var templateId: Long = 0
 
     override fun onStart() {
         super.onStart()
@@ -42,6 +44,7 @@ class UnlockDialogFragment :
         super.onViewCreated(view, savedInstanceState)
 
         getBundleArgs()
+        setTemplateId()
         setRecommendId()
         initExitButton()
         initKakaoInviteButton()
@@ -52,12 +55,20 @@ class UnlockDialogFragment :
         arguments ?: return
         myYelloId = arguments?.getString(ARGS_YELLO_ID) ?: ""
         linkText = "추천인코드: $myYelloId\n" +
-            "우리 같이 YELL:O 해요!\n" +
-            "(여기에는 다운로드 링크)"
+                "우리 같이 YELL:O 해요!\n" +
+                "(여기에는 다운로드 링크)"
     }
 
     private fun setRecommendId() {
         binding.tvUnlockInviteId.text = myYelloId
+    }
+
+    private fun setTemplateId() {
+        if (BuildConfig.DEBUG) {
+            templateId = RecommendInviteDialog.TEST_TEMPLATE_ID.toLong()
+        } else {
+            templateId = RecommendInviteDialog.TEMPLATE_ID.toLong()
+        }
     }
 
     private fun initExitButton() {

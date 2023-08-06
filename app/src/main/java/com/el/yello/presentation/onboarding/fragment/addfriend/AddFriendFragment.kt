@@ -123,14 +123,18 @@ class AddFriendFragment : BindingFragment<FragmentAddFriendBinding>(R.layout.fra
 
     private fun startShimmerView() {
         binding.shimmerFriendList.startShimmer()
-        binding.shimmerFriendList.visibility =View.VISIBLE
+        binding.shimmerFriendList.visibility = View.VISIBLE
         binding.rvFriendList.visibility = View.GONE
+        binding.shimmerTotalFriend.visibility = View.VISIBLE
+        binding.btnAddFriendNext.isClickable = false
     }
 
     private fun stopShimmerView() {
         binding.shimmerFriendList.stopShimmer()
-        binding.shimmerFriendList.visibility =View.GONE
+        binding.shimmerFriendList.visibility = View.GONE
         binding.rvFriendList.visibility = View.VISIBLE
+        binding.shimmerTotalFriend.visibility = View.GONE
+        binding.btnAddFriendNext.isClickable = true
     }
 
     override fun onDestroyView() {

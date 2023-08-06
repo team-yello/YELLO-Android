@@ -11,14 +11,14 @@ import com.el.yello.presentation.onboarding.fragment.highschoolinfo.HighschoolIn
 import com.el.yello.presentation.onboarding.fragment.nameid.NameIdFragment
 import com.el.yello.presentation.onboarding.fragment.startapp.StartAppFragment
 
-class ViewPagerUniversityAdapter(fragmentActivity: FragmentActivity) :
+class ViewPagerAdapter(fragmentActivity: FragmentActivity) :
     FragmentStateAdapter(fragmentActivity) {
 
     private val fragments = listOf<Fragment>(
         SelectStudentFragment(),
         HighschoolInfoFragment(),
-        NameIdFragment(),
         GenderFragment(),
+        NameIdFragment(),
         AddFriendFragment(),
         CodeFragment(),
         StartAppFragment(),

@@ -10,7 +10,7 @@ import com.el.yello.presentation.auth.SignInActivity.Companion.EXTRA_EMAIL
 import com.el.yello.presentation.auth.SignInActivity.Companion.EXTRA_KAKAO_ID
 import com.el.yello.presentation.auth.SignInActivity.Companion.EXTRA_PROFILE_IMAGE
 import com.el.yello.presentation.auth.SocialSyncActivity
-import com.el.yello.presentation.onboarding.ViewPagerUniversityAdapter
+import com.el.yello.presentation.onboarding.ViewPagerAdapter
 import com.example.ui.base.BindingActivity
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -38,7 +38,7 @@ class OnBoardingActivity :
     // TODO : 고등학생, 대학생 분기 처리
     private fun initViewPager() {
         val viewPager = binding.vpOnboarding
-        val viewPagerAdapter = ViewPagerUniversityAdapter(this)
+        val viewPagerAdapter = ViewPagerAdapter(this)
         viewPager.adapter = viewPagerAdapter
         binding.vpOnboarding.run {
             isUserInputEnabled = false
@@ -71,6 +71,6 @@ class OnBoardingActivity :
 
     companion object {
         private const val CURRENT_ITEM_START = 0
-        private const val CURRENT_ITEM_LAST = 6
+        private const val CURRENT_ITEM_LAST = 7
     }
 }

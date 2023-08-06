@@ -39,7 +39,7 @@ class NameIdFragment : BindingFragment<FragmentNameIdBinding>(R.layout.fragment_
     }
     private fun setConfirmBtnClickListener() {
         binding.btnNameidNext.setOnSingleClickListener {
-            viewModel.getValidYelloId()
+            viewModel.navigateToNextPage()
         }
         binding.btnNameidBackBtn.setOnSingleClickListener {
             viewModel.navigateToBackPage()

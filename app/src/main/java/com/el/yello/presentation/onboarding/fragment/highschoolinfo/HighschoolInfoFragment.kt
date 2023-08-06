@@ -2,15 +2,18 @@ package com.el.yello.presentation.onboarding.fragment.highschoolinfo
 
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import com.el.yello.R
 import com.el.yello.databinding.FragmentHighschoolBinding
 import com.el.yello.presentation.onboarding.activity.OnBoardingViewModel
 import com.el.yello.presentation.onboarding.fragment.highschoolinfo.group.GroupDialogFragment
 import com.el.yello.presentation.onboarding.fragment.highschoolinfo.school.SearchDialogHighSchoolFragment
+import com.el.yello.util.context.yelloSnackbar
 import com.example.domain.enum.GradeEnum
 import com.example.ui.base.BindingFragment
 import com.example.ui.view.setOnSingleClickListener
+import timber.log.Timber
 import java.util.Timer
 import kotlin.concurrent.timer
 
@@ -31,6 +34,7 @@ class HighschoolInfoFragment :
         setupGrade()
         setupGroup()
         initSearchInfoBtnClickListener()
+        setConfirmBtnClickListener()
     }
 
     private fun ProgressBarTimerFun() {
@@ -89,6 +93,16 @@ class HighschoolInfoFragment :
     private fun setupGroup() {
         viewModel._group.observe(viewLifecycleOwner) { group ->
             binding.tvGroupSearch.text = getString(R.string.onboarding_group, group)
+        }
+    }
+
+    private fun setConfirmBtnClickListener() {
+        binding.btnHighschoolinfoNextBtn.setOnSingleClickListener {
+            Timber.d("qjxms zmflr")
+            viewModel.navigateToNextPage()
+        }
+        binding.btnHighschoolinfoBackBtn.setOnSingleClickListener {
+            viewModel.navigateToBackPage()
         }
     }
 }

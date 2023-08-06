@@ -200,17 +200,17 @@
             tools:background="shape_black_fill_grayscales600_line_8_rect" />
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btn_universityinfo_next"
+            android:id="@+id/btn_highschoolinfo_next_btn"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
             android:layout_marginBottom="32dp"
-            android:background="@{vm._highschool.isEmpty() || vm._grade.isEmpty() || vm._group == null ? @drawable/shape_grayscales_800_fill_100_rect : @drawable/shape_yello_main_500_fill_100_rect}"
-            android:clickable="@{!vm._highschool.isEmpty() &amp; !vm._grade.isEmpty() &amp; vm._group == null }"
+            android:background="@{ vm._group == null ? @drawable/shape_grayscales_800_fill_100_rect : @drawable/shape_yello_main_500_fill_100_rect}"
+
             android:paddingVertical="12dp"
             android:text="@string/onboarding_btn_next"
             android:textAppearance="?textAppearanceBodyMedium"
-            android:textColor="@{vm._highschool.isEmpty() || vm._grade.isEmpty()|| vm._gender.isEmpty()? @color/grayscales_700 : @color/black}"
+            android:textColor="@{vm._grade.isEmpty()|| vm._group == null? @color/grayscales_700 : @color/black}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />

@@ -24,7 +24,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:paddingVertical="10dp"
+            android:paddingVertical="14dp"
             android:text="@string/my_yello_title"
             android:textAppearance="@style/TextAppearance.Yello.Headline03"
             android:textColor="@color/white"

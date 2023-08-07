@@ -98,7 +98,6 @@ class HighschoolInfoFragment :
 
     private fun setConfirmBtnClickListener() {
         binding.btnHighschoolinfoNextBtn.setOnSingleClickListener {
-            Timber.d("qjxms zmflr")
             viewModel.navigateToNextPage()
         }
         binding.btnHighschoolinfoBackBtn.setOnSingleClickListener {

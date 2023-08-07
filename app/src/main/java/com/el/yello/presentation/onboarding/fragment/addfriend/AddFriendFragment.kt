@@ -46,13 +46,13 @@ class AddFriendFragment : BindingFragment<FragmentAddFriendBinding>(R.layout.fra
         progressBarTimerFun()
     }
     private fun progressBarTimerFun() {
-        binding.addfriendProgressbar.progress = 48
+        binding.addFriendProgressbar.progress = 48
         timer?.cancel()
         timer = Timer()
         timer = timer(period = 8, initialDelay = 300) {
             if (deltaTime > 64) cancel()
-            binding.addfriendProgressbar.setProgress(++deltaTime)
-            println(binding.addfriendProgressbar.progress)
+            binding.addFriendProgressbar.setProgress(++deltaTime)
+            println(binding.addFriendProgressbar.progress)
         }
     }
 
@@ -79,7 +79,7 @@ class AddFriendFragment : BindingFragment<FragmentAddFriendBinding>(R.layout.fra
     }
 
     private fun setBackBtnClickListener() {
-        binding.btnAddfriendBackBtn.setOnSingleClickListener {
+        binding.btnAddFriendNext.setOnSingleClickListener {
             viewModel.navigateToBackPage()
         }
     }

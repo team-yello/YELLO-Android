@@ -17,7 +17,7 @@
         android:background="@color/black">
 
         <ImageView
-            android:id="@+id/btn_addfriend_back_btn"
+            android:id="@+id/btn_add_friend_back_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
@@ -28,7 +28,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <ProgressBar
-            android:id="@+id/addfriend_progressbar"
+            android:id="@+id/add_friend_progressbar"
             style="@style/Widget.AppCompat.ProgressBar.Horizontal"
             android:layout_width="match_parent"
             android:layout_height="4dp"
@@ -37,11 +37,11 @@
             android:progressDrawable="@drawable/layerlist_onboarding_progressbar"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btn_addfriend_back_btn"
+            app:layout_constraintTop_toBottomOf="@+id/btn_add_friend_back_btn"
             app:layout_constraintWidth_percent="1" />
 
         <TextView
-            android:id="@+id/tv_addfriend"
+            android:id="@+id/tv_add_friend"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -51,10 +51,10 @@
             android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/addfriend_progressbar" />
+            app:layout_constraintTop_toBottomOf="@id/add_friend_progressbar" />
 
         <TextView
-            android:id="@+id/tv_friend_howmany"
+            android:id="@+id/tv_friend_how_many"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="54dp"
@@ -63,7 +63,7 @@
             android:text="@string/onboarding_tv_addfriend_how_many"
             android:textAppearance="?textAppearanceLabelLarge"
             android:textColor="@color/grayscales_200"
-            app:layout_constraintTop_toBottomOf="@id/addfriend_progressbar"
+            app:layout_constraintTop_toBottomOf="@id/add_friend_progressbar"
             app:layout_constraintEnd_toStartOf="@id/tv_friend_number"/>
 
         <TextView
@@ -77,7 +77,7 @@
             android:text="@{@string/to_string(vm.selectedFriendCount)}"
             android:textColor="@color/purple_sub_400"
             android:textSize="12sp"
-            app:layout_constraintTop_toBottomOf="@id/addfriend_progressbar"
+            app:layout_constraintTop_toBottomOf="@id/add_friend_progressbar"
             app:layout_constraintEnd_toStartOf="@id/tv_friend_end"
             tools:text="142" />
 
@@ -91,7 +91,7 @@
             android:textAppearance="@style/TextAppearance.Yello.LabelLarge"
             android:textColor="@color/grayscales_200"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/addfriend_progressbar"/>
+            app:layout_constraintTop_toBottomOf="@id/add_friend_progressbar"/>
 
         <TextView
             android:id="@+id/shimmer_total_friend"
@@ -104,7 +104,7 @@
             android:text="                               "
             android:textAppearance="@style/TextAppearance.Yello.LabelLarge"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/addfriend_progressbar"/>
+            app:layout_constraintTop_toBottomOf="@id/add_friend_progressbar"/>
 
 
         <androidx.recyclerview.widget.RecyclerView
@@ -117,7 +117,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_friend_howmany"
+            app:layout_constraintTop_toBottomOf="@+id/tv_friend_how_many"
             tools:listitem="@layout/item_add_friend" />
 
         <android.widget.Button
@@ -144,7 +144,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_friend_howmany">
+            app:layout_constraintTop_toBottomOf="@+id/tv_friend_how_many">
 
             <LinearLayout
                 android:layout_width="match_parent"

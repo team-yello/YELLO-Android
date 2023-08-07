@@ -77,10 +77,10 @@ class UniversityInfoFragment :
     }
 
     private fun setConfirmBtnClickListener() {
-        binding.btnUniversityinfoNext.setOnSingleClickListener {
+        binding.btnUniversityInfoNext.setOnSingleClickListener {
             viewModel.navigateToNextPage()
         }
-        binding.btnUniversityinfoBackBtn.setOnSingleClickListener {
+        binding.btnUniversityInfoBackBtn.setOnSingleClickListener {
             viewModel.navigateToBackPage()
         }
     }

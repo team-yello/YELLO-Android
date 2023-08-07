@@ -10,6 +10,8 @@ data class RequestPostSignupDto(
     val social: String,
     @SerialName("uuid")
     val uuid: String,
+    @SerialName("deviceToken")
+    val deviceToken: String,
     @SerialName("email")
     val email: String,
     @SerialName("profileImage")
@@ -42,4 +44,5 @@ fun SignupInfo.toRequestPostSignupDto() = RequestPostSignupDto(
     gender = gender,
     friends = friendList,
     recommendId = recommendId,
+    deviceToken = deviceToken
 )

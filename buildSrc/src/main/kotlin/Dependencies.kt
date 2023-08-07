@@ -79,7 +79,6 @@ object ThirdPartyDependencies {
     const val kakaoAuth = "com.kakao.sdk:v2-auth:${Versions.kakaoVersion}"
     const val kakaoTalk = "com.kakao.sdk:v2-talk:${Versions.kakaoVersion}"
     const val kakaoShare = "com.kakao.sdk:v2-share:${Versions.kakaoVersion}"
-    // circle scale dot indicator
     const val circleIndicator = "me.relex:circleindicator:${Versions.circleIndicatorVersion}"
 }
 

@@ -25,6 +25,7 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
     private lateinit var appLoginCallback: (OAuthToken?, Throwable?) -> Unit
     private lateinit var webLoginCallback: (OAuthToken?, Throwable?) -> Unit
     private lateinit var kakaoAccessToken: String
+    private lateinit var deviceToken: String
 
     private val viewModel by viewModels<SignInViewModel>()
 
@@ -32,6 +33,8 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
         super.onCreate(savedInstanceState)
 
         initSignInButtonListener()
+        viewModel.getDeviceToken()
+        observeDeviceTokenState()
         observeKakaoUserDataState()
         observeChangeTokenState()
         observeUserDataExists()
@@ -53,7 +56,10 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
             } else if (token != null) {
                 // 로그인 성공 시 토큰 저장 & 토큰 교체 서버통신 진행
                 setKakaoAccessToken(token)
-                viewModel.changeTokenFromServer(kakaoAccessToken)
+                viewModel.changeTokenFromServer(
+                    accessToken = kakaoAccessToken,
+                    deviceToken = deviceToken
+                )
             } else {
                 Timber.tag(TAG_AUTH).d(getString(R.string.sign_in_error_empty_kakao_token))
             }
@@ -76,7 +82,10 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
             } else if (token != null) {
                 // 로그인 성공 시 토큰 저장 & 토큰 교체 서버통신 진행
                 setKakaoAccessToken(token)
-                viewModel.changeTokenFromServer(kakaoAccessToken)
+                viewModel.changeTokenFromServer(
+                    accessToken = kakaoAccessToken,
+                    deviceToken = deviceToken
+                )
             } else {
                 Timber.tag(TAG_AUTH).d(getString(R.string.sign_in_error_empty_kakao_token))
             }
@@ -92,12 +101,31 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
         }
     }
 
-    // 서비스 토큰 교체 서버 통신 결과에 따라서 분기 처리 진행
-    private fun observeChangeTokenState() {
-        viewModel.postState.observe(this) { state ->
+    // Firebase에서 디바이스 토큰 받아와 저장
+    private fun observeDeviceTokenState() {
+        viewModel.getDeviceTokenState.observe(this) { state ->
             when (state) {
                 is UiState.Success -> {
-                    // 500(가입된 아이디): 온보딩 뷰 생략하고 바로 메인 화면으로 이동 위해 유저 정보 받기
+                    deviceToken = state.data
+                }
+
+                is UiState.Failure -> {
+                    toast(getString(R.string.sign_in_error_connection))
+                }
+
+                is UiState.Loading -> {}
+
+                is UiState.Empty -> {}
+            }
+        }
+    }
+
+    // 서비스 토큰 교체 서버 통신 결과에 따라서 분기 처리 진행
+    private fun observeChangeTokenState() {
+        viewModel.postChangeTokenState.observe(this) { state ->
+            when (state) {
+                is UiState.Success -> {
+                    // 200(가입된 아이디): 온보딩 뷰 생략하고 바로 메인 화면으로 이동 위해 유저 정보 받기
                     viewModel.getUserData()
                 }
 

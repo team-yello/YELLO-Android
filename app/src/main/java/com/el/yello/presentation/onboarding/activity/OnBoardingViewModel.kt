@@ -5,9 +5,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
-import com.example.domain.entity.onboarding.RequestAddFriendModel
 import com.example.domain.entity.onboarding.AddFriendListModel
 import com.example.domain.entity.onboarding.GroupList
+import com.example.domain.entity.onboarding.RequestAddFriendModel
 import com.example.domain.entity.onboarding.SchoolList
 import com.example.domain.entity.onboarding.SignupInfo
 import com.example.domain.entity.onboarding.UserInfo
@@ -70,11 +70,10 @@ class OnBoardingViewModel @Inject constructor(
                 }
                 // totalSchoolPage = ceil((schoolList.totalCount * 0.1)).toInt()
                 // if (totalSchoolPage == schoolPage) isSchoolPagingFinish = true
-                _schoolData.value =
-                    when {
-                        schoolList.schoolList.isEmpty() -> UiState.Empty
-                        else -> UiState.Success(schoolList)
-                    }
+                _schoolData.value = when {
+                    schoolList.schoolList.isEmpty() -> UiState.Empty
+                    else -> UiState.Success(schoolList)
+                }
             }.onFailure { t ->
                 if (t is HttpException) {
                     Timber.e("GET SCHOOL LIST FAILURE : $t")
@@ -138,11 +137,10 @@ class OnBoardingViewModel @Inject constructor(
 
                 // totalDepartmentPage = ceil((department.totalCount * 0.1)).toLong()
                 // if (totalDepartmentPage == departmentPage) isDepartmentPagingFinish = true
-                _departmentData.value =
-                    when {
-                        groupList.groupList.isEmpty() -> UiState.Empty
-                        else -> UiState.Success(groupList)
-                    }
+                _departmentData.value = when {
+                    groupList.groupList.isEmpty() -> UiState.Empty
+                    else -> UiState.Success(groupList)
+                }
             }.onFailure { t ->
                 if (t is HttpException) {
                     Timber.e("GET GROUP LIST FAILURE : $t")
@@ -202,8 +200,7 @@ class OnBoardingViewModel @Inject constructor(
         currentFriendOffset += 100
         currentFriendPage += 1
         TalkApiClient.instance.friends(
-            offset = currentFriendOffset,
-            limit = 100
+            offset = currentFriendOffset, limit = 100
         ) { friends, error ->
             if (error != null) {
                 Timber.e(error, "카카오톡 친구목록 가져오기 실패")
@@ -224,8 +221,7 @@ class OnBoardingViewModel @Inject constructor(
         viewModelScope.launch {
             runCatching {
                 onboardingRepository.postToGetFriendList(
-                    RequestAddFriendModel(friendKakaoId, groupId),
-                    0
+                    RequestAddFriendModel(friendKakaoId, groupId), 0
                 )
             }.onSuccess { friendList ->
                 friendList ?: return@launch
@@ -248,17 +244,14 @@ class OnBoardingViewModel @Inject constructor(
 
     fun getValidYelloId() {
         viewModelScope.launch {
-            onboardingRepository.getValidYelloId(yelloId = id)
-                .onSuccess { isValid ->
+            onboardingRepository.getValidYelloId(yelloId = id).onSuccess { isValid ->
                     Timber.d("GET VALID YELLO ID SUCCESS : $isValid")
                     if (isValid == null) {
                         _getValidYelloId.value = UiState.Empty
                         return@launch
                     }
-
                     _getValidYelloId.value = UiState.Success(isValid)
-                }
-                .onFailure { t ->
+                }.onFailure { t ->
                     if (t is HttpException) {
                         Timber.e("GET VALID YELLO ID FAILURE : $t")
                         _getValidYelloId.value = UiState.Failure(t.code().toString())
@@ -287,6 +280,7 @@ class OnBoardingViewModel @Inject constructor(
 
     fun postSignup() {
         viewModelScope.launch {
+            val deviceToken = authRepository.getDeviceToken()
             val signupInfo = SignupInfo(
                 kakaoId = kakaoId,
                 email = email,
@@ -298,9 +292,9 @@ class OnBoardingViewModel @Inject constructor(
                 gender = gender,
                 friendList = selectedFriendIdList,
                 recommendId = recommendId,
+                deviceToken = deviceToken
             )
-            onboardingRepository.postSignup(signupInfo)
-                .onSuccess { userInfo ->
+            onboardingRepository.postSignup(signupInfo).onSuccess { userInfo ->
                     Timber.d("POST SIGN UP SUCCESS : $userInfo")
                     if (userInfo == null) {
                         _postSignupState.value = UiState.Empty
@@ -309,8 +303,7 @@ class OnBoardingViewModel @Inject constructor(
                     authRepository.setAutoLogin(userInfo.accessToken, userInfo.refreshToken)
                     authRepository.setYelloId(userInfo.yelloId)
                     _postSignupState.value = UiState.Success(userInfo)
-                }
-                .onFailure { t ->
+                }.onFailure { t ->
                     if (t is HttpException) {
                         Timber.e("POST SIGN UP FAILURE : $t")
                         _postSignupState.value = UiState.Failure(t.code().toString())

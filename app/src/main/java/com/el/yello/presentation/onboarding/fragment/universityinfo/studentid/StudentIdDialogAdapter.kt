@@ -1,4 +1,4 @@
-package com.el.yello.presentation.onboarding.fragment.studentid.dialog.studentId
+package com.el.yello.presentation.onboarding.fragment.universityinfo.studentid
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -36,7 +36,7 @@ class StudentIdDialogAdapter(
             binding.studentId = id
             binding.root.setOnSingleClickListener {
                 storeStudentId(id)
-                binding.tvItemStudentId.setBackgroundResource(R.drawable.shape_grayscales800_fill_8_rect)
+                binding.tvItemStudentId.setBackgroundResource(R.drawable.shape_grayscales_800_fill_100_rect)
             }
         }
     }

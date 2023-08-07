@@ -16,20 +16,33 @@
         android:layout_height="match_parent"
         android:background="@color/black">
 
+        <ProgressBar
+            android:id="@+id/code_progressbar"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="4dp"
+            android:max="100"
+            android:progress="48"
+            android:progressDrawable="@drawable/layerlist_onboarding_progressbar"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+           app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="64dp"
+            app:layout_constraintWidth_percent="1" />
+
         <TextView
             android:id="@+id/tv_name"
             android:layout_width="0dp"
             android:textColor="@color/white"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
-            android:layout_marginTop="68dp"
+            android:layout_marginTop="24dp"
             android:text="@string/onboarding_tv_code"
-            tools:text="@string/dummy"
             android:maxLines="1"
             android:textAppearance="?textAppearanceHeadline2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+           app:layout_constraintTop_toBottomOf="@id/code_progressbar" />
 
         <TextView
             android:id="@+id/tv_code_warning"
@@ -97,8 +110,8 @@
             app:layout_constraintTop_toTopOf="@+id/et_code" />
 
         <TextView
-            android:id="@+id/tv_id_error"
-            android:layout_width="0dp"
+            android:id="@+id/tv_code_hint"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="12dp"
             android:layout_marginTop="4dp"
@@ -108,9 +121,40 @@
             android:text="@string/onboarding_tv_code_error"
             android:textAppearance="?textAppearanceLabelLarge"
             android:textColor="@color/grayscales_500"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/et_code"
             app:layout_constraintTop_toBottomOf="@id/et_code" />
+
+        <TextView
+            android:id="@+id/tv_code_hint_point"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="12dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:paddingVertical="2dp"
+            android:text="+100"
+            android:layout_marginStart="3dp"
+            android:layout_marginTop="4dp"
+            android:textAppearance="?textAppearanceLabelLarge"
+            android:textColor="@color/yello_main_500"
+            app:layout_constraintStart_toEndOf="@+id/tv_code_hint"
+            app:layout_constraintTop_toBottomOf="@+id/et_code" />
+
+        <TextView
+            android:id="@+id/tv_code_hint_end"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="12dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:paddingVertical="2dp"
+            android:text="point!"
+            android:layout_marginStart="3dp"
+            android:layout_marginTop="4dp"
+            android:textAppearance="?textAppearanceLabelLarge"
+            android:textColor="@color/grayscales_500"
+            app:layout_constraintStart_toEndOf="@+id/tv_code_hint_point"
+            app:layout_constraintTop_toBottomOf="@+id/et_code" />
 
         <TextView
             android:id="@+id/btn_code_skip"
@@ -138,7 +182,7 @@
             android:textAppearance="?textAppearanceBodyMedium"
             android:textColor="@{!vm._code.isEmpty()? @color/black : @color/grayscales_700}"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:background="@{!vm._code.isEmpty()? @drawable/shape_yello_main_500_fill_black_line_rect : @drawable/shape_grayscales800_fill_8_rect}"
+            android:background="@{!vm._code.isEmpty()? @drawable/shape_yello_main_500_fill_100_rect : @drawable/shape_grayscales_800_fill_100_rect}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>

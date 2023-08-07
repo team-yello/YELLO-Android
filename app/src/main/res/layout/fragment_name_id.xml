@@ -27,18 +27,31 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <ProgressBar
+            android:id="@+id/nameid_progressbar"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="4dp"
+            android:max="100"
+            android:progress="32"
+            android:progressDrawable="@drawable/layerlist_onboarding_progressbar"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btn_nameid_back_btn"
+            app:layout_constraintWidth_percent="1" />
+
         <TextView
             android:id="@+id/tv_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
-            android:layout_marginTop="68dp"
+            android:layout_marginTop="24dp"
             android:text="@string/onboarding_tv_name"
             android:textAppearance="?textAppearanceHeadline2"
             android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@id/nameid_progressbar" />
 
         <EditText
             android:id="@+id/et_name"
@@ -129,7 +142,7 @@
             android:layout_marginTop="12dp"
             android:background="@{vm.isValidId() ? @drawable/sel_onbarding_editext_focus : @drawable/shape_fill_red20_line_semantic_status_red500_rect_8}"
             android:fontFamily="@font/font_pretendard_medium"
-            android:hint="@string/onboarding_et_id"
+            android:hint= "@string/onboarding_et_id"
             android:inputType="text"
             android:maxLength="20"
             android:maxLines="1"
@@ -180,7 +193,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
             android:layout_marginBottom="32dp"
-            android:background="@{vm.isValidName() &amp; vm.isValidId() &amp; !vm._name.isEmpty() &amp; !vm._id.isEmpty() ? @drawable/shape_yello_main_500_fill_black_line_rect : @drawable/shape_grayscales800_fill_8_rect}"
+            android:background="@{vm.isValidName() &amp; vm.isValidId() &amp; !vm._name.isEmpty() &amp; !vm._id.isEmpty() ? @drawable/shape_yello_main_500_fill_100_rect : @drawable/shape_grayscales_800_fill_100_rect}"
             android:clickable="@{vm.isValidName() &amp; vm.isValidId() &amp; !vm._name.isEmpty() &amp; !vm._id.isEmpty()}"
             android:paddingVertical="12dp"
             android:text="@string/onboarding_btn_next"

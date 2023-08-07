@@ -1,4 +1,4 @@
-package com.el.yello.presentation.onboarding.fragment.studentid.dialog.department
+package com.el.yello.presentation.onboarding.fragment.universityinfo.department
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

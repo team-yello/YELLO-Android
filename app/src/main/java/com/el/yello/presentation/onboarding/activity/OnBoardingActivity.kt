@@ -10,7 +10,7 @@ import com.el.yello.presentation.auth.SignInActivity.Companion.EXTRA_EMAIL
 import com.el.yello.presentation.auth.SignInActivity.Companion.EXTRA_KAKAO_ID
 import com.el.yello.presentation.auth.SignInActivity.Companion.EXTRA_PROFILE_IMAGE
 import com.el.yello.presentation.auth.SocialSyncActivity
-import com.el.yello.presentation.onboarding.ViewPagerFragmentAdapter
+import com.el.yello.presentation.onboarding.ViewPagerAdapter
 import com.example.ui.base.BindingActivity
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -35,9 +35,10 @@ class OnBoardingActivity :
         }
     }
 
+    // TODO : 고등학생, 대학생 분기 처리
     private fun initViewPager() {
         val viewPager = binding.vpOnboarding
-        val viewPagerAdapter = ViewPagerFragmentAdapter(this)
+        val viewPagerAdapter = ViewPagerAdapter(this)
         viewPager.adapter = viewPagerAdapter
         binding.vpOnboarding.run {
             isUserInputEnabled = false
@@ -51,7 +52,6 @@ class OnBoardingActivity :
     }
 
     // 내장된 백버튼 클릭 시 이전 화면으로 이동
-
     private val onBackPressedCallback = object : OnBackPressedCallback(true) {
         override fun handleOnBackPressed() {
             if (binding.vpOnboarding.currentItem == CURRENT_ITEM_LAST) return
@@ -71,6 +71,6 @@ class OnBoardingActivity :
 
     companion object {
         private const val CURRENT_ITEM_START = 0
-        private const val CURRENT_ITEM_LAST = 6
+        private const val CURRENT_ITEM_LAST = 7
     }
 }

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/actiivity_navigate"
+    app:startDestination="@id/selectStudentFragment">
+
+    <fragment
+        android:id="@+id/selectStudentFragment"
+        android:name="com.el.yello.presentation.onboarding.fragment.gender.SelectStudentFragment"
+        android:label="SelectStudentFragment" >
+        <action
+            android:id="@+id/action_selectStudentFragment_to_universityInfoFragment"
+            app:destination="@id/universityInfoFragment" />
+        <action
+            android:id="@+id/action_selectStudentFragment_to_highschoolInfoFragment"
+            app:destination="@id/highschoolInfoFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/universityInfoFragment"
+        android:name="com.el.yello.presentation.onboarding.fragment.universityinfo.UniversityInfoFragment"
+        android:label="UniversityInfoFragment" >
+        <action
+            android:id="@+id/action_universityInfoFragment_to_genderFragment"
+            app:destination="@id/genderFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/highschoolInfoFragment"
+        android:name="com.el.yello.presentation.onboarding.fragment.highschoolinfo.HighschoolInfoFragment"
+        android:label="HighschoolInfoFragment" >
+        <action
+            android:id="@+id/action_highschoolInfoFragment_to_genderFragment"
+            app:destination="@id/genderFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/nameIdFragment"
+        android:name="com.el.yello.presentation.onboarding.fragment.nameid.NameIdFragment"
+        android:label="NameIdFragment" >
+        <action
+            android:id="@+id/action_nameIdFragment_to_addFriendFragment"
+            app:destination="@id/addFriendFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/genderFragment"
+        android:name="com.el.yello.presentation.onboarding.fragment.gender.GenderFragment"
+        android:label="GenderFragment" >
+        <action
+            android:id="@+id/action_genderFragment_to_nameIdFragment"
+            app:destination="@id/nameIdFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addFriendFragment"
+        android:name="com.el.yello.presentation.onboarding.fragment.addfriend.AddFriendFragment"
+        android:label="AddFriendFragment" >
+        <action
+            android:id="@+id/action_addFriendFragment_to_codeFragment"
+            app:destination="@id/codeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/codeFragment"
+        android:name="com.el.yello.presentation.onboarding.fragment.code.CodeFragment"
+        android:label="CodeFragment" >
+        <action
+            android:id="@+id/action_codeFragment_to_startAppFragment"
+            app:destination="@id/startAppFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/startAppFragment"
+        android:name="com.el.yello.presentation.onboarding.fragment.startapp.StartAppFragment"
+        android:label="StartAppFragment" />
+</navigation>

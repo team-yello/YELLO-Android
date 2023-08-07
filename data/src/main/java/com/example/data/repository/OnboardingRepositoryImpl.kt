@@ -3,11 +3,11 @@ package com.example.data.repository
 import com.example.data.datasource.OnboardingDataSource
 import com.example.data.model.request.onboarding.toRequestDto
 import com.example.data.model.request.onboarding.toRequestPostSignupDto
-import com.example.domain.entity.onboarding.RequestAddFriendModel
 import com.example.domain.entity.RequestServiceTokenModel
 import com.example.domain.entity.ServiceTokenModel
 import com.example.domain.entity.onboarding.AddFriendListModel
 import com.example.domain.entity.onboarding.GroupList
+import com.example.domain.entity.onboarding.RequestAddFriendModel
 import com.example.domain.entity.onboarding.SchoolList
 import com.example.domain.entity.onboarding.SignupInfo
 import com.example.domain.entity.onboarding.UserInfo

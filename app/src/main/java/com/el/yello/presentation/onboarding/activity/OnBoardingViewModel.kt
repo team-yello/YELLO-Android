@@ -29,6 +29,49 @@ class OnBoardingViewModel @Inject constructor(
     private val authRepository: AuthRepository,
 ) : ViewModel() {
 
+    // 학교 선택
+    val _studenttype = MutableLiveData("")
+    val studenttype: String
+        get() = _studenttype.value ?: ""
+
+    fun selectStudenttype(studenttype: String) {
+        _studenttype.value = studenttype
+    }
+
+    // 고등학생 - 학교
+
+    val _highschool = MutableLiveData("")
+    val highschool: String
+        get() = _highschool.value?.trim() ?: ""
+
+    // 고등학생 - 학년
+    val _grade = MutableLiveData("")
+    val grade: String
+        get() = _grade.value ?: ""
+
+    fun selectGrade(grade: String?) {
+        _grade.value = grade ?: ""
+    }
+
+    // 고등학생 - 반
+
+    val _group = MutableLiveData<Int>()
+    private val group: Int
+        get() = requireNotNull(_group.value)
+
+    private val _groupResult: MutableLiveData<List<Int>> = MutableLiveData()
+    val groupResult: LiveData<List<Int>> = _groupResult
+
+    fun setGroup(group: Int) {
+        _group.value = group
+    }
+
+    fun addGroup() {
+        val studentGroupList =
+            listOf(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20)
+        _groupResult.value = studentGroupList
+    }
+
     // 학교 viewmodel (step 1)
 
     private val _schoolData = MutableLiveData<UiState<SchoolList>>()
@@ -92,22 +135,22 @@ class OnBoardingViewModel @Inject constructor(
     val departmentData: MutableLiveData<UiState<GroupList>> = _departmentData
 
     private val _groupId = MutableLiveData<Long>()
-    val _studentId = MutableLiveData<Int>()
 
     private val _studentIdResult: MutableLiveData<List<Int>> = MutableLiveData()
     val studentIdResult: LiveData<List<Int>> = _studentIdResult
     val groupId: Long
         get() = requireNotNull(_groupId.value)
+    val _studentId = MutableLiveData<Int>()
     private val studentId: Int
         get() = requireNotNull(_studentId.value)
+
+    fun setStudentId(studentId: Int) {
+        _studentId.value = studentId
+    }
 
     fun setGroupInfo(department: String, groupId: Long) {
         _department.value = department
         _groupId.value = groupId
-    }
-
-    fun setStudentId(studentId: Int) {
-        _studentId.value = studentId
     }
 
     fun addStudentId() {
@@ -119,7 +162,7 @@ class OnBoardingViewModel @Inject constructor(
         _departmentData.value = UiState.Success(GroupList(0, emptyList()))
     }
 
-    // TODO: throttle 및 페이징 처리
+    // TODO: Debounce 및 Paging3
     fun getGroupList(search: String) {
         // if (isDepartmentPagingFinish) return
         viewModelScope.launch {
@@ -200,7 +243,8 @@ class OnBoardingViewModel @Inject constructor(
         currentFriendOffset += 100
         currentFriendPage += 1
         TalkApiClient.instance.friends(
-            offset = currentFriendOffset, limit = 100
+            offset = currentFriendOffset,
+            limit = 100,
         ) { friends, error ->
             if (error != null) {
                 Timber.e(error, "카카오톡 친구목록 가져오기 실패")
@@ -221,7 +265,8 @@ class OnBoardingViewModel @Inject constructor(
         viewModelScope.launch {
             runCatching {
                 onboardingRepository.postToGetFriendList(
-                    RequestAddFriendModel(friendKakaoId, groupId), 0
+                    RequestAddFriendModel(friendKakaoId, groupId),
+                    0,
                 )
             }.onSuccess { friendList ->
                 friendList ?: return@launch
@@ -239,26 +284,24 @@ class OnBoardingViewModel @Inject constructor(
         get() = _code.value?.trim() ?: ""
 
     private val _recommendId = MutableLiveData("")
-    val recommendId: String
-        get() = _recommendId.value ?: ""
 
     fun getValidYelloId() {
         viewModelScope.launch {
             onboardingRepository.getValidYelloId(yelloId = id).onSuccess { isValid ->
-                    Timber.d("GET VALID YELLO ID SUCCESS : $isValid")
-                    if (isValid == null) {
-                        _getValidYelloId.value = UiState.Empty
-                        return@launch
-                    }
-                    _getValidYelloId.value = UiState.Success(isValid)
-                }.onFailure { t ->
-                    if (t is HttpException) {
-                        Timber.e("GET VALID YELLO ID FAILURE : $t")
-                        _getValidYelloId.value = UiState.Failure(t.code().toString())
-                        return@launch
-                    }
-                    Timber.e("GET VALID YELLO ID ERROR : $t")
+                Timber.d("GET VALID YELLO ID SUCCESS : $isValid")
+                if (isValid == null) {
+                    _getValidYelloId.value = UiState.Empty
+                    return@launch
                 }
+                _getValidYelloId.value = UiState.Success(isValid)
+            }.onFailure { t ->
+                if (t is HttpException) {
+                    Timber.e("GET VALID YELLO ID FAILURE : $t")
+                    _getValidYelloId.value = UiState.Failure(t.code().toString())
+                    return@launch
+                }
+                Timber.e("GET VALID YELLO ID ERROR : $t")
+            }
         }
     }
 
@@ -291,30 +334,28 @@ class OnBoardingViewModel @Inject constructor(
                 yelloId = id,
                 gender = gender,
                 friendList = selectedFriendIdList,
-                recommendId = recommendId,
-                deviceToken = deviceToken
+                recommendId = code,
+                deviceToken = deviceToken,
             )
             onboardingRepository.postSignup(signupInfo).onSuccess { userInfo ->
-                    Timber.d("POST SIGN UP SUCCESS : $userInfo")
-                    if (userInfo == null) {
-                        _postSignupState.value = UiState.Empty
-                        return@launch
-                    }
-                    authRepository.setAutoLogin(userInfo.accessToken, userInfo.refreshToken)
-                    authRepository.setYelloId(userInfo.yelloId)
-                    _postSignupState.value = UiState.Success(userInfo)
-                }.onFailure { t ->
-                    if (t is HttpException) {
-                        Timber.e("POST SIGN UP FAILURE : $t")
-                        _postSignupState.value = UiState.Failure(t.code().toString())
-                        return@launch
-                    }
-                    Timber.e("POST SIGN UP ERROR : $t")
+                Timber.d("POST SIGN UP SUCCESS : $userInfo")
+                if (userInfo == null) {
+                    _postSignupState.value = UiState.Empty
+                    return@launch
                 }
+                authRepository.setAutoLogin(userInfo.accessToken, userInfo.refreshToken)
+                authRepository.setYelloId(userInfo.yelloId)
+                _postSignupState.value = UiState.Success(userInfo)
+            }.onFailure { t ->
+                if (t is HttpException) {
+                    Timber.e("POST SIGN UP FAILURE : $t")
+                    _postSignupState.value = UiState.Failure(t.code().toString())
+                    return@launch
+                }
+                Timber.e("POST SIGN UP ERROR : $t")
+            }
         }
     }
-
-    // fragment 화면 이동
 
     private val _currentPage = MutableLiveData(0)
     val currentPage: LiveData<Int> = _currentPage

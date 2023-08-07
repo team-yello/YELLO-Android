@@ -10,8 +10,10 @@ data class RequestServiceTokenDto(
     val accessToken: String,
     @SerialName("social")
     val social: String,
+    @SerialName("deviceToken")
+    val deviceToken: String
 )
 
 fun RequestServiceTokenModel.toRequestDto(): RequestServiceTokenDto {
-    return RequestServiceTokenDto(accessToken, social)
+    return RequestServiceTokenDto(accessToken, social, deviceToken)
 }

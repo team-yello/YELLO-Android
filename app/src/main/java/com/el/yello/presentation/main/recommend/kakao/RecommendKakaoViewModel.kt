@@ -103,5 +103,5 @@ class RecommendKakaoViewModel @Inject constructor(
         }
     }
 
-    fun getYelloId() = authRepository.getYelloId() ?: ""
+    fun getYelloId() = authRepository.getYelloId()
 }

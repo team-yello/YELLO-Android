@@ -26,6 +26,8 @@ object Versions {
     const val composeVersion = "1.4.3"
     const val workManagerVersion = "2.8.1"
 
+    const val firabaseVersion = "30.4.0"
+
     const val coilVersion = "2.4.0"
     const val retrofitVersion = "2.9.0"
     const val kotlinSerializationConverterVersion = "1.0.0"

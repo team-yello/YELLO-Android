@@ -283,6 +283,7 @@ class OnBoardingViewModel @Inject constructor(
 
     fun postSignup() {
         viewModelScope.launch {
+            val deviceToken = authRepository.getDeviceToken()
             val signupInfo = SignupInfo(
                 kakaoId = kakaoId,
                 email = email,
@@ -294,6 +295,7 @@ class OnBoardingViewModel @Inject constructor(
                 gender = gender,
                 friendList = selectedFriendIdList,
                 recommendId = codeText.value,
+                deviceToken = deviceToken
             )
             onboardingRepository.postSignup(signupInfo).onSuccess { userInfo ->
                     Timber.d("POST SIGN UP SUCCESS : $userInfo")

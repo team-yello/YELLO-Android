@@ -11,4 +11,5 @@ data class SignupInfo(
     val gender: String,
     val friendList: List<Long>,
     val recommendId: String? = null,
+    val deviceToken: String
 )

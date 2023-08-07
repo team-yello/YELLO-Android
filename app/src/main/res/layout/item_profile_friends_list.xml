@@ -2,54 +2,118 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/layout_profile_friend"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginHorizontal="16dp"
     android:background="@color/black">
 
-    <ImageView
-        android:id="@+id/iv_profile_friend_item_thumbnail"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginVertical="17dp"
-        android:layout_marginStart="8dp"
-        android:src="@drawable/ic_main_yello_selected"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintDimensionRatio="1"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout_profile_friend"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/tv_profile_friend_item_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
-        android:layout_marginTop="17dp"
-        android:textAppearance="@style/TextAppearance.Yello.Subtitle01"
-        android:textColor="@color/white"
-        android:paddingVertical="1dp"
-        app:layout_constraintStart_toEndOf="@id/iv_profile_friend_item_thumbnail"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="김상호" />
+        <ImageView
+            android:id="@+id/iv_profile_friend_item_thumbnail"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginVertical="17dp"
+            android:layout_marginStart="8dp"
+            android:src="@drawable/ic_main_yello_selected"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintDimensionRatio="1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/tv_profile_friend_item_school"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginEnd="12dp"
-        android:layout_marginBottom="17dp"
-        android:ellipsize="end"
-        android:maxLines="1"
-        android:paddingVertical="2dp"
-        android:textAppearance="@style/TextAppearance.Yello.LabelMedium"
-        android:textColor="@color/grayscales_600"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/iv_profile_friend_item_thumbnail"
-        app:layout_constraintTop_toBottomOf="@id/tv_profile_friend_item_name"
-        tools:text="고려대학교 산업경영공학부 19학번" />
+        <TextView
+            android:id="@+id/tv_profile_friend_item_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="17dp"
+            android:paddingVertical="1dp"
+            android:textAppearance="@style/TextAppearance.Yello.Subtitle01"
+            android:textColor="@color/white"
+            app:layout_constraintStart_toEndOf="@id/iv_profile_friend_item_thumbnail"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="김상호" />
+
+        <TextView
+            android:id="@+id/tv_profile_friend_item_school"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="12dp"
+            android:layout_marginBottom="17dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:paddingVertical="2dp"
+            android:textAppearance="@style/TextAppearance.Yello.LabelMedium"
+            android:textColor="@color/grayscales_600"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/iv_profile_friend_item_thumbnail"
+            app:layout_constraintTop_toBottomOf="@id/tv_profile_friend_item_name"
+            tools:text="고려대학교 산업경영공학부 19학번" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/layout_profile_friend_shimmer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/iv_profile_friend_item_thumbnail_shimmer"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginVertical="17dp"
+                android:layout_marginStart="8dp"
+                android:src="@drawable/shape_shimmer_greyscale800_circle"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintDimensionRatio="1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_profile_friend_item_name_shimmer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="17dp"
+                android:background="@drawable/shape_shimmer_greyscale800_fill_2_rect"
+                android:text="--------"
+                android:textAppearance="@style/TextAppearance.Yello.Subtitle01"
+                android:textColor="@color/grayscales_800"
+                app:layout_constraintStart_toEndOf="@id/iv_profile_friend_item_thumbnail_shimmer"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_profile_friend_item_school_shimmer"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="6dp"
+                android:layout_marginEnd="50dp"
+                android:layout_marginBottom="17dp"
+                android:background="@drawable/shape_shimmer_greyscale800_fill_2_rect"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:paddingVertical="2dp"
+                android:textAppearance="@style/TextAppearance.Yello.LabelMedium"
+                android:textColor="@color/grayscales_600"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/iv_profile_friend_item_thumbnail_shimmer"
+                app:layout_constraintTop_toBottomOf="@id/tv_profile_friend_item_name_shimmer" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.facebook.shimmer.ShimmerFrameLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+

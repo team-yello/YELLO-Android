@@ -1,6 +1,7 @@
 package com.el.yello.presentation.main.profile.info
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -55,6 +56,12 @@ class ProfileFriendAdapter(
             holder.onBind(viewModel)
         }
         if (holder is ProfileFriendsListViewHolder) {
+            if (viewModel.isShimmerActive.value == true) {
+                holder.binding.layoutProfileFriendShimmer.startShimmer()
+            } else {
+                holder.binding.layoutProfileFriendShimmer.stopShimmer()
+                holder.binding.layoutProfileFriendShimmer.visibility = View.GONE
+            }
             val itemPosition = position - HEADER_COUNT
             holder.onBind(itemList[itemPosition], itemPosition)
         }

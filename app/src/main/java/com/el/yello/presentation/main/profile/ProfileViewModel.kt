@@ -65,6 +65,17 @@ class ProfileViewModel @Inject constructor(
 
     var clickedItemPosition: Int? = null
 
+    private val _isShimmerActive = MutableLiveData(true)
+    val isShimmerActive: LiveData<Boolean> get() = _isShimmerActive
+
+    fun setDataNotLoaded() {
+        _isShimmerActive.value = true
+    }
+
+    private fun setDataLoaded() {
+        _isShimmerActive.value = false
+    }
+
     fun setItemPosition(position: Int) {
         clickedItemPosition = position
     }
@@ -110,6 +121,7 @@ class ProfileViewModel @Inject constructor(
                 )
             }.onSuccess {
                 it ?: return@launch
+                setDataLoaded()
                 totalPage = ceil((it.totalCount * 0.1)).toInt() - 1
                 if (totalPage == currentPage) isPagingFinish = true
                 _getListState.value = UiState.Success(it)

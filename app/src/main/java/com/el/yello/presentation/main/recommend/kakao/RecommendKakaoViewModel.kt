@@ -39,6 +39,8 @@ class RecommendKakaoViewModel @Inject constructor(
     private var isPagingFinish = false
     private var totalPage = Int.MAX_VALUE
 
+    private var isFirstFriendsListPage: Boolean = true
+
     fun setPositionAndHolder(position: Int, holder: RecommendViewHolder) {
         itemPosition = position
         itemHolder = holder
@@ -56,6 +58,10 @@ class RecommendKakaoViewModel @Inject constructor(
         if (isPagingFinish) return
         currentOffset += 100
         currentPage += 1
+        if (isFirstFriendsListPage) {
+            _postFriendsListState.value = UiState.Loading
+            isFirstFriendsListPage = false
+        }
         TalkApiClient.instance.friends(offset = currentOffset, limit = 100) { friends, error ->
             if (error != null) {
                 _getKakaoErrorResult.value = error.message
@@ -72,7 +78,6 @@ class RecommendKakaoViewModel @Inject constructor(
     // 서버 통신 - 추천 친구 리스트 추가
     private fun getListFromServer(friendKakaoId: List<String>) {
         viewModelScope.launch {
-            _postFriendsListState.value = UiState.Loading
             runCatching {
                 recommendRepository.postToGetKakaoFriendList(
                     0,

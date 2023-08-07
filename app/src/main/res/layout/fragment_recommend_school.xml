@@ -203,7 +203,6 @@
                 app:layout_constraintTop_toBottomOf="@id/tv_recommend_no_friend_title"
                 app:layout_constraintVertical_chainStyle="packed" />
 
-
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

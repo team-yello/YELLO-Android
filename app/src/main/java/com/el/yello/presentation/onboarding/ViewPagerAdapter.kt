@@ -22,6 +22,7 @@ class ViewPagerAdapter(fragmentActivity: FragmentActivity) :
         AddFriendFragment(),
         CodeFragment(),
         StartAppFragment(),
+
     )
 
     override fun getItemCount(): Int = fragments.size

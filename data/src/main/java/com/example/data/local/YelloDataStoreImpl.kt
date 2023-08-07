@@ -16,6 +16,10 @@ class YelloDataStoreImpl @Inject constructor(
         get() = dataStore.getString(PREF_REFRESH_TOKEN, "") ?: ""
         set(value) = dataStore.edit { putString(PREF_REFRESH_TOKEN, value) }
 
+    override var deviceToken: String
+        get() = dataStore.getString(PREF_DEVICE_TOKEN, "") ?: ""
+        set(value) = dataStore.edit { putString(PREF_DEVICE_TOKEN, value) }
+
     override var isLogin: Boolean
         get() = dataStore.getBoolean(PREF_IS_LOGIN, false)
         set(value) = dataStore.edit { putBoolean(PREF_IS_LOGIN, value) }
@@ -29,6 +33,7 @@ class YelloDataStoreImpl @Inject constructor(
     companion object {
         private const val PREF_USER_TOKEN = "USER_TOKEN"
         private const val PREF_REFRESH_TOKEN = "REFRESH_TOKEN"
+        private const val PREF_DEVICE_TOKEN = "DEVICE_TOKEN"
         private const val PREF_IS_LOGIN = "IS_LOGIN"
         private const val PREF_YELLO_ID = "YELLO_ID"
     }

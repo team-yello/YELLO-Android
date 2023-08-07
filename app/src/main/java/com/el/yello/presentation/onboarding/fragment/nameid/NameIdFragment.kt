@@ -2,6 +2,7 @@ package com.el.yello.presentation.onboarding.fragment.nameid
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import com.el.yello.R
 import com.el.yello.databinding.FragmentNameIdBinding
@@ -69,6 +70,6 @@ class NameIdFragment : BindingFragment<FragmentNameIdBinding>(R.layout.fragment_
         binding.etId.setBackgroundResource(R.drawable.shape_fill_red20_line_semantic_status_red500_rect_8)
         binding.btnIdDelete.setBackgroundResource(R.drawable.ic_onboarding_delete_red)
         binding.tvIdError.text = getString(R.string.onboarding_name_id_duplicate_id_msg)
-        binding.tvIdError.setTextColor(resources.getColor(R.color.semantic_red_500))
+        binding.tvIdError.setTextColor(ContextCompat.getColor(requireContext(), R.color.semantic_red_500))
     }
 }

@@ -16,7 +16,6 @@ import com.example.domain.repository.OnboardingRepository
 import com.example.ui.view.UiState
 import com.kakao.sdk.talk.TalkApiClient
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import timber.log.Timber
@@ -34,17 +33,10 @@ class OnBoardingViewModel @Inject constructor(
 
     private val _schoolData = MutableLiveData<UiState<SchoolList>>()
     val schoolData: MutableLiveData<UiState<SchoolList>> = _schoolData
+
     val _school = MutableLiveData("")
     val school: String
         get() = _school.value?.trim() ?: ""
-
-    private val _inputText = MutableLiveData<String>()
-    val inputText: LiveData<String>
-        get() = _inputText
-
-    fun setInputText(text: String) {
-        _inputText.value = text
-    }
 
     fun setSchool(school: String) {
         _school.value = school
@@ -97,8 +89,10 @@ class OnBoardingViewModel @Inject constructor(
 
     private val _studentIdResult: MutableLiveData<List<Int>> = MutableLiveData()
     val studentIdResult: LiveData<List<Int>> = _studentIdResult
+
     val groupId: Long
         get() = requireNotNull(_groupId.value)
+
     private val studentId: Int
         get() = requireNotNull(_studentId.value)
 
@@ -251,20 +245,20 @@ class OnBoardingViewModel @Inject constructor(
     fun getValidYelloId(unknownId: String) {
         viewModelScope.launch {
             onboardingRepository.getValidYelloId(yelloId = unknownId).onSuccess { isValid ->
-                    Timber.d("GET VALID YELLO ID SUCCESS : $isValid")
-                    if (isValid == null) {
-                        _getValidYelloId.value = UiState.Empty
-                        return@launch
-                    }
-                    _getValidYelloId.value = UiState.Success(isValid)
-                }.onFailure { t ->
-                    if (t is HttpException) {
-                        Timber.e("GET VALID YELLO ID FAILURE : $t")
-                        _getValidYelloId.value = UiState.Failure(t.code().toString())
-                        return@launch
-                    }
-                    Timber.e("GET VALID YELLO ID ERROR : $t")
+                Timber.d("GET VALID YELLO ID SUCCESS : $isValid")
+                if (isValid == null) {
+                    _getValidYelloId.value = UiState.Empty
+                    return@launch
                 }
+                _getValidYelloId.value = UiState.Success(isValid)
+            }.onFailure { t ->
+                if (t is HttpException) {
+                    Timber.e("GET VALID YELLO ID FAILURE : $t")
+                    _getValidYelloId.value = UiState.Failure(t.code().toString())
+                    return@launch
+                }
+                Timber.e("GET VALID YELLO ID ERROR : $t")
+            }
         }
     }
 
@@ -298,22 +292,22 @@ class OnBoardingViewModel @Inject constructor(
                 deviceToken = deviceToken
             )
             onboardingRepository.postSignup(signupInfo).onSuccess { userInfo ->
-                    Timber.d("POST SIGN UP SUCCESS : $userInfo")
-                    if (userInfo == null) {
-                        _postSignupState.value = UiState.Empty
-                        return@launch
-                    }
-                    authRepository.setAutoLogin(userInfo.accessToken, userInfo.refreshToken)
-                    authRepository.setYelloId(userInfo.yelloId)
-                    _postSignupState.value = UiState.Success(userInfo)
-                }.onFailure { t ->
-                    if (t is HttpException) {
-                        Timber.e("POST SIGN UP FAILURE : $t")
-                        _postSignupState.value = UiState.Failure(t.code().toString())
-                        return@launch
-                    }
-                    Timber.e("POST SIGN UP ERROR : $t")
+                Timber.d("POST SIGN UP SUCCESS : $userInfo")
+                if (userInfo == null) {
+                    _postSignupState.value = UiState.Empty
+                    return@launch
                 }
+                authRepository.setAutoLogin(userInfo.accessToken, userInfo.refreshToken)
+                authRepository.setYelloId(userInfo.yelloId)
+                _postSignupState.value = UiState.Success(userInfo)
+            }.onFailure { t ->
+                if (t is HttpException) {
+                    Timber.e("POST SIGN UP FAILURE : $t")
+                    _postSignupState.value = UiState.Failure(t.code().toString())
+                    return@launch
+                }
+                Timber.e("POST SIGN UP ERROR : $t")
+            }
         }
     }
 

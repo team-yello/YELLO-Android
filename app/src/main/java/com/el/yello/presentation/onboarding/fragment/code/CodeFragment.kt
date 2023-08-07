@@ -93,8 +93,4 @@ class CodeFragment : BindingFragment<FragmentCodeBinding>(R.layout.fragment_code
         binding.tvIdError.text = getString(R.string.onboarding_code_duplicate_msg)
         binding.tvIdError.setTextColor(ContextCompat.getColor(requireContext(), R.color.semantic_red_500))
     }
-
-    companion object {
-        const val NOT_FOUND = "404"
-    }
 }

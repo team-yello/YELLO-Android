@@ -29,8 +29,8 @@ class SignInViewModel @Inject constructor(
     private val profileRepository: ProfileRepository,
 ) : ViewModel() {
 
-    private val _postState = MutableLiveData<UiState<ServiceTokenModel?>>()
-    val postState: LiveData<UiState<ServiceTokenModel?>> = _postState
+    private val _postChangeTokenState = MutableLiveData<UiState<ServiceTokenModel?>>()
+    val postChangeTokenState: LiveData<UiState<ServiceTokenModel?>> = _postChangeTokenState
 
     private val _getUserProfileState = MutableLiveData<UiState<Unit>>()
     val getUserProfileState: LiveData<UiState<Unit>> = _getUserProfileState
@@ -86,25 +86,25 @@ class SignInViewModel @Inject constructor(
     // 서버통신 - 카카오 토큰 보내서 서비스 토큰 받아오기
     fun changeTokenFromServer(accessToken: String, social: String = KAKAO, deviceToken: String) {
         viewModelScope.launch {
-            _postState.value = UiState.Loading
+            _postChangeTokenState.value = UiState.Loading
             runCatching {
                 onboardingRepository.postTokenToServiceToken(
                     RequestServiceTokenModel(accessToken, social, deviceToken),
                 )
             }.onSuccess {
                 if (it == null) {
-                    _postState.value = UiState.Empty
+                    _postChangeTokenState.value = UiState.Empty
                     return@launch
                 }
                 authRepository.setAutoLogin(it.accessToken, it.refreshToken)
-                _postState.value = UiState.Success(it)
+                _postChangeTokenState.value = UiState.Success(it)
             }.onFailure {
                 if (it is HttpException && it.code() == 403) {
-                    _postState.value = UiState.Failure(CODE_NOT_SIGNED_IN)
+                    _postChangeTokenState.value = UiState.Failure(CODE_NOT_SIGNED_IN)
                 } else if (it is HttpException && it.code() == 404) {
-                    _postState.value = UiState.Failure(CODE_NO_UUID)
+                    _postChangeTokenState.value = UiState.Failure(CODE_NO_UUID)
                 } else {
-                    _postState.value = UiState.Failure("ERROR")
+                    _postChangeTokenState.value = UiState.Failure("ERROR")
                 }
             }
         }

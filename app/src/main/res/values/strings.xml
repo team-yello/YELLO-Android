@@ -217,4 +217,6 @@
     <string name="onboarding_highschool_firstgrade">1학년</string>
     <string name="onboarding_highschool_secondgrade">2학년</string>
     <string name="onboarding_highschool_thirdgrade">3학년</string>
+
+    <string name="default_notification_channel_id">default_messaging_channel</string>
 </resources>

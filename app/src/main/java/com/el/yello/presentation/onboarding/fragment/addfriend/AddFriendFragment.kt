@@ -43,9 +43,9 @@ class AddFriendFragment : BindingFragment<FragmentAddFriendBinding>(R.layout.fra
         setBackBtnClickListener()
         setKakaoRecommendList()
         observeAddListState()
-        ProgressBarTimerFun()
+        progressBarTimerFun()
     }
-    private fun ProgressBarTimerFun() {
+    private fun progressBarTimerFun() {
         binding.addfriendProgressbar.progress = 48
         timer?.cancel()
         timer = Timer()

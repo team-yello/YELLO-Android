@@ -25,7 +25,7 @@ class UniversityInfoFragment :
         super.onViewCreated(view, savedInstanceState)
         binding.vm = viewModel
 
-        ProgressBarTimerFun()
+        progressBarTimerFun()
         initSearchInfoBtnClickListener()
         setConfirmBtnClickListener()
         setupSchool()
@@ -33,7 +33,7 @@ class UniversityInfoFragment :
         setupStudentId()
         initSearchInfoBtnClickListener()
     }
-    private fun ProgressBarTimerFun() {
+    private fun progressBarTimerFun() {
         binding.universityInfoProgressbar.progress = 16
         timer?.cancel()
         timer = Timer()

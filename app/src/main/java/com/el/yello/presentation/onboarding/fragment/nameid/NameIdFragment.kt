@@ -26,9 +26,9 @@ class NameIdFragment : BindingFragment<FragmentNameIdBinding>(R.layout.fragment_
         setDeleteBtnClickListener()
         setConfirmBtnClickListener()
         setupGetValidYelloId()
-        ProgressBarTimerFun()
+        progressBarTimerFun()
     }
-    private fun ProgressBarTimerFun() {
+    private fun progressBarTimerFun() {
         binding.nameidProgressbar.progress = 32
         timer?.cancel()
         timer = Timer()

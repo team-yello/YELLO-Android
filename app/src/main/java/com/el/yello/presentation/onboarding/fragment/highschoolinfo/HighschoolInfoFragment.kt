@@ -2,18 +2,15 @@ package com.el.yello.presentation.onboarding.fragment.highschoolinfo
 
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import com.el.yello.R
 import com.el.yello.databinding.FragmentHighschoolBinding
 import com.el.yello.presentation.onboarding.activity.OnBoardingViewModel
 import com.el.yello.presentation.onboarding.fragment.highschoolinfo.group.GroupDialogFragment
 import com.el.yello.presentation.onboarding.fragment.highschoolinfo.school.SearchDialogHighSchoolFragment
-import com.el.yello.util.context.yelloSnackbar
 import com.example.domain.enum.GradeEnum
 import com.example.ui.base.BindingFragment
 import com.example.ui.view.setOnSingleClickListener
-import timber.log.Timber
 import java.util.Timer
 import kotlin.concurrent.timer
 
@@ -26,7 +23,7 @@ class HighschoolInfoFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.vm = viewModel
-        ProgressBarTimerFun()
+        progressBarTimerFun()
 
         binding.first = GradeEnum.A.toString()
         binding.second = GradeEnum.B.toString()
@@ -37,7 +34,7 @@ class HighschoolInfoFragment :
         setConfirmBtnClickListener()
     }
 
-    private fun ProgressBarTimerFun() {
+    private fun progressBarTimerFun() {
         binding.highschoolProgressbar.progress = 16
         timer?.cancel()
         timer = Timer()

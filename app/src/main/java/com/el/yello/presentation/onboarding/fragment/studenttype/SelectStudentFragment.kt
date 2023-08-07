@@ -26,12 +26,12 @@ class SelectStudentFragment :
         binding.highschool = StudentTypeEnum.H.toString()
         binding.university = StudentTypeEnum.U.toString()
 
-        ProgressBarTimerFun()
+        progressBarTimerFun()
         setupStudentType()
         setConfirmBtnClickListener()
     }
 
-    private fun ProgressBarTimerFun() {
+    private fun progressBarTimerFun() {
         binding.studenttypeProgressbar.progress = 0
         timer?.cancel()
         timer = Timer()

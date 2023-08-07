@@ -27,10 +27,10 @@ class CodeFragment : BindingFragment<FragmentCodeBinding>(R.layout.fragment_code
         setDeleteCodeBtnClickListener()
         setupPostSignupState()
         viewModel.validYellIdLoading()
-        ProgressBarTimerFun()
+        progressBarTimerFun()
     }
 
-    private fun ProgressBarTimerFun() {
+    private fun progressBarTimerFun() {
         binding.codeProgressbar.progress = 64
         timer?.cancel()
         timer = Timer()

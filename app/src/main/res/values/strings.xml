@@ -44,22 +44,21 @@
     <string name="onboarding_tv_readyto_login">옐로에 가입하기 위한 첫 절차예요.</string>
     <string name="onboarding_tv_what_school">학교가 어디인가요?</string>
     <string name="onboarding_tv_what_department">무슨 학과인가요?</string>
-    <string name="onboarding_tv_hint_select_studentid">학번을 선택해주세요.</string>
     <string name="onboarding_btn_next">다음</string>
-    <string name="onboarding_tv_name">이름은</string>
+    <string name="onboarding_tv_name">나의 이름은?</string>
     <string name="onboarding_tv_name_description">이름은 가입 후 바꿀 수 없으니 정확히 적어주세요!</string>
-    <string name="onboarding_tv_id">아이디는</string>
-    <string name="name_id_id_description">인스타 아이디로 하면 친구들이 찾기 쉬워요! (최대 20자)</string>
-    <string name="onboarding_et_id">insta_id</string>
+    <string name="onboarding_tv_id">내가 사용할 아이디는?</string>
+    <string name="name_id_id_description">인스타그램 아이디로 하면 친구들이 찾기 쉬워요! (최대 20자)</string>
+    <string name="onboarding_et_id">yelloworld</string>
     <string name="onboarding_tv_gender">성별은</string>
     <string name="onboarding_tv_code">추천인 코드</string>
     <string name="onboarding_tv_code_hint">추천인 아이디</string>
     <string name="onboarding_tv_code_skip">없다면 건너뛰어도 돼요.</string>
-    <string name="onboarding_tv_code_error">추천인의 아이디를 입력해주세요.</string>
+    <string name="onboarding_tv_code_error">추천인의 아이디를 입력하면</string>
     <string name="onboarding_btn_code_skip"><u>건너뛰기</u></string>
-    <string name="onboarding_tv_startapp_title">회원가입이 끝났어요!</string>
-    <string name="onboarding_tv_startapp_subtitle">지금 바로 친구들에게 옐로하러 가볼까요?</string>
-    <string name="onboarding_tv_start_yello">옐로하러 가기</string>
+    <string name="onboarding_tv_startapp_title">회원가입이 끝! 알림을 드릴게요 </string>
+    <string name="onboarding_tv_startapp_subtitle">친구들에게 비밀 쪽지가 도착하면\n 알림을 드릴게요. </string>
+    <string name="onboarding_tv_start_yello">알림 받기</string>
     <string name="onboarding_btn_gender_done">다음</string>
     <string name="onboarding_tv_gender_x">남자</string>
     <string name="onboarding_tv_gender_y">여자</string>
@@ -69,8 +68,9 @@
     <string name="onboarding_tv_freind_end">명</string>
     <string name="onboarding_tv_hint_fix">\@</string>
     <string name="onboarding_student_id">%d학번</string>
+    <string name="onboarding_group">%d반</string>
     <string name="onboarding_code_complete">완료</string>
-    <string name="onboarding_name_id_name_hint">김옐로</string>
+    <string name="onboarding_name_id_name_hint">ex.김옐로</string>
     <string name="onboarding_name_id_hangul_error">한글만 입력 가능해요.</string>
     <string name="onboarding_name_id_id_error">문자, 숫자, 밑줄, 마침표만 사용할 수 있어요.</string>
     <string name="onboarding_gender_female">여자</string>
@@ -78,6 +78,12 @@
     <string name="onboarding_name_id_duplicate_id_msg">이미 사용하고 있는 아이디에요.</string>
     <string name="onboarding_code_duplicate_msg">존재하지 않는 추천인 코드입니다.</string>
     <string name="onboarding_add_friend_error">추천친구 서버통신 실패</string>
+    <string name="onboarding_select_student_Type_title">해당되는 곳에 체크해주세요.</string>
+    <string name="onboarding_tv_select_student_highschool">고등학생</string>
+    <string name="onboarding_tv_select_student_university">대학생</string>
+    <string name="onboarding_school_hint">ex. 옐로대학교</string>
+    <string name="onboarding_department_hint">ex. 노랑학과</string>
+    <string name="onboarding_tv_hint_select_studentid">ex. 23학번</string>
 
     <string name="yello_start_my_point">내 포인트</string>
     <string name="yello_start_description">누구에게 어떤 메시지를 보낼까?</string>
@@ -204,4 +210,11 @@
     <string name="recommend_invite_no_title">지금 추천된 친구가 없어요!\n친구를 초대해볼까요?</string>
     <string name="recommend_invite_no_subtitle">친구 초대하기</string>
     <string name="recommend_item_btn_add">친구추가</string>
+    <string name="onboarding_highschool_hint">ex. 옐로고등학교</string>
+    <string name="onboarding_grade_title">몇 학년인가요?</string>
+    <string name="onboarding_group_title">몇 반인가요?</string>
+    <string name="onboarding_group_hint">ex. 1반</string>
+    <string name="onboarding_highschool_firstgrade">1학년</string>
+    <string name="onboarding_highschool_secondgrade">2학년</string>
+    <string name="onboarding_highschool_thirdgrade">3학년</string>
 </resources>

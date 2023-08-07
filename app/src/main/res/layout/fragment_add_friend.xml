@@ -16,84 +16,95 @@
         android:layout_height="match_parent"
         android:background="@color/black">
 
-        <androidx.appcompat.widget.AppCompatButton
+        <ImageView
             android:id="@+id/btn_addfriend_back_btn"
-            android:layout_width="0dp"
-            android:layout_height="24dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="12dp"
-            android:background="@drawable/ic_onboarding_btn_back"
-            app:layout_constraintDimensionRatio="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:background="@null"
+            android:padding="12dp"
+            android:src="@drawable/ic_onboarding_btn_back"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <ProgressBar
+            android:id="@+id/addfriend_progressbar"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="4dp"
+            android:max="100"
+            android:progress="48"
+            android:progressDrawable="@drawable/layerlist_onboarding_progressbar"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btn_addfriend_back_btn"
+            app:layout_constraintWidth_percent="1" />
 
         <TextView
             android:id="@+id/tv_addfriend"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="48dp"
+            android:layout_marginTop="24dp"
             android:text="@string/onboarding_tv_addfriend"
             android:textAppearance="?textAppearanceHeadline2"
             android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@id/addfriend_progressbar" />
 
         <TextView
             android:id="@+id/tv_friend_howmany"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="78dp"
-            android:layout_marginEnd="5dp"
+            android:layout_marginTop="54dp"
+            android:layout_marginEnd="4dp"
             android:gravity="end"
             android:text="@string/onboarding_tv_addfriend_how_many"
             android:textAppearance="?textAppearanceLabelLarge"
             android:textColor="@color/grayscales_200"
-            app:layout_constraintEnd_toStartOf="@id/tv_friend_number"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@id/addfriend_progressbar"
+            app:layout_constraintEnd_toStartOf="@id/tv_friend_number"/>
 
         <TextView
             android:id="@+id/tv_friend_number"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
-            android:layout_marginTop="78dp"
+            android:layout_marginTop="54dp"
             android:layout_marginEnd="1dp"
             android:fontFamily="@font/font_pretendard_bold"
             android:text="@{@string/to_string(vm.selectedFriendCount)}"
             android:textColor="@color/purple_sub_400"
             android:textSize="12sp"
-            app:layout_constraintBottom_toBottomOf="@+id/tv_friend_howmany"
+            app:layout_constraintTop_toBottomOf="@id/addfriend_progressbar"
             app:layout_constraintEnd_toStartOf="@id/tv_friend_end"
-            app:layout_constraintTop_toTopOf="parent"
             tools:text="142" />
 
         <TextView
             android:id="@+id/tv_friend_end"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="78dp"
+            android:layout_marginTop="54dp"
             android:layout_marginEnd="17dp"
             android:text="@string/onboarding_tv_freind_end"
             android:textAppearance="@style/TextAppearance.Yello.LabelLarge"
             android:textColor="@color/grayscales_200"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@id/addfriend_progressbar"/>
 
         <TextView
             android:id="@+id/shimmer_total_friend"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="76dp"
+            android:layout_marginTop="53dp"
             android:layout_marginEnd="16dp"
             android:background="@drawable/shape_shimmer_greyscale_off_fill_2_rect"
             android:paddingVertical="2dp"
-            android:text="------------------"
+            android:text="                               "
             android:textAppearance="@style/TextAppearance.Yello.LabelLarge"
-            android:textColor="@color/grayscales_shimmer_off"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toBottomOf="@id/addfriend_progressbar"/>
 
 
         <androidx.recyclerview.widget.RecyclerView
@@ -115,7 +126,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
             android:layout_marginBottom="34dp"
-            android:background="@drawable/shape_black_fill_grayscales600_line_8_rect"
+            android:background="@drawable/shape_yello_main_500_fill_100_rect"
             android:backgroundTint="@color/yello_main_500"
             android:paddingVertical="12dp"
             android:text="@string/onboarding_btn_addfriend_next"

@@ -11,10 +11,14 @@ import com.el.yello.util.context.yelloSnackbar
 import com.example.ui.base.BindingFragment
 import com.example.ui.view.UiState
 import com.example.ui.view.setOnSingleClickListener
+import java.util.Timer
+import kotlin.concurrent.timer
 
 class NameIdFragment : BindingFragment<FragmentNameIdBinding>(R.layout.fragment_name_id) {
     private val viewModel by activityViewModels<OnBoardingViewModel>()
 
+    var timer: Timer? = null
+    var deltaTime = 32
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.vm = viewModel
@@ -22,8 +26,18 @@ class NameIdFragment : BindingFragment<FragmentNameIdBinding>(R.layout.fragment_
         setDeleteBtnClickListener()
         setConfirmBtnClickListener()
         setupGetValidYelloId()
+        ProgressBarTimerFun()
     }
-
+    private fun ProgressBarTimerFun() {
+        binding.nameidProgressbar.progress = 32
+        timer?.cancel()
+        timer = Timer()
+        timer = timer(period = 8, initialDelay = 300) {
+            if (deltaTime > 48) cancel()
+            binding.nameidProgressbar.setProgress(++deltaTime)
+            println(binding.nameidProgressbar.progress)
+        }
+    }
     private fun setConfirmBtnClickListener() {
         binding.btnNameidNext.setOnSingleClickListener {
             viewModel.getValidYelloId(viewModel.id)

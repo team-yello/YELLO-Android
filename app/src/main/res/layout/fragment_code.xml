@@ -18,20 +18,33 @@
         android:layout_height="match_parent"
         android:background="@color/black">
 
+        <ProgressBar
+            android:id="@+id/code_progressbar"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="4dp"
+            android:layout_marginTop="64dp"
+            android:max="100"
+            android:progress="48"
+            android:progressDrawable="@drawable/layerlist_onboarding_progressbar"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent="1" />
+
         <TextView
             android:id="@+id/tv_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
-            android:layout_marginTop="68dp"
+            android:layout_marginTop="24dp"
             android:maxLines="1"
             android:text="@string/onboarding_tv_code"
             android:textAppearance="?textAppearanceHeadline2"
             android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="@string/dummy" />
+            app:layout_constraintTop_toBottomOf="@id/code_progressbar" />
 
         <TextView
             android:id="@+id/tv_code_warning"
@@ -100,8 +113,8 @@
             app:layout_constraintTop_toTopOf="@+id/et_code" />
 
         <TextView
-            android:id="@+id/tv_id_error"
-            android:layout_width="0dp"
+            android:id="@+id/tv_code_hint"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="12dp"
             android:layout_marginTop="4dp"
@@ -111,17 +124,49 @@
             android:text="@string/onboarding_tv_code_error"
             android:textAppearance="?textAppearanceLabelLarge"
             android:textColor="@color/grayscales_500"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/et_code"
             app:layout_constraintTop_toBottomOf="@id/et_code" />
 
         <TextView
-            android:id="@+id/btn_code_skip"
-            android:layout_width="0dp"
+            android:id="@+id/tv_code_hint_point"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="14dp"
+            android:layout_marginHorizontal="12dp"
+            android:layout_marginStart="3dp"
+            android:layout_marginTop="4dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:paddingVertical="2dp"
+            android:text="+100"
+            android:textAppearance="?textAppearanceLabelLarge"
+            android:textColor="@color/yello_main_500"
+            app:layout_constraintStart_toEndOf="@+id/tv_code_hint"
+            app:layout_constraintTop_toBottomOf="@+id/et_code" />
+
+        <TextView
+            android:id="@+id/tv_code_hint_end"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="12dp"
+            android:layout_marginStart="3dp"
+            android:layout_marginTop="4dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:paddingVertical="2dp"
+            android:text="point!"
+            android:textAppearance="?textAppearanceLabelLarge"
+            android:textColor="@color/grayscales_500"
+            app:layout_constraintStart_toEndOf="@+id/tv_code_hint_point"
+            app:layout_constraintTop_toBottomOf="@+id/et_code" />
+
+        <TextView
+            android:id="@+id/btn_code_skip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="2dp"
             android:background="@null"
             android:gravity="center"
+            android:padding="12dp"
             android:text="@string/onboarding_btn_code_skip"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             android:textColor="@color/grayscales_200"
@@ -135,7 +180,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
             android:layout_marginBottom="32dp"
-            android:background="@{!vm.codeText.isEmpty()? @drawable/shape_yello_main_500_fill_black_line_rect : @drawable/shape_grayscales800_fill_8_rect}"
+            android:background="@{!vm.codeText.isEmpty()? @drawable/shape_yello_main_500_fill_100_rect : @drawable/shape_grayscales_800_fill_100_rect}"
             android:clickable="@{!vm.codeText.isEmpty()}"
             android:paddingVertical="12dp"
             android:text="@string/onboarding_code_complete"

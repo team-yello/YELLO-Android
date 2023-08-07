@@ -14,6 +14,8 @@ import com.example.ui.fragment.toast
 import com.example.ui.view.UiState
 import com.example.ui.view.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.Timer
+import kotlin.concurrent.timer
 
 @AndroidEntryPoint
 class AddFriendFragment : BindingFragment<FragmentAddFriendBinding>(R.layout.fragment_add_friend) {
@@ -28,6 +30,9 @@ class AddFriendFragment : BindingFragment<FragmentAddFriendBinding>(R.layout.fra
 
     private var selectedItemIdList = mutableListOf<Long>()
 
+    var timer: Timer? = null
+    var deltaTime = 48
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -38,6 +43,17 @@ class AddFriendFragment : BindingFragment<FragmentAddFriendBinding>(R.layout.fra
         setBackBtnClickListener()
         setKakaoRecommendList()
         observeAddListState()
+        ProgressBarTimerFun()
+    }
+    private fun ProgressBarTimerFun() {
+        binding.addfriendProgressbar.progress = 48
+        timer?.cancel()
+        timer = Timer()
+        timer = timer(period = 8, initialDelay = 300) {
+            if (deltaTime > 64) cancel()
+            binding.addfriendProgressbar.setProgress(++deltaTime)
+            println(binding.addfriendProgressbar.progress)
+        }
     }
 
     private fun initFriendAdapter() {
@@ -82,7 +98,10 @@ class AddFriendFragment : BindingFragment<FragmentAddFriendBinding>(R.layout.fra
                 super.onScrolled(recyclerView, dx, dy)
                 if (dy > 0) {
                     recyclerView.layoutManager?.let { layoutManager ->
-                        if (!binding.rvFriendList.canScrollVertically(1) && layoutManager is LinearLayoutManager && layoutManager.findLastVisibleItemPosition() == adapter.itemCount - 1) {
+                        if (!binding.rvFriendList.canScrollVertically(1) &&
+                            layoutManager is LinearLayoutManager &&
+                            layoutManager.findLastVisibleItemPosition() == adapter.itemCount - 1
+                        ) {
                             viewModel.addListWithKakaoIdList()
                         }
                     }

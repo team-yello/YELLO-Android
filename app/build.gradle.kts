@@ -129,6 +129,9 @@ dependencies {
     implementation(MaterialDesignDependencies.materialDesign)
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1")
     implementation("com.facebook.shimmer:shimmer:0.5.0")
+    implementation("androidx.navigation:navigation-fragment-ktx:2.6.0")
+    implementation("androidx.navigation:navigation-ui-ktx:2.6.0")
+    implementation("androidx.navigation:navigation-fragment:2.6.0")
 
     TestDependencies.run {
         testImplementation(jUnit)

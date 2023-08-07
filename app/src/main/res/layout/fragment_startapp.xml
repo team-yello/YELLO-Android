@@ -16,13 +16,12 @@
             android:id="@+id/tv_startapp_title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="104dp"
+            android:layout_marginTop="136dp"
             android:layout_marginBottom="8dp"
             android:gravity="center"
             android:text="@string/onboarding_tv_startapp_title"
-            android:textColor="@color/white"
             android:textAppearance="?attr/textAppearanceHeadline3"
-            app:layout_constraintBottom_toTopOf="@id/tv_startapp_subtitle"
+            android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -31,49 +30,47 @@
             android:id="@+id/tv_startapp_subtitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="6dp"
             android:gravity="center"
+            android:layout_marginTop="8dp"
             android:text="@string/onboarding_tv_startapp_subtitle"
             android:textAppearance="?attr/textAppearanceBodySmall"
             android:textColor="@color/grayscales_500"
-            app:layout_constraintBottom_toTopOf="@id/iv_startapp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_startapp_title" />
 
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/iv_startapp"
             android:layout_width="0dp"
             android:layout_height="340dp"
             android:scaleType="centerCrop"
-            app:lottie_autoPlay="true"
-            app:lottie_loop="true"
-            app:lottie_rawRes="@raw/lottie_yello_login_end"
+            android:layout_marginTop="24dp"
+            app:layout_constraintDimensionRatio="1"
             android:src="@drawable/ic_launcher_background"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_startapp_subtitle"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/lottie_yello_login_end" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/btn_start_yello"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
-            android:layout_marginTop="90dp"
-            android:layout_marginBottom="34dp"
-            android:background="@drawable/shape_yello_main_500_fill_8_rect"
+            android:background="@drawable/shape_yello_main_500_fill_100_rect"
             android:paddingVertical="6dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/iv_startapp">
+            android:layout_marginBottom="34dp"
+            app:layout_constraintStart_toStartOf="parent">
 
             <TextView
                 android:id="@+id/tv_startapp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="12dp"
-                android:drawableRight="@drawable/ic_onboarding_startapp_yello"
                 android:drawablePadding="6dp"
                 android:fontFamily="@font/font_pretendard_bold"
                 android:text="@string/onboarding_tv_start_yello"

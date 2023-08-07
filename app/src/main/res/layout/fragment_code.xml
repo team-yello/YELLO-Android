@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <variable
             name="vm"
             type="com.el.yello.presentation.onboarding.activity.OnBoardingViewModel" />
@@ -23,7 +22,7 @@
             style="@style/Widget.AppCompat.ProgressBar.Horizontal"
             android:layout_width="match_parent"
             android:layout_height="4dp"
-            android:layout_marginTop="64dp"
+            android:layout_marginTop="48dp"
             android:max="100"
             android:progress="48"
             android:progressDrawable="@drawable/layerlist_onboarding_progressbar"

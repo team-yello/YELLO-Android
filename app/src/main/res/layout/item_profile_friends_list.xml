@@ -86,9 +86,8 @@
                 android:layout_marginStart="12dp"
                 android:layout_marginTop="17dp"
                 android:background="@drawable/shape_shimmer_greyscale800_fill_2_rect"
-                android:text="--------"
+                android:text="              "
                 android:textAppearance="@style/TextAppearance.Yello.Subtitle01"
-                android:textColor="@color/grayscales_800"
                 app:layout_constraintStart_toEndOf="@id/iv_profile_friend_item_thumbnail_shimmer"
                 app:layout_constraintTop_toTopOf="parent" />
 

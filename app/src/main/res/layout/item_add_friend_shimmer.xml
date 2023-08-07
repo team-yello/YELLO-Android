@@ -31,12 +31,11 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="10dp"
-            android:text="--------"
+            android:text="             "
             android:paddingHorizontal="3dp"
             android:layout_marginEnd="26dp"
             android:background="@drawable/shape_shimmer_greyscale800_fill_2_rect"
             android:textAppearance="@style/TextAppearance.Yello.BodyMedium"
-            android:textColor="@color/grayscales_800"
             app:layout_constraintStart_toEndOf="@id/iv_friend_profile"
             app:layout_constraintTop_toTopOf="parent" />
 

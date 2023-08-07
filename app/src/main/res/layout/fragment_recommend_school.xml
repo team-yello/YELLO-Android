@@ -17,7 +17,7 @@
             android:id="@+id/layout_recommend_friends_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="invisible"
+            android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -53,8 +53,8 @@
                     android:text="@string/recommend_invite_title"
                     android:textAppearance="?textAppearanceBodyMedium"
                     android:textColor="@color/white"
-                    app:layout_constraintStart_toEndOf="@id/iv_recommend_invite"
                     app:layout_constraintEnd_toStartOf="@id/iv_recommend_invite_next"
+                    app:layout_constraintStart_toEndOf="@id/iv_recommend_invite"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
@@ -63,9 +63,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="12dp"
                     android:layout_marginBottom="19dp"
-                    android:paddingVertical="2dp"
                     android:ellipsize="end"
                     android:maxLines="1"
+                    android:paddingVertical="2dp"
                     android:text="@string/recommend_invite_subtitle"
                     android:textAppearance="@style/TextAppearance.Yello.LabelMedium"
                     android:textColor="@color/grayscales_600"
@@ -100,6 +100,48 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/layout_invite_friend"
                 tools:listitem="@layout/item_recommend_list" />
+
+            <com.facebook.shimmer.ShimmerFrameLayout
+                android:id="@+id/shimmer_friend_list"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/layout_invite_friend">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <include layout="@layout/item_recommend_list_shimmer" />
+
+                    <include layout="@layout/item_recommend_list_shimmer" />
+
+                    <include layout="@layout/item_recommend_list_shimmer" />
+
+                    <include layout="@layout/item_recommend_list_shimmer" />
+
+                    <include layout="@layout/item_recommend_list_shimmer" />
+
+                    <include layout="@layout/item_recommend_list_shimmer" />
+
+                    <include layout="@layout/item_recommend_list_shimmer" />
+
+                    <include layout="@layout/item_recommend_list_shimmer" />
+
+                    <include layout="@layout/item_recommend_list_shimmer" />
+
+                    <include layout="@layout/item_recommend_list_shimmer" />
+
+                    <include layout="@layout/item_recommend_list_shimmer" />
+
+                    <include layout="@layout/item_recommend_list_shimmer" />
+
+                </LinearLayout>
+
+            </com.facebook.shimmer.ShimmerFrameLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

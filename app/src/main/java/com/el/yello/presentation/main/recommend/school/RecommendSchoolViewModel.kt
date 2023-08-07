@@ -10,6 +10,7 @@ import com.example.domain.repository.AuthRepository
 import com.example.domain.repository.RecommendRepository
 import com.example.ui.view.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import kotlin.math.ceil
@@ -33,6 +34,8 @@ class RecommendSchoolViewModel @Inject constructor(
     private var isPagingFinish = false
     private var totalPage = Int.MAX_VALUE
 
+    private var isFirstFriendsListPage: Boolean = true
+
     fun setPositionAndHolder(position: Int, holder: RecommendViewHolder) {
         itemPosition = position
         itemHolder = holder
@@ -42,7 +45,10 @@ class RecommendSchoolViewModel @Inject constructor(
     fun addListFromServer() {
         viewModelScope.launch {
             if (isPagingFinish) return@launch
-            _postFriendsListState.value = UiState.Loading
+            if (isFirstFriendsListPage) {
+                _postFriendsListState.value = UiState.Loading
+                isFirstFriendsListPage = false
+            }
             runCatching {
                 recommendRepository.getSchoolFriendList(
                     ++currentPage,

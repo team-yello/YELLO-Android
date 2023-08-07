@@ -22,7 +22,6 @@ import timber.log.Timber
 class UnlockDialogFragment :
     BindingDialogFragment<FragmentUnlockDialogBinding>(R.layout.fragment_unlock_dialog) {
 
-    private val url = "http://naver.com"
     private lateinit var myYelloId: String
     private lateinit var linkText: String
     private var templateId: Long = 0
@@ -54,9 +53,7 @@ class UnlockDialogFragment :
     private fun getBundleArgs() {
         arguments ?: return
         myYelloId = arguments?.getString(ARGS_YELLO_ID) ?: ""
-        linkText = "추천인코드: $myYelloId\n" +
-                "우리 같이 YELL:O 해요!\n" +
-                "(여기에는 다운로드 링크)"
+        linkText = RecommendInviteDialog.LINK_TEXT.format(myYelloId)
     }
 
     private fun setRecommendId() {

@@ -104,8 +104,7 @@ class RecommendInviteDialog :
             }
         } else {
             // 웹으로 공유
-            val sharerUrl =
-                WebSharerClient.instance.makeCustomUrl(templateId)
+            val sharerUrl = WebSharerClient.instance.makeCustomUrl(templateId)
 
             // 1. CustomTabsServiceConnection 지원 브라우저 - Chrome, 삼성 인터넷 등
             try {
@@ -131,7 +130,11 @@ class RecommendInviteDialog :
         const val TEMPLATE_ID = 95890
         const val TEST_TEMPLATE_ID = 96906
 
-        const val LINK_TEXT = "추천인코드: %s\n" + "우리 같이 YELL:O 해요!\n" + "(여기에는 다운로드 링크)"
+        const val LINK_TEXT = "추천인코드: %s\n" +
+                "우리 같이 YELL:O 해요!\n" +
+                "Android: https://play.google.com/store/apps/details?id=com.el.yello&hl=ko&gl=KR\n" +
+                "iOS: https://apps.apple.com/app/id6451451050"
+
         const val CLIP_LABEL = "label"
 
         @JvmStatic

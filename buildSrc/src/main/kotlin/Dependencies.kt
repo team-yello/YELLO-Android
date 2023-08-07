@@ -80,6 +80,7 @@ object ThirdPartyDependencies {
     const val kakaoTalk = "com.kakao.sdk:v2-talk:${Versions.kakaoVersion}"
     const val kakaoShare = "com.kakao.sdk:v2-share:${Versions.kakaoVersion}"
     const val circleIndicator = "me.relex:circleindicator:${Versions.circleIndicatorVersion}"
+    const val shimmer = "com.facebook.shimmer:shimmer:${Versions.shimmerVersion}"
 }
 
 object ClassPathPlugins {

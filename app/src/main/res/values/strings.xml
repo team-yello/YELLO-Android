@@ -54,7 +54,7 @@
     <string name="onboarding_tv_code">추천인 코드</string>
     <string name="onboarding_tv_code_hint">추천인 아이디</string>
     <string name="onboarding_tv_code_skip">없다면 건너뛰어도 돼요.</string>
-    <string name="onboarding_tv_code_error">추천인의 아이디를 입력하 </string>
+    <string name="onboarding_tv_code_error">추천인의 아이디를 입력하면</string>
     <string name="onboarding_btn_code_skip"><u>건너뛰기</u></string>
     <string name="onboarding_tv_startapp_title">회원가입이 끝! 알림을 드릴게요 </string>
     <string name="onboarding_tv_startapp_subtitle">친구들에게 비밀 쪽지가 도착하면\n 알림을 드릴게요. </string>
@@ -77,6 +77,7 @@
     <string name="onboarding_gender_male">남자</string>
     <string name="onboarding_name_id_duplicate_id_msg">이미 사용하고 있는 아이디에요.</string>
     <string name="onboarding_code_duplicate_msg">존재하지 않는 추천인 코드입니다.</string>
+    <string name="onboarding_add_friend_error">추천친구 서버통신 실패</string>
     <string name="onboarding_select_student_Type_title">해당되는 곳에 체크해주세요.</string>
     <string name="onboarding_tv_select_student_highschool">고등학생</string>
     <string name="onboarding_tv_select_student_university">대학생</string>

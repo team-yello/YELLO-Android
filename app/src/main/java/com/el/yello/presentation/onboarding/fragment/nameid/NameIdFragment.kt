@@ -2,6 +2,7 @@ package com.el.yello.presentation.onboarding.fragment.nameid
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import com.el.yello.R
 import com.el.yello.databinding.FragmentNameIdBinding
@@ -39,7 +40,7 @@ class NameIdFragment : BindingFragment<FragmentNameIdBinding>(R.layout.fragment_
     }
     private fun setConfirmBtnClickListener() {
         binding.btnNameidNext.setOnSingleClickListener {
-            viewModel.navigateToNextPage()
+            viewModel.getValidYelloId(viewModel.id)
         }
         binding.btnNameidBackBtn.setOnSingleClickListener {
             viewModel.navigateToBackPage()
@@ -60,21 +61,18 @@ class NameIdFragment : BindingFragment<FragmentNameIdBinding>(R.layout.fragment_
             when (state) {
                 is UiState.Success -> {
                     if (state.data) {
-                        viewModel.navigateToNextPage()
+                        initIdEditTextViewError()
                         return@observe
                     }
-                    initIdEditTextViewError()
+                    viewModel.navigateToNextPage()
                 }
 
                 is UiState.Failure -> {
-                    if (state.msg == NOT_FOUND) {
-                        viewModel.navigateToNextPage()
-                        return@observe
-                    }
                     yelloSnackbar(binding.root, getString(R.string.msg_error))
                 }
 
                 is UiState.Loading -> {}
+
                 is UiState.Empty -> {
                     yelloSnackbar(binding.root, getString(R.string.msg_error))
                 }
@@ -85,11 +83,7 @@ class NameIdFragment : BindingFragment<FragmentNameIdBinding>(R.layout.fragment_
     private fun initIdEditTextViewError() {
         binding.etId.setBackgroundResource(R.drawable.shape_fill_red20_line_semantic_status_red500_rect_8)
         binding.btnIdDelete.setBackgroundResource(R.drawable.ic_onboarding_delete_red)
-        binding.tvIdError.text = getString(R.string.onboarding_code_duplicate_msg)
-        binding.tvIdError.setTextColor(resources.getColor(R.color.semantic_red_500))
-    }
-
-    companion object {
-        const val NOT_FOUND = "404"
+        binding.tvIdError.text = getString(R.string.onboarding_name_id_duplicate_id_msg)
+        binding.tvIdError.setTextColor(ContextCompat.getColor(requireContext(), R.color.semantic_red_500))
     }
 }

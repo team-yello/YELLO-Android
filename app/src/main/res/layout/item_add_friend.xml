@@ -5,13 +5,10 @@
 
     <data>
 
-        <variable
-            name="data"
-            type="String" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/layout_addfriend"
+        android:id="@+id/layout_add_friend"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="0dp"
@@ -26,19 +23,20 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintDimensionRatio="1"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@drawable/ic_main_yello_selected" />
 
         <TextView
             android:id="@+id/tv_friend_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginEnd="111dp"
-            android:textColor="@color/white"
-            android:layout_marginBottom="2dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="26dp"
+            android:paddingVertical="2dp"
             android:textAppearance="@style/TextAppearance.Yello.BodyMedium"
-            app:layout_constraintBottom_toTopOf="@+id/tv_friend_department"
-            app:layout_constraintEnd_toStartOf="@id/iv_freind_check"
+            android:textColor="@color/white"
+            app:layout_constraintEnd_toStartOf="@id/btn_friend_check"
             app:layout_constraintStart_toEndOf="@id/iv_friend_profile"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="김나현" />
@@ -48,25 +46,31 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginEnd="111dp"
+            android:layout_marginEnd="26dp"
             android:layout_marginBottom="9dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:paddingVertical="2dp"
             android:textAppearance="@style/TextAppearance.Yello.LabelMedium"
             android:textColor="@color/grayscales_500"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/iv_freind_check"
+            app:layout_constraintEnd_toStartOf="@id/btn_friend_check"
             app:layout_constraintStart_toEndOf="@id/iv_friend_profile"
+            app:layout_constraintTop_toBottomOf="@id/tv_friend_name"
             tools:text="서울여자대학교 시각디자인과" />
 
         <ImageView
-            android:id="@+id/iv_freind_check"
+            android:id="@+id/btn_friend_check"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:paddingVertical="1dp"
             android:layout_marginEnd="10dp"
+            android:paddingVertical="1dp"
             android:src="@drawable/sel_onboarding_friend_check"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintDimensionRatio="1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </layout>

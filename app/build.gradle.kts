@@ -88,6 +88,7 @@ dependencies {
     implementation(project(":core-ui"))
     implementation(project(":data"))
     implementation(project(":domain"))
+
     KotlinDependencies.run {
         implementation(kotlin)
         implementation(coroutines)
@@ -127,6 +128,7 @@ dependencies {
 
     implementation(MaterialDesignDependencies.materialDesign)
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1")
+    implementation("com.facebook.shimmer:shimmer:0.5.0")
     implementation("androidx.navigation:navigation-fragment-ktx:2.6.0")
     implementation("androidx.navigation:navigation-ui-ktx:2.6.0")
     implementation("androidx.navigation:navigation-fragment:2.6.0")
@@ -159,5 +161,6 @@ dependencies {
         implementation(flipperNetwork)
         implementation(flipperLeakCanary)
         implementation(soloader)
+        implementation(shimmer)
     }
 }

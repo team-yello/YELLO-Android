@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
 import androidx.core.os.bundleOf
+import com.el.yello.BuildConfig
 import com.el.yello.R
 import com.el.yello.databinding.FragmentRecommendInviteDialogBinding
 import com.el.yello.presentation.main.yello.dialog.UnlockDialogFragment.Companion.ARGS_YELLO_ID
@@ -23,16 +24,15 @@ class RecommendInviteDialog :
 
     private lateinit var myYelloId: String
     private lateinit var linkText: String
+    private var templateId: Long = 0
 
     override fun onStart() {
         super.onStart()
         dialog?.window?.apply {
-            dialog?.window?.apply {
-                setLayout(
-                    WindowManager.LayoutParams.MATCH_PARENT,
-                    WindowManager.LayoutParams.WRAP_CONTENT,
-                )
-            }
+            setLayout(
+                WindowManager.LayoutParams.MATCH_PARENT,
+                WindowManager.LayoutParams.WRAP_CONTENT,
+            )
             setBackgroundDrawableResource(R.color.transparent)
         }
     }
@@ -41,6 +41,7 @@ class RecommendInviteDialog :
         super.onViewCreated(view, savedInstanceState)
 
         getBundleArgs()
+        setTemplateId()
         setRecommendId()
         initExitBtnListener()
         initKakaoInviteBtnListener()
@@ -55,6 +56,14 @@ class RecommendInviteDialog :
 
     private fun setRecommendId() {
         binding.tvRecommendDialogInviteId.text = myYelloId
+    }
+
+    private fun setTemplateId() {
+        if (BuildConfig.DEBUG) {
+            templateId = TEST_TEMPLATE_ID.toLong()
+        } else {
+            templateId = TEMPLATE_ID.toLong()
+        }
     }
 
     private fun initExitBtnListener() {
@@ -84,7 +93,7 @@ class RecommendInviteDialog :
             // 앱으로 공유
             ShareClient.instance.shareCustom(
                 context,
-                TEMPLATE_ID.toLong(),
+                templateId,
                 mapOf("KEY" to myYelloId),
             ) { sharingResult, error ->
                 if (error != null) {
@@ -96,7 +105,7 @@ class RecommendInviteDialog :
         } else {
             // 웹으로 공유
             val sharerUrl =
-                WebSharerClient.instance.makeCustomUrl(TEMPLATE_ID.toLong())
+                WebSharerClient.instance.makeCustomUrl(templateId)
 
             // 1. CustomTabsServiceConnection 지원 브라우저 - Chrome, 삼성 인터넷 등
             try {
@@ -119,9 +128,11 @@ class RecommendInviteDialog :
     companion object {
         const val TAG_SHARE = "recommendInvite"
 
-        const val CLIP_LABEL = "label"
         const val TEMPLATE_ID = 95890
+        const val TEST_TEMPLATE_ID = 96906
+
         const val LINK_TEXT = "추천인코드: %s\n" + "우리 같이 YELL:O 해요!\n" + "(여기에는 다운로드 링크)"
+        const val CLIP_LABEL = "label"
 
         @JvmStatic
         fun newInstance(yelloId: String) = RecommendInviteDialog().apply {

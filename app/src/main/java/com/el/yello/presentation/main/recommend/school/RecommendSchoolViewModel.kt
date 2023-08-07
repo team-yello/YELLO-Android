@@ -33,6 +33,8 @@ class RecommendSchoolViewModel @Inject constructor(
     private var isPagingFinish = false
     private var totalPage = Int.MAX_VALUE
 
+    private var isFirstFriendsListPage: Boolean = true
+
     fun setPositionAndHolder(position: Int, holder: RecommendViewHolder) {
         itemPosition = position
         itemHolder = holder
@@ -42,7 +44,10 @@ class RecommendSchoolViewModel @Inject constructor(
     fun addListFromServer() {
         viewModelScope.launch {
             if (isPagingFinish) return@launch
-            _postFriendsListState.value = UiState.Loading
+            if (isFirstFriendsListPage) {
+                _postFriendsListState.value = UiState.Loading
+                isFirstFriendsListPage = false
+            }
             runCatching {
                 recommendRepository.getSchoolFriendList(
                     ++currentPage,
@@ -58,7 +63,7 @@ class RecommendSchoolViewModel @Inject constructor(
         }
     }
 
-    // 서버 통신 -친구 추가
+    // 서버 통신 - 친구 추가
     fun addFriendToServer(friendId: Long) {
         viewModelScope.launch {
             _addFriendState.value = UiState.Loading

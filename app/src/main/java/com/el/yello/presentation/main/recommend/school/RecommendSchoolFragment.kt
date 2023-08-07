@@ -125,7 +125,9 @@ class RecommendSchoolFragment :
                     )
                 }
 
-                is UiState.Loading -> {}
+                is UiState.Loading -> {
+                    showShimmerScreen()
+                }
 
                 is UiState.Empty -> {}
             }
@@ -212,14 +214,25 @@ class RecommendSchoolFragment :
         }
     }
 
+    private fun showShimmerScreen() {
+        binding.layoutRecommendFriendsList.isVisible = true
+        binding.shimmerFriendList.startShimmer()
+        binding.shimmerFriendList.visibility = View.VISIBLE
+        binding.rvRecommendSchool.visibility = View.GONE
+    }
+
     private fun showFriendListScreen() {
         binding.layoutRecommendFriendsList.isVisible = true
         binding.layoutRecommendNoFriendsList.isVisible = false
+        binding.shimmerFriendList.stopShimmer()
+        binding.shimmerFriendList.visibility = View.GONE
+        binding.rvRecommendSchool.visibility = View.VISIBLE
     }
 
     private fun showNoFriendScreen() {
         binding.layoutRecommendFriendsList.isVisible = false
         binding.layoutRecommendNoFriendsList.isVisible = true
+        binding.shimmerFriendList.stopShimmer()
     }
 
     private companion object {

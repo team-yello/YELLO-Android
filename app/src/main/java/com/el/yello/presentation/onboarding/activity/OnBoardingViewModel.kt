@@ -76,17 +76,10 @@ class OnBoardingViewModel @Inject constructor(
 
     private val _schoolData = MutableLiveData<UiState<SchoolList>>()
     val schoolData: MutableLiveData<UiState<SchoolList>> = _schoolData
+
     val _school = MutableLiveData("")
     val school: String
         get() = _school.value?.trim() ?: ""
-
-    private val _inputText = MutableLiveData<String>()
-    val inputText: LiveData<String>
-        get() = _inputText
-
-    fun setInputText(text: String) {
-        _inputText.value = text
-    }
 
     fun setSchool(school: String) {
         _school.value = school
@@ -138,9 +131,12 @@ class OnBoardingViewModel @Inject constructor(
 
     private val _studentIdResult: MutableLiveData<List<Int>> = MutableLiveData()
     val studentIdResult: LiveData<List<Int>> = _studentIdResult
+
     val groupId: Long
         get() = requireNotNull(_groupId.value)
+
     val _studentId = MutableLiveData<Int>()
+
     private val studentId: Int
         get() = requireNotNull(_studentId.value)
 
@@ -196,14 +192,16 @@ class OnBoardingViewModel @Inject constructor(
     // 이름 아이디 viewmodel (step 3)
 
     val _name = MutableLiveData("")
-    val _id = MutableLiveData("")
-    private val name: String
+    val name: String
         get() = _name.value?.trim() ?: ""
-    private val id: String
+
+    val _id = MutableLiveData("")
+    val id: String
         get() = _id.value?.trim() ?: ""
 
     val isValidName: LiveData<Boolean> = _name.map { name -> checkName(name) }
     val isValidId: LiveData<Boolean> = _id.map { id -> checkId(id) }
+
     private fun checkName(name: String) = Pattern.matches(REGEX_NAME_PATTERN, name)
     private fun checkId(id: String) = Pattern.matches(REGEX_ID_PATTERN, id)
 
@@ -219,8 +217,8 @@ class OnBoardingViewModel @Inject constructor(
 
     // 친구 추가 viewmodel (step 5)
 
-    private val _friendListState = MutableLiveData<AddFriendListModel>()
-    val friendListState: LiveData<AddFriendListModel> = _friendListState
+    private val _friendListState = MutableLiveData<UiState<AddFriendListModel>>()
+    val friendListState: LiveData<UiState<AddFriendListModel>> = _friendListState
 
     var selectedFriendIdList: List<Long> = listOf()
     var selectedFriendCount: MutableLiveData<Int> = MutableLiveData(0)
@@ -229,8 +227,10 @@ class OnBoardingViewModel @Inject constructor(
     private var currentFriendPage = -1
     private var isFriendPagingFinish = false
     private var totalFriendPage = Int.MAX_VALUE
+    private var isFirstFriendsListPage: Boolean = true
 
     fun initFriendPagingVariable() {
+        isFirstFriendsListPage = true
         currentFriendOffset = -100
         currentFriendPage = -1
         isFriendPagingFinish = false
@@ -262,6 +262,10 @@ class OnBoardingViewModel @Inject constructor(
 
     // 서버 통신 - 추천 친구 리스트 추가
     private fun getListFromServer(friendKakaoId: List<String>, groupId: Long) {
+        if (isFirstFriendsListPage) {
+            _friendListState.value = UiState.Loading
+            isFirstFriendsListPage = false
+        }
         viewModelScope.launch {
             runCatching {
                 onboardingRepository.postToGetFriendList(
@@ -270,24 +274,23 @@ class OnBoardingViewModel @Inject constructor(
                 )
             }.onSuccess { friendList ->
                 friendList ?: return@launch
-                _friendListState.value = friendList
+                _friendListState.value = UiState.Success(friendList)
             }.onFailure {
-                Timber.e(it.message)
+                _friendListState.value = UiState.Failure(it.message.toString())
             }
         }
     }
 
     // 추천인 코드 viewmodel (step 6)
 
-    val _code = MutableLiveData("")
-    val code: String
-        get() = _code.value?.trim() ?: ""
+    val codeText = MutableLiveData("")
 
-    private val _recommendId = MutableLiveData("")
+    private val _getValidYelloId = MutableLiveData<UiState<Boolean>>()
+    val getValidYelloId: LiveData<UiState<Boolean>> get() = _getValidYelloId
 
-    fun getValidYelloId() {
+    fun getValidYelloId(unknownId: String) {
         viewModelScope.launch {
-            onboardingRepository.getValidYelloId(yelloId = id).onSuccess { isValid ->
+            onboardingRepository.getValidYelloId(yelloId = unknownId).onSuccess { isValid ->
                 Timber.d("GET VALID YELLO ID SUCCESS : $isValid")
                 if (isValid == null) {
                     _getValidYelloId.value = UiState.Empty
@@ -310,9 +313,6 @@ class OnBoardingViewModel @Inject constructor(
     private val _postSignupState = MutableLiveData<UiState<UserInfo>>()
     val postSignupState: LiveData<UiState<UserInfo>> get() = _postSignupState
 
-    private val _getValidYelloId = MutableLiveData<UiState<Boolean>>()
-    val getValidYelloId: LiveData<UiState<Boolean>> get() = _getValidYelloId
-
     fun validYellIdLoading() {
         _getValidYelloId.value = UiState.Loading
     }
@@ -334,7 +334,7 @@ class OnBoardingViewModel @Inject constructor(
                 yelloId = id,
                 gender = gender,
                 friendList = selectedFriendIdList,
-                recommendId = code,
+                recommendId = codeText.value,
                 deviceToken = deviceToken,
             )
             onboardingRepository.postSignup(signupInfo).onSuccess { userInfo ->
@@ -359,6 +359,7 @@ class OnBoardingViewModel @Inject constructor(
 
     private val _currentPage = MutableLiveData(0)
     val currentPage: LiveData<Int> = _currentPage
+
     fun navigateToNextPage() {
         _currentPage.value = currentPage.value?.plus(1)
     }

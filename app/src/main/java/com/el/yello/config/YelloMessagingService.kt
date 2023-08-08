@@ -14,7 +14,6 @@ import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.datetime.Clock
-import timber.log.Timber
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -31,15 +30,11 @@ class YelloMessagingService : FirebaseMessagingService() {
     override fun onMessageReceived(message: RemoteMessage) {
         super.onMessageReceived(message)
         if (message.data.isNotEmpty()) {
-            for ((key, value) in message.data) {
-                Timber.d("Nunu message key $key value $value")
-            }
             sendNotificationAlarm(
                 Message(message.data["title"].toString(), message.data["content"].toString())
             )
         } else {
             message.notification?.let {
-                Timber.d("Nunu message key ${it.title} value $${it.body}")
                 sendNotificationAlarm(Message(it.title.toString(), it.body.toString()))
             }
         }

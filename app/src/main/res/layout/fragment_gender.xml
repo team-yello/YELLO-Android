@@ -67,7 +67,7 @@
                 android:id="@+id/iv_gender_male_check"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@{vm._gender == male ? @drawable/ic_gender_check_male : @drawable/ic_gender_check_unselected}"
+                android:src="@{vm.genderText == male ? @drawable/ic_gender_check_male : @drawable/ic_gender_check_unselected}"
                 tools:src="@drawable/ic_gender_check_unselected"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -115,7 +115,7 @@
                 android:id="@+id/iv_gender_female_check"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@{vm._gender == female ? @drawable/ic_gender_check_female : @drawable/ic_gender_check_unselected}"
+                android:src="@{vm.genderText == female ? @drawable/ic_gender_check_female : @drawable/ic_gender_check_unselected}"
                 tools:src="@drawable/ic_gender_check_unselected"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -150,12 +150,12 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
             android:layout_marginBottom="34dp"
-            android:background="@{vm._gender.isEmpty() ? @drawable/shape_grayscales_800_fill_100_rect : @drawable/shape_yello_main_500_fill_100_rect}"
-            android:clickable="@{!vm._gender.isEmpty()}"
+            android:background="@{vm.genderText.isEmpty() ? @drawable/shape_grayscales_800_fill_100_rect : @drawable/shape_yello_main_500_fill_100_rect}"
+            android:clickable="@{!vm.genderText.isEmpty()}"
             android:paddingVertical="16dp"
             android:text="@string/onboarding_btn_gender_done"
             android:textAppearance="?textAppearanceBodyMedium"
-            android:textColor="@{vm._gender.isEmpty() ? @color/grayscales_700 : @color/black}"
+            android:textColor="@{vm.genderText.isEmpty() ? @color/grayscales_700 : @color/black}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />

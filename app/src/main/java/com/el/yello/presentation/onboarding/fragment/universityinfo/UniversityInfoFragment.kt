@@ -57,12 +57,12 @@ class UniversityInfoFragment :
     }
 
     private fun setupSchool() {
-        viewModel._school.observe(viewLifecycleOwner) { school ->
+        viewModel.schoolText.observe(viewLifecycleOwner) { school ->
             binding.tvUniversitySearch.text = school
         }
     }
     private fun setupDepartment() {
-        viewModel._department.observe(viewLifecycleOwner) { department ->
+        viewModel.departmentText.observe(viewLifecycleOwner) { department ->
             binding.tvDepartmentSearch.text = department
         }
         binding.tvDepartmentSearch.doAfterTextChanged {
@@ -71,7 +71,7 @@ class UniversityInfoFragment :
     }
 
     private fun setupStudentId() {
-        viewModel._studentId.observe(viewLifecycleOwner) { studentId ->
+        viewModel.studentIdText.observe(viewLifecycleOwner) { studentId ->
             binding.tvStudentidSearch.text = getString(R.string.onboarding_student_id, studentId)
         }
     }

@@ -34,7 +34,7 @@ class GenderFragment : BindingFragment<FragmentGenderBinding>(R.layout.fragment_
     }
 
     private fun setupGender() {
-        viewModel._gender.observe(viewLifecycleOwner) { gender ->
+        viewModel.genderText.observe(viewLifecycleOwner) { gender ->
             when (gender) {
                 GenderEnum.M.toString() -> {
                     binding.btnGenderMale.setBackgroundResource(R.drawable.shape_male700_fill_male300_line_8_rect)

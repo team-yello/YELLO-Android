@@ -71,6 +71,7 @@ class RecommendSchoolFragment :
     }
 
     private fun initFirstList() {
+        viewModel.setFirstPageLoading()
         viewModel.addListFromServer()
         viewModel.addListFromServer()
     }

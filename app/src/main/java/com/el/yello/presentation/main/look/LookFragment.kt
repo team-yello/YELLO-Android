@@ -34,6 +34,7 @@ class LookFragment : BindingFragment<FragmentLookBinding>(R.layout.fragment_look
     }
 
     private fun initAdapterWithFirstList() {
+        viewModel.setFirstPageLoading()
         _adapter = LookAdapter()
         binding.rvLook.adapter = adapter
         viewModel.addLookListFromServer(page = 0)
@@ -44,18 +45,36 @@ class LookFragment : BindingFragment<FragmentLookBinding>(R.layout.fragment_look
         viewModel.getLookListState.observe(viewLifecycleOwner) { state ->
             when (state) {
                 is UiState.Success -> {
+                    stopShimmerView()
                     adapter.submitList(state.data?.friendVotes)
                 }
 
                 is UiState.Failure -> {
+                    stopShimmerView()
                     yelloSnackbar(requireView(), getString(R.string.look_error_friend_list))
                 }
 
-                is UiState.Empty -> {}
+                is UiState.Empty -> {
+                    stopShimmerView()
+                }
 
-                is UiState.Loading -> {}
+                is UiState.Loading -> {
+                    startShimmerView()
+                }
             }
         }
+    }
+
+    private fun startShimmerView() {
+        binding.shimmerLookList.startShimmer()
+        binding.shimmerLookList.visibility = View.VISIBLE
+        binding.rvLook.visibility = View.GONE
+    }
+
+    private fun stopShimmerView() {
+        binding.shimmerLookList.stopShimmer()
+        binding.shimmerLookList.visibility = View.GONE
+        binding.rvLook.visibility = View.VISIBLE
     }
 
     fun scrollToTop() {

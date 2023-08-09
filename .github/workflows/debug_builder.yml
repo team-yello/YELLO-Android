@@ -51,6 +51,9 @@ jobs:
           echo test.native.app.key=\"$test_native_app_key\" >> local.properties
           echo testNativeAppKey=$test_native_app_key >> local.properties
 
+      - name: Access Firebase Service
+        run: echo '${{ secrets.GOOGLE_SERVICES_JSON }}' > ./app/google-services.json
+
       - name: Build debug APK
         run: ./gradlew assembleDebug --stacktrace
 

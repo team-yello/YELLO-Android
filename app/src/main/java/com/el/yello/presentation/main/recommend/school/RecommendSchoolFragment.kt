@@ -206,13 +206,8 @@ class RecommendSchoolFragment :
     }
 
     private fun changeToCheckIcon(holder: RecommendViewHolder) {
-        holder.binding.btnRecommendItemAdd.apply {
-            text = null
-            setIconResource(R.drawable.ic_check)
-            setIconTintResource(R.color.black)
-            iconPadding = dpToPx(holder.binding.root.context, -2)
-            setPadding(dpToPx(holder.binding.root.context, 10))
-        }
+        holder.binding.btnRecommendItemAdd.visibility = View.GONE
+        holder.binding.btnRecommendItemAddPressed.visibility = View.VISIBLE
     }
 
     private fun showShimmerScreen() {

@@ -2,7 +2,7 @@ package com.el.yello.presentation.main.look
 
 import androidx.recyclerview.widget.RecyclerView
 import com.el.yello.databinding.ItemLookBinding
-import com.example.domain.entity.LookModel
+import com.example.domain.entity.LookListModel.LookModel
 
 class LookViewHolder(
     val binding: ItemLookBinding

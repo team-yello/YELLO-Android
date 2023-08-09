@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import com.el.yello.databinding.ItemLookBinding
-import com.example.domain.entity.LookModel
+import com.example.domain.entity.LookListModel.LookModel
 import com.example.ui.view.ItemDiffCallback
 
 class LookAdapter :

@@ -9,6 +9,7 @@
     <string name="to_string">%s</string>
     <string name="msg_auto_login_error">다시 한 번 로그인해주세요.</string>
     <string name="dummy">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</string>
+    <string name="adapter_not_initialized_error_msg">Adapter is not initialized</string>
 
     <string name="sign_in_tv_title">Yell:o에 오신 걸 환영해요!</string>
     <string name="sign_in_tv_subtitle">가입을 시작해볼까요?</string>
@@ -32,6 +33,7 @@
     <string name="main_yello">옐로하기</string>
     <string name="main_my_yello">내 쪽지</string>
     <string name="main_profile">프로필</string>
+    <string name="main_toast_back_pressed">\'뒤로\' 버튼을 한번 더 누르면 종료됩니다.</string>
 
     <string name="onboarding_tv_what_studentid">몇 학번인가요?</string>
     <string name="onboarding_tv_search_department">학과 검색하기</string>
@@ -42,22 +44,21 @@
     <string name="onboarding_tv_readyto_login">옐로에 가입하기 위한 첫 절차예요.</string>
     <string name="onboarding_tv_what_school">학교가 어디인가요?</string>
     <string name="onboarding_tv_what_department">무슨 학과인가요?</string>
-    <string name="onboarding_tv_hint_select_studentid">학번을 선택해주세요.</string>
     <string name="onboarding_btn_next">다음</string>
-    <string name="onboarding_tv_name">이름은</string>
+    <string name="onboarding_tv_name">나의 이름은?</string>
     <string name="onboarding_tv_name_description">이름은 가입 후 바꿀 수 없으니 정확히 적어주세요!</string>
-    <string name="onboarding_tv_id">아이디는</string>
-    <string name="name_id_id_description">인스타 아이디로 하면 친구들이 찾기 쉬워요! (최대 20자)</string>
-    <string name="onboarding_et_id">insta_id</string>
+    <string name="onboarding_tv_id">내가 사용할 아이디는?</string>
+    <string name="name_id_id_description">인스타그램 아이디로 하면 친구들이 찾기 쉬워요! (최대 20자)</string>
+    <string name="onboarding_et_id">yelloworld</string>
     <string name="onboarding_tv_gender">성별은</string>
     <string name="onboarding_tv_code">추천인 코드</string>
     <string name="onboarding_tv_code_hint">추천인 아이디</string>
     <string name="onboarding_tv_code_skip">없다면 건너뛰어도 돼요.</string>
-    <string name="onboarding_tv_code_error">추천인의 아이디를 입력해주세요.</string>
+    <string name="onboarding_tv_code_error">추천인의 아이디를 입력하면</string>
     <string name="onboarding_btn_code_skip"><u>건너뛰기</u></string>
-    <string name="onboarding_tv_startapp_title">회원가입이 끝났어요!</string>
-    <string name="onboarding_tv_startapp_subtitle">지금 바로 친구들에게 옐로하러 가볼까요?</string>
-    <string name="onboarding_tv_start_yello">옐로하러 가기</string>
+    <string name="onboarding_tv_startapp_title">회원가입이 끝! 알림을 드릴게요 </string>
+    <string name="onboarding_tv_startapp_subtitle">친구들에게 비밀 쪽지가 도착하면\n 알림을 드릴게요. </string>
+    <string name="onboarding_tv_start_yello">알림 받기</string>
     <string name="onboarding_btn_gender_done">다음</string>
     <string name="onboarding_tv_gender_x">남자</string>
     <string name="onboarding_tv_gender_y">여자</string>
@@ -67,14 +68,22 @@
     <string name="onboarding_tv_freind_end">명</string>
     <string name="onboarding_tv_hint_fix">\@</string>
     <string name="onboarding_student_id">%d학번</string>
+    <string name="onboarding_group">%d반</string>
     <string name="onboarding_code_complete">완료</string>
-    <string name="onboarding_name_id_name_hint">김옐로</string>
+    <string name="onboarding_name_id_name_hint">ex.김옐로</string>
     <string name="onboarding_name_id_hangul_error">한글만 입력 가능해요.</string>
     <string name="onboarding_name_id_id_error">문자, 숫자, 밑줄, 마침표만 사용할 수 있어요.</string>
     <string name="onboarding_gender_female">여자</string>
     <string name="onboarding_gender_male">남자</string>
     <string name="onboarding_name_id_duplicate_id_msg">이미 사용하고 있는 아이디에요.</string>
     <string name="onboarding_code_duplicate_msg">존재하지 않는 추천인 코드입니다.</string>
+    <string name="onboarding_add_friend_error">추천친구 서버통신 실패</string>
+    <string name="onboarding_select_student_Type_title">해당되는 곳에 체크해주세요.</string>
+    <string name="onboarding_tv_select_student_highschool">고등학생</string>
+    <string name="onboarding_tv_select_student_university">대학생</string>
+    <string name="onboarding_school_hint">ex. 옐로대학교</string>
+    <string name="onboarding_department_hint">ex. 노랑학과</string>
+    <string name="onboarding_tv_hint_select_studentid">ex. 23학번</string>
 
     <string name="yello_start_my_point">내 포인트</string>
     <string name="yello_start_description">누구에게 어떤 메시지를 보낼까?</string>
@@ -84,7 +93,6 @@
     <string name="yello_lock_description">투표를 시작할 수 없어요</string>
     <string name="yello_lock_invite">친구 초대하기</string>
     <string name="yello_lock_sub_description">친구가 4명 이상 모이면 투표할 수 있어요.\n친구들을 초대해볼까요?</string>
-
 
     <string name="unlock_invite_and_unlock">친구 초대하고 기다리지 않기</string>
     <string name="unlock_description1">친구가 내 추천인 코드로 가입하면</string>
@@ -97,7 +105,7 @@
     <string name="unlock_link_text">추천인 코드: %s\n우리 같이 YELL:O 해요!\nhttps://play.google.com/store/apps/details?id=com.el.yello&amp;hl=en-KR</string>
     <string name="unlock_browser_error_msg">사용 가능한 브러우저가 없습니다.</string>
 
-    <string name="note_index_of_vote">&#160;of 10</string>
+    <string name="note_index_of_vote">&#160;of %s</string>
     <string name="note_friend_shuffle">친구 셔플</string>
     <string name="note_shuffle_count">%d/3</string>
     <string name="note_skip">이 질문 건너뛰기</string>
@@ -141,7 +149,7 @@
     <string name="profile_error_user_data">유저 정보 서버 통신 실패</string>
     <string name="profile_error_friend_list">친구 목록 서버 통신 실패</string>
     <string name="profile_error_delete_friend">친구 삭제 실패</string>
-    <string name="profile_error_logout">로그아웃 실패</string>
+    <string name="profile_error_logout">로그아웃 실패 : %s</string>
     <string name="profile_error_unlink">회원 탈퇴 서버 통신 실패</string>
     <string name="profile_error_unlink_kakao">카카오 연동 해제 실패</string>
 
@@ -166,13 +174,15 @@
 
     <string name="profile_quit_tv_title">계정 탈퇴</string>
     <string name="profile_quit_tv_subtitle_1">정말 계정을 삭제할 건가요?</string>
-    <string name="profile_quit_tv_subtitle_2">회원님을 떠올리는 친구들이 슬퍼할 거에요.\n잠시 쉬다 돌아오는 것은 어떤가요?</string>
+    <string name="profile_quit_tv_subtitle_2_top">회원님을 떠올리는 친구들이 슬퍼할 거에요.</string>
+    <string name="profile_quit_tv_subtitle_2_bottom">잠시 쉬다 돌아오는 것은 어떤가요?</string>
     <string name="profile_quit_btn_return">다시 돌아가기</string>
     <string name="profile_quit_btn_resume">그래도 계속하기</string>
 
     <string name="profile_quit_for_sure_tv_title">계정 탈퇴</string>
     <string name="profile_quit_for_sure_tv_subtitle_1">이러한 기능을 사용하지 못하게 돼요</string>
-    <string name="profile_quit_for_sure_tv_subtitle_2">지금 계정을 탈퇴하시면\n이와 같은 데이터 및 엑세스 권한을 전부 잃게 됩니다.</string>
+    <string name="profile_quit_for_sure_tv_subtitle_2_top">지금 계정을 탈퇴하시면</string>
+    <string name="profile_quit_for_sure_tv_subtitle_2_bottom">이와 같은 데이터 및 엑세스 권한을 전부 잃게 됩니다.</string>
     <string name="profile_quit_for_sure_tv_reason_1">회원님을 좋아하는 친구 마음을 알 수 없어요.</string>
     <string name="profile_quit_for_sure_tv_reason_2">회원님의 마음을 친구에게 전달할 수 없어요.</string>
     <string name="profile_quit_for_sure_tv_reason_3">친구들이 받은 쪽지를 볼 수 없어요.</string>
@@ -184,12 +194,21 @@
     <string name="profile_delete_bottom_sheet_tv_subtitle">정말로 친구를 끊으실 건가요?</string>
     <string name="profile_delete_bottom_sheet_btn_return">취소</string>
     <string name="profile_delete_bottom_sheet_btn_resume">네, 친구를 끊을게요</string>
+    <string name="profile_delete_bottom_sheet_toast">%s 님과 친구 끊기를 완료했어요.</string>
     <string name="profile_item_bottom_sheet_tv_friend">친구 수</string>
     <string name="profile_item_bottom_sheet_tv_msg">받은 쪽지</string>
     <string name="profile_item_bottom_sheet_btn_delete">친구 끊기</string>
     <string name="profile_dialog_tv_title">정말 탈퇴하시겠습니까?</string>
     <string name="profile_dialog_btn_no">아니요</string>
     <string name="profile_dialog_btn_yes">네, 탈퇴합니다</string>
+
+    <string name="profile_user_info_total_msg">받은 쪽지</string>
+    <string name="profile_user_info_total_point">내 포인트</string>
+    <string name="profile_user_info_total_friends">내 친구수</string>
+    <string name="profile_user_info_add_group">그룹 추가</string>
+    <string name="profile_user_info_friends_list_title">내 친구들</string>
+    <string name="profile_user_info_friends_list_subtitle_2">명</string>
+    <string name="profile_user_info_friends_list_subtitle_1">친구 수</string>
 
     <string name="recommend_tv_title">추천친구</string>
     <string name="recommend_dialog_tv_title">친구 초대하기</string>
@@ -204,4 +223,13 @@
     <string name="recommend_invite_no_title">지금 추천된 친구가 없어요!\n친구를 초대해볼까요?</string>
     <string name="recommend_invite_no_subtitle">친구 초대하기</string>
     <string name="recommend_item_btn_add">친구추가</string>
+    <string name="onboarding_highschool_hint">ex. 옐로고등학교</string>
+    <string name="onboarding_grade_title">몇 학년인가요?</string>
+    <string name="onboarding_group_title">몇 반인가요?</string>
+    <string name="onboarding_group_hint">ex. 1반</string>
+    <string name="onboarding_highschool_firstgrade">1학년</string>
+    <string name="onboarding_highschool_secondgrade">2학년</string>
+    <string name="onboarding_highschool_thirdgrade">3학년</string>
+
+    <string name="default_notification_channel_id">default_messaging_channel</string>
 </resources>

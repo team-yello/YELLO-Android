@@ -97,7 +97,7 @@ class YelloViewModel @Inject constructor(
         }
     }
 
-    fun getYelloId() = authRepository.getYelloId() ?: ""
+    fun getYelloId() = authRepository.getYelloId()
 
     companion object {
         const val SEC_MAX_LOCK_TIME = 2400L

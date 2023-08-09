@@ -23,6 +23,8 @@ object AndroidXDependencies {
         "androidx.lifecycle:lifecycle-livedata-ktx:${Versions.lifecycleVersion}"
     const val lifecycleJava8 =
         "androidx.lifecycle:lifecycle-common-java8:${Versions.lifecycleVersion}"
+    const val ossLicense =
+        "com.google.android.gms:play-services-oss-licenses:${Versions.ossVersion}"
     const val splashScreen = "androidx.core:core-splashscreen:${Versions.splashVersion}"
     const val pagingRuntime = "androidx.paging:paging-runtime:${Versions.pagingVersion}"
     const val coroutines =
@@ -77,8 +79,8 @@ object ThirdPartyDependencies {
     const val kakaoAuth = "com.kakao.sdk:v2-auth:${Versions.kakaoVersion}"
     const val kakaoTalk = "com.kakao.sdk:v2-talk:${Versions.kakaoVersion}"
     const val kakaoShare = "com.kakao.sdk:v2-share:${Versions.kakaoVersion}"
-    // circle scale dot indicator
     const val circleIndicator = "me.relex:circleindicator:${Versions.circleIndicatorVersion}"
+    const val shimmer = "com.facebook.shimmer:shimmer:${Versions.shimmerVersion}"
 }
 
 object ClassPathPlugins {
@@ -87,7 +89,7 @@ object ClassPathPlugins {
 }
 
 object FirebaseDependencies {
-    const val bom = "com.google.firebase:firebase-bom:30.1.0"
+    const val bom = "com.google.firebase:firebase-bom:32.2.0"
     const val messaging = "com.google.firebase:firebase-messaging-ktx"
     const val crashlytics = "com.google.firebase:firebase-crashlytics-ktx"
     const val analytics = "com.google.firebase:firebase-analytics-ktx"

@@ -7,6 +7,9 @@ plugins {
     id("kotlin-parcelize")
     id("dagger.hilt.android.plugin")
     id("com.google.android.gms.oss-licenses-plugin")
+    id("com.google.gms.google-services")
+    id("com.google.firebase.appdistribution")
+    id("com.google.firebase.crashlytics")
 }
 
 android {
@@ -20,26 +23,43 @@ android {
         versionCode = Constants.versionCode
         versionName = Constants.versionName
 
-        buildConfigField(
-            "String",
-            "BASE_URL",
-            gradleLocalProperties(rootDir).getProperty("base.url"),
-        )
-
-        buildConfigField(
-            "String",
-            "NATIVE_APP_KEY",
-            gradleLocalProperties(rootDir).getProperty("native.app.key"),
-        )
-
-        manifestPlaceholders["NATIVE_APP_KEY"] =
-            gradleLocalProperties(rootDir).getProperty("nativeAppKey")
-
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
-        getByName("release") {
+        debug {
+            buildConfigField(
+                "String",
+                "BASE_URL",
+                gradleLocalProperties(rootDir).getProperty("test.base.url"),
+            )
+
+            buildConfigField(
+                "String",
+                "NATIVE_APP_KEY",
+                gradleLocalProperties(rootDir).getProperty("test.native.app.key"),
+            )
+
+            manifestPlaceholders["NATIVE_APP_KEY"] =
+                gradleLocalProperties(rootDir).getProperty("testNativeAppKey")
+        }
+
+        release {
+            buildConfigField(
+                "String",
+                "BASE_URL",
+                gradleLocalProperties(rootDir).getProperty("base.url"),
+            )
+
+            buildConfigField(
+                "String",
+                "NATIVE_APP_KEY",
+                gradleLocalProperties(rootDir).getProperty("native.app.key"),
+            )
+
+            manifestPlaceholders["NATIVE_APP_KEY"] =
+                gradleLocalProperties(rootDir).getProperty("nativeAppKey")
+
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
@@ -68,6 +88,7 @@ dependencies {
     implementation(project(":core-ui"))
     implementation(project(":data"))
     implementation(project(":domain"))
+
     KotlinDependencies.run {
         implementation(kotlin)
         implementation(coroutines)
@@ -92,18 +113,25 @@ dependencies {
         implementation(hiltWorkManager)
     }
 
+    FirebaseDependencies.run {
+        implementation(platform(bom))
+        implementation(messaging)
+        implementation(analytics)
+        implementation(crashlytics)
+        implementation(remoteConfig)
+    }
+
     KaptDependencies.run {
         kapt(hiltCompiler)
         kapt(hiltWorkManagerCompiler)
     }
 
     implementation(MaterialDesignDependencies.materialDesign)
-    implementation("androidx.legacy:legacy-support-v4:1.0.0")
-    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.6.1")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1")
-    implementation("androidx.appcompat:appcompat:1.6.1")
-    implementation("com.google.android.material:material:1.9.0")
-    implementation("androidx.constraintlayout:constraintlayout:2.1.4")
+    implementation("com.facebook.shimmer:shimmer:0.5.0")
+    implementation("androidx.navigation:navigation-fragment-ktx:2.6.0")
+    implementation("androidx.navigation:navigation-ui-ktx:2.6.0")
+    implementation("androidx.navigation:navigation-fragment:2.6.0")
 
     TestDependencies.run {
         testImplementation(jUnit)
@@ -129,10 +157,10 @@ dependencies {
         implementation(kakaoTalk)
         implementation(kakaoShare)
         implementation(circleIndicator)
-        debugImplementation(flipper)
-        debugImplementation(flipperNetwork)
-        debugImplementation(flipperLeakCanary)
-        debugImplementation(leakCanary)
-        debugImplementation(soloader)
+        implementation(flipper)
+        implementation(flipperNetwork)
+        implementation(flipperLeakCanary)
+        implementation(soloader)
+        implementation(shimmer)
     }
 }

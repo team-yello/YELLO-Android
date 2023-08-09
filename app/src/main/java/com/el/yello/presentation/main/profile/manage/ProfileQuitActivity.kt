@@ -15,24 +15,24 @@ class ProfileQuitActivity :
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        initBackButton()
-        initReturnButton()
-        initProfileQuitForSureActivityWithoutFinish()
+        initBackBtnListener()
+        initReturnBtnListener()
+        initQuitForSureBtnListener()
     }
 
-    private fun initBackButton() {
+    private fun initBackBtnListener() {
         binding.btnProfileQuitBack.setOnSingleClickListener {
             finish()
         }
     }
 
-    private fun initReturnButton() {
+    private fun initReturnBtnListener() {
         binding.btnProfileQuitReturn.setOnSingleClickListener {
             finish()
         }
     }
 
-    private fun initProfileQuitForSureActivityWithoutFinish() {
+    private fun initQuitForSureBtnListener() {
         binding.btnProfileQuitResume.setOnSingleClickListener {
             Intent(this, ProfileQuitForSureActivity::class.java).apply {
                 addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)

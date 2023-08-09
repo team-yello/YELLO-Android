@@ -56,7 +56,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="36dp"
                 android:layout_marginEnd="16dp"
-                android:text="@string/note_index_of_vote"
+                android:text="@{@string/note_index_of_vote(vm.totalListCount + 1)}"
                 android:textAppearance="?textAppearanceLabelLarge"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"

@@ -9,6 +9,7 @@ import com.example.domain.entity.ProfileUserModel
 import com.example.domain.repository.AuthRepository
 import com.example.domain.repository.ProfileRepository
 import com.example.ui.view.UiState
+import com.kakao.sdk.user.UserApiClient
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -31,13 +32,20 @@ class ProfileViewModel @Inject constructor(
     private val _deleteUserState = MutableLiveData<UiState<Unit>>()
     val deleteUserState: LiveData<UiState<Unit>> = _deleteUserState
 
-    // TODO: 세터 설정 필요
-    val _deleteFriendState = MutableLiveData<UiState<Unit>>()
+    private val _deleteFriendState = MutableLiveData<UiState<Unit>>()
     val deleteFriendState: LiveData<UiState<Unit>> = _deleteFriendState
 
-    var currentPage = -1
-    var isPagingFinish = false
-    var totalPage = Int.MAX_VALUE
+    private val _kakaoLogoutState = MutableLiveData<UiState<Unit>>()
+    val kakaoLogoutState: LiveData<UiState<Unit>> = _kakaoLogoutState
+
+    private val _kakaoQuitState = MutableLiveData<UiState<Unit>>()
+    val kakaoQuitState: LiveData<UiState<Unit>> = _kakaoQuitState
+
+    var isItemBottomSheetRunning: Boolean = false
+
+    private var currentPage = -1
+    private var isPagingFinish = false
+    private var totalPage = Int.MAX_VALUE
 
     val myName: MutableLiveData<String> = MutableLiveData("")
     val myId: MutableLiveData<String> = MutableLiveData("")
@@ -57,8 +65,29 @@ class ProfileViewModel @Inject constructor(
 
     var clickedItemPosition: Int? = null
 
+    private val _isShimmerActive = MutableLiveData(true)
+    val isShimmerActive: LiveData<Boolean> get() = _isShimmerActive
+
+    fun setDataNotLoaded() {
+        _isShimmerActive.value = true
+    }
+
+    private fun setDataLoaded() {
+        _isShimmerActive.value = false
+    }
+
     fun setItemPosition(position: Int) {
         clickedItemPosition = position
+    }
+
+    fun setDeleteFriendStateEmpty() {
+        _deleteFriendState.value = UiState.Empty
+    }
+
+    fun initPagingVariable() {
+        currentPage = -1
+        isPagingFinish = false
+        totalPage = Int.MAX_VALUE
     }
 
     // 서버 통신 - 유저 정보 받아오기
@@ -92,6 +121,7 @@ class ProfileViewModel @Inject constructor(
                 )
             }.onSuccess {
                 it ?: return@launch
+                setDataLoaded()
                 totalPage = ceil((it.totalCount * 0.1)).toInt() - 1
                 if (totalPage == currentPage) isPagingFinish = true
                 _getListState.value = UiState.Success(it)
@@ -129,6 +159,31 @@ class ProfileViewModel @Inject constructor(
                 _deleteFriendState.value = UiState.Success(it)
             }.onFailure {
                 _deleteFriendState.value = UiState.Failure(it.message.toString())
+            }
+        }
+    }
+
+    // 카카오 SDK 통신 - 로그아웃
+    fun logoutKakaoAccount() {
+        UserApiClient.instance.logout { error ->
+            _kakaoLogoutState.value = UiState.Loading
+            if (error == null) {
+                _kakaoLogoutState.value = UiState.Success(Unit)
+                clearLocalInfo()
+            } else {
+                _kakaoLogoutState.value = UiState.Failure(error.message ?: "")
+            }
+        }
+    }
+
+    // 카카오 SDK 통신 - 회원 탈퇴
+    fun quitKakaoAccount() {
+        UserApiClient.instance.unlink { error ->
+            _kakaoQuitState.value = UiState.Loading
+            if (error == null) {
+                _kakaoQuitState.value = UiState.Success(Unit)
+            } else {
+                _kakaoQuitState.value = UiState.Failure(error.message ?: "")
             }
         }
     }

@@ -1,5 +1,7 @@
 package com.el.yello.presentation.main
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
@@ -17,6 +19,7 @@ import com.example.ui.base.BindingActivity
 import com.example.ui.context.toast
 import dagger.hilt.android.AndroidEntryPoint
 
+
 @AndroidEntryPoint
 class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main) {
 
@@ -33,7 +36,7 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
     override fun onBackPressed() {
         if (System.currentTimeMillis() - backPressedTime >= 2000) {
             backPressedTime = System.currentTimeMillis()
-            toast("'뒤로' 버튼을 한번 더 누르면 종료됩니다.")
+            toast(getString(R.string.main_toast_back_pressed))
         } else {
             finish()
         }
@@ -67,5 +70,9 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
         supportFragmentManager.commit {
             replace<T>(R.id.fcv_main, T::class.java.canonicalName)
         }
+    }
+
+    companion object {
+        fun getIntent(context: Context) = Intent(context, MainActivity::class.java)
     }
 }

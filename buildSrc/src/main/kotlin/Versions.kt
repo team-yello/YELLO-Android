@@ -9,7 +9,7 @@ object Versions {
 
     const val coreKtxVersion = "1.10.1"
     const val appCompatVersion = "1.6.1"
-    const val materialDesignVersion = "1.6.1"
+    const val materialDesignVersion = "1.9.0"
     const val constraintLayoutVersion = "2.1.4"
     const val appStartUpVersion = "1.1.1"
     const val legacySupportVersion = "1.0.0"
@@ -26,6 +26,8 @@ object Versions {
     const val composeVersion = "1.4.3"
     const val workManagerVersion = "2.8.1"
 
+    const val firabaseVersion = "30.4.0"
+
     const val coilVersion = "2.4.0"
     const val retrofitVersion = "2.9.0"
     const val kotlinSerializationConverterVersion = "1.0.0"
@@ -37,6 +39,7 @@ object Versions {
     const val circularProgressBar = "3.1.0"
     const val kakaoVersion = "2.14.0"
     const val circleIndicatorVersion = "2.1.6"
+    const val shimmerVersion = "0.5.0"
 
     const val gradleVersion = "8.0.1"
 

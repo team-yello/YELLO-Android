@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
 <item android:drawable="@drawable/shape_grayscales900_fill_grayscales600_line_8_rect" android:state_focused="true" />
-    <item android:drawable="@drawable/shape_black_fill_grayscales600_line_8_rect" android:state_focused="false" />
+    <item android:drawable="@drawable/shape_black_fill_grayscales500_line_8_rect" android:state_focused="false" />
 
 </selector>

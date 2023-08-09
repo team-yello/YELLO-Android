@@ -70,6 +70,8 @@ class VoteViewModel @Inject constructor(
         get() = _totalPoint.value ?: 0
 
     private var isTransitioning = false
+    var totalListCount = Int.MAX_VALUE
+        private set
 
     init {
         getVoteQuestions()
@@ -84,6 +86,7 @@ class VoteViewModel @Inject constructor(
                         _voteState.value = Empty
                         return@launch
                     }
+                    totalListCount = notes.size - 1
                     _voteState.value = Success(notes)
                     _voteList.value = notes
                     initVoteIndex()
@@ -102,7 +105,7 @@ class VoteViewModel @Inject constructor(
     }
 
     fun selectName(nameIndex: Int) {
-        if (currentNoteIndex > INDEX_FINAL_VOTE) return
+        if (currentNoteIndex > totalListCount) return
         if (currentChoice.friendId == voteList[currentNoteIndex].friendList[nameIndex].id) {
             _noteState.value = InvalidCancel
             return
@@ -124,7 +127,7 @@ class VoteViewModel @Inject constructor(
     }
 
     fun selectKeyword(keywordIndex: Int) {
-        if (currentNoteIndex > INDEX_FINAL_VOTE) return
+        if (currentNoteIndex > totalListCount) return
         if (currentChoice.keywordName == voteList[currentNoteIndex].keywordList[keywordIndex]) {
             _noteState.value = InvalidCancel
             return
@@ -221,7 +224,7 @@ class VoteViewModel @Inject constructor(
     }
 
     private fun skipToNextVote() {
-        if (currentNoteIndex == INDEX_FINAL_VOTE) {
+        if (currentNoteIndex == totalListCount) {
             postVote()
             return
         }

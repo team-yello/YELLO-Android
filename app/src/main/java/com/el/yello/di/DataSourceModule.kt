@@ -21,12 +21,13 @@ import javax.inject.Singleton
 object DataSourceModule {
     @Provides
     @Singleton
-    fun provideYelloDataSource(yelloDataSource: YelloDataSourceImpl): YelloDataSource =
-        yelloDataSource
+    fun provideYelloDataSource(yelloDataSourceImpl: YelloDataSourceImpl): YelloDataSource =
+        yelloDataSourceImpl
 
     @Provides
     @Singleton
-    fun provideVoteDataSource(voteDataSource: VoteDataSourceImpl): VoteDataSource = voteDataSource
+    fun provideVoteDataSource(voteDataSourceImpl: VoteDataSourceImpl): VoteDataSource =
+        voteDataSourceImpl
 
     @Provides
     @Singleton

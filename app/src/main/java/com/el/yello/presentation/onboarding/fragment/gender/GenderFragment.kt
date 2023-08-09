@@ -21,19 +21,15 @@ class GenderFragment : BindingFragment<FragmentGenderBinding>(R.layout.fragment_
         binding.female = GenderEnum.W.toString()
 
         setupGender()
-        setBackBtnClickListener()
         setConfirmBtnClickListener()
-    }
-
-    private fun setBackBtnClickListener() {
-        binding.btnGenderBack.setOnSingleClickListener {
-            viewModel.navigateToBackPage()
-        }
     }
 
     private fun setConfirmBtnClickListener() {
         binding.btnGenderNext.setOnSingleClickListener {
             viewModel.navigateToNextPage()
+        }
+        binding.btnGenderBack.setOnSingleClickListener {
+            viewModel.navigateToBackPage()
         }
     }
 

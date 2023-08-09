@@ -8,9 +8,11 @@ import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
 import androidx.core.os.bundleOf
+import com.el.yello.BuildConfig
 import com.el.yello.R
 import com.el.yello.databinding.FragmentUnlockDialogBinding
 import com.el.yello.util.context.yelloSnackbar
+import com.el.yello.presentation.main.recommend.RecommendInviteDialog
 import com.example.ui.base.BindingDialogFragment
 import com.example.ui.view.setOnSingleClickListener
 import com.kakao.sdk.common.util.KakaoCustomTabsClient
@@ -20,8 +22,11 @@ import timber.log.Timber
 
 class UnlockDialogFragment :
     BindingDialogFragment<FragmentUnlockDialogBinding>(R.layout.fragment_unlock_dialog) {
+
+    private val url = "http://naver.com"
     private lateinit var myYelloId: String
     private lateinit var linkText: String
+    private var templateId: Long = 0
 
     override fun onStart() {
         super.onStart()
@@ -40,6 +45,8 @@ class UnlockDialogFragment :
         super.onViewCreated(view, savedInstanceState)
 
         getBundleArgs()
+        setTemplateId()
+        setRecommendId()
         initExitButton()
         initKakaoInviteButton()
         initLinkInviteButton()
@@ -50,6 +57,18 @@ class UnlockDialogFragment :
         myYelloId = arguments?.getString(ARGS_YELLO_ID) ?: ""
         binding.yelloId = myYelloId
         linkText = getString(R.string.unlock_link_text, myYelloId)
+    }
+
+    private fun setRecommendId() {
+        binding.tvUnlockInviteSubtitle.text = myYelloId
+    }
+
+    private fun setTemplateId() {
+        templateId = if (BuildConfig.DEBUG) {
+            RecommendInviteDialog.TEST_TEMPLATE_ID.toLong()
+        } else {
+            RecommendInviteDialog.TEMPLATE_ID.toLong()
+        }
     }
 
     private fun initExitButton() {

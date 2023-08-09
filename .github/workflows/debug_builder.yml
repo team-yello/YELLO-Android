@@ -41,10 +41,18 @@ jobs:
         env:
           base_url: ${{ secrets.BASE_URL }}
           native_app_key: ${{ secrets.NATIVE_APP_KEY }}
+          test_base_url: ${{ secrets.TEST_BASE_URL }}
+          test_native_app_key: ${{ secrets.TEST_NATIVE_APP_KEY }}
         run: |
           echo base.url=\"$base_url\" >> local.properties
           echo native.app.key=\"$native_app_key\" >> local.properties
           echo nativeAppKey=$native_app_key >> local.properties
+          echo test.base.url=\"$test_base_url\" >> local.properties
+          echo test.native.app.key=\"$test_native_app_key\" >> local.properties
+          echo testNativeAppKey=$test_native_app_key >> local.properties
+
+      - name: Access Firebase Service
+        run: echo '${{ secrets.GOOGLE_SERVICES_JSON }}' > ./app/google-services.json
 
       - name: Build debug APK
         run: ./gradlew assembleDebug --stacktrace

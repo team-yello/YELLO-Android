@@ -9,6 +9,7 @@ import android.view.View
 import android.view.WindowManager
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.viewModelScope
 import com.el.yello.R
 import com.el.yello.databinding.FragmentDialogDepartmentBinding
 import com.el.yello.presentation.onboarding.activity.OnBoardingViewModel
@@ -19,12 +20,18 @@ import com.example.ui.view.UiState
 import com.example.ui.view.setOnSingleClickListener
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import timber.log.Timber
 
 class SearchDialogDepartmentFragment :
     BindingBottomSheetDialog<FragmentDialogDepartmentBinding>(R.layout.fragment_dialog_department) {
     private val viewModel by activityViewModels<OnBoardingViewModel>()
     private var adapter: DepartmentAdapter? = null
+
+    private val debounceTime = 500L
+    private var searchJob: Job? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -36,7 +43,6 @@ class SearchDialogDepartmentFragment :
         setClicktoDepartmentform()
     }
 
-    // 바텀 시트 fullScreen
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialog = BottomSheetDialog(requireContext(), theme)
         dialog.setOnShowListener {
@@ -60,8 +66,12 @@ class SearchDialogDepartmentFragment :
 
     private fun initDepartmentAdapter() {
         setHideKeyboard()
-        binding.etDepartmentSearch.doAfterTextChanged { input ->
-            viewModel.getGroupList(input.toString())
+        binding.etDepartmentSearch.doAfterTextChanged { it ->
+            searchJob?.cancel()
+            searchJob = viewModel.viewModelScope.launch {
+                delay(debounceTime)
+                it?.toString()?.let { viewModel.getGroupList(it) }
+            }
         }
         adapter = DepartmentAdapter(storeDepartment = ::storeGroup)
         binding.rvDepartmentList.adapter = adapter

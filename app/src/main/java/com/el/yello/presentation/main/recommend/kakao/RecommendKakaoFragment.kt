@@ -239,6 +239,10 @@ class RecommendKakaoFragment :
         binding.shimmerFriendList.stopShimmer()
     }
 
+    fun scrollToTop() {
+        binding.rvRecommendKakao.smoothScrollToPosition(0)
+    }
+
     private companion object {
         const val INVITE_DIALOG = "inviteDialog"
     }

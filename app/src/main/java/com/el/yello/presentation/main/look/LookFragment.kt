@@ -51,6 +51,10 @@ class LookFragment : BindingFragment<FragmentLookBinding>(R.layout.fragment_look
         }
     }
 
+    fun scrollToTop() {
+        binding.rvLook.smoothScrollToPosition(0)
+    }
+
     companion object {
         @JvmStatic
         fun newInstance() = LookFragment()

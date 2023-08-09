@@ -235,6 +235,10 @@ class RecommendSchoolFragment :
         binding.shimmerFriendList.stopShimmer()
     }
 
+    fun scrollToTop() {
+        binding.rvRecommendSchool.smoothScrollToPosition(0)
+    }
+
     private companion object {
         const val INVITE_DIALOG = "inviteDialog"
     }

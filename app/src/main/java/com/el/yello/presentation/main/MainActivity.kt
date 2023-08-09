@@ -31,6 +31,7 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
 
         initBnvItemIconTintList()
         initBnvItemSelectedListener()
+        initBnvItemReselectedListener()
     }
 
     override fun onBackPressed() {
@@ -60,9 +61,36 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
             }
             true
         }
+    }
 
-        binding.bnvMain.setOnItemReselectedListener {
-            return@setOnItemReselectedListener
+    private fun initBnvItemReselectedListener() {
+        binding.bnvMain.setOnItemReselectedListener { menu ->
+            val currentFragment = supportFragmentManager.fragments[0]
+            when (menu.itemId) {
+                R.id.menu_recommend -> {
+                    if (currentFragment is RecommendFragment) {
+                        currentFragment.scrollToTop()
+                    }
+                }
+
+                R.id.menu_look -> {
+                    if (currentFragment is LookFragment) {
+                        currentFragment.scrollToTop()
+                    }
+                }
+
+                R.id.menu_my_yello -> {
+                    if (currentFragment is MyYelloFragment) {
+                        currentFragment.scrollToTop()
+                    }
+                }
+
+                R.id.menu_profile -> {
+                    if (currentFragment is ProfileFragment) {
+                        currentFragment.scrollToTop()
+                    }
+                }
+            }
         }
     }
 

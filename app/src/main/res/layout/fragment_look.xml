@@ -7,6 +7,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layout_look"
         android:layout_width="match_parent"
+        android:paddingBottom="15dp"
         android:layout_height="match_parent"
         android:background="@color/black">
 
@@ -27,6 +28,8 @@
             android:id="@+id/rv_look"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:orientation="vertical"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

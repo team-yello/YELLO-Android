@@ -5,9 +5,8 @@ import android.view.View
 import androidx.fragment.app.viewModels
 import com.el.yello.R
 import com.el.yello.databinding.FragmentLookBinding
-import com.el.yello.presentation.main.recommend.school.RecommendSchoolViewModel
-import com.el.yello.presentation.onboarding.fragment.addfriend.AddFriendAdapter
 import com.el.yello.util.context.yelloSnackbar
+import com.example.domain.entity.LookListModel
 import com.example.ui.base.BindingFragment
 import com.example.ui.view.UiState
 import dagger.hilt.android.AndroidEntryPoint
@@ -24,11 +23,19 @@ class LookFragment : BindingFragment<FragmentLookBinding>(R.layout.fragment_look
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        initFirstList()
+        initAdapterWithFirstList()
         observeLookListDataState()
+
     }
 
-    private fun initFirstList() {
+    override fun onDestroyView() {
+        _adapter = null
+        super.onDestroyView()
+    }
+
+    private fun initAdapterWithFirstList() {
+        _adapter = LookAdapter()
+        binding.rvLook.adapter = adapter
         viewModel.addLookListFromServer(page = 0)
     }
 

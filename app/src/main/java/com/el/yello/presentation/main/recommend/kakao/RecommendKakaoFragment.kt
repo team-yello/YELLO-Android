@@ -51,9 +51,9 @@ class RecommendKakaoFragment :
     }
 
     override fun onDestroyView() {
+        super.onDestroyView()
         _adapter = null
         dismissDialog()
-        super.onDestroyView()
     }
 
     // 서버 통신 성공 시 카카오 추천 친구 추가

@@ -68,7 +68,6 @@
 
                 <include layout="@layout/item_look_shimmer" />
 
-
             </LinearLayout>
 
         </com.facebook.shimmer.ShimmerFrameLayout>

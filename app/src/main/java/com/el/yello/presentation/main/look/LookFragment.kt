@@ -29,8 +29,8 @@ class LookFragment : BindingFragment<FragmentLookBinding>(R.layout.fragment_look
     }
 
     override fun onDestroyView() {
-        _adapter = null
         super.onDestroyView()
+        _adapter = null
     }
 
     private fun initAdapterWithFirstList() {

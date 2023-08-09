@@ -2,7 +2,7 @@ package com.example.domain.entity
 
 data class LookListModel(
     val totalCount: Int,
-    val data: List<LookModel>
+    val friendVotes: List<LookModel>
 ) {
     data class LookModel(
         val id: Int,

@@ -8,8 +8,8 @@ import kotlinx.serialization.Serializable
 data class ResponseLookListDto(
     @SerialName("totalCount")
     val totalCount: Int,
-    @SerialName("data")
-    val data: List<LookDto>
+    @SerialName("friendVotes")
+    val friendVotes: List<LookDto>
 ) {
     @Serializable
     data class LookDto(
@@ -43,7 +43,7 @@ data class ResponseLookListDto(
 
     fun toLookListModel(): LookListModel {
         return LookListModel(
-            totalCount, data.map {
+            totalCount, friendVotes.map {
                 LookListModel.LookModel(
                     it.id,
                     it.receiveName,

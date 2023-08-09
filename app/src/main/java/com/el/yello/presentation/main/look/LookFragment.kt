@@ -37,7 +37,7 @@ class LookFragment : BindingFragment<FragmentLookBinding>(R.layout.fragment_look
         viewModel.getLookListState.observe(viewLifecycleOwner) { state ->
             when (state) {
                 is UiState.Success -> {
-                    adapter.submitList(state.data?.data)
+                    adapter.submitList(state.data?.friendVotes)
                 }
 
                 is UiState.Failure -> {

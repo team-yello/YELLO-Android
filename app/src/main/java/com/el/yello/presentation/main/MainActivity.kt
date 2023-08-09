@@ -65,7 +65,7 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
 
     private fun initBnvItemReselectedListener() {
         binding.bnvMain.setOnItemReselectedListener { menu ->
-            val currentFragment = supportFragmentManager.fragments[0]
+            val currentFragment = supportFragmentManager.findFragmentById(R.id.fcv_main)
             when (menu.itemId) {
                 R.id.menu_recommend -> {
                     if (currentFragment is RecommendFragment) {

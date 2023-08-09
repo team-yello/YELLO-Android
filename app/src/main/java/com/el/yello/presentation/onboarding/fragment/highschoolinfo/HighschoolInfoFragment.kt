@@ -55,7 +55,7 @@ class HighschoolInfoFragment :
     }
 
     private fun setupGrade() {
-        viewModel._grade.observe(viewLifecycleOwner) { grade ->
+        viewModel.gradeText.observe(viewLifecycleOwner) { grade ->
             when (grade) {
                 GradeEnum.A.toString() -> {
                     binding.tvGradeFirst.setBackgroundResource(R.drawable.shape_black_fill_yello_main_500_line_8_rect)
@@ -88,7 +88,7 @@ class HighschoolInfoFragment :
     }
 
     private fun setupGroup() {
-        viewModel._group.observe(viewLifecycleOwner) { group ->
+        viewModel.groupText.observe(viewLifecycleOwner) { group ->
             binding.tvGroupSearch.text = getString(R.string.onboarding_group, group)
         }
     }

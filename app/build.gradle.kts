@@ -31,17 +31,17 @@ android {
             buildConfigField(
                 "String",
                 "BASE_URL",
-                gradleLocalProperties(rootDir).getProperty("test.base.url"),
+                gradleLocalProperties(rootDir).getProperty("base.url"),
             )
 
             buildConfigField(
                 "String",
                 "NATIVE_APP_KEY",
-                gradleLocalProperties(rootDir).getProperty("test.native.app.key"),
+                gradleLocalProperties(rootDir).getProperty("native.app.key"),
             )
 
             manifestPlaceholders["NATIVE_APP_KEY"] =
-                gradleLocalProperties(rootDir).getProperty("testNativeAppKey")
+                gradleLocalProperties(rootDir).getProperty("nativeAppKey")
         }
 
         release {

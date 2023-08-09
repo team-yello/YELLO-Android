@@ -30,31 +30,31 @@ class OnBoardingViewModel @Inject constructor(
 ) : ViewModel() {
 
     // 학교 선택
-    val _studenttype = MutableLiveData("")
+    val studentType = MutableLiveData("")
 
-    fun selectStudentType(studenttype: String) {
-        _studenttype.value = studenttype
+    fun selectStudentType(student: String) {
+        studentType.value = student
     }
 
     // 고등학생 - 학교
 
-    val _highschool = MutableLiveData("")
+    val highSchoolText = MutableLiveData("")
 
     // 고등학생 - 학년
-    val _grade = MutableLiveData("")
+    val gradeText = MutableLiveData("")
     fun selectGrade(grade: String?) {
-        _grade.value = grade ?: ""
+        gradeText.value = grade ?: ""
     }
 
     // 고등학생 - 반
 
-    val _group = MutableLiveData<Int>()
+    val groupText = MutableLiveData<Int>()
 
     private val _groupResult: MutableLiveData<List<Int>> = MutableLiveData()
     val groupResult: LiveData<List<Int>> = _groupResult
 
     fun setGroup(group: Int) {
-        _group.value = group
+        groupText.value = group
     }
 
     fun addGroup() {
@@ -80,7 +80,6 @@ class OnBoardingViewModel @Inject constructor(
         _schoolData.value = UiState.Success(SchoolList(0, emptyList()))
     }
 
-    // TODO: throttle 및 페이징 처리
     fun getSchoolList(search: String) {
         // if (isSchoolPagingFinish) return
         viewModelScope.launch {
@@ -149,7 +148,6 @@ class OnBoardingViewModel @Inject constructor(
         _departmentData.value = UiState.Success(GroupList(0, emptyList()))
     }
 
-    // TODO: Debounce 및 Paging3
     fun getGroupList(search: String) {
         // if (isDepartmentPagingFinish) return
         viewModelScope.launch {
@@ -347,6 +345,7 @@ class OnBoardingViewModel @Inject constructor(
             }
         }
     }
+ //TODO : 페이지 이동 삭제
 
     private val _currentPage = MutableLiveData(0)
     val currentPage: LiveData<Int> = _currentPage

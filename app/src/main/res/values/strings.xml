@@ -131,7 +131,7 @@
     <string name="note_msg_invalid_shuffle">이름을 선택하면 셔플을 사용할 수 없어요.</string>
 
     <string name="look_title">둘러보기</string>
-    <string name="look_sub_description">아직 구현되지 않은 기능이에요.\n조금만 기다려주세요!</string>
+    <string name="look_error_friend_list">둘러보기 목록 서버 통신 실패</string>
 
     <string name="view_type_error_msg">Unknown View Type : %d</string>
 

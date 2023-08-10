@@ -61,7 +61,7 @@ class RecommendSchoolViewModel @Inject constructor(
                 )
             }.onSuccess {
                 it ?: return@launch
-                totalPage = ceil((it.totalCount * 0.1)).toInt() - 1
+                totalPage = ceil((it.totalCount * 0.01)).toInt() - 1
                 if (totalPage == currentPage) isPagingFinish = true
                 _postFriendsListState.value = UiState.Success(it)
             }.onFailure {

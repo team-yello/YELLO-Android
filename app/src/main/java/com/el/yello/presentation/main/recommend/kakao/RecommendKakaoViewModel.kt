@@ -70,7 +70,7 @@ class RecommendKakaoViewModel @Inject constructor(
             if (error != null) {
                 _getKakaoErrorResult.value = error.message
             } else if (friends != null) {
-                totalPage = ceil((friends.totalCount * 0.1)).toInt() - 1
+                totalPage = ceil((friends.totalCount * 0.01)).toInt() - 1
                 if (totalPage == currentPage) isPagingFinish = true
                 val friendIdList: List<String> =
                     friends.elements?.map { friend -> friend.id.toString() } ?: listOf()

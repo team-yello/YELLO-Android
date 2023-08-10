@@ -106,6 +106,10 @@
             android:name=".presentation.pay.PayEndActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".presentation.main.recommend.search.RecommendSearchActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
 
         <service
             android:name=".config.YelloMessagingService"

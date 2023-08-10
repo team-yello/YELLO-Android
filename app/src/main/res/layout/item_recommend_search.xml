@@ -25,6 +25,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="12dp"
         android:layout_marginTop="16dp"
+        android:maxLines="1"
         android:paddingTop="3dp"
         android:textAppearance="@style/TextAppearance.Yello.Subtitle01"
         android:textColor="@color/white"
@@ -92,16 +93,17 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
+        android:id="@+id/btn_recommend_item_my_friend"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="내 친구"
         android:textAppearance="@style/TextAppearance.Yello.Button"
         android:textColor="@color/white"
-        android:visibility="invisible"
+        android:visibility="gone"
+        android:layout_marginEnd="26dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@id/btn_recommend_item_add"
-        app:layout_constraintStart_toStartOf="@id/btn_recommend_item_add"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

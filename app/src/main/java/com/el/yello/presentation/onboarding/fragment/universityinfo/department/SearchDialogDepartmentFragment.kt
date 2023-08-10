@@ -10,6 +10,8 @@ import android.view.WindowManager
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.viewModelScope
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.el.yello.R
 import com.el.yello.databinding.FragmentDialogDepartmentBinding
 import com.el.yello.presentation.onboarding.activity.OnBoardingViewModel
@@ -29,6 +31,7 @@ class SearchDialogDepartmentFragment :
     BindingBottomSheetDialog<FragmentDialogDepartmentBinding>(R.layout.fragment_dialog_department) {
     private val viewModel by activityViewModels<OnBoardingViewModel>()
     private var adapter: DepartmentAdapter? = null
+    private var inputText: String = ""
 
     private val debounceTime = 500L
     private var searchJob: Job? = null
@@ -120,6 +123,23 @@ class SearchDialogDepartmentFragment :
         }
     }
 
+    private fun setListWithInfinityScroll() {
+        binding.rvDepartmentList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                if (dy > 0) {
+                    recyclerView.layoutManager?.let { layoutManager ->
+                        if (!binding.rvDepartmentList.canScrollVertically(1) &&
+                            layoutManager is LinearLayoutManager &&
+                            layoutManager.findLastVisibleItemPosition() == adapter!!.itemCount - 1
+                        ) {
+                            viewModel.getGroupList(inputText)
+                        }
+                    }
+                }
+            }
+        })
+    }
 
     private fun setClickToDepartmentForm() {
         binding.tvDepartmentAdd.setOnClickListener {

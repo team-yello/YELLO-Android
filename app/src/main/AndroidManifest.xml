@@ -25,7 +25,6 @@
         <activity
             android:name=".presentation.splash.SplashActivity"
             android:exported="true"
-            android:windowSoftInputMode="adjustNothing"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.YELLO.Splash">
 

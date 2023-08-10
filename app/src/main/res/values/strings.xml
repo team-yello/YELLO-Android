@@ -219,4 +219,6 @@
     <string name="onboarding_highschool_thirdgrade">3학년</string>
 
     <string name="default_notification_channel_id">default_messaging_channel</string>
+    <string name="recommend_search_title">친구 검색</string>
+    <string name="recommend_search_hint">| 이름 또는 아이디를 입력해보세요!</string>
 </resources>

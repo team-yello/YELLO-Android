@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.el.yello.presentation.main.recommend.list.RecommendViewHolder
 import com.example.domain.repository.RecommendRepository
 import com.example.ui.view.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -21,8 +22,9 @@ class RecommendSearchViewModel @Inject constructor(
     var itemPosition: Int? = null
     var itemHolder: RecommendSearchViewHolder? = null
 
-    fun setPosition(position: Int) {
+    fun setPositionAndHolder(position: Int, holder: RecommendSearchViewHolder) {
         itemPosition = position
+        itemHolder = holder
     }
 
     // 서버 통신 - 친구 추가

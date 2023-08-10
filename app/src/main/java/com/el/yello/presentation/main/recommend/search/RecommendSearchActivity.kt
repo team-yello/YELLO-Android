@@ -38,8 +38,8 @@ class RecommendSearchActivity :
     }
 
     private fun initAdapterWithDivider() {
-        _adapter = RecommendSearchAdapter { searchFriendModel, position ->
-            viewModel.setPosition(position)
+        _adapter = RecommendSearchAdapter { searchFriendModel, position, holder ->
+            viewModel.setPositionAndHolder(position, holder)
             viewModel.addFriendToServer(searchFriendModel.id.toLong())
         }
         binding.rvRecommendSearch.adapter = adapter
@@ -50,8 +50,12 @@ class RecommendSearchActivity :
 
     private fun initFocusToEditText() {
         binding.etRecommendSearchBox.requestFocus()
-        val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.showSoftInput(binding.etRecommendSearchBox, InputMethodManager.SHOW_IMPLICIT)
+        val inputMethodManager =
+            getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        inputMethodManager.showSoftInput(
+            binding.etRecommendSearchBox,
+            InputMethodManager.SHOW_IMPLICIT
+        )
     }
 
     private fun initBackBtnListener() {

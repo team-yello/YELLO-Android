@@ -86,7 +86,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             android:layout_marginTop="8dp"
             android:layout_marginHorizontal="16dp"
-            tools:listitem="@layout/item_add_friend"/>
+            tools:listitem="@layout/item_recommend_search"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -9,6 +9,7 @@ import com.el.yello.R
 import com.el.yello.databinding.FragmentGenderBinding
 import com.el.yello.presentation.onboarding.activity.OnBoardingViewModel
 import com.example.domain.enum.GenderEnum
+import com.example.domain.enum.StudentTypeEnum
 import com.example.ui.base.BindingFragment
 import com.example.ui.view.setOnSingleClickListener
 
@@ -29,12 +30,23 @@ class GenderFragment : BindingFragment<FragmentGenderBinding>(R.layout.fragment_
         binding.btnGenderNext.setOnSingleClickListener {
             findNavController().navigate(R.id.action_genderFragment_to_nameIdFragment)
         }
-        // TODO : 대학생 고등학생 분기처리
-        binding.btnGenderBack.setOnSingleClickListener {
-            findNavController().navigate(R.id.action_genderFragment_to_universityInfoFragment)
+
+        viewModel.studentType.observe(viewLifecycleOwner) { studenttype ->
+            when (studenttype) {
+                StudentTypeEnum.H.toString() -> {
+                    binding.btnGenderBack.setOnSingleClickListener {
+                        findNavController().navigate(R.id.action_genderFragment_to_highschoolInfoFragment)
+                    }
+                }
+
+                StudentTypeEnum.U.toString() -> {
+                    binding.btnGenderBack.setOnSingleClickListener {
+                        findNavController().navigate(R.id.action_genderFragment_to_universityInfoFragment)
+                    }
+                }
+            }
         }
     }
-
     private fun setupGender() {
         viewModel.genderText.observe(viewLifecycleOwner) { gender ->
             when (gender) {

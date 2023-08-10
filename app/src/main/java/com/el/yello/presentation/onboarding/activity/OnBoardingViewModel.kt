@@ -31,7 +31,6 @@ class OnBoardingViewModel @Inject constructor(
 
     // 학력 선택
     val studentType = MutableLiveData("")
-    var isSelectedHighSchool: Boolean = true
 
     // 고등학생
     val highSchoolText = MutableLiveData("")

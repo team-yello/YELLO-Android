@@ -41,6 +41,10 @@ class RecommendKakaoViewModel @Inject constructor(
 
     private var isFirstFriendsListPage: Boolean = true
 
+    fun setFirstPageLoading() {
+        isFirstFriendsListPage = true
+    }
+
     fun setPositionAndHolder(position: Int, holder: RecommendViewHolder) {
         itemPosition = position
         itemHolder = holder

@@ -1,5 +1,7 @@
 package com.el.yello.presentation.main
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
@@ -17,6 +19,7 @@ import com.example.ui.base.BindingActivity
 import com.example.ui.context.toast
 import dagger.hilt.android.AndroidEntryPoint
 
+
 @AndroidEntryPoint
 class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main) {
 
@@ -28,6 +31,7 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
 
         initBnvItemIconTintList()
         initBnvItemSelectedListener()
+        initBnvItemReselectedListener()
     }
 
     override fun onBackPressed() {
@@ -57,9 +61,36 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
             }
             true
         }
+    }
 
-        binding.bnvMain.setOnItemReselectedListener {
-            return@setOnItemReselectedListener
+    private fun initBnvItemReselectedListener() {
+        binding.bnvMain.setOnItemReselectedListener { menu ->
+            val currentFragment = supportFragmentManager.findFragmentById(R.id.fcv_main)
+            when (menu.itemId) {
+                R.id.menu_recommend -> {
+                    if (currentFragment is RecommendFragment) {
+                        currentFragment.scrollToTop()
+                    }
+                }
+
+                R.id.menu_look -> {
+                    if (currentFragment is LookFragment) {
+                        currentFragment.scrollToTop()
+                    }
+                }
+
+                R.id.menu_my_yello -> {
+                    if (currentFragment is MyYelloFragment) {
+                        currentFragment.scrollToTop()
+                    }
+                }
+
+                R.id.menu_profile -> {
+                    if (currentFragment is ProfileFragment) {
+                        currentFragment.scrollToTop()
+                    }
+                }
+            }
         }
     }
 
@@ -67,5 +98,9 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
         supportFragmentManager.commit {
             replace<T>(R.id.fcv_main, T::class.java.canonicalName)
         }
+    }
+
+    companion object {
+        fun getIntent(context: Context) = Intent(context, MainActivity::class.java)
     }
 }

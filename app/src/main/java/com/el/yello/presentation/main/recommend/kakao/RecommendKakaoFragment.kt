@@ -51,14 +51,15 @@ class RecommendKakaoFragment :
     }
 
     override fun onDestroyView() {
+        super.onDestroyView()
         _adapter = null
         dismissDialog()
-        super.onDestroyView()
     }
 
     // 서버 통신 성공 시 카카오 추천 친구 추가
     private fun setKakaoRecommendList() {
         setListWithInfinityScroll()
+        viewModel.setFirstPageLoading()
         viewModel.initPagingVariable()
         viewModel.addListWithKakaoIdList()
     }
@@ -209,13 +210,8 @@ class RecommendKakaoFragment :
     }
 
     private fun changeToCheckIcon(holder: RecommendViewHolder) {
-        holder.binding.btnRecommendItemAdd.apply {
-            text = null
-            setIconResource(R.drawable.ic_check)
-            setIconTintResource(R.color.black)
-            iconPadding = dpToPx(holder.binding.root.context, -2)
-            setPadding(dpToPx(holder.binding.root.context, 10))
-        }
+        holder.binding.btnRecommendItemAdd.visibility = View.GONE
+        holder.binding.btnRecommendItemAddPressed.visibility = View.VISIBLE
     }
 
     private fun showShimmerScreen() {
@@ -237,6 +233,10 @@ class RecommendKakaoFragment :
         binding.layoutRecommendFriendsList.isVisible = false
         binding.layoutRecommendNoFriendsList.isVisible = true
         binding.shimmerFriendList.stopShimmer()
+    }
+
+    fun scrollToTop() {
+        binding.rvRecommendKakao.smoothScrollToPosition(0)
     }
 
     private companion object {

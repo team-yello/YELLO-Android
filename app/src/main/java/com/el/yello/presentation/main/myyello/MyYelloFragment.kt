@@ -137,6 +137,10 @@ class MyYelloFragment : BindingFragment<FragmentMyYelloBinding>(R.layout.fragmen
         }
     }
 
+    fun scrollToTop() {
+        binding.rvMyYelloReceive.smoothScrollToPosition(0)
+    }
+
     override fun onDestroyView() {
         adapter = null
         super.onDestroyView()

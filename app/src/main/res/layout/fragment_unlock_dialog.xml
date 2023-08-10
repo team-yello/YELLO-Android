@@ -46,6 +46,7 @@
                 android:padding="3dp"
                 android:text="친구가 내 추천인 코드로 가입하면"
                 android:textColor="@color/grayscales_600"
+                android:gravity="center"
                 android:textSize="13sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

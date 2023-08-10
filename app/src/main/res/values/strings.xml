@@ -199,16 +199,15 @@
 
     <string name="recommend_tv_title">추천친구</string>
     <string name="recommend_dialog_tv_title">친구 초대하기</string>
-    <string name="recommend_dialog_tv_subtitle">찾는 친구가 없다면 친구를 초대해 보세요!</string>
-    <string name="recommend_dialog_tv_subtitle_2">함께 옐로</string>
-    <string name="recommend_dialog_tv_subtitle_3">할 수 있어요.</string>
+    <string name="recommend_dialog_tv_subtitle">친구가 내 추천인 코드로 가입하면</string>
+    <string name="recommend_dialog_tv_subtitle_2">40분 대기 초기화 + 100포인트 지급!</string>
     <string name="recommend_dialog_tv_code_title">내 추천인 코드</string>
     <string name="recommend_dialog_tv_code_start">\@</string>
 
     <string name="recommend_invite_title">친구 초대하기</string>
-    <string name="recommend_invite_subtitle">찾는 친구가 없다면 친구를 초대해 보세요!</string>
-    <string name="recommend_invite_no_title">지금 추천된 친구가 없어요!\n친구를 초대해볼까요?</string>
-    <string name="recommend_invite_no_subtitle">친구 초대하기</string>
+    <string name="recommend_invite_subtitle">찾는 친구가 없다면 친구를 초대해볼까요?</string>
+    <string name="recommend_invite_no_title">찾는 친구가 없다면\n친구를 초대해볼까요?</string>
+    <string name="recommend_invite_no_subtitle">친구 초대하고 100포인트 받기</string>
     <string name="recommend_item_btn_add">친구추가</string>
 
     <string name="recommend_search_title">친구 검색</string>

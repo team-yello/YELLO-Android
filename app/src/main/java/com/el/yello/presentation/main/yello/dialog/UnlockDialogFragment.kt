@@ -57,7 +57,7 @@ class UnlockDialogFragment :
     }
 
     private fun setRecommendId() {
-        binding.tvUnlockInviteId.text = myYelloId
+        binding.tvRecommendDialogInviteId.text = myYelloId
     }
 
     private fun setTemplateId() {
@@ -69,19 +69,19 @@ class UnlockDialogFragment :
     }
 
     private fun initExitButton() {
-        binding.btnUnlockExit.setOnSingleClickListener {
+        binding.btnInviteDialogExit.setOnSingleClickListener {
             dismiss()
         }
     }
 
     private fun initKakaoInviteButton() {
-        binding.btnUnlockInviteKakao.setOnSingleClickListener {
+        binding.btnInviteKakao.setOnSingleClickListener {
             startKakaoInvite(requireContext())
         }
     }
 
     private fun initLinkInviteButton() {
-        binding.btnUnlockInviteLink.setOnSingleClickListener {
+        binding.btnInviteLink.setOnSingleClickListener {
             val clipboardManager =
                 requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
             val clipData = ClipData.newPlainText("label", linkText)

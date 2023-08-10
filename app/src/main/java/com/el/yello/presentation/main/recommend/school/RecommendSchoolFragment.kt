@@ -39,6 +39,8 @@ class RecommendSchoolFragment :
 
     private lateinit var friendsList: List<RecommendModel.RecommendFriend>
 
+    private var isFirstResume: Boolean = true
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -50,6 +52,15 @@ class RecommendSchoolFragment :
         observeAddFriendState()
         setItemDivider()
         setDeleteAnimation()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (!isFirstResume) {
+            adapter.clearList()
+            initFirstList()
+        }
+        isFirstResume = false
     }
 
     override fun onDestroyView() {

@@ -35,6 +35,8 @@ class RecommendKakaoFragment :
     private val viewModel by viewModels<RecommendKakaoViewModel>()
     private var recommendInviteDialog: RecommendInviteDialog? = null
 
+    private var isFirstResume: Boolean = true
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -46,6 +48,17 @@ class RecommendKakaoFragment :
         observeAddFriendState()
         setItemDivider()
         setDeleteAnimation()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (!isFirstResume) {
+            adapter.clearList()
+            viewModel.setFirstPageLoading()
+            viewModel.initPagingVariable()
+            viewModel.addListWithKakaoIdList()
+        }
+        isFirstResume = false
     }
 
     override fun onDestroyView() {
@@ -69,10 +82,7 @@ class RecommendKakaoFragment :
                 super.onScrolled(recyclerView, dx, dy)
                 if (dy > 0) {
                     recyclerView.layoutManager?.let { layoutManager ->
-                        if (!binding.rvRecommendKakao.canScrollVertically(1) &&
-                            layoutManager is LinearLayoutManager &&
-                            layoutManager.findLastVisibleItemPosition() == adapter.itemCount - 1
-                        ) {
+                        if (!binding.rvRecommendKakao.canScrollVertically(1) && layoutManager is LinearLayoutManager && layoutManager.findLastVisibleItemPosition() == adapter.itemCount - 1) {
                             viewModel.addListWithKakaoIdList()
                         }
                     }

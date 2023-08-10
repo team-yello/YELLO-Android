@@ -37,6 +37,9 @@ class RecommendSchoolViewModel @Inject constructor(
 
     fun setFirstPageLoading() {
         isFirstFriendsListPage = true
+        currentPage = -1
+        isPagingFinish = false
+        totalPage = Int.MAX_VALUE
     }
 
     fun setPositionAndHolder(position: Int, holder: RecommendViewHolder) {

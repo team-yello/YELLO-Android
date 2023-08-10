@@ -33,6 +33,11 @@ class RecommendAdapter(
         notifyDataSetChanged()
     }
 
+    fun clearList() {
+        this.itemList.clear()
+        notifyDataSetChanged()
+    }
+
     fun removeItem(position: Int) {
         itemList.removeAt(position)
         notifyItemRemoved(position)

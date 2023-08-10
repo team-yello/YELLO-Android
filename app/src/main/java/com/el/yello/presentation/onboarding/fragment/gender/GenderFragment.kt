@@ -4,6 +4,7 @@ import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import com.el.yello.R
 import com.el.yello.databinding.FragmentGenderBinding
 import com.el.yello.presentation.onboarding.activity.OnBoardingViewModel
@@ -26,10 +27,11 @@ class GenderFragment : BindingFragment<FragmentGenderBinding>(R.layout.fragment_
 
     private fun setConfirmBtnClickListener() {
         binding.btnGenderNext.setOnSingleClickListener {
-            viewModel.navigateToNextPage()
+            findNavController().navigate(R.id.action_genderFragment_to_nameIdFragment)
         }
+        // TODO : 대학생 고등학생 분기처리
         binding.btnGenderBack.setOnSingleClickListener {
-            viewModel.navigateToBackPage()
+            findNavController().navigate(R.id.action_genderFragment_to_universityInfoFragment)
         }
     }
 

@@ -3,6 +3,7 @@ package com.el.yello.presentation.onboarding.fragment.highschoolinfo
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import com.el.yello.R
 import com.el.yello.databinding.FragmentHighschoolBinding
 import com.el.yello.presentation.onboarding.activity.OnBoardingViewModel
@@ -95,10 +96,10 @@ class HighschoolInfoFragment :
 
     private fun setConfirmBtnClickListener() {
         binding.btnHighschoolinfoNextBtn.setOnSingleClickListener {
-            viewModel.navigateToNextPage()
+            findNavController().navigate(R.id.action_highschoolInfoFragment_to_genderFragment)
         }
         binding.btnHighschoolinfoBackBtn.setOnSingleClickListener {
-            viewModel.navigateToBackPage()
+            findNavController().navigate(R.id.action_highschoolInfoFragment_to_selectStudentFragment)
         }
     }
 }

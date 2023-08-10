@@ -3,6 +3,7 @@ package com.el.yello.presentation.onboarding.fragment.addfriend
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.el.yello.R
@@ -74,13 +75,13 @@ class AddFriendFragment : BindingFragment<FragmentAddFriendBinding>(R.layout.fra
     private fun setConfirmBtnClickListener() {
         binding.btnAddFriendNext.setOnSingleClickListener {
             viewModel.selectedFriendIdList = selectedItemIdList
-            viewModel.navigateToNextPage()
+            findNavController().navigate(R.id.action_addFriendFragment_to_codeFragment)
         }
     }
 
     private fun setBackBtnClickListener() {
-        binding.btnAddFriendNext.setOnSingleClickListener {
-            viewModel.navigateToBackPage()
+        binding.btnAddFriendBackBtn.setOnSingleClickListener {
+            findNavController().navigate(R.id.action_addFriendFragment_to_nameIdFragment)
         }
     }
 

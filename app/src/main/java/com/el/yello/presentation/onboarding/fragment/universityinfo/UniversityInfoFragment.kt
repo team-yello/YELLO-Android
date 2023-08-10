@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import com.el.yello.R
 import com.el.yello.databinding.FragmentUniversityBinding
 import com.el.yello.presentation.onboarding.activity.OnBoardingViewModel
@@ -78,10 +79,10 @@ class UniversityInfoFragment :
 
     private fun setConfirmBtnClickListener() {
         binding.btnUniversityInfoNext.setOnSingleClickListener {
-            viewModel.navigateToNextPage()
+            findNavController().navigate(R.id.action_universityInfoFragment_to_genderFragment)
         }
         binding.btnUniversityInfoBackBtn.setOnSingleClickListener {
-            viewModel.navigateToBackPage()
+            findNavController().navigate(R.id.action_universityInfoFragment_to_selectStudentFragment)
         }
     }
 }

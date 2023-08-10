@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import com.el.yello.R
 import com.el.yello.databinding.FragmentSelectStudentTypeBinding
 import com.el.yello.presentation.auth.SocialSyncActivity
@@ -42,9 +43,14 @@ class SelectStudentFragment :
         }
     }
 
+    // TODO 고등학생, 대학생 분기처리
     private fun setConfirmBtnClickListener() {
         binding.btnSelectTypeNext.setOnSingleClickListener {
-            viewModel.navigateToNextPage()
+            if (binding.btnSchoolHighschool.isSelected) {
+                findNavController().navigate(R.id.action_selectStudentFragment_to_highschoolInfoFragment)
+            } else {
+                findNavController().navigate(R.id.action_selectStudentFragment_to_universityInfoFragment)
+            }
         }
         binding.btnSelectTypeBack.setOnSingleClickListener {
             val intent = Intent(activity, SocialSyncActivity::class.java)

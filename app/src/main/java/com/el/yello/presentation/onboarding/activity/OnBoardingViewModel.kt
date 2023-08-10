@@ -29,8 +29,10 @@ class OnBoardingViewModel @Inject constructor(
     private val authRepository: AuthRepository,
 ) : ViewModel() {
 
-    // 고등학생
+    // 학력 선택
     val studentType = MutableLiveData("")
+
+    // 고등학생
     val highSchoolText = MutableLiveData("")
     val gradeText = MutableLiveData("")
     val groupText = MutableLiveData<Int>()
@@ -57,11 +59,8 @@ class OnBoardingViewModel @Inject constructor(
     private fun checkId(id: String) = Pattern.matches(REGEX_ID_PATTERN, id)
 
     // 공통
-
-
     val genderText = MutableLiveData("")
     val gender: String get() = genderText.value ?: ""
-
 
     val codeText = MutableLiveData("")
 
@@ -325,19 +324,6 @@ class OnBoardingViewModel @Inject constructor(
             }
         }
     }
-    // TODO : 페이지 이동 이후 삭제
-
-    private val _currentPage = MutableLiveData(0)
-    val currentPage: LiveData<Int> = _currentPage
-
-    fun navigateToNextPage() {
-        _currentPage.value = currentPage.value?.plus(1)
-    }
-
-    fun navigateToBackPage() {
-        _currentPage.value = currentPage.value?.minus(1)
-    }
-
     companion object {
         private const val REGEX_NAME_PATTERN = "^([ㄱ-ㅎㅏ-ㅣ가-힣]*)\$"
         private const val REGEX_ID_PATTERN = "^([A-Za-z0-9_.]*)\$"

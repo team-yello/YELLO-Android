@@ -40,7 +40,7 @@ class SearchDialogDepartmentFragment :
         initDepartmentAdapter()
         setupDepartmentData()
         recyclerviewScroll()
-        setClicktoDepartmentform()
+        setClickToDepartmentForm()
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -120,7 +120,8 @@ class SearchDialogDepartmentFragment :
         }
     }
 
-    private fun setClicktoDepartmentform() {
+
+    private fun setClickToDepartmentForm() {
         binding.tvDepartmentAdd.setOnClickListener {
             Intent(Intent.ACTION_VIEW, Uri.parse(DEPARTMENT_FORM_URL)).apply {
                 startActivity(this)

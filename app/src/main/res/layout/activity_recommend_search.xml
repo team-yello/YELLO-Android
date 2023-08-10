@@ -13,7 +13,7 @@
         android:background="@color/black">
 
         <ImageView
-            android:id="@+id/btn_profile_manage_back"
+            android:id="@+id/btn_recommend_search_back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
@@ -33,7 +33,7 @@
             android:text="@string/recommend_search_title"
             android:textAppearance="?textAppearanceSubtitle1"
             android:textColor="@color/white"
-            app:layout_constraintStart_toEndOf="@id/btn_profile_manage_back"
+            app:layout_constraintStart_toEndOf="@id/btn_recommend_search_back"
             app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -80,10 +80,13 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_recommend_search"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginHorizontal="16dp"
             android:layout_marginTop="8dp"
+            android:orientation="vertical"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

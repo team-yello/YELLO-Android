@@ -5,7 +5,6 @@ import android.view.View
 import android.view.WindowManager
 import android.view.animation.AnimationUtils
 import androidx.core.view.isVisible
-import androidx.core.view.setPadding
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DefaultItemAnimator
@@ -20,7 +19,6 @@ import com.el.yello.presentation.main.recommend.list.RecommendViewHolder
 import com.el.yello.util.context.yelloSnackbar
 import com.example.domain.entity.RecommendModel
 import com.example.ui.base.BindingFragment
-import com.example.ui.intent.dpToPx
 import com.example.ui.view.UiState
 import com.example.ui.view.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint

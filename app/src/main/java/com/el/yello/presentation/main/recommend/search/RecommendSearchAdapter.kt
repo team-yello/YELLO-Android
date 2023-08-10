@@ -7,17 +7,17 @@ import com.el.yello.databinding.ItemRecommendSearchBinding
 import com.example.domain.entity.RecommendSearchModel.SearchFriendModel
 import com.example.ui.view.ItemDiffCallback
 
-class RecommendSearchAdapter :
+class RecommendSearchAdapter(private val itemClick: (SearchFriendModel, Int) -> Unit) :
     ListAdapter<SearchFriendModel, RecommendSearchViewHolder>(diffUtil) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecommendSearchViewHolder {
         val binding: ItemRecommendSearchBinding =
             ItemRecommendSearchBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return RecommendSearchViewHolder(binding)
+        return RecommendSearchViewHolder(binding, itemClick)
     }
 
     override fun onBindViewHolder(holder: RecommendSearchViewHolder, position: Int) {
-        holder.onBind(getItem(position))
+        holder.onBind(getItem(position), position)
     }
 
     companion object {

@@ -43,15 +43,7 @@ class SelectStudentFragment :
         }
     }
 
-    // TODO 고등학생, 대학생 분기처리
     private fun setConfirmBtnClickListener() {
-        binding.btnSelectTypeNext.setOnSingleClickListener {
-            if (binding.btnSchoolHighschool.isSelected) {
-                findNavController().navigate(R.id.action_selectStudentFragment_to_highschoolInfoFragment)
-            } else {
-                findNavController().navigate(R.id.action_selectStudentFragment_to_universityInfoFragment)
-            }
-        }
         binding.btnSelectTypeBack.setOnSingleClickListener {
             val intent = Intent(activity, SocialSyncActivity::class.java)
             startActivity(intent)
@@ -68,6 +60,9 @@ class SelectStudentFragment :
                     binding.ivStudentUniversity.setImageResource(R.drawable.ic_student_university_face_unselected)
                     binding.tvStudentHighschool.setTextColor(resources.getColor(R.color.yello_main_500))
                     binding.tvStudentUniversity.setTextColor(resources.getColor(R.color.grayscales_700))
+                    binding.btnSelectTypeNext.setOnSingleClickListener {
+                        findNavController().navigate(R.id.action_selectStudentFragment_to_highschoolInfoFragment)
+                    }
                 }
 
                 StudentTypeEnum.U.toString() -> {
@@ -77,6 +72,9 @@ class SelectStudentFragment :
                     binding.ivStudentHighschool.setImageResource(R.drawable.ic_student_highschool_face_unselected)
                     binding.tvStudentUniversity.setTextColor(resources.getColor(R.color.yello_main_500))
                     binding.tvStudentHighschool.setTextColor(resources.getColor(R.color.grayscales_700))
+                    binding.btnSelectTypeNext.setOnSingleClickListener {
+                        findNavController().navigate(R.id.action_selectStudentFragment_to_universityInfoFragment)
+                    }
                 }
             }
         }

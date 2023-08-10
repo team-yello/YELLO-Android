@@ -28,15 +28,15 @@ class LookViewHolder(
             binding.tvKeywordHead.visibility = View.GONE
         }
 
-        if (item.senderGender == "남학생") {
-            binding.tvLookGender.text = "남학생"
+        if (item.senderGender == MALE) {
+            binding.tvLookGender.text = MALE
             binding.ivLookGender.setImageDrawable(
                 ContextCompat.getDrawable(
                     itemView.context, R.drawable.ic_yello_blue
                 )
             )
         } else {
-            binding.tvLookGender.text = "여학생"
+            binding.tvLookGender.text = FEMALE
             binding.ivLookGender.setImageDrawable(
                 ContextCompat.getDrawable(
                     itemView.context, R.drawable.ic_yello_pink
@@ -46,7 +46,7 @@ class LookViewHolder(
 
         if (item.isHintUsed) {
             binding.tvKeyword.background = null
-            if (item.senderGender == "남학생") {
+            if (item.senderGender == MALE) {
                 binding.tvKeyword.setTextColor(
                     ContextCompat.getColor(
                         itemView.context, R.color.semantic_gender_m_300
@@ -64,5 +64,10 @@ class LookViewHolder(
                 itemView.context, R.drawable.shape_grayscales800_fill_grayscales700_dashline_4_rect
             )
         }
+    }
+
+    private companion object {
+        const val MALE = "남학생"
+        const val FEMALE = "여학생"
     }
 }

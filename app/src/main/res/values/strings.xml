@@ -33,7 +33,7 @@
     <string name="main_yello">옐로하기</string>
     <string name="main_my_yello">내 쪽지</string>
     <string name="main_profile">프로필</string>
-    <string name="main_toast_back_pressed">\'뒤로\' 버튼을 한번 더 누르면 종료됩니다.</string>
+    <string name="main_toast_back_pressed">버튼을 한번 더 누르면 종료됩니다.</string>
 
     <string name="onboarding_tv_what_studentid">몇 학번인가요?</string>
     <string name="onboarding_tv_search_department">학과 검색하기</string>
@@ -131,7 +131,7 @@
     <string name="note_msg_invalid_shuffle">이름을 선택하면 셔플을 사용할 수 없어요.</string>
 
     <string name="look_title">둘러보기</string>
-    <string name="look_sub_description">아직 구현되지 않은 기능이에요.\n조금만 기다려주세요!</string>
+    <string name="look_error_friend_list">둘러보기 목록 서버 통신 실패</string>
 
     <string name="view_type_error_msg">Unknown View Type : %d</string>
 

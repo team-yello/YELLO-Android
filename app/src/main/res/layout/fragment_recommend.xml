@@ -19,7 +19,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:paddingVertical="10dp"
+            android:paddingVertical="14dp"
             android:text="@string/recommend_tv_title"
             android:textAppearance="?attr/textAppearanceHeadline3"
             android:textColor="@color/white"

@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.view.View
 import com.el.yello.R
 import com.el.yello.databinding.FragmentRecommendBinding
+import com.el.yello.presentation.main.recommend.kakao.RecommendKakaoFragment
+import com.el.yello.presentation.main.recommend.school.RecommendSchoolFragment
 import com.example.ui.base.BindingFragment
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
@@ -24,6 +26,15 @@ class RecommendFragment : BindingFragment<FragmentRecommendBinding>(R.layout.fra
         TabLayoutMediator(binding.tabRecommend, binding.vpRecommend) { tab, pos ->
             tab.text = tabTextList[pos]
         }.attach()
+    }
+
+    fun scrollToTop() {
+        val currentFragment = childFragmentManager.fragments[binding.vpRecommend.currentItem]
+        if (currentFragment is RecommendKakaoFragment) {
+            currentFragment.scrollToTop()
+        } else if (currentFragment is RecommendSchoolFragment) {
+            currentFragment.scrollToTop()
+        }
     }
 
     private companion object {

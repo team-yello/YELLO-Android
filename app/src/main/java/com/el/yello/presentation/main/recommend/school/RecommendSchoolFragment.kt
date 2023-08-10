@@ -55,9 +55,9 @@ class RecommendSchoolFragment :
     }
 
     override fun onDestroyView() {
+        super.onDestroyView()
         _adapter = null
         dismissDialog()
-        super.onDestroyView()
     }
 
     private fun initInviteBtnListener() {
@@ -71,6 +71,7 @@ class RecommendSchoolFragment :
     }
 
     private fun initFirstList() {
+        viewModel.setFirstPageLoading()
         viewModel.addListFromServer()
         viewModel.addListFromServer()
     }
@@ -205,13 +206,8 @@ class RecommendSchoolFragment :
     }
 
     private fun changeToCheckIcon(holder: RecommendViewHolder) {
-        holder.binding.btnRecommendItemAdd.apply {
-            text = null
-            setIconResource(R.drawable.ic_check)
-            setIconTintResource(R.color.black)
-            iconPadding = dpToPx(holder.binding.root.context, -2)
-            setPadding(dpToPx(holder.binding.root.context, 10))
-        }
+        holder.binding.btnRecommendItemAdd.visibility = View.GONE
+        holder.binding.btnRecommendItemAddPressed.visibility = View.VISIBLE
     }
 
     private fun showShimmerScreen() {
@@ -233,6 +229,10 @@ class RecommendSchoolFragment :
         binding.layoutRecommendFriendsList.isVisible = false
         binding.layoutRecommendNoFriendsList.isVisible = true
         binding.shimmerFriendList.stopShimmer()
+    }
+
+    fun scrollToTop() {
+        binding.rvRecommendSchool.smoothScrollToPosition(0)
     }
 
     private companion object {

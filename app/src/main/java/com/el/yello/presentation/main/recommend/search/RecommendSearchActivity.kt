@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.activity.viewModels
+import androidx.core.widget.doAfterTextChanged
+import androidx.lifecycle.viewModelScope
 import com.el.yello.R
 import com.el.yello.databinding.ActivityRecommendSearchBinding
 import com.el.yello.util.context.yelloSnackbar
@@ -12,6 +14,9 @@ import com.example.ui.base.BindingActivity
 import com.example.ui.view.UiState
 import com.example.ui.view.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class RecommendSearchActivity :
@@ -23,14 +28,19 @@ class RecommendSearchActivity :
 
     private val viewModel by viewModels<RecommendSearchViewModel>()
 
+    private val debounceTime = 500L
+    private var searchJob: Job? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         initFocusToEditText()
         initAdapterWithDivider()
+        initViewModel()
         initBackBtnListener()
         observeSearchListState()
         observeAddFriendState()
+        setDebounceSearch()
     }
 
     override fun onDestroy() {
@@ -49,6 +59,11 @@ class RecommendSearchActivity :
         )
     }
 
+    private fun initViewModel() {
+        binding.vm = viewModel
+        binding.lifecycleOwner = this
+    }
+
     private fun initFocusToEditText() {
         binding.etRecommendSearchBox.requestFocus()
         val inputMethodManager =
@@ -62,6 +77,16 @@ class RecommendSearchActivity :
     private fun initBackBtnListener() {
         binding.btnRecommendSearchBack.setOnSingleClickListener {
             finish()
+        }
+    }
+
+    private fun setDebounceSearch() {
+        binding.etRecommendSearchBox.doAfterTextChanged {
+            searchJob?.cancel()
+            searchJob = viewModel.viewModelScope.launch {
+                delay(debounceTime)
+                it?.toString()?.let { viewModel.setListFromServer(it) }
+            }
         }
     }
 

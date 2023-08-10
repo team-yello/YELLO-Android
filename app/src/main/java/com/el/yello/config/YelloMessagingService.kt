@@ -13,8 +13,8 @@ import com.example.domain.YelloDataStore
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.datetime.Clock
 import javax.inject.Inject
+import kotlinx.datetime.Clock
 
 @AndroidEntryPoint
 class YelloMessagingService : FirebaseMessagingService() {
@@ -29,20 +29,21 @@ class YelloMessagingService : FirebaseMessagingService() {
 
     override fun onMessageReceived(message: RemoteMessage) {
         super.onMessageReceived(message)
+        val responseMessage = Message("", "", "")
         if (message.data.isNotEmpty()) {
-            sendNotificationAlarm(
-                Message(message.data["title"].toString(), message.data["content"].toString())
-            )
-        } else {
-            message.notification?.let {
-                sendNotificationAlarm(Message(it.title.toString(), it.body.toString()))
-            }
+            responseMessage.type = message.data["type"].toString()
+            responseMessage.path = message.data["path"].toString()
         }
+        message.notification?.let {
+            responseMessage.title = it.title.toString()
+            responseMessage.body = it.body.toString()
+        }
+        sendNotificationAlarm(responseMessage)
     }
 
     private fun sendNotificationAlarm(message: Message) {
         val notifyId = (Clock.System.now().epochSeconds / 7).toInt()
-        val intent = MainActivity.getIntent(this).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+        val intent = MainActivity.getIntent(this, message.type, message.path).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         val pendingIntent =
             PendingIntent.getActivity(
                 this,
@@ -70,5 +71,5 @@ class YelloMessagingService : FirebaseMessagingService() {
         }
     }
 
-    private data class Message(val title: String, val body: String)
+    private data class Message(var title: String, var body: String, var type: String,  var path: String? = null)
 }

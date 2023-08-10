@@ -29,6 +29,7 @@ class RecommendSearchActivity :
         initFocusToEditText()
         initAdapterWithDivider()
         initBackBtnListener()
+        observeSearchListState()
         observeAddFriendState()
     }
 
@@ -61,6 +62,28 @@ class RecommendSearchActivity :
     private fun initBackBtnListener() {
         binding.btnRecommendSearchBack.setOnSingleClickListener {
             finish()
+        }
+    }
+
+    // 검색 리스트 추가 서버 통신 성공 시 어댑터에 리스트 추가
+    private fun observeSearchListState() {
+        viewModel.postFriendsListState.observe(this) { state ->
+            when (state) {
+                is UiState.Success -> {
+                    adapter.submitList(state.data?.friendList ?: listOf())
+                }
+
+                is UiState.Failure -> {
+                    yelloSnackbar(
+                        binding.root.rootView,
+                        getString(R.string.recommend_search_error)
+                    )
+                }
+
+                is UiState.Loading -> {}
+
+                is UiState.Empty -> {}
+            }
         }
     }
 

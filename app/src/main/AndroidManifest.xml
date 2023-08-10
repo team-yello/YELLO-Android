@@ -25,9 +25,9 @@
         <activity
             android:name=".presentation.splash.SplashActivity"
             android:exported="true"
-            android:windowSoftInputMode="adjustNothing"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.YELLO.Splash">
+            android:theme="@style/Theme.YELLO.Splash"
+            android:windowSoftInputMode="adjustNothing">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -72,8 +72,8 @@
         <activity
             android:name=".presentation.onboarding.activity.OnBoardingActivity"
             android:exported="true"
-            android:windowSoftInputMode="adjustNothing"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustNothing" />
         <activity
             android:name=".presentation.main.MainActivity"
             android:exported="false"
@@ -109,7 +109,8 @@
         <activity
             android:name=".presentation.main.recommend.search.RecommendSearchActivity"
             android:exported="false"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustNothing" />
 
         <service
             android:name=".config.YelloMessagingService"

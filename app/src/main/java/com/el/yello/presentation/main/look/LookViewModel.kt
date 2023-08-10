@@ -8,7 +8,6 @@ import com.example.domain.entity.LookListModel
 import com.example.domain.repository.LookRepository
 import com.example.ui.view.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 

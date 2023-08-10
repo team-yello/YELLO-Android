@@ -249,7 +249,7 @@ class OnBoardingViewModel @Inject constructor(
             if (error != null) {
                 Timber.e(error, "카카오톡 친구목록 가져오기 실패")
             } else if (friends != null) {
-                totalFriendPage = ceil((friends.totalCount * 0.1)).toInt() - 1
+                totalFriendPage = ceil((friends.totalCount * 0.01)).toInt() - 1
                 if (totalFriendPage == currentFriendPage) isFriendPagingFinish = true
                 val friendIdList: List<String> =
                     friends.elements?.map { friend -> friend.id.toString() } ?: listOf()

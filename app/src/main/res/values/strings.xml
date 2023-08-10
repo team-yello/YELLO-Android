@@ -224,4 +224,5 @@
     <string name="onboarding_highschool_thirdgrade">3학년</string>
 
     <string name="default_notification_channel_id">default_messaging_channel</string>
+    <string name="recommend_search_loading">친구를 찾는 중이에요...</string>
 </resources>

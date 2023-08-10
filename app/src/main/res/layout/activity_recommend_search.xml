@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="vm"
             type="com.el.yello.presentation.main.recommend.search.RecommendSearchViewModel" />
@@ -61,8 +62,8 @@
                 android:hint="@string/recommend_search_hint"
                 android:inputType="textFilter"
                 android:maxLines="1"
-                android:text="@={vm.searchText}"
                 android:paddingVertical="15dp"
+                android:text="@={vm.searchText}"
                 android:textAppearance="?textAppearanceBodySmall"
                 android:textColor="@color/white"
                 android:textColorHint="@color/grayscales_300"
@@ -97,6 +98,39 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/layout_recommend_search_box"
             tools:listitem="@layout/item_recommend_search" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_recommend_search_loading"
+            android:layout_width="0dp"
+            android:visibility="gone"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/layout_recommend_search_box">
+
+            <ImageView
+                android:id="@+id/iv_search_loading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="108dp"
+                android:src="@drawable/ic_search_loading"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                android:text="@string/recommend_search_loading"
+                android:textAppearance="?textAppearanceBodySmall"
+                android:textColor="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/iv_search_loading" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -6,6 +6,7 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.activity.viewModels
 import androidx.core.widget.doAfterTextChanged
+import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.viewModelScope
 import com.el.yello.R
 import com.el.yello.databinding.ActivityRecommendSearchBinding
@@ -41,6 +42,7 @@ class RecommendSearchActivity :
         observeSearchListState()
         observeAddFriendState()
         setDebounceSearch()
+        setLoadingScreen()
     }
 
     override fun onDestroy() {
@@ -80,6 +82,12 @@ class RecommendSearchActivity :
         }
     }
 
+    private fun setLoadingScreen() {
+        binding.etRecommendSearchBox.doOnTextChanged { _, _, _, _ ->
+            startLoadingScreen()
+        }
+    }
+
     private fun setDebounceSearch() {
         binding.etRecommendSearchBox.doAfterTextChanged {
             searchJob?.cancel()
@@ -96,6 +104,7 @@ class RecommendSearchActivity :
             when (state) {
                 is UiState.Success -> {
                     adapter.submitList(state.data?.friendList ?: listOf())
+                    stopLoadingScreen()
                 }
 
                 is UiState.Failure -> {
@@ -103,11 +112,14 @@ class RecommendSearchActivity :
                         binding.root.rootView,
                         getString(R.string.recommend_search_error)
                     )
+                    stopLoadingScreen()
                 }
 
                 is UiState.Loading -> {}
 
-                is UiState.Empty -> {}
+                is UiState.Empty -> {
+                    stopLoadingScreen()
+                }
             }
         }
     }
@@ -137,5 +149,15 @@ class RecommendSearchActivity :
                 is UiState.Empty -> {}
             }
         }
+    }
+
+    private fun startLoadingScreen() {
+        binding.rvRecommendSearch.visibility = View.GONE
+        binding.layoutRecommendSearchLoading.visibility = View.VISIBLE
+    }
+
+    private fun stopLoadingScreen() {
+        binding.rvRecommendSearch.visibility = View.VISIBLE
+        binding.layoutRecommendSearchLoading.visibility = View.GONE
     }
 }

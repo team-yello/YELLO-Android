@@ -6,6 +6,8 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class ResponseServiceTokenDto(
+    @SerialName("isResigned")
+    val isResigned: Boolean,
     @SerialName("accessToken")
     val accessToken: String,
     @SerialName("refreshToken")
@@ -13,6 +15,6 @@ data class ResponseServiceTokenDto(
 ) {
 
     fun toServiceTokenModel(): ServiceTokenModel {
-        return ServiceTokenModel(accessToken, refreshToken)
+        return ServiceTokenModel(isResigned, accessToken, refreshToken)
     }
 }

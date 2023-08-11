@@ -37,7 +37,6 @@ class RecommendSearchActivity :
 
         initFocusToEditText()
         initAdapterWithDivider()
-        initViewModel()
         initBackBtnListener()
         observeSearchListState()
         observeAddFriendState()
@@ -59,11 +58,6 @@ class RecommendSearchActivity :
         binding.rvRecommendSearch.addItemDecoration(
             RecommendSearchItemDecoration(this)
         )
-    }
-
-    private fun initViewModel() {
-        binding.vm = viewModel
-        binding.lifecycleOwner = this
     }
 
     private fun initFocusToEditText() {

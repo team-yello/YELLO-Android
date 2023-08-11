@@ -16,8 +16,6 @@ class RecommendSearchViewModel @Inject constructor(
     private val recommendRepository: RecommendRepository
 ) : ViewModel() {
 
-    val searchText : MutableLiveData<String> = MutableLiveData("")
-
     private val _postFriendsListState = MutableLiveData<UiState<RecommendSearchModel?>>()
     val postFriendsListState: LiveData<UiState<RecommendSearchModel?>> = _postFriendsListState
 

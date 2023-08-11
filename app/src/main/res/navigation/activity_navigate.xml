@@ -38,48 +38,37 @@
             app:destination="@id/selectStudentFragment" />
     </fragment>
     <fragment
-        android:id="@+id/nameIdFragment"
-        android:name="com.el.yello.presentation.onboarding.fragment.nameid.NameIdFragment"
-        android:label="NameIdFragment" >
-        <action
-            android:id="@+id/action_nameIdFragment_to_addFriendFragment"
-            app:destination="@id/addFriendFragment" />
-        <action
-            android:id="@+id/action_nameIdFragment_to_genderFragment"
-            app:destination="@id/genderFragment" />
-    </fragment>
-    <fragment
         android:id="@+id/genderFragment"
         android:name="com.el.yello.presentation.onboarding.fragment.gender.GenderFragment"
         android:label="GenderFragment" >
-        <action
-            android:id="@+id/action_genderFragment_to_nameIdFragment"
-            app:destination="@id/nameIdFragment" />
         <action
             android:id="@+id/action_genderFragment_to_highschoolInfoFragment"
             app:destination="@id/highschoolInfoFragment" />
         <action
             android:id="@+id/action_genderFragment_to_universityInfoFragment"
             app:destination="@id/universityInfoFragment" />
+        <action
+            android:id="@+id/action_genderFragment_to_nameFragment"
+            app:destination="@id/nameFragment" />
     </fragment>
     <fragment
         android:id="@+id/addFriendFragment"
         android:name="com.el.yello.presentation.onboarding.fragment.addfriend.AddFriendFragment"
-        android:label="AddFriendFragment" >
+        android:label="AddFriendFragment">
         <action
             android:id="@+id/action_addFriendFragment_to_codeFragment"
             app:destination="@id/codeFragment" />
         <action
-            android:id="@+id/action_addFriendFragment_to_nameIdFragment"
-            app:destination="@id/nameIdFragment" />
-        <action
             android:id="@+id/action_addFriendFragment_to_startAppFragment"
             app:destination="@id/startAppFragment" />
+        <action
+            android:id="@+id/action_addFriendFragment_to_yelIoIdFragment"
+            app:destination="@id/yelIoIdFragment" />
     </fragment>
     <fragment
         android:id="@+id/codeFragment"
         android:name="com.el.yello.presentation.onboarding.fragment.code.CodeFragment"
-        android:label="CodeFragment" >
+        android:label="CodeFragment">
         <action
             android:id="@+id/action_codeFragment_to_startAppFragment"
             app:destination="@id/startAppFragment" />
@@ -88,4 +77,26 @@
         android:id="@+id/startAppFragment"
         android:name="com.el.yello.presentation.onboarding.fragment.startapp.StartAppFragment"
         android:label="StartAppFragment" />
+    <fragment
+        android:id="@+id/nameFragment"
+        android:name="com.el.yello.presentation.onboarding.fragment.nameid.NameFragment"
+        android:label="NameFragment" >
+        <action
+            android:id="@+id/action_nameFragment_to_genderFragment"
+            app:destination="@id/genderFragment" />
+        <action
+            android:id="@+id/action_nameFragment_to_yelIoIdFragment"
+            app:destination="@id/yelIoIdFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/yelIoIdFragment"
+        android:name="com.el.yello.presentation.onboarding.fragment.nameid.YelIoIdFragment"
+        android:label="YelIoIdFragment" >
+        <action
+            android:id="@+id/action_yelIoIdFragment_to_addFriendFragment"
+            app:destination="@id/addFriendFragment" />
+        <action
+            android:id="@+id/action_yelIoIdFragment_to_nameFragment"
+            app:destination="@id/nameFragment" />
+    </fragment>
 </navigation>

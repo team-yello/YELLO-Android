@@ -6,7 +6,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.el.yello.R
-import com.el.yello.databinding.FragmentNameIdBinding
+import com.el.yello.databinding.FragmentYelloIdBinding
 import com.el.yello.presentation.onboarding.activity.OnBoardingViewModel
 import com.el.yello.util.context.yelloSnackbar
 import com.example.ui.base.BindingFragment
@@ -15,7 +15,7 @@ import com.example.ui.view.setOnSingleClickListener
 import java.util.Timer
 import kotlin.concurrent.timer
 
-class NameIdFragment : BindingFragment<FragmentNameIdBinding>(R.layout.fragment_name_id) {
+class YelIoIdFragment : BindingFragment<FragmentYelloIdBinding>(R.layout.fragment_yello_id) {
     private val viewModel by activityViewModels<OnBoardingViewModel>()
 
     var timer: Timer? = null
@@ -29,30 +29,29 @@ class NameIdFragment : BindingFragment<FragmentNameIdBinding>(R.layout.fragment_
         setupGetValidYelloId()
         progressBarTimerFun()
     }
+
     private fun progressBarTimerFun() {
-        binding.nameidProgressbar.progress = 32
+        binding.yelloIdProgressbar.progress = 32
         timer?.cancel()
         timer = Timer()
         timer = timer(period = 8, initialDelay = 300) {
             if (deltaTime > 48) cancel()
-            binding.nameidProgressbar.setProgress(++deltaTime)
-            println(binding.nameidProgressbar.progress)
+            binding.yelloIdProgressbar.setProgress(++deltaTime)
+            println(binding.yelloIdProgressbar.progress)
         }
     }
+
     private fun setConfirmBtnClickListener() {
-        binding.btnNameidNext.setOnSingleClickListener {
+        binding.btnYelloIdNext.setOnSingleClickListener {
             viewModel.getValidYelloId(viewModel.id)
-            findNavController().navigate(R.id.action_nameIdFragment_to_addFriendFragment)
+            findNavController().navigate(R.id.action_yelIoIdFragment_to_addFriendFragment)
         }
-        binding.btnNameidBackBtn.setOnSingleClickListener {
-            findNavController().navigate(R.id.action_nameIdFragment_to_genderFragment)
+        binding.btnYelloIdBackBtn.setOnSingleClickListener {
+            findNavController().navigate(R.id.action_yelIoIdFragment_to_nameFragment)
         }
     }
 
     private fun setDeleteBtnClickListener() {
-        binding.btnNameDelete.setOnSingleClickListener {
-            binding.etName.text.clear()
-        }
         binding.btnIdDelete.setOnClickListener {
             binding.etId.text.clear()
         }
@@ -66,7 +65,7 @@ class NameIdFragment : BindingFragment<FragmentNameIdBinding>(R.layout.fragment_
                         initIdEditTextViewError()
                         return@observe
                     }
-                    findNavController().navigate(R.id.action_nameIdFragment_to_addFriendFragment)
+                    findNavController().navigate(R.id.action_yelIoIdFragment_to_addFriendFragment)
                 }
 
                 is UiState.Failure -> {
@@ -86,6 +85,11 @@ class NameIdFragment : BindingFragment<FragmentNameIdBinding>(R.layout.fragment_
         binding.etId.setBackgroundResource(R.drawable.shape_fill_red20_line_semantic_status_red500_rect_8)
         binding.btnIdDelete.setBackgroundResource(R.drawable.ic_onboarding_delete_red)
         binding.tvIdError.text = getString(R.string.onboarding_name_id_duplicate_id_msg)
-        binding.tvIdError.setTextColor(ContextCompat.getColor(requireContext(), R.color.semantic_red_500))
+        binding.tvIdError.setTextColor(
+            ContextCompat.getColor(
+                requireContext(),
+                R.color.semantic_red_500,
+            ),
+        )
     }
 }

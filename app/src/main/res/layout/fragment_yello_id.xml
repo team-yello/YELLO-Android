@@ -4,20 +4,22 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="vm"
             type="com.el.yello.presentation.onboarding.activity.OnBoardingViewModel" />
+
         <import type="android.view.View" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/layout_studentid"
+        android:id="@+id/layout_yello_id"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/black">
 
         <ImageView
-            android:id="@+id/btn_nameid_back_btn"
+            android:id="@+id/btn_yello_id_back_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
@@ -28,7 +30,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <ProgressBar
-            android:id="@+id/nameid_progressbar"
+            android:id="@+id/yello_id_progressbar"
             style="@style/Widget.AppCompat.ProgressBar.Horizontal"
             android:layout_width="match_parent"
             android:layout_height="4dp"
@@ -37,74 +39,8 @@
             android:progressDrawable="@drawable/layerlist_onboarding_progressbar"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btn_nameid_back_btn"
+            app:layout_constraintTop_toBottomOf="@+id/btn_yello_id_back_btn"
             app:layout_constraintWidth_percent="1" />
-
-        <TextView
-            android:id="@+id/tv_name"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="16dp"
-            android:layout_marginTop="24dp"
-            android:text="@string/onboarding_tv_name"
-            android:textAppearance="?textAppearanceHeadline2"
-            android:textColor="@color/white"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/nameid_progressbar" />
-
-        <EditText
-            android:id="@+id/et_name"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="16dp"
-            android:layout_marginTop="12dp"
-            android:background="@{vm.isValidName() ? @drawable/sel_onbarding_editext_focus : @drawable/shape_fill_red20_line_semantic_status_red500_rect_8}"
-            android:fontFamily="@font/font_pretendard_medium"
-            android:gravity="center_vertical"
-            android:hint="@string/onboarding_name_id_name_hint"
-            android:inputType="text"
-            android:maxLines="1"
-            android:paddingVertical="18dp"
-            android:paddingStart="20dp"
-            android:paddingEnd="12dp"
-            android:text="@={vm.nameText}"
-            android:textColor="@color/white"
-            android:textColorHint="@color/grayscales_600"
-            android:textSize="16sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_name" />
-
-        <ImageView
-            android:id="@+id/btn_name_delete"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="18dp"
-            android:background="@{vm.isValidName() ? @drawable/ic_onboarding_delete : @drawable/ic_onboarding_delete_red}"
-            android:visibility="@{vm.nameText.isBlank() ? View.GONE : View.VISIBLE}"
-            app:layout_constraintBottom_toBottomOf="@id/et_name"
-            app:layout_constraintEnd_toEndOf="@id/et_name"
-            app:layout_constraintTop_toTopOf="@+id/et_name"
-            tools:background="@drawable/ic_onboarding_delete" />
-
-        <TextView
-            android:id="@+id/tv_name_error"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="12dp"
-            android:layout_marginTop="4dp"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:paddingVertical="2dp"
-            android:text="@{vm.isValidName() ? @string/onboarding_tv_name_description : @string/onboarding_name_id_hangul_error}"
-            android:textAppearance="?textAppearanceLabelLarge"
-            android:textColor="@{vm.isValidName() ? @color/grayscales_500 : @color/semantic_red_500}"
-            app:layout_constraintEnd_toEndOf="@id/et_name"
-            app:layout_constraintStart_toStartOf="@id/et_name"
-            app:layout_constraintTop_toBottomOf="@+id/et_name"
-            tools:text="@string/onboarding_tv_name_description"
-            tools:textColor="@color/grayscales_500" />
 
         <TextView
             android:id="@+id/tv_id"
@@ -117,8 +53,7 @@
             android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_name_error" />
-
+            app:layout_constraintTop_toBottomOf="@id/yello_id_progressbar" />
 
         <TextView
             android:id="@+id/iv_nameid_fix"
@@ -142,7 +77,7 @@
             android:layout_marginTop="12dp"
             android:background="@{vm.isValidId() ? @drawable/sel_onbarding_editext_focus : @drawable/shape_fill_red20_line_semantic_status_red500_rect_8}"
             android:fontFamily="@font/font_pretendard_medium"
-            android:hint= "@string/onboarding_et_id"
+            android:hint="@string/onboarding_et_id"
             android:inputType="text"
             android:maxLength="20"
             android:maxLines="1"
@@ -188,17 +123,17 @@
             tools:textColor="@color/grayscales_500" />
 
         <android.widget.Button
-            android:id="@+id/btn_nameid_next"
+            android:id="@+id/btn_yello_id_next"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
             android:layout_marginBottom="32dp"
-            android:background="@{vm.isValidName() &amp; vm.isValidId() &amp; !vm.nameText.isEmpty() &amp; !vm.idText.isEmpty() ? @drawable/shape_yello_main_500_fill_100_rect : @drawable/shape_grayscales_800_fill_100_rect}"
-            android:clickable="@{vm.isValidName() &amp; vm.isValidId() &amp; !vm.nameText.isEmpty() &amp; !vm.idText.isEmpty()}"
+            android:background="@{ vm.isValidId() &amp; !vm.idText.isEmpty() ? @drawable/shape_yello_main_500_fill_100_rect : @drawable/shape_grayscales_800_fill_100_rect}"
+            android:clickable="@{ vm.isValidId() &amp; !vm.idText.isEmpty()}"
             android:paddingVertical="12dp"
             android:text="@string/onboarding_btn_next"
             android:textAppearance="?textAppearanceBodyMedium"
-            android:textColor="@{vm.isValidName() &amp; vm.isValidId() &amp; !vm.nameText.isEmpty() &amp; !vm.idText.isEmpty() ? @color/black : @color/grayscales_700}"
+            android:textColor="@{vm.isValidId() &amp; !vm.idText.isEmpty() ? @color/black : @color/grayscales_700}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />

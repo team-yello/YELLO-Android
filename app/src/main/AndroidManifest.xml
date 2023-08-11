@@ -71,7 +71,7 @@
 
         <activity
             android:name=".presentation.onboarding.activity.OnBoardingActivity"
-            android:exported="true"
+            android:exported="false"
             android:windowSoftInputMode="adjustNothing"
             android:screenOrientation="portrait" />
         <activity

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/actiivity_navigate"
+    android:id="@+id/activity_navigate"
     app:startDestination="@id/selectStudentFragment">
 
     <fragment
@@ -22,6 +22,9 @@
         <action
             android:id="@+id/action_universityInfoFragment_to_genderFragment"
             app:destination="@id/genderFragment" />
+        <action
+            android:id="@+id/action_universityInfoFragment_to_selectStudentFragment"
+            app:destination="@id/selectStudentFragment" />
     </fragment>
     <fragment
         android:id="@+id/highschoolInfoFragment"
@@ -30,6 +33,9 @@
         <action
             android:id="@+id/action_highschoolInfoFragment_to_genderFragment"
             app:destination="@id/genderFragment" />
+        <action
+            android:id="@+id/action_highschoolInfoFragment_to_selectStudentFragment"
+            app:destination="@id/selectStudentFragment" />
     </fragment>
     <fragment
         android:id="@+id/nameIdFragment"
@@ -38,6 +44,9 @@
         <action
             android:id="@+id/action_nameIdFragment_to_addFriendFragment"
             app:destination="@id/addFriendFragment" />
+        <action
+            android:id="@+id/action_nameIdFragment_to_genderFragment"
+            app:destination="@id/genderFragment" />
     </fragment>
     <fragment
         android:id="@+id/genderFragment"
@@ -46,6 +55,12 @@
         <action
             android:id="@+id/action_genderFragment_to_nameIdFragment"
             app:destination="@id/nameIdFragment" />
+        <action
+            android:id="@+id/action_genderFragment_to_highschoolInfoFragment"
+            app:destination="@id/highschoolInfoFragment" />
+        <action
+            android:id="@+id/action_genderFragment_to_universityInfoFragment"
+            app:destination="@id/universityInfoFragment" />
     </fragment>
     <fragment
         android:id="@+id/addFriendFragment"
@@ -54,6 +69,12 @@
         <action
             android:id="@+id/action_addFriendFragment_to_codeFragment"
             app:destination="@id/codeFragment" />
+        <action
+            android:id="@+id/action_addFriendFragment_to_nameIdFragment"
+            app:destination="@id/nameIdFragment" />
+        <action
+            android:id="@+id/action_addFriendFragment_to_startAppFragment"
+            app:destination="@id/startAppFragment" />
     </fragment>
     <fragment
         android:id="@+id/codeFragment"

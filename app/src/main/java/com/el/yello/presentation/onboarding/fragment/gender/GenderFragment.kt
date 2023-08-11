@@ -4,10 +4,12 @@ import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import com.el.yello.R
 import com.el.yello.databinding.FragmentGenderBinding
 import com.el.yello.presentation.onboarding.activity.OnBoardingViewModel
 import com.example.domain.enum.GenderEnum
+import com.example.domain.enum.StudentTypeEnum
 import com.example.ui.base.BindingFragment
 import com.example.ui.view.setOnSingleClickListener
 
@@ -26,15 +28,27 @@ class GenderFragment : BindingFragment<FragmentGenderBinding>(R.layout.fragment_
 
     private fun setConfirmBtnClickListener() {
         binding.btnGenderNext.setOnSingleClickListener {
-            viewModel.navigateToNextPage()
+            findNavController().navigate(R.id.action_genderFragment_to_nameIdFragment)
         }
-        binding.btnGenderBack.setOnSingleClickListener {
-            viewModel.navigateToBackPage()
+
+        viewModel.studentType.observe(viewLifecycleOwner) { studenttype ->
+            when (studenttype) {
+                StudentTypeEnum.H.toString() -> {
+                    binding.btnGenderBack.setOnSingleClickListener {
+                        findNavController().navigate(R.id.action_genderFragment_to_highschoolInfoFragment)
+                    }
+                }
+
+                StudentTypeEnum.U.toString() -> {
+                    binding.btnGenderBack.setOnSingleClickListener {
+                        findNavController().navigate(R.id.action_genderFragment_to_universityInfoFragment)
+                    }
+                }
+            }
         }
     }
-
     private fun setupGender() {
-        viewModel._gender.observe(viewLifecycleOwner) { gender ->
+        viewModel.genderText.observe(viewLifecycleOwner) { gender ->
             when (gender) {
                 GenderEnum.M.toString() -> {
                     binding.btnGenderMale.setBackgroundResource(R.drawable.shape_male700_fill_male300_line_8_rect)

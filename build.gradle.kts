@@ -11,6 +11,7 @@ buildscript {
         classpath("com.google.gms:google-services:4.3.15")
         classpath("com.google.firebase:firebase-appdistribution-gradle:4.0.0")
         classpath("com.google.firebase:firebase-crashlytics-gradle:2.9.7")
+        classpath("androidx.navigation:navigation-safe-args-gradle-plugin:2.6.0")
         classpath(ClassPathPlugins.hilt)
         classpath(ClassPathPlugins.oss)
     }

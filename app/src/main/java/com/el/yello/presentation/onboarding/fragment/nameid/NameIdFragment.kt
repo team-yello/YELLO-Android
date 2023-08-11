@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import com.el.yello.R
 import com.el.yello.databinding.FragmentNameIdBinding
 import com.el.yello.presentation.onboarding.activity.OnBoardingViewModel
@@ -26,9 +27,9 @@ class NameIdFragment : BindingFragment<FragmentNameIdBinding>(R.layout.fragment_
         setDeleteBtnClickListener()
         setConfirmBtnClickListener()
         setupGetValidYelloId()
-        ProgressBarTimerFun()
+        progressBarTimerFun()
     }
-    private fun ProgressBarTimerFun() {
+    private fun progressBarTimerFun() {
         binding.nameidProgressbar.progress = 32
         timer?.cancel()
         timer = Timer()
@@ -41,9 +42,10 @@ class NameIdFragment : BindingFragment<FragmentNameIdBinding>(R.layout.fragment_
     private fun setConfirmBtnClickListener() {
         binding.btnNameidNext.setOnSingleClickListener {
             viewModel.getValidYelloId(viewModel.id)
+            findNavController().navigate(R.id.action_nameIdFragment_to_addFriendFragment)
         }
         binding.btnNameidBackBtn.setOnSingleClickListener {
-            viewModel.navigateToBackPage()
+            findNavController().navigate(R.id.action_nameIdFragment_to_genderFragment)
         }
     }
 
@@ -64,7 +66,7 @@ class NameIdFragment : BindingFragment<FragmentNameIdBinding>(R.layout.fragment_
                         initIdEditTextViewError()
                         return@observe
                     }
-                    viewModel.navigateToNextPage()
+                    findNavController().navigate(R.id.action_nameIdFragment_to_addFriendFragment)
                 }
 
                 is UiState.Failure -> {

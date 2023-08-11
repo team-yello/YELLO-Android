@@ -11,19 +11,22 @@ import com.el.yello.R
 import com.el.yello.databinding.ActivityMainBinding
 import com.el.yello.presentation.main.look.LookFragment
 import com.el.yello.presentation.main.myyello.MyYelloFragment
+import com.el.yello.presentation.main.myyello.read.MyYelloReadActivity
 import com.el.yello.presentation.main.profile.ProfileViewModel
 import com.el.yello.presentation.main.profile.info.ProfileFragment
 import com.el.yello.presentation.main.recommend.RecommendFragment
 import com.el.yello.presentation.main.yello.YelloFragment
 import com.example.ui.base.BindingActivity
 import com.example.ui.context.toast
+import com.example.ui.intent.stringExtra
 import dagger.hilt.android.AndroidEntryPoint
 
 
 @AndroidEntryPoint
 class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main) {
-
     val viewModel by viewModels<ProfileViewModel>()
+    val path by stringExtra()
+    val type by stringExtra()
     private var backPressedTime: Long = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,6 +35,8 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
         initBnvItemIconTintList()
         initBnvItemSelectedListener()
         initBnvItemReselectedListener()
+        pushNotificationEvent()
+
     }
 
     override fun onBackPressed() {
@@ -94,6 +99,30 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
         }
     }
 
+    private fun pushNotificationEvent() {
+        when {
+            type.equals(NEW_VOTE) -> {
+                binding.bnvMain.menu.getItem(3).isChecked = true
+                navigateTo<MyYelloFragment>()
+
+                path?.let {
+                    val questionId = it.split("/").lastOrNull()?.toLong()
+                    questionId?.let {
+                        startActivity(MyYelloReadActivity.getIntent(this, questionId))
+                    }
+                }
+            }
+            type.equals(NEW_FRIEND) -> {
+                binding.bnvMain.menu.getItem(4).isChecked = true
+                navigateTo<ProfileFragment>()
+            }
+            type.equals(VOTE_AVAILABLE) -> {
+                binding.bnvMain.menu.getItem(2).isChecked = true
+                navigateTo<YelloFragment>()
+            }
+        }
+    }
+
     private inline fun <reified T : Fragment> navigateTo() {
         supportFragmentManager.commit {
             replace<T>(R.id.fcv_main, T::class.java.canonicalName)
@@ -101,6 +130,14 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
     }
 
     companion object {
-        fun getIntent(context: Context) = Intent(context, MainActivity::class.java)
+        const val NEW_VOTE = "NEW_VOTE"
+        const val NEW_FRIEND = "NEW_FRIEND"
+        const val VOTE_AVAILABLE = "VOTE_AVAILABLE"
+
+        fun getIntent(context: Context, type: String? = null, path: String? = null) =
+            Intent(context, MainActivity::class.java).apply {
+                putExtra("type", type)
+                putExtra("path", path)
+            }
     }
 }

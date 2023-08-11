@@ -210,7 +210,7 @@ class MyYelloReadActivity :
     }
 
     companion object {
-        fun getIntent(context: Context, id: Long, nameIndex: Int, isHintUsed: Boolean) =
+        fun getIntent(context: Context, id: Long, nameIndex: Int? = null, isHintUsed: Boolean? = null) =
             Intent(context, MyYelloReadActivity::class.java)
                 .putExtra("id", id)
                 .putExtra("nameIndex", nameIndex)

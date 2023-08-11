@@ -67,7 +67,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="24dp"
             android:text="@string/onboarding_tv_what_school"
-            android:textAppearance="?textAppearanceHeadline2"
+            android:textAppearance="?textAppearanceHeadline1"
             android:textColor="@color/white"
             android:gravity="center"
             app:layout_constraintEnd_toEndOf="parent"

@@ -6,7 +6,6 @@ import androidx.fragment.app.viewModels
 import com.el.yello.R
 import com.el.yello.databinding.FragmentLookBinding
 import com.el.yello.util.context.yelloSnackbar
-import com.example.domain.entity.LookListModel
 import com.example.ui.base.BindingFragment
 import com.example.ui.view.UiState
 import dagger.hilt.android.AndroidEntryPoint

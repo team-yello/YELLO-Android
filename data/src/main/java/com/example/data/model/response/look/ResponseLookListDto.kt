@@ -15,8 +15,8 @@ data class ResponseLookListDto(
     data class LookDto(
         @SerialName("id")
         val id: Int,
-        @SerialName("receiveName")
-        val receiveName: String,
+        @SerialName("receiverName")
+        val receiverName: String,
         @SerialName("senderGender")
         val senderGender: String,
         @SerialName("vote")
@@ -46,7 +46,7 @@ data class ResponseLookListDto(
             totalCount, friendVotes.map {
                 LookListModel.LookModel(
                     it.id,
-                    it.receiveName,
+                    it.receiverName,
                     it.senderGender,
                     LookListModel.LookModel.LookVoteModel(
                         it.vote.nameHead,

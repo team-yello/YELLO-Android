@@ -11,10 +11,10 @@ class LookRepositoryImpl @Inject constructor(
 
     override suspend fun getLookList(
         page: Int
-    ): LookListModel {
+    ): LookListModel? {
         return lookDataSource.getLookListData(
             page
-        ).toLookListModel()
+        ).data?.toLookListModel()
     }
 
 }

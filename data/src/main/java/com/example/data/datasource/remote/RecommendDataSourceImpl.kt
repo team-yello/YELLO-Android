@@ -4,6 +4,7 @@ import com.example.data.datasource.RecommendDataSource
 import com.example.data.model.request.recommend.RequestRecommendKakaoDto
 import com.example.data.model.response.BaseResponse
 import com.example.data.model.response.recommend.ResponseRecommendDto
+import com.example.data.model.response.recommend.ResponseRecommendSearchDto
 import com.example.data.remote.service.RecommendService
 import javax.inject.Inject
 
@@ -28,6 +29,13 @@ class RecommendDataSourceImpl @Inject constructor(
         friendId: Long
     ): BaseResponse<Unit> {
         return recommendService.postFriendAdd(friendId)
+    }
+
+    override suspend fun getSearchListData(
+        keyword: String,
+        page: Int
+    ): BaseResponse<ResponseRecommendSearchDto> {
+        return recommendService.getSearchList(keyword, page)
     }
 
 }

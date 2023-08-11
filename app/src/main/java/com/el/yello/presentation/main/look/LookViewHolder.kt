@@ -12,7 +12,7 @@ class LookViewHolder(
 ) : RecyclerView.ViewHolder(binding.root) {
 
     fun onBind(item: LookModel) {
-        binding.tvLookName.text = item.receiveName
+        binding.tvLookName.text = item.receiverName
         binding.tvLookTime.text = item.createdAt
         binding.tvNameHead.text = item.vote.nameHead
         binding.tvNameFoot.text = item.vote.nameFoot
@@ -20,11 +20,11 @@ class LookViewHolder(
         binding.tvKeyword.text = item.vote.keyword
         binding.tvKeywordFoot.text = item.vote.keywordFoot
 
-        if (item.vote.nameHead == "") {
+        if (item.vote.nameHead == null) {
             binding.tvNameHead.visibility = View.GONE
         }
 
-        if (item.vote.keywordHead == "") {
+        if (item.vote.keywordHead == null) {
             binding.tvKeywordHead.visibility = View.GONE
         }
 

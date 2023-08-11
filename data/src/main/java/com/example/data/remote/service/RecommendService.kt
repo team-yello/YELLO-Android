@@ -3,6 +3,7 @@ package com.example.data.remote.service
 import com.example.data.model.request.recommend.RequestRecommendKakaoDto
 import com.example.data.model.response.BaseResponse
 import com.example.data.model.response.recommend.ResponseRecommendDto
+import com.example.data.model.response.recommend.ResponseRecommendSearchDto
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
@@ -26,5 +27,11 @@ interface RecommendService {
     suspend fun postFriendAdd(
         @Path("friendId") friendId: Long
     ): BaseResponse<Unit>
+
+    @GET("/friend/search")
+    suspend fun getSearchList(
+        @Query("keyword") keyword: String,
+        @Query("page") page: Int
+    ): BaseResponse<ResponseRecommendSearchDto>
 
 }

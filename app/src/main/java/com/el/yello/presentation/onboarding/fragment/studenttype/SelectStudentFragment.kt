@@ -51,8 +51,8 @@ class SelectStudentFragment :
     }
 
     private fun setupStudentType() {
-        viewModel.studentType.observe(viewLifecycleOwner) { studenttype ->
-            when (studenttype) {
+        viewModel.studentType.observe(viewLifecycleOwner) { studenyType ->
+            when (studenyType) {
                 StudentTypeEnum.H.toString() -> {
                     binding.btnSchoolHighschool.setBackgroundResource(R.drawable.shape_black_fill_yello_main_500_line_8_rect)
                     binding.btnSchoolUniversity.setBackgroundResource(R.drawable.shape_black_fill_grayscales700_line_8_rect)

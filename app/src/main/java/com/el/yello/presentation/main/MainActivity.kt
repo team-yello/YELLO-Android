@@ -106,9 +106,9 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
                 navigateTo<MyYelloFragment>()
 
                 path?.let {
-                    val b = it.split("/").lastOrNull()?.toLong()
-                    b?.let {
-                        startActivity(MyYelloReadActivity.getIntent(this, b))
+                    val questionId = it.split("/").lastOrNull()?.toLong()
+                    questionId?.let {
+                        startActivity(MyYelloReadActivity.getIntent(this, questionId))
                     }
                 }
             }
@@ -134,7 +134,7 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
         const val NEW_FRIEND = "NEW_FRIEND"
         const val VOTE_AVAILABLE = "VOTE_AVAILABLE"
 
-        fun getIntent(context: Context, type: String, path: String? = null) =
+        fun getIntent(context: Context, type: String? = null, path: String? = null) =
             Intent(context, MainActivity::class.java).apply {
                 putExtra("type", type)
                 putExtra("path", path)

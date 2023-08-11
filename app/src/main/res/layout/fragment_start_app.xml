@@ -16,7 +16,7 @@
             android:id="@+id/tv_startapp_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="136dp"
+            android:layout_marginTop="104dp"
             android:layout_marginBottom="8dp"
             android:gravity="center"
             android:text="@string/onboarding_tv_startapp_title"

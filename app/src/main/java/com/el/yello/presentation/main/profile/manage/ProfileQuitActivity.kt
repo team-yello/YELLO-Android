@@ -9,7 +9,7 @@ import com.example.ui.view.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class   ProfileQuitActivity :
+class ProfileQuitActivity :
     BindingActivity<ActivityProfileQuitBinding>(R.layout.activity_profile_quit) {
 
     override fun onCreate(savedInstanceState: Bundle?) {

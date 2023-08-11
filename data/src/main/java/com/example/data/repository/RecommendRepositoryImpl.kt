@@ -3,6 +3,7 @@ package com.example.data.repository
 import com.example.data.datasource.RecommendDataSource
 import com.example.data.model.request.recommend.toRequestDto
 import com.example.domain.entity.RecommendModel
+import com.example.domain.entity.RecommendSearchModel
 import com.example.domain.entity.RequestRecommendKakaoModel
 import com.example.domain.repository.RecommendRepository
 import javax.inject.Inject
@@ -30,4 +31,15 @@ class RecommendRepositoryImpl @Inject constructor(
     override suspend fun postFriendAdd(friendId: Long): Unit {
         return recommendDataSource.postFriendAdd(friendId).data ?: Unit
     }
+
+    override suspend fun getSearchList(
+        keyword: String,
+        page: Int
+    ): RecommendSearchModel? {
+        return recommendDataSource.getSearchListData(
+            keyword,
+            page
+        ).data?.toRecommendSearchModel()
+    }
+
 }

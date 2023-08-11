@@ -6,7 +6,7 @@ data class LookListModel(
 ) {
     data class LookModel(
         val id: Int,
-        val receiveName: String,
+        val receiverName: String,
         val senderGender: String,
         val vote: LookVoteModel,
         val isHintUsed: Boolean,

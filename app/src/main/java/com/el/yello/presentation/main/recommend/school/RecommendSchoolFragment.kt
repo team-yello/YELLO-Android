@@ -39,8 +39,6 @@ class RecommendSchoolFragment :
 
     private lateinit var friendsList: List<RecommendModel.RecommendFriend>
 
-    private var isFirstResume: Boolean = true
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -56,11 +54,12 @@ class RecommendSchoolFragment :
 
     override fun onResume() {
         super.onResume()
-        if (!isFirstResume) {
+        if (!viewModel.isFirstResume) {
             adapter.clearList()
-            initFirstList()
+            viewModel.setFirstPageLoading()
+            viewModel.addListFromServer()
         }
-        isFirstResume = false
+        viewModel.isFirstResume = false
     }
 
     override fun onDestroyView() {
@@ -80,6 +79,7 @@ class RecommendSchoolFragment :
     }
 
     private fun initFirstList() {
+        viewModel.isFirstResume = true
         viewModel.setFirstPageLoading()
         viewModel.addListFromServer()
     }

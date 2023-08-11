@@ -40,6 +40,7 @@ class RecommendKakaoViewModel @Inject constructor(
     private var totalPage = Int.MAX_VALUE
 
     private var isFirstFriendsListPage: Boolean = true
+    var isFirstResume: Boolean = true
 
     fun setFirstPageLoading() {
         isFirstFriendsListPage = true

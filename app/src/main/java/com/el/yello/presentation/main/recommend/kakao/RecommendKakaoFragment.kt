@@ -35,8 +35,6 @@ class RecommendKakaoFragment :
     private val viewModel by viewModels<RecommendKakaoViewModel>()
     private var recommendInviteDialog: RecommendInviteDialog? = null
 
-    private var isFirstResume: Boolean = true
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -52,13 +50,13 @@ class RecommendKakaoFragment :
 
     override fun onResume() {
         super.onResume()
-        if (!isFirstResume) {
+        if (!viewModel.isFirstResume) {
             adapter.clearList()
             viewModel.setFirstPageLoading()
             viewModel.initPagingVariable()
             viewModel.addListWithKakaoIdList()
         }
-        isFirstResume = false
+        viewModel.isFirstResume = false
     }
 
     override fun onDestroyView() {
@@ -70,6 +68,7 @@ class RecommendKakaoFragment :
     // 서버 통신 성공 시 카카오 추천 친구 추가
     private fun setKakaoRecommendList() {
         setListWithInfinityScroll()
+        viewModel.isFirstResume = true
         viewModel.setFirstPageLoading()
         viewModel.initPagingVariable()
         viewModel.addListWithKakaoIdList()

@@ -59,7 +59,7 @@
             android:layout_marginHorizontal="16dp"
             android:text="@string/onboarding_tv_id"
             android:gravity="center"
-            android:textAppearance="?textAppearanceHeadline2"
+            android:textAppearance="?textAppearanceHeadline1"
             android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -115,22 +115,50 @@
             tools:background="@drawable/ic_onboarding_delete" />
 
         <TextView
-            android:id="@+id/tv_id_error"
-            android:layout_width="0dp"
+            android:id="@+id/tv_id_error_first"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="12dp"
             android:layout_marginTop="4dp"
             android:ellipsize="end"
             android:maxLines="1"
             android:paddingVertical="2dp"
-            android:text="@{vm.isValidId() ? @string/name_id_id_description : @string/onboarding_name_id_id_error}"
+            android:text="@{vm.isValidId() ? @string/onboarding_yelloid_hint_start : @string/onboarding_name_id_id_error}"
             android:textAppearance="?textAppearanceLabelLarge"
-            android:textColor="@{vm.isValidId() ? @color/grayscales_500 : @color/semantic_red_500}"
-            app:layout_constraintEnd_toEndOf="@id/et_id"
+            android:textColor="@{vm.isValidId() ? @color/yello_main_500 : @color/semantic_red_500}"
             app:layout_constraintStart_toStartOf="@id/et_id"
             app:layout_constraintTop_toBottomOf="@id/et_id"
-            tools:text="@string/name_id_id_description"
-            tools:textColor="@color/grayscales_500" />
+            tools:text="@string/onboarding_yelloid_hint_start"
+            tools:textColor="@color/yello_main_500" />
+
+        <TextView
+            android:id="@+id/tv_id_error_second"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:paddingVertical="2dp"
+            android:text="@string/onboarding_yelloid_hint_middle"
+            android:textAppearance="?textAppearanceLabelLarge"
+            android:textColor="@color/grayscales_500"
+            android:visibility="@{vm.isValidId() ? View.VISIBLE : View.INVISIBLE}"
+            app:layout_constraintTop_toBottomOf="@id/et_id"
+            app:layout_constraintStart_toEndOf="@id/tv_id_error_first" />
+
+        <TextView
+            android:id="@+id/tv_id_error_third"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:paddingVertical="2dp"
+            android:text="@string/onboarding_yelloid_hint_end"
+            android:textAppearance="?textAppearanceLabelLarge"
+            android:textColor="@color/grayscales_500"
+            android:visibility="@{vm.isValidId() ? View.VISIBLE : View.INVISIBLE}"
+            app:layout_constraintStart_toStartOf="@+id/tv_id_error_first"
+            app:layout_constraintTop_toBottomOf="@+id/tv_id_error_first" />
 
         <android.widget.Button
             android:id="@+id/btn_yello_id_next"

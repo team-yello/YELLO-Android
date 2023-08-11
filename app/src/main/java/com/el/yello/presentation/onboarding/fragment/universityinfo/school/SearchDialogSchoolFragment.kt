@@ -9,6 +9,7 @@ import android.view.View
 import android.view.WindowManager
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.el.yello.R
@@ -21,6 +22,9 @@ import com.example.ui.view.UiState
 import com.example.ui.view.setOnSingleClickListener
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class SearchDialogSchoolFragment :
     BindingBottomSheetDialog<FragmentDialogUniversityBinding>(R.layout.fragment_dialog_university) {
@@ -28,6 +32,8 @@ class SearchDialogSchoolFragment :
     private val viewModel by activityViewModels<OnBoardingViewModel>()
 
     private var inputText: String = ""
+    private val debounceTime = 500L
+    private var searchJob: Job? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -64,8 +70,11 @@ class SearchDialogSchoolFragment :
     private fun initView() {
         setHideKeyboard()
         binding.etSchoolSearch.doAfterTextChanged { input ->
-            inputText = input.toString()
-            viewModel.getSchoolList(inputText)
+            searchJob?.cancel()
+            searchJob = viewModel.viewModelScope.launch {
+                delay(debounceTime)
+                input?.toString()?.let { viewModel.getSchoolList(it) }
+            }
         }
         adapter = SchoolAdapter(storeSchool = ::storeSchool)
         binding.rvSchoolList.adapter = adapter

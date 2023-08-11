@@ -16,7 +16,7 @@
         android:background="@color/black">
 
         <ImageView
-            android:id="@+id/btn_universityinfo_back_btn"
+            android:id="@+id/btn_university_info_back_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="12dp"
@@ -36,7 +36,7 @@
             android:progressDrawable="@drawable/layerlist_onboarding_progressbar"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btn_universityinfo_back_btn"
+            app:layout_constraintTop_toBottomOf="@+id/btn_university_info_back_btn"
             app:layout_constraintWidth_percent="1" />
 
         <TextView
@@ -58,7 +58,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
             android:layout_marginTop="8dp"
-            android:background="@{vm._school.isEmpty() ? @drawable/shape_black_fill_grayscales500_line_8_rect : @drawable/shape_black_fill_grayscales600_line_8_rect}"
+            android:background="@{vm.schoolText.isEmpty() ? @drawable/shape_black_fill_grayscales500_line_8_rect : @drawable/shape_black_fill_grayscales600_line_8_rect}"
             android:hint="@string/onboarding_school_hint"
             android:textAppearance="?textAppearanceBodyLarge"
             android:drawablePadding="12dp"
@@ -95,7 +95,7 @@
             android:layout_marginHorizontal="16dp"
             android:layout_marginTop="8dp"
             android:gravity="center_vertical"
-            android:background="@{vm._department.isEmpty() ?@drawable/shape_black_fill_grayscales500_line_8_rect : @drawable/shape_black_fill_grayscales600_line_8_rect}"
+            android:background="@{vm.departmentText.isEmpty() ?@drawable/shape_black_fill_grayscales500_line_8_rect : @drawable/shape_black_fill_grayscales600_line_8_rect}"
             android:hint="@string/onboarding_department_hint"
             android:fontFamily="@font/font_pretendard_medium"
             android:textSize="16sp"
@@ -128,7 +128,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
             android:layout_marginTop="8dp"
-            android:background="@{vm._studentId == null ? @drawable/shape_black_fill_grayscales500_line_8_rect : @drawable/shape_black_fill_grayscales600_line_8_rect}"
+            android:background="@{vm.studentIdText == null ? @drawable/shape_black_fill_grayscales500_line_8_rect : @drawable/shape_black_fill_grayscales600_line_8_rect}"
             android:fontFamily="@font/font_pretendard_medium"
             android:gravity="center_vertical"
             android:hint="@string/onboarding_tv_hint_select_studentid"
@@ -145,17 +145,17 @@
             tools:background="shape_black_fill_grayscales600_line_8_rect" />
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btn_universityinfo_next"
+            android:id="@+id/btn_university_info_next"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
             android:layout_marginBottom="32dp"
-            android:background="@{vm._school.isEmpty() || vm._department.isEmpty() || vm._studentId == null ? @drawable/shape_grayscales_800_fill_100_rect : @drawable/shape_yello_main_500_fill_100_rect}"
-            android:clickable="@{!vm._school.isEmpty() &amp; !vm._department.isEmpty() &amp; vm._studentId != null }"
+            android:background="@{vm.schoolText.isEmpty() || vm.departmentText.isEmpty() || vm.studentIdText == null ? @drawable/shape_grayscales_800_fill_100_rect : @drawable/shape_yello_main_500_fill_100_rect}"
+            android:clickable="@{!vm.schoolText.isEmpty() &amp; !vm.departmentText.isEmpty() &amp; vm.studentIdText != null }"
             android:paddingVertical="12dp"
             android:text="@string/onboarding_btn_next"
             android:textAppearance="?textAppearanceBodyMedium"
-            android:textColor="@{vm._school.isEmpty() || vm._department.isEmpty()|| vm._studentId == null? @color/grayscales_700 : @color/black}"
+            android:textColor="@{vm.schoolText.isEmpty() || vm.departmentText.isEmpty()|| vm.studentIdText == null? @color/grayscales_700 : @color/black}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />

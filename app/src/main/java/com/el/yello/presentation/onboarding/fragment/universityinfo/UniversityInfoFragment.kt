@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import com.el.yello.R
 import com.el.yello.databinding.FragmentUniversityBinding
 import com.el.yello.presentation.onboarding.activity.OnBoardingViewModel
@@ -25,7 +26,7 @@ class UniversityInfoFragment :
         super.onViewCreated(view, savedInstanceState)
         binding.vm = viewModel
 
-        ProgressBarTimerFun()
+        progressBarTimerFun()
         initSearchInfoBtnClickListener()
         setConfirmBtnClickListener()
         setupSchool()
@@ -33,7 +34,7 @@ class UniversityInfoFragment :
         setupStudentId()
         initSearchInfoBtnClickListener()
     }
-    private fun ProgressBarTimerFun() {
+    private fun progressBarTimerFun() {
         binding.universityInfoProgressbar.progress = 16
         timer?.cancel()
         timer = Timer()
@@ -57,12 +58,12 @@ class UniversityInfoFragment :
     }
 
     private fun setupSchool() {
-        viewModel._school.observe(viewLifecycleOwner) { school ->
+        viewModel.schoolText.observe(viewLifecycleOwner) { school ->
             binding.tvUniversitySearch.text = school
         }
     }
     private fun setupDepartment() {
-        viewModel._department.observe(viewLifecycleOwner) { department ->
+        viewModel.departmentText.observe(viewLifecycleOwner) { department ->
             binding.tvDepartmentSearch.text = department
         }
         binding.tvDepartmentSearch.doAfterTextChanged {
@@ -71,17 +72,17 @@ class UniversityInfoFragment :
     }
 
     private fun setupStudentId() {
-        viewModel._studentId.observe(viewLifecycleOwner) { studentId ->
+        viewModel.studentIdText.observe(viewLifecycleOwner) { studentId ->
             binding.tvStudentidSearch.text = getString(R.string.onboarding_student_id, studentId)
         }
     }
 
     private fun setConfirmBtnClickListener() {
-        binding.btnUniversityinfoNext.setOnSingleClickListener {
-            viewModel.navigateToNextPage()
+        binding.btnUniversityInfoNext.setOnSingleClickListener {
+            findNavController().navigate(R.id.action_universityInfoFragment_to_genderFragment)
         }
-        binding.btnUniversityinfoBackBtn.setOnSingleClickListener {
-            viewModel.navigateToBackPage()
+        binding.btnUniversityInfoBackBtn.setOnSingleClickListener {
+            findNavController().navigate(R.id.action_universityInfoFragment_to_selectStudentFragment)
         }
     }
 }

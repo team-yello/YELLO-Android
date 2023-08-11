@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import com.el.yello.R
 import com.el.yello.databinding.FragmentCodeBinding
 import com.el.yello.presentation.onboarding.activity.OnBoardingViewModel
@@ -27,10 +28,10 @@ class CodeFragment : BindingFragment<FragmentCodeBinding>(R.layout.fragment_code
         setDeleteCodeBtnClickListener()
         setupPostSignupState()
         viewModel.validYellIdLoading()
-        ProgressBarTimerFun()
+        progressBarTimerFun()
     }
 
-    private fun ProgressBarTimerFun() {
+    private fun progressBarTimerFun() {
         binding.codeProgressbar.progress = 64
         timer?.cancel()
         timer = Timer()
@@ -49,9 +50,11 @@ class CodeFragment : BindingFragment<FragmentCodeBinding>(R.layout.fragment_code
     private fun setConfirmBtnCLickListener() {
         binding.btnCodeSkip.setOnClickListener {
             viewModel.postSignup()
+            findNavController().navigate(R.id.action_codeFragment_to_startAppFragment)
         }
         binding.btnCodeNext.setOnSingleClickListener {
             viewModel.getValidYelloId(viewModel.codeText.value.toString())
+            findNavController().navigate(R.id.action_codeFragment_to_startAppFragment)
         }
     }
 
@@ -59,7 +62,7 @@ class CodeFragment : BindingFragment<FragmentCodeBinding>(R.layout.fragment_code
         viewModel.postSignupState.observe(viewLifecycleOwner) { state ->
             when (state) {
                 is UiState.Success -> {
-                    viewModel.navigateToNextPage()
+                    findNavController().navigate(R.id.action_codeFragment_to_startAppFragment)
                 }
 
                 is UiState.Failure -> {
@@ -108,7 +111,7 @@ class CodeFragment : BindingFragment<FragmentCodeBinding>(R.layout.fragment_code
         binding.ivCodeDelete.setBackgroundResource(R.drawable.ic_onboarding_delete_red)
         binding.tvCodeHint.text = getString(R.string.onboarding_code_duplicate_msg)
         binding.tvCodeHint.setTextColor(ContextCompat.getColor(requireContext(), R.color.semantic_red_500))
-        binding.tvCodeHintPoint.visibility=View.INVISIBLE
-        binding.tvCodeHintEnd.visibility=View.INVISIBLE
+        binding.tvCodeHintPoint.visibility = View.INVISIBLE
+        binding.tvCodeHintEnd.visibility = View.INVISIBLE
     }
 }

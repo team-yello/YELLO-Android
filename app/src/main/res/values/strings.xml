@@ -227,4 +227,17 @@
 
     <string name="default_notification_channel_id">default_messaging_channel</string>
     <string name="recommend_search_loading">친구를 찾는 중이에요...</string>
+
+    <string name="dialog_point_fail">포인트가 부족해요!</string>
+    <string name="dialog_get_keyword_question">100 포인트로 키워드를 얻을까요?</string>
+    <string name="dialog_get_keyword_free_question">0 포인트로 키워드를 얻을까요?</string>
+    <string name="dialog_get_keyword">키워드 얻기</string>
+    <string name="dialog_get_initial_question">300 포인트로 초성을 얻을까요?</string>
+    <string name="dialog_get_initial">초성 얻기</string>
+    <string name="dialog_key_title">열람권</string>
+    <string name="dialog_vote_get_point">투표하고 포인트 받기</string>
+    <string name="dialog_initial_sub_title">이름 중 랜덤으로 뽑은 초성이에요.</string>
+    <string name="dialog_initial_title">보낸 사람의 초성을 얻었어요!</string>
+    <string name="dialog_complete">완료</string>
+    <string name="dialog_after_point">사용 후 포인트</string>
 </resources>

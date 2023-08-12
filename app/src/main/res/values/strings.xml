@@ -105,8 +105,10 @@
 
     <string name="my_yello_title">내 쪽지</string>
     <string name="my_yello_count_end">개</string>
+    <string name="my_yello_shop">상점</string>
     <string name="my_yello_receive_title">받은 쪽지</string>
     <string name="my_yello_send_check">누가 보냈는지 확인하기</string>
+    <string name="my_yello_send_open">누가 보냈는지 열어보기</string>
     <string name="my_yello_you">너</string>
     <string name="my_yello_not_yet">아직 쪽지가 온 게 없어요.</string>
     <string name="my_yello_question">\???</string>

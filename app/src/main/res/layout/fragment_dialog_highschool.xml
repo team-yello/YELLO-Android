@@ -59,7 +59,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="20dp"
             android:layout_marginTop="12dp"
-            android:background="@drawable/shape_grayscales900_fill_grayscales600_line_8_rect"
+            android:background="@drawable/shape_grayscales800_fill_grayscales700_line_8_rect"
             android:drawableEnd="@drawable/ic_onboarding_search"
             android:drawablePadding="24dp"
             android:fontFamily="@font/font_pretendard_medium"

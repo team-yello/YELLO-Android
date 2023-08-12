@@ -49,7 +49,6 @@ class SelectStudentFragment :
             startActivity(intent)
         }
     }
-
     private fun setupStudentType() {
         viewModel.studentType.observe(viewLifecycleOwner) { studenyType ->
             when (studenyType) {
@@ -64,7 +63,6 @@ class SelectStudentFragment :
                         findNavController().navigate(R.id.action_selectStudentFragment_to_highschoolInfoFragment)
                     }
                 }
-
                 StudentTypeEnum.U.toString() -> {
                     binding.btnSchoolUniversity.setBackgroundResource(R.drawable.shape_black_fill_yello_main_500_line_8_rect)
                     binding.btnSchoolHighschool.setBackgroundResource(R.drawable.shape_black_fill_grayscales700_line_8_rect)

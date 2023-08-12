@@ -28,7 +28,7 @@ class GenderFragment : BindingFragment<FragmentGenderBinding>(R.layout.fragment_
 
     private fun setConfirmBtnClickListener() {
         binding.btnGenderNext.setOnSingleClickListener {
-            findNavController().navigate(R.id.action_genderFragment_to_nameIdFragment)
+            findNavController().navigate(R.id.action_genderFragment_to_nameFragment)
         }
 
         viewModel.studentType.observe(viewLifecycleOwner) { studenttype ->

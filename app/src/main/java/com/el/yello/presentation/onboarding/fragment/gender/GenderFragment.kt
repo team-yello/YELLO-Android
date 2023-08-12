@@ -21,7 +21,6 @@ class GenderFragment : BindingFragment<FragmentGenderBinding>(R.layout.fragment_
         binding.vm = viewModel
         binding.male = GenderEnum.M.toString()
         binding.female = GenderEnum.W.toString()
-
         setupGender()
         setConfirmBtnClickListener()
     }

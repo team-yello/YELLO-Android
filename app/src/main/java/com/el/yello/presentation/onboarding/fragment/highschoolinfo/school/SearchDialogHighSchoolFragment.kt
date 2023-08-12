@@ -26,7 +26,6 @@ class SearchDialogHighSchoolFragment :
     BindingBottomSheetDialog<FragmentDialogHighschoolBinding>(R.layout.fragment_dialog_highschool) {
     private val viewModel by activityViewModels<OnBoardingViewModel>()
     private var adapter: HighSchoolAdapter? = null
-
     private var inputText: String = ""
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

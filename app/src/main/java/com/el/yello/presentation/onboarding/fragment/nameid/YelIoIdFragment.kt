@@ -23,7 +23,6 @@ class YelIoIdFragment : BindingFragment<FragmentYelloIdBinding>(R.layout.fragmen
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.vm = viewModel
-
         setDeleteBtnClickListener()
         setConfirmBtnClickListener()
         setupGetValidYelloId()

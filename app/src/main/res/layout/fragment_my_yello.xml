@@ -106,6 +106,71 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:listitem="@layout/item_my_yello" />
+
+            <com.el.yello.presentation.util.GradientButton
+                android:id="@+id/btn_send_check"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginBottom="18dp"
+                android:drawableStart="@drawable/ic_lock"
+                android:gravity="center"
+                android:paddingVertical="20dp"
+                android:paddingStart="78dp"
+                android:paddingEnd="78dp"
+                android:text="@string/my_yello_send_check"
+                android:textAppearance="@style/TextAppearance.Yello.Subtitle02"
+                android:textColor="@color/white"
+                app:layout_constraintBottom_toBottomOf="parent" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_send_open"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginBottom="18dp"
+                android:background="@drawable/shape_fill_yello500_100dp"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent">
+
+                <ImageView
+                    android:id="@+id/iv_key"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_key"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/tv_key_number"
+                    app:layout_constraintHorizontal_chainStyle="packed"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_key_number"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:textAppearance="@style/TextAppearance.Yello.Subtitle02"
+                    android:textColor="@color/purple_sub_500"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/tv_send_open"
+                    app:layout_constraintStart_toEndOf="@id/iv_key"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="0" />
+
+                <TextView
+                    android:id="@+id/tv_send_open"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:fontFamily="@font/pretendard_bold"
+                    android:paddingVertical="20dp"
+                    android:text="@string/my_yello_send_open"
+                    android:textColor="@color/black"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/tv_key_number"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <com.facebook.shimmer.ShimmerFrameLayout
@@ -144,70 +209,5 @@
             </LinearLayout>
 
         </com.facebook.shimmer.ShimmerFrameLayout>
-
-        <com.el.yello.presentation.util.GradientButton
-            android:id="@+id/btn_send_check"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="16dp"
-            android:layout_marginBottom="18dp"
-            android:drawableStart="@drawable/ic_lock"
-            android:gravity="center"
-            android:paddingVertical="20dp"
-            android:paddingStart="78dp"
-            android:paddingEnd="78dp"
-            android:text="@string/my_yello_send_check"
-            android:textAppearance="@style/TextAppearance.Yello.Subtitle02"
-            android:textColor="@color/white"
-            app:layout_constraintBottom_toBottomOf="parent" />
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/cl_send_open"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="16dp"
-            android:layout_marginBottom="18dp"
-            android:background="@drawable/shape_fill_yello500_100dp"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="parent">
-
-            <ImageView
-                android:id="@+id/iv_key"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_key"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/tv_key_number"
-                app:layout_constraintHorizontal_chainStyle="packed"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/tv_key_number"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
-                android:textAppearance="@style/TextAppearance.Yello.Subtitle02"
-                android:textColor="@color/purple_sub_500"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/tv_send_open"
-                app:layout_constraintStart_toEndOf="@id/iv_key"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="0" />
-
-            <TextView
-                android:id="@+id/tv_send_open"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="12dp"
-                android:fontFamily="@font/pretendard_bold"
-                android:paddingVertical="20dp"
-                android:text="@string/my_yello_send_open"
-                android:textColor="@color/black"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/tv_key_number"
-                app:layout_constraintTop_toTopOf="parent" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

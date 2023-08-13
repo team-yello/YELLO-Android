@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
@@ -84,6 +85,9 @@ class MyYelloFragment : BindingFragment<FragmentMyYelloBinding>(R.layout.fragmen
             when (it) {
                 is UiState.Success -> {
                     binding.shimmerMyYelloReceive.stopShimmer()
+                    binding.clSendOpen.isVisible = it.data.ticketCount != 0
+                    binding.btnSendCheck.isVisible = it.data.ticketCount == 0
+                    binding.tvKeyNumber.text = it.data.ticketCount.toString()
                     adapter?.addItem(it.data.yello)
                 }
 

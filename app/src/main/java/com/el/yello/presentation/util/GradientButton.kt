@@ -10,6 +10,7 @@ import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatButton
 import androidx.core.content.ContextCompat
 import com.el.yello.R
+import com.google.android.material.button.MaterialButton
 
 /**
  * made 2023.08.07
@@ -39,7 +40,7 @@ class GradientButton @JvmOverloads constructor(
     }
 
     private fun setupAnimation() {
-        val animator = ObjectAnimator.ofArgb(this, "strokeColor", ContextCompat.getColor(context, R.color.white), ContextCompat.getColor(context, R.color.animate_end),  ContextCompat.getColor(context, R.color.white))
+        val animator = ObjectAnimator.ofArgb(this, "strokeColor", ContextCompat.getColor(context, R.color.animate_end), ContextCompat.getColor(context, R.color.white),  ContextCompat.getColor(context, R.color.animate_end))
         animator.duration = 2000 // 애니메이션 지속시간
         animator.repeatCount = ValueAnimator.INFINITE // 무한 반복
 

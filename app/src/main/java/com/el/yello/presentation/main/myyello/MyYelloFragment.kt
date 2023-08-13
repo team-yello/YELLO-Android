@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
@@ -67,29 +68,45 @@ class MyYelloFragment : BindingFragment<FragmentMyYelloBinding>(R.layout.fragmen
     }
 
     private fun initEvent() {
-        binding.clSendCheck.setOnSingleClickListener {
+        binding.btnSendCheck.setOnSingleClickListener {
             Intent(requireContext(), PayActivity::class.java).apply {
                 startActivity(this)
             }
         }
+
+        binding.btnShop.setOnSingleClickListener {
+            goToPayActivity()
+        }
     }
 
     private fun observe() {
-        viewModel.myYelloData.flowWithLifecycle(viewLifecycleOwner.lifecycle)
-            .onEach {
-                binding.uiState = it.getUiStateModel()
-                when (it) {
-                    is UiState.Success -> {
-                        adapter?.addItem(it.data.yello)
-                    }
-
-                    is UiState.Failure -> {
-                        yelloSnackbar(requireView(), it.msg)
-                    }
-
-                    else -> {}
+        viewModel.myYelloData.observe(viewLifecycleOwner) {
+            binding.uiState = it.getUiStateModel()
+            when (it) {
+                is UiState.Success -> {
+                    binding.shimmerMyYelloReceive.stopShimmer()
+                    binding.clSendOpen.isVisible = it.data.ticketCount != 0
+                    binding.btnSendCheck.isVisible = it.data.ticketCount == 0
+                    binding.tvKeyNumber.text = it.data.ticketCount.toString()
+                    adapter?.addItem(it.data.yello)
                 }
-            }.launchIn(viewLifecycleOwner.lifecycleScope)
+
+                is UiState.Failure -> {
+                    binding.shimmerMyYelloReceive.stopShimmer()
+                    yelloSnackbar(requireView(), it.msg)
+                }
+
+                is UiState.Empty -> {
+                    binding.shimmerMyYelloReceive.stopShimmer()
+                }
+
+                is UiState.Loading -> {
+                    binding.shimmerMyYelloReceive.startShimmer()
+                }
+
+                else -> {}
+            }
+        }
 
         viewModel.totalCount.flowWithLifecycle(viewLifecycleOwner.lifecycle)
             .onEach {
@@ -111,6 +128,12 @@ class MyYelloFragment : BindingFragment<FragmentMyYelloBinding>(R.layout.fragmen
                 }
             }
         })
+    }
+
+    private fun goToPayActivity() {
+        Intent(requireContext(), PayActivity::class.java).apply {
+            startActivity(this)
+        }
     }
 
     private val myYelloReadActivityLauncher = registerForActivityResult(

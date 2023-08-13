@@ -4,6 +4,7 @@ import com.example.domain.enum.GenderEnum
 
 data class MyYello(
     val totalCount: Int,
+    val ticketCount: Int,
     val yello: List<Yello>,
 )
 

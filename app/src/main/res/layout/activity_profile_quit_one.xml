@@ -48,20 +48,30 @@
                 android:layout_height="wrap_content"
                 android:paddingBottom="84dp">
 
+                <ImageView
+                    android:id="@+id/iv_profile_warning"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="25dp"
+                    android:src="@drawable/ic_warning"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
                 <TextView
                     android:id="@+id/tv_profile_quit_for_sure_subtitle_1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="12dp"
-                    android:layout_marginTop="39dp"
+                    android:layout_marginTop="10dp"
                     android:gravity="center"
-                    android:lineHeight="36dp"
+                    android:lineHeight="40dp"
                     android:text="@string/profile_quit_for_sure_tv_subtitle_1"
-                    android:textAppearance="?textAppearanceSubtitle1"
-                    android:textColor="@color/white"
+                    android:textAppearance="?textAppearanceHeadline3"
+                    android:textColor="@color/yello_main_500"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toBottomOf="@id/iv_profile_warning" />
 
                 <TextView
                     android:id="@+id/tv_profile_quit_for_sure_subtitle_2_top"
@@ -93,86 +103,161 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tv_profile_quit_for_sure_subtitle_2_top" />
 
-                <TextView
-                    android:id="@+id/tv_profile_quit_for_sure_reason_1"
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/layout_profile_quit_upper"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="12dp"
-                    android:layout_marginTop="72dp"
-                    android:gravity="center"
-                    android:lineHeight="32dp"
-                    android:paddingVertical="4dp"
-                    android:text="@string/profile_quit_for_sure_tv_reason_1"
-                    android:textAppearance="?textAppearanceBodyLarge"
-                    android:textColor="@color/white"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tv_profile_quit_for_sure_subtitle_2_bottom" />
-
-                <ImageView
-                    android:id="@+id/iv_profile_quit_for_sure_reason_1"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="42dp"
-                    android:layout_marginTop="6dp"
-                    android:src="@drawable/ic_quit_for_sure_1"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tv_profile_quit_for_sure_reason_1" />
-
-                <TextView
-                    android:id="@+id/tv_profile_quit_for_sure_reason_2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="12dp"
+                    android:layout_marginHorizontal="16dp"
                     android:layout_marginTop="40dp"
-                    android:gravity="center"
-                    android:lineHeight="32dp"
-                    android:paddingVertical="4dp"
-                    android:text="@string/profile_quit_for_sure_tv_reason_2"
-                    android:textAppearance="?textAppearanceBodyLarge"
-                    android:textColor="@color/white"
+                    android:background="@drawable/shape_grayscales900_fill_12_rect"
+                    android:paddingBottom="26dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/iv_profile_quit_for_sure_reason_1" />
+                    app:layout_constraintTop_toBottomOf="@id/tv_profile_quit_for_sure_subtitle_2_bottom">
 
-                <ImageView
-                    android:id="@+id/iv_profile_quit_for_sure_reason_2"
+                    <TextView
+                        android:id="@+id/tv_profile_upper_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="26dp"
+                        android:lineHeight="36dp"
+                        android:text="@string/profile_quit_upper_title"
+                        android:textAppearance="?textAppearanceSubtitle1"
+                        android:textColor="@color/white"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <ImageView
+                        android:id="@+id/iv_profile_upper"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="18dp"
+                        android:src="@drawable/ic_point_zero"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_profile_upper_title" />
+
+                    <TextView
+                        android:id="@+id/tv_profile_upper_body_1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:lineHeight="22dp"
+                        android:text="@string/profile_quit_upper_body_1"
+                        android:textAppearance="?textAppearanceLabelMedium"
+                        android:textColor="@color/white"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/iv_profile_upper" />
+
+                    <TextView
+                        android:id="@+id/tv_profile_upper_body_2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:lineHeight="22dp"
+                        android:text="@string/profile_quit_upper_body_2"
+                        android:textAppearance="?textAppearanceLabelMedium"
+                        android:textColor="@color/white"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+
+                        app:layout_constraintTop_toBottomOf="@id/tv_profile_upper_body_1" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/layout_profile_quit_lower"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="42dp"
-                    android:layout_marginTop="6dp"
-                    android:src="@drawable/ic_quit_for_sure_2"
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/shape_grayscales900_fill_12_rect"
+                    android:paddingBottom="36dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tv_profile_quit_for_sure_reason_2" />
+                    app:layout_constraintTop_toBottomOf="@id/layout_profile_quit_upper">
 
-                <TextView
-                    android:id="@+id/tv_profile_quit_for_sure_reason_3"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="12dp"
-                    android:layout_marginTop="40dp"
-                    android:gravity="center"
-                    android:lineHeight="32dp"
-                    android:paddingVertical="4dp"
-                    android:text="@string/profile_quit_for_sure_tv_reason_3"
-                    android:textAppearance="?textAppearanceBodyLarge"
-                    android:textColor="@color/white"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/iv_profile_quit_for_sure_reason_2" />
+                    <TextView
+                        android:id="@+id/tv_profile_quit_for_sure_reason_1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="12dp"
+                        android:layout_marginTop="36dp"
+                        android:gravity="center"
+                        android:paddingVertical="4dp"
+                        android:text="@string/profile_quit_for_sure_tv_reason_1"
+                        android:textAppearance="?textAppearanceSubtitle1"
+                        android:textColor="@color/white"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-                <ImageView
-                    android:id="@+id/iv_profile_quit_for_sure_reason_3"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="42dp"
-                    android:layout_marginTop="6dp"
-                    android:src="@drawable/ic_quit_for_sure_3"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tv_profile_quit_for_sure_reason_3" />
+                    <ImageView
+                        android:id="@+id/iv_profile_quit_for_sure_reason_1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="42dp"
+                        android:layout_marginTop="6dp"
+                        android:src="@drawable/ic_quit_for_sure_1"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_profile_quit_for_sure_reason_1" />
+
+                    <TextView
+                        android:id="@+id/tv_profile_quit_for_sure_reason_2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="12dp"
+                        android:layout_marginTop="40dp"
+                        android:gravity="center"
+                        android:paddingVertical="4dp"
+                        android:text="@string/profile_quit_for_sure_tv_reason_2"
+                        android:textAppearance="?textAppearanceSubtitle1"
+                        android:textColor="@color/white"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/iv_profile_quit_for_sure_reason_1" />
+
+                    <ImageView
+                        android:id="@+id/iv_profile_quit_for_sure_reason_2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="42dp"
+                        android:layout_marginTop="6dp"
+                        android:src="@drawable/ic_quit_for_sure_2"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_profile_quit_for_sure_reason_2" />
+
+                    <TextView
+                        android:id="@+id/tv_profile_quit_for_sure_reason_3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="12dp"
+                        android:layout_marginTop="40dp"
+                        android:gravity="center"
+                        android:lineHeight="36dp"
+                        android:paddingVertical="4dp"
+                        android:text="@string/profile_quit_for_sure_tv_reason_3"
+                        android:textAppearance="?textAppearanceSubtitle1"
+                        android:textColor="@color/white"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/iv_profile_quit_for_sure_reason_2" />
+
+                    <ImageView
+                        android:id="@+id/iv_profile_quit_for_sure_reason_3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="42dp"
+                        android:layout_marginTop="6dp"
+                        android:src="@drawable/ic_quit_for_sure_3"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_profile_quit_for_sure_reason_3" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <TextView
                     android:id="@+id/btn_profile_quit_resume"
@@ -188,7 +273,7 @@
                     android:textColor="@color/grayscales_500"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/iv_profile_quit_for_sure_reason_3" />
+                    app:layout_constraintTop_toBottomOf="@id/layout_profile_quit_lower" />
 
                 <TextView
                     android:id="@+id/btn_profile_quit_return"

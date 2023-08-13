@@ -35,8 +35,8 @@ class RecommendSearchViewModel @Inject constructor(
         viewModelScope.launch {
             runCatching {
                 recommendRepository.getSearchList(
-                    keyword = keyword,
-                    0
+                    0,
+                    keyword = keyword
                 )
             }.onSuccess {
                 it ?: return@launch

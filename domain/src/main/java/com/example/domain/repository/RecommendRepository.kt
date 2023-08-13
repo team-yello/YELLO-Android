@@ -20,8 +20,8 @@ interface RecommendRepository {
     )
 
     suspend fun getSearchList(
-        keyword: String,
-        page: Int
+        page: Int,
+        keyword: String
     ): RecommendSearchModel?
 
 }

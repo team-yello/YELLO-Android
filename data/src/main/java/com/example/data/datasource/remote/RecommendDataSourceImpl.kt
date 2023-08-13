@@ -32,10 +32,10 @@ class RecommendDataSourceImpl @Inject constructor(
     }
 
     override suspend fun getSearchListData(
-        keyword: String,
-        page: Int
+        page: Int,
+        keyword: String
     ): BaseResponse<ResponseRecommendSearchDto> {
-        return recommendService.getSearchList(keyword, page)
+        return recommendService.getSearchList(page, keyword)
     }
 
 }

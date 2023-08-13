@@ -83,11 +83,16 @@ class RecommendSearchActivity :
     }
 
     private fun setDebounceSearch() {
-        binding.etRecommendSearchBox.doAfterTextChanged {
-            searchJob?.cancel()
-            searchJob = viewModel.viewModelScope.launch {
-                delay(debounceTime)
-                it?.toString()?.let { viewModel.setListFromServer(it) }
+        binding.etRecommendSearchBox.doAfterTextChanged { text ->
+            if (text.isNullOrBlank()) {
+                showNoFriendScreen()
+                binding.layoutRecommendNoSearch.visibility = View.GONE
+            } else {
+                searchJob?.cancel()
+                searchJob = viewModel.viewModelScope.launch {
+                    delay(debounceTime)
+                    text.toString().let { viewModel.setListFromServer(it) }
+                }
             }
         }
     }

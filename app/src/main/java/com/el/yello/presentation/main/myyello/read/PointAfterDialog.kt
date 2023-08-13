@@ -44,7 +44,7 @@ class PointAfterDialog :
     private fun setDataView() {
         binding.tvSubTitle.isVisible = viewModel.pointType == PointEnum.INITIAL.ordinal
         if (viewModel.pointType == PointEnum.KEYWORD.ordinal) {
-            binding.tvTitle.text = "쪽지의 키워드를 얻었어요!"
+            binding.tvTitle.text = getString(R.string.dialog_after_keyword_title)
         }
     }
 

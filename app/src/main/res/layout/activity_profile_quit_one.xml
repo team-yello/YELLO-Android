@@ -175,35 +175,36 @@
                     app:layout_constraintTop_toBottomOf="@id/tv_profile_quit_for_sure_reason_3" />
 
                 <TextView
-                    android:id="@+id/tv_profile_quit_for_sure_rule"
+                    android:id="@+id/btn_profile_quit_resume"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="12dp"
-                    android:layout_marginTop="43dp"
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginTop="60dp"
+                    android:layout_marginBottom="8dp"
+                    android:background="@drawable/shape_black_fill_grayscales700_line_100_rect"
                     android:gravity="center"
-                    android:lineHeight="15dp"
-                    android:text="@string/profile_quit_for_sure_tv_rule"
-                    android:textAppearance="?textAppearanceLabelMedium"
-                    android:textColor="@color/grayscales_600"
+                    android:paddingVertical="16dp"
+                    android:text="@string/profile_quit_btn_resume"
+                    android:textColor="@color/grayscales_500"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/iv_profile_quit_for_sure_reason_3" />
 
                 <TextView
-                    android:id="@+id/btn_profile_quit_for_sure"
+                    android:id="@+id/btn_profile_quit_return"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="16dp"
-                    android:layout_marginTop="24dp"
-                    android:layout_marginBottom="8dp"
-                    android:background="@drawable/shape_grayscales700_line_8_rect"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="34dp"
+                    android:background="@drawable/shape_grayscales800_fill_100_rect"
                     android:gravity="center"
                     android:paddingVertical="16dp"
-                    android:text="@string/profile_quit_for_sure_btn"
-                    android:textColor="@color/semantic_red_500"
+                    android:text="@string/profile_quit_btn_return"
+                    android:textColor="@color/yello_main_500"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tv_profile_quit_for_sure_rule" />
+                    app:layout_constraintTop_toBottomOf="@id/btn_profile_quit_resume" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

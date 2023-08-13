@@ -81,7 +81,7 @@ class AddFriendFragment : BindingFragment<FragmentAddFriendBinding>(R.layout.fra
 
     private fun setBackBtnClickListener() {
         binding.btnAddFriendBackBtn.setOnSingleClickListener {
-            findNavController().navigate(R.id.action_addFriendFragment_to_nameIdFragment)
+            findNavController().navigate(R.id.action_addFriendFragment_to_yelIoIdFragment)
         }
     }
 

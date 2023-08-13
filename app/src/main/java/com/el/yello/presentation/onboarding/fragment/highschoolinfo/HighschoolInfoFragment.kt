@@ -59,30 +59,30 @@ class HighschoolInfoFragment :
         viewModel.gradeText.observe(viewLifecycleOwner) { grade ->
             when (grade) {
                 GradeEnum.A.toString() -> {
-                    binding.tvGradeFirst.setBackgroundResource(R.drawable.shape_black_fill_yello_main_500_line_8_rect)
-                    binding.tvGradeFirst.setTextColor(resources.getColor(R.color.yello_main_500))
-                    binding.tvGradeSecond.setBackgroundResource(R.drawable.shape_black_fill_grayscales700_line_8_rect)
+                    binding.tvGradeFirst.setBackgroundResource(R.drawable.shape_grayscales900_fill_yello_main600_line_8_leftrect)
+                    binding.tvGradeFirst.setTextColor(resources.getColor(R.color.yello_main_600))
+                    binding.tvGradeSecond.setBackgroundResource(R.drawable.shape_grayscales900_fill_grayscales700_line_8_square)
                     binding.tvGradeSecond.setTextColor(resources.getColor(R.color.grayscales_700))
-                    binding.tvGradeThird.setBackgroundResource(R.drawable.shape_black_fill_grayscales700_line_8_rect)
+                    binding.tvGradeThird.setBackgroundResource(R.drawable.shape_grayscales900_fill_grayscales700_line_8_rightrect)
                     binding.tvGradeThird.setTextColor(resources.getColor(R.color.grayscales_700))
                 }
 
                 GradeEnum.B.toString() -> {
-                    binding.tvGradeFirst.setBackgroundResource(R.drawable.shape_black_fill_grayscales700_line_8_rect)
+                    binding.tvGradeFirst.setBackgroundResource(R.drawable.shape_grayscales900_fill_grayscales700_line_8_leftrect)
                     binding.tvGradeFirst.setTextColor(resources.getColor(R.color.grayscales_700))
-                    binding.tvGradeSecond.setBackgroundResource(R.drawable.shape_black_fill_yello_main_500_line_8_rect)
-                    binding.tvGradeSecond.setTextColor(resources.getColor(R.color.yello_main_500))
-                    binding.tvGradeThird.setBackgroundResource(R.drawable.shape_black_fill_grayscales700_line_8_rect)
+                    binding.tvGradeSecond.setBackgroundResource(R.drawable.shape_grayscales900_fill_yello_main600_line_8_square)
+                    binding.tvGradeSecond.setTextColor(resources.getColor(R.color.yello_main_600))
+                    binding.tvGradeThird.setBackgroundResource(R.drawable.shape_grayscales900_fill_grayscales700_line_8_rightrect)
                     binding.tvGradeThird.setTextColor(resources.getColor(R.color.grayscales_700))
                 }
 
                 GradeEnum.C.toString() -> {
-                    binding.tvGradeFirst.setBackgroundResource(R.drawable.shape_black_fill_grayscales700_line_8_rect)
+                    binding.tvGradeFirst.setBackgroundResource(R.drawable.shape_grayscales900_fill_grayscales700_line_8_leftrect)
                     binding.tvGradeFirst.setTextColor(resources.getColor(R.color.grayscales_700))
-                    binding.tvGradeSecond.setBackgroundResource(R.drawable.shape_black_fill_grayscales700_line_8_rect)
+                    binding.tvGradeSecond.setBackgroundResource(R.drawable.shape_grayscales900_fill_grayscales700_line_8_square)
                     binding.tvGradeSecond.setTextColor(resources.getColor(R.color.grayscales_700))
-                    binding.tvGradeThird.setBackgroundResource(R.drawable.shape_black_fill_yello_main_500_line_8_rect)
-                    binding.tvGradeThird.setTextColor(resources.getColor(R.color.yello_main_500))
+                    binding.tvGradeThird.setBackgroundResource(R.drawable.shape_grayscales900_fill_yello_main600_line_8_rightrect)
+                    binding.tvGradeThird.setTextColor(resources.getColor(R.color.yello_main_600))
                 }
             }
         }

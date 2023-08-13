@@ -43,27 +43,42 @@
         <TextView
             android:id="@+id/tv_add_friend"
             android:layout_width="0dp"
+            android:gravity="center"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
+            android:layout_marginHorizontal="16dp"
             android:layout_marginTop="24dp"
             android:text="@string/onboarding_tv_addfriend"
-            android:textAppearance="?textAppearanceHeadline2"
+            android:textAppearance="?textAppearanceHeadline1"
             android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/add_friend_progressbar" />
 
         <TextView
+            android:id="@+id/tv_add_friend_subtitle"
+            android:layout_width="0dp"
+            android:gravity="center"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="6dp"
+            android:text="@string/onboarding_tv_addfriend_subtitle"
+            android:textAppearance="?textAppearanceBodySmall"
+            android:textColor="@color/grayscales_500"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_add_friend" />
+
+        <TextView
             android:id="@+id/tv_friend_how_many"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="54dp"
+            android:layout_marginTop="20dp"
             android:layout_marginEnd="4dp"
             android:gravity="end"
             android:text="@string/onboarding_tv_addfriend_how_many"
             android:textAppearance="?textAppearanceLabelLarge"
             android:textColor="@color/grayscales_200"
-            app:layout_constraintTop_toBottomOf="@id/add_friend_progressbar"
+            app:layout_constraintTop_toBottomOf="@id/tv_add_friend_subtitle"
             app:layout_constraintEnd_toStartOf="@id/tv_friend_number"/>
 
         <TextView
@@ -71,13 +86,13 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
-            android:layout_marginTop="54dp"
+            android:layout_marginTop="20dp"
             android:layout_marginEnd="1dp"
             android:fontFamily="@font/font_pretendard_bold"
             android:text="@{@string/to_string(vm.selectedFriendCount)}"
             android:textColor="@color/purple_sub_400"
             android:textSize="12sp"
-            app:layout_constraintTop_toBottomOf="@id/add_friend_progressbar"
+            app:layout_constraintTop_toBottomOf="@id/tv_add_friend_subtitle"
             app:layout_constraintEnd_toStartOf="@id/tv_friend_end"
             tools:text="142" />
 
@@ -85,33 +100,32 @@
             android:id="@+id/tv_friend_end"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="54dp"
+            android:layout_marginTop="20dp"
             android:layout_marginEnd="17dp"
             android:text="@string/onboarding_tv_freind_end"
             android:textAppearance="@style/TextAppearance.Yello.LabelLarge"
             android:textColor="@color/grayscales_200"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/add_friend_progressbar"/>
+            app:layout_constraintTop_toBottomOf="@id/tv_add_friend_subtitle"/>
 
         <TextView
             android:id="@+id/shimmer_total_friend"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="53dp"
+            android:layout_marginTop="20dp"
             android:layout_marginEnd="16dp"
             android:background="@drawable/shape_shimmer_greyscale_off_fill_2_rect"
             android:paddingVertical="2dp"
             android:text="                               "
             android:textAppearance="@style/TextAppearance.Yello.LabelLarge"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/add_friend_progressbar"/>
-
+            app:layout_constraintTop_toBottomOf="@id/tv_add_friend_subtitle"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_friend_list"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginTop="18dp"
+            android:layout_marginTop="4dp"
             android:orientation="vertical"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -140,7 +154,7 @@
             android:id="@+id/shimmer_friend_list"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginTop="18dp"
+            android:layout_marginTop="4dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

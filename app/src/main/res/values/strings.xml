@@ -246,4 +246,5 @@
     <string name="dialog_complete">완료</string>
     <string name="dialog_after_point">사용 후 포인트</string>
     <string name="dialog_after_keyword_title">쪽지의 키워드를 얻었어요!</string>
+    <string name="profile_btn_shop">상점</string>
 </resources>

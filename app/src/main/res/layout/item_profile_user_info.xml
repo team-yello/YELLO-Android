@@ -224,66 +224,77 @@
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/btn_profile_add_group"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="20dp"
-                    android:layout_marginTop="10dp"
-                    app:cardBackgroundColor="@color/grayscales_800"
-                    app:cardCornerRadius="8dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/layout_profile_friend_total_friend">
-
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-
-                        <ImageView
-                            android:id="@+id/iv_profile_add_group"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginVertical="12dp"
-                            android:src="@drawable/ic_yellow_plus"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toStartOf="@id/tv_profile_add_group"
-                            app:layout_constraintHorizontal_chainStyle="packed"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
-
-                        <TextView
-                            android:id="@+id/tv_profile_add_group"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginVertical="12dp"
-                            android:text="@string/profile_user_info_add_group"
-                            android:textColor="@color/yello_main_500"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toEndOf="@id/iv_profile_add_group"
-                            app:layout_constraintTop_toTopOf="parent" />
-
-                    </androidx.constraintlayout.widget.ConstraintLayout>
-
-                </androidx.cardview.widget.CardView>
-
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.cardview.widget.CardView>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/btn_profile_add_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/shape_grayscales900_fill_100_rect"
+            android:paddingHorizontal="20dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/layout_profile_info">
+
+            <ImageView
+                android:id="@+id/iv_profile_add_group"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_yellow_plus"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/tv_profile_add_group"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_profile_add_group"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="13dp"
+                android:text="@string/profile_user_info_add_group"
+                android:textAppearance="?textAppearanceBodyMedium"
+                android:textColor="@color/yello_main_500"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/iv_profile_add_group"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <com.el.yello.presentation.util.GradientStrokeButton
+            android:id="@+id/btn_profile_shop"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:background="@drawable/shape_grayscales900_fill_100_rect"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:drawableStart="@drawable/ic_shop"
+            android:drawablePadding="5dp"
+            android:paddingHorizontal="75dp"
+            android:paddingVertical="13dp"
+            android:text="@string/profile_btn_shop"
+            android:textAppearance="?textAppearanceBodyMedium"
+            android:textColor="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/btn_profile_add_group"
+            app:layout_constraintTop_toBottomOf="@id/layout_profile_info" />
+
 
         <TextView
             android:id="@+id/tv_profile_friend_list_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="40dp"
             android:text="@string/profile_user_info_friends_list_title"
             android:textAppearance="?textAppearanceSubtitle2"
             android:textColor="@color/white"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/layout_profile_info" />
+            app:layout_constraintTop_toBottomOf="@id/btn_profile_add_group" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="wrap_content"

@@ -8,7 +8,6 @@ import android.graphics.Path
 import android.graphics.Shader
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatButton
-import androidx.appcompat.widget.AppCompatImageButton
 import androidx.core.content.ContextCompat
 import androidx.core.content.withStyledAttributes
 import com.el.yello.R
@@ -39,9 +38,18 @@ class GradientStrokeButton @JvmOverloads constructor(
         context.withStyledAttributes(attrs, R.styleable.StyledButton) {
             borderWidth = getDimension(R.styleable.StyledButton_borderWidth, 2.dp.toFloat())
             cornerRadius = getDimension(R.styleable.StyledButton_cornerRadius, 100.dp.toFloat())
-            startColor = getColor(R.styleable.StyledButton_startColor, ContextCompat.getColor(context, R.color.animate_start))
-            centerColor = getColor(R.styleable.StyledButton_centerColor, ContextCompat.getColor(context, R.color.animate_center))
-            endColor = getColor(R.styleable.StyledButton_endColor, ContextCompat.getColor(context, R.color.animate_end))
+            startColor = getColor(
+                R.styleable.StyledButton_startColor,
+                ContextCompat.getColor(context, R.color.animate_start)
+            )
+            centerColor = getColor(
+                R.styleable.StyledButton_centerColor,
+                ContextCompat.getColor(context, R.color.animate_center)
+            )
+            endColor = getColor(
+                R.styleable.StyledButton_endColor,
+                ContextCompat.getColor(context, R.color.animate_end)
+            )
         }
     }
 

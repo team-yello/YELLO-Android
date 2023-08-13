@@ -78,7 +78,7 @@ class RecommendSearchActivity :
 
     private fun setLoadingScreen() {
         binding.etRecommendSearchBox.doOnTextChanged { _, _, _, _ ->
-            startLoadingScreen()
+            showLoadingScreen()
         }
     }
 
@@ -97,8 +97,12 @@ class RecommendSearchActivity :
         viewModel.postFriendsListState.observe(this) { state ->
             when (state) {
                 is UiState.Success -> {
-                    adapter.submitList(state.data?.friendList ?: listOf())
-                    stopLoadingScreen()
+                    if (state.data?.friendList?.size == 0) {
+                        showNoFriendScreen()
+                    } else {
+                        adapter.submitList(state.data?.friendList ?: listOf())
+                        showFriendListScreen()
+                    }
                 }
 
                 is UiState.Failure -> {
@@ -106,13 +110,15 @@ class RecommendSearchActivity :
                         binding.root.rootView,
                         getString(R.string.recommend_search_error)
                     )
-                    stopLoadingScreen()
+                    showNoFriendScreen()
                 }
 
-                is UiState.Loading -> {}
+                is UiState.Loading -> {
+                    showLoadingScreen()
+                }
 
                 is UiState.Empty -> {
-                    stopLoadingScreen()
+                    showFriendListScreen()
                 }
             }
         }
@@ -145,13 +151,21 @@ class RecommendSearchActivity :
         }
     }
 
-    private fun startLoadingScreen() {
-        binding.rvRecommendSearch.visibility = View.GONE
-        binding.layoutRecommendSearchLoading.visibility = View.VISIBLE
-    }
-
-    private fun stopLoadingScreen() {
+    private fun showFriendListScreen() {
         binding.rvRecommendSearch.visibility = View.VISIBLE
         binding.layoutRecommendSearchLoading.visibility = View.GONE
+        binding.layoutRecommendNoSearch.visibility = View.GONE
+    }
+
+    private fun showLoadingScreen() {
+        binding.rvRecommendSearch.visibility = View.GONE
+        binding.layoutRecommendSearchLoading.visibility = View.VISIBLE
+        binding.layoutRecommendNoSearch.visibility = View.GONE
+    }
+
+    private fun showNoFriendScreen() {
+        binding.rvRecommendSearch.visibility = View.GONE
+        binding.layoutRecommendSearchLoading.visibility = View.GONE
+        binding.layoutRecommendNoSearch.visibility = View.VISIBLE
     }
 }

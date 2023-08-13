@@ -16,6 +16,7 @@ class ProfileFriendAdapter(
     private val viewModel: ProfileViewModel,
     private val itemClick: (ProfileUserModel, Int) -> (Unit),
     private val buttonClick: (ProfileViewModel) -> (Unit),
+    private val shopClick: (ProfileViewModel) -> (Unit)
 
     ) : ListAdapter<ProfileUserModel, RecyclerView.ViewHolder>(diffUtil) {
 
@@ -31,6 +32,7 @@ class ProfileFriendAdapter(
                     false,
                 ),
                 buttonClick,
+                shopClick
             )
 
             VIEW_TYPE_FRIENDS_LIST -> ProfileFriendsListViewHolder(

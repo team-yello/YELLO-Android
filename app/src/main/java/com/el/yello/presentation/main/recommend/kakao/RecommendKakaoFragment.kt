@@ -138,6 +138,7 @@ class RecommendKakaoFragment :
                 }
 
                 is UiState.Loading -> {
+                    showFriendListScreen()
                     showShimmerScreen()
                 }
 

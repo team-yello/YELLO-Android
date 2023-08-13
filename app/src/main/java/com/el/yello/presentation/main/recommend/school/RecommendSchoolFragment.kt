@@ -135,6 +135,7 @@ class RecommendSchoolFragment :
                 }
 
                 is UiState.Loading -> {
+                    showFriendListScreen()
                     showShimmerScreen()
                 }
 

@@ -37,14 +37,14 @@ class PointUseDialog : BindingDialogFragment<DialogPointUseBinding>(R.layout.dia
         binding.tvNo.isVisible = viewModel.isTwoButton
         binding.ivClose.isVisible = !viewModel.isTwoButton
         if (!viewModel.isTwoButton) {
-            binding.tvOk.text = "투표하고 포인트 받기"
+            binding.tvOk.text = getString(R.string.dialog_vote_get_point)
         } else {
             if (viewModel.pointType == PointEnum.INITIAL.ordinal) {
-                binding.tvTitle.text = "300 포인트로 초성을 얻을까요?"
-                binding.tvOk.text = "초성 얻기"
+                binding.tvTitle.text = getString(R.string.dialog_get_initial_question)
+                binding.tvOk.text = getString(R.string.dialog_get_initial)
             } else {
-                binding.tvTitle.text = "100 포인트로 키워드를 얻을까요?"
-                binding.tvOk.text = "키워드 얻기"
+                binding.tvTitle.text = getString(R.string.dialog_get_keyword_question)
+                binding.tvOk.text = getString(R.string.dialog_get_keyword)
             }
         }
     }

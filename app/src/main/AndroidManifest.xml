@@ -5,6 +5,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="com.google.android.gms.permission.AD_ID" />
+    <uses-permission android:name="com.google.android.play.billingclient.version"/>
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
 
     <queries>
@@ -72,8 +73,7 @@
 
         <activity
             android:name=".presentation.onboarding.activity.OnBoardingActivity"
-            android:exported="true"
-            android:windowSoftInputMode="adjustResize"
+            android:exported="false"
             android:screenOrientation="portrait" />
         <activity
             android:name=".presentation.main.MainActivity"

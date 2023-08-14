@@ -12,6 +12,7 @@ import com.el.yello.R
 import com.el.yello.databinding.ActivityRecommendSearchBinding
 import com.el.yello.util.context.yelloSnackbar
 import com.example.ui.base.BindingActivity
+import com.example.ui.context.toast
 import com.example.ui.view.UiState
 import com.example.ui.view.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
@@ -111,11 +112,8 @@ class RecommendSearchActivity :
                 }
 
                 is UiState.Failure -> {
-                    yelloSnackbar(
-                        binding.root.rootView,
-                        getString(R.string.recommend_search_error)
-                    )
-                    showNoFriendScreen()
+                    toast(getString(R.string.recommend_search_error))
+                    showFriendListScreen()
                 }
 
                 is UiState.Loading -> {

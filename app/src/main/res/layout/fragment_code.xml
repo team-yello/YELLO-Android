@@ -22,7 +22,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
-            android:layout_marginTop="92dp"
+            android:layout_marginTop="40dp"
             android:maxLines="1"
             android:gravity="center"
             android:text="@string/onboarding_tv_code"

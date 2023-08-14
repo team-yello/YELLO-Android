@@ -7,13 +7,12 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.el.yello.R
 import com.el.yello.databinding.FragmentYelloIdBinding
+import com.el.yello.presentation.onboarding.activity.OnBoardingActivity
 import com.el.yello.presentation.onboarding.activity.OnBoardingViewModel
 import com.el.yello.util.context.yelloSnackbar
 import com.example.ui.base.BindingFragment
 import com.example.ui.view.UiState
 import com.example.ui.view.setOnSingleClickListener
-import java.util.Timer
-import kotlin.concurrent.timer
 
 class YelIoIdFragment : BindingFragment<FragmentYelloIdBinding>(R.layout.fragment_yello_id) {
     private val viewModel by activityViewModels<OnBoardingViewModel>()
@@ -30,6 +29,8 @@ class YelIoIdFragment : BindingFragment<FragmentYelloIdBinding>(R.layout.fragmen
         binding.btnYelloIdNext.setOnSingleClickListener {
             viewModel.getValidYelloId(viewModel.id)
             findNavController().navigate(R.id.action_yelIoIdFragment_to_addFriendFragment)
+            val activity = requireActivity() as OnBoardingActivity
+            activity.progressBarPlus()
         }
     }
 

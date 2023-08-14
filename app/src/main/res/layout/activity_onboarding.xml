@@ -20,17 +20,18 @@
             android:layout_marginStart="4dp"
             android:background="@null"
             android:padding="12dp"
+            android:onClick="onBackButtonClicked"
             android:src="@drawable/ic_onboarding_btn_back"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <ProgressBar
-            android:id="@+id/highschool_progressbar"
+            android:id="@+id/onboarding_progressbar"
             style="@style/Widget.AppCompat.ProgressBar.Horizontal"
             android:layout_width="match_parent"
             android:layout_height="4dp"
             android:max="100"
-            android:progress="20"
+            android:progress="14"
             android:progressDrawable="@drawable/layerlist_onboarding_progressbar"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -48,8 +49,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/highschool_progressbar"
-            app:layout_constraintVertical_bias="0.0"
+            app:layout_constraintTop_toBottomOf="@+id/onboarding_progressbar"
             app:navGraph="@navigation/activity_navigate" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

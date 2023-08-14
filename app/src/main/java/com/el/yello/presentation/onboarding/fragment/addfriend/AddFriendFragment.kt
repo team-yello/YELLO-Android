@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.el.yello.R
 import com.el.yello.databinding.FragmentAddFriendBinding
+import com.el.yello.presentation.onboarding.activity.OnBoardingActivity
 import com.el.yello.presentation.onboarding.activity.OnBoardingViewModel
 import com.example.domain.entity.onboarding.AddFriendListModel.FriendModel
 import com.example.ui.base.BindingFragment
@@ -55,6 +56,8 @@ class AddFriendFragment : BindingFragment<FragmentAddFriendBinding>(R.layout.fra
 
     private fun setConfirmBtnClickListener() {
         binding.btnAddFriendNext.setOnSingleClickListener {
+            val activity = requireActivity() as OnBoardingActivity
+            activity.progressBarPlus()
             viewModel.selectedFriendIdList = selectedItemIdList
             findNavController().navigate(R.id.action_addFriendFragment_to_codeFragment)
         }

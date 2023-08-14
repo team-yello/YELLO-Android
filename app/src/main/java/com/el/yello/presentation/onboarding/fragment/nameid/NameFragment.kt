@@ -6,6 +6,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.el.yello.R
 import com.el.yello.databinding.FragmentNameBinding
+import com.el.yello.presentation.onboarding.activity.OnBoardingActivity
 import com.el.yello.presentation.onboarding.activity.OnBoardingViewModel
 import com.example.ui.base.BindingFragment
 import com.example.ui.view.setOnSingleClickListener
@@ -21,6 +22,8 @@ class NameFragment : BindingFragment<FragmentNameBinding>(R.layout.fragment_name
     private fun setConfirmBtnClickListener() {
         binding.btnNameNext.setOnSingleClickListener {
             findNavController().navigate(R.id.action_nameFragment_to_yelIoIdFragment)
+            val activity = requireActivity() as OnBoardingActivity
+            activity.progressBarPlus()
         }
     }
 

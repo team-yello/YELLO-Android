@@ -22,7 +22,7 @@
             android:gravity="center"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
-            android:layout_marginTop="76dp"
+            android:layout_marginTop="24dp"
             android:text="@string/onboarding_tv_addfriend"
             android:textAppearance="?textAppearanceHeadline1"
             android:textColor="@color/white"

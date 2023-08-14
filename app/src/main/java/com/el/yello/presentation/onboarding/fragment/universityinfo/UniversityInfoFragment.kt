@@ -1,6 +1,5 @@
 package com.el.yello.presentation.onboarding.fragment.universityinfo
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.core.widget.doAfterTextChanged
@@ -8,15 +7,13 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.el.yello.R
 import com.el.yello.databinding.FragmentUniversityBinding
-import com.el.yello.presentation.auth.SocialSyncActivity
+import com.el.yello.presentation.onboarding.activity.OnBoardingActivity
 import com.el.yello.presentation.onboarding.activity.OnBoardingViewModel
 import com.el.yello.presentation.onboarding.fragment.universityinfo.department.SearchDialogDepartmentFragment
 import com.el.yello.presentation.onboarding.fragment.universityinfo.school.SearchDialogSchoolFragment
 import com.el.yello.presentation.onboarding.fragment.universityinfo.studentid.StudentIdDialogFragment
 import com.example.ui.base.BindingFragment
 import com.example.ui.view.setOnSingleClickListener
-import java.util.Timer
-import kotlin.concurrent.timer
 
 class UniversityInfoFragment :
     BindingFragment<FragmentUniversityBinding>(R.layout.fragment_university) {
@@ -25,7 +22,6 @@ class UniversityInfoFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.vm = viewModel
-
         initSearchInfoBtnClickListener()
         setConfirmBtnClickListener()
         setupSchool()
@@ -51,6 +47,7 @@ class UniversityInfoFragment :
             binding.tvUniversitySearch.text = school
         }
     }
+
     private fun setupDepartment() {
         viewModel.departmentText.observe(viewLifecycleOwner) { department ->
             binding.tvDepartmentSearch.text = department
@@ -69,6 +66,8 @@ class UniversityInfoFragment :
     private fun setConfirmBtnClickListener() {
         binding.btnUniversityInfoNext.setOnSingleClickListener {
             findNavController().navigate(R.id.action_universityInfoFragment_to_genderFragment)
+            val activity = requireActivity() as OnBoardingActivity
+            activity.progressBarPlus()
         }
     }
 }

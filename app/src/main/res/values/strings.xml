@@ -52,7 +52,7 @@
     <string name="onboarding_yelloid_hint_middle">로 하면 친구들이 찾기 쉬워요!</string>
     <string name="onboarding_yelloid_hint_end">(최대 20자)</string>
     <string name="onboarding_et_id">yelloworld</string>
-    <string name="onboarding_tv_gender">성별은</string>
+    <string name="onboarding_tv_gender">나의 성별은?</string>
     <string name="onboarding_tv_code">추천인 코드</string>
     <string name="onboarding_tv_code_hint">yelloworld</string>
     <string name="onboarding_tv_code_skip">없다면 건너뛰어도 돼요.</string>

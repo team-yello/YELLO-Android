@@ -16,43 +16,19 @@
         android:layout_height="match_parent"
         android:background="@color/black">
 
-        <ImageView
-            android:id="@+id/btn_add_friend_back_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            android:background="@null"
-            android:padding="12dp"
-            android:src="@drawable/ic_onboarding_btn_back"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <ProgressBar
-            android:id="@+id/add_friend_progressbar"
-            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="4dp"
-            android:max="100"
-            android:progress="48"
-            android:progressDrawable="@drawable/layerlist_onboarding_progressbar"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btn_add_friend_back_btn"
-            app:layout_constraintWidth_percent="1" />
-
         <TextView
             android:id="@+id/tv_add_friend"
             android:layout_width="0dp"
             android:gravity="center"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="76dp"
             android:text="@string/onboarding_tv_addfriend"
             android:textAppearance="?textAppearanceHeadline1"
             android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/add_friend_progressbar" />
+            app:layout_constraintTop_toTopOf="parent"/>
 
         <TextView
             android:id="@+id/tv_add_friend_subtitle"
@@ -129,7 +105,7 @@
             android:layout_marginTop="4dp"
             android:orientation="vertical"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/btn_add_friend_next"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_friend_how_many"
@@ -165,12 +141,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
-
-                <include layout="@layout/item_add_friend_shimmer" />
-
-                <include layout="@layout/item_add_friend_shimmer" />
-
-                <include layout="@layout/item_add_friend_shimmer" />
 
                 <include layout="@layout/item_add_friend_shimmer" />
 

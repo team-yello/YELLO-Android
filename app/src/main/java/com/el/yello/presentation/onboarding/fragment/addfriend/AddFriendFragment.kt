@@ -15,24 +15,18 @@ import com.example.ui.fragment.toast
 import com.example.ui.view.UiState
 import com.example.ui.view.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
-import java.util.Timer
-import kotlin.concurrent.timer
 
 @AndroidEntryPoint
 class AddFriendFragment : BindingFragment<FragmentAddFriendBinding>(R.layout.fragment_add_friend) {
+    private val viewModel by activityViewModels<OnBoardingViewModel>()
 
     private var _adapter: AddFriendAdapter? = null
     private val adapter
         get() = requireNotNull(_adapter) { getString(R.string.adapter_not_initialized_error_msg) }
 
-    private val viewModel by activityViewModels<OnBoardingViewModel>()
-
     private lateinit var friendsList: List<FriendModel>
 
     private var selectedItemIdList = mutableListOf<Long>()
-
-    var timer: Timer? = null
-    var deltaTime = 48
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -41,22 +35,9 @@ class AddFriendFragment : BindingFragment<FragmentAddFriendBinding>(R.layout.fra
 
         initFriendAdapter()
         setConfirmBtnClickListener()
-        setBackBtnClickListener()
         setKakaoRecommendList()
         observeAddListState()
-        progressBarTimerFun()
     }
-    private fun progressBarTimerFun() {
-        binding.addFriendProgressbar.progress = 48
-        timer?.cancel()
-        timer = Timer()
-        timer = timer(period = 8, initialDelay = 300) {
-            if (deltaTime > 64) cancel()
-            binding.addFriendProgressbar.setProgress(++deltaTime)
-            println(binding.addFriendProgressbar.progress)
-        }
-    }
-
     private fun initFriendAdapter() {
         _adapter = AddFriendAdapter { friend, position ->
             friend.isSelected = !friend.isSelected
@@ -76,12 +57,6 @@ class AddFriendFragment : BindingFragment<FragmentAddFriendBinding>(R.layout.fra
         binding.btnAddFriendNext.setOnSingleClickListener {
             viewModel.selectedFriendIdList = selectedItemIdList
             findNavController().navigate(R.id.action_addFriendFragment_to_codeFragment)
-        }
-    }
-
-    private fun setBackBtnClickListener() {
-        binding.btnAddFriendBackBtn.setOnSingleClickListener {
-            findNavController().navigate(R.id.action_addFriendFragment_to_yelIoIdFragment)
         }
     }
 

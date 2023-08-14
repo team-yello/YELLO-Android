@@ -17,33 +17,20 @@
         android:layout_height="match_parent"
         android:background="@color/black">
 
-        <ProgressBar
-            android:id="@+id/code_progressbar"
-            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="4dp"
-            android:layout_marginTop="48dp"
-            android:max="100"
-            android:progress="48"
-            android:progressDrawable="@drawable/layerlist_onboarding_progressbar"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintWidth_percent="1" />
-
         <TextView
             android:id="@+id/tv_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="92dp"
             android:maxLines="1"
+            android:gravity="center"
             android:text="@string/onboarding_tv_code"
             android:textAppearance="?textAppearanceHeadline2"
             android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/code_progressbar" />
+           app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/tv_code_warning"

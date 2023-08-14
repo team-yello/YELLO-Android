@@ -22,29 +22,16 @@ class UniversityInfoFragment :
     BindingFragment<FragmentUniversityBinding>(R.layout.fragment_university) {
     private val viewModel by activityViewModels<OnBoardingViewModel>()
 
-    var timer: Timer? = null
-    var deltaTime = 16
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.vm = viewModel
 
-        progressBarTimerFun()
         initSearchInfoBtnClickListener()
         setConfirmBtnClickListener()
         setupSchool()
         setupDepartment()
         setupStudentId()
         initSearchInfoBtnClickListener()
-    }
-    private fun progressBarTimerFun() {
-        binding.universityInfoProgressbar.progress = 16
-        timer?.cancel()
-        timer = Timer()
-        timer = timer(period = 8, initialDelay = 300) {
-            if (deltaTime > 32) cancel()
-            binding.universityInfoProgressbar.setProgress(++deltaTime)
-            println(binding.universityInfoProgressbar.progress)
-        }
     }
 
     private fun initSearchInfoBtnClickListener() {
@@ -82,11 +69,6 @@ class UniversityInfoFragment :
     private fun setConfirmBtnClickListener() {
         binding.btnUniversityInfoNext.setOnSingleClickListener {
             findNavController().navigate(R.id.action_universityInfoFragment_to_genderFragment)
-        }
-        binding.btnUniversityInfoBackBtn.setOnSingleClickListener {
-            // findNavController().navigate(R.id.action_universityInfoFragment_to_selectStudentFragment)
-            val intent = Intent(activity, SocialSyncActivity::class.java)
-            startActivity(intent)
         }
     }
 }

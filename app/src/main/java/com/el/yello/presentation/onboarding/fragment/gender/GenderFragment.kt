@@ -9,7 +9,6 @@ import com.el.yello.R
 import com.el.yello.databinding.FragmentGenderBinding
 import com.el.yello.presentation.onboarding.activity.OnBoardingViewModel
 import com.example.domain.enum.GenderEnum
-import com.example.domain.enum.StudentTypeEnum
 import com.example.ui.base.BindingFragment
 import com.example.ui.view.setOnSingleClickListener
 
@@ -28,9 +27,6 @@ class GenderFragment : BindingFragment<FragmentGenderBinding>(R.layout.fragment_
     private fun setConfirmBtnClickListener() {
         binding.btnGenderNext.setOnSingleClickListener {
             findNavController().navigate(R.id.action_genderFragment_to_nameFragment)
-        }
-        binding.btnGenderBack.setOnSingleClickListener {
-            findNavController().navigate(R.id.action_genderFragment_to_universityInfoFragment)
         }
 /*
         viewModel.studentType.observe(viewLifecycleOwner) { studenttype ->

@@ -1,16 +1,15 @@
 package com.el.yello.presentation.main.myyello
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.domain.entity.MyYello
 import com.example.domain.repository.YelloRepository
 import com.example.ui.view.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -20,8 +19,9 @@ import kotlin.math.ceil
 class MyYelloViewModel @Inject constructor(
     private val repository: YelloRepository,
 ) : ViewModel() {
-    private val _myYelloData = MutableSharedFlow<UiState<MyYello>>()
-    val myYelloData: SharedFlow<UiState<MyYello>> = _myYelloData.asSharedFlow()
+    // Todo Flow 쓰면 상세보기 갔다 왔을 때 리스트 계속 관찰해서 임시로 LiveData로 구현
+    private val _myYelloData = MutableLiveData<UiState<MyYello>>(UiState.Loading)
+    val myYelloData: LiveData<UiState<MyYello>> = _myYelloData
 
     private val _totalCount = MutableStateFlow<Int>(0)
     val totalCount: StateFlow<Int> = _totalCount.asStateFlow()
@@ -39,25 +39,22 @@ class MyYelloViewModel @Inject constructor(
 
     fun getMyYelloList() {
         if (isPagingFinish) return
-        _myYelloData.tryEmit(UiState.Loading)
         viewModelScope.launch {
             repository.getMyYelloList(++currentPage)
                 .onSuccess {
                     if (it == null) {
-                        _myYelloData.emit(UiState.Empty)
+                        _myYelloData.value = UiState.Empty
                     } else {
                         totalPage = ceil((it.totalCount * 0.1)).toInt() - 1
                         if (totalPage == currentPage) isPagingFinish = true
-                        _myYelloData.emit(
-                            when {
+                        _myYelloData.value = when {
                                 it.yello.isEmpty() -> UiState.Empty
                                 else -> UiState.Success(it)
-                            },
-                        )
+                            }
                         _totalCount.value = it.totalCount
                     }
                 }.onFailure {
-                    _myYelloData.emit(UiState.Failure("내 쪽지 목록 서버 통신 실패"))
+                    _myYelloData.value = UiState.Failure("내 쪽지 목록 서버 통신 실패")
                 }
         }
     }

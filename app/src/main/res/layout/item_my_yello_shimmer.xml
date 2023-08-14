@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data></data>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card_my_yello"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        app:cardBackgroundColor="@color/grayscales_900"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="0dp"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/iv_yello"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginVertical="17dp"
+                android:layout_marginStart="12dp"
+                android:src="@drawable/shape_shimmer_grayscale600_circle"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_gender"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:background="@drawable/shape_shimmer_grayscale700_fill_2_rect"
+                android:textAppearance="@style/TextAppearance.Yello.BodySmall"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@id/iv_yello"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_time"
+                android:layout_width="40dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="12dp"
+                android:background="@drawable/shape_shimmer_grayscale700_fill_2_rect"
+                android:textAppearance="@style/TextAppearance.Yello.LabelLarge"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+</layout>

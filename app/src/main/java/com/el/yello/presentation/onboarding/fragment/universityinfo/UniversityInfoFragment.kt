@@ -1,5 +1,6 @@
 package com.el.yello.presentation.onboarding.fragment.universityinfo
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.core.widget.doAfterTextChanged
@@ -7,6 +8,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.el.yello.R
 import com.el.yello.databinding.FragmentUniversityBinding
+import com.el.yello.presentation.auth.SocialSyncActivity
 import com.el.yello.presentation.onboarding.activity.OnBoardingViewModel
 import com.el.yello.presentation.onboarding.fragment.universityinfo.department.SearchDialogDepartmentFragment
 import com.el.yello.presentation.onboarding.fragment.universityinfo.school.SearchDialogSchoolFragment
@@ -82,7 +84,9 @@ class UniversityInfoFragment :
             findNavController().navigate(R.id.action_universityInfoFragment_to_genderFragment)
         }
         binding.btnUniversityInfoBackBtn.setOnSingleClickListener {
-            findNavController().navigate(R.id.action_universityInfoFragment_to_selectStudentFragment)
+            // findNavController().navigate(R.id.action_universityInfoFragment_to_selectStudentFragment)
+            val intent = Intent(activity, SocialSyncActivity::class.java)
+            startActivity(intent)
         }
     }
 }

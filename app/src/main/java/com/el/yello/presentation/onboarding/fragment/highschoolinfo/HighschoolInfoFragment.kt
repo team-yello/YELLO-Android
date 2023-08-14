@@ -96,10 +96,10 @@ class HighschoolInfoFragment :
 
     private fun setConfirmBtnClickListener() {
         binding.btnHighschoolinfoNextBtn.setOnSingleClickListener {
-            findNavController().navigate(R.id.action_highschoolInfoFragment_to_genderFragment)
+           // findNavController().navigate(R.id.action_highschoolInfoFragment_to_genderFragment)
         }
         binding.btnHighschoolinfoBackBtn.setOnSingleClickListener {
-            findNavController().navigate(R.id.action_highschoolInfoFragment_to_selectStudentFragment)
+           // findNavController().navigate(R.id.action_highschoolInfoFragment_to_selectStudentFragment)
         }
     }
 }

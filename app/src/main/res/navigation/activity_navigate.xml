@@ -2,19 +2,8 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/activity_navigate"
-    app:startDestination="@id/selectStudentFragment">
+    app:startDestination="@id/universityInfoFragment">
 
-    <fragment
-        android:id="@+id/selectStudentFragment"
-        android:name="com.el.yello.presentation.onboarding.fragment.gender.SelectStudentFragment"
-        android:label="SelectStudentFragment" >
-        <action
-            android:id="@+id/action_selectStudentFragment_to_universityInfoFragment"
-            app:destination="@id/universityInfoFragment" />
-        <action
-            android:id="@+id/action_selectStudentFragment_to_highschoolInfoFragment"
-            app:destination="@id/highschoolInfoFragment" />
-    </fragment>
     <fragment
         android:id="@+id/universityInfoFragment"
         android:name="com.el.yello.presentation.onboarding.fragment.universityinfo.UniversityInfoFragment"
@@ -22,28 +11,11 @@
         <action
             android:id="@+id/action_universityInfoFragment_to_genderFragment"
             app:destination="@id/genderFragment" />
-        <action
-            android:id="@+id/action_universityInfoFragment_to_selectStudentFragment"
-            app:destination="@id/selectStudentFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/highschoolInfoFragment"
-        android:name="com.el.yello.presentation.onboarding.fragment.highschoolinfo.HighschoolInfoFragment"
-        android:label="HighschoolInfoFragment" >
-        <action
-            android:id="@+id/action_highschoolInfoFragment_to_genderFragment"
-            app:destination="@id/genderFragment" />
-        <action
-            android:id="@+id/action_highschoolInfoFragment_to_selectStudentFragment"
-            app:destination="@id/selectStudentFragment" />
     </fragment>
     <fragment
         android:id="@+id/genderFragment"
         android:name="com.el.yello.presentation.onboarding.fragment.gender.GenderFragment"
         android:label="GenderFragment" >
-        <action
-            android:id="@+id/action_genderFragment_to_highschoolInfoFragment"
-            app:destination="@id/highschoolInfoFragment" />
         <action
             android:id="@+id/action_genderFragment_to_universityInfoFragment"
             app:destination="@id/universityInfoFragment" />

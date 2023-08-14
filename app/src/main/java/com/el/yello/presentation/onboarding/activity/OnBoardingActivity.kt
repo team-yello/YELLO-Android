@@ -11,8 +11,7 @@ import com.example.ui.base.BindingActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class OnBoardingActivity :
-    BindingActivity<ActivityOnboardingBinding>(R.layout.activity_onboarding) {
+class OnBoardingActivity : BindingActivity<ActivityOnboardingBinding>(R.layout.activity_onboarding) {
     private val viewModel by viewModels<OnBoardingViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {

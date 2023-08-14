@@ -8,6 +8,8 @@ import androidx.activity.viewModels
 import androidx.core.widget.doAfterTextChanged
 import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.viewModelScope
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.el.yello.R
 import com.el.yello.databinding.ActivityRecommendSearchBinding
 import com.el.yello.util.context.yelloSnackbar
@@ -33,6 +35,8 @@ class RecommendSearchActivity :
     private val debounceTime = 500L
     private var searchJob: Job? = null
 
+    private var searchText: String = ""
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -43,6 +47,7 @@ class RecommendSearchActivity :
         observeAddFriendState()
         setDebounceSearch()
         setLoadingScreen()
+        setListWithInfinityScroll()
     }
 
     override fun onDestroy() {
@@ -80,6 +85,8 @@ class RecommendSearchActivity :
     private fun setLoadingScreen() {
         binding.etRecommendSearchBox.doOnTextChanged { _, _, _, _ ->
             showLoadingScreen()
+            adapter.submitList(listOf())
+            viewModel.setNewPage()
         }
     }
 
@@ -92,7 +99,10 @@ class RecommendSearchActivity :
                 searchJob?.cancel()
                 searchJob = viewModel.viewModelScope.launch {
                     delay(debounceTime)
-                    text.toString().let { viewModel.setListFromServer(it) }
+                    text.toString().let { text ->
+                        searchText = text
+                        viewModel.setListFromServer(text)
+                    }
                 }
             }
         }
@@ -106,7 +116,7 @@ class RecommendSearchActivity :
                     if (state.data?.friendList?.size == 0) {
                         showNoFriendScreen()
                     } else {
-                        adapter.submitList(state.data?.friendList ?: listOf())
+                        adapter.addList(state.data?.friendList ?: listOf())
                         showFriendListScreen()
                     }
                 }
@@ -125,6 +135,25 @@ class RecommendSearchActivity :
                 }
             }
         }
+    }
+
+    // 무한 스크롤 구현
+    private fun setListWithInfinityScroll() {
+        binding.rvRecommendSearch.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                if (dy > 0) {
+                    recyclerView.layoutManager?.let { layoutManager ->
+                        if (!binding.rvRecommendSearch.canScrollVertically(1)
+                            && layoutManager is LinearLayoutManager
+                            && layoutManager.findLastVisibleItemPosition() == adapter.itemCount - 1
+                        ) {
+                            viewModel.setListFromServer(searchText)
+                        }
+                    }
+                }
+            }
+        })
     }
 
     // 친구 추가 서버 통신 성공 시 표시 변경

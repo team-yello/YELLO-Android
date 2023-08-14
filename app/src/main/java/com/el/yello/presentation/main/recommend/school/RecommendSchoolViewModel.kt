@@ -34,6 +34,14 @@ class RecommendSchoolViewModel @Inject constructor(
     private var totalPage = Int.MAX_VALUE
 
     private var isFirstFriendsListPage: Boolean = true
+    var isFirstResume: Boolean = true
+
+    fun setFirstPageLoading() {
+        isFirstFriendsListPage = true
+        currentPage = -1
+        isPagingFinish = false
+        totalPage = Int.MAX_VALUE
+    }
 
     fun setPositionAndHolder(position: Int, holder: RecommendViewHolder) {
         itemPosition = position
@@ -54,7 +62,7 @@ class RecommendSchoolViewModel @Inject constructor(
                 )
             }.onSuccess {
                 it ?: return@launch
-                totalPage = ceil((it.totalCount * 0.1)).toInt() - 1
+                totalPage = ceil((it.totalCount * 0.01)).toInt() - 1
                 if (totalPage == currentPage) isPagingFinish = true
                 _postFriendsListState.value = UiState.Success(it)
             }.onFailure {

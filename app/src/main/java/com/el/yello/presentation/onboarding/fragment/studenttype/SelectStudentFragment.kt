@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import com.el.yello.R
 import com.el.yello.databinding.FragmentSelectStudentTypeBinding
 import com.el.yello.presentation.auth.SocialSyncActivity
@@ -26,12 +27,12 @@ class SelectStudentFragment :
         binding.highschool = StudentTypeEnum.H.toString()
         binding.university = StudentTypeEnum.U.toString()
 
-        ProgressBarTimerFun()
+        progressBarTimerFun()
         setupStudentType()
         setConfirmBtnClickListener()
     }
 
-    private fun ProgressBarTimerFun() {
+    private fun progressBarTimerFun() {
         binding.studenttypeProgressbar.progress = 0
         timer?.cancel()
         timer = Timer()
@@ -43,18 +44,14 @@ class SelectStudentFragment :
     }
 
     private fun setConfirmBtnClickListener() {
-        binding.btnSelectTypeNext.setOnSingleClickListener {
-            viewModel.navigateToNextPage()
-        }
         binding.btnSelectTypeBack.setOnSingleClickListener {
             val intent = Intent(activity, SocialSyncActivity::class.java)
             startActivity(intent)
         }
     }
-
     private fun setupStudentType() {
-        viewModel._studenttype.observe(viewLifecycleOwner) { studenttype ->
-            when (studenttype) {
+        viewModel.studentType.observe(viewLifecycleOwner) { studenyType ->
+            when (studenyType) {
                 StudentTypeEnum.H.toString() -> {
                     binding.btnSchoolHighschool.setBackgroundResource(R.drawable.shape_black_fill_yello_main_500_line_8_rect)
                     binding.btnSchoolUniversity.setBackgroundResource(R.drawable.shape_black_fill_grayscales700_line_8_rect)
@@ -62,8 +59,10 @@ class SelectStudentFragment :
                     binding.ivStudentUniversity.setImageResource(R.drawable.ic_student_university_face_unselected)
                     binding.tvStudentHighschool.setTextColor(resources.getColor(R.color.yello_main_500))
                     binding.tvStudentUniversity.setTextColor(resources.getColor(R.color.grayscales_700))
+                    binding.btnSelectTypeNext.setOnSingleClickListener {
+                        findNavController().navigate(R.id.action_selectStudentFragment_to_highschoolInfoFragment)
+                    }
                 }
-
                 StudentTypeEnum.U.toString() -> {
                     binding.btnSchoolUniversity.setBackgroundResource(R.drawable.shape_black_fill_yello_main_500_line_8_rect)
                     binding.btnSchoolHighschool.setBackgroundResource(R.drawable.shape_black_fill_grayscales700_line_8_rect)
@@ -71,6 +70,9 @@ class SelectStudentFragment :
                     binding.ivStudentHighschool.setImageResource(R.drawable.ic_student_highschool_face_unselected)
                     binding.tvStudentUniversity.setTextColor(resources.getColor(R.color.yello_main_500))
                     binding.tvStudentHighschool.setTextColor(resources.getColor(R.color.grayscales_700))
+                    binding.btnSelectTypeNext.setOnSingleClickListener {
+                        findNavController().navigate(R.id.action_selectStudentFragment_to_universityInfoFragment)
+                    }
                 }
             }
         }

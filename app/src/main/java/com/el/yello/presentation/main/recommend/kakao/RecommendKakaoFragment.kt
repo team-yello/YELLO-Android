@@ -5,7 +5,6 @@ import android.view.View
 import android.view.WindowManager
 import android.view.animation.AnimationUtils
 import androidx.core.view.isVisible
-import androidx.core.view.setPadding
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DefaultItemAnimator
@@ -19,7 +18,6 @@ import com.el.yello.presentation.main.recommend.list.RecommendItemDecoration
 import com.el.yello.presentation.main.recommend.list.RecommendViewHolder
 import com.el.yello.util.context.yelloSnackbar
 import com.example.ui.base.BindingFragment
-import com.example.ui.intent.dpToPx
 import com.example.ui.view.UiState
 import com.example.ui.view.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
@@ -50,15 +48,28 @@ class RecommendKakaoFragment :
         setDeleteAnimation()
     }
 
+    override fun onResume() {
+        super.onResume()
+        if (!viewModel.isFirstResume) {
+            adapter.clearList()
+            viewModel.setFirstPageLoading()
+            viewModel.initPagingVariable()
+            viewModel.addListWithKakaoIdList()
+        }
+        viewModel.isFirstResume = false
+    }
+
     override fun onDestroyView() {
+        super.onDestroyView()
         _adapter = null
         dismissDialog()
-        super.onDestroyView()
     }
 
     // 서버 통신 성공 시 카카오 추천 친구 추가
     private fun setKakaoRecommendList() {
         setListWithInfinityScroll()
+        viewModel.isFirstResume = true
+        viewModel.setFirstPageLoading()
         viewModel.initPagingVariable()
         viewModel.addListWithKakaoIdList()
     }
@@ -70,10 +81,7 @@ class RecommendKakaoFragment :
                 super.onScrolled(recyclerView, dx, dy)
                 if (dy > 0) {
                     recyclerView.layoutManager?.let { layoutManager ->
-                        if (!binding.rvRecommendKakao.canScrollVertically(1) &&
-                            layoutManager is LinearLayoutManager &&
-                            layoutManager.findLastVisibleItemPosition() == adapter.itemCount - 1
-                        ) {
+                        if (!binding.rvRecommendKakao.canScrollVertically(1) && layoutManager is LinearLayoutManager && layoutManager.findLastVisibleItemPosition() == adapter.itemCount - 1) {
                             viewModel.addListWithKakaoIdList()
                         }
                     }
@@ -209,13 +217,8 @@ class RecommendKakaoFragment :
     }
 
     private fun changeToCheckIcon(holder: RecommendViewHolder) {
-        holder.binding.btnRecommendItemAdd.apply {
-            text = null
-            setIconResource(R.drawable.ic_check)
-            setIconTintResource(R.color.black)
-            iconPadding = dpToPx(holder.binding.root.context, -2)
-            setPadding(dpToPx(holder.binding.root.context, 10))
-        }
+        holder.binding.btnRecommendItemAdd.visibility = View.GONE
+        holder.binding.btnRecommendItemAddPressed.visibility = View.VISIBLE
     }
 
     private fun showShimmerScreen() {
@@ -237,6 +240,10 @@ class RecommendKakaoFragment :
         binding.layoutRecommendFriendsList.isVisible = false
         binding.layoutRecommendNoFriendsList.isVisible = true
         binding.shimmerFriendList.stopShimmer()
+    }
+
+    fun scrollToTop() {
+        binding.rvRecommendKakao.smoothScrollToPosition(0)
     }
 
     private companion object {

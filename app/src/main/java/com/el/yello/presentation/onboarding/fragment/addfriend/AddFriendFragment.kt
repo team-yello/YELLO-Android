@@ -3,6 +3,7 @@ package com.el.yello.presentation.onboarding.fragment.addfriend
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.el.yello.R
@@ -43,16 +44,16 @@ class AddFriendFragment : BindingFragment<FragmentAddFriendBinding>(R.layout.fra
         setBackBtnClickListener()
         setKakaoRecommendList()
         observeAddListState()
-        ProgressBarTimerFun()
+        progressBarTimerFun()
     }
-    private fun ProgressBarTimerFun() {
-        binding.addfriendProgressbar.progress = 48
+    private fun progressBarTimerFun() {
+        binding.addFriendProgressbar.progress = 48
         timer?.cancel()
         timer = Timer()
         timer = timer(period = 8, initialDelay = 300) {
             if (deltaTime > 64) cancel()
-            binding.addfriendProgressbar.setProgress(++deltaTime)
-            println(binding.addfriendProgressbar.progress)
+            binding.addFriendProgressbar.setProgress(++deltaTime)
+            println(binding.addFriendProgressbar.progress)
         }
     }
 
@@ -74,13 +75,13 @@ class AddFriendFragment : BindingFragment<FragmentAddFriendBinding>(R.layout.fra
     private fun setConfirmBtnClickListener() {
         binding.btnAddFriendNext.setOnSingleClickListener {
             viewModel.selectedFriendIdList = selectedItemIdList
-            viewModel.navigateToNextPage()
+            findNavController().navigate(R.id.action_addFriendFragment_to_codeFragment)
         }
     }
 
     private fun setBackBtnClickListener() {
-        binding.btnAddfriendBackBtn.setOnSingleClickListener {
-            viewModel.navigateToBackPage()
+        binding.btnAddFriendBackBtn.setOnSingleClickListener {
+            findNavController().navigate(R.id.action_addFriendFragment_to_yelIoIdFragment)
         }
     }
 

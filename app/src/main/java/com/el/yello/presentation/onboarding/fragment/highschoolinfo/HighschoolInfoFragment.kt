@@ -2,18 +2,16 @@ package com.el.yello.presentation.onboarding.fragment.highschoolinfo
 
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import com.el.yello.R
 import com.el.yello.databinding.FragmentHighschoolBinding
 import com.el.yello.presentation.onboarding.activity.OnBoardingViewModel
 import com.el.yello.presentation.onboarding.fragment.highschoolinfo.group.GroupDialogFragment
 import com.el.yello.presentation.onboarding.fragment.highschoolinfo.school.SearchDialogHighSchoolFragment
-import com.el.yello.util.context.yelloSnackbar
 import com.example.domain.enum.GradeEnum
 import com.example.ui.base.BindingFragment
 import com.example.ui.view.setOnSingleClickListener
-import timber.log.Timber
 import java.util.Timer
 import kotlin.concurrent.timer
 
@@ -26,7 +24,7 @@ class HighschoolInfoFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.vm = viewModel
-        ProgressBarTimerFun()
+        progressBarTimerFun()
 
         binding.first = GradeEnum.A.toString()
         binding.second = GradeEnum.B.toString()
@@ -37,7 +35,7 @@ class HighschoolInfoFragment :
         setConfirmBtnClickListener()
     }
 
-    private fun ProgressBarTimerFun() {
+    private fun progressBarTimerFun() {
         binding.highschoolProgressbar.progress = 16
         timer?.cancel()
         timer = Timer()
@@ -58,50 +56,50 @@ class HighschoolInfoFragment :
     }
 
     private fun setupGrade() {
-        viewModel._grade.observe(viewLifecycleOwner) { grade ->
+        viewModel.gradeText.observe(viewLifecycleOwner) { grade ->
             when (grade) {
                 GradeEnum.A.toString() -> {
-                    binding.tvGradeFirst.setBackgroundResource(R.drawable.shape_black_fill_yello_main_500_line_8_rect)
-                    binding.tvGradeFirst.setTextColor(resources.getColor(R.color.yello_main_500))
-                    binding.tvGradeSecond.setBackgroundResource(R.drawable.shape_black_fill_grayscales700_line_8_rect)
+                    binding.tvGradeFirst.setBackgroundResource(R.drawable.shape_grayscales900_fill_yello_main600_line_8_leftrect)
+                    binding.tvGradeFirst.setTextColor(resources.getColor(R.color.yello_main_600))
+                    binding.tvGradeSecond.setBackgroundResource(R.drawable.shape_grayscales900_fill_grayscales700_line_8_square)
                     binding.tvGradeSecond.setTextColor(resources.getColor(R.color.grayscales_700))
-                    binding.tvGradeThird.setBackgroundResource(R.drawable.shape_black_fill_grayscales700_line_8_rect)
+                    binding.tvGradeThird.setBackgroundResource(R.drawable.shape_grayscales900_fill_grayscales700_line_8_rightrect)
                     binding.tvGradeThird.setTextColor(resources.getColor(R.color.grayscales_700))
                 }
 
                 GradeEnum.B.toString() -> {
-                    binding.tvGradeFirst.setBackgroundResource(R.drawable.shape_black_fill_grayscales700_line_8_rect)
+                    binding.tvGradeFirst.setBackgroundResource(R.drawable.shape_grayscales900_fill_grayscales700_line_8_leftrect)
                     binding.tvGradeFirst.setTextColor(resources.getColor(R.color.grayscales_700))
-                    binding.tvGradeSecond.setBackgroundResource(R.drawable.shape_black_fill_yello_main_500_line_8_rect)
-                    binding.tvGradeSecond.setTextColor(resources.getColor(R.color.yello_main_500))
-                    binding.tvGradeThird.setBackgroundResource(R.drawable.shape_black_fill_grayscales700_line_8_rect)
+                    binding.tvGradeSecond.setBackgroundResource(R.drawable.shape_grayscales900_fill_yello_main600_line_8_square)
+                    binding.tvGradeSecond.setTextColor(resources.getColor(R.color.yello_main_600))
+                    binding.tvGradeThird.setBackgroundResource(R.drawable.shape_grayscales900_fill_grayscales700_line_8_rightrect)
                     binding.tvGradeThird.setTextColor(resources.getColor(R.color.grayscales_700))
                 }
 
                 GradeEnum.C.toString() -> {
-                    binding.tvGradeFirst.setBackgroundResource(R.drawable.shape_black_fill_grayscales700_line_8_rect)
+                    binding.tvGradeFirst.setBackgroundResource(R.drawable.shape_grayscales900_fill_grayscales700_line_8_leftrect)
                     binding.tvGradeFirst.setTextColor(resources.getColor(R.color.grayscales_700))
-                    binding.tvGradeSecond.setBackgroundResource(R.drawable.shape_black_fill_grayscales700_line_8_rect)
+                    binding.tvGradeSecond.setBackgroundResource(R.drawable.shape_grayscales900_fill_grayscales700_line_8_square)
                     binding.tvGradeSecond.setTextColor(resources.getColor(R.color.grayscales_700))
-                    binding.tvGradeThird.setBackgroundResource(R.drawable.shape_black_fill_yello_main_500_line_8_rect)
-                    binding.tvGradeThird.setTextColor(resources.getColor(R.color.yello_main_500))
+                    binding.tvGradeThird.setBackgroundResource(R.drawable.shape_grayscales900_fill_yello_main600_line_8_rightrect)
+                    binding.tvGradeThird.setTextColor(resources.getColor(R.color.yello_main_600))
                 }
             }
         }
     }
 
     private fun setupGroup() {
-        viewModel._group.observe(viewLifecycleOwner) { group ->
+        viewModel.groupText.observe(viewLifecycleOwner) { group ->
             binding.tvGroupSearch.text = getString(R.string.onboarding_group, group)
         }
     }
 
     private fun setConfirmBtnClickListener() {
         binding.btnHighschoolinfoNextBtn.setOnSingleClickListener {
-            viewModel.navigateToNextPage()
+            findNavController().navigate(R.id.action_highschoolInfoFragment_to_genderFragment)
         }
         binding.btnHighschoolinfoBackBtn.setOnSingleClickListener {
-            viewModel.navigateToBackPage()
+            findNavController().navigate(R.id.action_highschoolInfoFragment_to_selectStudentFragment)
         }
     }
 }

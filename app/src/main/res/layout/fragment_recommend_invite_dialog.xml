@@ -16,8 +16,8 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="30dp"
             android:background="@drawable/shape_white_fill_10_rect"
-            android:paddingTop="2dp"
             android:paddingHorizontal="2dp"
+            android:paddingTop="2dp"
             android:paddingBottom="50dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -42,6 +42,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
                 android:fontFamily="@font/font_pretendard_medium"
+                android:gravity="center"
                 android:padding="3dp"
                 android:text="@string/recommend_dialog_tv_subtitle"
                 android:textColor="@color/grayscales_600"
@@ -54,26 +55,12 @@
                 android:id="@+id/tv_recommend_dialog_subtitle2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/font_pretendard_medium"
+                android:fontFamily="@font/font_pretendard_bold"
                 android:paddingVertical="3dp"
                 android:text="@string/recommend_dialog_tv_subtitle_2"
                 android:textSize="13sp"
-                app:layout_constraintEnd_toStartOf="@id/tv_recommend_dialog_subtitle3"
-                app:layout_constraintHorizontal_chainStyle="packed"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_recommend_dialog_subtitle1" />
-
-            <TextView
-                android:id="@+id/tv_recommend_dialog_subtitle3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/font_pretendard_medium"
-                android:paddingVertical="3dp"
-                android:text="@string/recommend_dialog_tv_subtitle_3"
-                android:textColor="@color/grayscales_600"
-                android:textSize="13sp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/tv_recommend_dialog_subtitle2"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_recommend_dialog_subtitle1" />
 
             <androidx.cardview.widget.CardView
@@ -87,7 +74,7 @@
                 app:cardElevation="0dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_recommend_dialog_subtitle3">
+                app:layout_constraintTop_toBottomOf="@id/tv_recommend_dialog_subtitle2">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
@@ -187,7 +174,11 @@
                     app:layout_constraintBottom_toBottomOf="@+id/iv_invite_dialog_exit"
                     app:layout_constraintEnd_toStartOf="@id/iv_invite_dialog_exit"
                     app:layout_constraintTop_toTopOf="parent" />
+
             </androidx.constraintlayout.widget.ConstraintLayout>
+
         </androidx.constraintlayout.widget.ConstraintLayout>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </layout>

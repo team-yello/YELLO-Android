@@ -24,6 +24,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="12dp"
         android:layout_marginTop="16dp"
+        android:maxLines="1"
         android:paddingVertical="3dp"
         android:textAppearance="@style/TextAppearance.Yello.Subtitle01"
         android:textColor="@color/white"
@@ -51,7 +52,7 @@
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_recommend_item_add"
         android:layout_width="wrap_content"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginVertical="23dp"
         android:layout_marginEnd="24dp"
         android:backgroundTint="@color/yello_main_500"
@@ -60,12 +61,27 @@
         android:insetBottom="0dp"
         android:minWidth="0dp"
         android:minHeight="0dp"
-        android:paddingHorizontal="13dp"
+        android:visibility="gone"
+        android:paddingHorizontal="15dp"
+        android:paddingVertical="9dp"
         android:text="@string/recommend_item_btn_add"
         android:textAppearance="@style/TextAppearance.Yello.Button"
         android:textColor="@color/black"
         android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/btn_recommend_item_add_pressed"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginVertical="22dp"
+        android:layout_marginEnd="24dp"
+        android:src="@drawable/ic_onboarding_friend_check"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintDimensionRatio="1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

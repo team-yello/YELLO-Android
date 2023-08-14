@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/black">
+
+    <ImageView
+        android:id="@+id/iv_recommend_item_thumbnail"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="12dp"
+        app:layout_constraintBottom_toBottomOf="@id/tv_recommend_item_school"
+        app:layout_constraintDimensionRatio="1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/tv_recommend_item_name"
+        tools:src="@drawable/ic_main_yello_selected" />
+
+    <TextView
+        android:id="@+id/tv_recommend_item_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="16dp"
+        android:maxLines="1"
+        android:paddingTop="3dp"
+        android:textAppearance="@style/TextAppearance.Yello.Subtitle01"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toTopOf="@id/tv_recommend_item_id"
+        app:layout_constraintStart_toEndOf="@id/iv_recommend_item_thumbnail"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed"
+        tools:text="김상호" />
+
+    <TextView
+        android:id="@+id/tv_recommend_item_id"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:paddingVertical="2dp"
+        android:textAppearance="@style/TextAppearance.Yello.LabelMedium"
+        android:textColor="@color/yello_main_500"
+        app:layout_constraintBottom_toTopOf="@id/tv_recommend_item_school"
+        app:layout_constraintEnd_toStartOf="@+id/btn_recommend_item_add"
+        app:layout_constraintStart_toEndOf="@id/iv_recommend_item_thumbnail"
+        app:layout_constraintTop_toBottomOf="@id/tv_recommend_item_name"
+        app:layout_constraintVertical_chainStyle="packed"
+        tools:text="\@sangho.kk" />
+
+    <TextView
+        android:id="@+id/tv_recommend_item_school"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginBottom="16dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:paddingVertical="2dp"
+        android:textAppearance="@style/TextAppearance.Yello.LabelMedium"
+        android:textColor="@color/grayscales_600"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btn_recommend_item_add"
+        app:layout_constraintStart_toEndOf="@id/iv_recommend_item_thumbnail"
+        app:layout_constraintTop_toBottomOf="@id/tv_recommend_item_id"
+        app:layout_constraintVertical_chainStyle="packed"
+        tools:text="고려대학교 산업경영공학부 19학번" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_recommend_item_add"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:backgroundTint="@color/yello_main_500"
+        android:includeFontPadding="false"
+        android:insetTop="0dp"
+        android:insetBottom="0dp"
+        android:minWidth="0dp"
+        android:minHeight="0dp"
+        android:paddingHorizontal="15dp"
+        android:paddingVertical="9dp"
+        android:text="@string/recommend_item_btn_add"
+        android:textAppearance="@style/TextAppearance.Yello.Button"
+        android:textColor="@color/black"
+        android:textSize="12sp"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/btn_recommend_item_my_friend"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="내 친구"
+        android:textAppearance="@style/TextAppearance.Yello.Button"
+        android:textColor="@color/white"
+        android:visibility="gone"
+        android:layout_marginEnd="26dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

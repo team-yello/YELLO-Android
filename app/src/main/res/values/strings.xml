@@ -33,7 +33,7 @@
     <string name="main_yello">옐로하기</string>
     <string name="main_my_yello">내 쪽지</string>
     <string name="main_profile">프로필</string>
-    <string name="main_toast_back_pressed">\'뒤로\' 버튼을 한번 더 누르면 종료됩니다.</string>
+    <string name="main_toast_back_pressed">버튼을 한번 더 누르면 종료됩니다.</string>
 
     <string name="onboarding_tv_what_studentid">몇 학번인가요?</string>
     <string name="onboarding_tv_search_department">학과 검색하기</string>
@@ -48,21 +48,24 @@
     <string name="onboarding_tv_name">나의 이름은?</string>
     <string name="onboarding_tv_name_description">이름은 가입 후 바꿀 수 없으니 정확히 적어주세요!</string>
     <string name="onboarding_tv_id">내가 사용할 아이디는?</string>
-    <string name="name_id_id_description">인스타그램 아이디로 하면 친구들이 찾기 쉬워요! (최대 20자)</string>
+    <string name="onboarding_yelloid_hint_start">인스타그램 아이디</string>
+    <string name="onboarding_yelloid_hint_middle">로 하면 친구들이 찾기 쉬워요!</string>
+    <string name="onboarding_yelloid_hint_end">(최대 20자)</string>
     <string name="onboarding_et_id">yelloworld</string>
     <string name="onboarding_tv_gender">성별은</string>
     <string name="onboarding_tv_code">추천인 코드</string>
-    <string name="onboarding_tv_code_hint">추천인 아이디</string>
+    <string name="onboarding_tv_code_hint">yelloworld</string>
     <string name="onboarding_tv_code_skip">없다면 건너뛰어도 돼요.</string>
     <string name="onboarding_tv_code_error">추천인의 아이디를 입력하면</string>
     <string name="onboarding_btn_code_skip"><u>건너뛰기</u></string>
-    <string name="onboarding_tv_startapp_title">회원가입이 끝! 알림을 드릴게요 </string>
-    <string name="onboarding_tv_startapp_subtitle">친구들에게 비밀 쪽지가 도착하면\n 알림을 드릴게요. </string>
-    <string name="onboarding_tv_start_yello">알림 받기</string>
+    <string name="onboarding_tv_startapp_title">띵동! 쪽지 도착 </string>
+    <string name="onboarding_tv_startapp_subtitle">친구들이 비밀 쪽지를 보내면\n 알림을 드릴게요. </string>
+    <string name="onboarding_tv_start_yello">쪽지 알림 받기</string>
     <string name="onboarding_btn_gender_done">다음</string>
     <string name="onboarding_tv_gender_x">남자</string>
     <string name="onboarding_tv_gender_y">여자</string>
     <string name="onboarding_tv_addfriend">친구를 추가하세요!</string>
+    <string name="onboarding_tv_addfriend_subtitle">친구가 많을수록 쪽지도 많이 받아요.</string>
     <string name="onboarding_btn_addfriend_next">다음</string>
     <string name="onboarding_tv_addfriend_how_many">선택된 친구</string>
     <string name="onboarding_tv_freind_end">명</string>
@@ -113,8 +116,10 @@
 
     <string name="my_yello_title">내 쪽지</string>
     <string name="my_yello_count_end">개</string>
+    <string name="my_yello_shop">상점</string>
     <string name="my_yello_receive_title">받은 쪽지</string>
     <string name="my_yello_send_check">누가 보냈는지 확인하기</string>
+    <string name="my_yello_send_open">누가 보냈는지 열어보기</string>
     <string name="my_yello_you">너</string>
     <string name="my_yello_not_yet">아직 쪽지가 온 게 없어요.</string>
     <string name="my_yello_question">\???</string>
@@ -142,7 +147,7 @@
     <string name="note_msg_invalid_shuffle">이름을 선택하면 셔플을 사용할 수 없어요.</string>
 
     <string name="look_title">둘러보기</string>
-    <string name="look_sub_description">아직 구현되지 않은 기능이에요.\n조금만 기다려주세요!</string>
+    <string name="look_error_friend_list">둘러보기 목록 서버 통신 실패</string>
 
     <string name="view_type_error_msg">Unknown View Type : %d</string>
 
@@ -212,17 +217,21 @@
 
     <string name="recommend_tv_title">추천친구</string>
     <string name="recommend_dialog_tv_title">친구 초대하기</string>
-    <string name="recommend_dialog_tv_subtitle">찾는 친구가 없다면 친구를 초대해 보세요!</string>
-    <string name="recommend_dialog_tv_subtitle_2">함께 옐로</string>
-    <string name="recommend_dialog_tv_subtitle_3">할 수 있어요.</string>
+    <string name="recommend_dialog_tv_subtitle">친구가 내 추천인 코드로 가입하면</string>
+    <string name="recommend_dialog_tv_subtitle_2">40분 대기 초기화 + 100포인트 지급!</string>
     <string name="recommend_dialog_tv_code_title">내 추천인 코드</string>
     <string name="recommend_dialog_tv_code_start">\@</string>
 
     <string name="recommend_invite_title">친구 초대하기</string>
-    <string name="recommend_invite_subtitle">찾는 친구가 없다면 친구를 초대해 보세요!</string>
-    <string name="recommend_invite_no_title">지금 추천된 친구가 없어요!\n친구를 초대해볼까요?</string>
-    <string name="recommend_invite_no_subtitle">친구 초대하기</string>
+    <string name="recommend_invite_subtitle">찾는 친구가 없다면 친구를 초대해볼까요?</string>
+    <string name="recommend_invite_no_title">찾는 친구가 없다면\n친구를 초대해볼까요?</string>
+    <string name="recommend_invite_no_subtitle">친구 초대하고 100포인트 받기</string>
     <string name="recommend_item_btn_add">친구추가</string>
+
+    <string name="recommend_search_title">친구 검색</string>
+    <string name="recommend_search_hint">| 이름 또는 아이디를 입력해보세요!</string>
+    <string name="recommend_search_error">검색 서버통신 실패</string>
+
     <string name="onboarding_highschool_hint">ex. 옐로고등학교</string>
     <string name="onboarding_grade_title">몇 학년인가요?</string>
     <string name="onboarding_group_title">몇 반인가요?</string>
@@ -232,4 +241,19 @@
     <string name="onboarding_highschool_thirdgrade">3학년</string>
 
     <string name="default_notification_channel_id">default_messaging_channel</string>
+    <string name="recommend_search_loading">친구를 찾는 중이에요…</string>
+
+    <string name="dialog_point_fail">포인트가 부족해요!</string>
+    <string name="dialog_get_keyword_question">100 포인트로 키워드를 얻을까요?</string>
+    <string name="dialog_get_keyword_free_question">0 포인트로 키워드를 얻을까요?</string>
+    <string name="dialog_get_keyword">키워드 얻기</string>
+    <string name="dialog_get_initial_question">300 포인트로 초성을 얻을까요?</string>
+    <string name="dialog_get_initial">초성 얻기</string>
+    <string name="dialog_key_title">열람권</string>
+    <string name="dialog_vote_get_point">투표하고 포인트 받기</string>
+    <string name="dialog_initial_sub_title">이름 중 랜덤으로 뽑은 초성이에요.</string>
+    <string name="dialog_initial_title">보낸 사람의 초성을 얻었어요!</string>
+    <string name="dialog_complete">완료</string>
+    <string name="dialog_after_point">사용 후 포인트</string>
+    <string name="dialog_after_keyword_title">쪽지의 키워드를 얻었어요!</string>
 </resources>

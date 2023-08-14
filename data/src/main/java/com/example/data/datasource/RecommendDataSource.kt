@@ -3,6 +3,7 @@ package com.example.data.datasource
 import com.example.data.model.request.recommend.RequestRecommendKakaoDto
 import com.example.data.model.response.BaseResponse
 import com.example.data.model.response.recommend.ResponseRecommendDto
+import com.example.data.model.response.recommend.ResponseRecommendSearchDto
 
 interface RecommendDataSource {
     suspend fun postToGetKakaoListData(
@@ -17,5 +18,10 @@ interface RecommendDataSource {
     suspend fun postFriendAdd(
         friendId: Long
     ): BaseResponse<Unit>
+
+    suspend fun getSearchListData(
+        keyword: String,
+        page: Int
+    ): BaseResponse<ResponseRecommendSearchDto>
 
 }

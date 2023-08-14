@@ -45,6 +45,11 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
         setFriendDeleteToServer()
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _adapter = null
+    }
+
     private fun initProfileSetting() {
         viewModel.initPagingVariable()
         viewModel.setDataNotLoaded()
@@ -236,9 +241,8 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
         }
     }
 
-    override fun onDestroyView() {
-        _adapter = null
-        super.onDestroyView()
+    fun scrollToTop() {
+        binding.rvProfileFriendsList.smoothScrollToPosition(0)
     }
 
     private companion object {

@@ -34,13 +34,13 @@ class ProfileFriendItemBottomSheet :
     }
 
     override fun onDismiss(dialog: DialogInterface) {
-        viewModel.isItemBottomSheetRunning = false
         super.onDismiss(dialog)
+        viewModel.isItemBottomSheetRunning = false
     }
 
     override fun onDestroyView() {
-        profileFriendDeleteBottomSheet = null
         super.onDestroyView()
+        profileFriendDeleteBottomSheet = null
     }
 
     private fun setItemImage() {

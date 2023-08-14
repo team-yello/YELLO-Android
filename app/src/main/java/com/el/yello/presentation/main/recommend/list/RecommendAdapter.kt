@@ -1,13 +1,15 @@
 package com.el.yello.presentation.main.recommend.list
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.el.yello.databinding.ItemRecommendListBinding
 import com.example.domain.entity.RecommendModel.RecommendFriend
-import com.example.ui.intent.dpToPx
 
-class RecommendAdapter(private val itemClick: (RecommendFriend, Int, RecommendViewHolder) -> (Unit)) :
+class RecommendAdapter(
+    private val itemClick: (RecommendFriend, Int, RecommendViewHolder) -> (Unit)
+) :
     RecyclerView.Adapter<RecommendViewHolder>() {
 
     private var itemList = mutableListOf<RecommendFriend>()
@@ -20,14 +22,19 @@ class RecommendAdapter(private val itemClick: (RecommendFriend, Int, RecommendVi
     }
 
     override fun onBindViewHolder(holder: RecommendViewHolder, position: Int) {
-        holder.onBind(itemList[position], position)
         changeToTextButton(holder)
+        holder.onBind(itemList[position], position)
     }
 
     override fun getItemCount(): Int = itemList.size
 
     fun addItemList(newItems: List<RecommendFriend>) {
         this.itemList.addAll(newItems)
+        notifyDataSetChanged()
+    }
+
+    fun clearList() {
+        this.itemList.clear()
         notifyDataSetChanged()
     }
 
@@ -39,15 +46,7 @@ class RecommendAdapter(private val itemClick: (RecommendFriend, Int, RecommendVi
 
     // 초기 아이템 텍스트 버튼으로 설정
     private fun changeToTextButton(holder: RecommendViewHolder) {
-        holder.binding.btnRecommendItemAdd.apply {
-            text = "친구추가"
-            icon = null
-            setPadding(
-                dpToPx(holder.binding.root.context, 13),
-                0,
-                dpToPx(holder.binding.root.context, 13),
-                0,
-            )
-        }
+        holder.binding.btnRecommendItemAdd.visibility = View.VISIBLE
+        holder.binding.btnRecommendItemAddPressed.visibility = View.GONE
     }
 }

@@ -11,13 +11,13 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/layout_studentid"
+        android:id="@+id/layout_name"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/black">
 
         <ImageView
-            android:id="@+id/btn_nameid_back_btn"
+            android:id="@+id/btn_name_back_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
@@ -28,7 +28,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <ProgressBar
-            android:id="@+id/nameid_progressbar"
+            android:id="@+id/name_progressbar"
             style="@style/Widget.AppCompat.ProgressBar.Horizontal"
             android:layout_width="match_parent"
             android:layout_height="4dp"
@@ -37,7 +37,7 @@
             android:progressDrawable="@drawable/layerlist_onboarding_progressbar"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btn_nameid_back_btn"
+            app:layout_constraintTop_toBottomOf="@+id/btn_name_back_btn"
             app:layout_constraintWidth_percent="1" />
 
         <TextView
@@ -51,7 +51,7 @@
             android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/nameid_progressbar" />
+            app:layout_constraintTop_toBottomOf="@id/name_progressbar" />
 
         <EditText
             android:id="@+id/et_name"
@@ -68,7 +68,7 @@
             android:paddingVertical="18dp"
             android:paddingStart="20dp"
             android:paddingEnd="12dp"
-            android:text="@={vm._name}"
+            android:text="@={vm.nameText}"
             android:textColor="@color/white"
             android:textColorHint="@color/grayscales_600"
             android:textSize="16sp"
@@ -82,7 +82,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="18dp"
             android:background="@{vm.isValidName() ? @drawable/ic_onboarding_delete : @drawable/ic_onboarding_delete_red}"
-            android:visibility="@{vm._name.isBlank() ? View.GONE : View.VISIBLE}"
+            android:visibility="@{vm.nameText.isBlank() ? View.GONE : View.VISIBLE}"
             app:layout_constraintBottom_toBottomOf="@id/et_name"
             app:layout_constraintEnd_toEndOf="@id/et_name"
             app:layout_constraintTop_toTopOf="@+id/et_name"
@@ -106,99 +106,18 @@
             tools:text="@string/onboarding_tv_name_description"
             tools:textColor="@color/grayscales_500" />
 
-        <TextView
-            android:id="@+id/tv_id"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="16dp"
-            android:layout_marginTop="24dp"
-            android:text="@string/onboarding_tv_id"
-            android:textAppearance="?textAppearanceHeadline2"
-            android:textColor="@color/white"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_name_error" />
-
-
-        <TextView
-            android:id="@+id/iv_nameid_fix"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:fontFamily="@font/pretendard_medium"
-            android:text="@string/onboarding_tv_hint_fix"
-            android:textColor="@color/white"
-            android:textSize="16sp"
-            android:translationZ="1dp"
-            app:layout_constraintBottom_toBottomOf="@+id/et_id"
-            app:layout_constraintStart_toStartOf="@id/et_id"
-            app:layout_constraintTop_toTopOf="@+id/et_id" />
-
-        <EditText
-            android:id="@+id/et_id"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="16dp"
-            android:layout_marginTop="12dp"
-            android:background="@{vm.isValidId() ? @drawable/sel_onbarding_editext_focus : @drawable/shape_fill_red20_line_semantic_status_red500_rect_8}"
-            android:fontFamily="@font/font_pretendard_medium"
-            android:hint= "@string/onboarding_et_id"
-            android:inputType="text"
-            android:maxLength="20"
-            android:maxLines="1"
-            android:paddingVertical="18dp"
-            android:paddingStart="39dp"
-            android:paddingEnd="20dp"
-            android:text="@={vm._id}"
-            android:textColor="@color/white"
-            android:textColorHint="@color/grayscales_600"
-            android:textSize="16sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_id" />
-
-        <ImageView
-            android:id="@+id/btn_id_delete"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="18dp"
-            android:background="@{vm.isValidId() ? @drawable/ic_onboarding_delete : @drawable/ic_onboarding_delete_red}"
-            android:visibility="@{vm._id.isBlank() ? View.GONE : View.VISIBLE}"
-            app:layout_constraintBottom_toBottomOf="@id/et_id"
-            app:layout_constraintEnd_toEndOf="@id/et_id"
-            app:layout_constraintTop_toTopOf="@+id/et_id"
-            tools:background="@drawable/ic_onboarding_delete" />
-
-        <TextView
-            android:id="@+id/tv_id_error"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="12dp"
-            android:layout_marginTop="4dp"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:paddingVertical="2dp"
-            android:text="@{vm.isValidId() ? @string/name_id_id_description : @string/onboarding_name_id_id_error}"
-            android:textAppearance="?textAppearanceLabelLarge"
-            android:textColor="@{vm.isValidId() ? @color/grayscales_500 : @color/semantic_red_500}"
-            app:layout_constraintEnd_toEndOf="@id/et_id"
-            app:layout_constraintStart_toStartOf="@id/et_id"
-            app:layout_constraintTop_toBottomOf="@id/et_id"
-            tools:text="@string/name_id_id_description"
-            tools:textColor="@color/grayscales_500" />
-
         <android.widget.Button
-            android:id="@+id/btn_nameid_next"
+            android:id="@+id/btn_name_next"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
             android:layout_marginBottom="32dp"
-            android:background="@{vm.isValidName() &amp; vm.isValidId() &amp; !vm._name.isEmpty() &amp; !vm._id.isEmpty() ? @drawable/shape_yello_main_500_fill_100_rect : @drawable/shape_grayscales_800_fill_100_rect}"
-            android:clickable="@{vm.isValidName() &amp; vm.isValidId() &amp; !vm._name.isEmpty() &amp; !vm._id.isEmpty()}"
+            android:background="@{vm.isValidName() &amp; !vm.nameText.isEmpty() ? @drawable/shape_yello_main_500_fill_100_rect : @drawable/shape_grayscales_800_fill_100_rect}"
+            android:clickable="@{vm.isValidName() &amp; !vm.nameText.isEmpty()}"
             android:paddingVertical="12dp"
             android:text="@string/onboarding_btn_next"
             android:textAppearance="?textAppearanceBodyMedium"
-            android:textColor="@{vm.isValidName() &amp; vm.isValidId() &amp; !vm._name.isEmpty() &amp; !vm._id.isEmpty() ? @color/black : @color/grayscales_700}"
+            android:textColor="@{vm.isValidName() &amp; !vm.nameText.isEmpty() ? @color/black : @color/grayscales_700}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />

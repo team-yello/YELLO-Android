@@ -29,7 +29,14 @@ class SplashActivity : AppCompatActivity() {
     }
 
     private fun navigateToMainScreen() {
-        Intent(this@SplashActivity, MainActivity::class.java).apply {
+        var type: String? = ""
+        var path: String? = ""
+        if (intent.extras != null) {
+            type = intent.getStringExtra("type")
+            path = intent.getStringExtra("path")
+        }
+
+        MainActivity.getIntent(this, type, path).apply {
             addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
             startActivity(this)
         }

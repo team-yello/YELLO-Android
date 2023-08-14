@@ -11,8 +11,8 @@ import androidx.core.os.bundleOf
 import com.el.yello.BuildConfig
 import com.el.yello.R
 import com.el.yello.databinding.FragmentUnlockDialogBinding
-import com.el.yello.util.context.yelloSnackbar
 import com.el.yello.presentation.main.recommend.RecommendInviteDialog
+import com.el.yello.util.context.yelloSnackbar
 import com.example.ui.base.BindingDialogFragment
 import com.example.ui.view.setOnSingleClickListener
 import com.kakao.sdk.common.util.KakaoCustomTabsClient
@@ -23,7 +23,6 @@ import timber.log.Timber
 class UnlockDialogFragment :
     BindingDialogFragment<FragmentUnlockDialogBinding>(R.layout.fragment_unlock_dialog) {
 
-    private val url = "http://naver.com"
     private lateinit var myYelloId: String
     private lateinit var linkText: String
     private var templateId: Long = 0

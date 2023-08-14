@@ -15,6 +15,7 @@ import com.el.yello.R
 import com.el.yello.databinding.FragmentProfileBinding
 import com.el.yello.presentation.main.profile.ProfileViewModel
 import com.el.yello.presentation.main.profile.manage.ProfileManageActivity
+import com.el.yello.presentation.main.recommend.list.RecommendItemDecoration
 import com.el.yello.presentation.pay.PayActivity
 import com.el.yello.util.context.yelloSnackbar
 import com.example.domain.entity.ProfileUserModel
@@ -37,10 +38,13 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
 
     private lateinit var friendsList: List<ProfileUserModel>
 
+    private lateinit var itemDivider: ProfileItemDecoration
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         initProfileSetting()
+        setItemDivider()
         setUserDataFromServer()
         setFriendsListDataFromServer()
         setFriendDeleteToServer()
@@ -60,6 +64,11 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
         initAdapterWithClickListener()
     }
 
+    private fun setItemDivider() {
+        itemDivider = ProfileItemDecoration(requireContext())
+        binding.rvProfileFriendsList.addItemDecoration(itemDivider)
+    }
+
     private fun setUserDataFromServer() {
         observeUserDataState()
         viewModel.getUserDataFromServer()
@@ -68,7 +77,6 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
     private fun setFriendsListDataFromServer() {
         observeFriendsDataState()
         setListWithInfinityScroll()
-        setItemDivider()
         viewModel.getFriendsListFromServer()
     }
 
@@ -196,13 +204,6 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
         })
     }
 
-    // 리스트 디바이더 설정
-    private fun setItemDivider() {
-        binding.rvProfileFriendsList.addItemDecoration(
-            ProfileItemDecoration(requireContext()),
-        )
-    }
-
     // 친구 삭제 서버 통신 성공 시 리스트에서 아이템 삭제
     private fun observeFriendDeleteState() {
         viewModel.deleteFriendState.observe(viewLifecycleOwner) { state ->
@@ -214,7 +215,9 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
                                 position
                             )
                         }
+                        binding.rvProfileFriendsList.removeItemDecoration(itemDivider)
                         delay(300)
+                        binding.rvProfileFriendsList.addItemDecoration(itemDivider)
                         if (viewModel.myTotalFriends.value != "") {
                             viewModel.myTotalFriends.value =
                                 viewModel.myTotalFriends.value?.toInt()?.minus(1).toString()

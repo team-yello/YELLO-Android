@@ -54,6 +54,7 @@ class CodeFragment : BindingFragment<FragmentCodeBinding>(R.layout.fragment_code
         }
         binding.btnCodeNext.setOnSingleClickListener {
             viewModel.getValidYelloId(viewModel.codeText.value.toString())
+            viewModel.postSignup()
             findNavController().navigate(R.id.action_codeFragment_to_startAppFragment)
         }
     }

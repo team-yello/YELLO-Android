@@ -10,8 +10,8 @@ import androidx.paging.cachedIn
 import com.example.data.datasource.remote.LookPagingSource
 import com.example.data.remote.service.LookService
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -22,19 +22,33 @@ class LookViewModel @Inject constructor(
     private val _isLoading = MutableLiveData(false)
     val isLoading: LiveData<Boolean> = _isLoading
 
+    private val _getErrorResult = MutableLiveData<String>()
+    val getErrorResult: LiveData<String> = _getErrorResult
+
     fun setFirstPageLoading() {
         _isLoading.value = false
-
     }
 
     // 서버 통신 - 둘러보기 리스트 추가
     fun getLookListWithPaging() = Pager(
         config = PagingConfig(10),
         pagingSourceFactory = { LookPagingSource(lookService) }
-    ).flow.map { pagingData ->
-        _isLoading.value = false
-        pagingData
-    }.cachedIn(viewModelScope).onStart {
+    ).flow.cachedIn(viewModelScope).onStart {
         _isLoading.value = true
+        checkLookConnection()
+    }
+
+    // 서버 통신 확인
+    private fun checkLookConnection() {
+        viewModelScope.launch {
+            runCatching {
+                lookService.getLookList(0)
+            }.onSuccess {
+                _isLoading.value = false
+            }.onFailure { exception ->
+                _isLoading.value = false
+                _getErrorResult.value = exception.message
+            }
+        }
     }
 }

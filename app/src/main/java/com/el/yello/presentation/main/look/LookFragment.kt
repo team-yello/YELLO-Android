@@ -1,13 +1,13 @@
 package com.el.yello.presentation.main.look
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import com.el.yello.R
 import com.el.yello.databinding.FragmentLookBinding
+import com.el.yello.util.context.yelloSnackbar
 import com.example.ui.base.BindingFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -28,6 +28,7 @@ class LookFragment : BindingFragment<FragmentLookBinding>(R.layout.fragment_look
         initAdapterWithFirstList()
         getSearchPagingList()
         observeIsLoading()
+        observeErrorResult()
     }
 
     override fun onDestroyView() {
@@ -48,6 +49,13 @@ class LookFragment : BindingFragment<FragmentLookBinding>(R.layout.fragment_look
                 .collectLatest { pagingData ->
                     adapter.submitData(pagingData)
                 }
+        }
+    }
+
+    private fun observeErrorResult() {
+        viewModel.getErrorResult.observe(viewLifecycleOwner) {
+            yelloSnackbar(requireView(), getString(R.string.look_error_friend_list))
+            startShimmerView()
         }
     }
 

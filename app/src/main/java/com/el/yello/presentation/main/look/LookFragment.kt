@@ -1,6 +1,7 @@
 package com.el.yello.presentation.main.look
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.flowWithLifecycle
@@ -42,11 +43,10 @@ class LookFragment : BindingFragment<FragmentLookBinding>(R.layout.fragment_look
 
     private fun getSearchPagingList() {
         lifecycleScope.launch {
-            viewModel.getLookList()
+            viewModel.getLookListWithPaging()
                 .flowWithLifecycle(lifecycle)
-                .collectLatest {
-                    viewModel.getTotalCount()
-                    adapter.submitData(lifecycle, it)
+                .collectLatest { pagingData ->
+                    adapter.submitData(pagingData)
                 }
         }
     }

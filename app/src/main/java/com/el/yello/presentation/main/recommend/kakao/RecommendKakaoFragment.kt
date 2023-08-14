@@ -33,18 +33,21 @@ class RecommendKakaoFragment :
         get() = requireNotNull(_adapter) { getString(R.string.adapter_not_initialized_error_msg) }
 
     private val viewModel by viewModels<RecommendKakaoViewModel>()
+
     private var recommendInviteDialog: RecommendInviteDialog? = null
+
+    private lateinit var itemDivider: RecommendItemDecoration
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         initInviteBtnListener()
+        setItemDivider()
         setKakaoRecommendList()
         setAdapterWithClickListener()
         observeKakaoError()
         observeAddListState()
         observeAddFriendState()
-        setItemDivider()
         setDeleteAnimation()
     }
 
@@ -98,6 +101,11 @@ class RecommendKakaoFragment :
         binding.btnRecommendNoFriend.setOnSingleClickListener {
             recommendInviteDialog?.show(parentFragmentManager, INVITE_DIALOG)
         }
+    }
+
+    private fun setItemDivider() {
+        itemDivider = RecommendItemDecoration(requireContext())
+        binding.rvRecommendKakao.addItemDecoration(itemDivider)
     }
 
     // 어댑터 클릭 리스너 설정
@@ -183,12 +191,6 @@ class RecommendKakaoFragment :
         }
     }
 
-    private fun setItemDivider() {
-        binding.rvRecommendKakao.addItemDecoration(
-            RecommendItemDecoration(requireContext()),
-        )
-    }
-
     private fun setDeleteAnimation() {
         binding.rvRecommendKakao.itemAnimator = object : DefaultItemAnimator() {
             override fun animateRemove(holder: RecyclerView.ViewHolder): Boolean {
@@ -208,9 +210,11 @@ class RecommendKakaoFragment :
         lifecycleScope.launch {
             changeToCheckIcon(holder)
             delay(300)
+            binding.rvRecommendKakao.removeItemDecoration(itemDivider)
             adapter.removeItem(position)
             activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
-            delay(400)
+            delay(500)
+            binding.rvRecommendKakao.addItemDecoration(itemDivider)
             if (adapter.itemCount == 0) {
                 showNoFriendScreen()
             }

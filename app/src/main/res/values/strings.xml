@@ -243,4 +243,11 @@
     <string name="dialog_complete">완료</string>
     <string name="dialog_after_point">사용 후 포인트</string>
     <string name="dialog_after_keyword_title">쪽지의 키워드를 얻었어요!</string>
+
+    <string name="tutorial_end_subtitle">튜토리얼 끝!\n옐로에서 환영 선물을 준비했어요!</string>
+    <string name="tutorial_third_title">앞으로 투표가 끝날 때마다 포인트를 줄게요!</string>
+    <string name="tutorial_tv_end_btn">옐로하러 가기</string>
+    <string name="tutorial_end_title_point">200포인트 지급</string>
+    <string name="tutorial_title_b">100포인트</string>
+    <string name="tutorial_title_C"> 지급</string>
 </resources>

@@ -1,25 +1,35 @@
 package com.el.yello.presentation.pay
 
-import android.app.Activity
 import android.graphics.Paint
 import android.os.Bundle
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
+import com.android.billingclient.api.BillingClient
+import com.android.billingclient.api.BillingClientStateListener
+import com.android.billingclient.api.BillingFlowParams
+import com.android.billingclient.api.BillingResult
+import com.android.billingclient.api.ProductDetails
+import com.android.billingclient.api.PurchasesUpdatedListener
+import com.android.billingclient.api.QueryProductDetailsParams
+import com.android.billingclient.api.QueryProductDetailsParams.Product
+import com.android.billingclient.api.queryProductDetails
 import com.el.yello.R
 import com.el.yello.databinding.ActivityPayBinding
 import com.example.ui.base.BindingActivity
 import com.example.ui.view.UiState
 import com.example.ui.view.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.withContext
 
 @AndroidEntryPoint
 class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
     private val viewModel by viewModels<PayViewModel>()
     private lateinit var payAdapter: PayAdapter
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -61,25 +71,17 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
 
     private fun observe() {
         viewModel.payCheck.flowWithLifecycle(lifecycle).onEach {
-                when (it) {
-                    is UiState.Success -> {
+            when (it) {
+                is UiState.Success -> {
 
-                    }
-
-                    is UiState.Failure -> {
-
-                    }
-
-                    else -> {}
                 }
-            }.launchIn(lifecycleScope)
-    }
 
-    private val payEndActivityLauncher = registerForActivityResult(
-        ActivityResultContracts.StartActivityForResult(),
-    ) {
-        if (it.resultCode == Activity.RESULT_OK) {
-            finish()
-        }
+                is UiState.Failure -> {
+
+                }
+
+                else -> {}
+            }
+        }.launchIn(lifecycleScope)
     }
 }

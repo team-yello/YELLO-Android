@@ -136,6 +136,7 @@ dependencies {
     implementation("androidx.navigation:navigation-fragment-ktx:2.6.0")
     implementation("androidx.navigation:navigation-ui-ktx:2.6.0")
     implementation("androidx.navigation:navigation-dynamic-features-fragment:2.6.0")
+    implementation("com.google.android.gms:play-services-analytics-impl:18.0.3")
 
     TestDependencies.run {
         testImplementation(jUnit)

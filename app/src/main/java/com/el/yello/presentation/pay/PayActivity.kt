@@ -1,7 +1,6 @@
 package com.el.yello.presentation.pay
 
 import android.app.Activity
-import android.content.Intent
 import android.graphics.Paint
 import android.os.Bundle
 import androidx.activity.result.contract.ActivityResultContracts
@@ -61,19 +60,14 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
     }
 
     private fun observe() {
-        viewModel.payCheck.flowWithLifecycle(lifecycle)
-            .onEach {
+        viewModel.payCheck.flowWithLifecycle(lifecycle).onEach {
                 when (it) {
                     is UiState.Success -> {
-                        Intent(this, PayEndActivity::class.java).apply {
-                            payEndActivityLauncher.launch(this)
-                        }
+
                     }
 
                     is UiState.Failure -> {
-                        Intent(this, PayEndActivity::class.java).apply {
-                            payEndActivityLauncher.launch(this)
-                        }
+
                     }
 
                     else -> {}

@@ -29,6 +29,14 @@ class OnBoardingViewModel @Inject constructor(
     private val authRepository: AuthRepository,
 ) : ViewModel() {
 
+    var currentpercent = 0
+    fun plusCurrentPercent() {
+        currentpercent += 14
+    }
+    fun minusCurrentPercent() {
+        currentpercent -= 14
+    }
+
     // 학력 선택
     val studentType = MutableLiveData("")
 
@@ -325,7 +333,7 @@ class OnBoardingViewModel @Inject constructor(
         }
     }
     companion object {
-        private const val REGEX_NAME_PATTERN = "^([ㄱ-ㅎㅏ-ㅣ가-힣]*)\$"
+        private const val REGEX_NAME_PATTERN = "^([가-힣]*)\$"
         private const val REGEX_ID_PATTERN = "^([A-Za-z0-9_.]*)\$"
     }
 }

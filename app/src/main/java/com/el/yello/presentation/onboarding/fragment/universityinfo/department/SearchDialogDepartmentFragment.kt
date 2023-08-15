@@ -32,7 +32,6 @@ class SearchDialogDepartmentFragment :
     private val viewModel by activityViewModels<OnBoardingViewModel>()
     private var adapter: DepartmentAdapter? = null
     private var inputText: String = ""
-
     private val debounceTime = 500L
     private var searchJob: Job? = null
 
@@ -44,6 +43,7 @@ class SearchDialogDepartmentFragment :
         setupDepartmentData()
         recyclerviewScroll()
         setClickToDepartmentForm()
+        setListWithInfinityScroll()
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {

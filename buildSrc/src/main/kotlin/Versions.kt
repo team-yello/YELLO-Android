@@ -41,6 +41,7 @@ object Versions {
     const val kakaoVersion = "2.14.0"
     const val circleIndicatorVersion = "2.1.6"
     const val shimmerVersion = "0.5.0"
+    const val navigationVersion = "2.6.0"
 
     const val gradleVersion = "8.0.1"
 

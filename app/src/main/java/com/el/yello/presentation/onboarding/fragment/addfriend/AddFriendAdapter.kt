@@ -4,8 +4,6 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import com.el.yello.databinding.ItemAddFriendBinding
-import com.el.yello.databinding.ItemRecommendListBinding
-import com.el.yello.presentation.main.recommend.list.RecommendViewHolder
 import com.example.domain.entity.onboarding.AddFriendListModel.FriendModel
 import com.example.ui.view.ItemDiffCallback
 
@@ -14,7 +12,7 @@ class AddFriendAdapter(private val itemClick: (FriendModel, Int) -> (Unit)) :
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AddFriendViewHolder {
         val inflater by lazy { LayoutInflater.from(parent.context) }
-        val binding:  ItemAddFriendBinding =
+        val binding: ItemAddFriendBinding =
             ItemAddFriendBinding.inflate(inflater, parent, false)
         return AddFriendViewHolder(binding, itemClick)
     }

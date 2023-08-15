@@ -113,6 +113,9 @@ dependencies {
         implementation(workManager)
         implementation(hiltWorkManager)
         implementation(billing)
+        implementation(navigationFragment)
+        implementation(navigationUi)
+        implementation(navigationDynamic)
     }
 
     FirebaseDependencies.run {

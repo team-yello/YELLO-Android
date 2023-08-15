@@ -39,6 +39,7 @@
             android:layout_marginHorizontal="16dp"
             android:layout_marginTop="4dp"
             android:ellipsize="end"
+            android:gravity="center"
             android:maxLines="1"
             android:text="@string/onboarding_tv_code_skip"
             android:textAppearance="?textAppearanceBodySmall"
@@ -111,7 +112,7 @@
             android:text="@string/onboarding_tv_code_error"
             android:textAppearance="?textAppearanceLabelLarge"
             android:textColor="@color/grayscales_500"
-            app:layout_constraintStart_toStartOf="@+id/et_code"
+            app:layout_constraintStart_toStartOf="@+id/tv_name"
             app:layout_constraintTop_toBottomOf="@id/et_code" />
 
         <TextView

@@ -8,10 +8,13 @@ import androidx.activity.viewModels
 import androidx.core.widget.doAfterTextChanged
 import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.viewModelScope
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.el.yello.R
 import com.el.yello.databinding.ActivityRecommendSearchBinding
 import com.el.yello.util.context.yelloSnackbar
 import com.example.ui.base.BindingActivity
+import com.example.ui.context.toast
 import com.example.ui.view.UiState
 import com.example.ui.view.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
@@ -32,6 +35,8 @@ class RecommendSearchActivity :
     private val debounceTime = 500L
     private var searchJob: Job? = null
 
+    private var searchText: String = ""
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -42,6 +47,7 @@ class RecommendSearchActivity :
         observeAddFriendState()
         setDebounceSearch()
         setLoadingScreen()
+        setListWithInfinityScroll()
     }
 
     override fun onDestroy() {
@@ -78,16 +84,26 @@ class RecommendSearchActivity :
 
     private fun setLoadingScreen() {
         binding.etRecommendSearchBox.doOnTextChanged { _, _, _, _ ->
-            startLoadingScreen()
+            showLoadingScreen()
+            adapter.submitList(listOf())
+            viewModel.setNewPage()
         }
     }
 
     private fun setDebounceSearch() {
-        binding.etRecommendSearchBox.doAfterTextChanged {
-            searchJob?.cancel()
-            searchJob = viewModel.viewModelScope.launch {
-                delay(debounceTime)
-                it?.toString()?.let { viewModel.setListFromServer(it) }
+        binding.etRecommendSearchBox.doAfterTextChanged { text ->
+            if (text.isNullOrBlank()) {
+                showNoFriendScreen()
+                binding.layoutRecommendNoSearch.visibility = View.GONE
+            } else {
+                searchJob?.cancel()
+                searchJob = viewModel.viewModelScope.launch {
+                    delay(debounceTime)
+                    text.toString().let { text ->
+                        searchText = text
+                        viewModel.setListFromServer(text)
+                    }
+                }
             }
         }
     }
@@ -97,25 +113,47 @@ class RecommendSearchActivity :
         viewModel.postFriendsListState.observe(this) { state ->
             when (state) {
                 is UiState.Success -> {
-                    adapter.submitList(state.data?.friendList ?: listOf())
-                    stopLoadingScreen()
+                    if (state.data?.friendList?.size == 0) {
+                        showNoFriendScreen()
+                    } else {
+                        adapter.addList(state.data?.friendList ?: listOf())
+                        showFriendListScreen()
+                    }
                 }
 
                 is UiState.Failure -> {
-                    yelloSnackbar(
-                        binding.root.rootView,
-                        getString(R.string.recommend_search_error)
-                    )
-                    stopLoadingScreen()
+                    toast(getString(R.string.recommend_search_error))
+                    showFriendListScreen()
                 }
 
-                is UiState.Loading -> {}
+                is UiState.Loading -> {
+                    showLoadingScreen()
+                }
 
                 is UiState.Empty -> {
-                    stopLoadingScreen()
+                    showFriendListScreen()
                 }
             }
         }
+    }
+
+    // 무한 스크롤 구현
+    private fun setListWithInfinityScroll() {
+        binding.rvRecommendSearch.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                if (dy > 0) {
+                    recyclerView.layoutManager?.let { layoutManager ->
+                        if (!binding.rvRecommendSearch.canScrollVertically(1)
+                            && layoutManager is LinearLayoutManager
+                            && layoutManager.findLastVisibleItemPosition() == adapter.itemCount - 1
+                        ) {
+                            viewModel.setListFromServer(searchText)
+                        }
+                    }
+                }
+            }
+        })
     }
 
     // 친구 추가 서버 통신 성공 시 표시 변경
@@ -145,13 +183,21 @@ class RecommendSearchActivity :
         }
     }
 
-    private fun startLoadingScreen() {
-        binding.rvRecommendSearch.visibility = View.GONE
-        binding.layoutRecommendSearchLoading.visibility = View.VISIBLE
-    }
-
-    private fun stopLoadingScreen() {
+    private fun showFriendListScreen() {
         binding.rvRecommendSearch.visibility = View.VISIBLE
         binding.layoutRecommendSearchLoading.visibility = View.GONE
+        binding.layoutRecommendNoSearch.visibility = View.GONE
+    }
+
+    private fun showLoadingScreen() {
+        binding.rvRecommendSearch.visibility = View.GONE
+        binding.layoutRecommendSearchLoading.visibility = View.VISIBLE
+        binding.layoutRecommendNoSearch.visibility = View.GONE
+    }
+
+    private fun showNoFriendScreen() {
+        binding.rvRecommendSearch.visibility = View.GONE
+        binding.layoutRecommendSearchLoading.visibility = View.GONE
+        binding.layoutRecommendNoSearch.visibility = View.VISIBLE
     }
 }

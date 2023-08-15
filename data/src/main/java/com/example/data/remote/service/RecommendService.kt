@@ -28,10 +28,10 @@ interface RecommendService {
         @Path("friendId") friendId: Long
     ): BaseResponse<Unit>
 
-    @GET("/friend/search")
+    @GET("/api/v1/friend/search")
     suspend fun getSearchList(
-        @Query("keyword") keyword: String,
-        @Query("page") page: Int
+        @Query("page") page: Int,
+        @Query("keyword") keyword: String
     ): BaseResponse<ResponseRecommendSearchDto>
 
 }

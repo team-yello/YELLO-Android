@@ -63,6 +63,11 @@ class LookViewHolder(
             binding.tvKeyword.background = ContextCompat.getDrawable(
                 itemView.context, R.drawable.shape_grayscales800_fill_grayscales700_dashline_4_rect
             )
+            binding.tvKeyword.setTextColor(
+                ContextCompat.getColor(
+                    itemView.context, R.color.grayscales_800
+                )
+            )
         }
     }
 

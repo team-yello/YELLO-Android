@@ -1,6 +1,7 @@
 package com.el.yello.presentation.main.recommend.kakao
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import android.view.animation.AnimationUtils
@@ -120,7 +121,7 @@ class RecommendKakaoFragment :
     private fun observeKakaoError() {
         viewModel.getKakaoErrorResult.observe(viewLifecycleOwner) {
             yelloSnackbar(requireView(), getString(R.string.recommend_error_friends_list))
-            showNoFriendScreen()
+            showShimmerScreen()
         }
     }
 
@@ -138,7 +139,7 @@ class RecommendKakaoFragment :
                 }
 
                 is UiState.Failure -> {
-                    showNoFriendScreen()
+                    showShimmerScreen()
                     yelloSnackbar(
                         requireView(),
                         getString(R.string.recommend_error_friend_connection),
@@ -146,7 +147,6 @@ class RecommendKakaoFragment :
                 }
 
                 is UiState.Loading -> {
-                    showFriendListScreen()
                     showShimmerScreen()
                 }
 
@@ -227,13 +227,16 @@ class RecommendKakaoFragment :
     }
 
     private fun showShimmerScreen() {
+        Log.d("okhttp", "1")
         binding.layoutRecommendFriendsList.isVisible = true
+        binding.layoutRecommendNoFriendsList.isVisible = false
         binding.shimmerFriendList.startShimmer()
         binding.shimmerFriendList.visibility = View.VISIBLE
         binding.rvRecommendKakao.visibility = View.GONE
     }
 
     private fun showFriendListScreen() {
+        Log.d("okhttp", "2")
         binding.layoutRecommendFriendsList.isVisible = true
         binding.layoutRecommendNoFriendsList.isVisible = false
         binding.shimmerFriendList.stopShimmer()
@@ -242,6 +245,7 @@ class RecommendKakaoFragment :
     }
 
     private fun showNoFriendScreen() {
+        Log.d("okhttp", "3")
         binding.layoutRecommendFriendsList.isVisible = false
         binding.layoutRecommendNoFriendsList.isVisible = true
         binding.shimmerFriendList.stopShimmer()

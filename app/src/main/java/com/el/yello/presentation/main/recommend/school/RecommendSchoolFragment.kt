@@ -134,7 +134,7 @@ class RecommendSchoolFragment :
                 }
 
                 is UiState.Failure -> {
-                    showNoFriendScreen()
+                    showShimmerScreen()
                     yelloSnackbar(
                         requireView(),
                         getString(R.string.recommend_error_school_friend_connection),
@@ -142,7 +142,6 @@ class RecommendSchoolFragment :
                 }
 
                 is UiState.Loading -> {
-                    showFriendListScreen()
                     showShimmerScreen()
                 }
 
@@ -224,6 +223,7 @@ class RecommendSchoolFragment :
 
     private fun showShimmerScreen() {
         binding.layoutRecommendFriendsList.isVisible = true
+        binding.layoutRecommendNoFriendsList.isVisible = false
         binding.shimmerFriendList.startShimmer()
         binding.shimmerFriendList.visibility = View.VISIBLE
         binding.rvRecommendSchool.visibility = View.GONE

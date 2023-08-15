@@ -31,6 +31,7 @@ object AndroidXDependencies {
         "org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.coroutinesAndroidVersion}"
     const val workManager = "androidx.work:work-runtime-ktx:${Versions.workManagerVersion}"
     const val hiltWorkManager = "androidx.hilt:hilt-work:1.0.0"
+    const val billing = "com.android.billingclient:billing:${Versions.billingVersion}"
 }
 
 object TestDependencies {

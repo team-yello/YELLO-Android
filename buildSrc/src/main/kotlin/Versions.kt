@@ -25,6 +25,7 @@ object Versions {
     const val splashVersion = "1.0.1"
     const val composeVersion = "1.4.3"
     const val workManagerVersion = "2.8.1"
+    const val billingVersion = "6.0.1"
 
     const val firabaseVersion = "30.4.0"
 

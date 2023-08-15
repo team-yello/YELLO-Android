@@ -112,6 +112,7 @@ dependencies {
         implementation(pagingRuntime)
         implementation(workManager)
         implementation(hiltWorkManager)
+        implementation(billing)
     }
 
     FirebaseDependencies.run {

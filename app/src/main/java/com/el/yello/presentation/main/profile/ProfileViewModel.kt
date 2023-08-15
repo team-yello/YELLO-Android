@@ -6,12 +6,17 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.domain.entity.ProfileFriendsListModel
 import com.example.domain.entity.ProfileUserModel
+import com.example.domain.entity.vote.VoteCount
 import com.example.domain.repository.AuthRepository
 import com.example.domain.repository.ProfileRepository
+import com.example.domain.repository.YelloRepository
 import com.example.ui.view.UiState
 import com.kakao.sdk.user.UserApiClient
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import javax.inject.Inject
@@ -21,6 +26,7 @@ import kotlin.math.ceil
 class ProfileViewModel @Inject constructor(
     private val profileRepository: ProfileRepository,
     private val authRepository: AuthRepository,
+    private val yelloRepository: YelloRepository
 ) : ViewModel() {
 
     private val _getState = MutableLiveData<UiState<ProfileUserModel>>()
@@ -40,6 +46,9 @@ class ProfileViewModel @Inject constructor(
 
     private val _kakaoQuitState = MutableLiveData<UiState<Unit>>()
     val kakaoQuitState: LiveData<UiState<Unit>> = _kakaoQuitState
+
+    private val _voteCount = MutableStateFlow<UiState<VoteCount>>(UiState.Loading)
+    val voteCount: StateFlow<UiState<VoteCount>> = _voteCount.asStateFlow()
 
     var isItemBottomSheetRunning: Boolean = false
 
@@ -185,6 +194,19 @@ class ProfileViewModel @Inject constructor(
             } else {
                 _kakaoQuitState.value = UiState.Failure(error.message ?: "")
             }
+        }
+    }
+
+    fun getVoteCount() {
+        viewModelScope.launch {
+            yelloRepository.voteCount()
+                .onSuccess {
+                    if (it != null) {
+                        _voteCount.value = UiState.Success(it)
+                    }
+                }.onFailure {
+                    _voteCount.value = UiState.Failure(it.message.toString())
+                }
         }
     }
 

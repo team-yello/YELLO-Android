@@ -5,30 +5,30 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
-import com.android.billingclient.api.BillingClient
-import com.android.billingclient.api.BillingClientStateListener
-import com.android.billingclient.api.BillingFlowParams
-import com.android.billingclient.api.BillingResult
 import com.android.billingclient.api.ProductDetails
-import com.android.billingclient.api.PurchasesUpdatedListener
-import com.android.billingclient.api.QueryProductDetailsParams
-import com.android.billingclient.api.QueryProductDetailsParams.Product
-import com.android.billingclient.api.queryProductDetails
+import com.android.billingclient.api.Purchase
 import com.el.yello.R
 import com.el.yello.databinding.ActivityPayBinding
+import com.el.yello.presentation.util.BillingCallback
+import com.el.yello.presentation.util.BillingManager
 import com.example.ui.base.BindingActivity
+import com.example.ui.context.toast
 import com.example.ui.view.UiState
 import com.example.ui.view.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.withContext
 
 @AndroidEntryPoint
 class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
     private val viewModel by viewModels<PayViewModel>()
     private lateinit var payAdapter: PayAdapter
+
+    private lateinit var manager: BillingManager
+
+    private var productDetails = listOf<ProductDetails>()
+
+    private var currentSubscription: Purchase? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,6 +36,29 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
         initView()
         initEvent()
         observe()
+        setBillingManager()
+    }
+
+    private fun setBillingManager() {
+        manager = BillingManager(this, object : BillingCallback {
+            override fun onBillingConnected() {
+                manager.getProductDetails() { list ->
+                    productDetails = list
+                }
+
+                manager.checkPurchased(billingType = "") {
+                    currentSubscription = it
+                }
+            }
+
+            override fun onSuccess(purchase: Purchase) {
+                currentSubscription = purchase
+            }
+
+            override fun onFailure(responseCode: Int) {
+                toast("구매 도중 오류가 발생하였습니다. (${responseCode})")
+            }
+        })
     }
 
     private fun initView() {
@@ -50,6 +73,11 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
     private fun initEvent() {
         binding.clSubscribe.setOnSingleClickListener {
             viewModel.payCheck(0)
+            productDetails.find { it.productId == "SUBS_ITEM" }?.let { productDetails ->
+                manager.purchaseProduct(productDetails, selectedOfferIndex = 0)
+            } ?: also {
+                toast("구매 가능 한 상품이 없습니다.")
+            }
         }
 
         binding.clNameCheckOne.setOnSingleClickListener {

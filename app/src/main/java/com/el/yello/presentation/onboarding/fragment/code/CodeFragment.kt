@@ -7,6 +7,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.el.yello.R
 import com.el.yello.databinding.FragmentCodeBinding
+import com.el.yello.presentation.onboarding.activity.OnBoardingActivity
 import com.el.yello.presentation.onboarding.activity.OnBoardingViewModel
 import com.el.yello.util.context.yelloSnackbar
 import com.example.ui.base.BindingFragment
@@ -29,6 +30,7 @@ class CodeFragment : BindingFragment<FragmentCodeBinding>(R.layout.fragment_code
     override fun onResume() {
         super.onResume()
         setupGetValidYelloIdState()
+        (activity as? OnBoardingActivity)?.hideBackbtn()
     }
 
     private fun setConfirmBtnCLickListener() {

@@ -13,7 +13,6 @@ import com.el.yello.presentation.auth.SignInActivity.Companion.EXTRA_EMAIL
 import com.el.yello.presentation.auth.SignInActivity.Companion.EXTRA_KAKAO_ID
 import com.el.yello.presentation.auth.SignInActivity.Companion.EXTRA_PROFILE_IMAGE
 import com.el.yello.presentation.auth.SocialSyncActivity
-import com.el.yello.presentation.tutorial.TutorialDActivity
 import com.example.ui.base.BindingActivity
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -25,14 +24,11 @@ class OnBoardingActivity :
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         getIntentExtraData()
-        if (viewModel.currentpercent > 70) {
-            binding.backBtn.visibility = View.INVISIBLE
-        }
     }
+
     fun onBackButtonClicked(view: View?) {
         intent.putExtra("codeText", viewModel.codeText.value)
         startActivity(intent)
-
         val navController = findNavController(R.id.nav_main_fragment)
         val currentDestinationId = navController.currentDestination?.id
         if (currentDestinationId == R.id.universityInfoFragment) {
@@ -66,5 +62,19 @@ class OnBoardingActivity :
         animator.duration = 300
         animator.interpolator = LinearInterpolator()
         animator.start()
+    }
+
+    fun hideViews() {
+        binding.backBtn.visibility = View.INVISIBLE
+        binding.onboardingProgressbar.visibility = View.INVISIBLE
+    }
+
+    fun hideBackbtn() {
+        binding.backBtn.visibility = View.INVISIBLE
+    }
+
+    fun showViews() {
+        binding.backBtn.visibility = View.VISIBLE
+        binding.onboardingProgressbar.visibility = View.VISIBLE
     }
 }

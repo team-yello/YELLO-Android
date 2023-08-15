@@ -8,6 +8,7 @@ import com.android.billingclient.api.ProductDetails
 import com.android.billingclient.api.Purchase
 import com.el.yello.R
 import com.el.yello.databinding.ActivityPayBinding
+import com.el.yello.presentation.main.profile.info.ProfileFriendAdapter
 import com.el.yello.presentation.util.BillingCallback
 import com.el.yello.presentation.util.BillingManager
 import com.example.ui.base.BindingActivity
@@ -18,8 +19,12 @@ import timber.log.Timber
 
 @AndroidEntryPoint
 class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
+
     private val viewModel by viewModels<PayViewModel>()
-    private lateinit var payAdapter: PayAdapter
+
+    private var _adapter: PayAdapter? = null
+    private val adapter
+        get() = requireNotNull(_adapter) { getString(R.string.adapter_not_initialized_error_msg) }
 
     private lateinit var manager: BillingManager
 
@@ -45,6 +50,11 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
         setBillingManager()
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        _adapter = null
+    }
+
     // BillingManager 설정 시 BillingClient 연결됨
     private fun setBillingManager() {
         manager = BillingManager(this, object : BillingCallback {
@@ -62,15 +72,14 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
             }
 
             override fun onFailure(responseCode: Int) {
-                toast(getString(R.string.pay_error_during))
                 Timber.d(responseCode.toString())
             }
         })
     }
 
     private fun initView() {
-        payAdapter = PayAdapter()
-        binding.vpBanner.adapter = payAdapter
+        _adapter = PayAdapter()
+        binding.vpBanner.adapter = adapter
         binding.dotIndicator.setViewPager(binding.vpBanner)
         binding.tvOriginalPrice.paintFlags =
             binding.tvOriginalPrice.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG

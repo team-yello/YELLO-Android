@@ -27,9 +27,6 @@
         <action
             android:id="@+id/action_addFriendFragment_to_codeFragment"
             app:destination="@id/codeFragment" />
-        <action
-            android:id="@+id/action_addFriendFragment_to_startAppFragment"
-            app:destination="@id/startAppFragment" />
     </fragment>
     <fragment
         android:id="@+id/codeFragment"

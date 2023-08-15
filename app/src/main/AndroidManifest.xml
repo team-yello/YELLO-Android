@@ -76,27 +76,27 @@
             android:exported="true"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".presentation.tuorial.TutorialAActivity"
+            android:name=".presentation.tutorial.TutorialAActivity"
             android:exported="true"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".presentation.tuorial.TutorialBActivity"
+            android:name=".presentation.tutorial.TutorialBActivity"
             android:exported="true"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".presentation.tuorial.TutorialCActivity"
+            android:name=".presentation.tutorial.TutorialCActivity"
             android:exported="true"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".presentation.tuorial.TutorialDActivity"
+            android:name=".presentation.tutorial.TutorialDActivity"
             android:exported="true"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".presentation.tuorial.TutorialEndActivity"
+            android:name=".presentation.tutorial.TutorialEndActivity"
             android:exported="true"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".presentation.tuorial.TutorialEndPlusActivity"
+            android:name=".presentation.tutorial.TutorialEndPlusActivity"
             android:exported="true"
             android:screenOrientation="portrait" />
         <activity

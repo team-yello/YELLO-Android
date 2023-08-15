@@ -9,7 +9,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.el.yello.R
 import com.el.yello.databinding.FragmentStartAppBinding
-import com.el.yello.presentation.tuorial.TutorialAActivity
+import com.el.yello.presentation.tutorial.TutorialAActivity
 import com.example.ui.base.BindingFragment
 import com.example.ui.view.setOnSingleClickListener
 

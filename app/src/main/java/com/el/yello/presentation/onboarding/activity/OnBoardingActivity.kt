@@ -13,7 +13,7 @@ import com.el.yello.presentation.auth.SignInActivity.Companion.EXTRA_EMAIL
 import com.el.yello.presentation.auth.SignInActivity.Companion.EXTRA_KAKAO_ID
 import com.el.yello.presentation.auth.SignInActivity.Companion.EXTRA_PROFILE_IMAGE
 import com.el.yello.presentation.auth.SocialSyncActivity
-import com.el.yello.presentation.tuorial.TutorialDActivity
+import com.el.yello.presentation.tutorial.TutorialDActivity
 import com.example.ui.base.BindingActivity
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -25,10 +25,11 @@ class OnBoardingActivity :
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         getIntentExtraData()
+        if (viewModel.currentpercent > 70) {
+            binding.backBtn.visibility = View.INVISIBLE
+        }
     }
-
     fun onBackButtonClicked(view: View?) {
-        val intent = Intent(this, TutorialDActivity::class.java)
         intent.putExtra("codeText", viewModel.codeText.value)
         startActivity(intent)
 

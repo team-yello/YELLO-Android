@@ -1,4 +1,4 @@
-package com.el.yello.presentation.tuorial
+package com.el.yello.presentation.tutorial
 
 import android.content.Intent
 import android.os.Bundle

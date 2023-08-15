@@ -7,9 +7,9 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.el.yello.R
 import com.el.yello.databinding.FragmentGenderBinding
+import com.el.yello.presentation.onboarding.activity.OnBoardingActivity
 import com.el.yello.presentation.onboarding.activity.OnBoardingViewModel
 import com.example.domain.enum.GenderEnum
-import com.example.domain.enum.StudentTypeEnum
 import com.example.ui.base.BindingFragment
 import com.example.ui.view.setOnSingleClickListener
 
@@ -21,7 +21,6 @@ class GenderFragment : BindingFragment<FragmentGenderBinding>(R.layout.fragment_
         binding.vm = viewModel
         binding.male = GenderEnum.M.toString()
         binding.female = GenderEnum.W.toString()
-
         setupGender()
         setConfirmBtnClickListener()
     }
@@ -29,8 +28,10 @@ class GenderFragment : BindingFragment<FragmentGenderBinding>(R.layout.fragment_
     private fun setConfirmBtnClickListener() {
         binding.btnGenderNext.setOnSingleClickListener {
             findNavController().navigate(R.id.action_genderFragment_to_nameFragment)
+            val activity = requireActivity() as OnBoardingActivity
+            activity.progressBarPlus()
         }
-
+/*
         viewModel.studentType.observe(viewLifecycleOwner) { studenttype ->
             when (studenttype) {
                 StudentTypeEnum.H.toString() -> {
@@ -46,6 +47,7 @@ class GenderFragment : BindingFragment<FragmentGenderBinding>(R.layout.fragment_
                 }
             }
         }
+ */
     }
     private fun setupGender() {
         viewModel.genderText.observe(viewLifecycleOwner) { gender ->

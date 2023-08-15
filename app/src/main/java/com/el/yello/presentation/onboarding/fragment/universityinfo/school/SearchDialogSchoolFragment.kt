@@ -30,7 +30,6 @@ class SearchDialogSchoolFragment :
     BindingBottomSheetDialog<FragmentDialogUniversityBinding>(R.layout.fragment_dialog_university) {
     private var adapter: SchoolAdapter? = null
     private val viewModel by activityViewModels<OnBoardingViewModel>()
-
     private var inputText: String = ""
     private val debounceTime = 500L
     private var searchJob: Job? = null
@@ -38,7 +37,6 @@ class SearchDialogSchoolFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.vm = viewModel
-
         initView()
         setupSchoolData()
         setListWithInfinityScroll()

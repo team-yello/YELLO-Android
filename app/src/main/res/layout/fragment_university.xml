@@ -16,37 +16,13 @@
         android:background="@color/black">
 
         <ImageView
-            android:id="@+id/btn_university_info_back_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="12dp"
-            android:layout_marginStart="4dp"
-            android:background="@null"
-            android:src="@drawable/ic_onboarding_btn_back"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <ProgressBar
-            android:id="@+id/universityInfo_progressbar"
-            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="4dp"
-            android:max="100"
-            android:progress="16"
-            android:progressDrawable="@drawable/layerlist_onboarding_progressbar"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btn_university_info_back_btn"
-            app:layout_constraintWidth_percent="1" />
-
-        <ImageView
             android:id="@+id/iv_yello_bubble"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="24dp"
             android:src="@drawable/ic_onboarding_school_yello_bubble"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/universityInfo_progressbar" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/tv_university_where"

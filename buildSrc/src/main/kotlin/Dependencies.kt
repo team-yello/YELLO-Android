@@ -31,6 +31,11 @@ object AndroidXDependencies {
         "org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.coroutinesAndroidVersion}"
     const val workManager = "androidx.work:work-runtime-ktx:${Versions.workManagerVersion}"
     const val hiltWorkManager = "androidx.hilt:hilt-work:1.0.0"
+    const val navigationFragment =
+        "androidx.navigation:navigation-fragment-ktx:${Versions.navigationVersion}"
+    const val navigationUi = "androidx.navigation:navigation-ui-ktx:${Versions.navigationVersion}"
+    const val navigationDynamic =
+        "androidx.navigation:navigation-dynamic-features-fragment:${Versions.navigationVersion}"
 }
 
 object TestDependencies {

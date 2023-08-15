@@ -9,8 +9,34 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layout_onboarding"
+        android:background="@color/black"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/back_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:background="@null"
+            android:padding="12dp"
+            android:onClick="onBackButtonClicked"
+            android:src="@drawable/ic_onboarding_btn_back"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ProgressBar
+            android:id="@+id/onboarding_progressbar"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="4dp"
+            android:max="100"
+            android:progress="14"
+            android:progressDrawable="@drawable/layerlist_onboarding_progressbar"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/back_btn"
+            app:layout_constraintWidth_percent="1" />
 
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/nav_main_fragment"
@@ -21,8 +47,9 @@
             app:defaultNavHost="true"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/onboarding_progressbar"
             app:navGraph="@navigation/activity_navigate" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

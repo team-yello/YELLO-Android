@@ -29,7 +29,7 @@
     <string name="social_sync_error_kakao_profile">카카오 프로필 가져오기 실패</string>
 
     <string name="main_recommend">추천친구</string>
-    <string name="main_look">둘러보기</string>
+    <string name="main_look">타임라인</string>
     <string name="main_yello">옐로하기</string>
     <string name="main_my_yello">내 쪽지</string>
     <string name="main_profile">프로필</string>
@@ -135,26 +135,26 @@
     <string name="note_msg_invalid_cancel">한 번 선택하면 취소할 수 없어요.</string>
     <string name="note_msg_invalid_shuffle">이름을 선택하면 셔플을 사용할 수 없어요.</string>
 
-    <string name="look_title">둘러보기</string>
-    <string name="look_error_friend_list">타임라인 서버 통신 실패</string>
+    <string name="look_title">타임라인</string>
+    <string name="look_error_friend_list">타임라인 가져오기 실패</string>
 
     <string name="view_type_error_msg">Unknown View Type : %d</string>
 
-    <string name="profile_error_user_data">유저 정보 서버 통신 실패</string>
-    <string name="profile_error_friend_list">친구 목록 서버 통신 실패</string>
-    <string name="profile_error_delete_friend">친구 삭제 실패</string>
+    <string name="profile_error_user_data">유저 정보 가져오기 실패</string>
+    <string name="profile_error_friend_list">친구 목록 가져오기 실패</string>
+    <string name="profile_error_delete_friend">친구 삭제하기 실패</string>
     <string name="profile_error_logout">로그아웃 실패 : %s</string>
-    <string name="profile_error_unlink">회원 탈퇴 서버 통신 실패</string>
-    <string name="profile_error_unlink_kakao">카카오 연동 해제 실패</string>
+    <string name="profile_error_unlink">회원 탈퇴하기 실패</string>
+    <string name="profile_error_unlink_kakao">카카오 연동 끊기 실패</string>
 
-    <string name="invite_error_kakao">카카오톡 공유 실패</string>
+    <string name="invite_error_kakao">카카오톡 공유하기 실패</string>
     <string name="invite_error_browser">가능한 브라우저 없음</string>
 
     <string name="recommend_error_friends_list">카카오 친구목록 가져오기 실패</string>
     <string name="recommend_error_no_kakao_friend">연동 가능한 카카오톡 친구 없음</string>
-    <string name="recommend_error_friend_connection">카카오 추천친구 서버 통신 실패</string>
-    <string name="recommend_error_school_friend_connection">학교 추천친구 서버 통신 실패</string>
-    <string name="recommend_error_add_friend_connection">친구 추가 서버 통신 실패</string>
+    <string name="recommend_error_friend_connection">카카오 추천친구 목록 가져오기 실패</string>
+    <string name="recommend_error_school_friend_connection">학교 추천친구 목록 가져오기 실패</string>
+    <string name="recommend_error_add_friend_connection">친구 추가하기 실패</string>
 
     <string name="profile_manage_tv_title">프로필 관리</string>
     <string name="profile_manage_tv_center">고객센터</string>
@@ -220,7 +220,7 @@
 
     <string name="recommend_search_title">친구 검색</string>
     <string name="recommend_search_hint">| 이름 또는 아이디를 입력해보세요!</string>
-    <string name="recommend_search_error">검색 서버통신 실패</string>
+    <string name="recommend_search_error">검색 결과 가져오기 실패</string>
 
     <string name="onboarding_highschool_hint">ex. 옐로고등학교</string>
     <string name="onboarding_grade_title">몇 학년인가요?</string>

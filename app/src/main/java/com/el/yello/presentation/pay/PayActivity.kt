@@ -2,10 +2,8 @@ package com.el.yello.presentation.pay
 
 import android.graphics.Paint
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.viewModels
 import com.android.billingclient.api.BillingClient
-import com.android.billingclient.api.BillingClient.BillingResponseCode
 import com.android.billingclient.api.ProductDetails
 import com.android.billingclient.api.Purchase
 import com.el.yello.R
@@ -26,8 +24,18 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
     private lateinit var manager: BillingManager
 
     private var productDetailsList = listOf<ProductDetails>()
+        set(value) {
+            field = value
+            manager.getProductDetails()
+        }
 
     private var currentSubscription: Purchase? = null
+        set(value) {
+            field = value
+            manager.checkPurchased(BillingClient.ProductType.SUBS) { purchase ->
+                currentSubscription = purchase
+            }
+        }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,7 +64,6 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
             override fun onFailure(responseCode: Int) {
                 toast("구매 도중 오류가 발생하였습니다.")
                 Timber.d(responseCode.toString())
-                Log.d("sangho", "4 : $responseCode")
             }
         })
     }
@@ -73,9 +80,10 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
     private fun initEvent() {
         binding.clSubscribe.setOnSingleClickListener {
             viewModel.payCheck(0)
-            productDetailsList.withIndex().find { it.value.productId == "SUBS_ITEM" }?.let { productDetails ->
-                manager.purchaseProduct(productDetails.index, productDetails.value)
-            } ?: also {
+            productDetailsList.withIndex().find { it.value.productId == "yello_plus_subscribe" }
+                ?.let { productDetails ->
+                    manager.purchaseProduct(productDetails.index, productDetails.value)
+                } ?: also {
                 toast("구매 가능한 상품이 없습니다.")
             }
         }

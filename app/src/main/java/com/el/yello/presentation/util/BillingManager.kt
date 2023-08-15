@@ -1,7 +1,6 @@
 package com.el.yello.presentation.util
 
 import android.app.Activity
-import android.util.Log
 import com.android.billingclient.api.AcknowledgePurchaseParams
 import com.android.billingclient.api.BillingClient
 import com.android.billingclient.api.BillingClientStateListener
@@ -25,11 +24,9 @@ class BillingManager(private val activity: Activity, private val callback: Billi
             if (billingResult.responseCode == BillingClient.BillingResponseCode.OK && purchases != null) {
                 for (purchase in purchases) {
                     confirmPurchase(purchase)
-                    Log.d("sangho", "444")
                 }
             } else {
                 callback.onFailure(billingResult.responseCode)
-                Log.d("sangho", "555")
             }
         }
 
@@ -105,7 +102,6 @@ class BillingManager(private val activity: Activity, private val callback: Billi
                 .setProductType(billingType)
                 .build()
         ) { _, purchaseResult ->
-            Log.d("sangho", "qq : ${purchaseResult}")
             CoroutineScope(Dispatchers.Main).launch {
                 for (purchase in purchaseResult) {
                     if (purchase.isAcknowledged && purchase.purchaseState == Purchase.PurchaseState.PURCHASED) {
@@ -118,7 +114,7 @@ class BillingManager(private val activity: Activity, private val callback: Billi
     }
 
     // 구매 여부 확인
-    fun confirmPurchase(purchase: Purchase) {
+    private fun confirmPurchase(purchase: Purchase) {
         if (purchase.purchaseState == Purchase.PurchaseState.PURCHASED && !purchase.isAcknowledged) {
             // 구매를 완료 했지만 확인이 되지 않은 경우 확인 처리
             val ackPurchaseParams = AcknowledgePurchaseParams.newBuilder()

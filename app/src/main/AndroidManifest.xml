@@ -88,11 +88,11 @@
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".presentation.main.profile.manage.ProfileQuitActivity"
+            android:name=".presentation.main.profile.manage.ProfileQuitTwoActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".presentation.main.profile.manage.ProfileQuitForSureActivity"
+            android:name=".presentation.main.profile.manage.ProfileQuitOneActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity

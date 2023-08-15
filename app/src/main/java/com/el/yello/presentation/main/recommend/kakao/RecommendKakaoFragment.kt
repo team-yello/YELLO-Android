@@ -1,6 +1,7 @@
 package com.el.yello.presentation.main.recommend.kakao
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import android.view.animation.AnimationUtils
@@ -33,18 +34,21 @@ class RecommendKakaoFragment :
         get() = requireNotNull(_adapter) { getString(R.string.adapter_not_initialized_error_msg) }
 
     private val viewModel by viewModels<RecommendKakaoViewModel>()
+
     private var recommendInviteDialog: RecommendInviteDialog? = null
+
+    private lateinit var itemDivider: RecommendItemDecoration
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         initInviteBtnListener()
+        setItemDivider()
         setKakaoRecommendList()
         setAdapterWithClickListener()
         observeKakaoError()
         observeAddListState()
         observeAddFriendState()
-        setItemDivider()
         setDeleteAnimation()
     }
 
@@ -100,6 +104,11 @@ class RecommendKakaoFragment :
         }
     }
 
+    private fun setItemDivider() {
+        itemDivider = RecommendItemDecoration(requireContext())
+        binding.rvRecommendKakao.addItemDecoration(itemDivider)
+    }
+
     // 어댑터 클릭 리스너 설정
     private fun setAdapterWithClickListener() {
         _adapter = RecommendAdapter { recommendModel, position, holder ->
@@ -112,7 +121,7 @@ class RecommendKakaoFragment :
     private fun observeKakaoError() {
         viewModel.getKakaoErrorResult.observe(viewLifecycleOwner) {
             yelloSnackbar(requireView(), getString(R.string.recommend_error_friends_list))
-            showNoFriendScreen()
+            showShimmerScreen()
         }
     }
 
@@ -130,7 +139,7 @@ class RecommendKakaoFragment :
                 }
 
                 is UiState.Failure -> {
-                    showNoFriendScreen()
+                    showShimmerScreen()
                     yelloSnackbar(
                         requireView(),
                         getString(R.string.recommend_error_friend_connection),
@@ -182,12 +191,6 @@ class RecommendKakaoFragment :
         }
     }
 
-    private fun setItemDivider() {
-        binding.rvRecommendKakao.addItemDecoration(
-            RecommendItemDecoration(requireContext()),
-        )
-    }
-
     private fun setDeleteAnimation() {
         binding.rvRecommendKakao.itemAnimator = object : DefaultItemAnimator() {
             override fun animateRemove(holder: RecyclerView.ViewHolder): Boolean {
@@ -207,9 +210,11 @@ class RecommendKakaoFragment :
         lifecycleScope.launch {
             changeToCheckIcon(holder)
             delay(300)
+            binding.rvRecommendKakao.removeItemDecoration(itemDivider)
             adapter.removeItem(position)
             activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
-            delay(400)
+            delay(500)
+            binding.rvRecommendKakao.addItemDecoration(itemDivider)
             if (adapter.itemCount == 0) {
                 showNoFriendScreen()
             }
@@ -222,13 +227,16 @@ class RecommendKakaoFragment :
     }
 
     private fun showShimmerScreen() {
+        Log.d("okhttp", "1")
         binding.layoutRecommendFriendsList.isVisible = true
+        binding.layoutRecommendNoFriendsList.isVisible = false
         binding.shimmerFriendList.startShimmer()
         binding.shimmerFriendList.visibility = View.VISIBLE
         binding.rvRecommendKakao.visibility = View.GONE
     }
 
     private fun showFriendListScreen() {
+        Log.d("okhttp", "2")
         binding.layoutRecommendFriendsList.isVisible = true
         binding.layoutRecommendNoFriendsList.isVisible = false
         binding.shimmerFriendList.stopShimmer()
@@ -237,6 +245,7 @@ class RecommendKakaoFragment :
     }
 
     private fun showNoFriendScreen() {
+        Log.d("okhttp", "3")
         binding.layoutRecommendFriendsList.isVisible = false
         binding.layoutRecommendNoFriendsList.isVisible = true
         binding.shimmerFriendList.stopShimmer()

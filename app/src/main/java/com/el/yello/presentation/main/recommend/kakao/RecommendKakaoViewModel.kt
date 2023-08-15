@@ -23,7 +23,7 @@ class RecommendKakaoViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val _getKakaoErrorResult = MutableLiveData<String>()
-    val getKakaoErrorResult : LiveData<String> = _getKakaoErrorResult
+    val getKakaoErrorResult: LiveData<String> = _getKakaoErrorResult
 
     private val _postFriendsListState = MutableLiveData<UiState<RecommendModel?>>()
     val postFriendsListState: LiveData<UiState<RecommendModel?>> = _postFriendsListState

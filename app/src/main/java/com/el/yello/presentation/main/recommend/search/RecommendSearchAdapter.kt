@@ -23,6 +23,12 @@ class RecommendSearchAdapter(
         holder.onBind(getItem(position), position)
     }
 
+    fun addList(newItems: List<SearchFriendModel>) {
+        val currentItems = currentList.toMutableList()
+        currentItems.addAll(newItems)
+        submitList(currentItems)
+    }
+
     companion object {
         private val diffUtil = ItemDiffCallback<SearchFriendModel>(
             onItemsTheSame = { old, new -> old.id == new.id },

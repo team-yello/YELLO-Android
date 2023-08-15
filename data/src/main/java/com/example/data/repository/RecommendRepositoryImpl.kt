@@ -33,12 +33,12 @@ class RecommendRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getSearchList(
-        keyword: String,
-        page: Int
+        page: Int,
+        keyword: String
     ): RecommendSearchModel? {
         return recommendDataSource.getSearchListData(
-            keyword,
-            page
+            page,
+            keyword
         ).data?.toRecommendSearchModel()
     }
 

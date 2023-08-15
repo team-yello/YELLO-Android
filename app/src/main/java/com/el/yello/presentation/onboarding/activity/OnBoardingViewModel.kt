@@ -29,7 +29,7 @@ class OnBoardingViewModel @Inject constructor(
     private val authRepository: AuthRepository,
 ) : ViewModel() {
 
-    var currentpercent = 0
+    var currentpercent = 14
     fun plusCurrentPercent() {
         currentpercent += 14
     }

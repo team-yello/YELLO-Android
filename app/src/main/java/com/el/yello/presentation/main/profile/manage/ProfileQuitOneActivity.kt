@@ -3,14 +3,14 @@ package com.el.yello.presentation.main.profile.manage
 import android.content.Intent
 import android.os.Bundle
 import com.el.yello.R
-import com.el.yello.databinding.ActivityProfileQuitBinding
+import com.el.yello.databinding.ActivityProfileQuitOneBinding
 import com.example.ui.base.BindingActivity
 import com.example.ui.view.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class ProfileQuitActivity :
-    BindingActivity<ActivityProfileQuitBinding>(R.layout.activity_profile_quit) {
+class ProfileQuitOneActivity :
+    BindingActivity<ActivityProfileQuitOneBinding>(R.layout.activity_profile_quit_one) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,7 +21,7 @@ class ProfileQuitActivity :
     }
 
     private fun initBackBtnListener() {
-        binding.btnProfileQuitBack.setOnSingleClickListener {
+        binding.btnProfileQuitForSureBack.setOnSingleClickListener {
             finish()
         }
     }
@@ -34,7 +34,7 @@ class ProfileQuitActivity :
 
     private fun initQuitForSureBtnListener() {
         binding.btnProfileQuitResume.setOnSingleClickListener {
-            Intent(this, ProfileQuitForSureActivity::class.java).apply {
+            Intent(this, ProfileQuitTwoActivity::class.java).apply {
                 addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                 startActivity(this)
             }

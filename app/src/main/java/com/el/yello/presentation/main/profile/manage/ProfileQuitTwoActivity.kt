@@ -2,24 +2,24 @@ package com.el.yello.presentation.main.profile.manage
 
 import android.os.Bundle
 import com.el.yello.R
-import com.el.yello.databinding.ActivityProfileQuitForSureBinding
+import com.el.yello.databinding.ActivityProfileQuitTwoBinding
 import com.example.ui.base.BindingActivity
 import com.example.ui.view.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class ProfileQuitForSureActivity :
-    BindingActivity<ActivityProfileQuitForSureBinding>(R.layout.activity_profile_quit_for_sure) {
+class ProfileQuitTwoActivity :
+    BindingActivity<ActivityProfileQuitTwoBinding>(R.layout.activity_profile_quit_two) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        initReturnBtnListener()
+        initBackBtnListener()
         initInviteDialogBtnListener()
     }
 
-    private fun initReturnBtnListener() {
-        binding.btnProfileQuitForSureBack.setOnSingleClickListener {
+    private fun initBackBtnListener() {
+        binding.btnProfileQuitBack.setOnSingleClickListener {
             finish()
         }
     }

@@ -22,7 +22,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="12dp"
-        android:layout_marginTop="18dp"
+        android:layout_marginTop="19dp"
         android:background="@drawable/shape_shimmer_greyscale800_fill_2_rect"
         android:text="             "
         android:textAppearance="@style/TextAppearance.Yello.Subtitle02"

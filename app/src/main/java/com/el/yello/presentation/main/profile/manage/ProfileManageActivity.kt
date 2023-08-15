@@ -73,10 +73,11 @@ class ProfileManageActivity :
 
     private fun initQuitBtnListener() {
         binding.btnProfileManageQuit.setOnSingleClickListener {
-            Intent(this, ProfileQuitActivity::class.java).apply {
+            Intent(this, ProfileQuitOneActivity::class.java).apply {
                 addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                 startActivity(this)
             }
+            finish()
         }
     }
 

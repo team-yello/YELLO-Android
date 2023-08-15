@@ -248,4 +248,6 @@
     <string name="dialog_after_keyword_title">쪽지의 키워드를 얻었어요!</string>
     <string name="profile_btn_shop">상점</string>
     <string name="recommend_search_no_result">찾는 친구의 결과가 없어요</string>
+    <string name="pay_error_during">구매 도중 오류가 발생하였습니다.</string>
+    <string name="pay_error_no_item">구매 가능한 상품이 없습니다.</string>
 </resources>

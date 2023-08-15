@@ -2,8 +2,9 @@ package com.el.yello.presentation.pay
 
 import android.graphics.Paint
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.viewModels
-import com.android.billingclient.api.BillingClient
+import com.android.billingclient.api.BillingClient.ProductType
 import com.android.billingclient.api.ProductDetails
 import com.android.billingclient.api.Purchase
 import com.el.yello.R
@@ -27,12 +28,13 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
         set(value) {
             field = value
             manager.getProductDetails()
+            Log.d("sangho", "1: $productDetailsList")
         }
 
     private var currentSubscription: Purchase? = null
         set(value) {
             field = value
-            manager.checkPurchased(BillingClient.ProductType.SUBS) { purchase ->
+            manager.checkPurchased(ProductType.SUBS) { purchase ->
                 currentSubscription = purchase
             }
         }
@@ -51,8 +53,9 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
             override fun onBillingConnected() {
                 manager.getProductDetails() { list ->
                     productDetailsList = list
+                    Log.d("sangho", "2: $productDetailsList")
                 }
-                manager.checkPurchased(BillingClient.ProductType.SUBS) { purchase ->
+                manager.checkPurchased(ProductType.SUBS) { purchase ->
                     currentSubscription = purchase
                 }
             }
@@ -62,7 +65,7 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
             }
 
             override fun onFailure(responseCode: Int) {
-                toast("구매 도중 오류가 발생하였습니다.")
+                toast(getString(R.string.pay_error_during))
                 Timber.d(responseCode.toString())
             }
         })
@@ -72,7 +75,6 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
         payAdapter = PayAdapter()
         binding.vpBanner.adapter = payAdapter
         binding.dotIndicator.setViewPager(binding.vpBanner)
-
         binding.tvOriginalPrice.paintFlags =
             binding.tvOriginalPrice.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
     }
@@ -80,11 +82,13 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
     private fun initEvent() {
         binding.clSubscribe.setOnSingleClickListener {
             viewModel.payCheck(0)
-            productDetailsList.withIndex().find { it.value.productId == "yello_plus_subscribe" }
+            Log.d("sangho", "3: $productDetailsList")
+            productDetailsList.withIndex().find { it.value.productId == YELLO_PLUS }
                 ?.let { productDetails ->
+                    Log.d("sangho", "4: $productDetails")
                     manager.purchaseProduct(productDetails.index, productDetails.value)
                 } ?: also {
-                toast("구매 가능한 상품이 없습니다.")
+                toast(getString(R.string.pay_error_no_item))
             }
         }
 
@@ -103,5 +107,12 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
         binding.ivBack.setOnSingleClickListener {
             finish()
         }
+    }
+
+    companion object {
+        const val YELLO_PLUS = "yello_plus_subscribe"
+        const val YELLO_ONE = "yello_ticket_one"
+        const val YELLO_TWO = "yello_ticket_two"
+        const val YELLO_FIVE = "yello_ticket_five"
     }
 }

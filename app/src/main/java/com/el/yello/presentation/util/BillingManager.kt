@@ -3,6 +3,7 @@ package com.el.yello.presentation.util
 import android.app.Activity
 import com.android.billingclient.api.AcknowledgePurchaseParams
 import com.android.billingclient.api.BillingClient
+import com.android.billingclient.api.BillingClient.ProductType
 import com.android.billingclient.api.BillingClientStateListener
 import com.android.billingclient.api.BillingFlowParams
 import com.android.billingclient.api.BillingResult
@@ -10,11 +11,15 @@ import com.android.billingclient.api.ProductDetails
 import com.android.billingclient.api.Purchase
 import com.android.billingclient.api.PurchasesUpdatedListener
 import com.android.billingclient.api.QueryProductDetailsParams
+import com.android.billingclient.api.QueryProductDetailsParams.Product
 import com.android.billingclient.api.QueryPurchasesParams
+import com.el.yello.presentation.pay.PayActivity.Companion.YELLO_FIVE
+import com.el.yello.presentation.pay.PayActivity.Companion.YELLO_ONE
+import com.el.yello.presentation.pay.PayActivity.Companion.YELLO_PLUS
+import com.el.yello.presentation.pay.PayActivity.Companion.YELLO_TWO
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import timber.log.Timber
 
 class BillingManager(private val activity: Activity, private val callback: BillingCallback) {
 
@@ -39,9 +44,7 @@ class BillingManager(private val activity: Activity, private val callback: Billi
     // BillingClient을 결제 라이브러리에 연결
     init {
         billingClient.startConnection(object : BillingClientStateListener {
-            override fun onBillingServiceDisconnected() {
-                Timber.d("결제 중단")
-            }
+            override fun onBillingServiceDisconnected() {}
 
             override fun onBillingSetupFinished(billingResult: BillingResult) {
                 if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
@@ -57,16 +60,45 @@ class BillingManager(private val activity: Activity, private val callback: Billi
     fun getProductDetails(
         resultBlock: (List<ProductDetails>) -> Unit = {}
     ) {
-        val productList =
-            listOf(
-                QueryProductDetailsParams.Product.newBuilder()
-                    .setProductId("yello_plus_subscribe")
-                    .setProductType(BillingClient.ProductType.SUBS)
-                    .build()
-            )
-        val params = QueryProductDetailsParams.newBuilder().setProductList(productList)
-        billingClient.queryProductDetailsAsync(params.build()) { _, productDetailsList ->
+        val productDetailsList = mutableListOf<ProductDetails>()
+
+        val subProductList = ArrayList<Product>()
+        subProductList.add(
+            Product.newBuilder()
+                .setProductId(YELLO_PLUS)
+                .setProductType(ProductType.SUBS)
+                .build()
+        )
+        val subParams = QueryProductDetailsParams.newBuilder().setProductList(subProductList)
+        billingClient.queryProductDetailsAsync(subParams.build()) { _, list ->
             CoroutineScope(Dispatchers.Main).launch {
+                productDetailsList += list
+            }
+        }
+
+        val inAppProductList = ArrayList<Product>()
+        inAppProductList.add(
+            Product.newBuilder()
+                .setProductId(YELLO_ONE)
+                .setProductType(ProductType.INAPP)
+                .build()
+        )
+        inAppProductList.add(
+            Product.newBuilder()
+                .setProductId(YELLO_TWO)
+                .setProductType(ProductType.INAPP)
+                .build()
+        )
+        inAppProductList.add(
+            Product.newBuilder()
+                .setProductId(YELLO_FIVE)
+                .setProductType(ProductType.INAPP)
+                .build()
+        )
+        val inAppParams = QueryProductDetailsParams.newBuilder().setProductList(inAppProductList)
+        billingClient.queryProductDetailsAsync(inAppParams.build()) { _, list ->
+            CoroutineScope(Dispatchers.Main).launch {
+                productDetailsList += list
                 resultBlock(productDetailsList)
             }
         }

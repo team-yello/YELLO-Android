@@ -2,7 +2,6 @@ package com.el.yello.presentation.pay
 
 import android.graphics.Paint
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.viewModels
 import com.android.billingclient.api.BillingClient.ProductType
 import com.android.billingclient.api.ProductDetails
@@ -28,7 +27,6 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
         set(value) {
             field = value
             manager.getProductDetails()
-            Log.d("sangho", "1: $productDetailsList")
         }
 
     private var currentSubscription: Purchase? = null
@@ -53,7 +51,6 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
             override fun onBillingConnected() {
                 manager.getProductDetails() { list ->
                     productDetailsList = list
-                    Log.d("sangho", "2: $productDetailsList")
                 }
                 manager.checkPurchased(ProductType.SUBS) { purchase ->
                     currentSubscription = purchase
@@ -82,10 +79,8 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
     private fun initEvent() {
         binding.clSubscribe.setOnSingleClickListener {
             viewModel.payCheck(0)
-            Log.d("sangho", "3: $productDetailsList")
             productDetailsList.withIndex().find { it.value.productId == YELLO_PLUS }
                 ?.let { productDetails ->
-                    Log.d("sangho", "4: $productDetails")
                     manager.purchaseProduct(productDetails.index, productDetails.value)
                 } ?: also {
                 toast(getString(R.string.pay_error_no_item))
@@ -94,14 +89,32 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
 
         binding.clNameCheckOne.setOnSingleClickListener {
             viewModel.payCheck(1)
+            productDetailsList.withIndex().find { it.value.productId == YELLO_ONE }
+                ?.let { productDetails ->
+                    manager.purchaseProduct(productDetails.index, productDetails.value)
+                } ?: also {
+                toast(getString(R.string.pay_error_no_item))
+            }
         }
 
         binding.clNameCheckTwo.setOnSingleClickListener {
             viewModel.payCheck(2)
+            productDetailsList.withIndex().find { it.value.productId == YELLO_TWO }
+                ?.let { productDetails ->
+                    manager.purchaseProduct(productDetails.index, productDetails.value)
+                } ?: also {
+                toast(getString(R.string.pay_error_no_item))
+            }
         }
 
         binding.clNameCheckThree.setOnSingleClickListener {
             viewModel.payCheck(3)
+            productDetailsList.withIndex().find { it.value.productId == YELLO_FIVE }
+                ?.let { productDetails ->
+                    manager.purchaseProduct(productDetails.index, productDetails.value)
+                } ?: also {
+                toast(getString(R.string.pay_error_no_item))
+            }
         }
 
         binding.ivBack.setOnSingleClickListener {

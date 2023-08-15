@@ -16,7 +16,7 @@
             android:id="@+id/tv_tutorial_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="116dp"
+            android:layout_marginTop="96dp"
             android:layout_marginEnd="130dp"
             android:layout_marginBottom="8dp"
             android:gravity="center"
@@ -43,7 +43,7 @@
         <ImageView
             android:id="@+id/iv_tutorial_point"
             android:layout_width="0dp"
-            android:layout_height="340dp"
+            android:layout_height="280dp"
             android:layout_marginTop="20dp"
             android:src="@drawable/ic_tutorial_point"
             app:layout_constraintEnd_toEndOf="parent"

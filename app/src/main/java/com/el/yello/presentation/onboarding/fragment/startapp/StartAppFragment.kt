@@ -9,7 +9,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.el.yello.R
 import com.el.yello.databinding.FragmentStartAppBinding
-import com.el.yello.presentation.main.MainActivity
+import com.el.yello.presentation.tuorial.TutorialAActivity
 import com.example.ui.base.BindingFragment
 import com.example.ui.view.setOnSingleClickListener
 
@@ -30,16 +30,16 @@ class StartAppFragment : BindingFragment<FragmentStartAppBinding>(R.layout.fragm
                         PERMISSION_REQUEST_CODE,
                     )
                 } else {
-                    startMainActivity()
+                    startTutorialActivity()
                 }
             } else {
-                startMainActivity()
+                startTutorialActivity()
             }
         }
     }
 
-    private fun startMainActivity() {
-        val intent = Intent(requireActivity(), MainActivity::class.java).apply {
+    private fun startTutorialActivity() {
+        val intent = Intent(requireActivity(), TutorialAActivity::class.java).apply {
             addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         }
         startActivity(intent)
@@ -54,7 +54,7 @@ class StartAppFragment : BindingFragment<FragmentStartAppBinding>(R.layout.fragm
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == PERMISSION_REQUEST_CODE) {
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                startMainActivity()
+                startTutorialActivity()
             } else {
             }
         }

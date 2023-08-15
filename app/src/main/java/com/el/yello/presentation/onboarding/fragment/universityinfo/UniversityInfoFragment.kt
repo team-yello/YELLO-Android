@@ -2,7 +2,6 @@ package com.el.yello.presentation.onboarding.fragment.universityinfo
 
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController

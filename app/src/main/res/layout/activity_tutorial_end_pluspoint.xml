@@ -13,43 +13,19 @@
         android:background="@color/black">
 
         <TextView
-            android:id="@+id/tv_tutorial_title_a"
+            android:id="@+id/tv_tutorial_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="116dp"
+            android:layout_marginTop="96dp"
+            android:layout_marginEnd="130dp"
+            android:layout_marginBottom="8dp"
             android:gravity="center"
-            android:layout_marginStart="100dp"
-            android:text="200+"
+            android:text="@string/tutorial_end_title_point"
             android:textAppearance="?attr/textAppearanceHeadline3"
             android:textColor="@color/white"
             app:drawableLeftCompat="@drawable/ic_tutorial_point_p"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/tv_tutorial_title_b"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="@string/tutorial_title_b"
-            android:textAppearance="?attr/textAppearanceHeadline3"
-            android:textColor="@color/yello_main_500"
-            app:layout_constraintBottom_toBottomOf="@+id/tv_tutorial_title_a"
-            app:layout_constraintStart_toEndOf="@+id/tv_tutorial_title_a"
-            app:layout_constraintTop_toTopOf="@+id/tv_tutorial_title_a" />
-
-
-        <TextView
-            android:id="@+id/tv_tutorial_title_c"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="@string/tutorial_title_C"
-            android:textAppearance="?attr/textAppearanceHeadline3"
-            android:textColor="@color/white"
-            app:layout_constraintBottom_toBottomOf="@+id/tv_tutorial_title_b"
-            app:layout_constraintStart_toEndOf="@+id/tv_tutorial_title_b"
-            app:layout_constraintTop_toTopOf="@+id/tv_tutorial_title_b" />
 
         <TextView
             android:id="@+id/tv_tutorial_subtitle"
@@ -62,12 +38,12 @@
             android:textColor="@color/grayscales_500"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_tutorial_title_a" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_tutorial_title" />
 
         <ImageView
             android:id="@+id/iv_tutorial_point"
             android:layout_width="0dp"
-            android:layout_height="340dp"
+            android:layout_height="280dp"
             android:layout_marginTop="20dp"
             android:src="@drawable/ic_tutorial_plus_point"
             app:layout_constraintEnd_toEndOf="parent"

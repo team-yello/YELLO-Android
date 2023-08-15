@@ -1,6 +1,7 @@
 package com.el.yello.presentation.onboarding.activity
 
 import android.animation.ObjectAnimator
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.view.animation.LinearInterpolator
@@ -11,6 +12,8 @@ import com.el.yello.databinding.ActivityOnboardingBinding
 import com.el.yello.presentation.auth.SignInActivity.Companion.EXTRA_EMAIL
 import com.el.yello.presentation.auth.SignInActivity.Companion.EXTRA_KAKAO_ID
 import com.el.yello.presentation.auth.SignInActivity.Companion.EXTRA_PROFILE_IMAGE
+import com.el.yello.presentation.auth.SocialSyncActivity
+import com.el.yello.presentation.tuorial.TutorialDActivity
 import com.example.ui.base.BindingActivity
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -25,9 +28,19 @@ class OnBoardingActivity :
     }
 
     fun onBackButtonClicked(view: View?) {
+        val intent = Intent(this, TutorialDActivity::class.java)
+        intent.putExtra("codeText", viewModel.codeText.value)
+        startActivity(intent)
+
         val navController = findNavController(R.id.nav_main_fragment)
-        navController.popBackStack()
-        progressBarMinus()
+        val currentDestinationId = navController.currentDestination?.id
+        if (currentDestinationId == R.id.universityInfoFragment) {
+            val intent = Intent(this, SocialSyncActivity::class.java)
+            startActivity(intent)
+        } else {
+            navController.popBackStack()
+            progressBarMinus()
+        }
     }
 
     private fun getIntentExtraData() {

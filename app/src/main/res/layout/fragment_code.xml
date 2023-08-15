@@ -37,16 +37,17 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
-            android:layout_marginTop="4dp"
             android:ellipsize="end"
-            android:gravity="center"
             android:maxLines="1"
+            android:layout_marginTop="4dp"
             android:text="@string/onboarding_tv_code_skip"
-            android:textAppearance="?textAppearanceBodySmall"
+            android:layout_marginStart="36dp"
+            android:fontFamily="@font/pretendard_medium"
+            android:textSize="12dp"
             android:textColor="@color/grayscales_500"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_name" />
+            app:layout_constraintTop_toBottomOf="@+id/et_code" />
 
         <TextView
             android:id="@+id/tv_code_fix"
@@ -85,7 +86,7 @@
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_code_warning"
+            app:layout_constraintTop_toBottomOf="@+id/tv_code_hint"
             tools:text="@string/dummy" />
 
         <ImageView
@@ -105,15 +106,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="12dp"
-            android:layout_marginTop="4dp"
+            android:layout_marginStart="86dp"
             android:ellipsize="end"
+            android:layout_marginTop="6dp"
             android:maxLines="1"
-            android:paddingVertical="2dp"
             android:text="@string/onboarding_tv_code_error"
-            android:textAppearance="?textAppearanceLabelLarge"
+            android:paddingVertical="2dp"
+            android:textAppearance="?textAppearanceBodySmall"
             android:textColor="@color/grayscales_500"
-            app:layout_constraintStart_toStartOf="@+id/tv_name"
-            app:layout_constraintTop_toBottomOf="@id/et_code" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_name" />
 
         <TextView
             android:id="@+id/tv_code_hint_point"
@@ -121,15 +123,15 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="12dp"
             android:layout_marginStart="3dp"
-            android:layout_marginTop="4dp"
+            android:layout_marginTop="6dp"
             android:ellipsize="end"
             android:maxLines="1"
             android:paddingVertical="2dp"
             android:text="+100"
-            android:textAppearance="?textAppearanceLabelLarge"
+            android:textAppearance="?textAppearanceBodySmall"
             android:textColor="@color/yello_main_500"
             app:layout_constraintStart_toEndOf="@+id/tv_code_hint"
-            app:layout_constraintTop_toBottomOf="@+id/et_code" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_name" />
 
         <TextView
             android:id="@+id/tv_code_hint_end"
@@ -137,15 +139,15 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="12dp"
             android:layout_marginStart="3dp"
-            android:layout_marginTop="4dp"
+            android:layout_marginTop="6dp"
             android:ellipsize="end"
             android:maxLines="1"
             android:paddingVertical="2dp"
             android:text="point!"
-            android:textAppearance="?textAppearanceLabelLarge"
+            android:textAppearance="?textAppearanceBodySmall"
             android:textColor="@color/grayscales_500"
             app:layout_constraintStart_toEndOf="@+id/tv_code_hint_point"
-            app:layout_constraintTop_toBottomOf="@+id/et_code" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_name" />
 
         <TextView
             android:id="@+id/btn_code_skip"

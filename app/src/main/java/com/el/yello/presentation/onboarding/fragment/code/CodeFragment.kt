@@ -12,8 +12,6 @@ import com.el.yello.util.context.yelloSnackbar
 import com.example.ui.base.BindingFragment
 import com.example.ui.view.UiState
 import com.example.ui.view.setOnSingleClickListener
-import java.util.Timer
-import kotlin.concurrent.timer
 
 class CodeFragment : BindingFragment<FragmentCodeBinding>(R.layout.fragment_code) {
     private val viewModel by activityViewModels<OnBoardingViewModel>()

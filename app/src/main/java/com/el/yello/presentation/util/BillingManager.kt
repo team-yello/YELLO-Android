@@ -1,6 +1,7 @@
 package com.el.yello.presentation.util
 
 import android.app.Activity
+import android.util.Log
 import com.android.billingclient.api.AcknowledgePurchaseParams
 import com.android.billingclient.api.BillingClient
 import com.android.billingclient.api.BillingClientStateListener
@@ -14,22 +15,26 @@ import com.android.billingclient.api.QueryPurchasesParams
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 class BillingManager(private val activity: Activity, private val callback: BillingCallback) {
 
     // 결제 관련 업데이트 수신 리스너
-    private val purchasesUpdatedListener = PurchasesUpdatedListener { billingResult, purchases ->
-        if (billingResult.responseCode == BillingClient.BillingResponseCode.OK && purchases != null) {
-            for (purchase in purchases) {
-                confirmPurchase(purchase)
+    private val purchasesUpdatedListener =
+        PurchasesUpdatedListener { billingResult, purchases ->
+            if (billingResult.responseCode == BillingClient.BillingResponseCode.OK && purchases != null) {
+                for (purchase in purchases) {
+                    confirmPurchase(purchase)
+                    Log.d("sangho", "444")
+                }
+            } else {
+                callback.onFailure(billingResult.responseCode)
+                Log.d("sangho", "555")
             }
-        } else {
-            callback.onFailure(billingResult.responseCode)
         }
-    }
 
     // 결제 라이브러리 통신 위한 BillingClient 초기화
-    private val billingClient = BillingClient.newBuilder(activity)
+    private val billingClient = BillingClient.newBuilder(activity.applicationContext)
         .setListener(purchasesUpdatedListener)
         .enablePendingPurchases()
         .build()
@@ -38,7 +43,7 @@ class BillingManager(private val activity: Activity, private val callback: Billi
     init {
         billingClient.startConnection(object : BillingClientStateListener {
             override fun onBillingServiceDisconnected() {
-                // 연결 끊어졌을 때 로직 설정 (재시도)
+                Timber.d("결제 중단")
             }
 
             override fun onBillingSetupFinished(billingResult: BillingResult) {
@@ -58,12 +63,11 @@ class BillingManager(private val activity: Activity, private val callback: Billi
         val productList =
             listOf(
                 QueryProductDetailsParams.Product.newBuilder()
-                    .setProductId("up_basic_sub")
+                    .setProductId("yello_plus_subscribe")
                     .setProductType(BillingClient.ProductType.SUBS)
                     .build()
             )
         val params = QueryProductDetailsParams.newBuilder().setProductList(productList)
-
         billingClient.queryProductDetailsAsync(params.build()) { _, productDetailsList ->
             CoroutineScope(Dispatchers.Main).launch {
                 resultBlock(productDetailsList)
@@ -72,7 +76,7 @@ class BillingManager(private val activity: Activity, private val callback: Billi
     }
 
     // 구매 흐름 시작
-    fun purchaseProduct(productDetails: ProductDetails, selectedOfferIndex: Int) {
+    fun purchaseProduct(selectedOfferIndex: Int, productDetails: ProductDetails) {
         val offerToken =
             productDetails.subscriptionOfferDetails?.get(selectedOfferIndex)?.offerToken
 
@@ -101,6 +105,7 @@ class BillingManager(private val activity: Activity, private val callback: Billi
                 .setProductType(billingType)
                 .build()
         ) { _, purchaseResult ->
+            Log.d("sangho", "qq : ${purchaseResult}")
             CoroutineScope(Dispatchers.Main).launch {
                 for (purchase in purchaseResult) {
                     if (purchase.isAcknowledged && purchase.purchaseState == Purchase.PurchaseState.PURCHASED) {
@@ -127,23 +132,6 @@ class BillingManager(private val activity: Activity, private val callback: Billi
                         } else {
                             callback.onFailure(it.responseCode)
                         }
-                    }
-                }
-            }
-        }
-    }
-
-    // 구매 재확인
-    fun confirmPurchaseAgain(billingType: String) {
-        if (billingClient.isReady) {
-            billingClient.queryPurchasesAsync(
-                QueryPurchasesParams.newBuilder()
-                    .setProductType(billingType)
-                    .build()
-            ) { _, purchases ->
-                for (purchase in purchases) {
-                    if (!purchase.isAcknowledged && purchase.purchaseState == Purchase.PurchaseState.PURCHASED) {
-                        confirmPurchase(purchase)
                     }
                 }
             }

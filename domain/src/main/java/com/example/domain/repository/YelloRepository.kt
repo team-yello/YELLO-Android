@@ -5,6 +5,7 @@ import com.example.domain.entity.CheckName
 import com.example.domain.entity.MyYello
 import com.example.domain.entity.Response
 import com.example.domain.entity.YelloDetail
+import com.example.domain.entity.vote.VoteCount
 
 interface YelloRepository {
     suspend fun getMyYelloList(page: Int): Result<MyYello?>
@@ -12,4 +13,5 @@ interface YelloRepository {
     suspend fun checkKeyword(id: Long): Result<CheckKeyword?>
     suspend fun checkName(id: Long): Result<CheckName?>
     suspend fun payCheck(index: Int): Result<Response>
+    suspend fun voteCount(): Result<VoteCount?>
 }

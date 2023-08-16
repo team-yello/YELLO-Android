@@ -110,7 +110,6 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
 
     private fun initBadge(voteCount: Int) {
         val badgeDrawable = binding.bnvMain.getOrCreateBadge(R.id.menu_my_yello)
-
         // 수직 위치 변경 (입력값이 클수록 뱃지가 아래로 이동)
         badgeDrawable.verticalOffset = 12.dp
         // 수평 위치 변경 (입력값이 클수록 뱃지가 왼쪽으로 이동)
@@ -169,6 +168,11 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
                     else -> {}
                 }
             }.launchIn(lifecycleScope)
+    }
+
+    fun setBadgeCount(count: Int) {
+        val badgeDrawable = binding.bnvMain.getOrCreateBadge(R.id.menu_my_yello)
+        badgeDrawable.number = count
     }
 
     private inline fun <reified T : Fragment> navigateTo() {

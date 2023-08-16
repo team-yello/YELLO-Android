@@ -1,13 +1,13 @@
 package com.el.yello.presentation.util
 
 import android.app.Activity
-import android.util.Log
 import com.android.billingclient.api.AcknowledgePurchaseParams
 import com.android.billingclient.api.BillingClient
 import com.android.billingclient.api.BillingClient.ProductType
 import com.android.billingclient.api.BillingClientStateListener
 import com.android.billingclient.api.BillingFlowParams
 import com.android.billingclient.api.BillingResult
+import com.android.billingclient.api.ConsumeParams
 import com.android.billingclient.api.ProductDetails
 import com.android.billingclient.api.Purchase
 import com.android.billingclient.api.PurchasesUpdatedListener
@@ -32,6 +32,7 @@ class BillingManager(private val activity: Activity, private val callback: Billi
             if (billingResult.responseCode == BillingClient.BillingResponseCode.OK && purchases != null) {
                 for (purchase in purchases) {
                     confirmPurchase(purchase)
+                    handlePurchase(purchase)
                 }
             } else {
                 callback.onFailure(billingResult.responseCode)
@@ -78,7 +79,6 @@ class BillingManager(private val activity: Activity, private val callback: Billi
             billingClient.queryProductDetails(subParams.build()).productDetailsList
         } ?: listOf()
         productDetailsList.addAll(0, subsList)
-        Log.d("sangho", "L : ${productDetailsList.map { it.name }}")
 
         val inAppProductList = ArrayList<Product>()
         val productInfoList = listOf(
@@ -99,17 +99,11 @@ class BillingManager(private val activity: Activity, private val callback: Billi
             billingClient.queryProductDetails(inAppParams.build()).productDetailsList
         } ?: listOf()
         productDetailsList.addAll(productDetailsList.size, inAppList)
-        Log.d("sangho", "L : ${productDetailsList.map { it.name }}")
         resultBlock(productDetailsList)
     }
 
     // 구매 흐름 시작
     fun purchaseProduct(selectedOfferIndex: Int, productDetails: ProductDetails) {
-        Log.d("sangho", "${productDetails}")
-        Log.d("sangho", "${selectedOfferIndex}")
-        Log.d("sangho", "${productDetails.subscriptionOfferDetails}")
-        Log.d("sangho", "${productDetails.subscriptionOfferDetails?.get(0)}")
-        Log.d("sangho", "${productDetails.subscriptionOfferDetails?.get(0)?.offerToken}")
         val offerToken =
             productDetails.subscriptionOfferDetails?.get(selectedOfferIndex)?.offerToken
 
@@ -132,10 +126,10 @@ class BillingManager(private val activity: Activity, private val callback: Billi
     }
 
     // 구독 여부 확인 후 구매 처리
-    fun checkPurchased(billingType: String, resultBlock: (Purchase?) -> Unit) {
+    fun checkSubscribed(resultBlock: (Purchase?) -> Unit) {
         billingClient.queryPurchasesAsync(
             QueryPurchasesParams.newBuilder()
-                .setProductType(billingType)
+                .setProductType(ProductType.SUBS)
                 .build()
         ) { _, purchaseResult ->
             CoroutineScope(Dispatchers.Main).launch {
@@ -165,6 +159,33 @@ class BillingManager(private val activity: Activity, private val callback: Billi
                             callback.onFailure(it.responseCode)
                         }
                     }
+                }
+            }
+        }
+    }
+
+    private fun handlePurchase(purchase: Purchase) {
+        if (purchase.products[0] != YELLO_PLUS) {
+            val consumeParams = ConsumeParams.newBuilder()
+                .setPurchaseToken(purchase.purchaseToken)
+                .build()
+            billingClient.consumeAsync(consumeParams) { billingResult, _ ->
+                if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
+                    // 추가 완료 서버통신 ?
+                }
+            }
+        }
+    }
+
+    fun onResumeCheckConsumable() {
+        billingClient.queryPurchasesAsync(
+            QueryPurchasesParams.newBuilder()
+                .setProductType(ProductType.INAPP)
+                .build()
+        ) { billingResult, purchaseList ->
+            if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
+                purchaseList.forEach {
+                    handlePurchase(it)
                 }
             }
         }

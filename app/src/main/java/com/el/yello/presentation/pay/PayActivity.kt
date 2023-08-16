@@ -4,7 +4,6 @@ import android.graphics.Paint
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
-import com.android.billingclient.api.BillingClient.ProductType
 import com.android.billingclient.api.ProductDetails
 import com.android.billingclient.api.Purchase
 import com.el.yello.R
@@ -38,12 +37,6 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
         }
 
     private var currentSubscription: Purchase? = null
-        set(value) {
-            field = value
-            manager.checkPurchased(ProductType.SUBS) { purchase ->
-                currentSubscription = purchase
-            }
-        }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,6 +44,11 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
         initView()
         initEvent()
         setBillingManager()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        manager.onResumeCheckConsumable()
     }
 
     override fun onDestroy() {
@@ -62,14 +60,7 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
     private fun setBillingManager() {
         manager = BillingManager(this, object : BillingCallback {
             override fun onBillingConnected() {
-                lifecycleScope.launch {
-                    manager.getProductDetails() { list ->
-                        productDetailsList = list
-                    }
-                    manager.checkPurchased(ProductType.SUBS) { purchase ->
-                        currentSubscription = purchase
-                    }
-                }
+                setListAndPurchaseCheck()
             }
 
             override fun onSuccess(purchase: Purchase) {
@@ -80,6 +71,17 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
                 Timber.d(responseCode.toString())
             }
         })
+    }
+
+    private fun setListAndPurchaseCheck() {
+        lifecycleScope.launch {
+            manager.getProductDetails() { list ->
+                productDetailsList = list
+            }
+            manager.checkSubscribed() { purchase ->
+                currentSubscription = purchase
+            }
+        }
     }
 
     private fun initView() {

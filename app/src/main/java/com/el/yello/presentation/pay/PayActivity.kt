@@ -167,6 +167,7 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
                 is UiState.Success -> {
                     Log.d("sangho", "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
                     binding.layoutPayCheckLoading.visibility = View.GONE
+                    PaySubsDialog().show(supportFragmentManager, DIALOG_SUBS)
                 }
 
                 is UiState.Failure -> {
@@ -189,6 +190,8 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
                     Log.d("sangho", "&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&")
                     binding.layoutPayCheckLoading.visibility = View.GONE
                     this.window?.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
+                    viewModel.currentInAppItem = state.data?.ticketCount ?: 0
+                    PayInAppDialog().show(supportFragmentManager, DIALOG_IN_APP)
                 }
 
                 is UiState.Failure -> {
@@ -210,5 +213,8 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
         const val YELLO_ONE = "yello_ticket_one"
         const val YELLO_TWO = "yello_ticket_two"
         const val YELLO_FIVE = "yello_ticket_five"
+
+        const val DIALOG_SUBS = "subsDialog"
+        const val DIALOG_IN_APP = "inAppDialog"
     }
 }

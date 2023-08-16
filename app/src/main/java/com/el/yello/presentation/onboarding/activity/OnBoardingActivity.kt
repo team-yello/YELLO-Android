@@ -72,9 +72,4 @@ class OnBoardingActivity :
     fun hideBackbtn() {
         binding.backBtn.visibility = View.INVISIBLE
     }
-
-    fun showViews() {
-        binding.backBtn.visibility = View.VISIBLE
-        binding.onboardingProgressbar.visibility = View.VISIBLE
-    }
 }

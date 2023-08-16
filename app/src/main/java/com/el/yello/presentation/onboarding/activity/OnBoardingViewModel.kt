@@ -29,12 +29,12 @@ class OnBoardingViewModel @Inject constructor(
     private val authRepository: AuthRepository,
 ) : ViewModel() {
 
-    var currentpercent = 14
+    var currentpercent = 20
     fun plusCurrentPercent() {
-        currentpercent += 14
+        currentpercent += 20
     }
     fun minusCurrentPercent() {
-        currentpercent -= 14
+        currentpercent -= 20
     }
 
     // 학력 선택
@@ -71,6 +71,9 @@ class OnBoardingViewModel @Inject constructor(
     val gender: String get() = genderText.value ?: ""
 
     val codeText = MutableLiveData("")
+    fun isCodeTextEmpty(): Boolean {
+        return codeText.value.isNullOrEmpty()
+    }
 
     private val _groupResult: MutableLiveData<List<Int>> = MutableLiveData()
     val groupResult: LiveData<List<Int>> = _groupResult

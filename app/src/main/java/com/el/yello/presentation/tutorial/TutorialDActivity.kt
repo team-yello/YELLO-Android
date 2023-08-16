@@ -14,23 +14,11 @@ class TutorialDActivity : BindingActivity<ActivityTutorialDBinding>(R.layout.act
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityTutorialDBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         binding.root.setOnSingleClickListener {
-            val codeTextValue = intent.getStringExtra("codeText")
-            if (codeTextValue.isNullOrEmpty()) {
-                val intent = Intent(this, TutorialEndActivity::class.java)
-                startActivity(intent)
-            } else {
-                val intent = Intent(this, TutorialEndPlusActivity::class.java)
-                startActivity(intent)
-            }
+            val intent = Intent(this, TutorialEndActivity::class.java)
+            startActivity(intent)
         }
     }
 }
-
-
-
-
-

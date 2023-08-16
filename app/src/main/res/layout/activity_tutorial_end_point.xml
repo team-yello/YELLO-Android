@@ -3,9 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-
+        <variable
+            name="vm"
+            type="com.el.yello.presentation.onboarding.activity.OnBoardingViewModel" />
     </data>
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layout_tutorial"
         android:layout_width="match_parent"
@@ -43,7 +44,7 @@
         <ImageView
             android:id="@+id/iv_tutorial_point"
             android:layout_width="0dp"
-            android:layout_height="280dp"
+            android:layout_height="200dp"
             android:layout_marginTop="20dp"
             android:src="@drawable/ic_tutorial_point"
             app:layout_constraintEnd_toEndOf="parent"
@@ -54,7 +55,7 @@
             android:id="@+id/tv_tutorial_third_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="42dp"
             android:text="@string/tutorial_third_title"
             android:textAppearance="?textAppearanceSubtitle2"
             android:textColor="@color/white"

@@ -55,7 +55,6 @@ class OnBoardingViewModel @Inject constructor(
     val groupId: Long get() = requireNotNull(_groupId.value)
 
     val nameText = MutableLiveData("")
-    val name: String get() = nameText.value?.trim() ?: ""
 
     val idText = MutableLiveData("")
     val id: String get() = idText.value?.trim() ?: ""
@@ -68,7 +67,6 @@ class OnBoardingViewModel @Inject constructor(
 
     // 공통
     val genderText = MutableLiveData("")
-    val gender: String get() = genderText.value ?: ""
 
     val codeText = MutableLiveData("")
     fun isCodeTextEmpty(): Boolean {
@@ -214,7 +212,6 @@ class OnBoardingViewModel @Inject constructor(
                     _departmentData.value = UiState.Empty
                     return@launch
                 }
-
                 // totalDepartmentPage = ceil((department.totalCount * 0.1)).toLong()
                 // if (totalDepartmentPage == departmentPage) isDepartmentPagingFinish = true
                 _departmentData.value = when {
@@ -299,7 +296,8 @@ class OnBoardingViewModel @Inject constructor(
     var kakaoId: String = ""
     var email: String = ""
     var profileImg: String = ""
-
+    var name: String = ""
+    var gender: String = ""
     fun postSignup() {
         viewModelScope.launch {
             val deviceToken = authRepository.getDeviceToken()

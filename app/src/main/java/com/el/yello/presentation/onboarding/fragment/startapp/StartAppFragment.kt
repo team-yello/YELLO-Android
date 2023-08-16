@@ -48,6 +48,7 @@ class StartAppFragment : BindingFragment<FragmentStartAppBinding>(R.layout.fragm
             } else {
                 startTutorialActivity()
             }
+            (activity as? OnBoardingActivity)?.endTutorialActivity()
         }
     }
 

@@ -1,6 +1,7 @@
 package com.el.yello.presentation.onboarding.fragment.code
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels

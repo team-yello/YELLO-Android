@@ -4,7 +4,6 @@ import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.activityViewModels
-import androidx.navigation.fragment.findNavController
 import com.el.yello.R
 import com.el.yello.databinding.FragmentGenderBinding
 import com.el.yello.presentation.onboarding.activity.OnBoardingActivity
@@ -27,7 +26,7 @@ class GenderFragment : BindingFragment<FragmentGenderBinding>(R.layout.fragment_
 
     private fun setConfirmBtnClickListener() {
         binding.btnGenderNext.setOnSingleClickListener {
-           //findNavController().navigate(R.id.action_genderFragment_to_nameFragment)
+            // findNavController().navigate(R.id.action_genderFragment_to_nameFragment)
             val activity = requireActivity() as OnBoardingActivity
             activity.progressBarPlus()
         }

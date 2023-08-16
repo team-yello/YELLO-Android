@@ -12,8 +12,9 @@ class TutorialBActivity : BindingActivity<ActivityTutorialBBinding>(R.layout.act
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding.root.setOnSingleClickListener {
-            val intent = Intent(this, TutorialCActivity::class.java)
+            val intent = Intent(this@TutorialBActivity, TutorialCActivity::class.java)
             startActivity(intent)
+            finish()
         }
     }
 }

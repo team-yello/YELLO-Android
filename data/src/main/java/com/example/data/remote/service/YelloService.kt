@@ -3,6 +3,7 @@ package com.example.data.remote.service
 import com.example.data.model.request.RequestPayDto
 import com.example.data.model.response.BaseResponse
 import com.example.data.model.response.ResponseDto
+import com.example.data.model.response.vote.ResponseVoteCount
 import com.example.data.model.response.yello.ResponseCheckKeyword
 import com.example.data.model.response.yello.ResponseCheckName
 import com.example.data.model.response.yello.ResponseMyYello
@@ -39,4 +40,7 @@ interface YelloService {
     suspend fun payCheck(
         @Body body: RequestPayDto
     ): ResponseDto
+
+    @GET("api/v1/vote/count")
+    suspend fun voteCount(): BaseResponse<ResponseVoteCount>
 }

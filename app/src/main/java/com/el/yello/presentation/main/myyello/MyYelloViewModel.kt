@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.domain.entity.MyYello
+import com.example.domain.entity.vote.VoteCount
 import com.example.domain.repository.YelloRepository
 import com.example.ui.view.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -25,6 +26,9 @@ class MyYelloViewModel @Inject constructor(
 
     private val _totalCount = MutableStateFlow<Int>(0)
     val totalCount: StateFlow<Int> = _totalCount.asStateFlow()
+
+    private val _voteCount = MutableStateFlow<UiState<VoteCount>>(UiState.Loading)
+    val voteCount: StateFlow<UiState<VoteCount>> = _voteCount.asStateFlow()
 
     var position: Int = -1
         private set
@@ -55,6 +59,19 @@ class MyYelloViewModel @Inject constructor(
                     }
                 }.onFailure {
                     _myYelloData.value = UiState.Failure("내 쪽지 목록 서버 통신 실패")
+                }
+        }
+    }
+
+    fun getVoteCount() {
+        viewModelScope.launch {
+            repository.voteCount()
+                .onSuccess {
+                    if (it != null) {
+                        _voteCount.value = UiState.Success(it)
+                    }
+                }.onFailure {
+                    _voteCount.value = UiState.Failure(it.message.toString())
                 }
         }
     }

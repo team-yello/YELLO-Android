@@ -48,7 +48,7 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
 
     override fun onResume() {
         super.onResume()
-        manager.onResumeCheckConsumable()
+        manager.checkConsumable()
     }
 
     override fun onDestroy() {

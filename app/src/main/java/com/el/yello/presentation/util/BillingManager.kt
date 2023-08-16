@@ -32,7 +32,7 @@ class BillingManager(private val activity: Activity, private val callback: Billi
             if (billingResult.responseCode == BillingClient.BillingResponseCode.OK && purchases != null) {
                 for (purchase in purchases) {
                     confirmPurchase(purchase)
-                    handlePurchase(purchase)
+                    consumePurchase(purchase)
                 }
             } else {
                 callback.onFailure(billingResult.responseCode)
@@ -164,7 +164,7 @@ class BillingManager(private val activity: Activity, private val callback: Billi
         }
     }
 
-    private fun handlePurchase(purchase: Purchase) {
+    private fun consumePurchase(purchase: Purchase) {
         if (purchase.products[0] != YELLO_PLUS) {
             val consumeParams = ConsumeParams.newBuilder()
                 .setPurchaseToken(purchase.purchaseToken)
@@ -177,7 +177,7 @@ class BillingManager(private val activity: Activity, private val callback: Billi
         }
     }
 
-    fun onResumeCheckConsumable() {
+    fun checkConsumable() {
         billingClient.queryPurchasesAsync(
             QueryPurchasesParams.newBuilder()
                 .setProductType(ProductType.INAPP)
@@ -185,7 +185,7 @@ class BillingManager(private val activity: Activity, private val callback: Billi
         ) { billingResult, purchaseList ->
             if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
                 purchaseList.forEach {
-                    handlePurchase(it)
+                    consumePurchase(it)
                 }
             }
         }

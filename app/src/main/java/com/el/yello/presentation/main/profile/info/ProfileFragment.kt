@@ -57,6 +57,7 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
     private fun initProfileSetting() {
         viewModel.initPagingVariable()
         viewModel.setDataNotLoaded()
+        viewModel.isFirstScroll = true
         initProfileManageBtnListener()
         initUpwardBtnListener()
         initUpwardBtnVisibility()

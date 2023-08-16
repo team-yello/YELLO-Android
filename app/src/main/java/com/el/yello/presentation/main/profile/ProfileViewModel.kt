@@ -52,6 +52,8 @@ class ProfileViewModel @Inject constructor(
 
     var isItemBottomSheetRunning: Boolean = false
 
+    var isFirstScroll: Boolean = true
+
     private var currentPage = -1
     private var isPagingFinish = false
     private var totalPage = Int.MAX_VALUE
@@ -122,7 +124,10 @@ class ProfileViewModel @Inject constructor(
     // 서버 통신 - 친구 목록 정보 받아오기
     fun getFriendsListFromServer() {
         if (isPagingFinish) return
-        _getListState.value = UiState.Loading
+        if (isFirstScroll) {
+            _getListState.value = UiState.Loading
+            isFirstScroll = false
+        }
         viewModelScope.launch {
             runCatching {
                 profileRepository.getFriendsData(

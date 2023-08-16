@@ -1,5 +1,6 @@
 package com.example.data.model.request.pay
 
+import com.android.billingclient.api.Purchase
 import com.example.domain.entity.RequestPayModel
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -7,7 +8,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class RequestPayDto(
     @SerialName("orderId")
-    val orderId: String,
+    val orderId: String?,
     @SerialName("packageName")
     val packageName: String,
     @SerialName("productId")
@@ -36,4 +37,16 @@ fun RequestPayModel.toRequestDto() = RequestPayDto(
     quantity = quantity,
     autoRenewing = autoRenewing,
     acknowledged = acknowledged
+)
+
+fun Purchase.toRequestPayModel() = RequestPayModel(
+    orderId = orderId,
+    packageName = packageName,
+    productId = products[0],
+    purchaseTime = purchaseTime,
+    purchaseState = purchaseState,
+    purchaseToken = purchaseToken,
+    quantity = quantity,
+    autoRenewing = isAutoRenewing,
+    acknowledged = isAcknowledged
 )

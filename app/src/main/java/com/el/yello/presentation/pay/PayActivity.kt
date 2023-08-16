@@ -3,6 +3,7 @@ package com.el.yello.presentation.pay
 import android.graphics.Paint
 import android.os.Bundle
 import android.util.Log
+import android.view.WindowManager
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.android.billingclient.api.ProductDetails
@@ -11,8 +12,11 @@ import com.el.yello.R
 import com.el.yello.databinding.ActivityPayBinding
 import com.el.yello.presentation.util.BillingCallback
 import com.el.yello.presentation.util.BillingManager
+import com.el.yello.util.context.yelloSnackbar
+import com.example.data.model.request.pay.toRequestPayModel
 import com.example.ui.base.BindingActivity
 import com.example.ui.context.toast
+import com.example.ui.view.UiState
 import com.example.ui.view.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -37,6 +41,8 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
         initView()
         initEvent()
         setBillingManager()
+        observeCheckSubsState()
+        observeCheckInAppState()
     }
 
     override fun onResume() {
@@ -60,7 +66,12 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
 
             override fun onSuccess(purchase: Purchase) {
                 currentPurchase = purchase
-                Log.d("sangho", "4 : ${purchase}")
+                Log.d("sangho", "4 : ${purchase.products}")
+                if (purchase.products[0] == "yello_plus_subscribe") {
+                    viewModel.checkSubsToServer(purchase.toRequestPayModel())
+                } else {
+                    viewModel.checkInAppToServer(purchase.toRequestPayModel())
+                }
             }
 
             override fun onFailure(responseCode: Int) {
@@ -134,6 +145,38 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
 
         binding.ivBack.setOnSingleClickListener {
             finish()
+        }
+    }
+
+    private fun observeCheckSubsState() {
+        viewModel.postSubsCheckState.observe(this) { state ->
+            when(state) {
+                is UiState.Success -> {
+                    Log.d("sangho", "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
+                }
+
+                is UiState.Failure -> {}
+
+                is UiState.Loading -> {}
+
+                is UiState.Empty -> {}
+            }
+        }
+    }
+
+    private fun observeCheckInAppState() {
+        viewModel.postInAppCheckState.observe(this) { state ->
+            when(state) {
+                is UiState.Success -> {
+                    Log.d("sangho", "&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&")
+                }
+
+                is UiState.Failure -> {}
+
+                is UiState.Loading -> {}
+
+                is UiState.Empty -> {}
+            }
         }
     }
 

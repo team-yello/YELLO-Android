@@ -3,6 +3,7 @@ package com.el.yello.presentation.pay
 import android.graphics.Paint
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.view.WindowManager
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -47,8 +48,19 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
 
     override fun onResume() {
         super.onResume()
-        manager.checkConsumable()
-        Log.d("sangho", "2 : resume")
+        if (viewModel.isFirstCreated) {
+            manager.checkConsumable()
+            viewModel.isFirstCreated = false
+            Log.d("sangho", "2 : first resume")
+        } else {
+            binding.layoutPayCheckLoading.visibility = View.VISIBLE
+            this.window?.setFlags(
+                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+            )
+            Log.d("sangho", "2 : not first resume")
+        }
+
     }
 
     override fun onDestroy() {
@@ -96,6 +108,7 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
         binding.dotIndicator.setViewPager(binding.vpBanner)
         binding.tvOriginalPrice.paintFlags =
             binding.tvOriginalPrice.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+        viewModel.isFirstCreated = true
     }
 
     private fun initEvent() {
@@ -150,12 +163,17 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
 
     private fun observeCheckSubsState() {
         viewModel.postSubsCheckState.observe(this) { state ->
-            when(state) {
+            when (state) {
                 is UiState.Success -> {
                     Log.d("sangho", "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
+                    binding.layoutPayCheckLoading.visibility = View.GONE
                 }
 
-                is UiState.Failure -> {}
+                is UiState.Failure -> {
+                    Log.d("sangho", "____@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
+                    yelloSnackbar(binding.root.rootView, "잘못된 접근입니다.")
+                    binding.layoutPayCheckLoading.visibility = View.GONE
+                }
 
                 is UiState.Loading -> {}
 
@@ -166,12 +184,19 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
 
     private fun observeCheckInAppState() {
         viewModel.postInAppCheckState.observe(this) { state ->
-            when(state) {
+            when (state) {
                 is UiState.Success -> {
                     Log.d("sangho", "&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&")
+                    binding.layoutPayCheckLoading.visibility = View.GONE
+                    this.window?.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
                 }
 
-                is UiState.Failure -> {}
+                is UiState.Failure -> {
+                    Log.d("sangho", "______&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&")
+                    yelloSnackbar(binding.root.rootView, "잘못된 접근입니다.")
+                    binding.layoutPayCheckLoading.visibility = View.GONE
+                    this.window?.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
+                }
 
                 is UiState.Loading -> {}
 

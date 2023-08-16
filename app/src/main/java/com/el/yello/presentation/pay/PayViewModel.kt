@@ -23,6 +23,9 @@ class PayViewModel @Inject constructor(
     private val repository: YelloRepository,
     private val payRepository: PayRepository,
 ) : ViewModel() {
+
+    var isFirstCreated : Boolean = true
+
     private val _payCheck = MutableSharedFlow<UiState<Response>>()
     val payCheck: SharedFlow<UiState<Response>> = _payCheck.asSharedFlow()
 

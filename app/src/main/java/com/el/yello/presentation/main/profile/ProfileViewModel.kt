@@ -119,7 +119,7 @@ class ProfileViewModel @Inject constructor(
         }
     }
 
-    // 서버 통신 - 친구 목록 정보 받아오기 & 페이징 적용
+    // 서버 통신 - 친구 목록 정보 받아오기
     fun getFriendsListFromServer() {
         if (isPagingFinish) return
         _getListState.value = UiState.Loading

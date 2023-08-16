@@ -3,6 +3,7 @@ package com.el.yello.presentation.onboarding.activity
 import android.animation.ObjectAnimator
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.animation.LinearInterpolator
 import androidx.activity.viewModels
@@ -79,6 +80,7 @@ class OnBoardingActivity :
     fun endTutorialActivity() {
         val intent = Intent(this@OnBoardingActivity, TutorialAActivity::class.java)
         intent.putExtra("codeTextEmpty", viewModel.isCodeTextEmpty())
+        Log.d("minju1", viewModel.isCodeTextEmpty().toString())
         startActivity(intent)
         finish()
     }

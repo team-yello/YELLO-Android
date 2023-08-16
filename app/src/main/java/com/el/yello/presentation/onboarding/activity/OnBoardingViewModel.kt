@@ -61,7 +61,6 @@ class OnBoardingViewModel @Inject constructor(
 
     val isValidName: LiveData<Boolean> = nameText.map { name -> checkName(name) }
     val isValidId: LiveData<Boolean> = idText.map { id -> checkId(id) }
-
     private fun checkName(name: String) = Pattern.matches(REGEX_NAME_PATTERN, name)
     private fun checkId(id: String) = Pattern.matches(REGEX_ID_PATTERN, id)
 

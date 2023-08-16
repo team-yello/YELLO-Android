@@ -1,6 +1,7 @@
 package com.el.yello.presentation.util
 
 import android.app.Activity
+import android.util.Log
 import com.android.billingclient.api.AcknowledgePurchaseParams
 import com.android.billingclient.api.BillingClient
 import com.android.billingclient.api.BillingClient.ProductType
@@ -13,6 +14,7 @@ import com.android.billingclient.api.PurchasesUpdatedListener
 import com.android.billingclient.api.QueryProductDetailsParams
 import com.android.billingclient.api.QueryProductDetailsParams.Product
 import com.android.billingclient.api.QueryPurchasesParams
+import com.android.billingclient.api.queryProductDetails
 import com.el.yello.presentation.pay.PayActivity.Companion.YELLO_FIVE
 import com.el.yello.presentation.pay.PayActivity.Companion.YELLO_ONE
 import com.el.yello.presentation.pay.PayActivity.Companion.YELLO_PLUS
@@ -20,6 +22,7 @@ import com.el.yello.presentation.pay.PayActivity.Companion.YELLO_TWO
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class BillingManager(private val activity: Activity, private val callback: BillingCallback) {
 
@@ -57,7 +60,7 @@ class BillingManager(private val activity: Activity, private val callback: Billi
     }
 
     // 결과로 받을 상품 정보들에 대한 처리
-    fun getProductDetails(
+    suspend fun getProductDetails(
         resultBlock: (List<ProductDetails>) -> Unit = {}
     ) {
         val productDetailsList = mutableListOf<ProductDetails>()
@@ -69,43 +72,44 @@ class BillingManager(private val activity: Activity, private val callback: Billi
                 .setProductType(ProductType.SUBS)
                 .build()
         )
+
         val subParams = QueryProductDetailsParams.newBuilder().setProductList(subProductList)
-        billingClient.queryProductDetailsAsync(subParams.build()) { _, list ->
-            CoroutineScope(Dispatchers.Main).launch {
-                productDetailsList += list
-            }
-        }
+        val subsList = withContext(Dispatchers.Main) {
+            billingClient.queryProductDetails(subParams.build()).productDetailsList
+        } ?: listOf()
+        productDetailsList.addAll(0, subsList)
+        Log.d("sangho", "L : ${productDetailsList.map { it.name }}")
 
         val inAppProductList = ArrayList<Product>()
-        inAppProductList.add(
-            Product.newBuilder()
-                .setProductId(YELLO_ONE)
+        val productInfoList = listOf(
+            YELLO_ONE,
+            YELLO_TWO,
+            YELLO_FIVE
+        )
+        productInfoList.forEach { productId ->
+            val product = Product.newBuilder()
+                .setProductId(productId)
                 .setProductType(ProductType.INAPP)
                 .build()
-        )
-        inAppProductList.add(
-            Product.newBuilder()
-                .setProductId(YELLO_TWO)
-                .setProductType(ProductType.INAPP)
-                .build()
-        )
-        inAppProductList.add(
-            Product.newBuilder()
-                .setProductId(YELLO_FIVE)
-                .setProductType(ProductType.INAPP)
-                .build()
-        )
-        val inAppParams = QueryProductDetailsParams.newBuilder().setProductList(inAppProductList)
-        billingClient.queryProductDetailsAsync(inAppParams.build()) { _, list ->
-            CoroutineScope(Dispatchers.Main).launch {
-                productDetailsList += list
-                resultBlock(productDetailsList)
-            }
+            inAppProductList.add(product)
         }
+
+        val inAppParams = QueryProductDetailsParams.newBuilder().setProductList(inAppProductList)
+        val inAppList = withContext(Dispatchers.Main) {
+            billingClient.queryProductDetails(inAppParams.build()).productDetailsList
+        } ?: listOf()
+        productDetailsList.addAll(productDetailsList.size, inAppList)
+        Log.d("sangho", "L : ${productDetailsList.map { it.name }}")
+        resultBlock(productDetailsList)
     }
 
     // 구매 흐름 시작
     fun purchaseProduct(selectedOfferIndex: Int, productDetails: ProductDetails) {
+        Log.d("sangho", "${productDetails}")
+        Log.d("sangho", "${selectedOfferIndex}")
+        Log.d("sangho", "${productDetails.subscriptionOfferDetails}")
+        Log.d("sangho", "${productDetails.subscriptionOfferDetails?.get(0)}")
+        Log.d("sangho", "${productDetails.subscriptionOfferDetails?.get(0)?.offerToken}")
         val offerToken =
             productDetails.subscriptionOfferDetails?.get(selectedOfferIndex)?.offerToken
 

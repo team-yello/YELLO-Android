@@ -3,18 +3,19 @@ package com.el.yello.presentation.pay
 import android.graphics.Paint
 import android.os.Bundle
 import androidx.activity.viewModels
+import androidx.lifecycle.lifecycleScope
 import com.android.billingclient.api.BillingClient.ProductType
 import com.android.billingclient.api.ProductDetails
 import com.android.billingclient.api.Purchase
 import com.el.yello.R
 import com.el.yello.databinding.ActivityPayBinding
-import com.el.yello.presentation.main.profile.info.ProfileFriendAdapter
 import com.el.yello.presentation.util.BillingCallback
 import com.el.yello.presentation.util.BillingManager
 import com.example.ui.base.BindingActivity
 import com.example.ui.context.toast
 import com.example.ui.view.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import timber.log.Timber
 
 @AndroidEntryPoint
@@ -31,7 +32,9 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
     private var productDetailsList = listOf<ProductDetails>()
         set(value) {
             field = value
-            manager.getProductDetails()
+            lifecycleScope.launch {
+                manager.getProductDetails()
+            }
         }
 
     private var currentSubscription: Purchase? = null
@@ -59,11 +62,13 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
     private fun setBillingManager() {
         manager = BillingManager(this, object : BillingCallback {
             override fun onBillingConnected() {
-                manager.getProductDetails() { list ->
-                    productDetailsList = list
-                }
-                manager.checkPurchased(ProductType.SUBS) { purchase ->
-                    currentSubscription = purchase
+                lifecycleScope.launch {
+                    manager.getProductDetails() { list ->
+                        productDetailsList = list
+                    }
+                    manager.checkPurchased(ProductType.SUBS) { purchase ->
+                        currentSubscription = purchase
+                    }
                 }
             }
 

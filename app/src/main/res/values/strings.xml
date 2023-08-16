@@ -248,6 +248,15 @@
     <string name="dialog_after_keyword_title">쪽지의 키워드를 얻었어요!</string>
     <string name="profile_btn_shop">상점</string>
     <string name="recommend_search_no_result">찾는 친구의 결과가 없어요</string>
+
     <string name="pay_error_during">구매 도중 오류가 발생하였습니다.</string>
     <string name="pay_error_no_item">구매 가능한 상품이 없습니다.</string>
+
+    <string name="pay_dialog_subs_title">구독권을 얻었어요!</string>
+    <string name="pay_dialog_subs_subtitle">옐로플러스의 특별한 혜택을 마음껏 즐겨보세요.</string>
+    <string name="pay_dialog_confirm">확인</string>
+    <string name="pay_dialog_in_app_subtitle">열람권으로 누가 쪽지를 보냈는지 알아보세요.</string>
+    <string name="pay_dialog_in_app_title_1">열람권 1개를 얻었어요!</string>
+    <string name="pay_dialog_in_app_title_2">열람권 2개를 얻었어요!</string>
+    <string name="pay_dialog_in_app_title_5">열람권 5개를 얻었어요!</string>
 </resources>

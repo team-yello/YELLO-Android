@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_gravity="center">
 
     <data>
@@ -8,7 +9,7 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/layout_pay_subs_dialog"
+        android:id="@+id/layout_pay_in_app_dialog"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="30dp"
@@ -26,12 +27,12 @@
             android:gravity="center"
             android:maxHeight="32dp"
             android:paddingVertical="3dp"
-            android:text="@string/pay_dialog_subs_title"
             android:textAppearance="?textAppearanceSubtitle2"
             android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="@string/pay_dialog_in_app_title_1" />
 
         <TextView
             android:id="@+id/tv_pay_dialog_subtitle2"
@@ -40,7 +41,7 @@
             android:layout_marginTop="4dp"
             android:maxHeight="22dp"
             android:paddingVertical="2dp"
-            android:text="@string/pay_dialog_subs_subtitle"
+            android:text="@string/pay_dialog_in_app_subtitle"
             android:textAppearance="?textAppearanceLabelMedium"
             android:textColor="@color/grayscales_400"
             app:layout_constraintEnd_toEndOf="parent"
@@ -48,15 +49,15 @@
             app:layout_constraintTop_toBottomOf="@id/tv_pay_dialog_subtitle1" />
 
         <ImageView
-            android:id="@+id/iv_pay_subs"
+            android:id="@+id/iv_pay_in_app"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="8dp"
             android:layout_marginTop="24dp"
-            android:src="@drawable/ic_pay_dialog_subs"
             app:layout_constraintEnd_toEndOf="@id/tv_pay_dialog_subtitle2"
             app:layout_constraintStart_toStartOf="@id/tv_pay_dialog_subtitle2"
-            app:layout_constraintTop_toBottomOf="@id/tv_pay_dialog_subtitle2" />
+            app:layout_constraintTop_toBottomOf="@id/tv_pay_dialog_subtitle2"
+            tools:src="@drawable/ic_pay_in_app_1" />
 
         <TextView
             android:id="@+id/btn_pay_confirm"
@@ -71,7 +72,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/iv_pay_subs" />
+            app:layout_constraintTop_toBottomOf="@id/iv_pay_in_app" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

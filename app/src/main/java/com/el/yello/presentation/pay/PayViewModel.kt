@@ -26,6 +26,8 @@ class PayViewModel @Inject constructor(
 
     var isFirstCreated : Boolean = true
 
+    var currentInAppItem: Int = 0
+
     private val _payCheck = MutableSharedFlow<UiState<Response>>()
     val payCheck: SharedFlow<UiState<Response>> = _payCheck.asSharedFlow()
 

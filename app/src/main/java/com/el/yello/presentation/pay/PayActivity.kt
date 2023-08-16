@@ -2,6 +2,7 @@ package com.el.yello.presentation.pay
 
 import android.graphics.Paint
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.android.billingclient.api.ProductDetails
@@ -27,16 +28,8 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
         get() = requireNotNull(_adapter) { getString(R.string.adapter_not_initialized_error_msg) }
 
     private lateinit var manager: BillingManager
-
     private var productDetailsList = listOf<ProductDetails>()
-        set(value) {
-            field = value
-            lifecycleScope.launch {
-                manager.getProductDetails()
-            }
-        }
-
-    private var currentSubscription: Purchase? = null
+    private var currentPurchase: Purchase? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,6 +42,7 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
     override fun onResume() {
         super.onResume()
         manager.checkConsumable()
+        Log.d("sangho", "2 : resume")
     }
 
     override fun onDestroy() {
@@ -60,26 +54,27 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
     private fun setBillingManager() {
         manager = BillingManager(this, object : BillingCallback {
             override fun onBillingConnected() {
-                setListAndPurchaseCheck()
+                setProductList()
+                Log.d("sangho", "3 : connected")
             }
 
             override fun onSuccess(purchase: Purchase) {
-                currentSubscription = purchase
+                currentPurchase = purchase
+                Log.d("sangho", "4 : ${purchase}")
             }
 
             override fun onFailure(responseCode: Int) {
                 Timber.d(responseCode.toString())
+                Log.d("sangho", "5 : ${responseCode}")
             }
         })
     }
 
-    private fun setListAndPurchaseCheck() {
+    private fun setProductList() {
         lifecycleScope.launch {
             manager.getProductDetails() { list ->
                 productDetailsList = list
-            }
-            manager.checkSubscribed() { purchase ->
-                currentSubscription = purchase
+                Log.d("sangho", "6 : ${list}")
             }
         }
     }
@@ -98,6 +93,7 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
             productDetailsList.withIndex().find { it.value.productId == YELLO_PLUS }
                 ?.let { productDetails ->
                     manager.purchaseProduct(productDetails.index, productDetails.value)
+                    Log.d("sangho", "8 : ${productDetails.value.name}")
                 } ?: also {
                 toast(getString(R.string.pay_error_no_item))
             }
@@ -108,6 +104,7 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
             productDetailsList.withIndex().find { it.value.productId == YELLO_ONE }
                 ?.let { productDetails ->
                     manager.purchaseProduct(productDetails.index, productDetails.value)
+                    Log.d("sangho", "9 : ${productDetails.value.name}")
                 } ?: also {
                 toast(getString(R.string.pay_error_no_item))
             }
@@ -118,6 +115,7 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
             productDetailsList.withIndex().find { it.value.productId == YELLO_TWO }
                 ?.let { productDetails ->
                     manager.purchaseProduct(productDetails.index, productDetails.value)
+                    Log.d("sangho", "10 : ${productDetails.value.name}")
                 } ?: also {
                 toast(getString(R.string.pay_error_no_item))
             }
@@ -128,6 +126,7 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
             productDetailsList.withIndex().find { it.value.productId == YELLO_FIVE }
                 ?.let { productDetails ->
                     manager.purchaseProduct(productDetails.index, productDetails.value)
+                    Log.d("sangho", "11 : ${productDetails.value.name}")
                 } ?: also {
                 toast(getString(R.string.pay_error_no_item))
             }

@@ -42,7 +42,7 @@ class BillingManager(private val activity: Activity, private val callback: Billi
         }
 
     // 결제 라이브러리 통신 위한 BillingClient 초기화
-    private val billingClient = BillingClient.newBuilder(activity.applicationContext)
+    val billingClient = BillingClient.newBuilder(activity.applicationContext)
         .setListener(purchasesUpdatedListener)
         .enablePendingPurchases()
         .also {

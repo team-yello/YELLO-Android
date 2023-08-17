@@ -10,6 +10,7 @@
     <string name="msg_auto_login_error">다시 한 번 로그인해주세요.</string>
     <string name="dummy">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</string>
     <string name="adapter_not_initialized_error_msg">Adapter is not initialized</string>
+    <string name="manager_not_initialized_error_msg">Billing Manager is not initialized</string>
 
     <string name="sign_in_tv_title">Yell:o에 오신 걸 환영해요!</string>
     <string name="sign_in_tv_subtitle">가입을 시작해볼까요?</string>

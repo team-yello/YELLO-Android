@@ -31,7 +31,11 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
     private val adapter
         get() = requireNotNull(_adapter) { getString(R.string.adapter_not_initialized_error_msg) }
 
-    private lateinit var manager: BillingManager
+
+    private var _manager: BillingManager? = null
+    private val manager
+        get() = requireNotNull(_manager) { getString(R.string.manager_not_initialized_error_msg) }
+
     private var productDetailsList = listOf<ProductDetails>()
     private var currentPurchase: Purchase? = null
 
@@ -42,6 +46,7 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        Log.d("sangho", "0 : activity created !@!@!@!@@!@!@")
         initView()
         initEvent()
         setBillingManager()
@@ -64,15 +69,18 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
     }
 
     override fun onDestroy() {
+        Log.d("sangho", "0 : activity destroyed !@!@!@!@@!@!@")
         super.onDestroy()
         _adapter = null
+        _manager?.billingClient?.endConnection()
+        _manager = null
         payInAppDialog?.dismiss()
         paySubsDialog?.dismiss()
     }
 
     // BillingManager 설정 시 BillingClient 연결됨
     private fun setBillingManager() {
-        manager = BillingManager(this, object : BillingCallback {
+        _manager = BillingManager(this, object : BillingCallback {
             override fun onBillingConnected() {
                 setProductList()
                 Log.d("sangho", "3 : billing manager connected -> setList")

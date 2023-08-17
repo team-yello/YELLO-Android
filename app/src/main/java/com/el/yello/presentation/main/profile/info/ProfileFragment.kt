@@ -19,7 +19,6 @@ import com.el.yello.presentation.pay.PayActivity
 import com.el.yello.util.context.yelloSnackbar
 import com.example.domain.entity.ProfileUserModel
 import com.example.ui.base.BindingFragment
-import com.example.ui.context.toast
 import com.example.ui.fragment.toast
 import com.example.ui.view.UiState
 import com.example.ui.view.setOnSingleClickListener
@@ -58,7 +57,6 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
 
     private fun initProfileSetting() {
         viewModel.initPagingVariable()
-        viewModel.setDataNotLoaded()
         viewModel.isFirstScroll = true
         initProfileManageBtnListener()
         initUpwardBtnListener()
@@ -253,22 +251,19 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
         viewModel.getIsSubscribedState.observe(viewLifecycleOwner) { state ->
             when (state) {
                 is UiState.Success -> {
-                    if (state.data?.subscribe == "ACTIVE") {
-                        binding.ivProfileLoading.visibility = View.VISIBLE
-                    } else {
-                        binding.ivProfileLoading.visibility = View.GONE
-                    }
+                    viewModel.isSubscribed = state.data?.subscribe == "ACTIVE"
                 }
 
                 is UiState.Failure -> {
-                    binding.ivProfileLoading.visibility = View.GONE
-                    toast("구독 여부 가져오기 실패")
+                    viewModel.isSubscribed = false
+                    toast(getString(R.string.pay_error_subs))
                 }
 
                 is UiState.Loading -> {}
 
                 is UiState.Empty -> {}
             }
+            adapter.notifyDataSetChanged()
         }
     }
 

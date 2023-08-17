@@ -185,7 +185,7 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
 
                 is UiState.Failure -> {
                     Log.d("sangho", "13 : sub failure : @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
-                    toast("잘못된 접근입니다.")
+                    toast(getString(R.string.pay_check_error))
                     stopLoadingScreen()
                 }
 
@@ -216,7 +216,7 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
                         "sangho",
                         "14 : inapp failure : &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&"
                     )
-                    toast("잘못된 접근입니다.")
+                    toast(getString(R.string.pay_check_error))
                     stopLoadingScreen()
                 }
 
@@ -256,7 +256,7 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
 
                 is UiState.Failure -> {
                     binding.layoutShowSubs.visibility = View.GONE
-                    toast("구독 여부 가져오기 실패")
+                    toast(getString(R.string.pay_error_subs))
                 }
 
                 is UiState.Loading -> {}

@@ -45,6 +45,7 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
         initBnvItemReselectedListener()
         pushNotificationEvent()
         viewModel.getVoteCount()
+        viewModel.setIsFirstLoginData()
         observe()
     }
 

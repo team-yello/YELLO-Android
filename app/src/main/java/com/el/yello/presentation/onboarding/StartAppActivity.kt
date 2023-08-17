@@ -1,44 +1,43 @@
-package com.el.yello.presentation.onboarding.fragment.startapp
+package com.el.yello.presentation.onboarding
 
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
-import android.view.View
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.el.yello.R
-import com.el.yello.databinding.FragmentStartAppBinding
-import com.el.yello.presentation.onboarding.activity.OnBoardingActivity
+import com.el.yello.databinding.ActivityStartAppBinding
 import com.el.yello.presentation.tutorial.TutorialAActivity
-import com.example.ui.base.BindingFragment
+import com.example.ui.base.BindingActivity
 import com.example.ui.view.setOnSingleClickListener
 
-class StartAppFragment : BindingFragment<FragmentStartAppBinding>(R.layout.fragment_start_app) {
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        (activity as? OnBoardingActivity)?.hideViews()
+class StartAppActivity :
+    BindingActivity<ActivityStartAppBinding>(R.layout.activity_start_app) {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         initTutorialView()
     }
 
     private fun startTutorialActivity() {
-        val intent = TutorialAActivity.newIntent(requireContext(), true).apply {
+        val intent = TutorialAActivity.newIntent(this, false).apply {
             addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         }
         startActivity(intent)
-        requireActivity().finish()
+        finish()
     }
 
     private fun initTutorialView() {
         binding.btnStartYello.setOnSingleClickListener {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                 if (ContextCompat.checkSelfPermission(
-                        requireContext(),
+                        this,
                         android.Manifest.permission.POST_NOTIFICATIONS,
                     ) != PackageManager.PERMISSION_GRANTED
                 ) {
                     ActivityCompat.requestPermissions(
-                        requireActivity(),
+                        this,
                         arrayOf(android.Manifest.permission.POST_NOTIFICATIONS),
                         PERMISSION_REQUEST_CODE,
                     )
@@ -48,7 +47,7 @@ class StartAppFragment : BindingFragment<FragmentStartAppBinding>(R.layout.fragm
             } else {
                 startTutorialActivity()
             }
-            (activity as? OnBoardingActivity)?.endTutorialActivity()
+            startTutorialActivity()
         }
     }
 

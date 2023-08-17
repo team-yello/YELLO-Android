@@ -75,6 +75,11 @@
             android:name=".presentation.onboarding.activity.OnBoardingActivity"
             android:exported="true"
             android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".presentation.onboarding.StartAppActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".presentation.tutorial.TutorialAActivity"
             android:exported="true"

@@ -43,6 +43,11 @@ class SignInViewModel @Inject constructor(
 
     private val serviceTermsList = listOf(THUMBNAIL, EMAIL, FRIEND_LIST, NAME, GENDER)
 
+    var isResigned = false
+        private set
+    fun getIsFirstLoginData(): Boolean {
+        return authRepository.getIsFirstLoginData()
+    }
     // 웹 로그인 실행
     fun loginWithWebCallback(
         context: Context,
@@ -97,6 +102,7 @@ class SignInViewModel @Inject constructor(
                     return@launch
                 }
                 authRepository.setAutoLogin(it.accessToken, it.refreshToken)
+                isResigned = it.isResigned
                 _postChangeTokenState.value = UiState.Success(it)
             }.onFailure {
                 if (it is HttpException && it.code() == 403) {

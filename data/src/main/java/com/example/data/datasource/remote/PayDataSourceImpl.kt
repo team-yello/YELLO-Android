@@ -3,6 +3,7 @@ package com.example.data.datasource.remote
 import com.example.data.datasource.PayDataSource
 import com.example.data.model.request.pay.RequestPayDto
 import com.example.data.model.response.BaseResponse
+import com.example.data.model.response.pay.ResponsePayCheckDto
 import com.example.data.model.response.pay.ResponsePayInAppDto
 import com.example.data.model.response.pay.ResponsePaySubsDto
 import com.example.data.remote.service.PayService
@@ -22,6 +23,11 @@ class PayDataSourceImpl @Inject constructor(
         request: RequestPayDto
     ): BaseResponse<ResponsePayInAppDto> {
         return payService.postToCheckInApp(request)
+    }
+
+    override suspend fun getIsSubscribedData(
+    ): BaseResponse<ResponsePayCheckDto> {
+        return payService.getIsSubscribed()
     }
 
 }

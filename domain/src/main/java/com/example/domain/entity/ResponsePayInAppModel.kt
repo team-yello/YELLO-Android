@@ -1,4 +1,4 @@
-package com.example.domain.entity.vote
+package com.example.domain.entity
 
 class ResponsePayInAppModel (
     val productId: String,

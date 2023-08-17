@@ -7,7 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.domain.entity.RequestPayModel
 import com.example.domain.entity.Response
 import com.example.domain.entity.ResponsePaySubsModel
-import com.example.domain.entity.vote.ResponsePayInAppModel
+import com.example.domain.entity.ResponsePayInAppModel
 import com.example.domain.repository.PayRepository
 import com.example.domain.repository.YelloRepository
 import com.example.ui.view.UiState

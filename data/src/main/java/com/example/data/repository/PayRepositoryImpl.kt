@@ -3,8 +3,9 @@ package com.example.data.repository
 import com.example.data.datasource.PayDataSource
 import com.example.data.model.request.pay.toRequestDto
 import com.example.domain.entity.RequestPayModel
+import com.example.domain.entity.ResponsePayCheckModel
 import com.example.domain.entity.ResponsePaySubsModel
-import com.example.domain.entity.vote.ResponsePayInAppModel
+import com.example.domain.entity.ResponsePayInAppModel
 import com.example.domain.repository.PayRepository
 import javax.inject.Inject
 
@@ -26,6 +27,12 @@ class PayRepositoryImpl @Inject constructor(
         return payDataSource.postToCheckInAppData(
             request.toRequestDto()
         ).data?.toResponsePayInAppModel()
+    }
+
+    override suspend fun getIsSubscribed(
+    ): ResponsePayCheckModel? {
+        return payDataSource.getIsSubscribedData(
+        ).data?.toResponsePayCheckModel()
     }
 
 }

@@ -1,6 +1,6 @@
 package com.example.data.model.response.pay
 
-import com.example.domain.entity.vote.ResponsePayInAppModel
+import com.example.domain.entity.ResponsePayInAppModel
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 

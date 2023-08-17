@@ -50,7 +50,7 @@
                     android:id="@+id/layout_show_subs"
                     android:layout_width="wrap_content"
                     android:layout_height="0dp"
-                    android:layout_marginVertical="8dp"
+                    android:layout_marginVertical="9dp"
                     android:layout_marginEnd="16dp"
                     android:background="@drawable/shape_grayscales900_fill_8_rect"
                     android:paddingHorizontal="10dp"
@@ -367,6 +367,8 @@
                         android:textAppearance="?textAppearanceLabelMedium"
                         android:textColor="@color/white"
                         android:paddingTop="3dp"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
                         android:paddingStart="7dp"
                         android:paddingBottom="3dp"
                         android:paddingEnd="5dp"/>

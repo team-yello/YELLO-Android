@@ -11,11 +11,19 @@ import dagger.hilt.android.AndroidEntryPoint
 class ProfileQuitTwoActivity :
     BindingActivity<ActivityProfileQuitTwoBinding>(R.layout.activity_profile_quit_two) {
 
+    private var profileQuitDialog: ProfileQuitDialog? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        profileQuitDialog = ProfileQuitDialog()
         initBackBtnListener()
         initInviteDialogBtnListener()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        profileQuitDialog?.dismiss()
     }
 
     private fun initBackBtnListener() {
@@ -26,7 +34,7 @@ class ProfileQuitTwoActivity :
 
     private fun initInviteDialogBtnListener() {
         binding.btnProfileQuitForSure.setOnSingleClickListener {
-            ProfileQuitDialog().show(supportFragmentManager, QUIT_DIALOG)
+            profileQuitDialog?.show(supportFragmentManager, QUIT_DIALOG)
         }
     }
 

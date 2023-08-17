@@ -13,7 +13,6 @@ import com.el.yello.R
 import com.el.yello.databinding.ActivityPayBinding
 import com.el.yello.presentation.util.BillingCallback
 import com.el.yello.presentation.util.BillingManager
-import com.el.yello.util.context.yelloSnackbar
 import com.example.data.model.request.pay.toRequestPayModel
 import com.example.ui.base.BindingActivity
 import com.example.ui.context.toast
@@ -36,6 +35,9 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
     private var productDetailsList = listOf<ProductDetails>()
     private var currentPurchase: Purchase? = null
 
+    private var paySubsDialog: PaySubsDialog? = null
+    private var payInAppDialog: PayInAppDialog? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -53,11 +55,7 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
             viewModel.isFirstCreated = false
             Log.d("sangho", "2 : first resume")
         } else {
-            binding.layoutPayCheckLoading.visibility = View.VISIBLE
-            this.window?.setFlags(
-                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
-                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
-            )
+            startLoadingScreen()
             Log.d("sangho", "2 : not first resume")
         }
 
@@ -66,6 +64,8 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
     override fun onDestroy() {
         super.onDestroy()
         _adapter = null
+        payInAppDialog?.dismiss()
+        paySubsDialog?.dismiss()
     }
 
     // BillingManager 설정 시 BillingClient 연결됨
@@ -109,6 +109,8 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
         binding.tvOriginalPrice.paintFlags =
             binding.tvOriginalPrice.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
         viewModel.isFirstCreated = true
+        paySubsDialog = PaySubsDialog()
+        payInAppDialog = PayInAppDialog()
     }
 
     private fun initEvent() {
@@ -145,7 +147,7 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
             }
         }
 
-        binding.clNameCheckThree.setOnSingleClickListener {
+        binding.clNameCheckFive.setOnSingleClickListener {
             viewModel.payCheck(3)
             productDetailsList.withIndex().find { it.value.productId == YELLO_FIVE }
                 ?.let { productDetails ->
@@ -166,14 +168,14 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
             when (state) {
                 is UiState.Success -> {
                     Log.d("sangho", "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
-                    binding.layoutPayCheckLoading.visibility = View.GONE
-                    PaySubsDialog().show(supportFragmentManager, DIALOG_SUBS)
+                    stopLoadingScreen()
+                    paySubsDialog?.show(supportFragmentManager, DIALOG_SUBS)
                 }
 
                 is UiState.Failure -> {
                     Log.d("sangho", "____@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
-                    yelloSnackbar(binding.root.rootView, "잘못된 접근입니다.")
-                    binding.layoutPayCheckLoading.visibility = View.GONE
+                    toast("잘못된 접근입니다.")
+                    stopLoadingScreen()
                 }
 
                 is UiState.Loading -> {}
@@ -188,17 +190,15 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
             when (state) {
                 is UiState.Success -> {
                     Log.d("sangho", "&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&")
-                    binding.layoutPayCheckLoading.visibility = View.GONE
-                    this.window?.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
+                    stopLoadingScreen()
                     viewModel.currentInAppItem = state.data?.ticketCount ?: 0
-                    PayInAppDialog().show(supportFragmentManager, DIALOG_IN_APP)
+                    payInAppDialog?.show(supportFragmentManager, DIALOG_IN_APP)
                 }
 
                 is UiState.Failure -> {
                     Log.d("sangho", "______&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&")
-                    yelloSnackbar(binding.root.rootView, "잘못된 접근입니다.")
-                    binding.layoutPayCheckLoading.visibility = View.GONE
-                    this.window?.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
+                    toast("잘못된 접근입니다.")
+                    stopLoadingScreen()
                 }
 
                 is UiState.Loading -> {}
@@ -206,6 +206,19 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
                 is UiState.Empty -> {}
             }
         }
+    }
+
+    private fun startLoadingScreen() {
+        binding.layoutPayCheckLoading.visibility = View.VISIBLE
+        this.window?.setFlags(
+            WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+            WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+        )
+    }
+
+    private fun stopLoadingScreen() {
+        binding.layoutPayCheckLoading.visibility = View.GONE
+        window?.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
     }
 
     companion object {

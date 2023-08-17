@@ -259,4 +259,21 @@
     <string name="pay_dialog_in_app_title_1">열람권 1개를 얻었어요!</string>
     <string name="pay_dialog_in_app_title_2">열람권 2개를 얻었어요!</string>
     <string name="pay_dialog_in_app_title_5">열람권 5개를 얻었어요!</string>
+
+    <string name="pay_title">옐로플러스의 특별한 혜택은?</string>
+    <string name="pay_is_subs">옐로플러스 구독중</string>
+    <string name="pay_subs_title">옐로플러스 구독하기</string>
+    <string name="pay_subs_subtitle">(50%할인)</string>
+    <string name="pay_subs_original_price">7900원</string>
+    <string name="pay_subs_price">3900원</string>
+    <string name="pay_subs_price_per">/주</string>
+    <string name="pay_subtitle">쪽지 보낸 사람을 알고 싶다면?</string>
+    <string name="pay_in_app_one_title">이름 열람권 1개</string>
+    <string name="pay_in_app_one_price">1400원</string>
+    <string name="pay_in_app_two_title">이름 열람권 2개</string>
+    <string name="pay_in_app_two_price">2800원</string>
+    <string name="pay_in_app_five_title">이름 열람권 5개</string>
+    <string name="pay_in_app_five_original_price"><strike>7000원</strike></string>
+    <string name="pay_in_app_five_price">5900원</string>
+
 </resources>

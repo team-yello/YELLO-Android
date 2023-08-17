@@ -275,5 +275,6 @@
     <string name="pay_in_app_five_title">이름 열람권 5개</string>
     <string name="pay_in_app_five_original_price"><strike>7000원</strike></string>
     <string name="pay_in_app_five_price">5900원</string>
+    <string name="pay_in_app_five_discount">할인!</string>
 
 </resources>

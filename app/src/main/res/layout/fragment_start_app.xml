@@ -19,8 +19,9 @@
             android:layout_marginTop="70dp"
             android:layout_marginBottom="8dp"
             android:gravity="center"
+            android:fontFamily="@font/pretendard_bold"
+            android:textSize="26sp"
             android:text="@string/onboarding_tv_startapp_title"
-            android:textAppearance="?attr/textAppearanceHeadline3"
             android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -41,9 +42,10 @@
 
         <TextView
             android:id="@+id/tv_startapp_title_heart"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
             android:layout_marginStart="2dp"
+
             android:background="@drawable/ic_onboarding_startapp_heart"
             app:layout_constraintBottom_toBottomOf="@+id/tv_startapp_title"
             app:layout_constraintDimensionRatio="1"

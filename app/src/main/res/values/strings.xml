@@ -22,7 +22,7 @@
     <string name="sign_in_error_kakao_token">카카오 토큰 받기 실패</string>
     <string name="sign_in_error_kakao_user_data">카카오 유저 정보 받기 실패</string>
 
-    <string name="social_sync_tv_title">나의 Yell:o 친구는 어디 있을까?</string>
+    <string name="social_sync_tv_title">나의 옐로 친구는 어디 있을까?</string>
     <string name="social_sync_tv_subtitle">친구 목록을 불러와봐요!</string>
     <string name="social_sync_tv_btn">카카오톡 친구 연결하기</string>
     <string name="social_sync_tv_info"><u>개인정보처리약관</u></string>

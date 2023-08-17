@@ -46,10 +46,12 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
         setBillingManager()
         observeCheckSubsState()
         observeCheckInAppState()
+        observeCheckIsSubscribed()
     }
 
     override fun onResume() {
         super.onResume()
+        viewModel.checkIsSubscribed()
         if (viewModel.isFirstCreated) {
             manager.checkConsumable()
             viewModel.isFirstCreated = false
@@ -219,6 +221,29 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
     private fun stopLoadingScreen() {
         binding.layoutPayCheckLoading.visibility = View.GONE
         window?.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
+    }
+
+    private fun observeCheckIsSubscribed() {
+        viewModel.getIsSubscribedState.observe(this) { state ->
+            when (state) {
+                is UiState.Success -> {
+                    if (state.data?.subscribe == "ACTIVE") {
+                        binding.layoutShowSubs.visibility = View.VISIBLE
+                    } else {
+                        binding.layoutShowSubs.visibility = View.GONE
+                    }
+                }
+
+                is UiState.Failure -> {
+                    binding.layoutShowSubs.visibility = View.GONE
+                    toast("구독 여부 가져오기 실패")
+                }
+
+                is UiState.Loading -> {}
+
+                is UiState.Empty -> {}
+            }
+        }
     }
 
     companion object {

@@ -2,6 +2,8 @@ package com.el.yello.presentation.util
 
 import android.app.Activity
 import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.android.billingclient.api.AcknowledgePurchaseParams
 import com.android.billingclient.api.BillingClient
 import com.android.billingclient.api.BillingClient.ProductType
@@ -27,11 +29,15 @@ import kotlinx.coroutines.withContext
 
 class BillingManager(private val activity: Activity, private val callback: BillingCallback) {
 
+    private val _isPurchaseStarted = MutableLiveData<Boolean>()
+    val isPurchaseStarted : LiveData<Boolean> = _isPurchaseStarted
+
     // 결제 시 작동하는 리스너
     private val purchasesUpdatedListener =
         PurchasesUpdatedListener { billingResult, purchases ->
             if (billingResult.responseCode == BillingClient.BillingResponseCode.OK && purchases != null) {
                 Log.d("sangho", "@@@ 1-1: purchase listener = ${purchases}")
+                _isPurchaseStarted.value = true
                 for (purchase in purchases) {
                     confirmPurchase(purchase)
                 }
@@ -72,7 +78,12 @@ class BillingManager(private val activity: Activity, private val callback: Billi
         })
     }
 
-    // 결과로 받을 상품 정보들에 대한 처리
+    // 로딩 로티뷰 돌리기 위한 상태값 저장 초기화
+    fun setIsPurchasingOff() {
+        _isPurchaseStarted.value = false
+    }
+
+    // 결과로 받을 상품 정보 받아오기
     suspend fun getProductDetails(
         resultBlock: (List<ProductDetails>) -> Unit = {}
     ) {
@@ -116,7 +127,7 @@ class BillingManager(private val activity: Activity, private val callback: Billi
         resultBlock(productDetailsList)
     }
 
-    // 구매 흐름 시작
+    // 구매 진행
     fun purchaseProduct(selectedOfferIndex: Int, productDetails: ProductDetails) {
         Log.d("sangho", "@@@ 7: start purchase")
         val offerToken =
@@ -180,8 +191,9 @@ class BillingManager(private val activity: Activity, private val callback: Billi
             billingClient.consumeAsync(consumeParams) { billingResult, _ ->
                 if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
                     Log.d("sangho", "@@@ 18: consume success -> check consumable")
-                    // 추가 완료 서버통신 ?
                     checkConsumable(purchase)
+                } else {
+                    callback.onFailure(billingResult.responseCode)
                 }
             }
         } else {
@@ -190,7 +202,7 @@ class BillingManager(private val activity: Activity, private val callback: Billi
         }
     }
 
-    // 구매 표시 미완료된 소비성 아이템 찾아 소비 완료로 변경
+    // 구매 표시 안된 소비성 아이템 찾아 소비 완료 다시 실행, 모두 완료 확인 후 성공 설정
     private fun checkConsumable(purchasedItem: Purchase) {
         Log.d("sangho", "@@@ 19 : check consumable")
         billingClient.queryPurchasesAsync(
@@ -211,7 +223,7 @@ class BillingManager(private val activity: Activity, private val callback: Billi
                     callback.onSuccess(purchasedItem)
                 }
             } else {
-                // TODO: Service connection is disconnected.
+                callback.onFailure(billingResult.responseCode)
             }
         }
     }

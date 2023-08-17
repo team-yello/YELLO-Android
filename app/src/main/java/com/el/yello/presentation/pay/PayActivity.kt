@@ -31,14 +31,11 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
     private val adapter
         get() = requireNotNull(_adapter) { getString(R.string.adapter_not_initialized_error_msg) }
 
-
     private var _manager: BillingManager? = null
     private val manager
         get() = requireNotNull(_manager) { getString(R.string.manager_not_initialized_error_msg) }
 
     private var productDetailsList = listOf<ProductDetails>()
-    private var currentPurchase: Purchase? = null
-
 
     private var paySubsDialog: PaySubsDialog? = null
     private var payInAppDialog: PayInAppDialog? = null
@@ -50,6 +47,7 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
         initView()
         initEvent()
         setBillingManager()
+        observeIsPurchasedStarted()
         observeCheckSubsState()
         observeCheckInAppState()
         observeCheckIsSubscribed()
@@ -58,14 +56,7 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
     override fun onResume() {
         super.onResume()
         viewModel.checkIsSubscribed()
-        if (viewModel.isFirstCreated) {
-            viewModel.isFirstCreated = false
-            Log.d("sangho", "1 : first resume ")
-        } else {
-            startLoadingScreen()
-            Log.d("sangho", "2 : not first resume & loading")
-        }
-
+        Log.d("sangho", "1 : resume ")
     }
 
     override fun onDestroy() {
@@ -78,7 +69,7 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
         paySubsDialog?.dismiss()
     }
 
-    // BillingManager 설정 시 BillingClient 연결됨
+    // BillingManager 설정 시 BillingClient 연결 & 콜백 응답 설정 -> 검증 진행
     private fun setBillingManager() {
         _manager = BillingManager(this, object : BillingCallback {
             override fun onBillingConnected() {
@@ -87,7 +78,6 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
             }
 
             override fun onSuccess(purchase: Purchase) {
-                currentPurchase = purchase
                 Log.d("sangho", "4 : purchase success = ${purchase.products}")
                 if (purchase.products[0] == "yello_plus_subscribe") {
                     Log.d("sangho", "4-1 : -> check subs")
@@ -100,7 +90,7 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
 
             override fun onFailure(responseCode: Int) {
                 Timber.d(responseCode.toString())
-                Log.d("sangho", "5 : purchase failure = ${responseCode}")
+                Log.d("sangho", "5555 : purchase failure = ${responseCode}")
             }
         })
     }
@@ -174,6 +164,15 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
         }
     }
 
+    // 구매 완료 이후 검증 완료까지 로딩 로티 실행
+    private fun observeIsPurchasedStarted() {
+        manager.isPurchaseStarted.observe(this) { boolean ->
+            Log.d("sangho", "12 : start loading : @@@@@@@@")
+            if (boolean == true) startLoadingScreen()
+        }
+    }
+
+    // 구독 상품 검증 옵저버
     private fun observeCheckSubsState() {
         viewModel.postSubsCheckState.observe(this) { state ->
             when (state) {
@@ -197,6 +196,7 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
         }
     }
 
+    // 인앱(소비성) 상품 검증 옵저버
     private fun observeCheckInAppState() {
         viewModel.postInAppCheckState.observe(this) { state ->
             when (state) {
@@ -236,10 +236,12 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
     }
 
     private fun stopLoadingScreen() {
+        manager.setIsPurchasingOff()
         binding.layoutPayCheckLoading.visibility = View.GONE
         window?.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
     }
 
+    // 구독 여부 확인해서 화면 표시 변경
     private fun observeCheckIsSubscribed() {
         viewModel.getIsSubscribedState.observe(this) { state ->
             Log.d("sangho", "15 : observe subs state")

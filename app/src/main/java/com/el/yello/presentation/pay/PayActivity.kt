@@ -35,6 +35,7 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
     private var productDetailsList = listOf<ProductDetails>()
     private var currentPurchase: Purchase? = null
 
+
     private var paySubsDialog: PaySubsDialog? = null
     private var payInAppDialog: PayInAppDialog? = null
 
@@ -111,8 +112,6 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
         binding.tvOriginalPrice.paintFlags =
             binding.tvOriginalPrice.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
         viewModel.isFirstCreated = true
-        paySubsDialog = PaySubsDialog()
-        payInAppDialog = PayInAppDialog()
     }
 
     private fun initEvent() {
@@ -171,6 +170,7 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
                 is UiState.Success -> {
                     Log.d("sangho", "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
                     stopLoadingScreen()
+                    paySubsDialog = PaySubsDialog()
                     paySubsDialog?.show(supportFragmentManager, DIALOG_SUBS)
                 }
 
@@ -194,6 +194,7 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
                     Log.d("sangho", "&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&")
                     stopLoadingScreen()
                     viewModel.currentInAppItem = state.data?.ticketCount ?: 0
+                    payInAppDialog = PayInAppDialog()
                     payInAppDialog?.show(supportFragmentManager, DIALOG_IN_APP)
                 }
 

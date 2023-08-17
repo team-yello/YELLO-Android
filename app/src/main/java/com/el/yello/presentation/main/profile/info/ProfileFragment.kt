@@ -19,6 +19,7 @@ import com.el.yello.presentation.pay.PayActivity
 import com.el.yello.util.context.yelloSnackbar
 import com.example.domain.entity.ProfileUserModel
 import com.example.ui.base.BindingFragment
+import com.example.ui.context.toast
 import com.example.ui.fragment.toast
 import com.example.ui.view.UiState
 import com.example.ui.view.setOnSingleClickListener
@@ -47,6 +48,7 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
         setUserDataFromServer()
         setFriendsListDataFromServer()
         setFriendDeleteToServer()
+        setIsSubscribedFromServer()
     }
 
     override fun onDestroyView() {
@@ -83,6 +85,11 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
     private fun setFriendDeleteToServer() {
         observeFriendDeleteState()
         setDeleteAnimation()
+    }
+
+    private fun setIsSubscribedFromServer() {
+        observeCheckIsSubscribed()
+        viewModel.checkIsSubscribed()
     }
 
     // 관리 액티비티 실행 & 뒤로가기 누를 때 다시 돌아오도록 현재 화면 finish 진행 X
@@ -232,6 +239,30 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
 
                 is UiState.Failure -> {
                     toast(getString(R.string.profile_error_delete_friend))
+                }
+
+                is UiState.Loading -> {}
+
+                is UiState.Empty -> {}
+            }
+        }
+    }
+
+    // 구독 여부 확인
+    private fun observeCheckIsSubscribed() {
+        viewModel.getIsSubscribedState.observe(viewLifecycleOwner) { state ->
+            when (state) {
+                is UiState.Success -> {
+                    if (state.data?.subscribe == "ACTIVE") {
+                        binding.ivProfileLoading.visibility = View.VISIBLE
+                    } else {
+                        binding.ivProfileLoading.visibility = View.GONE
+                    }
+                }
+
+                is UiState.Failure -> {
+                    binding.ivProfileLoading.visibility = View.GONE
+                    toast("구독 여부 가져오기 실패")
                 }
 
                 is UiState.Loading -> {}

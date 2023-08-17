@@ -6,8 +6,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.domain.entity.ProfileFriendsListModel
 import com.example.domain.entity.ProfileUserModel
+import com.example.domain.entity.ResponsePayCheckModel
 import com.example.domain.entity.vote.VoteCount
 import com.example.domain.repository.AuthRepository
+import com.example.domain.repository.PayRepository
 import com.example.domain.repository.ProfileRepository
 import com.example.domain.repository.YelloRepository
 import com.example.ui.view.UiState
@@ -26,7 +28,8 @@ import kotlin.math.ceil
 class ProfileViewModel @Inject constructor(
     private val profileRepository: ProfileRepository,
     private val authRepository: AuthRepository,
-    private val yelloRepository: YelloRepository
+    private val yelloRepository: YelloRepository,
+    private val payRepository: PayRepository
 ) : ViewModel() {
 
     private val _getState = MutableLiveData<UiState<ProfileUserModel>>()
@@ -46,6 +49,9 @@ class ProfileViewModel @Inject constructor(
 
     private val _kakaoQuitState = MutableLiveData<UiState<Unit>>()
     val kakaoQuitState: LiveData<UiState<Unit>> = _kakaoQuitState
+
+    private val _getIsSubscribedState = MutableLiveData<UiState<ResponsePayCheckModel?>>()
+    val getIsSubscribedState: LiveData<UiState<ResponsePayCheckModel?>> = _getIsSubscribedState
 
     private val _voteCount = MutableStateFlow<UiState<VoteCount>>(UiState.Loading)
     val voteCount: StateFlow<UiState<VoteCount>> = _voteCount.asStateFlow()
@@ -198,6 +204,18 @@ class ProfileViewModel @Inject constructor(
                 _kakaoQuitState.value = UiState.Success(Unit)
             } else {
                 _kakaoQuitState.value = UiState.Failure(error.message ?: "")
+            }
+        }
+    }
+
+    fun checkIsSubscribed() {
+        viewModelScope.launch {
+            runCatching {
+                payRepository.getIsSubscribed()
+            }.onSuccess {
+                _getIsSubscribedState.value = UiState.Success(it)
+            }.onFailure {
+                _getIsSubscribedState.value = UiState.Failure(it.message ?: "")
             }
         }
     }

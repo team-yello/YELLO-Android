@@ -31,7 +31,7 @@
             android:layout_width="match_parent"
             android:layout_height="4dp"
             android:max="100"
-            android:progress="14"
+            android:progress="20"
             android:progressDrawable="@drawable/layerlist_onboarding_progressbar"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -47,7 +47,6 @@
             app:defaultNavHost="true"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/onboarding_progressbar"
             app:navGraph="@navigation/activity_navigate" />

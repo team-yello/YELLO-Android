@@ -55,7 +55,7 @@
     <string name="onboarding_tv_gender">나의 성별은?</string>
     <string name="onboarding_tv_code">추천인 코드</string>
     <string name="onboarding_tv_code_hint">yelloworld</string>
-    <string name="onboarding_tv_code_skip">없다면 건너뛰어도 돼요.</string>
+    <string name="onboarding_tv_code_skip">추천인이 없다면 건너뛰어도 돼요.</string>
     <string name="onboarding_tv_code_error">추천인의 아이디를 입력하면</string>
     <string name="onboarding_btn_code_skip"><u>건너뛰기</u></string>
     <string name="onboarding_tv_startapp_title">띵동! 쪽지 도착 </string>
@@ -246,6 +246,15 @@
     <string name="dialog_complete">완료</string>
     <string name="dialog_after_point">사용 후 포인트</string>
     <string name="dialog_after_keyword_title">쪽지의 키워드를 얻었어요!</string>
+
+    <string name="tutorial_end_subtitle">튜토리얼 끝!\n옐로에서 환영 선물을 준비했어요!</string>
+    <string name="tutorial_third_title">앞으로 투표가 끝날 때마다 포인트를 줄게요!</string>
+    <string name="tutorial_tv_end_btn">옐로하러 가기</string>
+    <string name="tutorial_end_title_point">가입 포인트 지급</string>
+    <string name="tutorial_title_b">100포인트</string>
+    <string name="tutorial_title_C"> 지급</string>
+
     <string name="profile_btn_shop">상점</string>
     <string name="recommend_search_no_result">찾는 친구의 결과가 없어요</string>
+
 </resources>

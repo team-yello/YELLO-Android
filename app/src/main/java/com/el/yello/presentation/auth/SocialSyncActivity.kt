@@ -6,7 +6,9 @@ import androidx.activity.viewModels
 import com.el.yello.R
 import com.el.yello.databinding.ActivitySocialSyncBinding
 import com.el.yello.presentation.auth.SignInActivity.Companion.EXTRA_EMAIL
+import com.el.yello.presentation.auth.SignInActivity.Companion.EXTRA_GENDER
 import com.el.yello.presentation.auth.SignInActivity.Companion.EXTRA_KAKAO_ID
+import com.el.yello.presentation.auth.SignInActivity.Companion.EXTRA_NAME
 import com.el.yello.presentation.auth.SignInActivity.Companion.EXTRA_PROFILE_IMAGE
 import com.el.yello.presentation.onboarding.activity.OnBoardingActivity
 import com.el.yello.util.context.yelloSnackbar
@@ -59,11 +61,15 @@ class SocialSyncActivity :
             val kakaoId = getLongExtra(EXTRA_KAKAO_ID, -1)
             val email = getStringExtra(EXTRA_EMAIL)
             val profileImage = getStringExtra(EXTRA_PROFILE_IMAGE)
+            val name = getStringExtra(EXTRA_NAME)
+            val gender = getStringExtra(EXTRA_GENDER)
             Timber.d("KAKAO ID : $kakaoId, EMAIL : $email, PROFILE : $profileImage")
             Intent(this@SocialSyncActivity, OnBoardingActivity::class.java).apply {
                 putExtra(EXTRA_KAKAO_ID, kakaoId)
                 putExtra(EXTRA_EMAIL, email)
                 putExtra(EXTRA_PROFILE_IMAGE, profileImage)
+                putExtra(EXTRA_NAME, name)
+                putExtra(EXTRA_GENDER, gender)
                 addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                 startActivity(this)
             }

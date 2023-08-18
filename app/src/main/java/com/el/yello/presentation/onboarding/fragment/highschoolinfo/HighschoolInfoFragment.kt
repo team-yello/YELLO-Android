@@ -3,7 +3,6 @@ package com.el.yello.presentation.onboarding.fragment.highschoolinfo
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.activityViewModels
-import androidx.navigation.fragment.findNavController
 import com.el.yello.R
 import com.el.yello.databinding.FragmentHighschoolBinding
 import com.el.yello.presentation.onboarding.activity.OnBoardingViewModel

@@ -41,12 +41,12 @@ class SignInViewModel @Inject constructor(
     private val _getDeviceTokenState = MutableLiveData<UiState<String>>()
     val getDeviceTokenState: LiveData<UiState<String>> = _getDeviceTokenState
 
-    private val serviceTermsList = listOf(THUMBNAIL, EMAIL, FRIEND_LIST)
+    private val serviceTermsList = listOf(THUMBNAIL, EMAIL, FRIEND_LIST, NAME, GENDER)
 
     // 웹 로그인 실행
     fun loginWithWebCallback(
         context: Context,
-        callback: (token: OAuthToken?, error: Throwable?) -> Unit
+        callback: (token: OAuthToken?, error: Throwable?) -> Unit,
     ) {
         UserApiClient.instance.loginWithKakaoAccount(
             context = context,
@@ -58,7 +58,7 @@ class SignInViewModel @Inject constructor(
     // 앱 로그인 실행
     fun loginWithAppCallback(
         context: Context,
-        callback: (token: OAuthToken?, error: Throwable?) -> Unit
+        callback: (token: OAuthToken?, error: Throwable?) -> Unit,
     ) {
         UserApiClient.instance.loginWithKakaoTalk(
             context = context,
@@ -146,9 +146,10 @@ class SignInViewModel @Inject constructor(
 
     private companion object {
         const val KAKAO = "KAKAO"
-
         const val THUMBNAIL = "profile_image"
         const val EMAIL = "account_email"
         const val FRIEND_LIST = "friends"
+        const val NAME = "name"
+        const val GENDER = "gender"
     }
 }

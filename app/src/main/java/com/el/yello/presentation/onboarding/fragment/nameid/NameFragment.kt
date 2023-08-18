@@ -21,7 +21,7 @@ class NameFragment : BindingFragment<FragmentNameBinding>(R.layout.fragment_name
     }
     private fun setConfirmBtnClickListener() {
         binding.btnNameNext.setOnSingleClickListener {
-            findNavController().navigate(R.id.action_nameFragment_to_yelIoIdFragment)
+           // findNavController().navigate(R.id.action_nameFragment_to_yelIoIdFragment)
             val activity = requireActivity() as OnBoardingActivity
             activity.progressBarPlus()
         }

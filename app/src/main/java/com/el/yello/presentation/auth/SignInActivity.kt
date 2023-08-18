@@ -198,6 +198,8 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
     private fun startSocialSyncActivity(data: User?) {
         Intent(this, SocialSyncActivity::class.java).apply {
             putExtra(EXTRA_KAKAO_ID, data?.id)
+            putExtra(EXTRA_NAME, data?.kakaoAccount?.name)
+            putExtra(EXTRA_GENDER, data?.kakaoAccount?.gender.toString())
             putExtra(EXTRA_EMAIL, data?.kakaoAccount?.email)
             putExtra(EXTRA_PROFILE_IMAGE, data?.kakaoAccount?.profile?.profileImageUrl)
             addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
@@ -218,6 +220,8 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
         const val EXTRA_KAKAO_ID = "KAKAO_ID"
         const val EXTRA_EMAIL = "KAKAO_EMAIL"
         const val EXTRA_PROFILE_IMAGE = "PROFILE_IMAGE"
+        const val EXTRA_NAME = "NAME"
+        const val EXTRA_GENDER = "GENDER"
 
         const val CODE_NOT_SIGNED_IN = "403"
         const val CODE_NO_UUID = "404"

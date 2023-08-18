@@ -8,6 +8,7 @@ import com.el.yello.databinding.ActivitySignInBinding
 import com.el.yello.presentation.main.MainActivity
 import com.el.yello.presentation.onboarding.StartAppActivity
 import com.el.yello.presentation.tutorial.TutorialAActivity
+import com.el.yello.util.amplitude.AmplitudeUtils
 import com.el.yello.util.context.yelloSnackbar
 import com.example.ui.base.BindingActivity
 import com.example.ui.context.toast
@@ -19,6 +20,7 @@ import com.kakao.sdk.common.model.ClientErrorCause
 import com.kakao.sdk.user.UserApiClient
 import com.kakao.sdk.user.model.User
 import dagger.hilt.android.AndroidEntryPoint
+import org.json.JSONObject
 import timber.log.Timber
 
 @AndroidEntryPoint

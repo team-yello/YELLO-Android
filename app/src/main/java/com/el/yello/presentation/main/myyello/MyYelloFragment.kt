@@ -74,7 +74,11 @@ class MyYelloFragment : BindingFragment<FragmentMyYelloBinding>(R.layout.fragmen
                 startActivity(this)
             }
         }
-        
+
+        binding.clSendOpen.setOnSingleClickListener {
+            yelloSnackbar(binding.root, "무슨 쪽지가 궁금한가요?")
+        }
+
         binding.btnShop.setOnSingleClickListener {
             goToPayActivity()
         }

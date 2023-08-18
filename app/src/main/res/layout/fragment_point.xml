@@ -46,6 +46,7 @@
             android:id="@+id/layout_point_welcome"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
             android:layout_marginTop="44dp"
             app:layout_constraintBottom_toTopOf="@id/btn_point_confirm"
             app:layout_constraintEnd_toEndOf="parent"
@@ -56,6 +57,7 @@
                 android:id="@+id/tv_point_description"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
                 android:paddingVertical="4dp"
                 android:text="@string/point_description"
                 android:textAppearance="?textAppearanceHeadline3"
@@ -69,6 +71,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
+                android:gravity="center_horizontal"
                 android:paddingVertical="4dp"
                 android:text="@string/point_sub_description"
                 android:textAppearance="?textAppearanceBodySmall"
@@ -125,6 +128,22 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/tv_point_vote_point"
                 app:layout_constraintTop_toBottomOf="@id/tv_point_sub_description" />
+
+            <TextView
+                android:id="@+id/tv_point_plus_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="-8dp"
+                android:layout_marginBottom="-7dp"
+                android:background="@drawable/shape_gradient_plus_fill_10_rect"
+                android:fontFamily="@font/unbounded_medium"
+                android:paddingHorizontal="6dp"
+                android:paddingVertical="1dp"
+                android:text="@string/yello_start_double"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toTopOf="@id/tv_point_vote_point_label"
+                app:layout_constraintStart_toEndOf="@id/tv_point_vote_point_label" />
 
             <ImageView
                 android:id="@+id/iv_point_description"

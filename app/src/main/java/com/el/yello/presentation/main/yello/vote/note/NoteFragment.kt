@@ -10,6 +10,7 @@ import com.el.yello.presentation.main.yello.vote.NoteState
 import com.el.yello.presentation.main.yello.vote.VoteViewModel
 import com.el.yello.util.context.yelloSnackbar
 import com.example.ui.base.BindingFragment
+import com.example.ui.view.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -24,12 +25,18 @@ class NoteFragment : BindingFragment<FragmentNoteBinding>(R.layout.fragment_note
     private val backgroundIndex
         get() = _backgroundIndex ?: 0
 
+    private var _voteListSize: Int? = null
+    private val voteListSize
+        get() = _voteListSize ?: 8
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.vm = viewModel
 
         getBundleArgs()
         addOvalProgressItems()
+        initShuffleBtnClickListener()
+        initSkipBtnClickListener()
     }
 
     private fun getBundleArgs() {
@@ -38,6 +45,7 @@ class NoteFragment : BindingFragment<FragmentNoteBinding>(R.layout.fragment_note
         binding.index = noteIndex
         _backgroundIndex = arguments?.getInt(ARGS_BACKGROUND_INDEX)?.plus(noteIndex)
         binding.bgIndex = backgroundIndex
+        _voteListSize = arguments?.getInt(ARGS_VOTE_LIST_SIZE)
     }
 
     private fun addOvalProgressItems() {
@@ -49,13 +57,25 @@ class NoteFragment : BindingFragment<FragmentNoteBinding>(R.layout.fragment_note
             binding.layoutNoteProgressBefore.getChildAt(i).rotation = progressDegree[i]
         }
 
-        for (i in noteIndex + 1 until 10) {
+        for (i in noteIndex + 1 until voteListSize) {
             layoutInflater.inflate(
                 R.layout.layout_vote_progress_bar,
                 binding.layoutNoteProgressAfter,
             )
             binding.layoutNoteProgressAfter.getChildAt(i - noteIndex - 1).rotation =
                 progressDegree[i]
+        }
+    }
+
+    private fun initShuffleBtnClickListener() {
+        binding.btnNoteShuffle.setOnSingleClickListener {
+            viewModel.shuffle()
+        }
+    }
+
+    private fun initSkipBtnClickListener() {
+        binding.btnNoteSkip.setOnSingleClickListener {
+            viewModel.skip()
         }
     }
 
@@ -95,15 +115,17 @@ class NoteFragment : BindingFragment<FragmentNoteBinding>(R.layout.fragment_note
     companion object {
         private const val ARGS_NOTE_INDEX = "NOTE_INDEX"
         private const val ARGS_BACKGROUND_INDEX = "BACKGROUND_INDEX"
+        private const val ARGS_VOTE_LIST_SIZE = "VOTE_LIST_SIZE"
 
         private val progressDegree =
             listOf(165f, -30f, -120f, -165f, -60f, -20f, -117f, 24f, -45f, 12f)
 
         @JvmStatic
-        fun newInstance(index: Int, bgIndex: Int) = NoteFragment().apply {
+        fun newInstance(index: Int, bgIndex: Int, voteListSize: Int) = NoteFragment().apply {
             val args = bundleOf(
                 ARGS_NOTE_INDEX to index,
                 ARGS_BACKGROUND_INDEX to bgIndex,
+                ARGS_VOTE_LIST_SIZE to voteListSize,
             )
             arguments = args
         }

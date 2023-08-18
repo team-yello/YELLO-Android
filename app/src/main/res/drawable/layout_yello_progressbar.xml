@@ -1,14 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:id="@android:id/background">
         <shape>
-            <solid android:color="@color/grayscales_900" />
-            <corners android:radius="5dp" />
+            <solid android:color="#59FFFFFF" />
+            <corners android:radius="20dp" />
         </shape>
     </item>
     <item android:id="@android:id/progress">
         <clip>
             <shape>
-                <solid android:color="@color/yello_main_500" />
+                <solid android:color="@color/white" />
+                <corners android:radius="28dp" />
             </shape>
         </clip>
     </item>

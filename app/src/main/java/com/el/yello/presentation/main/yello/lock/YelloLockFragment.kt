@@ -2,7 +2,7 @@ package com.el.yello.presentation.main.yello.lock
 
 import android.os.Bundle
 import android.view.View
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import com.el.yello.R
 import com.el.yello.databinding.FragmentYelloLockBinding
 import com.el.yello.presentation.main.yello.YelloViewModel
@@ -13,7 +13,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class YelloLockFragment : BindingFragment<FragmentYelloLockBinding>(R.layout.fragment_yello_lock) {
-    private val viewModel by viewModels<YelloViewModel>()
+    private val viewModel by activityViewModels<YelloViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

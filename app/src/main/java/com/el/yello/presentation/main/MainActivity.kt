@@ -29,7 +29,6 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
-
 @AndroidEntryPoint
 class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main) {
     val viewModel by viewModels<ProfileViewModel>()
@@ -121,11 +120,13 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
 
         // 뱃지의 색깔 설정
         badgeDrawable.backgroundColor = ContextCompat.getColor(
-            this, R.color.semantic_red_500
-        );
+            this,
+            R.color.semantic_red_500,
+        )
         badgeDrawable.badgeTextColor = ContextCompat.getColor(
-            this, R.color.white
-        );
+            this,
+            R.color.white,
+        )
     }
 
     private fun pushNotificationEvent() {

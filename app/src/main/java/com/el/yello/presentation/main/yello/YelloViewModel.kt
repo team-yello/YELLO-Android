@@ -15,26 +15,28 @@ import com.example.ui.view.UiState.Empty
 import com.example.ui.view.UiState.Failure
 import com.example.ui.view.UiState.Success
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import timber.log.Timber
-import javax.inject.Inject
 
 @HiltViewModel
 class YelloViewModel @Inject constructor(
     private val voteRepository: VoteRepository,
     private val authRepository: AuthRepository,
 ) : ViewModel() {
-    val _yelloState = MutableLiveData<UiState<YelloState>>()
+    private val _yelloState = MutableLiveData<UiState<YelloState>>()
     val yelloState: LiveData<UiState<YelloState>>
         get() = _yelloState
 
-    val _leftTime = MutableLiveData<Long>()
+    private val _leftTime = MutableLiveData<Long>()
     val leftTime: LiveData<Long>
         get() = _leftTime
 
-    val _point = MutableLiveData(0)
+    private val _point = MutableLiveData(0)
+    val point: LiveData<Int>
+        get() = _point
 
     private val _isDecreasing = MutableLiveData(false)
     private val isDecreasing: Boolean

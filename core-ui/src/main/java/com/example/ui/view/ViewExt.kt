@@ -1,10 +1,13 @@
 package com.example.ui.view
 
+import android.content.Context
+import android.util.TypedValue
 import android.view.View
+import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 
 inline fun View.setOnSingleClickListener(
-    delay: Long = 500L,
+    delay: Long = 1000L,
     crossinline block: (View) -> Unit,
 ) {
     var previousClickedTime = 0L
@@ -30,4 +33,25 @@ class ItemDiffCallback<T>(
         oldItem: T,
         newItem: T,
     ): Boolean = onContentsTheSame(oldItem, newItem)
+}
+
+fun View.setMargins(
+    leftMarginDp: Int? = null,
+    topMarginDp: Int? = null,
+    rightMarginDp: Int? = null,
+    bottomMarginDp: Int? = null
+) {
+    if (layoutParams is ViewGroup.MarginLayoutParams) {
+        val params = layoutParams as ViewGroup.MarginLayoutParams
+        leftMarginDp?.run { params.leftMargin = this.dpToPx(context) }
+        topMarginDp?.run { params.topMargin = this.dpToPx(context) }
+        rightMarginDp?.run { params.rightMargin = this.dpToPx(context) }
+        bottomMarginDp?.run { params.bottomMargin = this.dpToPx(context) }
+        requestLayout()
+    }
+}
+
+fun Int.dpToPx(context: Context): Int {
+    val metrics = context.resources.displayMetrics
+    return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, this.toFloat(), metrics).toInt()
 }

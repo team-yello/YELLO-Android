@@ -41,6 +41,12 @@ android {
                 gradleLocalProperties(rootDir).getProperty("test.native.app.key"),
             )
 
+            buildConfigField(
+                "String",
+                "AMPLITUDE_API_KEY",
+                gradleLocalProperties(rootDir).getProperty("test.native.app.key"),
+            )
+
             manifestPlaceholders["NATIVE_APP_KEY"] =
                 gradleLocalProperties(rootDir).getProperty("testNativeAppKey")
         }

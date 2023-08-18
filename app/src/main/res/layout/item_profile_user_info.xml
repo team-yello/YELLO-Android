@@ -39,6 +39,25 @@
                 android:paddingBottom="20dp">
 
                 <ImageView
+                    android:id="@+id/iv_subs_line"
+                    android:layout_width="match_parent"
+                    android:layout_height="6dp"
+                    android:src="@drawable/shape_purple_gradient_8dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/iv_subs_star"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="16dp"
+                    android:src="@drawable/ic_profile_star"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
                     android:id="@+id/iv_profile_info_thumbnail"
                     android:layout_width="0dp"
                     android:layout_height="0dp"

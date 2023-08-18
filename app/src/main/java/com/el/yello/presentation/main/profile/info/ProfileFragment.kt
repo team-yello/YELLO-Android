@@ -15,7 +15,6 @@ import com.el.yello.R
 import com.el.yello.databinding.FragmentProfileBinding
 import com.el.yello.presentation.main.profile.ProfileViewModel
 import com.el.yello.presentation.main.profile.manage.ProfileManageActivity
-import com.el.yello.presentation.main.recommend.list.RecommendItemDecoration
 import com.el.yello.presentation.pay.PayActivity
 import com.el.yello.util.context.yelloSnackbar
 import com.example.domain.entity.ProfileUserModel
@@ -48,6 +47,7 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
         setUserDataFromServer()
         setFriendsListDataFromServer()
         setFriendDeleteToServer()
+        setIsSubscribedFromServer()
     }
 
     override fun onDestroyView() {
@@ -57,7 +57,7 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
 
     private fun initProfileSetting() {
         viewModel.initPagingVariable()
-        viewModel.setDataNotLoaded()
+        viewModel.isFirstScroll = true
         initProfileManageBtnListener()
         initUpwardBtnListener()
         initUpwardBtnVisibility()
@@ -83,6 +83,11 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
     private fun setFriendDeleteToServer() {
         observeFriendDeleteState()
         setDeleteAnimation()
+    }
+
+    private fun setIsSubscribedFromServer() {
+        observeCheckIsSubscribed()
+        viewModel.checkIsSubscribed()
     }
 
     // 관리 액티비티 실행 & 뒤로가기 누를 때 다시 돌아오도록 현재 화면 finish 진행 X
@@ -171,6 +176,7 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
         viewModel.getListState.observe(viewLifecycleOwner) { state ->
             when (state) {
                 is UiState.Success -> {
+                    binding.ivProfileLoading.visibility = View.GONE
                     friendsList = state.data?.friends ?: listOf()
                     adapter.addItemList(friendsList)
                 }
@@ -179,9 +185,11 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
                     yelloSnackbar(requireView(), getString(R.string.profile_error_friend_list))
                 }
 
-                is UiState.Empty -> {}
+                is UiState.Loading -> {
+                    binding.ivProfileLoading.visibility = View.VISIBLE
+                }
 
-                is UiState.Loading -> {}
+                is UiState.Empty -> {}
             }
         }
     }
@@ -195,7 +203,8 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
                     recyclerView.layoutManager?.let { layoutManager ->
                         if (!binding.rvProfileFriendsList.canScrollVertically(1)
                             && layoutManager is LinearLayoutManager
-                            && layoutManager.findLastVisibleItemPosition() == adapter.itemCount - 1) {
+                            && layoutManager.findLastVisibleItemPosition() == adapter.itemCount - 1
+                        ) {
                             viewModel.getFriendsListFromServer()
                         }
                     }
@@ -234,6 +243,26 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
 
                 is UiState.Empty -> {}
             }
+        }
+    }
+
+    // 구독 여부 확인
+    private fun observeCheckIsSubscribed() {
+        viewModel.getIsSubscribedState.observe(viewLifecycleOwner) { state ->
+            when (state) {
+                is UiState.Success -> {
+                    viewModel.isSubscribed = state.data?.subscribe == "ACTIVE"
+                }
+
+                is UiState.Failure -> {
+                    viewModel.isSubscribed = false
+                }
+
+                is UiState.Loading -> {}
+
+                is UiState.Empty -> {}
+            }
+            adapter.notifyDataSetChanged()
         }
     }
 

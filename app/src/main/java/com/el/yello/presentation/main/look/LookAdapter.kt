@@ -1,6 +1,7 @@
 package com.el.yello.presentation.main.look
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import com.el.yello.databinding.ItemLookBinding
@@ -17,6 +18,8 @@ class LookAdapter :
     }
 
     override fun onBindViewHolder(holder: LookViewHolder, position: Int) {
+        holder.binding.tvNameHead.visibility = View.VISIBLE
+        holder.binding.tvKeywordHead.visibility = View.VISIBLE
         val item = getItem(position) ?: return
         holder.onBind(item)
     }

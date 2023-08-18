@@ -5,6 +5,8 @@ interface AuthRepository {
     fun getAutoLogin(): Boolean
     fun setYelloId(yelloId: String)
     fun getYelloId(): String
+    fun setIsFirstLoginData()
+    fun getIsFirstLoginData(): Boolean
     fun setDeviceToken(deviceToken: String)
     fun getDeviceToken(): String
     fun clearLocalPref()

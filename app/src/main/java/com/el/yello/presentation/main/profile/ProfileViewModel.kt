@@ -26,7 +26,7 @@ import kotlin.math.ceil
 class ProfileViewModel @Inject constructor(
     private val profileRepository: ProfileRepository,
     private val authRepository: AuthRepository,
-    private val yelloRepository: YelloRepository
+    private val yelloRepository: YelloRepository,
 ) : ViewModel() {
 
     private val _getState = MutableLiveData<UiState<ProfileUserModel>>()
@@ -97,6 +97,10 @@ class ProfileViewModel @Inject constructor(
         currentPage = -1
         isPagingFinish = false
         totalPage = Int.MAX_VALUE
+    }
+
+    fun setIsFirstLoginData() {
+        authRepository.setIsFirstLoginData()
     }
 
     // 서버 통신 - 유저 정보 받아오기

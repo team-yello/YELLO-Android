@@ -71,6 +71,7 @@
 
     <!-- Transparent -->
     <color name="transparent">#00000000</color>
+    <color name="transparent_70">#B3000000</color>
     <color name="white_35">#59FFFFFF</color>
     <color name="gray_66">#66191919</color>
     <color name="gray_90">#E6343A40</color>

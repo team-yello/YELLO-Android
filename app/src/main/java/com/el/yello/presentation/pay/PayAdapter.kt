@@ -8,9 +8,6 @@ import com.el.yello.databinding.ItemPaySecondBinding
 import com.el.yello.databinding.ItemPayThirdBinding
 
 class PayAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-    private var monthText: String = ""
-    private var passMoneyBenefitPointText: String = ""
-    private var turnPassMoneyBenefitMode: Boolean = false
 
     enum class Type {
         ONE,
@@ -38,21 +35,21 @@ class PayAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             }
 
             Type.TWO.ordinal -> {
-                val binding = ItemPaySecondBinding.inflate(
-                    LayoutInflater.from(parent.context),
-                    parent,
-                    false,
-                )
-                PayTwoViewHolder(binding)
-            }
-
-            else -> {
                 val binding = ItemPayThirdBinding.inflate(
                     LayoutInflater.from(parent.context),
                     parent,
                     false,
                 )
                 PayThreeViewHolder(binding)
+            }
+
+            else -> {
+                val binding = ItemPaySecondBinding.inflate(
+                    LayoutInflater.from(parent.context),
+                    parent,
+                    false,
+                )
+                PayTwoViewHolder(binding)
             }
         }
     }

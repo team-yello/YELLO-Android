@@ -3,6 +3,6 @@ package com.example.data.model.request
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class RequestPayDto(
+data class RequestPayIndexDto(
     val index: Int
 )

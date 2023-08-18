@@ -31,7 +31,7 @@ object AndroidXDependencies {
         "org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.coroutinesAndroidVersion}"
     const val workManager = "androidx.work:work-runtime-ktx:${Versions.workManagerVersion}"
     const val hiltWorkManager = "androidx.hilt:hilt-work:1.0.0"
-    const val billing = "com.android.billingclient:billing:${Versions.billingVersion}"
+    const val billing = "com.android.billingclient:billing-ktx:${Versions.billingVersion}"
     const val navigationFragment =
         "androidx.navigation:navigation-fragment-ktx:${Versions.navigationVersion}"
     const val navigationUi = "androidx.navigation:navigation-ui-ktx:${Versions.navigationVersion}"
@@ -87,6 +87,7 @@ object ThirdPartyDependencies {
     const val kakaoShare = "com.kakao.sdk:v2-share:${Versions.kakaoVersion}"
     const val circleIndicator = "me.relex:circleindicator:${Versions.circleIndicatorVersion}"
     const val shimmer = "com.facebook.shimmer:shimmer:${Versions.shimmerVersion}"
+    const val amplitude = "com.amplitude:android-sdk:${Versions.amplitudeVersion}"
 }
 
 object ClassPathPlugins {

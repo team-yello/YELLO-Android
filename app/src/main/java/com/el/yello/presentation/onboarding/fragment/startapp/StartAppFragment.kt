@@ -22,7 +22,7 @@ class StartAppFragment : BindingFragment<FragmentStartAppBinding>(R.layout.fragm
     }
 
     private fun startTutorialActivity() {
-        val intent = Intent(requireActivity(), TutorialAActivity::class.java).apply {
+        val intent = TutorialAActivity.newIntent(requireContext(), true).apply {
             addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         }
         startActivity(intent)

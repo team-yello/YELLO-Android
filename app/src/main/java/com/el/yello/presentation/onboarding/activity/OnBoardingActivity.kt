@@ -3,7 +3,6 @@ package com.el.yello.presentation.onboarding.activity
 import android.animation.ObjectAnimator
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.view.animation.LinearInterpolator
 import androidx.activity.viewModels
@@ -29,7 +28,6 @@ class OnBoardingActivity :
         super.onCreate(savedInstanceState)
         getIntentExtraData()
     }
-
     fun onBackButtonClicked(view: View?) {
         val navController = findNavController(R.id.nav_main_fragment)
         val currentDestinationId = navController.currentDestination?.id
@@ -78,9 +76,8 @@ class OnBoardingActivity :
     }
 
     fun endTutorialActivity() {
-        val intent = Intent(this@OnBoardingActivity, TutorialAActivity::class.java)
+        val intent = TutorialAActivity.newIntent(this, true)
         intent.putExtra("codeTextEmpty", viewModel.isCodeTextEmpty())
-        Log.d("minju1", viewModel.isCodeTextEmpty().toString())
         startActivity(intent)
         finish()
     }

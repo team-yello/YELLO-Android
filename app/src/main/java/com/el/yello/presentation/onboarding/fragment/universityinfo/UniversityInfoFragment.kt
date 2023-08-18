@@ -23,12 +23,12 @@ class UniversityInfoFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.vm = viewModel
+        viewModel.isFirstUser = true
         initSearchInfoBtnClickListener()
         setConfirmBtnClickListener()
         setupSchool()
         setupDepartment()
         setupStudentId()
-        initSearchInfoBtnClickListener()
     }
 
     private fun initSearchInfoBtnClickListener() {

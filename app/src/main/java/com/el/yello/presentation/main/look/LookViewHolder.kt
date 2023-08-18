@@ -28,7 +28,7 @@ class LookViewHolder(
             binding.tvKeywordHead.visibility = View.GONE
         }
 
-        if (item.senderGender == MALE) {
+        if (item.senderGender == "MALE") {
             binding.tvLookGender.text = MALE
             binding.ivLookGender.setImageDrawable(
                 ContextCompat.getDrawable(
@@ -46,7 +46,7 @@ class LookViewHolder(
 
         if (item.isHintUsed) {
             binding.tvKeyword.background = null
-            if (item.senderGender == MALE) {
+            if (item.senderGender == "MALE") {
                 binding.tvKeyword.setTextColor(
                     ContextCompat.getColor(
                         itemView.context, R.color.semantic_gender_m_300

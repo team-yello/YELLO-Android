@@ -1,21 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-        <variable
-            name="vm"
-            type="com.el.yello.presentation.onboarding.activity.OnBoardingViewModel" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
+        android:background="@color/black"
         android:layout_height="match_parent">
 
         <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/img_tutorial_d"
-            android:scaleType="fitXY" />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/img_tutorial_d"
+            app:layout_constraintDimensionRatio="8.5:16"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:scaleType="centerCrop" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@color/black"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/guidelineVerticalCenter"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@color/black"
+            app:layout_constraintTop_toBottomOf="@id/guidelineVerticalCenter"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guidelineVerticalCenter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.5" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </layout>

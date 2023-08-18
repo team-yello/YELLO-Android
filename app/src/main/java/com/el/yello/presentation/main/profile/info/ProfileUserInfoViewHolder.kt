@@ -26,8 +26,10 @@ class ProfileUserInfoViewHolder(
 
         if (viewModel.isSubscribed) {
             binding.ivSubsLine.visibility = View.VISIBLE
+            binding.ivSubsStar.visibility = View.VISIBLE
         } else {
             binding.ivSubsLine.visibility = View.GONE
+            binding.ivSubsStar.visibility = View.GONE
         }
 
         binding.btnProfileAddGroup.setOnSingleClickListener {

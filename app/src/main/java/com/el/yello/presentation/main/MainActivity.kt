@@ -147,7 +147,7 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
                 navigateTo<ProfileFragment>()
             }
 
-            type.equals(VOTE_AVAILABLE) -> {
+            type.equals(VOTE_AVAILABLE) || type.equals(RECOMMEND) -> {
                 binding.bnvMain.menu.getItem(2).isChecked = true
                 navigateTo<YelloFragment>()
             }
@@ -159,7 +159,9 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
             .onEach {
                 when (it) {
                     is UiState.Success -> {
-                        initBadge(it.data.totalCount)
+                        if (it.data.totalCount != 0) {
+                            initBadge(it.data.totalCount)
+                        }
                     }
 
                     is UiState.Failure -> {
@@ -174,6 +176,7 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
     fun setBadgeCount(count: Int) {
         val badgeDrawable = binding.bnvMain.getOrCreateBadge(R.id.menu_my_yello)
         badgeDrawable.number = count
+        badgeDrawable.isVisible = count != 0
     }
 
     private inline fun <reified T : Fragment> navigateTo() {
@@ -186,6 +189,7 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
         const val NEW_VOTE = "NEW_VOTE"
         const val NEW_FRIEND = "NEW_FRIEND"
         const val VOTE_AVAILABLE = "VOTE_AVAILABLE"
+        const val RECOMMEND = "RECOMMEND"
 
         fun getIntent(context: Context, type: String? = null, path: String? = null) =
             Intent(context, MainActivity::class.java).apply {

@@ -11,6 +11,8 @@ data class ResponseYelloDetail(
     val isAnswerRevealed: Boolean,
     val senderGender: String,
     val senderName: String,
+    val ticketCount: Int,
+    val isSubscribe: Boolean,
     val vote: VoteDto,
 ) {
     fun toYelloDetail(): YelloDetail {
@@ -21,7 +23,9 @@ data class ResponseYelloDetail(
             isAnswerRevealed,
             senderGender,
             senderName,
-            vote.toVote(),
+            ticketCount,
+            isSubscribe,
+            vote.toVote()
         )
     }
 }

@@ -28,6 +28,7 @@ class MyApp : Application() {
             .enableForegroundTracking(this)
     }
 
+
     companion object {
         lateinit var resolutionMetrics: ResolutionMetrics
     }

@@ -13,6 +13,10 @@ class AuthRepositoryImpl @Inject constructor(
         yelloDataStore.refreshToken = refreshToken
     }
 
+    override fun getIsFirstLoginData(): Boolean {
+        return yelloDataStore.isFirstLogin
+    }
+
     override fun getAutoLogin(): Boolean = yelloDataStore.isLogin
 
     override fun setYelloId(yelloId: String) {
@@ -20,6 +24,9 @@ class AuthRepositoryImpl @Inject constructor(
     }
 
     override fun getYelloId(): String = yelloDataStore.yelloId
+    override fun setIsFirstLoginData() {
+        yelloDataStore.isFirstLogin = true
+    }
 
     override fun setDeviceToken(deviceToken: String) {
         yelloDataStore.deviceToken = deviceToken

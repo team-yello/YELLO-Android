@@ -2,7 +2,6 @@ package com.el.yello.presentation.onboarding.fragment.universityinfo
 
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -24,12 +23,12 @@ class UniversityInfoFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.vm = viewModel
+        viewModel.isFirstUser = true
         initSearchInfoBtnClickListener()
         setConfirmBtnClickListener()
         setupSchool()
         setupDepartment()
         setupStudentId()
-        initSearchInfoBtnClickListener()
     }
 
     private fun initSearchInfoBtnClickListener() {
@@ -71,7 +70,7 @@ class UniversityInfoFragment :
 
     private fun setConfirmBtnClickListener() {
         binding.btnUniversityInfoNext.setOnSingleClickListener {
-            findNavController().navigate(R.id.action_universityInfoFragment_to_genderFragment)
+            findNavController().navigate(R.id.action_universityInfoFragment_to_yelIoIdFragment)
             val activity = requireActivity() as OnBoardingActivity
             activity.progressBarPlus()
         }

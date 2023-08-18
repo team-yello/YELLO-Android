@@ -1,19 +1,19 @@
 package com.el.yello.presentation.onboarding.fragment.code
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.el.yello.R
 import com.el.yello.databinding.FragmentCodeBinding
+import com.el.yello.presentation.onboarding.activity.OnBoardingActivity
 import com.el.yello.presentation.onboarding.activity.OnBoardingViewModel
 import com.el.yello.util.context.yelloSnackbar
 import com.example.ui.base.BindingFragment
 import com.example.ui.view.UiState
 import com.example.ui.view.setOnSingleClickListener
-import java.util.Timer
-import kotlin.concurrent.timer
 
 class CodeFragment : BindingFragment<FragmentCodeBinding>(R.layout.fragment_code) {
     private val viewModel by activityViewModels<OnBoardingViewModel>()
@@ -31,6 +31,7 @@ class CodeFragment : BindingFragment<FragmentCodeBinding>(R.layout.fragment_code
     override fun onResume() {
         super.onResume()
         setupGetValidYelloIdState()
+        (activity as? OnBoardingActivity)?.hideBackbtn()
     }
 
     private fun setConfirmBtnCLickListener() {

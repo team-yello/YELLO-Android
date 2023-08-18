@@ -9,16 +9,8 @@
         android:name="com.el.yello.presentation.onboarding.fragment.universityinfo.UniversityInfoFragment"
         android:label="UniversityInfoFragment" >
         <action
-            android:id="@+id/action_universityInfoFragment_to_genderFragment"
-            app:destination="@id/genderFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/genderFragment"
-        android:name="com.el.yello.presentation.onboarding.fragment.gender.GenderFragment"
-        android:label="GenderFragment" >
-        <action
-            android:id="@+id/action_genderFragment_to_nameFragment"
-            app:destination="@id/nameFragment" />
+            android:id="@+id/action_universityInfoFragment_to_yelIoIdFragment"
+            app:destination="@id/yelIoIdFragment" />
     </fragment>
     <fragment
         android:id="@+id/addFriendFragment"
@@ -27,9 +19,6 @@
         <action
             android:id="@+id/action_addFriendFragment_to_codeFragment"
             app:destination="@id/codeFragment" />
-        <action
-            android:id="@+id/action_addFriendFragment_to_startAppFragment"
-            app:destination="@id/startAppFragment" />
     </fragment>
     <fragment
         android:id="@+id/codeFragment"
@@ -43,14 +32,6 @@
         android:id="@+id/startAppFragment"
         android:name="com.el.yello.presentation.onboarding.fragment.startapp.StartAppFragment"
         android:label="StartAppFragment" />
-    <fragment
-        android:id="@+id/nameFragment"
-        android:name="com.el.yello.presentation.onboarding.fragment.nameid.NameFragment"
-        android:label="NameFragment" >
-        <action
-            android:id="@+id/action_nameFragment_to_yelIoIdFragment"
-            app:destination="@id/yelIoIdFragment" />
-    </fragment>
     <fragment
         android:id="@+id/yelIoIdFragment"
         android:name="com.el.yello.presentation.onboarding.fragment.nameid.YelIoIdFragment"

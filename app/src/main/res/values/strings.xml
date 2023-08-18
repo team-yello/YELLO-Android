@@ -91,7 +91,12 @@
     <string name="yello_start_my_point">내 포인트</string>
     <string name="yello_start_description">누구에게 어떤 메시지를 보낼까?</string>
     <string name="yello_start_point_label">Point</string>
-    <string name="yello_start_vote">투표 시작!</string>
+    <string name="yello_start_vote">START!</string>
+    <string name="yello_start_balloon_top">오늘은</string>
+    <string name="yello_start_balloon_mid1">누구에게 어떤 쪽지</string>
+    <string name="yello_start_balloon_mid2">를</string>
+    <string name="yello_start_balloon_bottom">보내볼까?</string>
+    <string name="yello_start_double">x2</string>
 
     <string name="yello_lock_description">투표를 시작할 수 없어요</string>
     <string name="yello_lock_invite">친구 초대하기</string>
@@ -256,4 +261,5 @@
     <string name="dialog_complete">완료</string>
     <string name="dialog_after_point">사용 후 포인트</string>
     <string name="dialog_after_keyword_title">쪽지의 키워드를 얻었어요!</string>
+    <string name="yello_start_point">Point</string>
 </resources>

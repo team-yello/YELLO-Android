@@ -132,6 +132,7 @@
             <TextView
                 android:id="@+id/tv_point_plus_label"
                 android:layout_width="wrap_content"
+                android:visibility="gone"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="-8dp"
                 android:layout_marginBottom="-7dp"

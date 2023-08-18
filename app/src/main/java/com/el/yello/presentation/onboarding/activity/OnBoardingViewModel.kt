@@ -37,6 +37,9 @@ class OnBoardingViewModel @Inject constructor(
         currentpercent -= 20
     }
 
+    var isFirstUser: Boolean = false
+    val isResigned: Boolean = false
+
     // 학력 선택
     val studentType = MutableLiveData("")
 

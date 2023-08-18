@@ -98,6 +98,10 @@ class ProfileViewModel @Inject constructor(
         totalPage = Int.MAX_VALUE
     }
 
+    fun setIsFirstLoginData() {
+        authRepository.setIsFirstLoginData()
+    }
+
     // 서버 통신 - 유저 정보 받아오기
     fun getUserDataFromServer() {
         viewModelScope.launch {

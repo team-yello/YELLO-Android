@@ -37,22 +37,22 @@
             android:background="@drawable/shape_white35_fill_20_rect"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" >
+            app:layout_constraintTop_toTopOf="parent">
 
             <View
                 android:id="@+id/view_note_progress"
                 android:layout_width="0dp"
-                tools:layout_weight="1"
+                android:layout_height="match_parent"
                 android:layout_weight="@{index + 1}"
                 android:background="@drawable/shape_white_fill_8_rect"
-                android:layout_height="match_parent" />
+                tools:layout_weight="1" />
 
             <View
                 android:id="@+id/view_note_progress_left"
-                tools:layout_weight="7"
-                android:layout_weight="@{7 - index}"
                 android:layout_width="0dp"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:layout_weight="@{7 - index}"
+                tools:layout_weight="7" />
         </LinearLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -63,41 +63,22 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <TextView
-                android:id="@+id/tv_note_index"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/pretendard_bold"
-                android:text="@{@string/to_string(index + 1)}"
-                android:textColor="@color/black"
-                android:textSize="12sp"
-                app:layout_constraintBaseline_toBaselineOf="@id/tv_note_total_index"
-                app:layout_constraintEnd_toStartOf="@id/tv_note_total_index"
-                tools:text="1" />
-
-            <TextView
-                android:id="@+id/tv_note_total_index"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="36dp"
-                android:layout_marginEnd="16dp"
-                android:text="@{@string/note_index_of_vote(vm.totalListCount + 1)}"
-                android:textAppearance="?textAppearanceLabelLarge"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="@string/note_index_of_vote" />
+            app:layout_constraintTop_toBottomOf="@id/layout_note_progress_bar">
 
             <com.airbnb.lottie.LottieAnimationView
                 android:id="@+id/lottie_note_balloon"
                 setBalloonSrc="@{index}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:minHeight="40dp"
                 app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginTop="10dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:src="@drawable/ic_note_balloon1" />
+                app:lottie_autoPlay="true"
+                app:lottie_loop="true"
+                app:lottie_rawRes="@raw/lottie_note_balloon1"
+                app:lottie_repeatMode="restart" />
 
             <LinearLayout
                 android:id="@+id/layout_note_progress_before"
@@ -822,7 +803,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="8dp"
-                android:layout_marginTop="28dp"
+                android:layout_marginTop="8dp"
                 app:constraint_referenced_ids="btn_note_shuffle,btn_note_skip"
                 app:flow_horizontalGap="4dp"
                 app:layout_constraintEnd_toEndOf="parent"

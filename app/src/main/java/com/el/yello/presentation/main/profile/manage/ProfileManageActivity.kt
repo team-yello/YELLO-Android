@@ -92,7 +92,7 @@ class ProfileManageActivity :
         viewModel.kakaoLogoutState.observe(this) { state ->
             when (state) {
                 is UiState.Success -> {
-                    AmplitudeUtils.trackEventWithProperties("complete_profile_delete")
+                    AmplitudeUtils.trackEventWithProperties("complete_profile_logout")
                     lifecycleScope.launch {
                         delay(500)
                         restartApp()

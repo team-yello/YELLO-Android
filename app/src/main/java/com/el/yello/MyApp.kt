@@ -7,7 +7,6 @@ import com.el.yello.BuildConfig.NATIVE_APP_KEY
 import com.el.yello.presentation.util.ResolutionMetrics
 import com.kakao.sdk.common.KakaoSdk
 import dagger.hilt.android.HiltAndroidApp
-import dagger.hilt.android.internal.Contexts.getApplication
 import timber.log.Timber
 import javax.inject.Inject
 

@@ -8,12 +8,14 @@ import android.view.WindowManager
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.widget.ViewPager2
+import coil.load
 import com.android.billingclient.api.ProductDetails
 import com.android.billingclient.api.Purchase
 import com.el.yello.R
 import com.el.yello.databinding.ActivityPayBinding
 import com.el.yello.presentation.util.BillingCallback
 import com.el.yello.presentation.util.BillingManager
+import com.el.yello.util.amplitude.AmplitudeUtils
 import com.example.data.model.request.pay.toRequestPayModel
 import com.example.ui.base.BindingActivity
 import com.example.ui.context.toast
@@ -22,6 +24,7 @@ import com.example.ui.view.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import org.json.JSONObject
 import timber.log.Timber
 
 @AndroidEntryPoint
@@ -166,6 +169,10 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
     private fun initEvent() {
         binding.clSubscribe.setOnSingleClickListener {
             viewModel.payCheck(0)
+            AmplitudeUtils.trackEventWithProperties(
+                "click_shop_buy",
+                JSONObject().put("buy_type", "subscribe")
+            )
             productDetailsList.withIndex().find { it.value.productId == YELLO_PLUS }
                 ?.let { productDetails ->
                     manager.purchaseProduct(productDetails.index, productDetails.value)
@@ -177,6 +184,10 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
 
         binding.clNameCheckOne.setOnSingleClickListener {
             viewModel.payCheck(1)
+            AmplitudeUtils.trackEventWithProperties(
+                "click_shop_buy",
+                JSONObject().put("buy_type", "ticket1")
+            )
             productDetailsList.withIndex().find { it.value.productId == YELLO_ONE }
                 ?.let { productDetails ->
                     manager.purchaseProduct(productDetails.index, productDetails.value)
@@ -188,6 +199,10 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
 
         binding.clNameCheckTwo.setOnSingleClickListener {
             viewModel.payCheck(2)
+            AmplitudeUtils.trackEventWithProperties(
+                "click_shop_buy",
+                JSONObject().put("buy_type", "ticket2")
+            )
             productDetailsList.withIndex().find { it.value.productId == YELLO_TWO }
                 ?.let { productDetails ->
                     manager.purchaseProduct(productDetails.index, productDetails.value)
@@ -199,6 +214,10 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
 
         binding.clNameCheckFive.setOnSingleClickListener {
             viewModel.payCheck(3)
+            AmplitudeUtils.trackEventWithProperties(
+                "click_shop_buy",
+                JSONObject().put("buy_type", "ticket5")
+            )
             productDetailsList.withIndex().find { it.value.productId == YELLO_FIVE }
                 ?.let { productDetails ->
                     manager.purchaseProduct(productDetails.index, productDetails.value)
@@ -227,6 +246,10 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
             when (state) {
                 is UiState.Success -> {
                     Log.d("sangho", "12 : sub success : @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
+                    AmplitudeUtils.trackEventWithProperties(
+                        "complete_shop_buy",
+                        JSONObject().put("buy_type", "subscribe").put("buy_price", "3900")
+                    )
                     stopLoadingScreen()
                     paySubsDialog = PaySubsDialog()
                     paySubsDialog?.show(supportFragmentManager, DIALOG_SUBS)
@@ -254,6 +277,28 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
                         "sangho",
                         "13: inapp success : &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&"
                     )
+                    when (state.data?.ticketCount) {
+                        1 -> {
+                            AmplitudeUtils.trackEventWithProperties(
+                                "complete_shop_buy",
+                                JSONObject().put("buy_type", "ticket1").put("buy_price", "1400")
+                            )
+                        }
+
+                        2 -> {
+                            AmplitudeUtils.trackEventWithProperties(
+                                "complete_shop_buy",
+                                JSONObject().put("buy_type", "ticket2").put("buy_price", "2800")
+                            )
+                        }
+
+                        5 -> {
+                            AmplitudeUtils.trackEventWithProperties(
+                                "complete_shop_buy",
+                                JSONObject().put("buy_type", "ticket5").put("buy_price", "5900")
+                            )
+                        }
+                    }
                     stopLoadingScreen()
                     viewModel.currentInAppItem = state.data?.ticketCount ?: 0
                     payInAppDialog = PayInAppDialog()

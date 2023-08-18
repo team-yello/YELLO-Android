@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.el.yello.R
 import com.el.yello.databinding.FragmentMyYelloBinding
+import com.el.yello.presentation.main.MainActivity
 import com.el.yello.presentation.main.myyello.read.MyYelloReadActivity
 import com.el.yello.presentation.pay.PayActivity
 import com.el.yello.presentation.util.BaseLinearRcvItemDeco
@@ -74,6 +75,10 @@ class MyYelloFragment : BindingFragment<FragmentMyYelloBinding>(R.layout.fragmen
             }
         }
 
+        binding.clSendOpen.setOnSingleClickListener {
+            yelloSnackbar(binding.root, "무슨 쪽지가 궁금한가요?")
+        }
+
         binding.btnShop.setOnSingleClickListener {
             goToPayActivity()
         }
@@ -112,6 +117,21 @@ class MyYelloFragment : BindingFragment<FragmentMyYelloBinding>(R.layout.fragmen
             .onEach {
                 binding.tvCount.text = it.toString()
             }.launchIn(viewLifecycleOwner.lifecycleScope)
+
+        viewModel.voteCount.flowWithLifecycle(viewLifecycleOwner.lifecycle)
+            .onEach {
+                when (it) {
+                    is UiState.Success -> {
+                        (activity as? MainActivity)?.setBadgeCount(it.data.totalCount)
+                    }
+
+                    is UiState.Failure -> {
+                        yelloSnackbar(binding.root, it.msg)
+                    }
+
+                    else -> {}
+                }
+            }.launchIn(viewLifecycleOwner.lifecycleScope)
     }
 
     // 페이지네이션
@@ -145,9 +165,6 @@ class MyYelloFragment : BindingFragment<FragmentMyYelloBinding>(R.layout.fragmen
                 val nameIndex = intent.getIntExtra("nameIndex", -1)
                 val list = adapter?.currentList()
                 val selectItem = list?.get(viewModel.position)
-                selectItem?.isRead = true
-                selectItem?.isHintUsed = isHintUsed
-                selectItem?.nameHint = nameIndex
                 selectItem?.apply {
                     this.isRead = true
                     this.isHintUsed = isHintUsed
@@ -156,6 +173,7 @@ class MyYelloFragment : BindingFragment<FragmentMyYelloBinding>(R.layout.fragmen
                 selectItem?.let {
                     adapter?.changeItem(viewModel.position, selectItem)
                 }
+                viewModel.getVoteCount()
             }
         }
     }

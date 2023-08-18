@@ -16,11 +16,12 @@
             android:id="@+id/tv_startapp_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="104dp"
+            android:layout_marginTop="70dp"
             android:layout_marginBottom="8dp"
             android:gravity="center"
+            android:fontFamily="@font/pretendard_bold"
+            android:textSize="26sp"
             android:text="@string/onboarding_tv_startapp_title"
-            android:textAppearance="?attr/textAppearanceHeadline3"
             android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -41,29 +42,27 @@
 
         <TextView
             android:id="@+id/tv_startapp_title_heart"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
             android:layout_marginStart="2dp"
+
             android:background="@drawable/ic_onboarding_startapp_heart"
             app:layout_constraintBottom_toBottomOf="@+id/tv_startapp_title"
             app:layout_constraintDimensionRatio="1"
             app:layout_constraintStart_toEndOf="@id/tv_startapp_title"
             app:layout_constraintTop_toTopOf="@+id/tv_startapp_title" />
 
-        <com.airbnb.lottie.LottieAnimationView
+        <ImageView
             android:id="@+id/iv_startapp"
             android:layout_width="0dp"
             android:layout_height="340dp"
             android:scaleType="centerCrop"
             android:layout_marginTop="24dp"
             app:layout_constraintDimensionRatio="1"
-            android:src="@drawable/ic_launcher_background"
+            android:src="@drawable/img_tutorial_startapp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_startapp_subtitle"
-            app:lottie_autoPlay="true"
-            app:lottie_loop="true"
-            app:lottie_rawRes="@raw/lottie_yello_login_end" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_startapp_subtitle" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/btn_start_yello"

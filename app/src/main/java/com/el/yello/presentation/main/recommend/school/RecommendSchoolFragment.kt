@@ -39,16 +39,18 @@ class RecommendSchoolFragment :
 
     private lateinit var friendsList: List<RecommendModel.RecommendFriend>
 
+    private lateinit var itemDivider: RecommendItemDecoration
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         initFirstList()
         initInviteBtnListener()
+        setItemDivider()
         setAdapterWithClickListener()
         setListWithInfinityScroll()
         observeAddListState()
         observeAddFriendState()
-        setItemDivider()
         setDeleteAnimation()
     }
 
@@ -82,6 +84,11 @@ class RecommendSchoolFragment :
         viewModel.isFirstResume = true
         viewModel.setFirstPageLoading()
         viewModel.addListFromServer()
+    }
+
+    private fun setItemDivider() {
+        itemDivider = RecommendItemDecoration(requireContext())
+        binding.rvRecommendSchool.addItemDecoration(itemDivider)
     }
 
     // 처음 리스트 설정 및 어댑터 클릭 리스너 설정
@@ -127,7 +134,7 @@ class RecommendSchoolFragment :
                 }
 
                 is UiState.Failure -> {
-                    showNoFriendScreen()
+                    showShimmerScreen()
                     yelloSnackbar(
                         requireView(),
                         getString(R.string.recommend_error_school_friend_connection),
@@ -179,12 +186,6 @@ class RecommendSchoolFragment :
         }
     }
 
-    private fun setItemDivider() {
-        binding.rvRecommendSchool.addItemDecoration(
-            RecommendItemDecoration(requireContext()),
-        )
-    }
-
     private fun setDeleteAnimation() {
         binding.rvRecommendSchool.itemAnimator = object : DefaultItemAnimator() {
             override fun animateRemove(holder: RecyclerView.ViewHolder): Boolean {
@@ -204,9 +205,11 @@ class RecommendSchoolFragment :
         lifecycleScope.launch {
             changeToCheckIcon(holder)
             delay(300)
+            binding.rvRecommendSchool.removeItemDecoration(itemDivider)
             adapter.removeItem(position)
             activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
-            delay(400)
+            delay(500)
+            binding.rvRecommendSchool.addItemDecoration(itemDivider)
             if (adapter.itemCount == 0) {
                 showNoFriendScreen()
             }
@@ -220,6 +223,7 @@ class RecommendSchoolFragment :
 
     private fun showShimmerScreen() {
         binding.layoutRecommendFriendsList.isVisible = true
+        binding.layoutRecommendNoFriendsList.isVisible = false
         binding.shimmerFriendList.startShimmer()
         binding.shimmerFriendList.visibility = View.VISIBLE
         binding.rvRecommendSchool.visibility = View.GONE

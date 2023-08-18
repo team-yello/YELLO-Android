@@ -8,6 +8,12 @@
         <item name="android:includeFontPadding">false</item>
     </style>
 
+    <style name="TextAppearance.Yello.Headline00">
+        <item name="fontFamily">@font/font_pretendard_bold</item>
+        <item name="android:textSize">26sp</item>
+        <item name="lineHeight">32sp</item>
+    </style>
+
     <style name="TextAppearance.Yello.Headline01">
         <item name="fontFamily">@font/font_pretendard_bold</item>
         <item name="android:textSize">22sp</item>

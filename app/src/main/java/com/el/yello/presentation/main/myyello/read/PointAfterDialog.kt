@@ -38,7 +38,6 @@ class PointAfterDialog :
             viewModel.checkInitial()
         }
         setDataView()
-        binding.tvPoint.text = viewModel.myPoint.toString()
     }
 
     private fun setDataView() {
@@ -53,7 +52,7 @@ class PointAfterDialog :
             .onEach {
                 when (it) {
                     is UiState.Success -> {
-                        binding.tvPoint.text = viewModel.minusPoint().toString()
+                        binding.tvPoint.text = viewModel.myPoint.toString()
                         binding.tvInitial.text = it.data.answer
                         viewModel.setIsFinishCheck(true)
                         viewModel.setHintUsed(true)
@@ -72,7 +71,7 @@ class PointAfterDialog :
             .onEach {
                 when (it) {
                     is UiState.Success -> {
-                        binding.tvPoint.text = viewModel.minusPoint().toString()
+                        binding.tvPoint.text = viewModel.myPoint.toString()
                         binding.tvInitial.text = Utils.setChosungText(it.data.name, 0)
                         viewModel.setIsFinishCheck(true)
                         viewModel.setNameIndex(it.data.index)

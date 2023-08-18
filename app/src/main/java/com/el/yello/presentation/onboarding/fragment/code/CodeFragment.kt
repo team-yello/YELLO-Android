@@ -1,25 +1,23 @@
 package com.el.yello.presentation.onboarding.fragment.code
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.el.yello.R
 import com.el.yello.databinding.FragmentCodeBinding
+import com.el.yello.presentation.onboarding.activity.OnBoardingActivity
 import com.el.yello.presentation.onboarding.activity.OnBoardingViewModel
 import com.el.yello.util.context.yelloSnackbar
 import com.example.ui.base.BindingFragment
 import com.example.ui.view.UiState
 import com.example.ui.view.setOnSingleClickListener
-import java.util.Timer
-import kotlin.concurrent.timer
 
 class CodeFragment : BindingFragment<FragmentCodeBinding>(R.layout.fragment_code) {
     private val viewModel by activityViewModels<OnBoardingViewModel>()
 
-    var timer: Timer? = null
-    var deltaTime = 64
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.vm = viewModel
@@ -28,23 +26,12 @@ class CodeFragment : BindingFragment<FragmentCodeBinding>(R.layout.fragment_code
         setDeleteCodeBtnClickListener()
         setupPostSignupState()
         viewModel.validYellIdLoading()
-        progressBarTimerFun()
-    }
-
-    private fun progressBarTimerFun() {
-        binding.codeProgressbar.progress = 64
-        timer?.cancel()
-        timer = Timer()
-        timer = timer(period = 8, initialDelay = 300) {
-            if (deltaTime > 80) cancel()
-            binding.codeProgressbar.setProgress(++deltaTime)
-            println(binding.codeProgressbar.progress)
-        }
     }
 
     override fun onResume() {
         super.onResume()
         setupGetValidYelloIdState()
+        (activity as? OnBoardingActivity)?.hideBackbtn()
     }
 
     private fun setConfirmBtnCLickListener() {
@@ -54,6 +41,7 @@ class CodeFragment : BindingFragment<FragmentCodeBinding>(R.layout.fragment_code
         }
         binding.btnCodeNext.setOnSingleClickListener {
             viewModel.getValidYelloId(viewModel.codeText.value.toString())
+            viewModel.postSignup()
             findNavController().navigate(R.id.action_codeFragment_to_startAppFragment)
         }
     }

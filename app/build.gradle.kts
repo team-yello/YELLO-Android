@@ -41,6 +41,12 @@ android {
                 gradleLocalProperties(rootDir).getProperty("test.native.app.key"),
             )
 
+            buildConfigField(
+                "String",
+                "AMPLITUDE_API_KEY",
+                gradleLocalProperties(rootDir).getProperty("amplitude.api.key"),
+            )
+
             manifestPlaceholders["NATIVE_APP_KEY"] =
                 gradleLocalProperties(rootDir).getProperty("testNativeAppKey")
         }
@@ -112,6 +118,10 @@ dependencies {
         implementation(pagingRuntime)
         implementation(workManager)
         implementation(hiltWorkManager)
+        implementation(billing)
+        implementation(navigationFragment)
+        implementation(navigationUi)
+        implementation(navigationDynamic)
     }
 
     FirebaseDependencies.run {
@@ -128,12 +138,6 @@ dependencies {
     }
 
     implementation(MaterialDesignDependencies.materialDesign)
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1")
-    implementation("com.facebook.shimmer:shimmer:0.5.0")
-    implementation("androidx.navigation:navigation-fragment-ktx:2.6.0")
-    implementation("androidx.navigation:navigation-ui-ktx:2.6.0")
-    implementation("androidx.navigation:navigation-dynamic-features-fragment:2.6.0")
-
     TestDependencies.run {
         testImplementation(jUnit)
         androidTestImplementation(androidTest)
@@ -163,5 +167,6 @@ dependencies {
         implementation(flipperLeakCanary)
         implementation(soloader)
         implementation(shimmer)
+        implementation(amplitude)
     }
 }

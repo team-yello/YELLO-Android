@@ -10,6 +10,7 @@
     <string name="msg_auto_login_error">다시 한 번 로그인해주세요.</string>
     <string name="dummy">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</string>
     <string name="adapter_not_initialized_error_msg">Adapter is not initialized</string>
+    <string name="manager_not_initialized_error_msg">Billing Manager is not initialized</string>
 
     <string name="sign_in_tv_title">Yell:o에 오신 걸 환영해요!</string>
     <string name="sign_in_tv_subtitle">가입을 시작해볼까요?</string>
@@ -22,14 +23,14 @@
     <string name="sign_in_error_kakao_token">카카오 토큰 받기 실패</string>
     <string name="sign_in_error_kakao_user_data">카카오 유저 정보 받기 실패</string>
 
-    <string name="social_sync_tv_title">나의 Yell:o 친구는 어디 있을까?</string>
+    <string name="social_sync_tv_title">나의 옐로 친구는 어디 있을까?</string>
     <string name="social_sync_tv_subtitle">친구 목록을 불러와봐요!</string>
     <string name="social_sync_tv_btn">카카오톡 친구 연결하기</string>
     <string name="social_sync_tv_info"><u>개인정보처리약관</u></string>
     <string name="social_sync_error_kakao_profile">카카오 프로필 가져오기 실패</string>
 
     <string name="main_recommend">추천친구</string>
-    <string name="main_look">둘러보기</string>
+    <string name="main_look">타임라인</string>
     <string name="main_yello">옐로하기</string>
     <string name="main_my_yello">내 쪽지</string>
     <string name="main_profile">프로필</string>
@@ -52,10 +53,10 @@
     <string name="onboarding_yelloid_hint_middle">로 하면 친구들이 찾기 쉬워요!</string>
     <string name="onboarding_yelloid_hint_end">(최대 20자)</string>
     <string name="onboarding_et_id">yelloworld</string>
-    <string name="onboarding_tv_gender">성별은</string>
+    <string name="onboarding_tv_gender">나의 성별은?</string>
     <string name="onboarding_tv_code">추천인 코드</string>
     <string name="onboarding_tv_code_hint">yelloworld</string>
-    <string name="onboarding_tv_code_skip">없다면 건너뛰어도 돼요.</string>
+    <string name="onboarding_tv_code_skip">추천인이 없다면 건너뛰어도 돼요.</string>
     <string name="onboarding_tv_code_error">추천인의 아이디를 입력하면</string>
     <string name="onboarding_btn_code_skip"><u>건너뛰기</u></string>
     <string name="onboarding_tv_startapp_title">띵동! 쪽지 도착 </string>
@@ -74,7 +75,7 @@
     <string name="onboarding_group">%d반</string>
     <string name="onboarding_code_complete">완료</string>
     <string name="onboarding_name_id_name_hint">ex.김옐로</string>
-    <string name="onboarding_name_id_hangul_error">한글만 입력 가능해요.</string>
+    <string name="onboarding_name_id_hangul_error">자음과 모음 조합의 한글만 입력 가능해요.</string>
     <string name="onboarding_name_id_id_error">문자, 숫자, 밑줄, 마침표만 사용할 수 있어요.</string>
     <string name="onboarding_gender_female">여자</string>
     <string name="onboarding_gender_male">남자</string>
@@ -134,6 +135,7 @@
     <string name="my_yello_male">익명의 남학생</string>
     <string name="my_yello_instagram">인스타그램 공유하기</string>
     <string name="my_yello_point_check">100포인트로 키워드 확인하기</string>
+    <string name="my_yello_300">300</string>
 
     <string name="point_description">투표 포인트 적립!</string>
     <string name="point_sub_description">투표로 포인트를 모아 쪽지를 열어보세요.</string>
@@ -151,50 +153,53 @@
     <string name="note_msg_invalid_cancel">한 번 선택하면 취소할 수 없어요.</string>
     <string name="note_msg_invalid_shuffle">이름을 선택하면 셔플을 사용할 수 없어요.</string>
 
-    <string name="look_title">둘러보기</string>
-    <string name="look_error_friend_list">둘러보기 목록 서버 통신 실패</string>
+    <string name="look_title">타임라인</string>
+    <string name="look_error_friend_list">타임라인 가져오기 실패</string>
 
     <string name="view_type_error_msg">Unknown View Type : %d</string>
 
-    <string name="profile_error_user_data">유저 정보 서버 통신 실패</string>
-    <string name="profile_error_friend_list">친구 목록 서버 통신 실패</string>
-    <string name="profile_error_delete_friend">친구 삭제 실패</string>
+    <string name="profile_error_user_data">유저 정보 가져오기 실패</string>
+    <string name="profile_error_friend_list">친구 목록 가져오기 실패</string>
+    <string name="profile_error_delete_friend">친구 삭제하기 실패</string>
     <string name="profile_error_logout">로그아웃 실패 : %s</string>
-    <string name="profile_error_unlink">회원 탈퇴 서버 통신 실패</string>
-    <string name="profile_error_unlink_kakao">카카오 연동 해제 실패</string>
+    <string name="profile_error_unlink">회원 탈퇴하기 실패</string>
+    <string name="profile_error_unlink_kakao">카카오 연동 끊기 실패</string>
 
-    <string name="invite_error_kakao">카카오톡 공유 실패</string>
+    <string name="invite_error_kakao">카카오톡 공유하기 실패</string>
     <string name="invite_error_browser">가능한 브라우저 없음</string>
 
     <string name="recommend_tab_kakao">카톡 친구들</string>
     <string name="recommend_tab_school">학교 친구들</string>
     <string name="recommend_error_friends_list">카카오 친구 목록 가져오기 실패</string>
     <string name="recommend_error_no_kakao_friend">연동 가능한 카카오톡 친구 없음</string>
-    <string name="recommend_error_friend_connection">카카오 추천 친구 서버 통신 실패</string>
-    <string name="recommend_error_school_friend_connection">학교 추천 친구 서버 통신 실패</string>
-    <string name="recommend_error_add_friend_connection">친구 추가 서버 통신 실패</string>
+    <string name="recommend_error_friend_connection">카카오 추천친구 목록 가져오기 실패</string>
+    <string name="recommend_error_school_friend_connection">학교 추천친구 목록 가져오기 실패</string>
+    <string name="recommend_error_add_friend_connection">친구 추가하기 실패</string>
 
     <string name="profile_manage_tv_title">프로필 관리</string>
     <string name="profile_manage_tv_center">고객센터</string>
     <string name="profile_manage_tv_privacy">개인정보 처리방침</string>
     <string name="profile_manage_tv_service">이용약관</string>
     <string name="profile_manage_tv_logout">로그아웃</string>
-    <string name="profile_manage_tv_version">버전 1.0</string>
+    <string name="profile_manage_tv_version">버전 1.1</string>
     <string name="profile_manage_tv_quit">계정 탈퇴</string>
 
     <string name="profile_quit_tv_title">계정 탈퇴</string>
     <string name="profile_quit_tv_subtitle_1">정말 계정을 삭제할 건가요?</string>
     <string name="profile_quit_tv_subtitle_2_top">회원님을 떠올리는 친구들이 슬퍼할 거에요.</string>
     <string name="profile_quit_tv_subtitle_2_bottom">잠시 쉬다 돌아오는 것은 어떤가요?</string>
+    <string name="profile_quit_upper_title">주의! 포인트 사라짐!</string>
+    <string name="profile_quit_upper_body_1">다시 로그인을 하더라도,</string>
+    <string name="profile_quit_upper_body_2">그동안 어렵게 모은 포인트는 영원히 사라져요.</string>
     <string name="profile_quit_btn_return">다시 돌아가기</string>
     <string name="profile_quit_btn_resume">그래도 계속하기</string>
 
     <string name="profile_quit_for_sure_tv_title">계정 탈퇴</string>
-    <string name="profile_quit_for_sure_tv_subtitle_1">이러한 기능을 사용하지 못하게 돼요</string>
+    <string name="profile_quit_for_sure_tv_subtitle_1">탈퇴하면 사라지는 것들이 있어요</string>
     <string name="profile_quit_for_sure_tv_subtitle_2_top">지금 계정을 탈퇴하시면</string>
-    <string name="profile_quit_for_sure_tv_subtitle_2_bottom">이와 같은 데이터 및 엑세스 권한을 전부 잃게 됩니다.</string>
-    <string name="profile_quit_for_sure_tv_reason_1">회원님을 좋아하는 친구 마음을 알 수 없어요.</string>
-    <string name="profile_quit_for_sure_tv_reason_2">회원님의 마음을 친구에게 전달할 수 없어요.</string>
+    <string name="profile_quit_for_sure_tv_subtitle_2_bottom">아래의 데이터 및 엑세스 권한을 전부 잃게 돼요.</string>
+    <string name="profile_quit_for_sure_tv_reason_1">회원님을 좋아하는 친구\n 마음을 알 수 없어요.</string>
+    <string name="profile_quit_for_sure_tv_reason_2">회원님의 마음을 친구에게\n전달할 수 없어요.</string>
     <string name="profile_quit_for_sure_tv_reason_3">친구들이 받은 쪽지를 볼 수 없어요.</string>
     <string name="profile_quit_for_sure_tv_rule">계정 삭제 시 yell:o를 이용한 데이터는\n즉시 삭제되지 않고 30일간 보관됩니다.\n30일 이내에 로그인 시 데이터가 복구됩니다.</string>
     <string name="profile_quit_for_sure_btn">탈퇴하기</string>
@@ -235,7 +240,7 @@
 
     <string name="recommend_search_title">친구 검색</string>
     <string name="recommend_search_hint">| 이름 또는 아이디를 입력해보세요!</string>
-    <string name="recommend_search_error">검색 서버통신 실패</string>
+    <string name="recommend_search_error">검색 결과 가져오기 실패</string>
 
     <string name="onboarding_highschool_hint">ex. 옐로고등학교</string>
     <string name="onboarding_grade_title">몇 학년인가요?</string>
@@ -249,17 +254,66 @@
     <string name="recommend_search_loading">친구를 찾는 중이에요…</string>
 
     <string name="dialog_point_fail">포인트가 부족해요!</string>
+    <string name="dialog_reading_ticket_question">열람권을 사용해서\n보낸 사람을 알아낼까요?</string>
     <string name="dialog_get_keyword_question">100 포인트로 키워드를 얻을까요?</string>
     <string name="dialog_get_keyword_free_question">0 포인트로 키워드를 얻을까요?</string>
     <string name="dialog_get_keyword">키워드 얻기</string>
+    <string name="dialog_get_name">이름 알아내기</string>
     <string name="dialog_get_initial_question">300 포인트로 초성을 얻을까요?</string>
     <string name="dialog_get_initial">초성 얻기</string>
     <string name="dialog_key_title">열람권</string>
     <string name="dialog_vote_get_point">투표하고 포인트 받기</string>
     <string name="dialog_initial_sub_title">이름 중 랜덤으로 뽑은 초성이에요.</string>
     <string name="dialog_initial_title">보낸 사람의 초성을 얻었어요!</string>
+    <string name="dialog_name_title">보낸 사람의 이름을 얻었어요!</string>
     <string name="dialog_complete">완료</string>
     <string name="dialog_after_point">사용 후 포인트</string>
     <string name="dialog_after_keyword_title">쪽지의 키워드를 얻었어요!</string>
     <string name="yello_start_point">Point</string>
+
+    <string name="tutorial_end_subtitle">튜토리얼 끝!\n옐로에서 환영 선물을 준비했어요!</string>
+    <string name="tutorial_third_title">앞으로 투표가 끝날 때마다 포인트를 줄게요!</string>
+    <string name="tutorial_tv_end_btn">옐로하러 가기</string>
+    <string name="tutorial_end_title_point">가입 포인트 지급</string>
+    <string name="tutorial_title_b">100포인트</string>
+    <string name="tutorial_title_C"> 지급</string>
+
+    <string name="profile_btn_shop">상점</string>
+    <string name="recommend_search_no_result">찾는 친구의 결과가 없어요</string>
+
+    <string name="pay_error_during">구매 도중 오류가 발생하였습니다.</string>
+    <string name="pay_error_no_item">구매 가능한 상품이 없습니다.</string>
+
+    <string name="pay_dialog_subs_title">구독권을 얻었어요!</string>
+    <string name="pay_dialog_subs_subtitle">옐로플러스의 특별한 혜택을 마음껏 즐겨보세요.</string>
+    <string name="pay_dialog_confirm">확인</string>
+    <string name="pay_dialog_in_app_subtitle">열람권으로 누가 쪽지를 보냈는지 알아보세요.</string>
+    <string name="pay_dialog_in_app_title_1">열람권 1개를 얻었어요!</string>
+    <string name="pay_dialog_in_app_title_2">열람권 2개를 얻었어요!</string>
+    <string name="pay_dialog_in_app_title_5">열람권 5개를 얻었어요!</string>
+
+    <string name="pay_title">옐로플러스의 특별한 혜택은?</string>
+    <string name="pay_is_subs">옐로플러스 구독중</string>
+    <string name="pay_subtitle">쪽지 보낸 사람을 알고 싶다면?</string>
+
+    <string name="pay_subs_title">옐로플러스 구독하기</string>
+    <string name="pay_subs_subtitle">(50%할인)</string>
+    <string name="pay_subs_original_price">7900원</string>
+    <string name="pay_subs_price">3900원</string>
+    <string name="pay_subs_price_per">/주</string>
+
+    <string name="pay_in_app_one_title">이름 열람권 1개</string>
+    <string name="pay_in_app_one_price">1400원</string>
+    <string name="pay_in_app_two_title">이름 열람권 2개</string>
+    <string name="pay_in_app_two_price">2800원</string>
+    <string name="pay_in_app_five_title">이름 열람권 5개</string>
+    <string name="pay_in_app_five_original_price"><strike>7000원</strike></string>
+    <string name="pay_in_app_five_price">5900원</string>
+    <string name="pay_in_app_five_discount">할인!</string>
+
+    <string name="pay_check_error">잘못된 접근입니다.</string>
+    <string name="pay_error_subs">구독 여부 가져오기 실패</string>
+
+    <string name="dialog_reading_ticket">열람권</string>
+    <string name="dialog_reading_ticket_after">남은 열람권</string>
 </resources>

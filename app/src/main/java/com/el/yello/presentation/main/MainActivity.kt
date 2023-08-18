@@ -4,9 +4,12 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
+import androidx.lifecycle.flowWithLifecycle
+import androidx.lifecycle.lifecycleScope
 import com.el.yello.R
 import com.el.yello.databinding.ActivityMainBinding
 import com.el.yello.presentation.main.look.LookFragment
@@ -16,10 +19,15 @@ import com.el.yello.presentation.main.profile.ProfileViewModel
 import com.el.yello.presentation.main.profile.info.ProfileFragment
 import com.el.yello.presentation.main.recommend.RecommendFragment
 import com.el.yello.presentation.main.yello.YelloFragment
+import com.el.yello.presentation.util.dp
+import com.el.yello.util.context.yelloSnackbar
 import com.example.ui.base.BindingActivity
 import com.example.ui.context.toast
 import com.example.ui.intent.stringExtra
+import com.example.ui.view.UiState
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 
 @AndroidEntryPoint
 class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main) {
@@ -35,6 +43,9 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
         initBnvItemSelectedListener()
         initBnvItemReselectedListener()
         pushNotificationEvent()
+        viewModel.getVoteCount()
+        viewModel.setIsFirstLoginData()
+        observe()
     }
 
     override fun onBackPressed() {
@@ -97,6 +108,27 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
         }
     }
 
+    private fun initBadge(voteCount: Int) {
+        val badgeDrawable = binding.bnvMain.getOrCreateBadge(R.id.menu_my_yello)
+        // 수직 위치 변경 (입력값이 클수록 뱃지가 아래로 이동)
+        badgeDrawable.verticalOffset = 12.dp
+        // 수평 위치 변경 (입력값이 클수록 뱃지가 왼쪽으로 이동)
+        badgeDrawable.horizontalOffset = 10.dp
+
+        // 뱃지에 들어갈 숫자 입력
+        badgeDrawable.number = voteCount
+
+        // 뱃지의 색깔 설정
+        badgeDrawable.backgroundColor = ContextCompat.getColor(
+            this,
+            R.color.semantic_red_500,
+        )
+        badgeDrawable.badgeTextColor = ContextCompat.getColor(
+            this,
+            R.color.white,
+        )
+    }
+
     private fun pushNotificationEvent() {
         when {
             type.equals(NEW_VOTE) -> {
@@ -116,11 +148,36 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
                 navigateTo<ProfileFragment>()
             }
 
-            type.equals(VOTE_AVAILABLE) -> {
+            type.equals(VOTE_AVAILABLE) || type.equals(RECOMMEND) -> {
                 binding.bnvMain.menu.getItem(2).isChecked = true
                 navigateTo<YelloFragment>()
             }
         }
+    }
+
+    private fun observe() {
+        viewModel.voteCount.flowWithLifecycle(lifecycle)
+            .onEach {
+                when (it) {
+                    is UiState.Success -> {
+                        if (it.data.totalCount != 0) {
+                            initBadge(it.data.totalCount)
+                        }
+                    }
+
+                    is UiState.Failure -> {
+                        yelloSnackbar(binding.root, it.msg)
+                    }
+
+                    else -> {}
+                }
+            }.launchIn(lifecycleScope)
+    }
+
+    fun setBadgeCount(count: Int) {
+        val badgeDrawable = binding.bnvMain.getOrCreateBadge(R.id.menu_my_yello)
+        badgeDrawable.number = count
+        badgeDrawable.isVisible = count != 0
     }
 
     private inline fun <reified T : Fragment> navigateTo() {
@@ -133,6 +190,7 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
         const val NEW_VOTE = "NEW_VOTE"
         const val NEW_FRIEND = "NEW_FRIEND"
         const val VOTE_AVAILABLE = "VOTE_AVAILABLE"
+        const val RECOMMEND = "RECOMMEND"
 
         fun getIntent(context: Context, type: String? = null, path: String? = null) =
             Intent(context, MainActivity::class.java).apply {

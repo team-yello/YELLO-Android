@@ -7,42 +7,28 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.el.yello.R
 import com.el.yello.databinding.FragmentUniversityBinding
+import com.el.yello.presentation.onboarding.activity.OnBoardingActivity
 import com.el.yello.presentation.onboarding.activity.OnBoardingViewModel
 import com.el.yello.presentation.onboarding.fragment.universityinfo.department.SearchDialogDepartmentFragment
 import com.el.yello.presentation.onboarding.fragment.universityinfo.school.SearchDialogSchoolFragment
 import com.el.yello.presentation.onboarding.fragment.universityinfo.studentid.StudentIdDialogFragment
+import com.el.yello.util.context.yelloSnackbar
 import com.example.ui.base.BindingFragment
 import com.example.ui.view.setOnSingleClickListener
-import java.util.Timer
-import kotlin.concurrent.timer
 
 class UniversityInfoFragment :
     BindingFragment<FragmentUniversityBinding>(R.layout.fragment_university) {
     private val viewModel by activityViewModels<OnBoardingViewModel>()
 
-    var timer: Timer? = null
-    var deltaTime = 16
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.vm = viewModel
-
-        progressBarTimerFun()
+        viewModel.isFirstUser = true
         initSearchInfoBtnClickListener()
         setConfirmBtnClickListener()
         setupSchool()
         setupDepartment()
         setupStudentId()
-        initSearchInfoBtnClickListener()
-    }
-    private fun progressBarTimerFun() {
-        binding.universityInfoProgressbar.progress = 16
-        timer?.cancel()
-        timer = Timer()
-        timer = timer(period = 8, initialDelay = 300) {
-            if (deltaTime > 32) cancel()
-            binding.universityInfoProgressbar.setProgress(++deltaTime)
-            println(binding.universityInfoProgressbar.progress)
-        }
     }
 
     private fun initSearchInfoBtnClickListener() {
@@ -50,7 +36,11 @@ class UniversityInfoFragment :
             SearchDialogSchoolFragment().show(parentFragmentManager, this.tag)
         }
         binding.tvDepartmentSearch.setOnSingleClickListener {
-            SearchDialogDepartmentFragment().show(parentFragmentManager, this.tag)
+            if (binding.tvUniversitySearch.text.isNotBlank()) {
+                SearchDialogDepartmentFragment().show(parentFragmentManager, this.tag)
+            } else {
+                yelloSnackbar(binding.root.rootView, "학교를 선택해야 학과를 선택할 수 있어요!")
+            }
         }
         binding.tvStudentidSearch.setOnSingleClickListener {
             StudentIdDialogFragment().show(parentFragmentManager, this.tag)
@@ -62,6 +52,7 @@ class UniversityInfoFragment :
             binding.tvUniversitySearch.text = school
         }
     }
+
     private fun setupDepartment() {
         viewModel.departmentText.observe(viewLifecycleOwner) { department ->
             binding.tvDepartmentSearch.text = department
@@ -79,10 +70,9 @@ class UniversityInfoFragment :
 
     private fun setConfirmBtnClickListener() {
         binding.btnUniversityInfoNext.setOnSingleClickListener {
-            findNavController().navigate(R.id.action_universityInfoFragment_to_genderFragment)
-        }
-        binding.btnUniversityInfoBackBtn.setOnSingleClickListener {
-            findNavController().navigate(R.id.action_universityInfoFragment_to_selectStudentFragment)
+            findNavController().navigate(R.id.action_universityInfoFragment_to_yelIoIdFragment)
+            val activity = requireActivity() as OnBoardingActivity
+            activity.progressBarPlus()
         }
     }
 }

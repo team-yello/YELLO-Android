@@ -6,12 +6,19 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.domain.entity.ProfileFriendsListModel
 import com.example.domain.entity.ProfileUserModel
+import com.example.domain.entity.ResponsePayCheckModel
+import com.example.domain.entity.vote.VoteCount
 import com.example.domain.repository.AuthRepository
+import com.example.domain.repository.PayRepository
 import com.example.domain.repository.ProfileRepository
+import com.example.domain.repository.YelloRepository
 import com.example.ui.view.UiState
 import com.kakao.sdk.user.UserApiClient
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import javax.inject.Inject
@@ -21,6 +28,8 @@ import kotlin.math.ceil
 class ProfileViewModel @Inject constructor(
     private val profileRepository: ProfileRepository,
     private val authRepository: AuthRepository,
+    private val yelloRepository: YelloRepository,
+    private val payRepository: PayRepository
 ) : ViewModel() {
 
     private val _getState = MutableLiveData<UiState<ProfileUserModel>>()
@@ -41,7 +50,17 @@ class ProfileViewModel @Inject constructor(
     private val _kakaoQuitState = MutableLiveData<UiState<Unit>>()
     val kakaoQuitState: LiveData<UiState<Unit>> = _kakaoQuitState
 
+    private val _getIsSubscribedState = MutableLiveData<UiState<ResponsePayCheckModel?>>()
+    val getIsSubscribedState: LiveData<UiState<ResponsePayCheckModel?>> = _getIsSubscribedState
+
+    var isSubscribed: Boolean = false
+
+    private val _voteCount = MutableStateFlow<UiState<VoteCount>>(UiState.Loading)
+    val voteCount: StateFlow<UiState<VoteCount>> = _voteCount.asStateFlow()
+
     var isItemBottomSheetRunning: Boolean = false
+
+    var isFirstScroll: Boolean = true
 
     private var currentPage = -1
     private var isPagingFinish = false
@@ -65,17 +84,6 @@ class ProfileViewModel @Inject constructor(
 
     var clickedItemPosition: Int? = null
 
-    private val _isShimmerActive = MutableLiveData(true)
-    val isShimmerActive: LiveData<Boolean> get() = _isShimmerActive
-
-    fun setDataNotLoaded() {
-        _isShimmerActive.value = true
-    }
-
-    private fun setDataLoaded() {
-        _isShimmerActive.value = false
-    }
-
     fun setItemPosition(position: Int) {
         clickedItemPosition = position
     }
@@ -88,6 +96,10 @@ class ProfileViewModel @Inject constructor(
         currentPage = -1
         isPagingFinish = false
         totalPage = Int.MAX_VALUE
+    }
+
+    fun setIsFirstLoginData() {
+        authRepository.setIsFirstLoginData()
     }
 
     // 서버 통신 - 유저 정보 받아오기
@@ -110,10 +122,13 @@ class ProfileViewModel @Inject constructor(
         }
     }
 
-    // 서버 통신 - 친구 목록 정보 받아오기 & 페이징 적용
+    // 서버 통신 - 친구 목록 정보 받아오기
     fun getFriendsListFromServer() {
         if (isPagingFinish) return
-        _getListState.value = UiState.Loading
+        if (isFirstScroll) {
+            _getListState.value = UiState.Loading
+            isFirstScroll = false
+        }
         viewModelScope.launch {
             runCatching {
                 profileRepository.getFriendsData(
@@ -121,7 +136,6 @@ class ProfileViewModel @Inject constructor(
                 )
             }.onSuccess {
                 it ?: return@launch
-                setDataLoaded()
                 totalPage = ceil((it.totalCount * 0.1)).toInt() - 1
                 if (totalPage == currentPage) isPagingFinish = true
                 _getListState.value = UiState.Success(it)
@@ -185,6 +199,31 @@ class ProfileViewModel @Inject constructor(
             } else {
                 _kakaoQuitState.value = UiState.Failure(error.message ?: "")
             }
+        }
+    }
+
+    fun checkIsSubscribed() {
+        viewModelScope.launch {
+            runCatching {
+                payRepository.getIsSubscribed()
+            }.onSuccess {
+                _getIsSubscribedState.value = UiState.Success(it)
+            }.onFailure {
+                _getIsSubscribedState.value = UiState.Failure(it.message ?: "")
+            }
+        }
+    }
+
+    fun getVoteCount() {
+        viewModelScope.launch {
+            yelloRepository.voteCount()
+                .onSuccess {
+                    if (it != null) {
+                        _voteCount.value = UiState.Success(it)
+                    }
+                }.onFailure {
+                    _voteCount.value = UiState.Failure(it.message.toString())
+                }
         }
     }
 

@@ -5,6 +5,12 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="com.google.android.gms.permission.AD_ID" />
+    <uses-permission android:name="com.google.android.play.billingclient.version"/>
+    <uses-permission android:name="com.android.vending.BILLING" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <queries>
         <package android:name="com.instagram.android" />
@@ -71,7 +77,36 @@
 
         <activity
             android:name=".presentation.onboarding.activity.OnBoardingActivity"
+            android:exported="true"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".presentation.onboarding.StartAppActivity"
             android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".presentation.tutorial.TutorialAActivity"
+            android:exported="true"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".presentation.tutorial.TutorialBActivity"
+            android:exported="true"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".presentation.tutorial.TutorialCActivity"
+            android:exported="true"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".presentation.tutorial.TutorialDActivity"
+            android:exported="true"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".presentation.tutorial.TutorialEndActivity"
+            android:exported="true"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".presentation.tutorial.TutorialEndPlusActivity"
+            android:exported="true"
             android:screenOrientation="portrait" />
         <activity
             android:name=".presentation.main.MainActivity"
@@ -86,11 +121,11 @@
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".presentation.main.profile.manage.ProfileQuitActivity"
+            android:name=".presentation.main.profile.manage.ProfileQuitTwoActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".presentation.main.profile.manage.ProfileQuitForSureActivity"
+            android:name=".presentation.main.profile.manage.ProfileQuitOneActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
@@ -99,10 +134,6 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".presentation.pay.PayActivity"
-            android:exported="false"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".presentation.pay.PayEndActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity

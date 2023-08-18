@@ -3,8 +3,10 @@ package com.example.data.datasource.local
 import com.example.data.datasource.YelloDataSource
 import com.example.data.model.response.BaseResponse
 import com.example.data.model.response.ResponseDto
+import com.example.data.model.response.vote.ResponseVoteCount
 import com.example.data.model.response.yello.ResponseCheckKeyword
 import com.example.data.model.response.yello.ResponseCheckName
+import com.example.data.model.response.yello.ResponseFullName
 import com.example.data.model.response.yello.ResponseMyYello
 import com.example.data.model.response.yello.ResponseYelloDetail
 import com.example.data.util.FileParser
@@ -35,6 +37,10 @@ class MockYelloDataSourceImpl @Inject constructor(
         return Json.decodeFromString(file ?: throw IllegalArgumentException("File State Error"))
     }
 
+    override suspend fun postFullName(id: Long): BaseResponse<ResponseFullName> {
+        TODO("Not yet implemented")
+    }
+
     override suspend fun checkKeyword(id: Long): BaseResponse<ResponseCheckKeyword> {
         val file = withContext(Dispatchers.IO) {
             runCatching { parser.execute("fake_check_keyword.json") }
@@ -54,6 +60,10 @@ class MockYelloDataSourceImpl @Inject constructor(
     }
 
     override suspend fun payCheck(index: Int): ResponseDto {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun voteCount(): BaseResponse<ResponseVoteCount> {
         TODO("Not yet implemented")
     }
 }

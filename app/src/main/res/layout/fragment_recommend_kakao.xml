@@ -94,6 +94,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:paddingBottom="15dp"
+                android:overScrollMode="never"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -184,18 +185,19 @@
 
             <TextView
                 android:id="@+id/btn_recommend_no_friend"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
                 android:layout_marginBottom="60dp"
                 android:background="@drawable/shape_grayscales_800_fill_100_rect"
                 android:gravity="center"
-                android:paddingHorizontal="77dp"
+                android:paddingHorizontal="30dp"
                 android:paddingVertical="17dp"
                 android:text="@string/recommend_invite_no_subtitle"
                 android:textAppearance="?textAppearanceButton"
                 android:textColor="@color/yello_main_500"
                 android:textSize="15sp"
+                android:layout_marginHorizontal="40dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -205,6 +207,5 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 
 </layout>

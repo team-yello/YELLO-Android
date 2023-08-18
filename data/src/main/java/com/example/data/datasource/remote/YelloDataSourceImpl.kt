@@ -1,11 +1,13 @@
 package com.example.data.datasource.remote
 
 import com.example.data.datasource.YelloDataSource
-import com.example.data.model.request.RequestPayDto
+import com.example.data.model.request.RequestPayIndexDto
 import com.example.data.model.response.BaseResponse
 import com.example.data.model.response.ResponseDto
+import com.example.data.model.response.vote.ResponseVoteCount
 import com.example.data.model.response.yello.ResponseCheckKeyword
 import com.example.data.model.response.yello.ResponseCheckName
+import com.example.data.model.response.yello.ResponseFullName
 import com.example.data.model.response.yello.ResponseMyYello
 import com.example.data.model.response.yello.ResponseYelloDetail
 import com.example.data.remote.service.YelloService
@@ -31,6 +33,14 @@ class YelloDataSourceImpl @Inject constructor(
     }
 
     override suspend fun payCheck(index: Int): ResponseDto {
-        return service.payCheck(RequestPayDto(index))
+        return service.payCheck(RequestPayIndexDto(index))
+    }
+
+    override suspend fun voteCount(): BaseResponse<ResponseVoteCount> {
+        return service.voteCount()
+    }
+
+    override suspend fun postFullName(id: Long): BaseResponse<ResponseFullName> {
+        return service.postFullName(id)
     }
 }

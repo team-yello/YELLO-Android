@@ -25,6 +25,7 @@ object Versions {
     const val splashVersion = "1.0.1"
     const val composeVersion = "1.4.3"
     const val workManagerVersion = "2.8.1"
+    const val billingVersion = "6.0.1"
 
     const val firabaseVersion = "30.4.0"
 
@@ -40,6 +41,8 @@ object Versions {
     const val kakaoVersion = "2.14.0"
     const val circleIndicatorVersion = "2.1.6"
     const val shimmerVersion = "0.5.0"
+    const val navigationVersion = "2.6.0"
+    const val amplitudeVersion = "2.23.2"
 
     const val gradleVersion = "8.0.1"
 

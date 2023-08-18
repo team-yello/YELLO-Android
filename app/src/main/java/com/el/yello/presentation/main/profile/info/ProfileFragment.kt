@@ -15,6 +15,7 @@ import com.el.yello.R
 import com.el.yello.databinding.FragmentProfileBinding
 import com.el.yello.presentation.main.profile.ProfileViewModel
 import com.el.yello.presentation.main.profile.manage.ProfileManageActivity
+import com.el.yello.presentation.pay.PayActivity
 import com.el.yello.util.context.yelloSnackbar
 import com.example.domain.entity.ProfileUserModel
 import com.example.ui.base.BindingFragment
@@ -36,13 +37,17 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
 
     private lateinit var friendsList: List<ProfileUserModel>
 
+    private lateinit var itemDivider: ProfileItemDecoration
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         initProfileSetting()
+        setItemDivider()
         setUserDataFromServer()
         setFriendsListDataFromServer()
         setFriendDeleteToServer()
+        setIsSubscribedFromServer()
     }
 
     override fun onDestroyView() {
@@ -52,11 +57,16 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
 
     private fun initProfileSetting() {
         viewModel.initPagingVariable()
-        viewModel.setDataNotLoaded()
+        viewModel.isFirstScroll = true
         initProfileManageBtnListener()
         initUpwardBtnListener()
         initUpwardBtnVisibility()
         initAdapterWithClickListener()
+    }
+
+    private fun setItemDivider() {
+        itemDivider = ProfileItemDecoration(requireContext())
+        binding.rvProfileFriendsList.addItemDecoration(itemDivider)
     }
 
     private fun setUserDataFromServer() {
@@ -67,13 +77,17 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
     private fun setFriendsListDataFromServer() {
         observeFriendsDataState()
         setListWithInfinityScroll()
-        setItemDivider()
         viewModel.getFriendsListFromServer()
     }
 
     private fun setFriendDeleteToServer() {
         observeFriendDeleteState()
         setDeleteAnimation()
+    }
+
+    private fun setIsSubscribedFromServer() {
+        observeCheckIsSubscribed()
+        viewModel.checkIsSubscribed()
     }
 
     // 관리 액티비티 실행 & 뒤로가기 누를 때 다시 돌아오도록 현재 화면 finish 진행 X
@@ -114,14 +128,18 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
             viewModel.clickedItemTotalMsg.value = profileUserModel.yelloCount.toString()
             viewModel.clickedItemTotalFriends.value = profileUserModel.friendCount.toString()
 
-            if (!viewModel.isItemBottomSheetRunning)
-                ProfileFriendItemBottomSheet().show(
-                    parentFragmentManager,
-                    ITEM_BOTTOM_SHEET
-                )
+            if (!viewModel.isItemBottomSheetRunning) ProfileFriendItemBottomSheet().show(
+                parentFragmentManager, ITEM_BOTTOM_SHEET
+            )
         }, {
-            // 헤더 버튼 클릭 리스너 설정
+            // 헤더 그룹 추가 버튼 클릭 리스너 설정
             startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(ADD_GROUP_URL)))
+        }, {
+            // 헤더 상점 버튼 클릭 리스너 설정
+            Intent(activity, PayActivity::class.java).apply {
+                addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                startActivity(this)
+            }
         })
         adapter.setItemList(listOf())
         binding.rvProfileFriendsList.adapter = adapter
@@ -158,6 +176,7 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
         viewModel.getListState.observe(viewLifecycleOwner) { state ->
             when (state) {
                 is UiState.Success -> {
+                    binding.ivProfileLoading.visibility = View.GONE
                     friendsList = state.data?.friends ?: listOf()
                     adapter.addItemList(friendsList)
                 }
@@ -166,9 +185,11 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
                     yelloSnackbar(requireView(), getString(R.string.profile_error_friend_list))
                 }
 
-                is UiState.Empty -> {}
+                is UiState.Loading -> {
+                    binding.ivProfileLoading.visibility = View.VISIBLE
+                }
 
-                is UiState.Loading -> {}
+                is UiState.Empty -> {}
             }
         }
     }
@@ -180,9 +201,9 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
                 super.onScrolled(recyclerView, dx, dy)
                 if (dy > 0) {
                     recyclerView.layoutManager?.let { layoutManager ->
-                        if (!binding.rvProfileFriendsList.canScrollVertically(1) &&
-                            layoutManager is LinearLayoutManager &&
-                            layoutManager.findLastVisibleItemPosition() == adapter.itemCount - 1
+                        if (!binding.rvProfileFriendsList.canScrollVertically(1)
+                            && layoutManager is LinearLayoutManager
+                            && layoutManager.findLastVisibleItemPosition() == adapter.itemCount - 1
                         ) {
                             viewModel.getFriendsListFromServer()
                         }
@@ -190,13 +211,6 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
                 }
             }
         })
-    }
-
-    // 리스트 디바이더 설정
-    private fun setItemDivider() {
-        binding.rvProfileFriendsList.addItemDecoration(
-            ProfileItemDecoration(requireContext()),
-        )
     }
 
     // 친구 삭제 서버 통신 성공 시 리스트에서 아이템 삭제
@@ -210,7 +224,9 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
                                 position
                             )
                         }
+                        binding.rvProfileFriendsList.removeItemDecoration(itemDivider)
                         delay(300)
+                        binding.rvProfileFriendsList.addItemDecoration(itemDivider)
                         if (viewModel.myTotalFriends.value != "") {
                             viewModel.myTotalFriends.value =
                                 viewModel.myTotalFriends.value?.toInt()?.minus(1).toString()
@@ -227,6 +243,26 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
 
                 is UiState.Empty -> {}
             }
+        }
+    }
+
+    // 구독 여부 확인
+    private fun observeCheckIsSubscribed() {
+        viewModel.getIsSubscribedState.observe(viewLifecycleOwner) { state ->
+            when (state) {
+                is UiState.Success -> {
+                    viewModel.isSubscribed = state.data?.subscribe == "ACTIVE"
+                }
+
+                is UiState.Failure -> {
+                    viewModel.isSubscribed = false
+                }
+
+                is UiState.Loading -> {}
+
+                is UiState.Empty -> {}
+            }
+            adapter.notifyDataSetChanged()
         }
     }
 

@@ -1,14 +1,15 @@
 package com.el.yello.presentation.main.look
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.ListAdapter
+import androidx.paging.PagingDataAdapter
 import com.el.yello.databinding.ItemLookBinding
 import com.example.domain.entity.LookListModel.LookModel
 import com.example.ui.view.ItemDiffCallback
 
 class LookAdapter :
-    ListAdapter<LookModel, LookViewHolder>(diffUtil) {
+    PagingDataAdapter<LookModel, LookViewHolder>(diffUtil) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LookViewHolder {
         val binding: ItemLookBinding =
@@ -17,7 +18,10 @@ class LookAdapter :
     }
 
     override fun onBindViewHolder(holder: LookViewHolder, position: Int) {
-        holder.onBind(getItem(position))
+        holder.binding.tvNameHead.visibility = View.VISIBLE
+        holder.binding.tvKeywordHead.visibility = View.VISIBLE
+        val item = getItem(position) ?: return
+        holder.onBind(item)
     }
 
     companion object {

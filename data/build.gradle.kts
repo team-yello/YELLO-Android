@@ -58,6 +58,8 @@ dependencies {
         implementation(hilt)
         implementation(security)
         implementation(coreKtx)
+        implementation(pagingRuntime)
+        implementation(billing)
     }
 
     KotlinDependencies.run {

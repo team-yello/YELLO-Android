@@ -17,48 +17,37 @@
         android:layout_height="match_parent"
         android:background="@color/black">
 
-        <ProgressBar
-            android:id="@+id/code_progressbar"
-            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="4dp"
-            android:layout_marginTop="48dp"
-            android:max="100"
-            android:progress="48"
-            android:progressDrawable="@drawable/layerlist_onboarding_progressbar"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintWidth_percent="1" />
-
         <TextView
             android:id="@+id/tv_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="40dp"
             android:maxLines="1"
+            android:gravity="center"
             android:text="@string/onboarding_tv_code"
             android:textAppearance="?textAppearanceHeadline2"
             android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/code_progressbar" />
+           app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/tv_code_warning"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
-            android:layout_marginTop="4dp"
             android:ellipsize="end"
             android:maxLines="1"
+            android:layout_marginTop="4dp"
             android:text="@string/onboarding_tv_code_skip"
-            android:textAppearance="?textAppearanceBodySmall"
+            android:layout_marginStart="36dp"
+            android:fontFamily="@font/pretendard_medium"
+            android:textSize="12dp"
             android:textColor="@color/grayscales_500"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_name" />
+            app:layout_constraintTop_toBottomOf="@+id/et_code" />
 
         <TextView
             android:id="@+id/tv_code_fix"
@@ -97,7 +86,7 @@
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_code_warning"
+            app:layout_constraintTop_toBottomOf="@+id/tv_code_hint"
             tools:text="@string/dummy" />
 
         <ImageView
@@ -117,15 +106,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="12dp"
-            android:layout_marginTop="4dp"
+            android:layout_marginStart="86dp"
             android:ellipsize="end"
+            android:layout_marginTop="6dp"
             android:maxLines="1"
-            android:paddingVertical="2dp"
             android:text="@string/onboarding_tv_code_error"
-            android:textAppearance="?textAppearanceLabelLarge"
+            android:paddingVertical="2dp"
+            android:textAppearance="?textAppearanceBodySmall"
             android:textColor="@color/grayscales_500"
-            app:layout_constraintStart_toStartOf="@+id/et_code"
-            app:layout_constraintTop_toBottomOf="@id/et_code" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_name" />
 
         <TextView
             android:id="@+id/tv_code_hint_point"
@@ -133,15 +123,15 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="12dp"
             android:layout_marginStart="3dp"
-            android:layout_marginTop="4dp"
+            android:layout_marginTop="6dp"
             android:ellipsize="end"
             android:maxLines="1"
             android:paddingVertical="2dp"
             android:text="+100"
-            android:textAppearance="?textAppearanceLabelLarge"
+            android:textAppearance="?textAppearanceBodySmall"
             android:textColor="@color/yello_main_500"
             app:layout_constraintStart_toEndOf="@+id/tv_code_hint"
-            app:layout_constraintTop_toBottomOf="@+id/et_code" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_name" />
 
         <TextView
             android:id="@+id/tv_code_hint_end"
@@ -149,15 +139,15 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="12dp"
             android:layout_marginStart="3dp"
-            android:layout_marginTop="4dp"
+            android:layout_marginTop="6dp"
             android:ellipsize="end"
             android:maxLines="1"
             android:paddingVertical="2dp"
             android:text="point!"
-            android:textAppearance="?textAppearanceLabelLarge"
+            android:textAppearance="?textAppearanceBodySmall"
             android:textColor="@color/grayscales_500"
             app:layout_constraintStart_toEndOf="@+id/tv_code_hint_point"
-            app:layout_constraintTop_toBottomOf="@+id/et_code" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_name" />
 
         <TextView
             android:id="@+id/btn_code_skip"

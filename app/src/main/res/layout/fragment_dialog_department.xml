@@ -91,6 +91,7 @@
             android:id="@+id/rv_department_list"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:overScrollMode="never"
             app:layout_constraintBottom_toBottomOf="parent"
             android:layout_marginTop="6dp"
             android:orientation="vertical"

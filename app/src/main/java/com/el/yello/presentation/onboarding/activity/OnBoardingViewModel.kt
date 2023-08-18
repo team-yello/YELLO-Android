@@ -29,6 +29,17 @@ class OnBoardingViewModel @Inject constructor(
     private val authRepository: AuthRepository,
 ) : ViewModel() {
 
+    var currentpercent = 20
+    fun plusCurrentPercent() {
+        currentpercent += 20
+    }
+    fun minusCurrentPercent() {
+        currentpercent -= 20
+    }
+
+    var isFirstUser: Boolean = false
+    val isResigned: Boolean = false
+
     // 학력 선택
     val studentType = MutableLiveData("")
 
@@ -47,22 +58,22 @@ class OnBoardingViewModel @Inject constructor(
     val groupId: Long get() = requireNotNull(_groupId.value)
 
     val nameText = MutableLiveData("")
-    val name: String get() = nameText.value?.trim() ?: ""
 
     val idText = MutableLiveData("")
     val id: String get() = idText.value?.trim() ?: ""
 
     val isValidName: LiveData<Boolean> = nameText.map { name -> checkName(name) }
     val isValidId: LiveData<Boolean> = idText.map { id -> checkId(id) }
-
     private fun checkName(name: String) = Pattern.matches(REGEX_NAME_PATTERN, name)
     private fun checkId(id: String) = Pattern.matches(REGEX_ID_PATTERN, id)
 
     // 공통
     val genderText = MutableLiveData("")
-    val gender: String get() = genderText.value ?: ""
 
     val codeText = MutableLiveData("")
+    fun isCodeTextEmpty(): Boolean {
+        return codeText.value.isNullOrEmpty()
+    }
 
     private val _groupResult: MutableLiveData<List<Int>> = MutableLiveData()
     val groupResult: LiveData<List<Int>> = _groupResult
@@ -203,7 +214,6 @@ class OnBoardingViewModel @Inject constructor(
                     _departmentData.value = UiState.Empty
                     return@launch
                 }
-
                 // totalDepartmentPage = ceil((department.totalCount * 0.1)).toLong()
                 // if (totalDepartmentPage == departmentPage) isDepartmentPagingFinish = true
                 _departmentData.value = when {
@@ -288,7 +298,8 @@ class OnBoardingViewModel @Inject constructor(
     var kakaoId: String = ""
     var email: String = ""
     var profileImg: String = ""
-
+    var name: String = ""
+    var gender: String = ""
     fun postSignup() {
         viewModelScope.launch {
             val deviceToken = authRepository.getDeviceToken()
@@ -325,7 +336,7 @@ class OnBoardingViewModel @Inject constructor(
         }
     }
     companion object {
-        private const val REGEX_NAME_PATTERN = "^([ㄱ-ㅎㅏ-ㅣ가-힣]*)\$"
+        private const val REGEX_NAME_PATTERN = "^([가-힣]*)\$"
         private const val REGEX_ID_PATTERN = "^([A-Za-z0-9_.]*)\$"
     }
 }

@@ -3,12 +3,15 @@ package com.el.yello.presentation.main.look
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.flowWithLifecycle
+import androidx.lifecycle.lifecycleScope
 import com.el.yello.R
 import com.el.yello.databinding.FragmentLookBinding
 import com.el.yello.util.context.yelloSnackbar
 import com.example.ui.base.BindingFragment
-import com.example.ui.view.UiState
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class LookFragment : BindingFragment<FragmentLookBinding>(R.layout.fragment_look) {
@@ -23,8 +26,9 @@ class LookFragment : BindingFragment<FragmentLookBinding>(R.layout.fragment_look
         super.onViewCreated(view, savedInstanceState)
 
         initAdapterWithFirstList()
-        observeLookListDataState()
-
+        getSearchPagingList()
+        observeIsLoading()
+        observeErrorResult()
     }
 
     override fun onDestroyView() {
@@ -36,30 +40,31 @@ class LookFragment : BindingFragment<FragmentLookBinding>(R.layout.fragment_look
         viewModel.setFirstPageLoading()
         _adapter = LookAdapter()
         binding.rvLook.adapter = adapter
-        viewModel.addLookListFromServer(page = 0)
     }
 
-    // 둘러보기 목록 서버 통신 성공 시 어댑터에 리스트 추가
-    private fun observeLookListDataState() {
-        viewModel.getLookListState.observe(viewLifecycleOwner) { state ->
-            when (state) {
-                is UiState.Success -> {
-                    stopShimmerView()
-                    adapter.submitList(state.data?.friendVotes)
+    private fun getSearchPagingList() {
+        lifecycleScope.launch {
+            viewModel.getLookListWithPaging()
+                .flowWithLifecycle(lifecycle)
+                .collectLatest { pagingData ->
+                    adapter.submitData(pagingData)
                 }
+        }
+    }
 
-                is UiState.Failure -> {
-                    stopShimmerView()
-                    yelloSnackbar(requireView(), getString(R.string.look_error_friend_list))
-                }
+    private fun observeErrorResult() {
+        viewModel.getErrorResult.observe(viewLifecycleOwner) {
+            yelloSnackbar(requireView(), getString(R.string.look_error_friend_list))
+            startShimmerView()
+        }
+    }
 
-                is UiState.Empty -> {
-                    stopShimmerView()
-                }
-
-                is UiState.Loading -> {
-                    startShimmerView()
-                }
+    private fun observeIsLoading() {
+        viewModel.isLoading.observe(viewLifecycleOwner) { state ->
+            if (state) {
+                startShimmerView()
+            } else {
+                stopShimmerView()
             }
         }
     }

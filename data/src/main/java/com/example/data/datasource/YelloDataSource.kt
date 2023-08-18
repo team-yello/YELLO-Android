@@ -2,8 +2,10 @@ package com.example.data.datasource
 
 import com.example.data.model.response.BaseResponse
 import com.example.data.model.response.ResponseDto
+import com.example.data.model.response.vote.ResponseVoteCount
 import com.example.data.model.response.yello.ResponseCheckKeyword
 import com.example.data.model.response.yello.ResponseCheckName
+import com.example.data.model.response.yello.ResponseFullName
 import com.example.data.model.response.yello.ResponseMyYello
 import com.example.data.model.response.yello.ResponseYelloDetail
 
@@ -13,4 +15,6 @@ interface YelloDataSource {
     suspend fun checkKeyword(id: Long): BaseResponse<ResponseCheckKeyword>
     suspend fun checkName(id: Long): BaseResponse<ResponseCheckName>
     suspend fun payCheck(index: Int): ResponseDto
+    suspend fun voteCount(): BaseResponse<ResponseVoteCount>
+    suspend fun postFullName(id: Long): BaseResponse<ResponseFullName>
 }

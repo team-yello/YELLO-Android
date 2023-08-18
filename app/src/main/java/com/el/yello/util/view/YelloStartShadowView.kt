@@ -37,15 +37,6 @@ class YelloStartShadowView @JvmOverloads constructor(
             },
             eraser,
         )
-        /*        canvas.drawRoundRect(
-                    rect.apply {
-                        setRect()
-                    },
-                    holeBorderRadius,
-                    holeBorderRadius,
-                    eraser,
-                )
-         */
     }
 
     private fun setRect() {
@@ -53,11 +44,5 @@ class YelloStartShadowView @JvmOverloads constructor(
         val holeHeight = width / 2f
 
         rect.set(0f, 0f, holeWidth.toFloat(), holeHeight)
-        /*
-            ((width - holeWidth) / 2) - offset,
-            ((height - holeHeight) / 2) - offset,
-            ((width - holeWidth) / 2 + holeWidth) + offset,
-            ((height - holeHeight) / 2 + holeHeight) + offset,
-         */
     }
 }

@@ -103,7 +103,7 @@ class PayViewModel @Inject constructor(
         }
     }
 
-    // 서버 통신 - (아직 사용 X) 구독 재촉 알림 필요 여부 확인
+    // 서버 통신 - 구독 여부 & 열람권 개수 받아오기
     fun getPurchaseInfoFromServer() {
         viewModelScope.launch {
             runCatching {

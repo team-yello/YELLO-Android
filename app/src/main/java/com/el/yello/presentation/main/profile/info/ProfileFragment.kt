@@ -92,7 +92,7 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
 
     private fun setIsSubscribedFromServer() {
         observeCheckIsSubscribed()
-        viewModel.checkIsSubscribed()
+        viewModel.getPurchaseInfoFromServer()
     }
 
     // 관리 액티비티 실행 & 뒤로가기 누를 때 다시 돌아오도록 현재 화면 finish 진행 X
@@ -271,10 +271,10 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
 
     // 구독 여부 확인
     private fun observeCheckIsSubscribed() {
-        viewModel.getIsSubscribedState.observe(viewLifecycleOwner) { state ->
+        viewModel.getPurchaseInfoState.observe(viewLifecycleOwner) { state ->
             when (state) {
                 is UiState.Success -> {
-                    viewModel.isSubscribed = state.data?.subscribe == "ACTIVE"
+                    viewModel.isSubscribed = state.data?.isSubscribe == true
                 }
 
                 is UiState.Failure -> {

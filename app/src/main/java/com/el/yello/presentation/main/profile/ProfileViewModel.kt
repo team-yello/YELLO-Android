@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.domain.entity.ProfileFriendsListModel
 import com.example.domain.entity.ProfileUserModel
+import com.example.domain.entity.ResponsePurchaseInfoModel
 import com.example.domain.entity.ResponseSubsNeededModel
 import com.example.domain.entity.vote.VoteCount
 import com.example.domain.repository.AuthRepository
@@ -50,8 +51,8 @@ class ProfileViewModel @Inject constructor(
     private val _kakaoQuitState = MutableLiveData<UiState<Unit>>()
     val kakaoQuitState: LiveData<UiState<Unit>> = _kakaoQuitState
 
-    private val _getIsSubscribedState = MutableLiveData<UiState<ResponseSubsNeededModel?>>()
-    val getIsSubscribedState: LiveData<UiState<ResponseSubsNeededModel?>> = _getIsSubscribedState
+    private val _getPurchaseInfoState = MutableLiveData<UiState<ResponsePurchaseInfoModel?>>()
+    val getPurchaseInfoState: LiveData<UiState<ResponsePurchaseInfoModel?>> = _getPurchaseInfoState
 
     var isSubscribed: Boolean = false
 
@@ -202,14 +203,15 @@ class ProfileViewModel @Inject constructor(
         }
     }
 
-    fun checkIsSubscribed() {
+    // 서버 통신 - 구독 여부 & 열람권 개수 받아오기
+    fun getPurchaseInfoFromServer() {
         viewModelScope.launch {
             runCatching {
-                payRepository.getSubsNeeded()
+                payRepository.getPurchaseInfo()
             }.onSuccess {
-                _getIsSubscribedState.value = UiState.Success(it)
+                _getPurchaseInfoState.value = UiState.Success(it)
             }.onFailure {
-                _getIsSubscribedState.value = UiState.Failure(it.message ?: "")
+                _getPurchaseInfoState.value = UiState.Failure(it.message ?: "")
             }
         }
     }

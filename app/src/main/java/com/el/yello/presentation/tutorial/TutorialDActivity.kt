@@ -2,15 +2,22 @@ package com.el.yello.presentation.tutorial
 
 import android.content.Intent
 import android.os.Bundle
+import androidx.activity.viewModels
 import com.el.yello.R
 import com.el.yello.databinding.ActivityTutorialDBinding
 import com.el.yello.presentation.main.MainActivity
+import com.el.yello.util.amplitude.AmplitudeUtils
 import com.example.ui.base.BindingActivity
 import com.example.ui.view.setOnSingleClickListener
+import org.json.JSONObject
 
 class TutorialDActivity : BindingActivity<ActivityTutorialDBinding>(R.layout.activity_tutorial_d) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        AmplitudeUtils.trackEventWithProperties(
+            "view_onboarding_tutorial",
+            JSONObject().put("tutorial_step", "4"),
+        )
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         val iscodeEmpty = intent.getBooleanExtra("codeTextEmpty", false)

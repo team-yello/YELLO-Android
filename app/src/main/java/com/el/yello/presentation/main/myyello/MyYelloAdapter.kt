@@ -54,7 +54,7 @@ class MyYelloAdapter(private val itemClick: (Yello, Int) -> (Unit)) :
     ) : RecyclerView.ViewHolder(binding.root) {
         fun onBind(item: Yello, position: Int) {
             binding.data = item
-            binding.ivReadYelloPoint.isVisible = !item.isRead || !item.isHintUsed
+            binding.ivReadYelloPoint.isVisible = !item.isRead
             binding.tvTime.text = item.createdAt
             binding.clSendCheck.isVisible = item.isHintUsed && item.isRead
             binding.tvGender.isVisible = !item.isHintUsed || !item.isRead

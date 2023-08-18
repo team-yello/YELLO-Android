@@ -9,6 +9,7 @@ import com.example.domain.entity.Response
 import com.example.domain.entity.ResponseSubsNeededModel
 import com.example.domain.entity.ResponsePaySubsModel
 import com.example.domain.entity.ResponsePayInAppModel
+import com.example.domain.entity.ResponsePurchaseInfoModel
 import com.example.domain.repository.PayRepository
 import com.example.domain.repository.YelloRepository
 import com.example.ui.view.UiState
@@ -38,9 +39,13 @@ class PayViewModel @Inject constructor(
     private val _postInAppCheckState = MutableLiveData<UiState<ResponsePayInAppModel?>>()
     val postInAppCheckState: LiveData<UiState<ResponsePayInAppModel?>> = _postInAppCheckState
 
-    private val _getIsSubscribedState = MutableLiveData<UiState<ResponseSubsNeededModel?>>()
-    val getIsSubscribedState: LiveData<UiState<ResponseSubsNeededModel?>> = _getIsSubscribedState
+    private val _getSubsNeededState = MutableLiveData<UiState<ResponseSubsNeededModel?>>()
+    val getSubsNeededState: LiveData<UiState<ResponseSubsNeededModel?>> = _getSubsNeededState
 
+    private val _getPurchaseInfoState = MutableLiveData<UiState<ResponsePurchaseInfoModel?>>()
+    val getPurchaseInfoState: LiveData<UiState<ResponsePurchaseInfoModel?>> = _getPurchaseInfoState
+
+    // 서버 통신 - (추후 삭제) amplitude 적용 전 클릭 수 수집
     fun payCheck(index: Int) {
         _payCheck.tryEmit(UiState.Loading)
         viewModelScope.launch {
@@ -53,6 +58,7 @@ class PayViewModel @Inject constructor(
         }
     }
 
+    // 서버 통신 - 구독 상품 검증
     fun checkSubsToServer(request: RequestPayModel) {
         viewModelScope.launch {
             _postSubsCheckState.value = UiState.Loading
@@ -68,6 +74,7 @@ class PayViewModel @Inject constructor(
         }
     }
 
+    // 서버 통신 - 열람권 상품 검증
     fun checkInAppToServer(request: RequestPayModel) {
         viewModelScope.launch {
             _postInAppCheckState.value = UiState.Loading
@@ -83,14 +90,28 @@ class PayViewModel @Inject constructor(
         }
     }
 
-    fun checkIsSubscribed() {
+    // 서버 통신 - (아직 사용 X) 구독 재촉 알림 필요 여부 확인
+    fun getSubsNeededFromServer() {
         viewModelScope.launch {
             runCatching {
                 payRepository.getSubsNeeded()
             }.onSuccess {
-                _getIsSubscribedState.value = UiState.Success(it)
+                _getSubsNeededState.value = UiState.Success(it)
             }.onFailure {
-                _getIsSubscribedState.value = UiState.Failure(it.message ?: "")
+                _getSubsNeededState.value = UiState.Failure(it.message ?: "")
+            }
+        }
+    }
+
+    // 서버 통신 - (아직 사용 X) 구독 재촉 알림 필요 여부 확인
+    fun getPurchaseInfoFromServer() {
+        viewModelScope.launch {
+            runCatching {
+                payRepository.getPurchaseInfo()
+            }.onSuccess {
+                _getPurchaseInfoState.value = UiState.Success(it)
+            }.onFailure {
+                _getPurchaseInfoState.value = UiState.Failure(it.message ?: "")
             }
         }
     }

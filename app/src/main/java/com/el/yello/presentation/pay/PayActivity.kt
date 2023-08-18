@@ -64,7 +64,7 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
 
     override fun onResume() {
         super.onResume()
-        viewModel.checkIsSubscribed()
+        viewModel.getPurchaseInfoFromServer()
         Log.d("sangho", "1 : resume ")
     }
 
@@ -367,11 +367,11 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
 
     // 구독 여부 확인해서 화면 표시 변경
     private fun observeCheckIsSubscribed() {
-        viewModel.getIsSubscribedState.observe(this) { state ->
+        viewModel.getPurchaseInfoState.observe(this) { state ->
             Log.d("sangho", "15 : observe subs state")
             when (state) {
                 is UiState.Success -> {
-                    if (state.data?.subscribe == "ACTIVE") {
+                    if (state.data?.isSubscribe == true) {
                         binding.layoutShowSubs.visibility = View.VISIBLE
                     } else {
                         binding.layoutShowSubs.visibility = View.GONE

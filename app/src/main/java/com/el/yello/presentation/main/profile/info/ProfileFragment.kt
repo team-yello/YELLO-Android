@@ -40,6 +40,8 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
 
     private lateinit var itemDivider: ProfileItemDecoration
 
+    private var isScrolled: Boolean = false
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -95,6 +97,7 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
     // 관리 액티비티 실행 & 뒤로가기 누를 때 다시 돌아오도록 현재 화면 finish 진행 X
     private fun initProfileManageBtnListener() {
         binding.btnProfileManage.setOnSingleClickListener {
+            AmplitudeUtils.trackEventWithProperties("click_profile_manage")
             Intent(activity, ProfileManageActivity::class.java).apply {
                 addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                 startActivity(this)
@@ -130,12 +133,16 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
             viewModel.clickedItemTotalMsg.value = profileUserModel.yelloCount.toString()
             viewModel.clickedItemTotalFriends.value = profileUserModel.friendCount.toString()
 
-            if (!viewModel.isItemBottomSheetRunning) ProfileFriendItemBottomSheet().show(
-                parentFragmentManager, ITEM_BOTTOM_SHEET
-            )
+            if (!viewModel.isItemBottomSheetRunning) {
+                AmplitudeUtils.trackEventWithProperties("click_profile_friend")
+                ProfileFriendItemBottomSheet().show(
+                    parentFragmentManager, ITEM_BOTTOM_SHEET
+                )
+            }
         }, {
             // 헤더 그룹 추가 버튼 클릭 리스너 설정
             startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(ADD_GROUP_URL)))
+            AmplitudeUtils.trackEventWithProperties("click_profile_group")
         }, {
             // 헤더 상점 버튼 클릭 리스너 설정
             Intent(activity, PayActivity::class.java).apply {
@@ -212,6 +219,14 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
                     }
                 }
             }
+
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+                if (newState == RecyclerView.SCROLL_STATE_IDLE && !isScrolled) {
+                    AmplitudeUtils.trackEventWithProperties("scroll_profile_friends")
+                    isScrolled = true
+                }
+            }
         })
     }
 
@@ -235,6 +250,7 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
                             adapter.notifyDataSetChanged()
                         }
                     }
+                    AmplitudeUtils.trackEventWithProperties("complete_profile_delete_friend")
                 }
 
                 is UiState.Failure -> {

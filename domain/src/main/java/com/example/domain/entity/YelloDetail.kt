@@ -7,5 +7,7 @@ data class YelloDetail(
     val isAnswerRevealed: Boolean,
     val senderGender: String,
     val senderName: String,
+    val ticketCount: Int,
+    val isSubscribe: Boolean,
     val vote: Vote
 )

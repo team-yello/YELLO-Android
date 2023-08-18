@@ -11,10 +11,9 @@ import com.el.yello.R
 import com.el.yello.presentation.main.MainActivity
 import com.example.domain.YelloDataStore
 import com.google.firebase.messaging.FirebaseMessagingService
-import com.google.firebase.messaging.RemoteMessage
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.Random
 import javax.inject.Inject
-import kotlinx.datetime.Clock
 
 @AndroidEntryPoint
 class YelloMessagingService : FirebaseMessagingService() {
@@ -27,23 +26,23 @@ class YelloMessagingService : FirebaseMessagingService() {
         dataStore.deviceToken = token
     }
 
-    override fun onMessageReceived(message: RemoteMessage) {
-        super.onMessageReceived(message)
-        val responseMessage = Message("", "", "")
-        if (message.data.isNotEmpty()) {
-            responseMessage.type = message.data["type"].toString()
-            responseMessage.path = message.data["path"].toString()
+    override fun handleIntent(intent: Intent?) {
+        intent?.let {
+            val responseMessage = Message("", "", "")
+            responseMessage.title = intent.getStringExtra("title").toString()
+            responseMessage.body = intent.getStringExtra("body").toString()
+            responseMessage.type = intent.getStringExtra("type").toString()
+            responseMessage.path = intent.getStringExtra("path")
+            responseMessage.badge = intent.getStringExtra("badge")?.toInt()
+
+            sendNotificationAlarm(responseMessage)
         }
-        message.notification?.let {
-            responseMessage.title = it.title.toString()
-            responseMessage.body = it.body.toString()
-        }
-        sendNotificationAlarm(responseMessage)
     }
 
     private fun sendNotificationAlarm(message: Message) {
-        val notifyId = (Clock.System.now().epochSeconds / 7).toInt()
-        val intent = MainActivity.getIntent(this, message.type, message.path).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+        val notifyId = Random().nextInt()
+        val intent = MainActivity.getIntent(this, message.type, message.path)
+            .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         val pendingIntent =
             PendingIntent.getActivity(
                 this,
@@ -55,10 +54,12 @@ class YelloMessagingService : FirebaseMessagingService() {
         val channelId = getString(R.string.default_notification_channel_id)
 
         val notificationBuilder =
-            NotificationCompat.Builder(this, channelId).setSmallIcon(R.mipmap.ic_yello_launcher)
-                .setContentTitle(message.title).setContentText(message.body)
-                .setPriority(NotificationManagerCompat.IMPORTANCE_HIGH).setAutoCancel(true)
-                .setContentIntent(pendingIntent)
+            NotificationCompat.Builder(this, channelId).setSmallIcon(R.mipmap.ic_yello_launcher).apply {
+                    setContentTitle(message.title).setContentText(message.body)
+                    setPriority(NotificationManagerCompat.IMPORTANCE_HIGH).setAutoCancel(true)
+                    setContentIntent(pendingIntent)
+                    if (message.badge != null) setNumber(message.badge!!)
+                }
 
         val notificationManager = getSystemService<NotificationManager>()
         val channel = NotificationChannel(
@@ -71,5 +72,11 @@ class YelloMessagingService : FirebaseMessagingService() {
         }
     }
 
-    private data class Message(var title: String, var body: String, var type: String,  var path: String? = null)
+    private data class Message(
+        var title: String,
+        var body: String,
+        var type: String,
+        var path: String? = null,
+        var badge: Int? = null
+    )
 }

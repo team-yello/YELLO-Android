@@ -1,9 +1,11 @@
 package com.el.yello.presentation.main.myyello.read
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.domain.entity.CheckKeyword
 import com.example.domain.entity.CheckName
+import com.example.domain.entity.FullName
 import com.example.domain.entity.YelloDetail
 import com.example.domain.enum.PointEnum
 import com.example.domain.repository.YelloRepository
@@ -31,9 +33,14 @@ class MyYelloReadViewModel @Inject constructor(
     private val _isFinishCheck = MutableStateFlow(false)
     val isFinishCheck: StateFlow<Boolean> = _isFinishCheck.asStateFlow()
 
+    private val _fullNameData = MutableStateFlow<UiState<FullName>>(UiState.Loading)
+    val fullNameData: StateFlow<UiState<FullName>> = _fullNameData.asStateFlow()
+
     var pointType = 0
     var isTwoButton = false
     var myPoint = 0
+        private set
+    var myReadingTicketCount = 0
         private set
 
     private var voteId: Long = -1
@@ -60,13 +67,17 @@ class MyYelloReadViewModel @Inject constructor(
         myPoint = point
     }
 
-    fun minusPoint(): Int {
+    private fun minusPoint(): Int {
         myPoint -= if (pointType == PointEnum.KEYWORD.ordinal) {
             100
         } else {
             300
         }
         return myPoint
+    }
+
+    private fun minusTicket() {
+        myReadingTicketCount -= 1
     }
 
     fun setIsFinishCheck(isFinish: Boolean) {
@@ -82,6 +93,8 @@ class MyYelloReadViewModel @Inject constructor(
                         _yelloDetailData.value = UiState.Empty
                         return@launch
                     }
+                    myReadingTicketCount = it.ticketCount
+                    myPoint = it.currentPoint
                     _yelloDetailData.value = UiState.Success(it)
                 }.onFailure {
                     _yelloDetailData.value = UiState.Failure("옐로 상세보기 서버 통신 실패")
@@ -96,6 +109,7 @@ class MyYelloReadViewModel @Inject constructor(
                     if (it == null) {
                         _keywordData.value = UiState.Empty
                     } else {
+                        minusPoint()
                         _keywordData.value = UiState.Success(it)
                     }
                 }.onFailure {
@@ -111,10 +125,30 @@ class MyYelloReadViewModel @Inject constructor(
                     if (it == null) {
                         _nameData.value = UiState.Empty
                     } else {
+                        if (pointType == PointEnum.INITIAL.ordinal) {
+                            minusPoint()
+                        }
                         _nameData.value = UiState.Success(it)
+
                     }
                 }.onFailure {
                     _nameData.value = UiState.Failure("이름 확인 서버 통신 실패")
+                }
+        }
+    }
+
+    fun postFullName() {
+        viewModelScope.launch {
+            repository.postFullName(voteId)
+                .onSuccess {
+                    if (it == null) {
+                        _fullNameData.value = UiState.Empty
+                    } else {
+                        minusTicket()
+                        _fullNameData.value = UiState.Success(it)
+                    }
+                }.onFailure {
+                    _fullNameData.value = UiState.Failure("열람권 사용하기 서버 통신 실패")
                 }
         }
     }

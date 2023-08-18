@@ -42,9 +42,12 @@ class PointUseDialog : BindingDialogFragment<DialogPointUseBinding>(R.layout.dia
             if (viewModel.pointType == PointEnum.INITIAL.ordinal) {
                 binding.tvTitle.text = getString(R.string.dialog_get_initial_question)
                 binding.tvOk.text = getString(R.string.dialog_get_initial)
-            } else {
+            } else if(viewModel.pointType == PointEnum.KEYWORD.ordinal) {
                 binding.tvTitle.text = getString(R.string.dialog_get_keyword_question)
                 binding.tvOk.text = getString(R.string.dialog_get_keyword)
+            } else {
+                binding.tvTitle.text = getString(R.string.dialog_get_keyword_free_question)
+                binding.tvOk.text = getString(R.string.dialog_get_initial)
             }
         }
     }

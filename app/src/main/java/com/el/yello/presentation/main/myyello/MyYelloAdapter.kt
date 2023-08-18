@@ -54,10 +54,10 @@ class MyYelloAdapter(private val itemClick: (Yello, Int) -> (Unit)) :
     ) : RecyclerView.ViewHolder(binding.root) {
         fun onBind(item: Yello, position: Int) {
             binding.data = item
-            binding.ivReadYelloPoint.isVisible = !item.isRead && !item.isHintUsed
+            binding.ivReadYelloPoint.isVisible = !item.isRead || !item.isHintUsed
             binding.tvTime.text = item.createdAt
-            binding.clSendCheck.isVisible = item.isHintUsed
-            binding.tvGender.isVisible = !item.isHintUsed
+            binding.clSendCheck.isVisible = item.isHintUsed && item.isRead
+            binding.tvGender.isVisible = !item.isHintUsed || !item.isRead
             binding.cardMyYello.setCardBackgroundColor(
                 ContextCompat.getColor(
                     itemView.context,
@@ -117,6 +117,8 @@ class MyYelloAdapter(private val itemClick: (Yello, Int) -> (Unit)) :
                 binding.tvKeywordFoot.text = item.vote.keywordFoot
                 if (item.nameHint >= 0) {
                     binding.tvSendName.text = Utils.setChosungText(item.senderName, item.nameHint)
+                } else if(item.nameHint == -2 || item.nameHint == -3) {
+                    binding.tvSendName.text = item.senderName
                 }
                 binding.clSendName.isVisible = item.nameHint != -1
             }

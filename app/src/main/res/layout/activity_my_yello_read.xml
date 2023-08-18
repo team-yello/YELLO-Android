@@ -16,7 +16,8 @@
         android:id="@+id/layout"
         setVoteBackground="@{data.colorIndex}"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/semantic_red_500">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/cl_top_view"
@@ -30,7 +31,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="16dp"
                 android:src="@drawable/ic_arrow_left"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -89,6 +90,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/unbounded_semibold"
+                android:rotation="-3"
                 android:text="@string/my_yello_question"
                 android:textColor="@color/black"
                 android:textSize="16sp"
@@ -102,6 +104,7 @@
                 android:id="@+id/tv_send_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:rotation="-3"
                 android:textAppearance="@style/TextAppearance.Yello.BodyLarge"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -116,7 +119,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
-            android:layout_marginTop="100dp"
+            android:layout_marginTop="120dp"
             android:text="@string/my_yello_send"
             android:textAppearance="@style/TextAppearance.Yello.Headline01"
             android:textColor="@color/white"
@@ -129,7 +132,7 @@
             setTextTint="@{data.colorIndex}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="10dp"
             android:text="익명의 여학생"
             android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
@@ -139,7 +142,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/cl_note"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="154dp"
             android:layout_marginHorizontal="8dp"
             android:layout_marginTop="42dp"
             android:background="@drawable/shape_fill_black_32dp"
@@ -157,7 +160,7 @@
                 android:lineHeight="32dp"
                 android:text="@{data.vote.nameHead}"
                 android:textColor="@color/white"
-                android:textSize="24dp"
+                android:textSize="24sp"
                 app:layout_constraintEnd_toStartOf="@id/tv_you"
                 app:layout_constraintHorizontal_chainStyle="packed"
                 app:layout_constraintStart_toStartOf="parent"
@@ -174,7 +177,7 @@
                 android:lineHeight="32dp"
                 android:text="@string/my_yello_you"
                 android:textColor="@color/white"
-                android:textSize="24dp"
+                android:textSize="24sp"
                 app:layout_constraintEnd_toStartOf="@id/tv_name_foot"
                 app:layout_constraintStart_toEndOf="@id/tv_name_head"
                 app:layout_constraintTop_toTopOf="parent"
@@ -204,7 +207,7 @@
                 android:lineHeight="32dp"
                 android:text="@{data.vote.keywordHead}"
                 android:textColor="@color/white"
-                android:textSize="24dp"
+                android:textSize="24sp"
                 app:layout_constraintBottom_toBottomOf="@id/cl_keyword"
                 app:layout_constraintEnd_toStartOf="@id/cl_keyword"
                 app:layout_constraintHorizontal_chainStyle="packed"
@@ -243,6 +246,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginVertical="4dp"
                     android:fontFamily="@font/unbounded_semibold"
+                    android:rotation="-3"
                     android:text="@string/my_yello_question"
                     android:textColor="@color/black"
                     android:textSize="16sp"
@@ -257,7 +261,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="14dp"
-                    android:layout_marginVertical="4dp"
+                    android:paddingVertical="7dp"
                     android:rotation="-3"
                     android:text="@{data.vote.keyword}"
                     android:textAppearance="@style/TextAppearance.Yello.BodyLarge"
@@ -280,7 +284,7 @@
                 android:lineHeight="32dp"
                 android:text="@{data.vote.keywordFoot}"
                 android:textColor="@color/white"
-                android:textSize="24dp"
+                android:textSize="24sp"
                 app:layout_constraintBottom_toBottomOf="@id/cl_keyword"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_chainStyle="packed"
@@ -292,43 +296,73 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/cl_bottom_view"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent">
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cl_note">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/cl_instagram"
+            <ImageView
+                android:id="@+id/iv_instagram"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="24dp"
-                app:layout_constraintBottom_toTopOf="@id/tv_initial_check"
+                android:layout_marginTop="44dp"
+                android:src="@drawable/ic_instagram"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent">
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-                <ImageView
-                    android:id="@+id/iv_instagram"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_instagram"
-                    app:layout_constraintBottom_toBottomOf="@id/tv_instagram_share"
-                    app:layout_constraintEnd_toStartOf="@id/tv_instagram_share"
-                    app:layout_constraintHorizontal_chainStyle="packed"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/tv_instagram_share" />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_zero_initial_check"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:background="@drawable/shape_white_35per_100dp"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.72">
 
                 <TextView
-                    android:id="@+id/tv_instagram_share"
-                    setTextTint="@{data.colorIndex}"
+                    android:id="@+id/tv_300"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingVertical="16dp"
+                    android:text="@string/my_yello_300"
+                    android:textAppearance="@style/TextAppearance.Yello.BodyMedium"
+                    android:textColor="@color/white"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/tv_zero_point"
+                    app:layout_constraintHorizontal_chainStyle="packed"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_zero_point"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="4dp"
-                    android:fontFamily="@font/pretendard_medium"
-                    android:lineHeight="20dp"
-                    android:padding="2dp"
-                    android:text="@string/my_yello_instagram"
-                    android:textColor="@color/white"
+                    android:text="0포인트"
+                    android:textAppearance="@style/TextAppearance.Yello.BodyMedium"
+                    android:textColor="@color/purple_sub_500"
+                    app:layout_constraintBottom_toBottomOf="@id/tv_300"
+                    app:layout_constraintEnd_toStartOf="@id/tv_one_initial_check"
+                    app:layout_constraintStart_toEndOf="@id/tv_300"
+                    app:layout_constraintTop_toTopOf="@id/tv_300" />
+
+                <TextView
+                    android:id="@+id/tv_one_initial_check"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="로 초성 1개 확인하기"
+                    android:textAppearance="@style/TextAppearance.Yello.BodyMedium"
+                    android:textColor="@color/black"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/iv_instagram" />
+                    app:layout_constraintStart_toEndOf="@id/tv_zero_point"
+                    app:layout_constraintTop_toTopOf="parent" />
+
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <TextView
@@ -336,108 +370,144 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="16dp"
-                android:layout_marginBottom="8dp"
-                android:background="@drawable/shape_white_35per_8dp"
-                android:fontFamily="@font/pretendard_bold"
+                android:background="@drawable/shape_white_35per_100dp"
                 android:gravity="center"
-                android:lineHeight="32dp"
-                android:paddingVertical="13dp"
+                android:paddingVertical="16dp"
                 android:text="@string/my_yello_point_check"
                 android:textAppearance="@style/TextAppearance.Yello.BodyMedium"
                 android:textColor="@color/black"
-                android:textSize="15dp"
-                app:layout_constraintBottom_toTopOf="@id/cl_send_check"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.72" />
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/cl_send_check"
+            <com.el.yello.presentation.util.YelloAnimationButton
+                android:id="@+id/btn_send_check"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="16dp"
-                android:layout_marginBottom="34dp"
-                android:background="@drawable/shape_fill_yello500_8dp"
-                app:layout_constraintBottom_toBottomOf="parent">
+                android:layout_marginTop="8dp"
+                android:drawableStart="@drawable/ic_lock"
+                android:drawableTint="@color/black"
+                android:gravity="center"
+                android:paddingVertical="20dp"
+                android:paddingStart="78dp"
+                android:paddingEnd="78dp"
+                android:text="@string/my_yello_send_check"
+                android:textAppearance="@style/TextAppearance.Yello.Subtitle02"
+                android:textColor="@color/black"
+                android:visibility="gone"
+                app:layout_constraintTop_toBottomOf="@id/tv_initial_check" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_send_open"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/shape_purple_gradient_100dp"
+                android:visibility="gone"
+                app:layout_constraintTop_toBottomOf="@id/tv_initial_check">
 
                 <ImageView
-                    android:id="@+id/iv_lock"
+                    android:id="@+id/iv_key"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginVertical="16dp"
-                    android:src="@drawable/ic_lock"
+                    android:src="@drawable/ic_key"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@id/tv_send_check"
+                    app:layout_constraintEnd_toStartOf="@id/tv_key_number"
                     app:layout_constraintHorizontal_chainStyle="packed"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:tint="@color/white" />
 
                 <TextView
-                    android:id="@+id/tv_send_check"
+                    android:id="@+id/tv_key_number"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="4dp"
+                    android:textAppearance="@style/TextAppearance.Yello.Subtitle02"
+                    android:textColor="@color/white"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/tv_send_open"
+                    app:layout_constraintStart_toEndOf="@id/iv_key"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:tint="@color/white"
+                    tools:text="0" />
+
+                <TextView
+                    android:id="@+id/tv_send_open"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
                     android:fontFamily="@font/pretendard_bold"
-                    android:lineHeight="32dp"
-                    android:text="@string/my_yello_send_check"
-                    android:textColor="@color/black"
-                    android:textSize="15dp"
+                    android:paddingVertical="20dp"
+                    android:text="@string/my_yello_send_open"
+                    android:textColor="@color/white"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/iv_lock"
+                    app:layout_constraintStart_toEndOf="@id/tv_key_number"
                     app:layout_constraintTop_toTopOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <TextView
+                android:id="@+id/tv_name_check_finish"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:paddingVertical="20dp"
+                android:text="보낸 사람을 알아냈어요!"
+                android:textAppearance="@style/TextAppearance.Yello.Subtitle02"
+                android:textColor="@color/white"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_initial_check" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/cl_instagram_view"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="parent">
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cl_note">
 
             <ImageView
+                android:id="@+id/iv_logo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="7dp"
                 android:src="@drawable/ic_logo"
-                app:layout_constraintBottom_toTopOf="@id/tv_instagram"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
-
-            <TextView
-                android:id="@+id/tv_instagram"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="51dp"
-                android:text="지금 누군가가 당신을 생각하고 있어요!"
-                android:textAppearance="@style/TextAppearance.Yello.LabelLarge"
-                android:textColor="@color/white"
-                app:layout_constraintBottom_toTopOf="@id/iv_yello_face"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/iv_yello_face"
+                app:layout_constraintVertical_bias="0.54" />
 
             <ImageView
                 android:id="@+id/iv_yello_face"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
                 android:src="@drawable/ic_yello_face"
-                app:layout_constraintBottom_toTopOf="@id/tv_yello_id"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/tv_yello_id"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="83dp"
-                android:paddingVertical="6dp"
-                android:textSize="8sp"
                 android:fontFamily="@font/unbounded_regular"
+                android:paddingVertical="6dp"
                 android:text="\@yelloworld_official"
                 android:textColor="#99FFFFFF"
-                app:layout_constraintBottom_toBottomOf="parent"
+                android:textSize="10sp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/iv_logo" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

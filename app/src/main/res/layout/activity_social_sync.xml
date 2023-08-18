@@ -21,7 +21,8 @@
             android:gravity="center"
             android:lineHeight="42dp"
             android:text="@string/social_sync_tv_title"
-            android:textAppearance="?attr/textAppearanceHeadline3"
+            android:fontFamily="@font/pretendard_bold"
+            android:textSize="26sp"
             android:textColor="@color/white"
             app:layout_constraintBottom_toTopOf="@id/tv_social_sync_subtitle"
             app:layout_constraintEnd_toEndOf="parent"
@@ -37,7 +38,7 @@
             android:lineHeight="28dp"
             android:text="@string/social_sync_tv_subtitle"
             android:textAppearance="?attr/textAppearanceBodySmall"
-            android:textColor="@color/white"
+            android:textColor="@color/grayscales_500"
             app:layout_constraintBottom_toTopOf="@id/iv_social_sync"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />

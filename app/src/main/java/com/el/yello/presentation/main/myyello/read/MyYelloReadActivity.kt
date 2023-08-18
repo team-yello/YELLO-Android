@@ -5,12 +5,16 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Canvas
+import android.graphics.Paint
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
 import android.view.View
+import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
+import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
@@ -18,6 +22,7 @@ import com.el.yello.R
 import com.el.yello.databinding.ActivityMyYelloReadBinding
 import com.el.yello.presentation.pay.PayActivity
 import com.el.yello.util.Utils
+import com.el.yello.util.context.yelloSnackbar
 import com.example.domain.entity.YelloDetail
 import com.example.domain.enum.PointEnum
 import com.example.ui.base.BindingActivity
@@ -55,6 +60,8 @@ class MyYelloReadActivity :
         viewModel.getYelloDetail(id)
         viewModel.setNameIndex(nameIndex)
         viewModel.setHintUsed(isHintUsed)
+
+        binding.tv300.paintFlags = binding.tv300.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
     }
 
     private fun initClick() {
@@ -74,27 +81,41 @@ class MyYelloReadActivity :
                     PointEnum.INITIAL.ordinal
                 } else {
                     PointEnum.KEYWORD.ordinal
-                },
+                }
             ).show(supportFragmentManager, "dialog")
         }
 
-        binding.clSendCheck.setOnSingleClickListener {
+        binding.btnSendCheck.setOnSingleClickListener {
             Intent(this, PayActivity::class.java).apply {
                 startActivity(this)
             }
+        }
+
+        binding.clSendOpen.setOnSingleClickListener {
+            viewModel.setIsFinishCheck(false)
+            ReadingTicketUseDialog().show(supportFragmentManager, "reading_ticket_dialog")
         }
 
         binding.ivBack.setOnSingleClickListener {
             finish()
         }
 
-        binding.clInstagram.setOnSingleClickListener {
+        binding.ivInstagram.setOnSingleClickListener {
             setViewInstagram(true)
             lifecycleScope.launch {
                 delay(500)
                 shareInstagramStory()
             }
         }
+
+        binding.clZeroInitialCheck.setOnSingleClickListener {
+            PointUseDialog.newInstance(
+                true,
+                PointEnum.SUBSCRIBE.ordinal
+            ).show(supportFragmentManager, "dialog")
+        }
+
+
     }
 
     private fun observe() {
@@ -132,9 +153,14 @@ class MyYelloReadActivity :
     private fun setData(yello: YelloDetail) {
         binding.tvSendName.isVisible = yello.nameHint != -1
         binding.tvNameNotYet.isVisible = yello.nameHint == -1
+        binding.clSendOpen.isVisible = yello.ticketCount != 0
+        binding.btnSendCheck.isVisible = yello.ticketCount == 0
+        binding.tvKeyNumber.text = yello.ticketCount.toString()
         if (yello.nameHint >= 0) {
             binding.tvSendName.text =
                 Utils.setChosungText(yello.senderName, yello.nameHint)
+        } else if (yello.nameHint == -2 || yello.nameHint == -3) {
+            binding.tvSendName.text = yello.senderName
         }
         binding.tvInitialCheck.isVisible = !(yello.nameHint >= 0 && yello.isAnswerRevealed)
         binding.tvGender.text =
@@ -147,7 +173,26 @@ class MyYelloReadActivity :
             }
         binding.tvInitialCheck.text =
             if (yello.isAnswerRevealed) "300포인트로 초성 1개 확인하기" else "100포인트로 키워드 확인하기"
-        viewModel.setMyPoint(yello.currentPoint)
+
+//        binding.clZeroInitialCheck.isVisible = yello.isAnswerRevealed && yello.isSubscribe
+//        binding.tvInitialCheck.isInvisible = yello.isAnswerRevealed && yello.isSubscribe
+        if (yello.isSubscribe) {
+            binding.tvInitialCheck.isInvisible = yello.isAnswerRevealed
+            binding.clZeroInitialCheck.isVisible = yello.isAnswerRevealed && yello.nameHint == -1
+        }
+
+        if (yello.nameHint == -2) {
+            if (yello.isAnswerRevealed) {
+                binding.clZeroInitialCheck.isVisible = false
+                binding.tvInitialCheck.isVisible = false
+            }
+            binding.btnSendCheck.isVisible = false
+            binding.clSendOpen.isVisible = false
+        } else if (yello.nameHint == -3) {
+            binding.clZeroInitialCheck.isVisible = false
+            binding.tvInitialCheck.isVisible = false
+        }
+        binding.tvNameCheckFinish.isVisible = yello.nameHint == -2
     }
 
     private fun shareInstagramStory() {
@@ -210,7 +255,12 @@ class MyYelloReadActivity :
     }
 
     companion object {
-        fun getIntent(context: Context, id: Long, nameIndex: Int? = null, isHintUsed: Boolean? = null) =
+        fun getIntent(
+            context: Context,
+            id: Long,
+            nameIndex: Int? = null,
+            isHintUsed: Boolean? = null
+        ) =
             Intent(context, MyYelloReadActivity::class.java)
                 .putExtra("id", id)
                 .putExtra("nameIndex", nameIndex)

@@ -20,6 +20,7 @@ import com.el.yello.presentation.main.profile.info.ProfileFragment
 import com.el.yello.presentation.main.recommend.RecommendFragment
 import com.el.yello.presentation.main.yello.YelloFragment
 import com.el.yello.presentation.util.dp
+import com.el.yello.util.amplitude.AmplitudeUtils
 import com.el.yello.util.context.yelloSnackbar
 import com.example.ui.base.BindingActivity
 import com.example.ui.context.toast
@@ -68,7 +69,10 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
 
         binding.bnvMain.setOnItemSelectedListener { menu ->
             when (menu.itemId) {
-                R.id.menu_recommend -> navigateTo<RecommendFragment>()
+                R.id.menu_recommend -> {
+                    AmplitudeUtils.trackEventWithProperties("click_recommend_navigation")
+                    navigateTo<RecommendFragment>()
+                }
                 R.id.menu_look -> navigateTo<LookFragment>()
                 R.id.menu_yello -> navigateTo<YelloFragment>()
                 R.id.menu_my_yello -> navigateTo<MyYelloFragment>()

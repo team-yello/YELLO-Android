@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.el.yello.R
 import com.el.yello.databinding.ActivityRecommendSearchBinding
+import com.el.yello.util.amplitude.AmplitudeUtils
 import com.el.yello.util.context.yelloSnackbar
 import com.example.ui.base.BindingActivity
 import com.example.ui.context.toast
@@ -59,6 +60,7 @@ class RecommendSearchActivity :
         _adapter = RecommendSearchAdapter { searchFriendModel, position, holder ->
             viewModel.setPositionAndHolder(position, holder)
             viewModel.addFriendToServer(searchFriendModel.id.toLong())
+            AmplitudeUtils.trackEventWithProperties("click_search_addfriend")
         }
         binding.rvRecommendSearch.adapter = adapter
         binding.rvRecommendSearch.addItemDecoration(

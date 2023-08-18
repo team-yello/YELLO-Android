@@ -1,8 +1,6 @@
 package com.el.yello.presentation.pay
 
-import android.content.Intent
 import android.graphics.Paint
-import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -15,7 +13,6 @@ import com.android.billingclient.api.ProductDetails
 import com.android.billingclient.api.Purchase
 import com.el.yello.R
 import com.el.yello.databinding.ActivityPayBinding
-import com.el.yello.presentation.main.profile.manage.ProfileManageActivity
 import com.el.yello.presentation.util.BillingCallback
 import com.el.yello.presentation.util.BillingManager
 import com.el.yello.util.amplitude.AmplitudeUtils
@@ -173,8 +170,7 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
         binding.clSubscribe.setOnSingleClickListener {
             viewModel.payCheck(0)
             AmplitudeUtils.trackEventWithProperties(
-                "click_shop_buy",
-                JSONObject().put("buy_type", "subscribe")
+                "click_shop_buy", JSONObject().put("buy_type", "subscribe")
             )
             productDetailsList.withIndex().find { it.value.productId == YELLO_PLUS }
                 ?.let { productDetails ->
@@ -188,8 +184,7 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
         binding.clNameCheckOne.setOnSingleClickListener {
             viewModel.payCheck(1)
             AmplitudeUtils.trackEventWithProperties(
-                "click_shop_buy",
-                JSONObject().put("buy_type", "ticket1")
+                "click_shop_buy", JSONObject().put("buy_type", "ticket1")
             )
             productDetailsList.withIndex().find { it.value.productId == YELLO_ONE }
                 ?.let { productDetails ->
@@ -203,8 +198,7 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
         binding.clNameCheckTwo.setOnSingleClickListener {
             viewModel.payCheck(2)
             AmplitudeUtils.trackEventWithProperties(
-                "click_shop_buy",
-                JSONObject().put("buy_type", "ticket2")
+                "click_shop_buy", JSONObject().put("buy_type", "ticket2")
             )
             productDetailsList.withIndex().find { it.value.productId == YELLO_TWO }
                 ?.let { productDetails ->
@@ -218,8 +212,7 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
         binding.clNameCheckFive.setOnSingleClickListener {
             viewModel.payCheck(3)
             AmplitudeUtils.trackEventWithProperties(
-                "click_shop_buy",
-                JSONObject().put("buy_type", "ticket5")
+                "click_shop_buy", JSONObject().put("buy_type", "ticket5")
             )
             productDetailsList.withIndex().find { it.value.productId == YELLO_FIVE }
                 ?.let { productDetails ->
@@ -260,10 +253,11 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
 
                 is UiState.Failure -> {
                     Log.d("sangho", "13 : sub failure : @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
-                    toast(getString(R.string.pay_check_error))
                     stopLoadingScreen()
-                    if (state.msg == "500") {
+                    if (state.msg == SERVER_ERROR) {
                         showErrorDialog()
+                    } else {
+                        toast(getString(R.string.pay_check_error))
                     }
                 }
 
@@ -316,10 +310,11 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
                         "sangho",
                         "14 : inapp failure : &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&"
                     )
-                    toast(getString(R.string.pay_check_error))
                     stopLoadingScreen()
-                    if (state.msg == "500") {
+                    if (state.msg == SERVER_ERROR) {
                         showErrorDialog()
+                    } else {
+                        toast(getString(R.string.pay_check_error))
                     }
                 }
 
@@ -346,21 +341,9 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
 
     private fun showErrorDialog() {
         AlertDialog.Builder(this)
-            .setTitle("오류")
-            .setMessage("서비스 결제 과정에서 오류가 발생했습니다.")
-            .setPositiveButton(
-                "링크 이동"
-            ) { _, _ ->
-                startActivity(
-                    Intent(
-                        Intent.ACTION_VIEW,
-                        Uri.parse(ProfileManageActivity.CUSTOMER_CENTER_URL)
-                    )
-                )
-            }
-            .setNegativeButton(
-                "확인"
-            ) { dialog, _ -> dialog.dismiss() }
+            .setTitle(getString(R.string.pay_error_dialog_title))
+            .setMessage(getString(R.string.pay_error_dialog_msg))
+            .setPositiveButton(getString(R.string.pay_error_dialog_btn)) { dialog, _ -> dialog.dismiss() }
             .create()
             .show()
     }
@@ -397,5 +380,7 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
 
         const val DIALOG_SUBS = "subsDialog"
         const val DIALOG_IN_APP = "inAppDialog"
+
+        const val SERVER_ERROR = "HTTP 500 "
     }
 }

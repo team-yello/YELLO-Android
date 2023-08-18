@@ -117,7 +117,7 @@ class ProfileManageActivity :
         Runtime.getRuntime().exit(0)
     }
 
-    private companion object {
+    companion object {
         const val CUSTOMER_CENTER_URL =
             "https://yell0.notion.site/YELLO-34028220a873416b91d5d2f1cd827432?pvs=4"
         const val PRIVACY_URL =

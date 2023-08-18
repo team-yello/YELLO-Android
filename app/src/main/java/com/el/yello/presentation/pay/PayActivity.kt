@@ -1,18 +1,21 @@
 package com.el.yello.presentation.pay
 
+import android.content.Intent
 import android.graphics.Paint
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import androidx.activity.viewModels
+import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.widget.ViewPager2
-import coil.load
 import com.android.billingclient.api.ProductDetails
 import com.android.billingclient.api.Purchase
 import com.el.yello.R
 import com.el.yello.databinding.ActivityPayBinding
+import com.el.yello.presentation.main.profile.manage.ProfileManageActivity
 import com.el.yello.presentation.util.BillingCallback
 import com.el.yello.presentation.util.BillingManager
 import com.el.yello.util.amplitude.AmplitudeUtils
@@ -259,6 +262,9 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
                     Log.d("sangho", "13 : sub failure : @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
                     toast(getString(R.string.pay_check_error))
                     stopLoadingScreen()
+                    if (state.msg == "500") {
+                        showErrorDialog()
+                    }
                 }
 
                 is UiState.Loading -> {}
@@ -312,6 +318,9 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
                     )
                     toast(getString(R.string.pay_check_error))
                     stopLoadingScreen()
+                    if (state.msg == "500") {
+                        showErrorDialog()
+                    }
                 }
 
                 is UiState.Loading -> {}
@@ -333,6 +342,27 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
         manager.setIsPurchasingOff()
         binding.layoutPayCheckLoading.visibility = View.GONE
         window?.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
+    }
+
+    private fun showErrorDialog() {
+        AlertDialog.Builder(this)
+            .setTitle("오류")
+            .setMessage("서비스 결제 과정에서 오류가 발생했습니다.")
+            .setPositiveButton(
+                "링크 이동"
+            ) { _, _ ->
+                startActivity(
+                    Intent(
+                        Intent.ACTION_VIEW,
+                        Uri.parse(ProfileManageActivity.CUSTOMER_CENTER_URL)
+                    )
+                )
+            }
+            .setNegativeButton(
+                "확인"
+            ) { dialog, _ -> dialog.dismiss() }
+            .create()
+            .show()
     }
 
     // 구독 여부 확인해서 화면 표시 변경

@@ -18,6 +18,7 @@ class StartAppActivity :
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initTutorialView()
+
     }
 
     private fun startTutorialActivity() {

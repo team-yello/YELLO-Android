@@ -256,7 +256,6 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
 
                 is UiState.Failure -> {
                     binding.layoutShowSubs.visibility = View.GONE
-                    toast(getString(R.string.pay_error_subs))
                 }
 
                 is UiState.Loading -> {}

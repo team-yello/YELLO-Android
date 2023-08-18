@@ -256,7 +256,6 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
 
                 is UiState.Failure -> {
                     viewModel.isSubscribed = false
-                    toast(getString(R.string.pay_error_subs))
                 }
 
                 is UiState.Loading -> {}

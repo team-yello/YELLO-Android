@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.domain.entity.RequestPayModel
 import com.example.domain.entity.Response
-import com.example.domain.entity.ResponsePayCheckModel
+import com.example.domain.entity.ResponseSubsNeededModel
 import com.example.domain.entity.ResponsePaySubsModel
 import com.example.domain.entity.ResponsePayInAppModel
 import com.example.domain.repository.PayRepository
@@ -38,8 +38,8 @@ class PayViewModel @Inject constructor(
     private val _postInAppCheckState = MutableLiveData<UiState<ResponsePayInAppModel?>>()
     val postInAppCheckState: LiveData<UiState<ResponsePayInAppModel?>> = _postInAppCheckState
 
-    private val _getIsSubscribedState = MutableLiveData<UiState<ResponsePayCheckModel?>>()
-    val getIsSubscribedState: LiveData<UiState<ResponsePayCheckModel?>> = _getIsSubscribedState
+    private val _getIsSubscribedState = MutableLiveData<UiState<ResponseSubsNeededModel?>>()
+    val getIsSubscribedState: LiveData<UiState<ResponseSubsNeededModel?>> = _getIsSubscribedState
 
     fun payCheck(index: Int) {
         _payCheck.tryEmit(UiState.Loading)
@@ -86,7 +86,7 @@ class PayViewModel @Inject constructor(
     fun checkIsSubscribed() {
         viewModelScope.launch {
             runCatching {
-                payRepository.getIsSubscribed()
+                payRepository.getSubsNeeded()
             }.onSuccess {
                 _getIsSubscribedState.value = UiState.Success(it)
             }.onFailure {

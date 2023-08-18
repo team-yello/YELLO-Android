@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.domain.entity.ProfileFriendsListModel
 import com.example.domain.entity.ProfileUserModel
-import com.example.domain.entity.ResponsePayCheckModel
+import com.example.domain.entity.ResponseSubsNeededModel
 import com.example.domain.entity.vote.VoteCount
 import com.example.domain.repository.AuthRepository
 import com.example.domain.repository.PayRepository
@@ -50,8 +50,8 @@ class ProfileViewModel @Inject constructor(
     private val _kakaoQuitState = MutableLiveData<UiState<Unit>>()
     val kakaoQuitState: LiveData<UiState<Unit>> = _kakaoQuitState
 
-    private val _getIsSubscribedState = MutableLiveData<UiState<ResponsePayCheckModel?>>()
-    val getIsSubscribedState: LiveData<UiState<ResponsePayCheckModel?>> = _getIsSubscribedState
+    private val _getIsSubscribedState = MutableLiveData<UiState<ResponseSubsNeededModel?>>()
+    val getIsSubscribedState: LiveData<UiState<ResponseSubsNeededModel?>> = _getIsSubscribedState
 
     var isSubscribed: Boolean = false
 
@@ -205,7 +205,7 @@ class ProfileViewModel @Inject constructor(
     fun checkIsSubscribed() {
         viewModelScope.launch {
             runCatching {
-                payRepository.getIsSubscribed()
+                payRepository.getSubsNeeded()
             }.onSuccess {
                 _getIsSubscribedState.value = UiState.Success(it)
             }.onFailure {

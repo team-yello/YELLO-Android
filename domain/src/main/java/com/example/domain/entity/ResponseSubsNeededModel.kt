@@ -1,6 +1,6 @@
 package com.example.domain.entity
 
-class ResponsePayCheckModel (
+class ResponseSubsNeededModel (
     val subscribe: String,
     val isSubscribeNeeded: Boolean
 )

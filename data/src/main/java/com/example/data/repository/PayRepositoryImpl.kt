@@ -3,9 +3,10 @@ package com.example.data.repository
 import com.example.data.datasource.PayDataSource
 import com.example.data.model.request.pay.toRequestDto
 import com.example.domain.entity.RequestPayModel
-import com.example.domain.entity.ResponsePayCheckModel
-import com.example.domain.entity.ResponsePaySubsModel
 import com.example.domain.entity.ResponsePayInAppModel
+import com.example.domain.entity.ResponsePaySubsModel
+import com.example.domain.entity.ResponsePurchaseInfoModel
+import com.example.domain.entity.ResponseSubsNeededModel
 import com.example.domain.repository.PayRepository
 import javax.inject.Inject
 
@@ -29,10 +30,16 @@ class PayRepositoryImpl @Inject constructor(
         ).data?.toResponsePayInAppModel()
     }
 
-    override suspend fun getIsSubscribed(
-    ): ResponsePayCheckModel? {
-        return payDataSource.getIsSubscribedData(
-        ).data?.toResponsePayCheckModel()
+    override suspend fun getSubsNeeded(
+    ): ResponseSubsNeededModel? {
+        return payDataSource.getSubsNeededData(
+        ).data?.toResponseSubsNeededModel()
+    }
+
+    override suspend fun getPurchaseInfo(
+    ): ResponsePurchaseInfoModel? {
+        return payDataSource.getPurchaseInfoData(
+        ).data?.toResponsePurchaseInfoModel()
     }
 
 }

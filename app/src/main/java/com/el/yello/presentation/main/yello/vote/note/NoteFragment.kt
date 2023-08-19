@@ -8,10 +8,12 @@ import com.el.yello.R
 import com.el.yello.databinding.FragmentNoteBinding
 import com.el.yello.presentation.main.yello.vote.NoteState
 import com.el.yello.presentation.main.yello.vote.VoteViewModel
+import com.el.yello.util.amplitude.AmplitudeUtils
 import com.el.yello.util.context.yelloSnackbar
 import com.example.ui.base.BindingFragment
 import com.example.ui.view.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
+import org.json.JSONObject
 
 @AndroidEntryPoint
 class NoteFragment : BindingFragment<FragmentNoteBinding>(R.layout.fragment_note) {
@@ -58,6 +60,10 @@ class NoteFragment : BindingFragment<FragmentNoteBinding>(R.layout.fragment_note
         }
 
         for (i in noteIndex + 1 until voteListSize) {
+            for (i in 1..8) {
+                val properties = JSONObject().put("vote_step", i)
+                AmplitudeUtils.trackEventWithProperties("view_vote_question", properties)
+            }
             layoutInflater.inflate(
                 R.layout.layout_vote_progress_bar,
                 binding.layoutNoteProgressAfter,
@@ -69,12 +75,20 @@ class NoteFragment : BindingFragment<FragmentNoteBinding>(R.layout.fragment_note
 
     private fun initShuffleBtnClickListener() {
         binding.btnNoteShuffle.setOnSingleClickListener {
+            for (i in 1..8) {
+                val properties = JSONObject().put("question_id", i)
+                AmplitudeUtils.trackEventWithProperties("click_vote_shuffle", properties)
+            }
             viewModel.shuffle()
         }
     }
 
     private fun initSkipBtnClickListener() {
         binding.btnNoteSkip.setOnSingleClickListener {
+            for (i in 1..8) {
+                val properties = JSONObject().put("question_id", i)
+                AmplitudeUtils.trackEventWithProperties("click_vote_skip", properties)
+            }
             viewModel.skip()
         }
     }

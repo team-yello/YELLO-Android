@@ -9,10 +9,12 @@ import com.el.yello.R
 import com.el.yello.databinding.FragmentYelloIdBinding
 import com.el.yello.presentation.onboarding.activity.OnBoardingActivity
 import com.el.yello.presentation.onboarding.activity.OnBoardingViewModel
+import com.el.yello.util.amplitude.AmplitudeUtils
 import com.el.yello.util.context.yelloSnackbar
 import com.example.ui.base.BindingFragment
 import com.example.ui.view.UiState
 import com.example.ui.view.setOnSingleClickListener
+import org.json.JSONObject
 
 class YelIoIdFragment : BindingFragment<FragmentYelloIdBinding>(R.layout.fragment_yello_id) {
     private val viewModel by activityViewModels<OnBoardingViewModel>()
@@ -27,6 +29,10 @@ class YelIoIdFragment : BindingFragment<FragmentYelloIdBinding>(R.layout.fragmen
 
     private fun setConfirmBtnClickListener() {
         binding.btnYelloIdNext.setOnSingleClickListener {
+            AmplitudeUtils.trackEventWithProperties(
+                "click_onboarding_next",
+                JSONObject().put("onboard_view", "id"),
+            )
             viewModel.getValidYelloId(viewModel.id)
             findNavController().navigate(R.id.action_yelIoIdFragment_to_addFriendFragment)
             val activity = requireActivity() as OnBoardingActivity

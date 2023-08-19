@@ -11,8 +11,10 @@ import com.el.yello.R
 import com.el.yello.databinding.FragmentStartAppBinding
 import com.el.yello.presentation.onboarding.activity.OnBoardingActivity
 import com.el.yello.presentation.tutorial.TutorialAActivity
+import com.el.yello.util.amplitude.AmplitudeUtils
 import com.example.ui.base.BindingFragment
 import com.example.ui.view.setOnSingleClickListener
+import org.json.JSONObject
 
 class StartAppFragment : BindingFragment<FragmentStartAppBinding>(R.layout.fragment_start_app) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -30,7 +32,10 @@ class StartAppFragment : BindingFragment<FragmentStartAppBinding>(R.layout.fragm
     }
 
     private fun initTutorialView() {
+        AmplitudeUtils.trackEventWithProperties("click_onboarding_notification")
         binding.btnStartYello.setOnSingleClickListener {
+            val properties = JSONObject()
+            AmplitudeUtils.trackEventWithProperties("click_onboarding_notification", properties)
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                 if (ContextCompat.checkSelfPermission(
                         requireContext(),

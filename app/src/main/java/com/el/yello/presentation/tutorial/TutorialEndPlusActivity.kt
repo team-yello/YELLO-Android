@@ -5,8 +5,10 @@ import android.os.Bundle
 import com.el.yello.R
 import com.el.yello.databinding.ActivityTutorialEndPluspointBinding
 import com.el.yello.presentation.main.MainActivity
+import com.el.yello.util.amplitude.AmplitudeUtils
 import com.example.ui.base.BindingActivity
 import com.example.ui.view.setOnSingleClickListener
+import org.json.JSONObject
 
 class TutorialEndPlusActivity :
     BindingActivity<ActivityTutorialEndPluspointBinding>(R.layout.activity_tutorial_end_pluspoint) {
@@ -14,6 +16,7 @@ class TutorialEndPlusActivity :
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding.btnEndTutorial.setOnSingleClickListener {
+            AmplitudeUtils.trackEventWithProperties("click_onboarding_yellostart")
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
         }

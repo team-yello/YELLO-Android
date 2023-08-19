@@ -37,14 +37,17 @@ class YelloWaitFragment : BindingFragment<FragmentYelloWaitBinding>(R.layout.fra
         binding.btnWaitInvite.setOnSingleClickListener {
             AmplitudeUtils.trackEventWithProperties(
                 "click_invite",
-                JSONObject().put("invite_view", "vote_40min_reset")
+                JSONObject().put("invite_view", VOTE_40MIN_SCREEN)
             )
-            UnlockDialogFragment.newInstance(viewModel.getYelloId())
+            UnlockDialogFragment.newInstance(viewModel.getYelloId(), VOTE_40MIN_SCREEN)
                 .show(parentFragmentManager, TAG_UNLOCK_DIALOG)
         }
     }
 
     companion object {
+
+        const val VOTE_40MIN_SCREEN = "vote_40min_reset"
+
         @JvmStatic
         fun newInstance() = YelloWaitFragment()
     }

@@ -14,7 +14,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class YelloWaitFragment : BindingFragment<FragmentYelloWaitBinding>(R.layout.fragment_yello_wait) {
-    val viewModel by activityViewModels<YelloViewModel>()
+    private val viewModel by activityViewModels<YelloViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -26,7 +26,7 @@ class YelloWaitFragment : BindingFragment<FragmentYelloWaitBinding>(R.layout.fra
 
     private fun initCircularProgressBar() {
         binding.cpbWaitTimer.progress = viewModel.leftTime.value?.toFloat() ?: 0f
-        viewModel._leftTime.observe(viewLifecycleOwner) { time ->
+        viewModel.leftTime.observe(viewLifecycleOwner) { time ->
             binding.cpbWaitTimer.progress = time.toFloat()
         }
     }

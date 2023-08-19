@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_gravity="center">
 
     <data>
 
+        <variable
+            name="yelloId"
+            type="String" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -12,6 +16,7 @@
         android:layout_height="match_parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_unlock"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="30dp"
@@ -24,47 +29,75 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <TextView
-                android:id="@+id/tv_recommend_dialog_title"
+                android:id="@+id/tv_unlock_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:fontFamily="@font/pretendard_bold"
-                android:padding="3dp"
-                android:text="@string/recommend_dialog_tv_title"
+                android:gravity="center_horizontal"
+                android:paddingVertical="3dp"
+                android:text="@string/unlock_invite_and_unlock"
                 android:textAppearance="?textAppearanceSubtitle1"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/btn_invite_dialog_exit" />
+                app:layout_constraintTop_toBottomOf="@id/btn_unlock_exit" />
 
             <TextView
-                android:id="@+id/tv_recommend_dialog_subtitle1"
+                android:id="@+id/tv_unlock_subtitle1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
                 android:fontFamily="@font/font_pretendard_medium"
-                android:gravity="center"
-                android:padding="3dp"
-                android:text="@string/recommend_dialog_tv_subtitle"
+                android:gravity="center_horizontal"
+                android:paddingVertical="3dp"
+                android:text="@string/unlock_description1"
                 android:textColor="@color/grayscales_600"
                 android:textSize="13sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_recommend_dialog_title" />
+                app:layout_constraintTop_toBottomOf="@id/tv_unlock_title" />
 
             <TextView
-                android:id="@+id/tv_recommend_dialog_subtitle2"
+                android:id="@+id/tv_unlock_subtitle2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/font_pretendard_bold"
+                android:fontFamily="@font/font_pretendard_medium"
                 android:paddingVertical="3dp"
-                android:text="@string/recommend_dialog_tv_subtitle_2"
+                android:text="@string/unlock_description2_1"
+                android:textColor="@color/grayscales_600"
+                android:textSize="13sp"
+                app:layout_constraintEnd_toStartOf="@id/tv_unlock_subtitle3"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_unlock_subtitle1" />
+
+            <TextView
+                android:id="@+id/tv_unlock_subtitle3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/font_pretendard_medium"
+                android:paddingVertical="3dp"
+                android:text="@string/unlock_description2_2_bold"
+                android:textSize="13sp"
+                app:layout_constraintEnd_toStartOf="@id/tv_unlock_subtitle4"
+                app:layout_constraintStart_toEndOf="@id/tv_unlock_subtitle2"
+                app:layout_constraintTop_toBottomOf="@id/tv_unlock_subtitle1" />
+
+            <TextView
+                android:id="@+id/tv_unlock_subtitle4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/font_pretendard_medium"
+                android:paddingVertical="3dp"
+                android:text="@string/unlock_description2_3"
+                android:textColor="@color/grayscales_600"
                 android:textSize="13sp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_recommend_dialog_subtitle1" />
+                app:layout_constraintStart_toEndOf="@+id/tv_unlock_subtitle3"
+                app:layout_constraintTop_toBottomOf="@id/tv_unlock_subtitle1" />
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/layout_recommend_invite_code"
+                android:id="@+id/layout_unlock_invite_code"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="12dp"
@@ -74,21 +107,22 @@
                 app:cardElevation="0dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_recommend_dialog_subtitle2">
+                app:layout_constraintTop_toBottomOf="@id/tv_unlock_subtitle4">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/layout_unlock_my_yello_id"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingBottom="27dp">
+                    android:paddingVertical="27dp">
 
                     <TextView
-                        android:id="@+id/tv_recommend_dialog_invite_title"
+                        android:id="@+id/tv_unlock_invite_title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="27dp"
                         android:fontFamily="@font/font_pretendard_bold"
+                        android:gravity="center_horizontal"
                         android:paddingVertical="3dp"
-                        android:text="@string/recommend_dialog_tv_code_title"
+                        android:text="@string/unlock_my_yello_id_label"
                         android:textColor="@color/purple_sub_500"
                         android:textSize="13sp"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -96,61 +130,47 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
-                        android:id="@+id/tv_recommend_dialog_invite_subtitle"
+                        android:id="@+id/tv_unlock_invite_subtitle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/font_pretendard_bold"
-                        android:paddingVertical="4dp"
-                        android:text="@string/recommend_dialog_tv_code_start"
-                        android:textColor="@color/black"
-                        android:textSize="28sp"
-                        app:layout_constraintEnd_toStartOf="@id/tv_recommend_dialog_invite_id"
-                        app:layout_constraintHorizontal_chainStyle="packed"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/tv_recommend_dialog_invite_title" />
-
-                    <TextView
-                        android:id="@+id/tv_recommend_dialog_invite_id"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/font_pretendard_bold"
-                        android:paddingVertical="4dp"
-                        android:text=""
+                        android:gravity="center_horizontal"
+                        android:paddingVertical="2dp"
+                        android:text="@{@string/unlock_my_yello_id(yelloId)}"
                         android:textColor="@color/black"
                         android:textSize="28sp"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@id/tv_recommend_dialog_invite_subtitle"
-                        app:layout_constraintTop_toBottomOf="@id/tv_recommend_dialog_invite_title" />
-
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_unlock_invite_title"
+                        tools:text="\@nahyunyou" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
-
             </androidx.cardview.widget.CardView>
 
             <ImageView
-                android:id="@+id/btn_invite_kakao"
+                android:id="@+id/btn_unlock_invite_kakao"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="8dp"
-                android:layout_marginTop="27dp"
+                android:layout_marginTop="19dp"
+                android:padding="8dp"
                 android:src="@drawable/ic_kakao_share"
-                app:layout_constraintEnd_toStartOf="@id/btn_invite_link"
+                app:layout_constraintEnd_toStartOf="@id/btn_unlock_invite_link"
                 app:layout_constraintHorizontal_chainStyle="packed"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/layout_recommend_invite_code" />
+                app:layout_constraintTop_toBottomOf="@id/layout_unlock_invite_code" />
 
             <ImageView
-                android:id="@+id/btn_invite_link"
+                android:id="@+id/btn_unlock_invite_link"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="8dp"
-                android:layout_marginTop="27dp"
+                android:layout_marginTop="19dp"
+                android:padding="8dp"
                 android:src="@drawable/ic_link_share"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/btn_invite_kakao"
-                app:layout_constraintTop_toBottomOf="@id/layout_recommend_invite_code" />
+                app:layout_constraintStart_toEndOf="@id/btn_unlock_invite_kakao"
+                app:layout_constraintTop_toBottomOf="@id/layout_unlock_invite_code" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/btn_invite_dialog_exit"
+                android:id="@+id/btn_unlock_exit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="12dp"
@@ -158,7 +178,7 @@
                 app:layout_constraintTop_toTopOf="parent">
 
                 <ImageView
-                    android:id="@+id/iv_invite_dialog_exit"
+                    android:id="@+id/iv_unlock_exit"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_exit"
@@ -168,17 +188,13 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="닫기"
+                    android:text="@string/unlock_close"
                     android:textAppearance="@style/TextAppearance.Yello.LabelLarge"
                     android:textColor="@color/grayscales_600"
-                    app:layout_constraintBottom_toBottomOf="@+id/iv_invite_dialog_exit"
-                    app:layout_constraintEnd_toStartOf="@id/iv_invite_dialog_exit"
+                    app:layout_constraintBottom_toBottomOf="@+id/iv_unlock_exit"
+                    app:layout_constraintEnd_toStartOf="@id/iv_unlock_exit"
                     app:layout_constraintTop_toTopOf="parent" />
-
             </androidx.constraintlayout.widget.ConstraintLayout>
-
         </androidx.constraintlayout.widget.ConstraintLayout>
-
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 </layout>

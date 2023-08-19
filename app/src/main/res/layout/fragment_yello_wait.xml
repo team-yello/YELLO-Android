@@ -45,18 +45,18 @@
             android:layout_marginTop="35dp"
             android:layout_marginEnd="20dp"
             android:paddingVertical="4dp"
-            android:text="@{@string/to_string(vm._point)}"
-            tools:text="2900"
+            android:text="@{@string/to_string(vm.point)}"
             android:textAppearance="?textAppearanceBodyMedium"
             android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="2900" />
 
-        <!-- TODO: 중앙 정렬 조정하기 -->
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layout_wait_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
             app:layout_constraintBottom_toTopOf="@id/btn_wait_invite"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -105,7 +105,6 @@
                 android:layout_margin="18dp"
                 app:cpb_background_progressbar_color="@color/cpb_yellow"
                 app:cpb_background_progressbar_width="18dp"
-                tools:cpb_progress="1815"
                 app:cpb_progress_direction="to_left"
                 app:cpb_progress_max="2400"
                 app:cpb_progressbar_color="@color/yello_main_500"
@@ -115,22 +114,23 @@
                 app:layout_constraintEnd_toEndOf="@id/view_wait_timer_background"
                 app:layout_constraintStart_toStartOf="@id/view_wait_timer_background"
                 app:layout_constraintTop_toBottomOf="@id/view_wait_timer_background"
-                app:layout_constraintTop_toTopOf="@id/view_wait_timer_background" />
+                app:layout_constraintTop_toTopOf="@id/view_wait_timer_background"
+                tools:cpb_progress="1815" />
 
             <TextView
                 android:id="@+id/tv_wait_time"
+                convertToMinAndSec="@{vm.leftTime}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/unbounded_bold"
                 android:paddingVertical="8dp"
-                convertToMinAndSec="@{vm.leftTime}"
-                tools:text="30:15"
                 android:textColor="@color/yello_main_500"
                 android:textSize="25sp"
                 app:layout_constraintBottom_toBottomOf="@id/cpb_wait_timer"
                 app:layout_constraintEnd_toEndOf="@id/cpb_wait_timer"
                 app:layout_constraintStart_toStartOf="@id/cpb_wait_timer"
-                app:layout_constraintTop_toTopOf="@id/cpb_wait_timer" />
+                app:layout_constraintTop_toTopOf="@id/cpb_wait_timer"
+                tools:text="30:15" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <TextView

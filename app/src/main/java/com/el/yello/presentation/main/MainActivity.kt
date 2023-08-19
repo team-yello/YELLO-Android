@@ -3,6 +3,7 @@ package com.el.yello.presentation.main
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -29,7 +30,6 @@ import com.example.ui.view.UiState
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-
 
 @AndroidEntryPoint
 class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main) {
@@ -74,10 +74,15 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
                     navigateTo<RecommendFragment>()
                 }
                 R.id.menu_look -> navigateTo<LookFragment>()
-                R.id.menu_yello -> navigateTo<YelloFragment>()
+                R.id.menu_yello -> {
+                    navigateTo<YelloFragment>()
+                    binding.btnMainYelloActive.visibility = View.VISIBLE
+                    return@setOnItemSelectedListener true
+                }
                 R.id.menu_my_yello -> navigateTo<MyYelloFragment>()
                 R.id.menu_profile -> navigateTo<ProfileFragment>()
             }
+            binding.btnMainYelloActive.visibility = View.INVISIBLE
             true
         }
     }
@@ -125,11 +130,13 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
 
         // 뱃지의 색깔 설정
         badgeDrawable.backgroundColor = ContextCompat.getColor(
-            this, R.color.semantic_red_500
-        );
+            this,
+            R.color.semantic_red_500,
+        )
         badgeDrawable.badgeTextColor = ContextCompat.getColor(
-            this, R.color.white
-        );
+            this,
+            R.color.white,
+        )
     }
 
     private fun pushNotificationEvent() {

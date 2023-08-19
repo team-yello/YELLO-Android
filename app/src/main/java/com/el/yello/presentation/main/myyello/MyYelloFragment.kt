@@ -17,6 +17,7 @@ import com.el.yello.presentation.main.MainActivity
 import com.el.yello.presentation.main.myyello.read.MyYelloReadActivity
 import com.el.yello.presentation.pay.PayActivity
 import com.el.yello.presentation.util.BaseLinearRcvItemDeco
+import com.el.yello.util.amplitude.AmplitudeUtils
 import com.el.yello.util.context.yelloSnackbar
 import com.example.ui.base.BindingFragment
 import com.example.ui.view.UiState
@@ -29,10 +30,10 @@ import kotlinx.coroutines.flow.onEach
 class MyYelloFragment : BindingFragment<FragmentMyYelloBinding>(R.layout.fragment_my_yello) {
     private val viewModel by viewModels<MyYelloViewModel>()
     private var adapter: MyYelloAdapter? = null
-
+    private var isScrolled: Boolean = false
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        AmplitudeUtils.trackEventWithProperties("view_all_messages")
         initView()
         initEvent()
         observe()
@@ -74,7 +75,7 @@ class MyYelloFragment : BindingFragment<FragmentMyYelloBinding>(R.layout.fragmen
                 startActivity(this)
             }
         }
-        
+
         binding.btnShop.setOnSingleClickListener {
             goToPayActivity()
         }
@@ -141,6 +142,13 @@ class MyYelloFragment : BindingFragment<FragmentMyYelloBinding>(R.layout.fragmen
                     ) {
                         viewModel.getMyYelloList()
                     }
+                }
+            }
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+                if (newState == RecyclerView.SCROLL_STATE_IDLE && !isScrolled) {
+                    AmplitudeUtils.trackEventWithProperties("scroll_all_messages")
+                    isScrolled = true
                 }
             }
         })

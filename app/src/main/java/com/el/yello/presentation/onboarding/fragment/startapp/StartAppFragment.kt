@@ -32,6 +32,7 @@ class StartAppFragment : BindingFragment<FragmentStartAppBinding>(R.layout.fragm
     }
 
     private fun initTutorialView() {
+        AmplitudeUtils.trackEventWithProperties("click_onboarding_notification")
         binding.btnStartYello.setOnSingleClickListener {
             val properties = JSONObject()
             AmplitudeUtils.trackEventWithProperties("click_onboarding_notification", properties)

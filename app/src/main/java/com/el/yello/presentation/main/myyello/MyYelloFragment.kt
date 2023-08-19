@@ -31,10 +31,10 @@ import org.json.JSONObject
 class MyYelloFragment : BindingFragment<FragmentMyYelloBinding>(R.layout.fragment_my_yello) {
     private val viewModel by viewModels<MyYelloViewModel>()
     private var adapter: MyYelloAdapter? = null
-
+    private var isScrolled: Boolean = false
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        AmplitudeUtils.trackEventWithProperties("view_all_messages")
         initView()
         initEvent()
         observe()
@@ -149,6 +149,13 @@ class MyYelloFragment : BindingFragment<FragmentMyYelloBinding>(R.layout.fragmen
                     ) {
                         viewModel.getMyYelloList()
                     }
+                }
+            }
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+                if (newState == RecyclerView.SCROLL_STATE_IDLE && !isScrolled) {
+                    AmplitudeUtils.trackEventWithProperties("scroll_all_messages")
+                    isScrolled = true
                 }
             }
         })

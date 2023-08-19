@@ -1,7 +1,6 @@
 package com.el.yello.presentation.onboarding.fragment.code
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
@@ -10,14 +9,16 @@ import com.el.yello.R
 import com.el.yello.databinding.FragmentCodeBinding
 import com.el.yello.presentation.onboarding.activity.OnBoardingActivity
 import com.el.yello.presentation.onboarding.activity.OnBoardingViewModel
+import com.el.yello.util.amplitude.AmplitudeUtils
 import com.el.yello.util.context.yelloSnackbar
 import com.example.ui.base.BindingFragment
 import com.example.ui.view.UiState
 import com.example.ui.view.setOnSingleClickListener
+import org.json.JSONObject
 
 class CodeFragment : BindingFragment<FragmentCodeBinding>(R.layout.fragment_code) {
     private val viewModel by activityViewModels<OnBoardingViewModel>()
-
+    val properties = JSONObject()
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.vm = viewModel
@@ -26,6 +27,10 @@ class CodeFragment : BindingFragment<FragmentCodeBinding>(R.layout.fragment_code
         setDeleteCodeBtnClickListener()
         setupPostSignupState()
         viewModel.validYellIdLoading()
+        AmplitudeUtils.trackEventWithProperties(
+            "click_onboarding_next",
+            JSONObject().put("onboard_view", ""),
+        )
     }
 
     override fun onResume() {
@@ -36,10 +41,20 @@ class CodeFragment : BindingFragment<FragmentCodeBinding>(R.layout.fragment_code
 
     private fun setConfirmBtnCLickListener() {
         binding.btnCodeSkip.setOnClickListener {
+            AmplitudeUtils.trackEventWithProperties("complete_onboarding_finish", properties)
+            AmplitudeUtils.trackEventWithProperties(
+                "click_onboarding_recommend",
+                JSONObject().put("rec_exist", "pass"),
+            )
             viewModel.postSignup()
             findNavController().navigate(R.id.action_codeFragment_to_startAppFragment)
         }
         binding.btnCodeNext.setOnSingleClickListener {
+            AmplitudeUtils.trackEventWithProperties("complete_onboarding_finish", properties)
+            AmplitudeUtils.trackEventWithProperties(
+                "click_onboarding_recommend",
+                JSONObject().put("rec_exist", "next"),
+            )
             viewModel.getValidYelloId(viewModel.codeText.value.toString())
             viewModel.postSignup()
             findNavController().navigate(R.id.action_codeFragment_to_startAppFragment)

@@ -11,11 +11,13 @@ import com.el.yello.presentation.auth.SignInActivity.Companion.EXTRA_KAKAO_ID
 import com.el.yello.presentation.auth.SignInActivity.Companion.EXTRA_NAME
 import com.el.yello.presentation.auth.SignInActivity.Companion.EXTRA_PROFILE_IMAGE
 import com.el.yello.presentation.onboarding.activity.OnBoardingActivity
+import com.el.yello.util.amplitude.AmplitudeUtils
 import com.el.yello.util.context.yelloSnackbar
 import com.example.ui.base.BindingActivity
 import com.example.ui.view.UiState
 import com.example.ui.view.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
+import org.json.JSONObject
 import timber.log.Timber
 
 @AndroidEntryPoint
@@ -23,7 +25,6 @@ class SocialSyncActivity :
     BindingActivity<ActivitySocialSyncBinding>(R.layout.activity_social_sync) {
 
     private val viewModel by viewModels<SocialSyncViewModel>()
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -33,6 +34,7 @@ class SocialSyncActivity :
 
     private fun initSocialSyncBtnListener() {
         binding.btnSocialSync.setOnSingleClickListener {
+            AmplitudeUtils.trackEventWithProperties("click_onboarding_kakao_friends")
             viewModel.getKakaoFriendsList()
         }
     }

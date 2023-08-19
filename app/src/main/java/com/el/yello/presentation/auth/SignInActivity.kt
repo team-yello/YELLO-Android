@@ -46,6 +46,7 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
 
     private fun initSignInButtonListener() {
         binding.btnSignIn.setOnSingleClickListener {
+            AmplitudeUtils.trackEventWithProperties("click_onboarding_kakao")
             setWebLoginCallback()
             setAppLoginCallback()
             startKakaoLogin()

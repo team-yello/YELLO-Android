@@ -10,6 +10,7 @@ import com.el.yello.R
 import com.el.yello.databinding.FragmentYelloStartBinding
 import com.el.yello.presentation.main.yello.YelloViewModel
 import com.el.yello.presentation.main.yello.vote.VoteActivity
+import com.el.yello.util.amplitude.AmplitudeUtils
 import com.example.ui.base.BindingFragment
 import com.example.ui.view.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
@@ -54,6 +55,7 @@ class YelloStartFragment :
 
     private fun initVoteBtnClickListener() {
         binding.btnStartVote.setOnSingleClickListener {
+            AmplitudeUtils.trackEventWithProperties("click_vote_start")
             intentToVoteScreen()
         }
     }

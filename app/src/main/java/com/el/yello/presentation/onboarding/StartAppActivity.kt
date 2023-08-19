@@ -9,6 +9,7 @@ import androidx.core.content.ContextCompat
 import com.el.yello.R
 import com.el.yello.databinding.ActivityStartAppBinding
 import com.el.yello.presentation.tutorial.TutorialAActivity
+import com.el.yello.util.amplitude.AmplitudeUtils
 import com.example.ui.base.BindingActivity
 import com.example.ui.view.setOnSingleClickListener
 
@@ -18,7 +19,6 @@ class StartAppActivity :
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initTutorialView()
-
     }
 
     private fun startTutorialActivity() {
@@ -30,6 +30,7 @@ class StartAppActivity :
     }
 
     private fun initTutorialView() {
+        AmplitudeUtils.trackEventWithProperties("click_onboarding_notification")
         binding.btnStartYello.setOnSingleClickListener {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                 if (ContextCompat.checkSelfPermission(

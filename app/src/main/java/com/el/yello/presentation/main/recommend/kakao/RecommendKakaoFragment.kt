@@ -1,7 +1,6 @@
 package com.el.yello.presentation.main.recommend.kakao
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import android.view.animation.AnimationUtils
@@ -247,7 +246,6 @@ class RecommendKakaoFragment :
     }
 
     private fun showShimmerScreen() {
-        Log.d("okhttp", "1")
         binding.layoutRecommendFriendsList.isVisible = true
         binding.layoutRecommendNoFriendsList.isVisible = false
         binding.shimmerFriendList.startShimmer()
@@ -256,7 +254,6 @@ class RecommendKakaoFragment :
     }
 
     private fun showFriendListScreen() {
-        Log.d("okhttp", "2")
         binding.layoutRecommendFriendsList.isVisible = true
         binding.layoutRecommendNoFriendsList.isVisible = false
         binding.shimmerFriendList.stopShimmer()
@@ -265,7 +262,6 @@ class RecommendKakaoFragment :
     }
 
     private fun showNoFriendScreen() {
-        Log.d("okhttp", "3")
         binding.layoutRecommendFriendsList.isVisible = false
         binding.layoutRecommendNoFriendsList.isVisible = true
         binding.shimmerFriendList.stopShimmer()

@@ -55,7 +55,7 @@ class RecommendSchoolFragment :
         observeAddListState()
         observeAddFriendState()
         setDeleteAnimation()
-        AmplitudeUtils.trackEventWithProperties("view_recommend_scroll")
+        AmplitudeUtils.trackEventWithProperties("view_recommend_school")
     }
 
     override fun onResume() {

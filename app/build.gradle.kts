@@ -44,7 +44,7 @@ android {
             buildConfigField(
                 "String",
                 "AMPLITUDE_API_KEY",
-                gradleLocalProperties(rootDir).getProperty("amplitude.api.key"),
+                gradleLocalProperties(rootDir).getProperty("amplitude.api.test.key"),
             )
 
             manifestPlaceholders["NATIVE_APP_KEY"] =

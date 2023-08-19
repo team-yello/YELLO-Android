@@ -143,7 +143,7 @@
     <string name="point_vote_point_label">Point</string>
     <string name="point_confirm">확인</string>
 
-    <string name="wait_balloon_tooltip">🤩 친구를 초대하면 바로 투표할 수 있어요!</string>
+    <string name="wait_balloon_tooltip">🤩 친구가 가입하면 바로 투표할 수 있어요!</string>
     <string name="wait_time_format">%02d:%02d</string>
     <string name="wait_invite">기다리지 않고 바로 투표하기</string>
     <string name="wait_description">다음 투표까지 남은 시간</string>
@@ -316,4 +316,7 @@
 
     <string name="dialog_reading_ticket">열람권</string>
     <string name="dialog_reading_ticket_after">남은 열람권</string>
+    <string name="pay_error_dialog_title">상품 지급 오류</string>
+    <string name="pay_error_dialog_msg">오류로 인해 상품이 지급되지 않았어요. 옐로 공식 카카오 채널로 문의주시면 해결을 도와드리겠습니다.</string>
+    <string name="pay_error_dialog_btn">확인</string>
 </resources>

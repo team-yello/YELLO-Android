@@ -36,7 +36,7 @@
                 android:fontFamily="@font/pretendard_bold"
                 android:gravity="center_horizontal"
                 android:paddingVertical="3dp"
-                android:text="@string/unlock_invite_and_unlock"
+                android:text="@string/recommend_dialog_tv_title"
                 android:textAppearance="?textAppearanceSubtitle1"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -50,7 +50,7 @@
                 android:fontFamily="@font/font_pretendard_medium"
                 android:gravity="center_horizontal"
                 android:paddingVertical="3dp"
-                android:text="@string/unlock_description1"
+                android:text="@string/recommend_dialog_tv_subtitle"
                 android:textColor="@color/grayscales_600"
                 android:textSize="13sp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -61,39 +61,12 @@
                 android:id="@+id/tv_unlock_subtitle2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/font_pretendard_medium"
+                android:fontFamily="@font/font_pretendard_bold"
                 android:paddingVertical="3dp"
-                android:text="@string/unlock_description2_1"
-                android:textColor="@color/grayscales_600"
-                android:textSize="13sp"
-                app:layout_constraintEnd_toStartOf="@id/tv_unlock_subtitle3"
-                app:layout_constraintHorizontal_chainStyle="packed"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_unlock_subtitle1" />
-
-            <TextView
-                android:id="@+id/tv_unlock_subtitle3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/font_pretendard_medium"
-                android:paddingVertical="3dp"
-                android:text="@string/unlock_description2_2_bold"
-                android:textSize="13sp"
-                app:layout_constraintEnd_toStartOf="@id/tv_unlock_subtitle4"
-                app:layout_constraintStart_toEndOf="@id/tv_unlock_subtitle2"
-                app:layout_constraintTop_toBottomOf="@id/tv_unlock_subtitle1" />
-
-            <TextView
-                android:id="@+id/tv_unlock_subtitle4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/font_pretendard_medium"
-                android:paddingVertical="3dp"
-                android:text="@string/unlock_description2_3"
-                android:textColor="@color/grayscales_600"
+                android:text="@string/recommend_dialog_tv_subtitle_2"
                 android:textSize="13sp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/tv_unlock_subtitle3"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_unlock_subtitle1" />
 
             <androidx.cardview.widget.CardView
@@ -107,7 +80,7 @@
                 app:cardElevation="0dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_unlock_subtitle4">
+                app:layout_constraintTop_toBottomOf="@id/tv_unlock_subtitle2">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/layout_unlock_my_yello_id"

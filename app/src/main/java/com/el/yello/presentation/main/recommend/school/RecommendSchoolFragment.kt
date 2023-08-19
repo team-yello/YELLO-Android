@@ -16,6 +16,7 @@ import com.el.yello.presentation.main.recommend.RecommendInviteDialog
 import com.el.yello.presentation.main.recommend.list.RecommendAdapter
 import com.el.yello.presentation.main.recommend.list.RecommendItemDecoration
 import com.el.yello.presentation.main.recommend.list.RecommendViewHolder
+import com.el.yello.util.amplitude.AmplitudeUtils
 import com.el.yello.util.context.yelloSnackbar
 import com.example.domain.entity.RecommendModel
 import com.example.ui.base.BindingFragment
@@ -52,6 +53,7 @@ class RecommendSchoolFragment :
         observeAddListState()
         observeAddFriendState()
         setDeleteAnimation()
+        AmplitudeUtils.trackEventWithProperties("view_recommend_scroll")
     }
 
     override fun onResume() {

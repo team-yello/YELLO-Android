@@ -2,9 +2,10 @@ package com.example.data.datasource
 
 import com.example.data.model.request.pay.RequestPayDto
 import com.example.data.model.response.BaseResponse
-import com.example.data.model.response.pay.ResponsePayCheckDto
 import com.example.data.model.response.pay.ResponsePayInAppDto
 import com.example.data.model.response.pay.ResponsePaySubsDto
+import com.example.data.model.response.pay.ResponsePurchaseInfoDto
+import com.example.data.model.response.pay.ResponseSubsNeededDto
 
 interface PayDataSource {
 
@@ -16,7 +17,10 @@ interface PayDataSource {
         request: RequestPayDto
     ): BaseResponse<ResponsePayInAppDto>
 
-    suspend fun getIsSubscribedData(
-    ): BaseResponse<ResponsePayCheckDto>
+    suspend fun getSubsNeededData(
+    ): BaseResponse<ResponseSubsNeededDto>
+
+    suspend fun getPurchaseInfoData(
+    ): BaseResponse<ResponsePurchaseInfoDto>
 
 }

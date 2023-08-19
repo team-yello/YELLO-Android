@@ -3,9 +3,11 @@ package com.el.yello.presentation.main.profile.manage
 import android.os.Bundle
 import com.el.yello.R
 import com.el.yello.databinding.ActivityProfileQuitTwoBinding
+import com.el.yello.util.amplitude.AmplitudeUtils
 import com.example.ui.base.BindingActivity
 import com.example.ui.view.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
+import org.json.JSONObject
 
 @AndroidEntryPoint
 class ProfileQuitTwoActivity :
@@ -34,6 +36,10 @@ class ProfileQuitTwoActivity :
 
     private fun initInviteDialogBtnListener() {
         binding.btnProfileQuitForSure.setOnSingleClickListener {
+            AmplitudeUtils.trackEventWithProperties(
+                "click_profile_withdrawal",
+                JSONObject().put("withdrawal_button", "withdrawal3")
+            )
             profileQuitDialog?.show(supportFragmentManager, QUIT_DIALOG)
         }
     }

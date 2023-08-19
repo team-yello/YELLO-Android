@@ -5,8 +5,10 @@ import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.RecyclerView
 import com.el.yello.R
 import com.el.yello.databinding.FragmentLookBinding
+import com.el.yello.util.amplitude.AmplitudeUtils
 import com.el.yello.util.context.yelloSnackbar
 import com.example.ui.base.BindingFragment
 import dagger.hilt.android.AndroidEntryPoint
@@ -22,6 +24,8 @@ class LookFragment : BindingFragment<FragmentLookBinding>(R.layout.fragment_look
 
     private val viewModel by viewModels<LookViewModel>()
 
+    private var isScrolled: Boolean = false
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -29,6 +33,8 @@ class LookFragment : BindingFragment<FragmentLookBinding>(R.layout.fragment_look
         getSearchPagingList()
         observeIsLoading()
         observeErrorResult()
+        catchScrollForAmplitude()
+        AmplitudeUtils.trackEventWithProperties("view_timeline")
     }
 
     override fun onDestroyView() {
@@ -50,6 +56,18 @@ class LookFragment : BindingFragment<FragmentLookBinding>(R.layout.fragment_look
                     adapter.submitData(pagingData)
                 }
         }
+    }
+
+    private fun catchScrollForAmplitude() {
+        binding.rvLook.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+                if (newState == RecyclerView.SCROLL_STATE_IDLE && !isScrolled) {
+                    AmplitudeUtils.trackEventWithProperties("scroll_profile_friends")
+                    isScrolled = true
+                }
+            }
+        })
     }
 
     private fun observeErrorResult() {

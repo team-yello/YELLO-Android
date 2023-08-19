@@ -60,7 +60,7 @@ class UnlockDialogFragment :
         myYelloId = arguments?.getString(ARGS_YELLO_ID) ?: ""
         previousScreen = arguments?.getString(ARGS_PREVIOUS_SCREEN) ?: ""
         binding.yelloId = myYelloId
-        linkText = getString(R.string.unlock_link_text, myYelloId)
+        linkText = RecommendInviteDialog.LINK_TEXT.format(myYelloId)
     }
 
     private fun setRecommendId() {
@@ -109,7 +109,7 @@ class UnlockDialogFragment :
         if (ShareClient.instance.isKakaoTalkSharingAvailable(context)) {
             ShareClient.instance.shareCustom(
                 context,
-                UNLOCK_TEMPLATE_ID,
+                templateId,
                 mapOf(KEY_YELLO_ID to myYelloId),
             ) { sharingResult, error ->
                 if (error != null) {
@@ -124,7 +124,7 @@ class UnlockDialogFragment :
             return
         }
 
-        val sharerUrl = WebSharerClient.instance.makeCustomUrl(UNLOCK_TEMPLATE_ID)
+        val sharerUrl = WebSharerClient.instance.makeCustomUrl(templateId)
 
         // 1. CustomTabsServiceConnection 지원 브라우저 - Chrome, 삼성 인터넷 등
         try {
@@ -138,7 +138,6 @@ class UnlockDialogFragment :
         try {
             KakaoCustomTabsClient.open(context, sharerUrl)
         } catch (error: ActivityNotFoundException) {
-            yelloSnackbar(binding.root, getString(R.string.unlock_browser_error_msg))
             Timber.tag(TAG_UNLOCK).e(error, getString(R.string.invite_error_browser))
         }
     }
@@ -149,7 +148,6 @@ class UnlockDialogFragment :
 
         const val TAG_UNLOCK = "UNLOCK"
 
-        private const val UNLOCK_TEMPLATE_ID = 95890.toLong()
         private const val KEY_YELLO_ID = "KEY"
         private const val LABEL_UNLOCK_LINK_TEXT = "UNLOCK_LINK"
 

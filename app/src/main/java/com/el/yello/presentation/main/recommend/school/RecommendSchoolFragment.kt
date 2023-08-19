@@ -37,7 +37,8 @@ class RecommendSchoolFragment :
 
     private val viewModel by viewModels<RecommendSchoolViewModel>()
 
-    private var recommendInviteDialog: RecommendInviteDialog? = null
+    private var recommendInviteYesFriendDialog: RecommendInviteDialog? = null
+    private var recommendInviteNoFriendDialog: RecommendInviteDialog? = null
 
     private lateinit var friendsList: List<RecommendModel.RecommendFriend>
 
@@ -74,20 +75,24 @@ class RecommendSchoolFragment :
     }
 
     private fun initInviteBtnListener() {
-        recommendInviteDialog = RecommendInviteDialog.newInstance(viewModel.getYelloId())
         binding.layoutInviteFriend.setOnSingleClickListener {
+            recommendInviteYesFriendDialog =
+                RecommendInviteDialog.newInstance(viewModel.getYelloId(), SCHOOL_YES_FRIEND)
             AmplitudeUtils.trackEventWithProperties(
                 "click_invite",
-                JSONObject().put("invite_view", "recommend_school_yesfriend")
+                JSONObject().put("invite_view", SCHOOL_YES_FRIEND)
             )
-            recommendInviteDialog?.show(parentFragmentManager, INVITE_DIALOG)
+            recommendInviteYesFriendDialog?.show(parentFragmentManager, INVITE_DIALOG)
         }
+
         binding.btnRecommendNoFriend.setOnSingleClickListener {
+            recommendInviteYesFriendDialog =
+                RecommendInviteDialog.newInstance(viewModel.getYelloId(), SCHOOL_NO_FRIEND)
             AmplitudeUtils.trackEventWithProperties(
                 "click_invite",
-                JSONObject().put("invite_view", "recommend_school_nofriend")
+                JSONObject().put("invite_view", SCHOOL_NO_FRIEND)
             )
-            recommendInviteDialog?.show(parentFragmentManager, INVITE_DIALOG)
+            recommendInviteNoFriendDialog?.show(parentFragmentManager, INVITE_DIALOG)
         }
     }
 
@@ -208,7 +213,8 @@ class RecommendSchoolFragment :
     }
 
     private fun dismissDialog() {
-        if (recommendInviteDialog?.isAdded == true) recommendInviteDialog?.dismiss()
+        if (recommendInviteYesFriendDialog?.isAdded == true) recommendInviteYesFriendDialog?.dismiss()
+        if (recommendInviteNoFriendDialog?.isAdded == true) recommendInviteNoFriendDialog?.dismiss()
     }
 
     // 삭제 시 체크 버튼으로 전환 후 0.3초 뒤 애니메이션 적용
@@ -260,5 +266,8 @@ class RecommendSchoolFragment :
 
     private companion object {
         const val INVITE_DIALOG = "inviteDialog"
+
+        const val SCHOOL_NO_FRIEND = "recommend_school_nofriend"
+        const val SCHOOL_YES_FRIEND = "recommend_school_yesfriend"
     }
 }

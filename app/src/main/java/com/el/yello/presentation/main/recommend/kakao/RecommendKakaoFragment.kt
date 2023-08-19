@@ -37,7 +37,8 @@ class RecommendKakaoFragment :
 
     private val viewModel by viewModels<RecommendKakaoViewModel>()
 
-    private var recommendInviteDialog: RecommendInviteDialog? = null
+    private var recommendInviteYesFriendDialog: RecommendInviteDialog? = null
+    private var recommendInviteNoFriendDialog: RecommendInviteDialog? = null
 
     private lateinit var itemDivider: RecommendItemDecoration
 
@@ -88,7 +89,10 @@ class RecommendKakaoFragment :
                 super.onScrolled(recyclerView, dx, dy)
                 if (dy > 0) {
                     recyclerView.layoutManager?.let { layoutManager ->
-                        if (!binding.rvRecommendKakao.canScrollVertically(1) && layoutManager is LinearLayoutManager && layoutManager.findLastVisibleItemPosition() == adapter.itemCount - 1) {
+                        if (!binding.rvRecommendKakao.canScrollVertically(1)
+                            && layoutManager is LinearLayoutManager
+                            && layoutManager.findLastVisibleItemPosition() == adapter.itemCount - 1
+                        ) {
                             viewModel.addListWithKakaoIdList()
                         }
                     }
@@ -98,20 +102,24 @@ class RecommendKakaoFragment :
     }
 
     private fun initInviteBtnListener() {
-        recommendInviteDialog = RecommendInviteDialog.newInstance(viewModel.getYelloId())
         binding.layoutInviteFriend.setOnSingleClickListener {
+            recommendInviteYesFriendDialog =
+                RecommendInviteDialog.newInstance(viewModel.getYelloId(), KAKAO_YES_FRIEND)
             AmplitudeUtils.trackEventWithProperties(
                 "click_invite",
-                JSONObject().put("invite_view", "recommend_kakao_yesfriend")
+                JSONObject().put("invite_view", KAKAO_YES_FRIEND)
             )
-            recommendInviteDialog?.show(parentFragmentManager, INVITE_DIALOG)
+            recommendInviteYesFriendDialog?.show(parentFragmentManager, INVITE_DIALOG)
         }
+
         binding.btnRecommendNoFriend.setOnSingleClickListener {
+            recommendInviteNoFriendDialog =
+                RecommendInviteDialog.newInstance(viewModel.getYelloId(), KAKAO_NO_FRIEND)
             AmplitudeUtils.trackEventWithProperties(
                 "click_invite",
-                JSONObject().put("invite_view", "recommend_kakao_nofriend")
+                JSONObject().put("invite_view", KAKAO_NO_FRIEND)
             )
-            recommendInviteDialog?.show(parentFragmentManager, INVITE_DIALOG)
+            recommendInviteNoFriendDialog?.show(parentFragmentManager, INVITE_DIALOG)
         }
     }
 
@@ -213,7 +221,8 @@ class RecommendKakaoFragment :
     }
 
     private fun dismissDialog() {
-        if (recommendInviteDialog?.isAdded == true) recommendInviteDialog?.dismiss()
+        if (recommendInviteYesFriendDialog?.isAdded == true) recommendInviteYesFriendDialog?.dismiss()
+        if (recommendInviteNoFriendDialog?.isAdded == true) recommendInviteNoFriendDialog?.dismiss()
     }
 
     // 삭제 시 체크 버튼으로 전환 후 0.3초 뒤 애니메이션 적용
@@ -268,5 +277,8 @@ class RecommendKakaoFragment :
 
     private companion object {
         const val INVITE_DIALOG = "inviteDialog"
+
+        const val KAKAO_NO_FRIEND = "recommend_kakao_nofriend"
+        const val KAKAO_YES_FRIEND = "recommend_kakao_yesfriend"
     }
 }

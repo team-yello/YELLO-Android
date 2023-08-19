@@ -25,6 +25,7 @@ import com.example.ui.view.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import org.json.JSONObject
 
 @AndroidEntryPoint
 class RecommendSchoolFragment :
@@ -75,9 +76,17 @@ class RecommendSchoolFragment :
     private fun initInviteBtnListener() {
         recommendInviteDialog = RecommendInviteDialog.newInstance(viewModel.getYelloId())
         binding.layoutInviteFriend.setOnSingleClickListener {
+            AmplitudeUtils.trackEventWithProperties(
+                "click_invite",
+                JSONObject().put("invite_view", "recommend_school_yesfriend")
+            )
             recommendInviteDialog?.show(parentFragmentManager, INVITE_DIALOG)
         }
         binding.btnRecommendNoFriend.setOnSingleClickListener {
+            AmplitudeUtils.trackEventWithProperties(
+                "click_invite",
+                JSONObject().put("invite_view", "recommend_school_nofriend")
+            )
             recommendInviteDialog?.show(parentFragmentManager, INVITE_DIALOG)
         }
     }

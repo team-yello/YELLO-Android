@@ -50,6 +50,9 @@ class MyYelloReadViewModel @Inject constructor(
     var isHintUsed: Boolean? = null
         private set
 
+    var yelloDetail: YelloDetail? = null
+        private set
+
     fun setNameIndex(index: Int) {
         nameIndex = index
     }
@@ -95,6 +98,7 @@ class MyYelloReadViewModel @Inject constructor(
                     }
                     myReadingTicketCount = it.ticketCount
                     myPoint = it.currentPoint
+                    yelloDetail = it
                     _yelloDetailData.value = UiState.Success(it)
                 }.onFailure {
                     _yelloDetailData.value = UiState.Failure("옐로 상세보기 서버 통신 실패")

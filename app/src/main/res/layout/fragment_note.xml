@@ -5,11 +5,6 @@
     tools:context=".presentation.main.yello.vote.note.NoteFragment">
 
     <data>
-
-        <variable
-            name="index"
-            type="Integer" />
-
         <variable
             name="bgIndex"
             type="Integer" />
@@ -67,7 +62,7 @@
 
             <com.airbnb.lottie.LottieAnimationView
                 android:id="@+id/lottie_note_balloon"
-                setBalloonSrc="@{index}"
+                setBalloonSrc="@{vm.currentNoteIndex}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:minHeight="40dp"

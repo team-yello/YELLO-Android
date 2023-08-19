@@ -41,8 +41,8 @@ class NoteFragment : BindingFragment<FragmentNoteBinding>(R.layout.fragment_note
 
     private fun getBundleArgs() {
         arguments ?: return
-        _noteIndex = arguments?.getInt(ARGS_NOTE_INDEX)
-        binding.index = noteIndex
+//        _noteIndex = arguments?.getInt(ARGS_NOTE_INDEX)
+//        binding.index = viewModel.currentNoteIndex
         _backgroundIndex = arguments?.getInt(ARGS_BACKGROUND_INDEX)?.plus(noteIndex)
         binding.bgIndex = backgroundIndex
         _voteListSize = arguments?.getInt(ARGS_VOTE_LIST_SIZE)
@@ -113,7 +113,7 @@ class NoteFragment : BindingFragment<FragmentNoteBinding>(R.layout.fragment_note
     }
 
     companion object {
-        private const val ARGS_NOTE_INDEX = "NOTE_INDEX"
+//        private const val ARGS_NOTE_INDEX = "NOTE_INDEX"
         private const val ARGS_BACKGROUND_INDEX = "BACKGROUND_INDEX"
         private const val ARGS_VOTE_LIST_SIZE = "VOTE_LIST_SIZE"
 
@@ -121,9 +121,9 @@ class NoteFragment : BindingFragment<FragmentNoteBinding>(R.layout.fragment_note
             listOf(165f, -30f, -120f, -165f, -60f, -20f, -117f, 24f, -45f, 12f)
 
         @JvmStatic
-        fun newInstance(index: Int, bgIndex: Int, voteListSize: Int) = NoteFragment().apply {
+        fun newInstance(bgIndex: Int, voteListSize: Int) = NoteFragment().apply {
             val args = bundleOf(
-                ARGS_NOTE_INDEX to index,
+//                ARGS_NOTE_INDEX to index,
                 ARGS_BACKGROUND_INDEX to bgIndex,
                 ARGS_VOTE_LIST_SIZE to voteListSize,
             )

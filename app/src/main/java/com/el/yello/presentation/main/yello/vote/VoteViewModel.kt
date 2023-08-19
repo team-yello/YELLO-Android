@@ -10,16 +10,17 @@ import com.el.yello.presentation.main.yello.vote.NoteState.InvalidSkip
 import com.example.domain.entity.vote.Choice
 import com.example.domain.entity.vote.ChoiceList
 import com.example.domain.entity.vote.Note
+import com.example.domain.entity.vote.StoredVote
 import com.example.domain.repository.VoteRepository
 import com.example.ui.view.UiState
 import com.example.ui.view.UiState.Empty
 import com.example.ui.view.UiState.Success
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import timber.log.Timber
-import javax.inject.Inject
 
 @HiltViewModel
 class VoteViewModel @Inject constructor(
@@ -74,7 +75,7 @@ class VoteViewModel @Inject constructor(
         private set
 
     init {
-        getVoteQuestions()
+        getStoredVote()
     }
 
     private fun getVoteQuestions() {
@@ -196,6 +197,7 @@ class VoteViewModel @Inject constructor(
                         _postVoteState.value = Empty
                         return@launch
                     }
+                    voteRepository.clearStoredVote()
                     _postVoteState.value = Success(point)
                     _totalPoint.value = point
                     _currentNoteIndex.value = currentNoteIndex + 1
@@ -232,6 +234,14 @@ class VoteViewModel @Inject constructor(
         _noteState.value = NoteState.Success
         _shuffleCount.value = MAX_COUNT_SHUFFLE
         _currentNoteIndex.value = currentNoteIndex + 1
+        voteRepository.setStoredVote(
+            StoredVote(
+                currentIndex = currentNoteIndex,
+                choiceList = choiceList,
+                totalPoint = totalPoint,
+                questionList = voteList,
+            ),
+        )
         initCurrentChoice()
         viewModelScope.launch {
             delay(500L)
@@ -239,12 +249,26 @@ class VoteViewModel @Inject constructor(
         }
     }
 
+    private fun getStoredVote() {
+        val vote = voteRepository.getStoredVote()
+        if (vote == null) {
+            getVoteQuestions()
+            return
+        }
+        totalListCount = vote.questionList.size - 1
+        _voteState.value = Success(vote.questionList)
+        _voteList.value = vote.questionList
+        _choiceList.value = vote.choiceList
+        _totalPoint.value = vote.totalPoint
+        _currentNoteIndex.value = vote.currentIndex
+        initCurrentChoice()
+    }
+
     private fun isOptionSelected() =
         currentChoice.friendId != null || currentChoice.keywordName != null
 
     companion object {
         private const val MAX_COUNT_SHUFFLE = 3
-        private const val INDEX_FINAL_VOTE = 9
         private const val DELAY_OPTION_SELECTION = 1000L
     }
 }

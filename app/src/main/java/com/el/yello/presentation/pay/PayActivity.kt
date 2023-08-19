@@ -1,5 +1,6 @@
 package com.el.yello.presentation.pay
 
+import android.content.Intent
 import android.graphics.Paint
 import android.os.Bundle
 import android.util.Log
@@ -50,18 +51,19 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
 
         Log.d("sangho", "0 : activity created !@!@!@!@@!@!@")
         initView()
-        initEvent()
+        //initEvent()
+        initEventForTemporarily()
         autoScroll()
-        setBillingManager()
-        observeIsPurchasedStarted()
-        observeCheckSubsState()
-        observeCheckInAppState()
-        observeCheckIsSubscribed()
+        //setBillingManager()
+        //observeIsPurchasedStarted()
+        //observeCheckSubsState()
+        //observeCheckInAppState()
+        //observeCheckIsSubscribed()
     }
 
     override fun onResume() {
         super.onResume()
-        viewModel.getPurchaseInfoFromServer()
+        // viewModel.getPurchaseInfoFromServer()
         Log.d("sangho", "1 : resume ")
     }
 
@@ -220,6 +222,56 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
                     Log.d("sangho", "11 : click = ${productDetails.value.name} -> purchase")
                 } ?: also {
                 toast(getString(R.string.pay_error_no_item))
+            }
+        }
+
+        binding.ivBack.setOnSingleClickListener {
+            finish()
+        }
+    }
+
+    private fun initEventForTemporarily() {
+        binding.clSubscribe.setOnSingleClickListener {
+            viewModel.payCheck(0)
+            AmplitudeUtils.trackEventWithProperties(
+                "click_shop_buy", JSONObject().put("buy_type", "subscribe")
+            )
+            Intent(this, PayEndActivity::class.java).apply {
+                addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                startActivity(this)
+            }
+        }
+
+        binding.clNameCheckOne.setOnSingleClickListener {
+            viewModel.payCheck(1)
+            AmplitudeUtils.trackEventWithProperties(
+                "click_shop_buy", JSONObject().put("buy_type", "ticket1")
+            )
+            Intent(this, PayEndActivity::class.java).apply {
+                addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                startActivity(this)
+            }
+        }
+
+        binding.clNameCheckTwo.setOnSingleClickListener {
+            viewModel.payCheck(2)
+            AmplitudeUtils.trackEventWithProperties(
+                "click_shop_buy", JSONObject().put("buy_type", "ticket2")
+            )
+            Intent(this, PayEndActivity::class.java).apply {
+                addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                startActivity(this)
+            }
+        }
+
+        binding.clNameCheckFive.setOnSingleClickListener {
+            viewModel.payCheck(3)
+            AmplitudeUtils.trackEventWithProperties(
+                "click_shop_buy", JSONObject().put("buy_type", "ticket5")
+            )
+            Intent(this, PayEndActivity::class.java).apply {
+                addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                startActivity(this)
             }
         }
 

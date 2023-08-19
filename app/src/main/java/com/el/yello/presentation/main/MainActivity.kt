@@ -3,6 +3,7 @@ package com.el.yello.presentation.main
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -69,10 +70,15 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
             when (menu.itemId) {
                 R.id.menu_recommend -> navigateTo<RecommendFragment>()
                 R.id.menu_look -> navigateTo<LookFragment>()
-                R.id.menu_yello -> navigateTo<YelloFragment>()
+                R.id.menu_yello -> {
+                    navigateTo<YelloFragment>()
+                    binding.btnMainYelloActive.visibility = View.VISIBLE
+                    return@setOnItemSelectedListener true
+                }
                 R.id.menu_my_yello -> navigateTo<MyYelloFragment>()
                 R.id.menu_profile -> navigateTo<ProfileFragment>()
             }
+            binding.btnMainYelloActive.visibility = View.INVISIBLE
             true
         }
     }

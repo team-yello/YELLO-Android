@@ -18,6 +18,7 @@ class VoteAdapter(
             in INDEX_START_POSITION until voteListSize -> NoteFragment.newInstance(
                 position,
                 bgIndex,
+                voteListSize
             )
 
             else -> PointFragment.newInstance()

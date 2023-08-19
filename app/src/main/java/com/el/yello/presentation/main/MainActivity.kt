@@ -3,6 +3,7 @@ package com.el.yello.presentation.main
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -28,7 +29,6 @@ import com.example.ui.view.UiState
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-
 
 @AndroidEntryPoint
 class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main) {
@@ -70,10 +70,15 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
             when (menu.itemId) {
                 R.id.menu_recommend -> navigateTo<RecommendFragment>()
                 R.id.menu_look -> navigateTo<LookFragment>()
-                R.id.menu_yello -> navigateTo<YelloFragment>()
+                R.id.menu_yello -> {
+                    navigateTo<YelloFragment>()
+                    binding.btnMainYelloActive.visibility = View.VISIBLE
+                    return@setOnItemSelectedListener true
+                }
                 R.id.menu_my_yello -> navigateTo<MyYelloFragment>()
                 R.id.menu_profile -> navigateTo<ProfileFragment>()
             }
+            binding.btnMainYelloActive.visibility = View.INVISIBLE
             true
         }
     }
@@ -121,11 +126,13 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
 
         // 뱃지의 색깔 설정
         badgeDrawable.backgroundColor = ContextCompat.getColor(
-            this, R.color.semantic_red_500
-        );
+            this,
+            R.color.semantic_red_500,
+        )
         badgeDrawable.badgeTextColor = ContextCompat.getColor(
-            this, R.color.white
-        );
+            this,
+            R.color.white,
+        )
     }
 
     private fun pushNotificationEvent() {
@@ -147,7 +154,7 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
                 navigateTo<ProfileFragment>()
             }
 
-            type.equals(VOTE_AVAILABLE) -> {
+            type.equals(VOTE_AVAILABLE) || type.equals(RECOMMEND) -> {
                 binding.bnvMain.menu.getItem(2).isChecked = true
                 navigateTo<YelloFragment>()
             }
@@ -159,7 +166,9 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
             .onEach {
                 when (it) {
                     is UiState.Success -> {
-                        initBadge(it.data.totalCount)
+                        if (it.data.totalCount != 0) {
+                            initBadge(it.data.totalCount)
+                        }
                     }
 
                     is UiState.Failure -> {
@@ -174,6 +183,7 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
     fun setBadgeCount(count: Int) {
         val badgeDrawable = binding.bnvMain.getOrCreateBadge(R.id.menu_my_yello)
         badgeDrawable.number = count
+        badgeDrawable.isVisible = count != 0
     }
 
     private inline fun <reified T : Fragment> navigateTo() {
@@ -186,6 +196,7 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
         const val NEW_VOTE = "NEW_VOTE"
         const val NEW_FRIEND = "NEW_FRIEND"
         const val VOTE_AVAILABLE = "VOTE_AVAILABLE"
+        const val RECOMMEND = "RECOMMEND"
 
         fun getIntent(context: Context, type: String? = null, path: String? = null) =
             Intent(context, MainActivity::class.java).apply {

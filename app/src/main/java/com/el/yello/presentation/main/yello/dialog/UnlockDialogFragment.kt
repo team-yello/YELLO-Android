@@ -12,6 +12,7 @@ import com.el.yello.BuildConfig
 import com.el.yello.R
 import com.el.yello.databinding.FragmentUnlockDialogBinding
 import com.el.yello.presentation.main.recommend.RecommendInviteDialog
+import com.el.yello.util.context.yelloSnackbar
 import com.example.ui.base.BindingDialogFragment
 import com.example.ui.view.setOnSingleClickListener
 import com.kakao.sdk.common.util.KakaoCustomTabsClient
@@ -53,82 +54,90 @@ class UnlockDialogFragment :
     private fun getBundleArgs() {
         arguments ?: return
         myYelloId = arguments?.getString(ARGS_YELLO_ID) ?: ""
-        linkText = RecommendInviteDialog.LINK_TEXT.format(myYelloId)
+        binding.yelloId = myYelloId
+        linkText = getString(R.string.unlock_link_text, myYelloId)
     }
 
     private fun setRecommendId() {
-        binding.tvRecommendDialogInviteId.text = myYelloId
+        binding.tvUnlockInviteSubtitle.text = myYelloId
     }
 
     private fun setTemplateId() {
-        if (BuildConfig.DEBUG) {
-            templateId = RecommendInviteDialog.TEST_TEMPLATE_ID.toLong()
+        templateId = if (BuildConfig.DEBUG) {
+            RecommendInviteDialog.TEST_TEMPLATE_ID.toLong()
         } else {
-            templateId = RecommendInviteDialog.TEMPLATE_ID.toLong()
+            RecommendInviteDialog.TEMPLATE_ID.toLong()
         }
     }
 
     private fun initExitButton() {
-        binding.btnInviteDialogExit.setOnSingleClickListener {
+        binding.btnUnlockExit.setOnSingleClickListener {
             dismiss()
         }
     }
 
     private fun initKakaoInviteButton() {
-        binding.btnInviteKakao.setOnSingleClickListener {
+        binding.btnUnlockInviteKakao.setOnSingleClickListener {
             startKakaoInvite(requireContext())
         }
     }
 
     private fun initLinkInviteButton() {
-        binding.btnInviteLink.setOnSingleClickListener {
+        binding.btnUnlockInviteLink.setOnSingleClickListener {
             val clipboardManager =
                 requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-            val clipData = ClipData.newPlainText("label", linkText)
+            val clipData = ClipData.newPlainText(LABEL_UNLOCK_LINK_TEXT, linkText)
             clipboardManager.setPrimaryClip(clipData)
         }
     }
 
     private fun startKakaoInvite(context: Context) {
-        // 카카오톡 설치여부 확인
+        // 카카오톡 설치 시 카카오톡으로 공유
         if (ShareClient.instance.isKakaoTalkSharingAvailable(context)) {
-            // 카카오톡으로 공유
             ShareClient.instance.shareCustom(
                 context,
-                templateId,
-                mapOf("KEY" to myYelloId),
+                UNLOCK_TEMPLATE_ID,
+                mapOf(KEY_YELLO_ID to myYelloId),
             ) { sharingResult, error ->
                 if (error != null) {
-                    Timber.tag(TAG_SHARE).e(error, getString(R.string.invite_error_kakao))
-                } else if (sharingResult != null) {
+                    Timber.tag(TAG_UNLOCK).e(error, getString(R.string.invite_error_kakao))
+                    return@shareCustom
+                }
+
+                if (sharingResult != null) {
                     startActivity(sharingResult.intent)
                 }
             }
-        } else {
-            // 웹으로 공유
-            val sharerUrl =
-                WebSharerClient.instance.makeCustomUrl(templateId)
+            return
+        }
 
-            // 1. CustomTabsServiceConnection 지원 브라우저 - Chrome, 삼성 인터넷 등
-            try {
-                KakaoCustomTabsClient.openWithDefault(context, sharerUrl)
-            } catch (error: UnsupportedOperationException) {
-                Timber.tag(TAG_SHARE).e(error, getString(R.string.invite_error_browser))
-            }
+        val sharerUrl = WebSharerClient.instance.makeCustomUrl(UNLOCK_TEMPLATE_ID)
 
-            // 2. CustomTabsServiceConnection 미지원 브라우저 - 네이버 앱
-            try {
-                KakaoCustomTabsClient.open(context, sharerUrl)
-            } catch (error: ActivityNotFoundException) {
-                Timber.tag(TAG_SHARE).e(error, getString(R.string.invite_error_browser))
-            }
+        // 1. CustomTabsServiceConnection 지원 브라우저 - Chrome, 삼성 인터넷 등
+        try {
+            KakaoCustomTabsClient.openWithDefault(context, sharerUrl)
+            return
+        } catch (error: UnsupportedOperationException) {
+            Timber.tag(TAG_UNLOCK).e(error, getString(R.string.invite_error_browser))
+        }
+
+        // 2. CustomTabsServiceConnection 미지원 브라우저 - 네이버 앱
+        try {
+            KakaoCustomTabsClient.open(context, sharerUrl)
+        } catch (error: ActivityNotFoundException) {
+            yelloSnackbar(binding.root, getString(R.string.unlock_browser_error_msg))
+            Timber.tag(TAG_UNLOCK).e(error, getString(R.string.invite_error_browser))
         }
     }
 
     companion object {
-        const val TAG_SHARE = "UNLOCK"
-
         const val ARGS_YELLO_ID = "YELLO_ID"
+
+        const val TAG_UNLOCK = "UNLOCK"
+
+        private const val UNLOCK_TEMPLATE_ID = 95890.toLong()
+        private const val KEY_YELLO_ID = "KEY"
+        private const val LABEL_UNLOCK_LINK_TEXT = "UNLOCK_LINK"
 
         @JvmStatic
         fun newInstance(yelloId: String) = UnlockDialogFragment().apply {

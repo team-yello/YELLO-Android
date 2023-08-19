@@ -7,6 +7,7 @@ import android.view.View
 import android.view.WindowManager
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.viewpager2.widget.ViewPager2
 import com.android.billingclient.api.ProductDetails
 import com.android.billingclient.api.Purchase
 import com.el.yello.R
@@ -19,6 +20,7 @@ import com.example.ui.context.toast
 import com.example.ui.view.UiState
 import com.example.ui.view.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
@@ -46,6 +48,7 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
         Log.d("sangho", "0 : activity created !@!@!@!@@!@!@")
         initView()
         initEvent()
+        autoScroll()
         setBillingManager()
         observeIsPurchasedStarted()
         observeCheckSubsState()
@@ -112,6 +115,52 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
         binding.tvOriginalPrice.paintFlags =
             binding.tvOriginalPrice.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
         viewModel.isFirstCreated = true
+
+        binding.vpBanner.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+            private var currentPosition = 0
+            private var currentState = 0
+            override fun onPageSelected(position: Int) {
+                super.onPageSelected(position)
+                currentPosition = position
+            }
+
+            override fun onPageScrollStateChanged(state: Int) {
+                super.onPageScrollStateChanged(state)
+                handleScrollState(state)
+                currentState = state
+            }
+
+            private fun handleScrollState(state: Int) {
+                // 평소엔 1(DRAG), 2(SETTING), 0(IDLE) but 막혀있을 땐 1(DRAG), 0(IDLE), 2(SETTING) 이걸 이용
+                if (state == ViewPager2.SCROLL_STATE_IDLE && currentState == ViewPager2.SCROLL_STATE_DRAGGING) {
+                    setNextPage()
+                }
+            }
+
+            private fun setNextPage() {
+                val lastPosition = 2
+
+                // 첫번째 화면이면 마지막 화면으로 이동
+                if (currentPosition == 0) {
+                    binding.vpBanner.currentItem = lastPosition
+                    // 마지막 화면이면 첫번째 화면으로 이동
+                } else if (currentPosition == lastPosition) {
+                    binding.vpBanner.currentItem = 0
+                }
+            }
+        })
+    }
+
+    // 배너 자동 스크롤 로직
+    private fun autoScroll() {
+        lifecycleScope.launch {
+            while (true) {
+                delay(2500)
+                binding.vpBanner.currentItem.let {
+                    binding.vpBanner.currentItem = it.plus(1) % 3
+                }
+            }
+        }
     }
 
     private fun initEvent() {

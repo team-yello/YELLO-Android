@@ -2,12 +2,15 @@ package com.el.yello.util.binding
 
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
+import android.view.View
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat.getColor
 import androidx.core.view.isVisible
 import androidx.databinding.BindingAdapter
+import com.airbnb.lottie.LottieAnimationView
 import com.el.yello.R
 
 object BindingAdapter {
@@ -96,19 +99,17 @@ object BindingAdapter {
 
     @JvmStatic
     @BindingAdapter("setBalloonSrc")
-    fun ImageView.setBalloonSrc(index: Int) {
-        setImageResource(
+    fun LottieAnimationView.setBalloonSrc(index: Int) {
+        setAnimation(
             when (index) {
-                0 -> R.drawable.ic_note_balloon1
-                1 -> R.drawable.ic_note_balloon2
-                2 -> R.drawable.ic_note_balloon3
-                3 -> R.drawable.ic_note_balloon4
-                4 -> R.drawable.ic_note_balloon5
-                5 -> R.drawable.ic_note_balloon6
-                6 -> R.drawable.ic_note_balloon7
-                7 -> R.drawable.ic_note_balloon8
-                8 -> R.drawable.ic_note_balloon9
-                else -> R.drawable.ic_note_balloon10
+                0 -> R.raw.lottie_note_balloon1
+                1 -> R.raw.lottie_note_balloon2
+                2 -> R.raw.lottie_note_balloon3
+                3 -> R.raw.lottie_note_balloon4
+                4 -> R.raw.lottie_note_balloon5
+                5 -> R.raw.lottie_note_balloon6
+                6 -> R.raw.lottie_note_balloon7
+                else -> R.raw.lottie_note_balloon8
             },
         )
     }
@@ -159,6 +160,16 @@ object BindingAdapter {
     fun TextView.setTextTint(colorIndex: Int) {
         if (colorIndex == 1 || colorIndex == 3 || colorIndex == 7) {
             this.setTextColor(getColor(this.context, R.color.black))
+        }
+    }
+
+    @JvmStatic
+    @BindingAdapter("android:layout_weight")
+    fun View.setLayoutWeight(weight: Int) {
+        val layoutParams = layoutParams as? LinearLayout.LayoutParams
+        layoutParams?.let {
+            it.weight = weight.toFloat()
+            this.layoutParams = it
         }
     }
 }

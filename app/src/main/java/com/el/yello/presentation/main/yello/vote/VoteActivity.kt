@@ -28,7 +28,7 @@ class VoteActivity : BindingActivity<ActivityVoteBinding>(R.layout.activity_vote
     }
 
     private fun setupVoteState() {
-        viewModel._voteState.observe(this) { state ->
+        viewModel.voteState.observe(this) { state ->
             when (state) {
                 is UiState.Loading -> {}
                 is UiState.Success -> initVoteViewPager()
@@ -52,12 +52,12 @@ class VoteActivity : BindingActivity<ActivityVoteBinding>(R.layout.activity_vote
 
     private fun setupCurrentNoteIndex() {
         viewModel._currentNoteIndex.observe(this) { index ->
-            binding.vpVote.setCurrentItemWithDuration(index, 400)
+            binding.vpVote.setCurrentItemWithDuration(index, DURATION_NOTE_TRANSITION)
         }
     }
 
     private fun setupPostVoteState() {
-        viewModel._postVoteState.observe(this) { state ->
+        viewModel.postVoteState.observe(this) { state ->
             when (state) {
                 is UiState.Loading -> {}
                 is UiState.Failure -> {
@@ -71,5 +71,9 @@ class VoteActivity : BindingActivity<ActivityVoteBinding>(R.layout.activity_vote
                 is UiState.Success -> {}
             }
         }
+    }
+
+    companion object {
+        private const val DURATION_NOTE_TRANSITION = 400L
     }
 }

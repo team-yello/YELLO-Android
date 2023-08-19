@@ -6,6 +6,7 @@ import com.example.data.model.response.ResponseDto
 import com.example.data.model.response.vote.ResponseVoteCount
 import com.example.data.model.response.yello.ResponseCheckKeyword
 import com.example.data.model.response.yello.ResponseCheckName
+import com.example.data.model.response.yello.ResponseFullName
 import com.example.data.model.response.yello.ResponseMyYello
 import com.example.data.model.response.yello.ResponseYelloDetail
 import retrofit2.http.Body
@@ -43,4 +44,9 @@ interface YelloService {
 
     @GET("api/v1/vote/count")
     suspend fun voteCount(): BaseResponse<ResponseVoteCount>
+
+    @PATCH("api/v1/vote/{voteId}/fullname")
+    suspend fun postFullName(
+        @Path("voteId") voteId: Long
+    ): BaseResponse<ResponseFullName>
 }

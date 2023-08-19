@@ -7,6 +7,7 @@ import com.example.data.model.response.ResponseDto
 import com.example.data.model.response.vote.ResponseVoteCount
 import com.example.data.model.response.yello.ResponseCheckKeyword
 import com.example.data.model.response.yello.ResponseCheckName
+import com.example.data.model.response.yello.ResponseFullName
 import com.example.data.model.response.yello.ResponseMyYello
 import com.example.data.model.response.yello.ResponseYelloDetail
 import com.example.data.remote.service.YelloService
@@ -37,5 +38,9 @@ class YelloDataSourceImpl @Inject constructor(
 
     override suspend fun voteCount(): BaseResponse<ResponseVoteCount> {
         return service.voteCount()
+    }
+
+    override suspend fun postFullName(id: Long): BaseResponse<ResponseFullName> {
+        return service.postFullName(id)
     }
 }

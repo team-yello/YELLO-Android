@@ -24,7 +24,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:paddingVertical="10dp"
+            android:paddingVertical="16dp"
             android:text="@string/my_yello_title"
             android:textAppearance="@style/TextAppearance.Yello.Headline03"
             android:textColor="@color/white"
@@ -107,20 +107,21 @@
                 app:layout_constraintTop_toTopOf="parent"
                 tools:listitem="@layout/item_my_yello" />
 
-            <com.el.yello.presentation.util.GradientButton
+            <com.el.yello.presentation.util.YelloAnimationButton
                 android:id="@+id/btn_send_check"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="16dp"
                 android:layout_marginBottom="18dp"
                 android:drawableStart="@drawable/ic_lock"
+                android:drawableTint="@color/black"
                 android:gravity="center"
                 android:paddingVertical="20dp"
                 android:paddingStart="78dp"
                 android:paddingEnd="78dp"
                 android:text="@string/my_yello_send_check"
                 android:textAppearance="@style/TextAppearance.Yello.Subtitle02"
-                android:textColor="@color/white"
+                android:textColor="@color/black"
                 app:layout_constraintBottom_toBottomOf="parent" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -129,7 +130,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="16dp"
                 android:layout_marginBottom="18dp"
-                android:background="@drawable/shape_fill_yello500_100dp"
+                android:background="@drawable/shape_purple_gradient_100dp"
                 android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent">
 
@@ -142,7 +143,8 @@
                     app:layout_constraintEnd_toStartOf="@id/tv_key_number"
                     app:layout_constraintHorizontal_chainStyle="packed"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:tint="@color/white" />
 
                 <TextView
                     android:id="@+id/tv_key_number"
@@ -150,7 +152,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="4dp"
                     android:textAppearance="@style/TextAppearance.Yello.Subtitle02"
-                    android:textColor="@color/purple_sub_500"
+                    android:textColor="@color/white"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@id/tv_send_open"
                     app:layout_constraintStart_toEndOf="@id/iv_key"
@@ -165,7 +167,7 @@
                     android:fontFamily="@font/pretendard_bold"
                     android:paddingVertical="20dp"
                     android:text="@string/my_yello_send_open"
-                    android:textColor="@color/black"
+                    android:textColor="@color/white"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/tv_key_number"

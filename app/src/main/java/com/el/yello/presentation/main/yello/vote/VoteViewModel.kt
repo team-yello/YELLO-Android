@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.el.yello.presentation.main.yello.vote.NoteState.InvalidCancel
 import com.el.yello.presentation.main.yello.vote.NoteState.InvalidShuffle
 import com.el.yello.presentation.main.yello.vote.NoteState.InvalidSkip
+import com.el.yello.util.amplitude.AmplitudeUtils
 import com.example.domain.entity.vote.Choice
 import com.example.domain.entity.vote.ChoiceList
 import com.example.domain.entity.vote.Note
@@ -29,11 +30,11 @@ class VoteViewModel @Inject constructor(
     val noteState: LiveData<NoteState>
         get() = _noteState
 
-    val _voteState = MutableLiveData<UiState<List<Note>>>()
+    private val _voteState = MutableLiveData<UiState<List<Note>>>()
     val voteState: LiveData<UiState<List<Note>>>
         get() = _voteState
 
-    val _postVoteState = MutableLiveData<UiState<Int>>()
+    private val _postVoteState = MutableLiveData<UiState<Int>>()
     val postVoteState: LiveData<UiState<Int>>
         get() = _postVoteState
 
@@ -69,6 +70,7 @@ class VoteViewModel @Inject constructor(
     val totalPoint: Int
         get() = _totalPoint.value ?: 0
 
+    private var isTransitioning = false
     var totalListCount = Int.MAX_VALUE
         private set
 
@@ -180,6 +182,9 @@ class VoteViewModel @Inject constructor(
             _noteState.value = InvalidSkip
             return
         }
+
+        if (isTransitioning) return
+
         skipToNextVote()
     }
 
@@ -195,6 +200,7 @@ class VoteViewModel @Inject constructor(
                     _postVoteState.value = Success(point)
                     _totalPoint.value = point
                     _currentNoteIndex.value = currentNoteIndex + 1
+                    AmplitudeUtils.trackEventWithProperties("click_vote_finish")
                 }
                 .onFailure { t ->
                     if (t is HttpException) {
@@ -224,10 +230,15 @@ class VoteViewModel @Inject constructor(
             postVote()
             return
         }
+        isTransitioning = true
         _noteState.value = NoteState.Success
         _shuffleCount.value = MAX_COUNT_SHUFFLE
         _currentNoteIndex.value = currentNoteIndex + 1
         initCurrentChoice()
+        viewModelScope.launch {
+            delay(500L)
+            isTransitioning = false
+        }
     }
 
     private fun isOptionSelected() =

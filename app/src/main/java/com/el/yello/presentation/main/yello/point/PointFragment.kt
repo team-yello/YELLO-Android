@@ -11,8 +11,8 @@ import com.example.ui.base.BindingFragment
 import com.example.ui.view.setOnSingleClickListener
 
 class PointFragment : BindingFragment<FragmentPointBinding>(R.layout.fragment_point) {
-    val viewModel by activityViewModels<YelloViewModel>()
-    val voteViewModel by activityViewModels<VoteViewModel>()
+    private val yelloViewModel by activityViewModels<YelloViewModel>()
+    private val voteViewModel by activityViewModels<VoteViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -23,7 +23,7 @@ class PointFragment : BindingFragment<FragmentPointBinding>(R.layout.fragment_po
 
     private fun setConfirmBtnClickListener() {
         binding.btnPointConfirm.setOnSingleClickListener {
-            viewModel.getVoteState()
+            yelloViewModel.getVoteState()
             requireActivity().finish()
         }
     }

@@ -6,6 +6,7 @@ import com.example.data.model.response.ResponseDto
 import com.example.data.model.response.vote.ResponseVoteCount
 import com.example.data.model.response.yello.ResponseCheckKeyword
 import com.example.data.model.response.yello.ResponseCheckName
+import com.example.data.model.response.yello.ResponseFullName
 import com.example.data.model.response.yello.ResponseMyYello
 import com.example.data.model.response.yello.ResponseYelloDetail
 import com.example.data.util.FileParser
@@ -34,6 +35,10 @@ class MockYelloDataSourceImpl @Inject constructor(
                 .getOrNull()
         }
         return Json.decodeFromString(file ?: throw IllegalArgumentException("File State Error"))
+    }
+
+    override suspend fun postFullName(id: Long): BaseResponse<ResponseFullName> {
+        TODO("Not yet implemented")
     }
 
     override suspend fun checkKeyword(id: Long): BaseResponse<ResponseCheckKeyword> {

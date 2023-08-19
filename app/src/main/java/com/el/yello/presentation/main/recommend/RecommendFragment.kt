@@ -8,6 +8,7 @@ import com.el.yello.databinding.FragmentRecommendBinding
 import com.el.yello.presentation.main.recommend.kakao.RecommendKakaoFragment
 import com.el.yello.presentation.main.recommend.school.RecommendSchoolFragment
 import com.el.yello.presentation.main.recommend.search.RecommendSearchActivity
+import com.el.yello.util.amplitude.AmplitudeUtils
 import com.example.ui.base.BindingFragment
 import com.example.ui.view.setOnSingleClickListener
 import com.google.android.material.tabs.TabLayoutMediator
@@ -25,6 +26,7 @@ class RecommendFragment : BindingFragment<FragmentRecommendBinding>(R.layout.fra
 
     private fun initSearchBtnListener() {
         binding.btnRecommendSearch.setOnSingleClickListener {
+            AmplitudeUtils.trackEventWithProperties("click_search_button")
             Intent(activity, RecommendSearchActivity::class.java).apply {
                 addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                 startActivity(this)

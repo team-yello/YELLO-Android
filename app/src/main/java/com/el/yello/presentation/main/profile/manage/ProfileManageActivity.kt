@@ -8,6 +8,7 @@ import androidx.lifecycle.lifecycleScope
 import com.el.yello.R
 import com.el.yello.databinding.ActivityProfileManageBinding
 import com.el.yello.presentation.main.profile.ProfileViewModel
+import com.el.yello.util.amplitude.AmplitudeUtils
 import com.el.yello.util.context.yelloSnackbar
 import com.example.ui.base.BindingActivity
 import com.example.ui.view.UiState
@@ -15,6 +16,7 @@ import com.example.ui.view.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import org.json.JSONObject
 import timber.log.Timber
 
 @AndroidEntryPoint
@@ -61,6 +63,7 @@ class ProfileManageActivity :
 
     private fun initLogoutBtnListener() {
         binding.btnProfileManageLogout.setOnSingleClickListener {
+            AmplitudeUtils.trackEventWithProperties("click_profile_logout")
             viewModel.logoutKakaoAccount()
         }
     }
@@ -73,6 +76,10 @@ class ProfileManageActivity :
 
     private fun initQuitBtnListener() {
         binding.btnProfileManageQuit.setOnSingleClickListener {
+            AmplitudeUtils.trackEventWithProperties(
+                "click_profile_withdrawal",
+                JSONObject().put("withdrawal_button", "withdrawal1")
+            )
             Intent(this, ProfileQuitOneActivity::class.java).apply {
                 addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                 startActivity(this)
@@ -85,6 +92,7 @@ class ProfileManageActivity :
         viewModel.kakaoLogoutState.observe(this) { state ->
             when (state) {
                 is UiState.Success -> {
+                    AmplitudeUtils.trackEventWithProperties("complete_profile_logout")
                     lifecycleScope.launch {
                         delay(500)
                         restartApp()
@@ -109,7 +117,7 @@ class ProfileManageActivity :
         Runtime.getRuntime().exit(0)
     }
 
-    private companion object {
+    companion object {
         const val CUSTOMER_CENTER_URL =
             "https://yell0.notion.site/YELLO-34028220a873416b91d5d2f1cd827432?pvs=4"
         const val PRIVACY_URL =

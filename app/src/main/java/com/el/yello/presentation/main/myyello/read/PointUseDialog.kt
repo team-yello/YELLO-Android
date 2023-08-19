@@ -7,12 +7,15 @@ import android.view.View
 import android.view.WindowManager
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
+import com.amplitude.api.Amplitude
 import com.el.yello.R
 import com.el.yello.databinding.DialogPointUseBinding
 import com.example.domain.enum.PointEnum
 import com.example.ui.base.BindingDialogFragment
 import com.example.ui.view.setOnSingleClickListener
 import com.el.yello.presentation.main.MainActivity
+import com.el.yello.util.amplitude.AmplitudeUtils
+import org.json.JSONObject
 
 class PointUseDialog : BindingDialogFragment<DialogPointUseBinding>(R.layout.dialog_point_use) {
     private val viewModel by activityViewModels<MyYelloReadViewModel>()
@@ -63,6 +66,13 @@ class PointUseDialog : BindingDialogFragment<DialogPointUseBinding>(R.layout.dia
                 requireActivity().finish()
             } else {
                 dismiss()
+                if (viewModel.pointType == PointEnum.INITIAL.ordinal) {
+                    AmplitudeUtils.trackEventWithProperties("view_open_firstletter", JSONObject().put("subscription type", "sub_no"))
+                } else if (viewModel.pointType == PointEnum.SUBSCRIBE.ordinal) {
+                    AmplitudeUtils.trackEventWithProperties("view_open_firstletter", JSONObject().put("subscription type", "sub_yes"))
+                } else if (viewModel.pointType == PointEnum.KEYWORD.ordinal) {
+                    AmplitudeUtils.trackEventWithProperties("view_open_keyword")
+                }
                 PointAfterDialog.newInstance().show(parentFragmentManager, "dialog")
             }
         }

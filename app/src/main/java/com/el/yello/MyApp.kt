@@ -2,12 +2,12 @@ package com.el.yello
 
 import android.app.Application
 import com.amplitude.api.Amplitude
+import com.amplitude.api.Identify
 import com.el.yello.BuildConfig.AMPLITUDE_API_KEY
 import com.el.yello.BuildConfig.NATIVE_APP_KEY
 import com.el.yello.presentation.util.ResolutionMetrics
 import com.kakao.sdk.common.KakaoSdk
 import dagger.hilt.android.HiltAndroidApp
-import dagger.hilt.android.internal.Contexts.getApplication
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -27,7 +27,6 @@ class MyApp : Application() {
         Amplitude.getInstance().initialize(this, AMPLITUDE_API_KEY)
             .enableForegroundTracking(this)
     }
-
 
     companion object {
         lateinit var resolutionMetrics: ResolutionMetrics

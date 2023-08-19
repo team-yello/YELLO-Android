@@ -7,6 +7,7 @@ import android.view.View
 import android.view.animation.LinearInterpolator
 import androidx.activity.viewModels
 import androidx.navigation.findNavController
+import com.amplitude.api.Identify
 import com.el.yello.R
 import com.el.yello.databinding.ActivityOnboardingBinding
 import com.el.yello.presentation.auth.SignInActivity.Companion.EXTRA_EMAIL

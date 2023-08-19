@@ -14,6 +14,7 @@ import android.view.View
 import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
+import androidx.core.view.isGone
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.lifecycle.flowWithLifecycle
@@ -22,6 +23,7 @@ import com.el.yello.R
 import com.el.yello.databinding.ActivityMyYelloReadBinding
 import com.el.yello.presentation.pay.PayActivity
 import com.el.yello.util.Utils
+import com.el.yello.util.amplitude.AmplitudeUtils
 import com.el.yello.util.context.yelloSnackbar
 import com.example.domain.entity.YelloDetail
 import com.example.domain.enum.PointEnum
@@ -37,6 +39,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import org.json.JSONObject
 import java.io.ByteArrayOutputStream
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -86,6 +89,15 @@ class MyYelloReadActivity :
         }
 
         binding.btnSendCheck.setOnSingleClickListener {
+            if (binding.tvNameNotYet.isVisible && binding.tvKeywordNotYet.isVisible) {
+                AmplitudeUtils.trackEventWithProperties("click_go_shop", JSONObject().put("shop_button","cta_nothing"))
+            } else if (viewModel.yelloDetail?.isSubscribe == true && binding.tvKeywordNotYet.isGone) {
+                AmplitudeUtils.trackEventWithProperties("click_go_shop", JSONObject().put("shop_button","cta_keyword_sub"))
+            } else if (viewModel.yelloDetail?.isSubscribe == false && binding.tvKeywordNotYet.isGone) {
+                AmplitudeUtils.trackEventWithProperties("click_go_shop", JSONObject().put("shop_button","cta_keyword_nosub"))
+            } else if ((viewModel.yelloDetail?.nameHint == 0 || viewModel.yelloDetail?.nameHint == 1) && binding.tvKeywordNotYet.isVisible) {
+                AmplitudeUtils.trackEventWithProperties("click_go_shop", JSONObject().put("shop_button","cta_firstletter"))
+            }
             Intent(this, PayActivity::class.java).apply {
                 startActivity(this)
             }
@@ -101,6 +113,17 @@ class MyYelloReadActivity :
         }
 
         binding.ivInstagram.setOnSingleClickListener {
+            if (binding.tvNameNotYet.isVisible && binding.tvKeywordNotYet.isVisible) {
+                AmplitudeUtils.trackEventWithProperties("click_instagram", JSONObject().put("insta_view","message"))
+            } else if (binding.tvNameNotYet.isVisible && binding.tvKeywordNotYet.isGone) {
+                AmplitudeUtils.trackEventWithProperties("click_instagram", JSONObject().put("insta_view","keyword"))
+            } else if ((viewModel.yelloDetail?.nameHint == 0 || viewModel.yelloDetail?.nameHint == 1) && binding.tvKeywordNotYet.isVisible) {
+                AmplitudeUtils.trackEventWithProperties("click_instagram", JSONObject().put("insta_view","firstletter"))
+            } else if (viewModel.yelloDetail?.nameHint == -2 && binding.tvKeywordNotYet.isGone) {
+                AmplitudeUtils.trackEventWithProperties("click_instagram", JSONObject().put("insta_view","fullname"))
+            } else if (viewModel.yelloDetail?.nameHint == -2 && binding.tvKeywordNotYet.isVisible) {
+                AmplitudeUtils.trackEventWithProperties("click_instagram", JSONObject().put("insta_view","fullnamefirst"))
+            }
             setViewInstagram(true)
             lifecycleScope.launch {
                 delay(500)
@@ -174,8 +197,6 @@ class MyYelloReadActivity :
         binding.tvInitialCheck.text =
             if (yello.isAnswerRevealed) "300포인트로 초성 1개 확인하기" else "100포인트로 키워드 확인하기"
 
-//        binding.clZeroInitialCheck.isVisible = yello.isAnswerRevealed && yello.isSubscribe
-//        binding.tvInitialCheck.isInvisible = yello.isAnswerRevealed && yello.isSubscribe
         if (yello.isSubscribe) {
             binding.tvInitialCheck.isInvisible = yello.isAnswerRevealed
             binding.clZeroInitialCheck.isVisible = yello.isAnswerRevealed && yello.nameHint == -1
@@ -193,6 +214,13 @@ class MyYelloReadActivity :
             binding.tvInitialCheck.isVisible = false
         }
         binding.tvNameCheckFinish.isVisible = yello.nameHint == -2
+
+        if (yello.nameHint != -3) {
+            AmplitudeUtils.trackEventWithProperties("view_open_message")
+        }
+        if (yello.isAnswerRevealed && yello.nameHint == -2) {
+            AmplitudeUtils.trackEventWithProperties("view_open_fullname")
+        }
     }
 
     private fun shareInstagramStory() {

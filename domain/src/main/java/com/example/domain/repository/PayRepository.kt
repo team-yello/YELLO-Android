@@ -1,9 +1,10 @@
 package com.example.domain.repository
 
 import com.example.domain.entity.RequestPayModel
-import com.example.domain.entity.ResponsePayCheckModel
-import com.example.domain.entity.ResponsePaySubsModel
 import com.example.domain.entity.ResponsePayInAppModel
+import com.example.domain.entity.ResponsePurchaseInfoModel
+import com.example.domain.entity.ResponsePaySubsModel
+import com.example.domain.entity.ResponseSubsNeededModel
 
 interface PayRepository {
 
@@ -15,7 +16,10 @@ interface PayRepository {
         request: RequestPayModel
     ): ResponsePayInAppModel?
 
-    suspend fun getIsSubscribed(
-    ): ResponsePayCheckModel?
+    suspend fun getSubsNeeded(
+    ): ResponseSubsNeededModel?
+
+    suspend fun getPurchaseInfo(
+    ): ResponsePurchaseInfoModel?
 
 }

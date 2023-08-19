@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.el.yello.presentation.main.yello.vote.NoteState.InvalidCancel
 import com.el.yello.presentation.main.yello.vote.NoteState.InvalidShuffle
 import com.el.yello.presentation.main.yello.vote.NoteState.InvalidSkip
+import com.el.yello.util.amplitude.AmplitudeUtils
 import com.example.domain.entity.vote.Choice
 import com.example.domain.entity.vote.ChoiceList
 import com.example.domain.entity.vote.Note
@@ -201,6 +202,7 @@ class VoteViewModel @Inject constructor(
                     _postVoteState.value = Success(point)
                     _totalPoint.value = point
                     _currentNoteIndex.value = currentNoteIndex + 1
+                    AmplitudeUtils.trackEventWithProperties("click_vote_finish")
                 }
                 .onFailure { t ->
                     if (t is HttpException) {

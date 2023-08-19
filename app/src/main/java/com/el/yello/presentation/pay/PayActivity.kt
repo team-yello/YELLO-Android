@@ -1,11 +1,13 @@
 package com.el.yello.presentation.pay
 
+import android.content.Intent
 import android.graphics.Paint
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import androidx.activity.viewModels
+import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.widget.ViewPager2
 import com.android.billingclient.api.ProductDetails
@@ -14,6 +16,7 @@ import com.el.yello.R
 import com.el.yello.databinding.ActivityPayBinding
 import com.el.yello.presentation.util.BillingCallback
 import com.el.yello.presentation.util.BillingManager
+import com.el.yello.util.amplitude.AmplitudeUtils
 import com.example.data.model.request.pay.toRequestPayModel
 import com.example.ui.base.BindingActivity
 import com.example.ui.context.toast
@@ -22,6 +25,7 @@ import com.example.ui.view.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import org.json.JSONObject
 import timber.log.Timber
 
 @AndroidEntryPoint
@@ -47,18 +51,19 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
 
         Log.d("sangho", "0 : activity created !@!@!@!@@!@!@")
         initView()
-        initEvent()
+        //initEvent()
+        initEventForTemporarily()
         autoScroll()
-        setBillingManager()
-        observeIsPurchasedStarted()
-        observeCheckSubsState()
-        observeCheckInAppState()
-        observeCheckIsSubscribed()
+        //setBillingManager()
+        //observeIsPurchasedStarted()
+        //observeCheckSubsState()
+        //observeCheckInAppState()
+        //observeCheckIsSubscribed()
     }
 
     override fun onResume() {
         super.onResume()
-        viewModel.checkIsSubscribed()
+        // viewModel.getPurchaseInfoFromServer()
         Log.d("sangho", "1 : resume ")
     }
 
@@ -166,6 +171,9 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
     private fun initEvent() {
         binding.clSubscribe.setOnSingleClickListener {
             viewModel.payCheck(0)
+            AmplitudeUtils.trackEventWithProperties(
+                "click_shop_buy", JSONObject().put("buy_type", "subscribe")
+            )
             productDetailsList.withIndex().find { it.value.productId == YELLO_PLUS }
                 ?.let { productDetails ->
                     manager.purchaseProduct(productDetails.index, productDetails.value)
@@ -177,6 +185,9 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
 
         binding.clNameCheckOne.setOnSingleClickListener {
             viewModel.payCheck(1)
+            AmplitudeUtils.trackEventWithProperties(
+                "click_shop_buy", JSONObject().put("buy_type", "ticket1")
+            )
             productDetailsList.withIndex().find { it.value.productId == YELLO_ONE }
                 ?.let { productDetails ->
                     manager.purchaseProduct(productDetails.index, productDetails.value)
@@ -188,6 +199,9 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
 
         binding.clNameCheckTwo.setOnSingleClickListener {
             viewModel.payCheck(2)
+            AmplitudeUtils.trackEventWithProperties(
+                "click_shop_buy", JSONObject().put("buy_type", "ticket2")
+            )
             productDetailsList.withIndex().find { it.value.productId == YELLO_TWO }
                 ?.let { productDetails ->
                     manager.purchaseProduct(productDetails.index, productDetails.value)
@@ -199,12 +213,65 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
 
         binding.clNameCheckFive.setOnSingleClickListener {
             viewModel.payCheck(3)
+            AmplitudeUtils.trackEventWithProperties(
+                "click_shop_buy", JSONObject().put("buy_type", "ticket5")
+            )
             productDetailsList.withIndex().find { it.value.productId == YELLO_FIVE }
                 ?.let { productDetails ->
                     manager.purchaseProduct(productDetails.index, productDetails.value)
                     Log.d("sangho", "11 : click = ${productDetails.value.name} -> purchase")
                 } ?: also {
                 toast(getString(R.string.pay_error_no_item))
+            }
+        }
+
+        binding.ivBack.setOnSingleClickListener {
+            finish()
+        }
+    }
+
+    private fun initEventForTemporarily() {
+        binding.clSubscribe.setOnSingleClickListener {
+            viewModel.payCheck(0)
+            AmplitudeUtils.trackEventWithProperties(
+                "click_shop_buy", JSONObject().put("buy_type", "subscribe")
+            )
+            Intent(this, PayEndActivity::class.java).apply {
+                addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                startActivity(this)
+            }
+        }
+
+        binding.clNameCheckOne.setOnSingleClickListener {
+            viewModel.payCheck(1)
+            AmplitudeUtils.trackEventWithProperties(
+                "click_shop_buy", JSONObject().put("buy_type", "ticket1")
+            )
+            Intent(this, PayEndActivity::class.java).apply {
+                addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                startActivity(this)
+            }
+        }
+
+        binding.clNameCheckTwo.setOnSingleClickListener {
+            viewModel.payCheck(2)
+            AmplitudeUtils.trackEventWithProperties(
+                "click_shop_buy", JSONObject().put("buy_type", "ticket2")
+            )
+            Intent(this, PayEndActivity::class.java).apply {
+                addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                startActivity(this)
+            }
+        }
+
+        binding.clNameCheckFive.setOnSingleClickListener {
+            viewModel.payCheck(3)
+            AmplitudeUtils.trackEventWithProperties(
+                "click_shop_buy", JSONObject().put("buy_type", "ticket5")
+            )
+            Intent(this, PayEndActivity::class.java).apply {
+                addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                startActivity(this)
             }
         }
 
@@ -227,6 +294,10 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
             when (state) {
                 is UiState.Success -> {
                     Log.d("sangho", "12 : sub success : @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
+                    AmplitudeUtils.trackEventWithProperties(
+                        "complete_shop_buy",
+                        JSONObject().put("buy_type", "subscribe").put("buy_price", "3900")
+                    )
                     stopLoadingScreen()
                     paySubsDialog = PaySubsDialog()
                     paySubsDialog?.show(supportFragmentManager, DIALOG_SUBS)
@@ -234,8 +305,12 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
 
                 is UiState.Failure -> {
                     Log.d("sangho", "13 : sub failure : @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
-                    toast(getString(R.string.pay_check_error))
                     stopLoadingScreen()
+                    if (state.msg == SERVER_ERROR) {
+                        showErrorDialog()
+                    } else {
+                        toast(getString(R.string.pay_check_error))
+                    }
                 }
 
                 is UiState.Loading -> {}
@@ -254,6 +329,28 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
                         "sangho",
                         "13: inapp success : &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&"
                     )
+                    when (state.data?.ticketCount) {
+                        1 -> {
+                            AmplitudeUtils.trackEventWithProperties(
+                                "complete_shop_buy",
+                                JSONObject().put("buy_type", "ticket1").put("buy_price", "1400")
+                            )
+                        }
+
+                        2 -> {
+                            AmplitudeUtils.trackEventWithProperties(
+                                "complete_shop_buy",
+                                JSONObject().put("buy_type", "ticket2").put("buy_price", "2800")
+                            )
+                        }
+
+                        5 -> {
+                            AmplitudeUtils.trackEventWithProperties(
+                                "complete_shop_buy",
+                                JSONObject().put("buy_type", "ticket5").put("buy_price", "5900")
+                            )
+                        }
+                    }
                     stopLoadingScreen()
                     viewModel.currentInAppItem = state.data?.ticketCount ?: 0
                     payInAppDialog = PayInAppDialog()
@@ -265,8 +362,12 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
                         "sangho",
                         "14 : inapp failure : &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&"
                     )
-                    toast(getString(R.string.pay_check_error))
                     stopLoadingScreen()
+                    if (state.msg == SERVER_ERROR) {
+                        showErrorDialog()
+                    } else {
+                        toast(getString(R.string.pay_check_error))
+                    }
                 }
 
                 is UiState.Loading -> {}
@@ -290,13 +391,22 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
         window?.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
     }
 
+    private fun showErrorDialog() {
+        AlertDialog.Builder(this)
+            .setTitle(getString(R.string.pay_error_dialog_title))
+            .setMessage(getString(R.string.pay_error_dialog_msg))
+            .setPositiveButton(getString(R.string.pay_error_dialog_btn)) { dialog, _ -> dialog.dismiss() }
+            .create()
+            .show()
+    }
+
     // 구독 여부 확인해서 화면 표시 변경
     private fun observeCheckIsSubscribed() {
-        viewModel.getIsSubscribedState.observe(this) { state ->
+        viewModel.getPurchaseInfoState.observe(this) { state ->
             Log.d("sangho", "15 : observe subs state")
             when (state) {
                 is UiState.Success -> {
-                    if (state.data?.subscribe == "ACTIVE") {
+                    if (state.data?.isSubscribe == true) {
                         binding.layoutShowSubs.visibility = View.VISIBLE
                     } else {
                         binding.layoutShowSubs.visibility = View.GONE
@@ -322,5 +432,7 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
 
         const val DIALOG_SUBS = "subsDialog"
         const val DIALOG_IN_APP = "inAppDialog"
+
+        const val SERVER_ERROR = "HTTP 500 "
     }
 }

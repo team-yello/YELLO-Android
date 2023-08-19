@@ -10,12 +10,14 @@ import com.el.yello.R
 import com.el.yello.databinding.FragmentAddFriendBinding
 import com.el.yello.presentation.onboarding.activity.OnBoardingActivity
 import com.el.yello.presentation.onboarding.activity.OnBoardingViewModel
+import com.el.yello.util.amplitude.AmplitudeUtils
 import com.example.domain.entity.onboarding.AddFriendListModel.FriendModel
 import com.example.ui.base.BindingFragment
 import com.example.ui.fragment.toast
 import com.example.ui.view.UiState
 import com.example.ui.view.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
+import org.json.JSONObject
 
 @AndroidEntryPoint
 class AddFriendFragment : BindingFragment<FragmentAddFriendBinding>(R.layout.fragment_add_friend) {
@@ -56,6 +58,10 @@ class AddFriendFragment : BindingFragment<FragmentAddFriendBinding>(R.layout.fra
 
     private fun setConfirmBtnClickListener() {
         binding.btnAddFriendNext.setOnSingleClickListener {
+            AmplitudeUtils.trackEventWithProperties(
+                "click_onboarding_next",
+                JSONObject().put("onboard_view", "friends"),
+            )
             val activity = requireActivity() as OnBoardingActivity
             activity.progressBarPlus()
             viewModel.selectedFriendIdList = selectedItemIdList

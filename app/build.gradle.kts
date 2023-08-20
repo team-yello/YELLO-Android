@@ -175,4 +175,8 @@ dependencies {
         implementation(shimmer)
         implementation(amplitude)
     }
+
+    GoogleDependencies.run {
+        implementation(inAppUpdate)
+    }
 }

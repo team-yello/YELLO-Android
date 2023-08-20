@@ -27,10 +27,6 @@ class CodeFragment : BindingFragment<FragmentCodeBinding>(R.layout.fragment_code
         setDeleteCodeBtnClickListener()
         setupPostSignupState()
         viewModel.validYellIdLoading()
-        AmplitudeUtils.trackEventWithProperties(
-            "click_onboarding_next",
-            JSONObject().put("onboard_view", ""),
-        )
     }
 
     override fun onResume() {

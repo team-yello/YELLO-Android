@@ -30,8 +30,8 @@ class StartAppActivity :
     }
 
     private fun initTutorialView() {
-        AmplitudeUtils.trackEventWithProperties("click_onboarding_notification")
         binding.btnStartYello.setOnSingleClickListener {
+            AmplitudeUtils.trackEventWithProperties("click_onboarding_notification")
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                 if (ContextCompat.checkSelfPermission(
                         this,

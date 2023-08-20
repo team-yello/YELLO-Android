@@ -4,21 +4,49 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.el.yello.R
 import com.el.yello.presentation.auth.SignInActivity
 import com.el.yello.presentation.main.MainActivity
+import com.example.ui.context.toast
+import com.google.android.play.core.appupdate.AppUpdateInfo
+import com.google.android.play.core.appupdate.AppUpdateManagerFactory
+import com.google.android.play.core.appupdate.AppUpdateOptions
+import com.google.android.play.core.install.model.AppUpdateType.IMMEDIATE
+import com.google.android.play.core.install.model.UpdateAvailability
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 
 @AndroidEntryPoint
 class SplashActivity : AppCompatActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        val viewModel by viewModels<SplashViewModel>()
+    private val viewModel by viewModels<SplashViewModel>()
 
+    private val appUpdateManager by lazy { AppUpdateManagerFactory.create(this) }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
 
+        initAppUpdate()
+
+    }
+
+
+    private fun initAppUpdate() {
+        val appUpdateInfoTask = appUpdateManager.appUpdateInfo
+        appUpdateInfoTask.addOnSuccessListener { appUpdateInfo ->
+            if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE) {
+                appUpdateInfo.isUpdateTypeAllowed(IMMEDIATE)
+                requestUpdate(appUpdateInfo)
+            } else {
+                initSplash()
+            }
+        }
+    }
+
+    private fun initSplash() {
         Handler(Looper.getMainLooper()).postDelayed({
             if (viewModel.getIsAutoLogin()) {
                 navigateToMainScreen()
@@ -26,6 +54,20 @@ class SplashActivity : AppCompatActivity() {
                 navigateToSignInScreen()
             }
         }, 3000)
+    }
+
+    private fun requestUpdate(appUpdateInfo: AppUpdateInfo) {
+        runCatching {
+            appUpdateManager.startUpdateFlowForResult(
+                appUpdateInfo,
+                activityResultLauncher,
+                AppUpdateOptions.newBuilder(IMMEDIATE)
+                    .setAllowAssetPackDeletion(true)
+                    .build()
+            )
+        }.onFailure {
+            Timber.e(it)
+        }
     }
 
     private fun navigateToMainScreen() {
@@ -48,5 +90,32 @@ class SplashActivity : AppCompatActivity() {
             startActivity(this)
         }
         finish()
+    }
+
+    private val activityResultLauncher =
+        registerForActivityResult(ActivityResultContracts.StartIntentSenderForResult()) { it ->
+            if (it.resultCode != RESULT_OK) {
+                toast("업데이트가 취소되었습니다.")
+                finishAffinity()
+            }
+        }
+
+    override fun onResume() {
+        super.onResume()
+
+        appUpdateManager.appUpdateInfo.addOnSuccessListener { appUpdateInfo ->
+            if (appUpdateInfo.updateAvailability() == UpdateAvailability.DEVELOPER_TRIGGERED_UPDATE_IN_PROGRESS) {
+                runCatching {
+                    appUpdateManager.startUpdateFlowForResult(
+                        appUpdateInfo,
+                        activityResultLauncher,
+                        AppUpdateOptions.newBuilder(IMMEDIATE)
+                            .build()
+                    )
+                }.onFailure {
+                    Timber.e(it)
+                }
+            }
+        }
     }
 }

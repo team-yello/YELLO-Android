@@ -90,6 +90,10 @@ object ThirdPartyDependencies {
     const val amplitude = "com.amplitude:android-sdk:${Versions.amplitudeVersion}"
 }
 
+object GoogleDependencies {
+    const val inAppUpdate = "com.google.android.play:app-update-ktx:${Versions.inAppUpdateVersion}"
+}
+
 object ClassPathPlugins {
     const val hilt = "com.google.dagger:hilt-android-gradle-plugin:${Versions.hiltVersion}"
     const val oss = "com.google.android.gms:oss-licenses-plugin:${Versions.ossPluginVersion}"

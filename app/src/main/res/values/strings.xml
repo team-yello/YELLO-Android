@@ -99,7 +99,7 @@
     <string name="yello_start_balloon_bottom">보내볼까?</string>
     <string name="yello_start_double">x2</string>
 
-    <string name="yello_lock_description">투표를 시작할 수 없어요</string>
+    <string name="yello_lock_description">옐로를 시작하고 싶다면?</string>
     <string name="yello_lock_invite">친구 초대하기</string>
     <string name="yello_lock_sub_description">친구가 4명 이상 모이면 투표할 수 있어요.\n친구들을 초대해볼까요?</string>
 
@@ -155,6 +155,7 @@
 
     <string name="look_title">타임라인</string>
     <string name="look_error_friend_list">타임라인 가져오기 실패</string>
+    <string name="look_invite_no_title">친구들이 받은 쪽지가 궁금하다면\n친구를 초대해볼까요?</string>
 
     <string name="view_type_error_msg">Unknown View Type : %d</string>
 

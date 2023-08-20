@@ -12,18 +12,22 @@ import com.el.yello.BuildConfig
 import com.el.yello.R
 import com.el.yello.databinding.FragmentUnlockDialogBinding
 import com.el.yello.presentation.main.recommend.RecommendInviteDialog
+import com.el.yello.presentation.main.yello.wait.YelloWaitFragment
+import com.el.yello.util.amplitude.AmplitudeUtils
 import com.el.yello.util.context.yelloSnackbar
 import com.example.ui.base.BindingDialogFragment
 import com.example.ui.view.setOnSingleClickListener
 import com.kakao.sdk.common.util.KakaoCustomTabsClient
 import com.kakao.sdk.share.ShareClient
 import com.kakao.sdk.share.WebSharerClient
+import org.json.JSONObject
 import timber.log.Timber
 
 class UnlockDialogFragment :
     BindingDialogFragment<FragmentUnlockDialogBinding>(R.layout.fragment_unlock_dialog) {
 
     private lateinit var myYelloId: String
+    private lateinit var previousScreen: String
     private lateinit var linkText: String
     private var templateId: Long = 0
 
@@ -54,8 +58,9 @@ class UnlockDialogFragment :
     private fun getBundleArgs() {
         arguments ?: return
         myYelloId = arguments?.getString(ARGS_YELLO_ID) ?: ""
+        previousScreen = arguments?.getString(ARGS_PREVIOUS_SCREEN) ?: ""
         binding.yelloId = myYelloId
-        linkText = getString(R.string.unlock_link_text, myYelloId)
+        linkText = RecommendInviteDialog.LINK_TEXT.format(myYelloId)
     }
 
     private fun setRecommendId() {
@@ -78,12 +83,20 @@ class UnlockDialogFragment :
 
     private fun initKakaoInviteButton() {
         binding.btnUnlockInviteKakao.setOnSingleClickListener {
+            AmplitudeUtils.trackEventWithProperties(
+                "click_invite_kakao",
+                JSONObject().put("invite_view", previousScreen)
+            )
             startKakaoInvite(requireContext())
         }
     }
 
     private fun initLinkInviteButton() {
         binding.btnUnlockInviteLink.setOnSingleClickListener {
+            AmplitudeUtils.trackEventWithProperties(
+                "click_invite_link",
+                JSONObject().put("invite_view", previousScreen)
+            )
             val clipboardManager =
                 requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
             val clipData = ClipData.newPlainText(LABEL_UNLOCK_LINK_TEXT, linkText)
@@ -96,7 +109,7 @@ class UnlockDialogFragment :
         if (ShareClient.instance.isKakaoTalkSharingAvailable(context)) {
             ShareClient.instance.shareCustom(
                 context,
-                UNLOCK_TEMPLATE_ID,
+                templateId,
                 mapOf(KEY_YELLO_ID to myYelloId),
             ) { sharingResult, error ->
                 if (error != null) {
@@ -111,7 +124,7 @@ class UnlockDialogFragment :
             return
         }
 
-        val sharerUrl = WebSharerClient.instance.makeCustomUrl(UNLOCK_TEMPLATE_ID)
+        val sharerUrl = WebSharerClient.instance.makeCustomUrl(templateId)
 
         // 1. CustomTabsServiceConnection 지원 브라우저 - Chrome, 삼성 인터넷 등
         try {
@@ -125,24 +138,23 @@ class UnlockDialogFragment :
         try {
             KakaoCustomTabsClient.open(context, sharerUrl)
         } catch (error: ActivityNotFoundException) {
-            yelloSnackbar(binding.root, getString(R.string.unlock_browser_error_msg))
             Timber.tag(TAG_UNLOCK).e(error, getString(R.string.invite_error_browser))
         }
     }
 
     companion object {
         const val ARGS_YELLO_ID = "YELLO_ID"
+        const val ARGS_PREVIOUS_SCREEN = "PREVIOUS_SCREEN"
 
         const val TAG_UNLOCK = "UNLOCK"
 
-        private const val UNLOCK_TEMPLATE_ID = 95890.toLong()
         private const val KEY_YELLO_ID = "KEY"
         private const val LABEL_UNLOCK_LINK_TEXT = "UNLOCK_LINK"
 
         @JvmStatic
-        fun newInstance(yelloId: String) = UnlockDialogFragment().apply {
+        fun newInstance(yelloId: String, previousScreen: String) = UnlockDialogFragment().apply {
             val args = bundleOf(
-                ARGS_YELLO_ID to yelloId,
+                ARGS_YELLO_ID to yelloId, ARGS_PREVIOUS_SCREEN to previousScreen
             )
             arguments = args
         }

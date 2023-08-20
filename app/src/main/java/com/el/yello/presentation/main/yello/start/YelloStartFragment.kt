@@ -12,12 +12,14 @@ import com.el.yello.presentation.main.yello.YelloViewModel
 import com.el.yello.presentation.main.yello.vote.VoteActivity
 import com.el.yello.util.amplitude.AmplitudeUtils
 import com.example.ui.base.BindingFragment
+import com.example.ui.view.UiState
 import com.example.ui.view.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class YelloStartFragment :
     BindingFragment<FragmentYelloStartBinding>(R.layout.fragment_yello_start) {
+
     private val viewModel by activityViewModels<YelloViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -27,6 +29,8 @@ class YelloStartFragment :
         initEntranceLottie()
         initShadowView()
         initVoteBtnClickListener()
+        observeCheckIsSubscribed()
+        viewModel.getPurchaseInfoFromServer()
     }
 
     private fun initEntranceLottie() {
@@ -63,6 +67,29 @@ class YelloStartFragment :
     private fun intentToVoteScreen() {
         Intent(activity, VoteActivity::class.java).apply {
             startActivity(this)
+        }
+    }
+
+    // 구독 여부 확인
+    private fun observeCheckIsSubscribed() {
+        viewModel.getPurchaseInfoState.observe(viewLifecycleOwner) { state ->
+            when (state) {
+                is UiState.Success -> {
+                    if (state.data?.isSubscribe == true) {
+                        binding.layoutSubsDouble.visibility = View.VISIBLE
+                    } else {
+                        binding.layoutSubsDouble.visibility = View.GONE
+                    }
+                }
+
+                is UiState.Failure -> {
+                    binding.layoutSubsDouble.visibility = View.GONE
+                }
+
+                is UiState.Loading -> {}
+
+                is UiState.Empty -> {}
+            }
         }
     }
 

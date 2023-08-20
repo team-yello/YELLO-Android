@@ -46,15 +46,15 @@
             tools:layout_marginBottom="-348dp" />
 
         <com.el.yello.util.view.YelloStartShadowView
-            android:background="#660D0D0F"
             android:id="@+id/shadow_start"
-            app:layout_constraintTop_toTopOf="@id/lottie_start_entrance"
-            android:layout_marginTop="-120dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
             android:layout_width="0dp"
-            android:layout_height="0dp" />
+            android:layout_height="0dp"
+            android:layout_marginTop="-120dp"
+            android:background="#660D0D0F"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/lottie_start_entrance" />
 
         <TextView
             android:id="@+id/tv_start_point"
@@ -198,37 +198,49 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
-        <TextView
-            android:id="@+id/tv_start_plus_point"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_subs_double"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/unbounded_medium"
-            android:visibility="gone"
-            android:text="@string/yello_start_point"
-            android:textColor="@color/white"
-            android:textSize="16sp"
-            app:layout_constraintBottom_toBottomOf="@id/tv_start_plus_double"
-            app:layout_constraintEnd_toStartOf="@id/tv_start_plus_double"
-            app:layout_constraintHorizontal_chainStyle="packed"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/tv_start_plus_double" />
-
-        <TextView
-            android:id="@+id/tv_start_plus_double"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
             android:layout_marginTop="16dp"
-            android:paddingHorizontal="6dp"
             android:visibility="gone"
-            android:paddingVertical="1dp"
-            android:fontFamily="@font/unbounded_medium"
-            android:text="@string/yello_start_double"
-            android:background="@drawable/shape_gradient_plus_fill_10_rect"
-            android:textColor="@color/white"
-            android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/tv_start_plus_point"
-            app:layout_constraintTop_toBottomOf="@id/btn_start_vote" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btn_start_vote">
+
+            <TextView
+                android:id="@+id/tv_start_plus_point"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/unbounded_medium"
+                android:text="@string/yello_start_point"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="@id/tv_start_plus_double"
+                app:layout_constraintEnd_toStartOf="@id/tv_start_plus_double"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/tv_start_plus_double" />
+
+            <TextView
+                android:id="@+id/tv_start_plus_double"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:background="@drawable/shape_gradient_plus_fill_10_rect"
+                android:fontFamily="@font/unbounded_medium"
+                android:paddingHorizontal="6dp"
+                android:paddingVertical="1dp"
+                android:text="@string/yello_start_double"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/tv_start_plus_point"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </layout>

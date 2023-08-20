@@ -51,7 +51,8 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
         Log.d("sangho", "0 : activity created !@!@!@!@@!@!@")
         initView()
         initEvent()
-        autoScroll()
+        setBannerOnChangeListener()
+        setBannerAutoScroll()
         setBillingManager()
         observeIsPurchasedStarted()
         observeCheckSubsState()
@@ -73,6 +74,16 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
         _manager = null
         payInAppDialog?.dismiss()
         paySubsDialog?.dismiss()
+    }
+
+    private fun initView() {
+        Log.d("sangho", "7 : init adapter & isFirstCreated set")
+        _adapter = PayAdapter()
+        binding.vpBanner.adapter = adapter
+        binding.dotIndicator.setViewPager(binding.vpBanner)
+        binding.tvOriginalPrice.paintFlags =
+            binding.tvOriginalPrice.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+        viewModel.isFirstCreated = true
     }
 
     // BillingManager 설정 시 BillingClient 연결 & 콜백 응답 설정 -> 검증 진행
@@ -110,15 +121,20 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
         }
     }
 
-    private fun initView() {
-        Log.d("sangho", "7 : init adapter & isFirstCreated set")
-        _adapter = PayAdapter()
-        binding.vpBanner.adapter = adapter
-        binding.dotIndicator.setViewPager(binding.vpBanner)
-        binding.tvOriginalPrice.paintFlags =
-            binding.tvOriginalPrice.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
-        viewModel.isFirstCreated = true
+    // 배너 자동 스크롤 로직
+    private fun setBannerAutoScroll() {
+        lifecycleScope.launch {
+            while (true) {
+                delay(2500)
+                binding.vpBanner.currentItem.let {
+                    binding.vpBanner.currentItem = it.plus(1) % 3
+                }
+            }
+        }
+    }
 
+    //
+    private fun setBannerOnChangeListener() {
         binding.vpBanner.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             private var currentPosition = 0
             private var currentState = 0
@@ -142,7 +158,6 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
 
             private fun setNextPage() {
                 val lastPosition = 2
-
                 // 첫번째 화면이면 마지막 화면으로 이동
                 if (currentPosition == 0) {
                     binding.vpBanner.currentItem = lastPosition
@@ -152,18 +167,6 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
                 }
             }
         })
-    }
-
-    // 배너 자동 스크롤 로직
-    private fun autoScroll() {
-        lifecycleScope.launch {
-            while (true) {
-                delay(2500)
-                binding.vpBanner.currentItem.let {
-                    binding.vpBanner.currentItem = it.plus(1) % 3
-                }
-            }
-        }
     }
 
     private fun initEvent() {

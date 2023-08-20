@@ -4,11 +4,13 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.domain.entity.ResponsePurchaseInfoModel
 import com.example.domain.entity.type.YelloState
 import com.example.domain.entity.type.YelloState.Lock
 import com.example.domain.entity.type.YelloState.Valid
 import com.example.domain.entity.type.YelloState.Wait
 import com.example.domain.repository.AuthRepository
+import com.example.domain.repository.PayRepository
 import com.example.domain.repository.VoteRepository
 import com.example.ui.view.UiState
 import com.example.ui.view.UiState.Empty
@@ -25,6 +27,7 @@ import timber.log.Timber
 class YelloViewModel @Inject constructor(
     private val voteRepository: VoteRepository,
     private val authRepository: AuthRepository,
+    private val payRepository: PayRepository
 ) : ViewModel() {
     private val _yelloState = MutableLiveData<UiState<YelloState>>()
     val yelloState: LiveData<UiState<YelloState>>
@@ -41,6 +44,9 @@ class YelloViewModel @Inject constructor(
     private val _isDecreasing = MutableLiveData(false)
     private val isDecreasing: Boolean
         get() = _isDecreasing.value ?: false
+
+    private val _getPurchaseInfoState = MutableLiveData<UiState<ResponsePurchaseInfoModel?>>()
+    val getPurchaseInfoState: LiveData<UiState<ResponsePurchaseInfoModel?>> = _getPurchaseInfoState
 
     init {
         getVoteState()
@@ -96,6 +102,19 @@ class YelloViewModel @Inject constructor(
                     }
                     Timber.e("GET VOTE STATE ERROR : $t")
                 }
+        }
+    }
+
+    // 서버 통신 - 구독 여부 & 열람권 개수 받아오기
+    fun getPurchaseInfoFromServer() {
+        viewModelScope.launch {
+            runCatching {
+                payRepository.getPurchaseInfo()
+            }.onSuccess {
+                _getPurchaseInfoState.value = Success(it)
+            }.onFailure {
+                _getPurchaseInfoState.value = Failure(it.message ?: "")
+            }
         }
     }
 

@@ -11,18 +11,23 @@ import androidx.core.os.bundleOf
 import com.el.yello.BuildConfig
 import com.el.yello.R
 import com.el.yello.databinding.FragmentRecommendInviteDialogBinding
+import com.el.yello.presentation.main.yello.dialog.UnlockDialogFragment
 import com.el.yello.presentation.main.yello.dialog.UnlockDialogFragment.Companion.ARGS_YELLO_ID
+import com.el.yello.util.amplitude.AmplitudeUtils
+import com.el.yello.util.context.yelloSnackbar
 import com.example.ui.base.BindingDialogFragment
 import com.example.ui.view.setOnSingleClickListener
 import com.kakao.sdk.common.util.KakaoCustomTabsClient
 import com.kakao.sdk.share.ShareClient
 import com.kakao.sdk.share.WebSharerClient
+import org.json.JSONObject
 import timber.log.Timber
 
 class RecommendInviteDialog :
     BindingDialogFragment<FragmentRecommendInviteDialogBinding>(R.layout.fragment_recommend_invite_dialog) {
 
     private lateinit var myYelloId: String
+    private lateinit var previousScreen: String
     private lateinit var linkText: String
     private var templateId: Long = 0
 
@@ -51,6 +56,7 @@ class RecommendInviteDialog :
     private fun getBundleArgs() {
         arguments ?: return
         myYelloId = arguments?.getString(ARGS_YELLO_ID) ?: ""
+        previousScreen = arguments?.getString(ARGS_PREVIOUS_SCREEN) ?: ""
         linkText = LINK_TEXT.format(myYelloId)
     }
 
@@ -59,10 +65,10 @@ class RecommendInviteDialog :
     }
 
     private fun setTemplateId() {
-        if (BuildConfig.DEBUG) {
-            templateId = TEST_TEMPLATE_ID.toLong()
+        templateId = if (BuildConfig.DEBUG) {
+            TEST_TEMPLATE_ID.toLong()
         } else {
-            templateId = TEMPLATE_ID.toLong()
+            TEMPLATE_ID.toLong()
         }
     }
 
@@ -74,12 +80,20 @@ class RecommendInviteDialog :
 
     private fun initKakaoInviteBtnListener() {
         binding.btnInviteKakao.setOnSingleClickListener {
+            AmplitudeUtils.trackEventWithProperties(
+                "click_invite_kakao",
+                JSONObject().put("invite_view", previousScreen)
+            )
             startKakaoInvite(requireContext())
         }
     }
 
     private fun initLinkInviteBtnListener() {
         binding.btnInviteLink.setOnSingleClickListener {
+            AmplitudeUtils.trackEventWithProperties(
+                "click_invite_link",
+                JSONObject().put("invite_view", previousScreen)
+            )
             val clipboardManager =
                 requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
             val clipData = ClipData.newPlainText(CLIP_LABEL, linkText)
@@ -127,6 +141,8 @@ class RecommendInviteDialog :
     companion object {
         const val TAG_SHARE = "recommendInvite"
 
+        const val ARGS_PREVIOUS_SCREEN = "PREVIOUS_SCREEN"
+
         const val TEMPLATE_ID = 95890
         const val TEST_TEMPLATE_ID = 96906
 
@@ -135,12 +151,12 @@ class RecommendInviteDialog :
                 "Android: https://play.google.com/store/apps/details?id=com.el.yello&hl=ko&gl=KR\n" +
                 "iOS: https://apps.apple.com/app/id6451451050"
 
-        const val CLIP_LABEL = "label"
+        const val CLIP_LABEL = "RECOMMEND_LINK"
 
         @JvmStatic
-        fun newInstance(yelloId: String) = RecommendInviteDialog().apply {
+        fun newInstance(yelloId: String, previousScreen: String) = RecommendInviteDialog().apply {
             val args = bundleOf(
-                ARGS_YELLO_ID to yelloId,
+                ARGS_YELLO_ID to yelloId, ARGS_PREVIOUS_SCREEN to previousScreen
             )
             arguments = args
         }

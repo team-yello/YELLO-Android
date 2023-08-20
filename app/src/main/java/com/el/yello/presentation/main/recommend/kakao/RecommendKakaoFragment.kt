@@ -1,7 +1,6 @@
 package com.el.yello.presentation.main.recommend.kakao
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import android.view.animation.AnimationUtils
@@ -25,6 +24,7 @@ import com.example.ui.view.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import org.json.JSONObject
 
 @AndroidEntryPoint
 class RecommendKakaoFragment :
@@ -36,7 +36,8 @@ class RecommendKakaoFragment :
 
     private val viewModel by viewModels<RecommendKakaoViewModel>()
 
-    private var recommendInviteDialog: RecommendInviteDialog? = null
+    private var recommendInviteYesFriendDialog: RecommendInviteDialog? = null
+    private var recommendInviteNoFriendDialog: RecommendInviteDialog? = null
 
     private lateinit var itemDivider: RecommendItemDecoration
 
@@ -87,7 +88,10 @@ class RecommendKakaoFragment :
                 super.onScrolled(recyclerView, dx, dy)
                 if (dy > 0) {
                     recyclerView.layoutManager?.let { layoutManager ->
-                        if (!binding.rvRecommendKakao.canScrollVertically(1) && layoutManager is LinearLayoutManager && layoutManager.findLastVisibleItemPosition() == adapter.itemCount - 1) {
+                        if (!binding.rvRecommendKakao.canScrollVertically(1)
+                            && layoutManager is LinearLayoutManager
+                            && layoutManager.findLastVisibleItemPosition() == adapter.itemCount - 1
+                        ) {
                             viewModel.addListWithKakaoIdList()
                         }
                     }
@@ -97,12 +101,24 @@ class RecommendKakaoFragment :
     }
 
     private fun initInviteBtnListener() {
-        recommendInviteDialog = RecommendInviteDialog.newInstance(viewModel.getYelloId())
         binding.layoutInviteFriend.setOnSingleClickListener {
-            recommendInviteDialog?.show(parentFragmentManager, INVITE_DIALOG)
+            recommendInviteYesFriendDialog =
+                RecommendInviteDialog.newInstance(viewModel.getYelloId(), KAKAO_YES_FRIEND)
+            AmplitudeUtils.trackEventWithProperties(
+                "click_invite",
+                JSONObject().put("invite_view", KAKAO_YES_FRIEND)
+            )
+            recommendInviteYesFriendDialog?.show(parentFragmentManager, INVITE_DIALOG)
         }
+
         binding.btnRecommendNoFriend.setOnSingleClickListener {
-            recommendInviteDialog?.show(parentFragmentManager, INVITE_DIALOG)
+            recommendInviteNoFriendDialog =
+                RecommendInviteDialog.newInstance(viewModel.getYelloId(), KAKAO_NO_FRIEND)
+            AmplitudeUtils.trackEventWithProperties(
+                "click_invite",
+                JSONObject().put("invite_view", KAKAO_NO_FRIEND)
+            )
+            recommendInviteNoFriendDialog?.show(parentFragmentManager, INVITE_DIALOG)
         }
     }
 
@@ -204,7 +220,8 @@ class RecommendKakaoFragment :
     }
 
     private fun dismissDialog() {
-        if (recommendInviteDialog?.isAdded == true) recommendInviteDialog?.dismiss()
+        if (recommendInviteYesFriendDialog?.isAdded == true) recommendInviteYesFriendDialog?.dismiss()
+        if (recommendInviteNoFriendDialog?.isAdded == true) recommendInviteNoFriendDialog?.dismiss()
     }
 
     // 삭제 시 체크 버튼으로 전환 후 0.3초 뒤 애니메이션 적용
@@ -229,7 +246,6 @@ class RecommendKakaoFragment :
     }
 
     private fun showShimmerScreen() {
-        Log.d("okhttp", "1")
         binding.layoutRecommendFriendsList.isVisible = true
         binding.layoutRecommendNoFriendsList.isVisible = false
         binding.shimmerFriendList.startShimmer()
@@ -238,7 +254,6 @@ class RecommendKakaoFragment :
     }
 
     private fun showFriendListScreen() {
-        Log.d("okhttp", "2")
         binding.layoutRecommendFriendsList.isVisible = true
         binding.layoutRecommendNoFriendsList.isVisible = false
         binding.shimmerFriendList.stopShimmer()
@@ -247,7 +262,6 @@ class RecommendKakaoFragment :
     }
 
     private fun showNoFriendScreen() {
-        Log.d("okhttp", "3")
         binding.layoutRecommendFriendsList.isVisible = false
         binding.layoutRecommendNoFriendsList.isVisible = true
         binding.shimmerFriendList.stopShimmer()
@@ -259,5 +273,8 @@ class RecommendKakaoFragment :
 
     private companion object {
         const val INVITE_DIALOG = "inviteDialog"
+
+        const val KAKAO_NO_FRIEND = "recommend_kakao_nofriend"
+        const val KAKAO_YES_FRIEND = "recommend_kakao_yesfriend"
     }
 }

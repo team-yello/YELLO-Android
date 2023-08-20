@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.os.bundleOf
 import androidx.fragment.app.activityViewModels
+import com.amplitude.api.Identify
 import com.el.yello.R
 import com.el.yello.databinding.FragmentNoteBinding
 import com.el.yello.presentation.main.yello.vote.NoteState
@@ -30,6 +31,9 @@ class NoteFragment : BindingFragment<FragmentNoteBinding>(R.layout.fragment_note
     private var _voteListSize: Int? = null
     private val voteListSize
         get() = _voteListSize ?: 8
+
+
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -60,9 +64,12 @@ class NoteFragment : BindingFragment<FragmentNoteBinding>(R.layout.fragment_note
         }
 
         for (i in noteIndex + 1 until voteListSize) {
-            for (i in 1..8) {
-                val properties = JSONObject().put("vote_step", i)
-                AmplitudeUtils.trackEventWithProperties("view_vote_question", properties)
+            if (voteListSize in 1..8) {
+                if (noteIndex in 1..8) {
+                    val properties = JSONObject().put("vote_step", noteIndex)
+                    AmplitudeUtils.trackEventWithProperties("view_vote_question", properties)
+                    break
+                }
             }
             layoutInflater.inflate(
                 R.layout.layout_vote_progress_bar,
@@ -75,21 +82,21 @@ class NoteFragment : BindingFragment<FragmentNoteBinding>(R.layout.fragment_note
 
     private fun initShuffleBtnClickListener() {
         binding.btnNoteShuffle.setOnSingleClickListener {
-            for (i in 1..8) {
-                val properties = JSONObject().put("question_id", i)
+            viewModel.shuffle()
+            if (noteIndex in 1..8) {
+                val properties = JSONObject().put("question_id", noteIndex + 1)
                 AmplitudeUtils.trackEventWithProperties("click_vote_shuffle", properties)
             }
-            viewModel.shuffle()
         }
     }
 
     private fun initSkipBtnClickListener() {
         binding.btnNoteSkip.setOnSingleClickListener {
-            for (i in 1..8) {
-                val properties = JSONObject().put("question_id", i)
+            viewModel.skip()
+            if (noteIndex in 1..8) {
+                val properties = JSONObject().put("question_id", noteIndex + 1)
                 AmplitudeUtils.trackEventWithProperties("click_vote_skip", properties)
             }
-            viewModel.skip()
         }
     }
 

@@ -5,6 +5,7 @@ import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.view.View
+import androidx.activity.result.ActivityResultLauncher
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.el.yello.R
@@ -14,9 +15,9 @@ import com.el.yello.presentation.tutorial.TutorialAActivity
 import com.el.yello.util.amplitude.AmplitudeUtils
 import com.example.ui.base.BindingFragment
 import com.example.ui.view.setOnSingleClickListener
-import org.json.JSONObject
 
 class StartAppFragment : BindingFragment<FragmentStartAppBinding>(R.layout.fragment_start_app) {
+    private var requestPermissionLauncher: ActivityResultLauncher<String>? = null
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         (activity as? OnBoardingActivity)?.hideViews()

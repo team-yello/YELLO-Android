@@ -68,7 +68,7 @@
                 android:layout_height="wrap_content"
                 android:paddingVertical="4dp"
                 android:text="@string/wait_description"
-                android:textAppearance="?textAppearanceHeadline2"
+                android:textAppearance="@style/TextAppearance.Yello.Headline00"
                 android:textColor="@color/white"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

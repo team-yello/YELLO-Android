@@ -42,9 +42,10 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="20dp"
             android:gravity="center"
+
             android:lineHeight="36dp"
             android:text="@string/profile_quit_tv_subtitle_1"
-            android:textAppearance="?textAppearanceSubtitle1"
+            android:textAppearance="@style/TextAppearance.Yello.Headline00"
             android:textColor="@color/white"
             app:layout_constraintBottom_toTopOf="@id/tv_profile_quit_subtitle_2_top"
             app:layout_constraintEnd_toEndOf="parent"

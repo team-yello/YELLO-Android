@@ -44,6 +44,8 @@ object Versions {
     const val navigationVersion = "2.6.0"
     const val amplitudeVersion = "2.23.2"
 
+    const val inAppUpdateVersion = "2.1.0"
+
     const val gradleVersion = "8.0.1"
 
     const val junitVersion = "4.13.2"

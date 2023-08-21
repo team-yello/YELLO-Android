@@ -2,6 +2,8 @@ package com.el.yello.presentation.main.look
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.view.isGone
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
@@ -46,6 +48,13 @@ class LookFragment : BindingFragment<FragmentLookBinding>(R.layout.fragment_look
         viewModel.setFirstPageLoading()
         _adapter = LookAdapter()
         binding.rvLook.adapter = adapter
+
+        adapter.addLoadStateListener { combinedLoadStates ->
+            if(combinedLoadStates.prepend.endOfPaginationReached) {
+                binding.layoutLookNoFriendsList.isVisible = adapter.itemCount < 1
+                binding.rvLook.isGone = adapter.itemCount < 1
+            }
+        }
     }
 
     private fun getSearchPagingList() {

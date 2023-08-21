@@ -107,6 +107,7 @@ dependencies {
         implementation(coroutines)
         implementation(jsonSerialization)
         implementation(dateTime)
+        implementation(gson)
     }
 
     AndroidXDependencies.run {

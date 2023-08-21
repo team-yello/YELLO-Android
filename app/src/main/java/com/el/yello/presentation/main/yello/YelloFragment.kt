@@ -12,6 +12,7 @@ import com.el.yello.R
 import com.el.yello.databinding.FragmentYelloBinding
 import com.el.yello.presentation.main.yello.lock.YelloLockFragment
 import com.el.yello.presentation.main.yello.start.YelloStartFragment
+import com.el.yello.presentation.main.yello.vote.VoteActivity
 import com.el.yello.presentation.main.yello.wait.YelloWaitFragment
 import com.el.yello.util.context.yelloSnackbar
 import com.example.domain.entity.type.YelloState.Lock
@@ -33,6 +34,7 @@ class YelloFragment : BindingFragment<FragmentYelloBinding>(R.layout.fragment_ye
         super.onViewCreated(view, savedInstanceState)
 
         setupYelloState()
+        checkStoredVote()
     }
 
     private fun setupYelloState() {
@@ -74,6 +76,17 @@ class YelloFragment : BindingFragment<FragmentYelloBinding>(R.layout.fragment_ye
         val componentName = packageManager.getLaunchIntentForPackage(packageName)?.component
         context.startActivity(Intent.makeRestartActivityTask(componentName))
         Runtime.getRuntime().exit(0)
+    }
+
+    private fun checkStoredVote() {
+        viewModel.getStoredVote() ?: return
+        intentToVoteScreen()
+    }
+
+    private fun intentToVoteScreen() {
+        Intent(activity, VoteActivity::class.java).apply {
+            startActivity(this)
+        }
     }
 
     override fun onResume() {

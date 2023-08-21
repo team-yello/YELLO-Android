@@ -1,6 +1,7 @@
 package com.el.yello.util.amplitude
 
 import com.amplitude.api.Amplitude
+import com.amplitude.api.Identify
 import org.json.JSONObject
 
 object AmplitudeUtils {

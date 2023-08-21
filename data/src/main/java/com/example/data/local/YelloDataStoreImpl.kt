@@ -5,6 +5,9 @@ import androidx.core.content.edit
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKeys
 import com.example.domain.YelloDataStore
+import com.example.domain.entity.vote.StoredVote
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import com.yello.data.BuildConfig
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
@@ -65,9 +68,24 @@ class YelloDataStoreImpl @Inject constructor(
     override var yelloId: String
         get() = userDelegate.getString(PREF_YELLO_ID, "") ?: ""
         set(value) = userDelegate.edit { putString(PREF_YELLO_ID, value) }
+
     override var isFirstLogin: Boolean
         get() = appDelegate.getBoolean(PREF_IS_FIRST_LOGIN, false)
         set(value) = appDelegate.edit { putBoolean(PREF_IS_FIRST_LOGIN, value) }
+
+    override var storedVote: StoredVote?
+        get() {
+            val vote = userDelegate.getString(PREF_STORED_VOTE, "")
+            return try {
+                Gson().fromJson(vote, StoredVote::class.java)
+            } catch (e: Exception) {
+                null
+            }
+        }
+        set(value) = userDelegate.edit {
+            val storedVote = GsonBuilder().create().toJson(value)
+            putString(PREF_STORED_VOTE, storedVote)
+        }
 
     override fun clearLocalPref() = userDelegate.edit { clear() }
 
@@ -78,5 +96,6 @@ class YelloDataStoreImpl @Inject constructor(
         private const val PREF_IS_LOGIN = "IS_LOGIN"
         private const val PREF_YELLO_ID = "YELLO_ID"
         private const val PREF_IS_FIRST_LOGIN = "IS_FIRST_LOGIN"
+        private const val PREF_STORED_VOTE = "STORED_VOTE"
     }
 }

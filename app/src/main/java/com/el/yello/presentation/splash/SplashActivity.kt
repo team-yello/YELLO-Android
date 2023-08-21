@@ -7,6 +7,7 @@ import android.os.Looper
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import com.el.yello.BuildConfig
 import com.el.yello.R
 import com.el.yello.presentation.auth.SignInActivity
 import com.el.yello.presentation.main.MainActivity
@@ -35,13 +36,17 @@ class SplashActivity : AppCompatActivity() {
 
 
     private fun initAppUpdate() {
-        val appUpdateInfoTask = appUpdateManager.appUpdateInfo
-        appUpdateInfoTask.addOnSuccessListener { appUpdateInfo ->
-            if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE) {
-                appUpdateInfo.isUpdateTypeAllowed(IMMEDIATE)
-                requestUpdate(appUpdateInfo)
-            } else {
-                initSplash()
+        if (BuildConfig.DEBUG) {
+            initSplash()
+        } else {
+            val appUpdateInfoTask = appUpdateManager.appUpdateInfo
+            appUpdateInfoTask.addOnSuccessListener { appUpdateInfo ->
+                if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE) {
+                    appUpdateInfo.isUpdateTypeAllowed(IMMEDIATE)
+                    requestUpdate(appUpdateInfo)
+                } else {
+                    initSplash()
+                }
             }
         }
     }
@@ -93,9 +98,9 @@ class SplashActivity : AppCompatActivity() {
     }
 
     private val activityResultLauncher =
-        registerForActivityResult(ActivityResultContracts.StartIntentSenderForResult()) { it ->
+        registerForActivityResult(ActivityResultContracts.StartIntentSenderForResult()) {
             if (it.resultCode != RESULT_OK) {
-                toast("업데이트가 취소되었습니다.")
+                toast(getString(R.string.splash_update_error))
                 finishAffinity()
             }
         }
@@ -103,17 +108,19 @@ class SplashActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
 
-        appUpdateManager.appUpdateInfo.addOnSuccessListener { appUpdateInfo ->
-            if (appUpdateInfo.updateAvailability() == UpdateAvailability.DEVELOPER_TRIGGERED_UPDATE_IN_PROGRESS) {
-                runCatching {
-                    appUpdateManager.startUpdateFlowForResult(
-                        appUpdateInfo,
-                        activityResultLauncher,
-                        AppUpdateOptions.newBuilder(IMMEDIATE)
-                            .build()
-                    )
-                }.onFailure {
-                    Timber.e(it)
+        if (!BuildConfig.DEBUG) {
+            appUpdateManager.appUpdateInfo.addOnSuccessListener { appUpdateInfo ->
+                if (appUpdateInfo.updateAvailability() == UpdateAvailability.DEVELOPER_TRIGGERED_UPDATE_IN_PROGRESS) {
+                    runCatching {
+                        appUpdateManager.startUpdateFlowForResult(
+                            appUpdateInfo,
+                            activityResultLauncher,
+                            AppUpdateOptions.newBuilder(IMMEDIATE)
+                                .build()
+                        )
+                    }.onFailure {
+                        Timber.e(it)
+                    }
                 }
             }
         }

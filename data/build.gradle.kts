@@ -67,6 +67,7 @@ dependencies {
         implementation(jsonSerialization)
         implementation(coroutines)
         implementation(dateTime)
+        implementation(gson)
     }
 
     ThirdPartyDependencies.run {

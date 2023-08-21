@@ -24,6 +24,7 @@ class AuthRepositoryImpl @Inject constructor(
     }
 
     override fun getYelloId(): String = yelloDataStore.yelloId
+
     override fun setIsFirstLoginData() {
         yelloDataStore.isFirstLogin = true
     }

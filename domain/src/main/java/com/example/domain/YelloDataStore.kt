@@ -1,5 +1,7 @@
 package com.example.domain
 
+import com.example.domain.entity.vote.StoredVote
+
 interface YelloDataStore {
     var userToken: String
     var refreshToken: String
@@ -7,6 +9,7 @@ interface YelloDataStore {
     var isLogin: Boolean
     var yelloId: String
     var isFirstLogin: Boolean
+    var storedVote: StoredVote?
 
     fun clearLocalPref()
 }

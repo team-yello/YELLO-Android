@@ -27,8 +27,10 @@ class StartAppFragment : BindingFragment<FragmentStartAppBinding>(R.layout.fragm
     private val requestPermissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
             if (isGranted) {
+                AmplitudeUtils.updateUserProperties("user_pushnotification", "enabled")
                 startTutorialActivity()
             } else {
+                AmplitudeUtils.updateUserProperties("user_pushnotification", "disabled")
                 startTutorialActivity()
             }
         }

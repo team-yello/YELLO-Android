@@ -42,6 +42,7 @@ class CodeFragment : BindingFragment<FragmentCodeBinding>(R.layout.fragment_code
                 "click_onboarding_recommend",
                 JSONObject().put("rec_exist", "pass"),
             )
+            AmplitudeUtils.updateUserProperties("user_recommend", "no")
             viewModel.postSignup()
             findNavController().navigate(R.id.action_codeFragment_to_startAppFragment)
         }
@@ -51,6 +52,7 @@ class CodeFragment : BindingFragment<FragmentCodeBinding>(R.layout.fragment_code
                 "click_onboarding_recommend",
                 JSONObject().put("rec_exist", "next"),
             )
+            AmplitudeUtils.updateUserProperties("user_recommend", "yes")
             viewModel.getValidYelloId(viewModel.codeText.value.toString())
             viewModel.postSignup()
             findNavController().navigate(R.id.action_codeFragment_to_startAppFragment)

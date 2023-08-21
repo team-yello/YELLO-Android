@@ -26,7 +26,6 @@ class GenderFragment : BindingFragment<FragmentGenderBinding>(R.layout.fragment_
 
     private fun setConfirmBtnClickListener() {
         binding.btnGenderNext.setOnSingleClickListener {
-            // findNavController().navigate(R.id.action_genderFragment_to_nameFragment)
             val activity = requireActivity() as OnBoardingActivity
             activity.progressBarPlus()
         }

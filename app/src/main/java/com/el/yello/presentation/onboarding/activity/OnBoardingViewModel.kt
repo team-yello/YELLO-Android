@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
+import com.el.yello.util.amplitude.AmplitudeUtils
 import com.example.domain.entity.onboarding.AddFriendListModel
 import com.example.domain.entity.onboarding.GroupList
 import com.example.domain.entity.onboarding.RequestAddFriendModel
@@ -38,7 +39,6 @@ class OnBoardingViewModel @Inject constructor(
     }
 
     var isFirstUser: Boolean = false
-    val isResigned: Boolean = false
 
     // 학력 선택
     val studentType = MutableLiveData("")
@@ -53,7 +53,7 @@ class OnBoardingViewModel @Inject constructor(
     val school: String get() = schoolText.value?.trim() ?: ""
     val departmentText = MutableLiveData("")
     val studentIdText = MutableLiveData<Int>()
-    private val studentId: Int get() = requireNotNull(studentIdText.value)
+    val studentId: Int get() = requireNotNull(studentIdText.value)
     private val _groupId = MutableLiveData<Long>()
     val groupId: Long get() = requireNotNull(_groupId.value)
 
@@ -334,6 +334,7 @@ class OnBoardingViewModel @Inject constructor(
                 Timber.e("POST SIGN UP ERROR : $t")
             }
         }
+        AmplitudeUtils.updateUserProperties("user_sex", gender)
     }
     companion object {
         private const val REGEX_NAME_PATTERN = "^([가-힣]*)\$"

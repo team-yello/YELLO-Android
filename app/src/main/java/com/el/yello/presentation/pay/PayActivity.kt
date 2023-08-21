@@ -281,7 +281,7 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
                         }
                     }
                     AmplitudeUtils.setUserDataProperties("user_buy_date")
-                    viewModel.currentInAppItem = state.data?.ticketCount ?: 0
+                    viewModel.currentInAppItem = state.data?.productId ?: ""
                     payInAppDialog = PayInAppDialog()
                     payInAppDialog?.show(supportFragmentManager, DIALOG_IN_APP)
                 }

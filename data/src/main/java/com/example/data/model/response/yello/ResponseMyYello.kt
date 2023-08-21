@@ -10,10 +10,21 @@ import kotlinx.serialization.Serializable
 data class ResponseMyYello(
     val totalCount: Int,
     val ticketCount: Int,
+    val openCount: Int,
+    val openKeywordCount: Int,
+    val openNameCount: Int,
+    val openFullNameCount: Int,
     val votes: List<YelloDto>,
 ) {
     fun toTotalYello(): MyYello {
-        return MyYello(totalCount, ticketCount, votes.map { it.toYello() })
+        return MyYello(
+            totalCount,
+            ticketCount,
+            openCount,
+            openKeywordCount,
+            openNameCount,
+            openFullNameCount,
+            votes.map { it.toYello() })
     }
 }
 

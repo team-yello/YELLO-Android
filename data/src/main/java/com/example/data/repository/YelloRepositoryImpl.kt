@@ -15,7 +15,7 @@ class YelloRepositoryImpl @Inject constructor(
     private val dataSource: YelloDataSource,
 ) : YelloRepository {
     override suspend fun getMyYelloList(page: Int): Result<MyYello?> {
-        return kotlin.runCatching { dataSource.getMyYelloList(page).data?.toTotalYello() }
+        return runCatching { dataSource.getMyYelloList(page).data?.toTotalYello() }
     }
 
     override suspend fun getYelloDetail(id: Long): Result<YelloDetail?> {

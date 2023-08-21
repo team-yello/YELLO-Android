@@ -4,10 +4,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.el.yello.util.amplitude.AmplitudeUtils
 import com.example.domain.entity.ProfileFriendsListModel
 import com.example.domain.entity.ProfileUserModel
 import com.example.domain.entity.ResponsePurchaseInfoModel
-import com.example.domain.entity.ResponseSubsNeededModel
 import com.example.domain.entity.vote.VoteCount
 import com.example.domain.repository.AuthRepository
 import com.example.domain.repository.PayRepository
@@ -30,7 +30,7 @@ class ProfileViewModel @Inject constructor(
     private val profileRepository: ProfileRepository,
     private val authRepository: AuthRepository,
     private val yelloRepository: YelloRepository,
-    private val payRepository: PayRepository
+    private val payRepository: PayRepository,
 ) : ViewModel() {
 
     private val _getState = MutableLiveData<UiState<ProfileUserModel>>()
@@ -140,6 +140,7 @@ class ProfileViewModel @Inject constructor(
                 totalPage = ceil((it.totalCount * 0.1)).toInt() - 1
                 if (totalPage == currentPage) isPagingFinish = true
                 _getListState.value = UiState.Success(it)
+                AmplitudeUtils.updateUserIntProperties("user_friends", it.totalCount)
             }.onFailure {
                 _getListState.value = UiState.Failure(it.message.toString())
             }
@@ -209,11 +210,19 @@ class ProfileViewModel @Inject constructor(
             runCatching {
                 payRepository.getPurchaseInfo()
             }.onSuccess {
+                it ?: return@launch
                 _getPurchaseInfoState.value = UiState.Success(it)
+                AmplitudeUtils.updateUserIntProperties("user_ticket",it.ticketCount )
+                if (!it.isSubscribe) {
+                    AmplitudeUtils.updateUserProperties("user_subscription", "yes")
+                } else {
+                    AmplitudeUtils.updateUserProperties("user_subscription", "no")
+                }
             }.onFailure {
                 _getPurchaseInfoState.value = UiState.Failure(it.message ?: "")
             }
         }
+
     }
 
     fun getVoteCount() {

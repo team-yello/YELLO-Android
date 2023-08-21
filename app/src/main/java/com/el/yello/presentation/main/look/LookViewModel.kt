@@ -9,6 +9,7 @@ import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
 import com.example.data.datasource.remote.LookPagingSource
 import com.example.data.remote.service.LookService
+import com.example.domain.repository.AuthRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
@@ -16,7 +17,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LookViewModel @Inject constructor(
-    private val lookService: LookService
+    private val lookService: LookService,
+    private val authRepository: AuthRepository
 ) : ViewModel() {
 
     private val _isLoading = MutableLiveData(false)
@@ -51,4 +53,6 @@ class LookViewModel @Inject constructor(
             }
         }
     }
+
+    fun getYelloId() = authRepository.getYelloId()
 }

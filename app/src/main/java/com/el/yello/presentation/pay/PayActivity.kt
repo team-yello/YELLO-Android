@@ -2,7 +2,6 @@ package com.el.yello.presentation.pay
 
 import android.graphics.Paint
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import androidx.activity.viewModels
@@ -48,7 +47,6 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        Log.d("sangho", "0 : activity created !@!@!@!@@!@!@")
         initView()
         initEvent()
         setBannerOnChangeListener()
@@ -63,11 +61,9 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
     override fun onResume() {
         super.onResume()
         viewModel.getPurchaseInfoFromServer()
-        Log.d("sangho", "1 : resume ")
     }
 
     override fun onDestroy() {
-        Log.d("sangho", "0 : activity destroyed !@!@!@!@@!@!@")
         super.onDestroy()
         _adapter = null
         _manager?.billingClient?.endConnection()
@@ -77,7 +73,6 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
     }
 
     private fun initView() {
-        Log.d("sangho", "7 : init adapter & isFirstCreated set")
         _adapter = PayAdapter()
         binding.vpBanner.adapter = adapter
         binding.dotIndicator.setViewPager(binding.vpBanner)
@@ -90,35 +85,23 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
     private fun setBillingManager() {
         _manager = BillingManager(this, object : BillingCallback {
             override fun onBillingConnected() {
-                setProductList()
-                Log.d("sangho", "3 : billing manager connected -> setList")
+                lifecycleScope.launch {
+                    manager.getProductDetails() { list -> productDetailsList = list }
+                }
             }
 
             override fun onSuccess(purchase: Purchase) {
-                Log.d("sangho", "4 : purchase success = ${purchase.products}")
                 if (purchase.products[0] == "yello_plus_subscribe") {
-                    Log.d("sangho", "4-1 : -> check subs")
                     viewModel.checkSubsToServer(purchase.toRequestPayModel())
                 } else {
-                    Log.d("sangho", "4-2 : -> check inapp")
                     viewModel.checkInAppToServer(purchase.toRequestPayModel())
                 }
             }
 
             override fun onFailure(responseCode: Int) {
                 Timber.d(responseCode.toString())
-                Log.d("sangho", "5555 : purchase failure = ${responseCode}")
             }
         })
-    }
-
-    private fun setProductList() {
-        lifecycleScope.launch {
-            manager.getProductDetails() { list ->
-                productDetailsList = list
-                Log.d("sangho", "6 : getProductList = ${list}")
-            }
-        }
     }
 
     // 배너 자동 스크롤 로직
@@ -178,7 +161,6 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
             productDetailsList.withIndex().find { it.value.productId == YELLO_PLUS }
                 ?.let { productDetails ->
                     manager.purchaseProduct(productDetails.index, productDetails.value)
-                    Log.d("sangho", "8 : click = ${productDetails.value.name} -> purchase")
                 } ?: also {
                 toast(getString(R.string.pay_error_no_item))
             }
@@ -192,7 +174,6 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
             productDetailsList.withIndex().find { it.value.productId == YELLO_ONE }
                 ?.let { productDetails ->
                     manager.purchaseProduct(productDetails.index, productDetails.value)
-                    Log.d("sangho", "9 : click = ${productDetails.value.name} -> purchase")
                 } ?: also {
                 toast(getString(R.string.pay_error_no_item))
             }
@@ -206,7 +187,6 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
             productDetailsList.withIndex().find { it.value.productId == YELLO_TWO }
                 ?.let { productDetails ->
                     manager.purchaseProduct(productDetails.index, productDetails.value)
-                    Log.d("sangho", "10 : click = ${productDetails.value.name} -> purchase")
                 } ?: also {
                 toast(getString(R.string.pay_error_no_item))
             }
@@ -220,7 +200,6 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
             productDetailsList.withIndex().find { it.value.productId == YELLO_FIVE }
                 ?.let { productDetails ->
                     manager.purchaseProduct(productDetails.index, productDetails.value)
-                    Log.d("sangho", "11 : click = ${productDetails.value.name} -> purchase")
                 } ?: also {
                 toast(getString(R.string.pay_error_no_item))
             }
@@ -234,7 +213,6 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
     // 구매 완료 이후 검증 완료까지 로딩 로티 실행
     private fun observeIsPurchasedStarted() {
         manager.isPurchaseStarted.observe(this) { boolean ->
-            Log.d("sangho", "12 : start loading : @@@@@@@@")
             if (boolean == true) startLoadingScreen()
         }
     }
@@ -244,7 +222,6 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
         viewModel.postSubsCheckState.observe(this) { state ->
             when (state) {
                 is UiState.Success -> {
-                    Log.d("sangho", "12 : sub success : @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
                     AmplitudeUtils.trackEventWithProperties(
                         "complete_shop_buy",
                         JSONObject().put("buy_type", "subscribe").put("buy_price", "3900")
@@ -255,7 +232,6 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
                 }
 
                 is UiState.Failure -> {
-                    Log.d("sangho", "13 : sub failure : @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
                     stopLoadingScreen()
                     if (state.msg == SERVER_ERROR) {
                         showErrorDialog()
@@ -276,10 +252,6 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
         viewModel.postInAppCheckState.observe(this) { state ->
             when (state) {
                 is UiState.Success -> {
-                    Log.d(
-                        "sangho",
-                        "13: inapp success : &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&"
-                    )
                     stopLoadingScreen()
                     when (state.data?.productId) {
                         "yello_ticket_one" -> {
@@ -313,10 +285,6 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
                 }
 
                 is UiState.Failure -> {
-                    Log.d(
-                        "sangho",
-                        "14 : inapp failure : &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&"
-                    )
                     stopLoadingScreen()
                     if (state.msg == SERVER_ERROR) {
                         showErrorDialog()
@@ -358,7 +326,6 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
     // 구독 여부 확인해서 화면 표시 변경
     private fun observeCheckIsSubscribed() {
         viewModel.getPurchaseInfoState.observe(this) { state ->
-            Log.d("sangho", "15 : observe subs state")
             when (state) {
                 is UiState.Success -> {
                     if (state.data?.isSubscribe == true) {

@@ -2,7 +2,6 @@ package com.el.yello
 
 import android.app.Application
 import com.amplitude.api.Amplitude
-import com.amplitude.api.Identify
 import com.el.yello.BuildConfig.AMPLITUDE_API_KEY
 import com.el.yello.BuildConfig.NATIVE_APP_KEY
 import com.el.yello.presentation.util.ResolutionMetrics

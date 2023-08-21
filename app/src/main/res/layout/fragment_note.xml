@@ -5,7 +5,6 @@
     tools:context=".presentation.main.yello.vote.note.NoteFragment">
 
     <data>
-
         <variable
             name="bgIndex"
             type="Integer" />
@@ -39,7 +38,7 @@
                 android:id="@+id/view_note_progress"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="@{vm.currentNoteIndex + 1}"
+                android:layout_weight="@{bgIndex + 1}"
                 android:background="@drawable/shape_white_fill_8_rect"
                 tools:layout_weight="1" />
 
@@ -47,7 +46,7 @@
                 android:id="@+id/view_note_progress_left"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="@{7 - vm.currentNoteIndex}"
+                android:layout_weight="@{7 - bgIndex}"
                 tools:layout_weight="7" />
         </LinearLayout>
 
@@ -63,7 +62,7 @@
 
             <com.airbnb.lottie.LottieAnimationView
                 android:id="@+id/lottie_note_balloon"
-                setBalloonSrc="@{vm.currentNoteIndex}"
+                setBalloonSrc="@{bgIndex}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
@@ -89,7 +88,7 @@
 
             <ImageView
                 android:id="@+id/iv_note_face"
-                setFaceSrc="@{vm.currentNoteIndex}"
+                setFaceSrc="@{bgIndex}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
@@ -805,6 +804,9 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/flow_note_pick4" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </layout>

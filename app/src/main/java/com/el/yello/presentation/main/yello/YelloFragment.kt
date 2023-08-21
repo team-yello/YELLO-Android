@@ -45,7 +45,7 @@ class YelloFragment : BindingFragment<FragmentYelloBinding>(R.layout.fragment_ye
                     when (state.data) {
                         is Lock -> navigateTo<YelloLockFragment>()
                         is Valid -> navigateTo<YelloStartFragment>()
-                        is Wait -> navigateTo<YelloWaitFragment>()
+                        is Wait -> navigateTo<YelloStartFragment>()
                     }
                 }
 

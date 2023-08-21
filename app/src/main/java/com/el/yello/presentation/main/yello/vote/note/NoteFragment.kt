@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.os.bundleOf
 import androidx.fragment.app.activityViewModels
-import com.amplitude.api.Identify
 import com.el.yello.R
 import com.el.yello.databinding.FragmentNoteBinding
 import com.el.yello.presentation.main.yello.vote.NoteState
@@ -31,9 +30,6 @@ class NoteFragment : BindingFragment<FragmentNoteBinding>(R.layout.fragment_note
     private var _voteListSize: Int? = null
     private val voteListSize
         get() = _voteListSize ?: 8
-
-
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -134,7 +130,7 @@ class NoteFragment : BindingFragment<FragmentNoteBinding>(R.layout.fragment_note
     }
 
     companion object {
-//        private const val ARGS_NOTE_INDEX = "NOTE_INDEX"
+        //        private const val ARGS_NOTE_INDEX = "NOTE_INDEX"
         private const val ARGS_BACKGROUND_INDEX = "BACKGROUND_INDEX"
         private const val ARGS_VOTE_LIST_SIZE = "VOTE_LIST_SIZE"
 

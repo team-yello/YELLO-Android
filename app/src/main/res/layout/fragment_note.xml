@@ -38,7 +38,7 @@
                 android:id="@+id/view_note_progress"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="@{index + 1}"
+                android:layout_weight="@{bgIndex + 1}"
                 android:background="@drawable/shape_white_fill_8_rect"
                 tools:layout_weight="1" />
 
@@ -46,7 +46,7 @@
                 android:id="@+id/view_note_progress_left"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="@{7 - index}"
+                android:layout_weight="@{7 - bgIndex}"
                 tools:layout_weight="7" />
         </LinearLayout>
 
@@ -62,12 +62,12 @@
 
             <com.airbnb.lottie.LottieAnimationView
                 android:id="@+id/lottie_note_balloon"
-                setBalloonSrc="@{vm.currentNoteIndex}"
+                setBalloonSrc="@{bgIndex}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 android:minHeight="40dp"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginTop="10dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:lottie_autoPlay="true"
@@ -88,7 +88,7 @@
 
             <ImageView
                 android:id="@+id/iv_note_face"
-                setFaceSrc="@{index}"
+                setFaceSrc="@{bgIndex}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
@@ -124,7 +124,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/font_pretendard_bold"
-                    android:text="@{vm._voteList.get(index).nameHead}"
+                    android:text="@{vm._voteList.get(vm.currentNoteIndex).nameHead}"
                     android:textColor="@color/white"
                     android:textSize="24sp"
                     app:layout_constraintBottom_toBottomOf="@id/layout_note_blank_name"
@@ -157,7 +157,7 @@
                         android:paddingHorizontal="20dp"
                         android:paddingVertical="7dp"
                         android:rotation="-3"
-                        android:text="@{vm._voteList.get(index).friendList.get(0).name}"
+                        android:text="@{vm._voteList.get(vm.currentNoteIndex).friendList.get(0).name}"
                         android:textAppearance="?textAppearanceBodyLarge"
                         android:visibility="invisible"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -175,7 +175,7 @@
                         android:paddingHorizontal="20dp"
                         android:paddingVertical="7dp"
                         android:rotation="-3"
-                        android:text="@{vm._voteList.get(index).friendList.get(1).name}"
+                        android:text="@{vm._voteList.get(vm.currentNoteIndex).friendList.get(1).name}"
                         android:textAppearance="?textAppearanceBodyLarge"
                         android:visibility="invisible"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -193,7 +193,7 @@
                         android:paddingHorizontal="20dp"
                         android:paddingVertical="7dp"
                         android:rotation="-3"
-                        android:text="@{vm._voteList.get(index).friendList.get(2).name}"
+                        android:text="@{vm._voteList.get(vm.currentNoteIndex).friendList.get(2).name}"
                         android:textAppearance="?textAppearanceBodyLarge"
                         android:visibility="invisible"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -211,7 +211,7 @@
                         android:paddingHorizontal="20dp"
                         android:paddingVertical="7dp"
                         android:rotation="-3"
-                        android:text="@{vm._voteList.get(index).friendList.get(3).name}"
+                        android:text="@{vm._voteList.get(vm.currentNoteIndex).friendList.get(3).name}"
                         android:textAppearance="?textAppearanceBodyLarge"
                         android:visibility="invisible"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -245,7 +245,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     android:fontFamily="@font/font_pretendard_bold"
-                    android:text="@{vm._voteList.get(index).nameFoot}"
+                    android:text="@{vm._voteList.get(vm.currentNoteIndex).nameFoot}"
                     android:textColor="@color/white"
                     android:textSize="24sp"
                     app:layout_constraintBottom_toBottomOf="@id/layout_note_blank_name"
@@ -259,7 +259,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/font_pretendard_bold"
-                    android:text="@{vm._voteList.get(index).keywordHead}"
+                    android:text="@{vm._voteList.get(vm.currentNoteIndex).keywordHead}"
                     android:textColor="@color/white"
                     android:textSize="24sp"
                     app:layout_constraintBottom_toBottomOf="@id/layout_note_blank_keyword"
@@ -291,7 +291,7 @@
                         android:paddingHorizontal="20dp"
                         android:paddingVertical="7dp"
                         android:rotation="-3"
-                        android:text="@{vm._voteList.get(index).keywordList.get(0)}"
+                        android:text="@{vm._voteList.get(vm.currentNoteIndex).keywordList.get(0)}"
                         android:textAppearance="?textAppearanceBodyLarge"
                         android:visibility="invisible"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -309,7 +309,7 @@
                         android:paddingHorizontal="20dp"
                         android:paddingVertical="7dp"
                         android:rotation="-3"
-                        android:text="@{vm._voteList.get(index).keywordList.get(1)}"
+                        android:text="@{vm._voteList.get(vm.currentNoteIndex).keywordList.get(1)}"
                         android:textAppearance="?textAppearanceBodyLarge"
                         android:visibility="invisible"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -327,7 +327,7 @@
                         android:paddingHorizontal="20dp"
                         android:paddingVertical="7dp"
                         android:rotation="-3"
-                        android:text="@{vm._voteList.get(index).keywordList.get(2)}"
+                        android:text="@{vm._voteList.get(vm.currentNoteIndex).keywordList.get(2)}"
                         android:textAppearance="?textAppearanceBodyLarge"
                         android:visibility="invisible"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -345,7 +345,7 @@
                         android:paddingHorizontal="20dp"
                         android:paddingVertical="7dp"
                         android:rotation="-3"
-                        android:text="@{vm._voteList.get(index).keywordList.get(3)}"
+                        android:text="@{vm._voteList.get(vm.currentNoteIndex).keywordList.get(3)}"
                         android:textAppearance="?textAppearanceBodyLarge"
                         android:visibility="invisible"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -379,7 +379,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     android:fontFamily="@font/font_pretendard_bold"
-                    android:text="@{vm._voteList.get(index).keywordFoot}"
+                    android:text="@{vm._voteList.get(vm.currentNoteIndex).keywordFoot}"
                     android:textColor="@color/white"
                     android:textSize="24sp"
                     app:layout_constraintBottom_toBottomOf="@id/layout_note_blank_keyword"
@@ -400,14 +400,14 @@
 
                 <TextView
                     android:id="@+id/tv_note_name1_name"
-                    optionIndex="@{vm._voteList[index].friendList[0].id}"
+                    optionIndex="@{vm._voteList[vm.currentNoteIndex].friendList[0].id}"
                     selectedIndex="@{vm._currentChoice.friendId}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/font_pretendard_medium"
                     android:lineHeight="16sp"
                     android:onClick="@{()->vm.selectName(0)}"
-                    android:text="@{vm._voteList.get(index).friendList.get(0).name}"
+                    android:text="@{vm._voteList.get(vm.currentNoteIndex).friendList.get(0).name}"
                     android:textColor="@color/white"
                     android:textSize="15sp"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -417,7 +417,7 @@
 
                 <TextView
                     android:id="@+id/tv_note_name1_id"
-                    optionId="@{vm._voteList[index].friendList[0].id}"
+                    optionId="@{vm._voteList[vm.currentNoteIndex].friendList[0].id}"
                     selectedId="@{vm._currentChoice.friendId}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -425,7 +425,7 @@
                     android:fontFamily="@font/font_pretendard_medium"
                     android:lineHeight="10sp"
                     android:onClick="@{()->vm.selectName(0)}"
-                    android:text="@{@string/note_yello_id(vm._voteList.get(index).friendList.get(0).yelloId)}"
+                    android:text="@{@string/note_yello_id(vm._voteList.get(vm.currentNoteIndex).friendList.get(0).yelloId)}"
                     android:textSize="10sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -447,12 +447,12 @@
 
                 <TextView
                     android:id="@+id/tv_note_keyword1"
-                    optionKeyword="@{vm._voteList.get(index).keywordList[0]}"
+                    optionKeyword="@{vm._voteList.get(vm.currentNoteIndex).keywordList[0]}"
                     selectedKeyword="@{vm._currentChoice.keywordName}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:onClick="@{()->vm.selectKeyword(0)}"
-                    android:text="@{vm._voteList.get(index).keywordList.get(0)}"
+                    android:text="@{vm._voteList.get(vm.currentNoteIndex).keywordList.get(0)}"
                     android:textAppearance="?textAppearanceBodyMedium"
                     android:textColor="@color/white"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -484,14 +484,14 @@
 
                 <TextView
                     android:id="@+id/tv_note_name2_name"
-                    optionIndex="@{vm._voteList[index].friendList[1].id}"
+                    optionIndex="@{vm._voteList[vm.currentNoteIndex].friendList[1].id}"
                     selectedIndex="@{vm._currentChoice.friendId}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/font_pretendard_medium"
                     android:lineHeight="16sp"
                     android:onClick="@{()->vm.selectName(1)}"
-                    android:text="@{vm._voteList.get(index).friendList.get(1).name}"
+                    android:text="@{vm._voteList.get(vm.currentNoteIndex).friendList.get(1).name}"
                     android:textColor="@color/white"
                     android:textSize="15sp"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -501,7 +501,7 @@
 
                 <TextView
                     android:id="@+id/tv_note_name2_id"
-                    optionId="@{vm._voteList[index].friendList[1].id}"
+                    optionId="@{vm._voteList[vm.currentNoteIndex].friendList[1].id}"
                     selectedId="@{vm._currentChoice.friendId}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -509,7 +509,7 @@
                     android:fontFamily="@font/font_pretendard_medium"
                     android:lineHeight="10sp"
                     android:onClick="@{()->vm.selectName(1)}"
-                    android:text="@{@string/note_yello_id(vm._voteList.get(index).friendList.get(1).yelloId)}"
+                    android:text="@{@string/note_yello_id(vm._voteList.get(vm.currentNoteIndex).friendList.get(1).yelloId)}"
                     android:textSize="10sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -530,13 +530,13 @@
 
                 <TextView
                     android:id="@+id/tv_note_keyword2"
-                    optionKeyword="@{vm._voteList.get(index).keywordList[1]}"
+                    optionKeyword="@{vm._voteList.get(vm.currentNoteIndex).keywordList[1]}"
                     selectedKeyword="@{vm._currentChoice.keywordName}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/font_pretendard_medium"
                     android:onClick="@{()->vm.selectKeyword(1)}"
-                    android:text="@{vm._voteList.get(index).keywordList.get(1)}"
+                    android:text="@{vm._voteList.get(vm.currentNoteIndex).keywordList.get(1)}"
                     android:textColor="@color/white"
                     android:textSize="15sp"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -568,14 +568,14 @@
 
                 <TextView
                     android:id="@+id/tv_note_name3_name"
-                    optionIndex="@{vm._voteList[index].friendList[2].id}"
+                    optionIndex="@{vm._voteList[vm.currentNoteIndex].friendList[2].id}"
                     selectedIndex="@{vm._currentChoice.friendId}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/font_pretendard_medium"
                     android:lineHeight="16sp"
                     android:onClick="@{()->vm.selectName(2)}"
-                    android:text="@{vm._voteList.get(index).friendList.get(2).name}"
+                    android:text="@{vm._voteList.get(vm.currentNoteIndex).friendList.get(2).name}"
                     android:textColor="@color/white"
                     android:textSize="15sp"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -585,7 +585,7 @@
 
                 <TextView
                     android:id="@+id/tv_note_name3_id"
-                    optionId="@{vm._voteList[index].friendList[2].id}"
+                    optionId="@{vm._voteList[vm.currentNoteIndex].friendList[2].id}"
                     selectedId="@{vm._currentChoice.friendId}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -593,7 +593,7 @@
                     android:fontFamily="@font/font_pretendard_medium"
                     android:lineHeight="10sp"
                     android:onClick="@{()->vm.selectName(2)}"
-                    android:text="@{@string/note_yello_id(vm._voteList.get(index).friendList.get(2).yelloId)}"
+                    android:text="@{@string/note_yello_id(vm._voteList.get(vm.currentNoteIndex).friendList.get(2).yelloId)}"
                     android:textSize="10sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -615,14 +615,14 @@
 
                 <TextView
                     android:id="@+id/tv_note_keyword3"
-                    optionKeyword="@{vm._voteList.get(index).keywordList[2]}"
+                    optionKeyword="@{vm._voteList.get(vm.currentNoteIndex).keywordList[2]}"
                     selectedKeyword="@{vm._currentChoice.keywordName}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/font_pretendard_medium"
                     android:lineHeight="16sp"
                     android:onClick="@{()->vm.selectKeyword(2)}"
-                    android:text="@{vm._voteList.get(index).keywordList.get(2)}"
+                    android:text="@{vm._voteList.get(vm.currentNoteIndex).keywordList.get(2)}"
                     android:textColor="@color/white"
                     android:textSize="15sp"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -654,14 +654,14 @@
 
                 <TextView
                     android:id="@+id/tv_note_name4_name"
-                    optionIndex="@{vm._voteList[index].friendList[3].id}"
+                    optionIndex="@{vm._voteList[vm.currentNoteIndex].friendList[3].id}"
                     selectedIndex="@{vm._currentChoice.friendId}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/font_pretendard_medium"
                     android:lineHeight="16sp"
                     android:onClick="@{()->vm.selectName(3)}"
-                    android:text="@{vm._voteList.get(index).friendList.get(3).name}"
+                    android:text="@{vm._voteList.get(vm.currentNoteIndex).friendList.get(3).name}"
                     android:textColor="@color/white"
                     android:textSize="15sp"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -671,7 +671,7 @@
 
                 <TextView
                     android:id="@+id/tv_note_name4_id"
-                    optionId="@{vm._voteList[index].friendList[3].id}"
+                    optionId="@{vm._voteList[vm.currentNoteIndex].friendList[3].id}"
                     selectedId="@{vm._currentChoice.friendId}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -679,7 +679,7 @@
                     android:fontFamily="@font/font_pretendard_medium"
                     android:lineHeight="10sp"
                     android:onClick="@{()->vm.selectName(3)}"
-                    android:text="@{@string/note_yello_id(vm._voteList.get(index).friendList.get(3).yelloId)}"
+                    android:text="@{@string/note_yello_id(vm._voteList.get(vm.currentNoteIndex).friendList.get(3).yelloId)}"
                     android:textSize="10sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -700,14 +700,14 @@
 
                 <TextView
                     android:id="@+id/tv_note_keyword4"
-                    optionKeyword="@{vm._voteList.get(index).keywordList[3]}"
+                    optionKeyword="@{vm._voteList.get(vm.currentNoteIndex).keywordList[3]}"
                     selectedKeyword="@{vm._currentChoice.keywordName}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/font_pretendard_medium"
                     android:lineHeight="16sp"
                     android:onClick="@{()->vm.selectKeyword(3)}"
-                    android:text="@{vm._voteList.get(index).keywordList.get(3)}"
+                    android:text="@{vm._voteList.get(vm.currentNoteIndex).keywordList.get(3)}"
                     android:textColor="@color/white"
                     android:textSize="15sp"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -804,6 +804,9 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/flow_note_pick4" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </layout>

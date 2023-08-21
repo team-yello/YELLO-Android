@@ -1,5 +1,6 @@
 package com.el.yello.presentation.pay
 
+import android.content.res.Resources
 import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
@@ -17,13 +18,7 @@ class PayInAppDialog :
 
     override fun onStart() {
         super.onStart()
-        dialog?.window?.apply {
-            setLayout(
-                WindowManager.LayoutParams.MATCH_PARENT,
-                WindowManager.LayoutParams.WRAP_CONTENT,
-            )
-            setBackgroundDrawableResource(R.color.transparent)
-        }
+        setDialogBackground()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -31,6 +26,21 @@ class PayInAppDialog :
 
         initConfirmBtnListener()
         setDialogByItem()
+    }
+
+    private fun setDialogBackground() {
+        val deviceWidth = Resources.getSystem().displayMetrics.widthPixels
+        val dialogHorizontalMargin = (Resources.getSystem().displayMetrics.density * 16) * 2
+
+        dialog?.window?.apply {
+            setLayout(
+                (deviceWidth - dialogHorizontalMargin * 2).toInt(),
+                WindowManager.LayoutParams.WRAP_CONTENT,
+            )
+            setBackgroundDrawableResource(R.color.transparent)
+        }
+        dialog?.setCanceledOnTouchOutside(false)
+        dialog?.setCancelable(true)
     }
 
     private fun initConfirmBtnListener() {

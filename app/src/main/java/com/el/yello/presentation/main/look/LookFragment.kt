@@ -10,12 +10,16 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import com.el.yello.R
 import com.el.yello.databinding.FragmentLookBinding
+import com.el.yello.presentation.main.recommend.RecommendInviteDialog
+import com.el.yello.presentation.main.recommend.school.RecommendSchoolFragment
 import com.el.yello.util.amplitude.AmplitudeUtils
 import com.el.yello.util.context.yelloSnackbar
 import com.example.ui.base.BindingFragment
+import com.example.ui.view.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import org.json.JSONObject
 
 @AndroidEntryPoint
 class LookFragment : BindingFragment<FragmentLookBinding>(R.layout.fragment_look) {
@@ -26,12 +30,15 @@ class LookFragment : BindingFragment<FragmentLookBinding>(R.layout.fragment_look
 
     private val viewModel by viewModels<LookViewModel>()
 
+    private var inviteFriendDialog: RecommendInviteDialog? = null
+
     private var isScrolled: Boolean = false
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         initAdapterWithFirstList()
+        initNoFriendScreenInviteBtnListener()
         getSearchPagingList()
         observeIsLoading()
         observeErrorResult()
@@ -54,6 +61,17 @@ class LookFragment : BindingFragment<FragmentLookBinding>(R.layout.fragment_look
                 binding.layoutLookNoFriendsList.isVisible = adapter.itemCount < 1
                 binding.rvLook.isGone = adapter.itemCount < 1
             }
+        }
+    }
+
+    private fun initNoFriendScreenInviteBtnListener() {
+        binding.btnLookNoFriend.setOnSingleClickListener {
+            inviteFriendDialog = RecommendInviteDialog.newInstance(viewModel.getYelloId(), TIMELINE_NO_FRIEND)
+            AmplitudeUtils.trackEventWithProperties(
+                "click_invite",
+                JSONObject().put("invite_view", TIMELINE_NO_FRIEND)
+            )
+            inviteFriendDialog?.show(parentFragmentManager, INVITE_DIALOG)
         }
     }
 
@@ -113,6 +131,10 @@ class LookFragment : BindingFragment<FragmentLookBinding>(R.layout.fragment_look
     }
 
     companion object {
+
+        const val INVITE_DIALOG = "inviteDialog"
+        const val TIMELINE_NO_FRIEND = "timeline_0friend"
+
         @JvmStatic
         fun newInstance() = LookFragment()
     }

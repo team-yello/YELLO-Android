@@ -1,16 +1,15 @@
 package com.el.yello.presentation.pay
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.domain.entity.RequestPayModel
 import com.example.domain.entity.Response
-import com.example.domain.entity.ResponseSubsNeededModel
-import com.example.domain.entity.ResponsePaySubsModel
 import com.example.domain.entity.ResponsePayInAppModel
+import com.example.domain.entity.ResponsePaySubsModel
 import com.example.domain.entity.ResponsePurchaseInfoModel
+import com.example.domain.entity.ResponseSubsNeededModel
 import com.example.domain.repository.PayRepository
 import com.example.domain.repository.YelloRepository
 import com.example.ui.view.UiState
@@ -27,7 +26,7 @@ class PayViewModel @Inject constructor(
     private val payRepository: PayRepository,
 ) : ViewModel() {
 
-    var isFirstCreated : Boolean = true
+    var isFirstCreated: Boolean = true
 
     var currentInAppItem: Int = 0
 

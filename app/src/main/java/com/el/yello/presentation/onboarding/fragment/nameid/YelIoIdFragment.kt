@@ -33,6 +33,7 @@ class YelIoIdFragment : BindingFragment<FragmentYelloIdBinding>(R.layout.fragmen
                 "click_onboarding_next",
                 JSONObject().put("onboard_view", "id"),
             )
+            AmplitudeUtils.updateUserProperties("user_id", viewModel.id)
             viewModel.getValidYelloId(viewModel.id)
             findNavController().navigate(R.id.action_yelIoIdFragment_to_addFriendFragment)
             val activity = requireActivity() as OnBoardingActivity

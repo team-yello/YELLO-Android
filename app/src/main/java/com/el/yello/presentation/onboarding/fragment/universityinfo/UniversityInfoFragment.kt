@@ -76,6 +76,10 @@ class UniversityInfoFragment :
                 "click_onboarding_next",
                 JSONObject().put("onboard_view", "school"),
             )
+            AmplitudeUtils.updateUserProperties("user_school", viewModel.school)
+            AmplitudeUtils.updateUserProperties("user_department", viewModel.departmentData.toString())
+            AmplitudeUtils.updateUserIntProperties("user_grade", viewModel.studentId)
+
             findNavController().navigate(R.id.action_universityInfoFragment_to_yelIoIdFragment)
             val activity = requireActivity() as OnBoardingActivity
             activity.progressBarPlus()

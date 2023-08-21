@@ -320,4 +320,7 @@
     <string name="pay_error_dialog_title">상품 지급 오류</string>
     <string name="pay_error_dialog_msg">오류로 인해 상품이 지급되지 않았어요. 옐로 공식 카카오 채널로 문의주시면 해결을 도와드리겠습니다.</string>
     <string name="pay_error_dialog_btn">확인</string>
+
+    <string name="splash_update_error">업데이트가 취소되었습니다.</string>
+
 </resources>

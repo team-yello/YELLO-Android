@@ -21,7 +21,6 @@ class StartAppFragment : BindingFragment<FragmentStartAppBinding>(R.layout.fragm
         super.onViewCreated(view, savedInstanceState)
         (activity as? OnBoardingActivity)?.hideViews()
         askNotificationPermission()
-        initTutorialView()
     }
 
     private val requestPermissionLauncher =
@@ -43,6 +42,7 @@ class StartAppFragment : BindingFragment<FragmentStartAppBinding>(R.layout.fragm
                         Manifest.permission.POST_NOTIFICATIONS,
                     ) == PackageManager.PERMISSION_GRANTED
                 ) {
+                    requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
                 } else if (shouldShowRequestPermissionRationale(Manifest.permission.POST_NOTIFICATIONS)) {
                     requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
                 } else {
@@ -50,13 +50,8 @@ class StartAppFragment : BindingFragment<FragmentStartAppBinding>(R.layout.fragm
                 }
             }
         }
-    }
-
-    private fun initTutorialView() {
-        binding.btnStartYello.setOnSingleClickListener {
-            AmplitudeUtils.trackEventWithProperties("click_onboarding_notification")
-            (activity as? OnBoardingActivity)?.endTutorialActivity()
-        }
+        AmplitudeUtils.trackEventWithProperties("click_onboarding_notification")
+        (activity as? OnBoardingActivity)?.endTutorialActivity()
     }
 
     private fun startTutorialActivity() {

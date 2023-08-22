@@ -1,5 +1,6 @@
 package com.el.yello.presentation.pay
 
+import android.content.res.Resources
 import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
@@ -17,13 +18,7 @@ class PayInAppDialog :
 
     override fun onStart() {
         super.onStart()
-        dialog?.window?.apply {
-            setLayout(
-                WindowManager.LayoutParams.MATCH_PARENT,
-                WindowManager.LayoutParams.WRAP_CONTENT,
-            )
-            setBackgroundDrawableResource(R.color.transparent)
-        }
+        setDialogBackground()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -31,6 +26,21 @@ class PayInAppDialog :
 
         initConfirmBtnListener()
         setDialogByItem()
+    }
+
+    private fun setDialogBackground() {
+        val deviceWidth = Resources.getSystem().displayMetrics.widthPixels
+        val dialogHorizontalMargin = (Resources.getSystem().displayMetrics.density * 16) * 2
+
+        dialog?.window?.apply {
+            setLayout(
+                (deviceWidth - dialogHorizontalMargin * 2).toInt(),
+                WindowManager.LayoutParams.WRAP_CONTENT,
+            )
+            setBackgroundDrawableResource(R.color.transparent)
+        }
+        dialog?.setCanceledOnTouchOutside(false)
+        dialog?.setCancelable(true)
     }
 
     private fun initConfirmBtnListener() {
@@ -41,17 +51,17 @@ class PayInAppDialog :
 
     private fun setDialogByItem() {
         when (viewModel.currentInAppItem) {
-            1 -> {
+            "yello_ticket_one" -> {
                 binding.tvPayDialogSubtitle1.text = getString(R.string.pay_dialog_in_app_title_1)
                 binding.ivPayInApp.load(R.drawable.ic_pay_in_app_1)
             }
 
-            2 -> {
+            "yello_ticket_two" -> {
                 binding.tvPayDialogSubtitle1.text = getString(R.string.pay_dialog_in_app_title_2)
                 binding.ivPayInApp.load(R.drawable.ic_pay_in_app_2)
             }
 
-            5 -> {
+            "yello_ticket_five" -> {
                 binding.tvPayDialogSubtitle1.text = getString(R.string.pay_dialog_in_app_title_5)
                 binding.ivPayInApp.load(R.drawable.ic_pay_in_app_5)
             }

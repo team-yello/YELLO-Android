@@ -11,12 +11,11 @@
         android:id="@+id/layout_pay_subs_dialog"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="30dp"
+        android:layout_marginHorizontal="40dp"
         android:background="@drawable/shape_grayscales900_fill_12_rect"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
-
 
         <TextView
             android:id="@+id/tv_pay_dialog_subtitle1"

@@ -5,6 +5,10 @@ import com.example.domain.enum.GenderEnum
 data class MyYello(
     val totalCount: Int,
     val ticketCount: Int,
+    val openCount: Int = 0,
+    val openKeywordCount: Int = 0,
+    val openNameCount: Int = 0,
+    val openFullNameCount: Int = 0,
     val yello: List<Yello>,
 )
 

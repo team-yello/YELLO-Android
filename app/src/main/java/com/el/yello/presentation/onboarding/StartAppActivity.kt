@@ -1,10 +1,11 @@
 package com.el.yello.presentation.onboarding
 
+import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
-import androidx.core.app.ActivityCompat
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import com.el.yello.R
 import com.el.yello.databinding.ActivityStartAppBinding
@@ -19,8 +20,19 @@ class StartAppActivity :
     // 카카오톡 로그인 -> 푸시 설정-> 튜토리얼 -> 투표하기
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        initTutorialView()
+        askNotificationPermission()
     }
+
+    private val requestPermissionLauncher =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
+            if (isGranted) {
+                AmplitudeUtils.updateUserProperties("user_pushnotification", "enabled")
+                startTutorialActivity()
+            } else {
+                AmplitudeUtils.updateUserProperties("user_pushnotification", "disabled")
+                startTutorialActivity()
+            }
+        }
 
     private fun startTutorialActivity() {
         val intent = TutorialAActivity.newIntent(this, false).apply {
@@ -30,45 +42,22 @@ class StartAppActivity :
         finish()
     }
 
-    private fun initTutorialView() {
+    private fun askNotificationPermission() {
         binding.btnStartYello.setOnSingleClickListener {
             AmplitudeUtils.trackEventWithProperties("click_onboarding_notification")
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                 if (ContextCompat.checkSelfPermission(
                         this,
-                        android.Manifest.permission.POST_NOTIFICATIONS,
-                    ) != PackageManager.PERMISSION_GRANTED
+                        Manifest.permission.POST_NOTIFICATIONS,
+                    ) == PackageManager.PERMISSION_GRANTED
                 ) {
-                    ActivityCompat.requestPermissions(
-                        this,
-                        arrayOf(android.Manifest.permission.POST_NOTIFICATIONS),
-                        PERMISSION_REQUEST_CODE,
-                    )
-                } else {
                     startTutorialActivity()
+                } else if (shouldShowRequestPermissionRationale(Manifest.permission.POST_NOTIFICATIONS)) {
+                    requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+                } else {
+                    requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
                 }
-            } else {
-                startTutorialActivity()
-            }
-            startTutorialActivity()
-        }
-    }
-
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray,
-    ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (requestCode == PERMISSION_REQUEST_CODE) {
-            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                startTutorialActivity()
-            } else {
             }
         }
-    }
-
-    companion object {
-        private const val PERMISSION_REQUEST_CODE = 1
     }
 }

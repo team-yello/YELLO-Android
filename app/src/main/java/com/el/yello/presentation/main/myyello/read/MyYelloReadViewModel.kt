@@ -3,6 +3,7 @@ package com.el.yello.presentation.main.myyello.read
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.el.yello.util.amplitude.AmplitudeUtils
 import com.example.domain.entity.CheckKeyword
 import com.example.domain.entity.CheckName
 import com.example.domain.entity.FullName
@@ -100,6 +101,7 @@ class MyYelloReadViewModel @Inject constructor(
                     myPoint = it.currentPoint
                     yelloDetail = it
                     _yelloDetailData.value = UiState.Success(it)
+                    AmplitudeUtils.updateUserIntProperties("user_point", it.currentPoint)
                 }.onFailure {
                     _yelloDetailData.value = UiState.Failure("옐로 상세보기 서버 통신 실패")
                 }

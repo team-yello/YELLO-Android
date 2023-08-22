@@ -5,7 +5,6 @@
     tools:context=".presentation.main.yello.start.PointFragment">
 
     <data>
-
         <variable
             name="vm"
             type="com.el.yello.presentation.main.yello.vote.VoteViewModel" />
@@ -201,7 +200,8 @@
                     android:paddingVertical="3dp"
                     android:text="@{@string/to_string(vm.totalPoint)}"
                     android:textColor="@color/white"
-                    app:layout_constraintBaseline_toBaselineOf="@id/tv_point_point_label"
+                    app:layout_constraintTop_toTopOf="@id/tv_point_point_label"
+                    app:layout_constraintBottom_toBottomOf="@id/tv_point_point_label"
                     app:layout_constraintEnd_toStartOf="@id/tv_point_point_label"
                     tools:text="2900" />
 
@@ -215,7 +215,9 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
+
             </androidx.constraintlayout.widget.ConstraintLayout>
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <TextView
@@ -234,5 +236,6 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

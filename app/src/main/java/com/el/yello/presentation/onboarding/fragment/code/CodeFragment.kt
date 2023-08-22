@@ -42,8 +42,8 @@ class CodeFragment : BindingFragment<FragmentCodeBinding>(R.layout.fragment_code
                 "click_onboarding_recommend",
                 JSONObject().put("rec_exist", "pass"),
             )
+            AmplitudeUtils.updateUserProperties("user_recommend", "no")
             viewModel.postSignup()
-            findNavController().navigate(R.id.action_codeFragment_to_startAppFragment)
         }
         binding.btnCodeNext.setOnSingleClickListener {
             AmplitudeUtils.trackEventWithProperties("complete_onboarding_finish", properties)
@@ -51,9 +51,8 @@ class CodeFragment : BindingFragment<FragmentCodeBinding>(R.layout.fragment_code
                 "click_onboarding_recommend",
                 JSONObject().put("rec_exist", "next"),
             )
+            AmplitudeUtils.updateUserProperties("user_recommend", "yes")
             viewModel.getValidYelloId(viewModel.codeText.value.toString())
-            viewModel.postSignup()
-            findNavController().navigate(R.id.action_codeFragment_to_startAppFragment)
         }
     }
 
@@ -61,6 +60,7 @@ class CodeFragment : BindingFragment<FragmentCodeBinding>(R.layout.fragment_code
         viewModel.postSignupState.observe(viewLifecycleOwner) { state ->
             when (state) {
                 is UiState.Success -> {
+                    AmplitudeUtils.setUserDataProperties("user_signup_date")
                     findNavController().navigate(R.id.action_codeFragment_to_startAppFragment)
                 }
 

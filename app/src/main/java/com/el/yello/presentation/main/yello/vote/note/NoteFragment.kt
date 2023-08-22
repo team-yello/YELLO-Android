@@ -44,7 +44,7 @@ class NoteFragment : BindingFragment<FragmentNoteBinding>(R.layout.fragment_note
     private fun getBundleArgs() {
         arguments ?: return
         _noteIndex = arguments?.getInt(ARGS_NOTE_INDEX)
-        binding.index = noteIndex
+        binding.index = viewModel.currentNoteIndex
         _backgroundIndex = arguments?.getInt(ARGS_BACKGROUND_INDEX)?.plus(noteIndex)
         binding.bgIndex = backgroundIndex
         _voteListSize = arguments?.getInt(ARGS_VOTE_LIST_SIZE)
@@ -60,8 +60,8 @@ class NoteFragment : BindingFragment<FragmentNoteBinding>(R.layout.fragment_note
         }
 
         for (i in noteIndex + 1 until voteListSize) {
-            for (i in 1..8) {
-                val properties = JSONObject().put("vote_step", i)
+            if (voteListSize in 1..8 && noteIndex in 1..8) {
+                val properties = JSONObject().put("vote_step", noteIndex)
                 AmplitudeUtils.trackEventWithProperties("view_vote_question", properties)
             }
             layoutInflater.inflate(
@@ -75,21 +75,21 @@ class NoteFragment : BindingFragment<FragmentNoteBinding>(R.layout.fragment_note
 
     private fun initShuffleBtnClickListener() {
         binding.btnNoteShuffle.setOnSingleClickListener {
-            for (i in 1..8) {
-                val properties = JSONObject().put("question_id", i)
+            viewModel.shuffle()
+            if (noteIndex in 1..8) {
+                val properties = JSONObject().put("question_id", noteIndex + 1)
                 AmplitudeUtils.trackEventWithProperties("click_vote_shuffle", properties)
             }
-            viewModel.shuffle()
         }
     }
 
     private fun initSkipBtnClickListener() {
         binding.btnNoteSkip.setOnSingleClickListener {
-            for (i in 1..8) {
-                val properties = JSONObject().put("question_id", i)
+            viewModel.skip()
+            if (noteIndex in 1..8) {
+                val properties = JSONObject().put("question_id", noteIndex + 1)
                 AmplitudeUtils.trackEventWithProperties("click_vote_skip", properties)
             }
-            viewModel.skip()
         }
     }
 

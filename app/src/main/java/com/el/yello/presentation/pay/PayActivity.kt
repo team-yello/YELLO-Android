@@ -1,9 +1,7 @@
 package com.el.yello.presentation.pay
 
-import android.content.Intent
 import android.graphics.Paint
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import androidx.activity.viewModels
@@ -49,26 +47,23 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        Log.d("sangho", "0 : activity created !@!@!@!@@!@!@")
         initView()
-        //initEvent()
-        initEventForTemporarily()
-        autoScroll()
-        //setBillingManager()
-        //observeIsPurchasedStarted()
-        //observeCheckSubsState()
-        //observeCheckInAppState()
-        //observeCheckIsSubscribed()
+        initEvent()
+        setBannerOnChangeListener()
+        setBannerAutoScroll()
+        setBillingManager()
+        observeIsPurchasedStarted()
+        observeCheckSubsState()
+        observeCheckInAppState()
+        observeCheckIsSubscribed()
     }
 
     override fun onResume() {
         super.onResume()
-        // viewModel.getPurchaseInfoFromServer()
-        Log.d("sangho", "1 : resume ")
+        viewModel.getPurchaseInfoFromServer()
     }
 
     override fun onDestroy() {
-        Log.d("sangho", "0 : activity destroyed !@!@!@!@@!@!@")
         super.onDestroy()
         _adapter = null
         _manager?.billingClient?.endConnection()
@@ -77,50 +72,52 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
         paySubsDialog?.dismiss()
     }
 
-    // BillingManager 설정 시 BillingClient 연결 & 콜백 응답 설정 -> 검증 진행
-    private fun setBillingManager() {
-        _manager = BillingManager(this, object : BillingCallback {
-            override fun onBillingConnected() {
-                setProductList()
-                Log.d("sangho", "3 : billing manager connected -> setList")
-            }
-
-            override fun onSuccess(purchase: Purchase) {
-                Log.d("sangho", "4 : purchase success = ${purchase.products}")
-                if (purchase.products[0] == "yello_plus_subscribe") {
-                    Log.d("sangho", "4-1 : -> check subs")
-                    viewModel.checkSubsToServer(purchase.toRequestPayModel())
-                } else {
-                    Log.d("sangho", "4-2 : -> check inapp")
-                    viewModel.checkInAppToServer(purchase.toRequestPayModel())
-                }
-            }
-
-            override fun onFailure(responseCode: Int) {
-                Timber.d(responseCode.toString())
-                Log.d("sangho", "5555 : purchase failure = ${responseCode}")
-            }
-        })
-    }
-
-    private fun setProductList() {
-        lifecycleScope.launch {
-            manager.getProductDetails() { list ->
-                productDetailsList = list
-                Log.d("sangho", "6 : getProductList = ${list}")
-            }
-        }
-    }
-
     private fun initView() {
-        Log.d("sangho", "7 : init adapter & isFirstCreated set")
         _adapter = PayAdapter()
         binding.vpBanner.adapter = adapter
         binding.dotIndicator.setViewPager(binding.vpBanner)
         binding.tvOriginalPrice.paintFlags =
             binding.tvOriginalPrice.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
         viewModel.isFirstCreated = true
+    }
 
+    // BillingManager 설정 시 BillingClient 연결 & 콜백 응답 설정 -> 검증 진행
+    private fun setBillingManager() {
+        _manager = BillingManager(this, object : BillingCallback {
+            override fun onBillingConnected() {
+                lifecycleScope.launch {
+                    manager.getProductDetails() { list -> productDetailsList = list }
+                }
+            }
+
+            override fun onSuccess(purchase: Purchase) {
+                if (purchase.products[0] == "yello_plus_subscribe") {
+                    viewModel.checkSubsToServer(purchase.toRequestPayModel())
+                } else {
+                    viewModel.checkInAppToServer(purchase.toRequestPayModel())
+                }
+            }
+
+            override fun onFailure(responseCode: Int) {
+                Timber.d(responseCode.toString())
+            }
+        })
+    }
+
+    // 배너 자동 스크롤 로직
+    private fun setBannerAutoScroll() {
+        lifecycleScope.launch {
+            while (true) {
+                delay(2500)
+                binding.vpBanner.currentItem.let {
+                    binding.vpBanner.currentItem = it.plus(1) % 3
+                }
+            }
+        }
+    }
+
+    //
+    private fun setBannerOnChangeListener() {
         binding.vpBanner.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             private var currentPosition = 0
             private var currentState = 0
@@ -144,7 +141,6 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
 
             private fun setNextPage() {
                 val lastPosition = 2
-
                 // 첫번째 화면이면 마지막 화면으로 이동
                 if (currentPosition == 0) {
                     binding.vpBanner.currentItem = lastPosition
@@ -156,18 +152,6 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
         })
     }
 
-    // 배너 자동 스크롤 로직
-    private fun autoScroll() {
-        lifecycleScope.launch {
-            while (true) {
-                delay(2500)
-                binding.vpBanner.currentItem.let {
-                    binding.vpBanner.currentItem = it.plus(1) % 3
-                }
-            }
-        }
-    }
-
     private fun initEvent() {
         binding.clSubscribe.setOnSingleClickListener {
             viewModel.payCheck(0)
@@ -177,7 +161,6 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
             productDetailsList.withIndex().find { it.value.productId == YELLO_PLUS }
                 ?.let { productDetails ->
                     manager.purchaseProduct(productDetails.index, productDetails.value)
-                    Log.d("sangho", "8 : click = ${productDetails.value.name} -> purchase")
                 } ?: also {
                 toast(getString(R.string.pay_error_no_item))
             }
@@ -191,7 +174,6 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
             productDetailsList.withIndex().find { it.value.productId == YELLO_ONE }
                 ?.let { productDetails ->
                     manager.purchaseProduct(productDetails.index, productDetails.value)
-                    Log.d("sangho", "9 : click = ${productDetails.value.name} -> purchase")
                 } ?: also {
                 toast(getString(R.string.pay_error_no_item))
             }
@@ -205,7 +187,6 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
             productDetailsList.withIndex().find { it.value.productId == YELLO_TWO }
                 ?.let { productDetails ->
                     manager.purchaseProduct(productDetails.index, productDetails.value)
-                    Log.d("sangho", "10 : click = ${productDetails.value.name} -> purchase")
                 } ?: also {
                 toast(getString(R.string.pay_error_no_item))
             }
@@ -219,59 +200,8 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
             productDetailsList.withIndex().find { it.value.productId == YELLO_FIVE }
                 ?.let { productDetails ->
                     manager.purchaseProduct(productDetails.index, productDetails.value)
-                    Log.d("sangho", "11 : click = ${productDetails.value.name} -> purchase")
                 } ?: also {
                 toast(getString(R.string.pay_error_no_item))
-            }
-        }
-
-        binding.ivBack.setOnSingleClickListener {
-            finish()
-        }
-    }
-
-    private fun initEventForTemporarily() {
-        binding.clSubscribe.setOnSingleClickListener {
-            viewModel.payCheck(0)
-            AmplitudeUtils.trackEventWithProperties(
-                "click_shop_buy", JSONObject().put("buy_type", "subscribe")
-            )
-            Intent(this, PayEndActivity::class.java).apply {
-                addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                startActivity(this)
-            }
-        }
-
-        binding.clNameCheckOne.setOnSingleClickListener {
-            viewModel.payCheck(1)
-            AmplitudeUtils.trackEventWithProperties(
-                "click_shop_buy", JSONObject().put("buy_type", "ticket1")
-            )
-            Intent(this, PayEndActivity::class.java).apply {
-                addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                startActivity(this)
-            }
-        }
-
-        binding.clNameCheckTwo.setOnSingleClickListener {
-            viewModel.payCheck(2)
-            AmplitudeUtils.trackEventWithProperties(
-                "click_shop_buy", JSONObject().put("buy_type", "ticket2")
-            )
-            Intent(this, PayEndActivity::class.java).apply {
-                addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                startActivity(this)
-            }
-        }
-
-        binding.clNameCheckFive.setOnSingleClickListener {
-            viewModel.payCheck(3)
-            AmplitudeUtils.trackEventWithProperties(
-                "click_shop_buy", JSONObject().put("buy_type", "ticket5")
-            )
-            Intent(this, PayEndActivity::class.java).apply {
-                addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                startActivity(this)
             }
         }
 
@@ -283,7 +213,6 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
     // 구매 완료 이후 검증 완료까지 로딩 로티 실행
     private fun observeIsPurchasedStarted() {
         manager.isPurchaseStarted.observe(this) { boolean ->
-            Log.d("sangho", "12 : start loading : @@@@@@@@")
             if (boolean == true) startLoadingScreen()
         }
     }
@@ -293,18 +222,17 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
         viewModel.postSubsCheckState.observe(this) { state ->
             when (state) {
                 is UiState.Success -> {
-                    Log.d("sangho", "12 : sub success : @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
                     AmplitudeUtils.trackEventWithProperties(
                         "complete_shop_buy",
                         JSONObject().put("buy_type", "subscribe").put("buy_price", "3900")
                     )
+                    AmplitudeUtils.setUserDataProperties("user_buy_date")
                     stopLoadingScreen()
                     paySubsDialog = PaySubsDialog()
                     paySubsDialog?.show(supportFragmentManager, DIALOG_SUBS)
                 }
 
                 is UiState.Failure -> {
-                    Log.d("sangho", "13 : sub failure : @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
                     stopLoadingScreen()
                     if (state.msg == SERVER_ERROR) {
                         showErrorDialog()
@@ -325,43 +253,40 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
         viewModel.postInAppCheckState.observe(this) { state ->
             when (state) {
                 is UiState.Success -> {
-                    Log.d(
-                        "sangho",
-                        "13: inapp success : &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&"
-                    )
-                    when (state.data?.ticketCount) {
-                        1 -> {
+                    stopLoadingScreen()
+                    when (state.data?.productId) {
+                        "yello_ticket_one" -> {
                             AmplitudeUtils.trackEventWithProperties(
                                 "complete_shop_buy",
                                 JSONObject().put("buy_type", "ticket1").put("buy_price", "1400")
                             )
                         }
 
-                        2 -> {
+                        "yello_ticket_two" -> {
                             AmplitudeUtils.trackEventWithProperties(
                                 "complete_shop_buy",
                                 JSONObject().put("buy_type", "ticket2").put("buy_price", "2800")
                             )
                         }
 
-                        5 -> {
+                        "yello_ticket_five" -> {
                             AmplitudeUtils.trackEventWithProperties(
                                 "complete_shop_buy",
                                 JSONObject().put("buy_type", "ticket5").put("buy_price", "5900")
                             )
                         }
+
+                        else -> {
+                            return@observe
+                        }
                     }
-                    stopLoadingScreen()
-                    viewModel.currentInAppItem = state.data?.ticketCount ?: 0
+                    AmplitudeUtils.setUserDataProperties("user_buy_date")
+                    viewModel.currentInAppItem = state.data?.productId ?: ""
                     payInAppDialog = PayInAppDialog()
                     payInAppDialog?.show(supportFragmentManager, DIALOG_IN_APP)
                 }
 
                 is UiState.Failure -> {
-                    Log.d(
-                        "sangho",
-                        "14 : inapp failure : &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&"
-                    )
                     stopLoadingScreen()
                     if (state.msg == SERVER_ERROR) {
                         showErrorDialog()
@@ -403,7 +328,6 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
     // 구독 여부 확인해서 화면 표시 변경
     private fun observeCheckIsSubscribed() {
         viewModel.getPurchaseInfoState.observe(this) { state ->
-            Log.d("sangho", "15 : observe subs state")
             when (state) {
                 is UiState.Success -> {
                     if (state.data?.isSubscribe == true) {

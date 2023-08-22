@@ -44,7 +44,7 @@ class NoteFragment : BindingFragment<FragmentNoteBinding>(R.layout.fragment_note
     private fun getBundleArgs() {
         arguments ?: return
         _noteIndex = arguments?.getInt(ARGS_NOTE_INDEX)
-        binding.index = viewModel.currentNoteIndex
+        binding.index = noteIndex
         _backgroundIndex = arguments?.getInt(ARGS_BACKGROUND_INDEX)?.plus(noteIndex)
         binding.bgIndex = backgroundIndex
         _voteListSize = arguments?.getInt(ARGS_VOTE_LIST_SIZE)
@@ -59,12 +59,11 @@ class NoteFragment : BindingFragment<FragmentNoteBinding>(R.layout.fragment_note
             binding.layoutNoteProgressBefore.getChildAt(i).rotation = progressDegree[i]
         }
 
-        for (i in noteIndex + 1 until 9) {
+        for (i in noteIndex + 1 until voteListSize) {
             if (voteListSize in 1..8) {
                 if (noteIndex in 1..8) {
                     val properties = JSONObject().put("vote_step", noteIndex)
                     AmplitudeUtils.trackEventWithProperties("view_vote_question", properties)
-                    break
                 }
             }
             layoutInflater.inflate(

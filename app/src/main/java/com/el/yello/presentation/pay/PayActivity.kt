@@ -226,6 +226,7 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
                         "complete_shop_buy",
                         JSONObject().put("buy_type", "subscribe").put("buy_price", "3900")
                     )
+                    AmplitudeUtils.setUserDataProperties("user_buy_date")
                     stopLoadingScreen()
                     paySubsDialog = PaySubsDialog()
                     paySubsDialog?.show(supportFragmentManager, DIALOG_SUBS)
@@ -279,7 +280,8 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
                             return@observe
                         }
                     }
-                    viewModel.currentInAppItem = state.data?.ticketCount ?: 0
+                    AmplitudeUtils.setUserDataProperties("user_buy_date")
+                    viewModel.currentInAppItem = state.data?.productId ?: ""
                     payInAppDialog = PayInAppDialog()
                     payInAppDialog?.show(supportFragmentManager, DIALOG_IN_APP)
                 }

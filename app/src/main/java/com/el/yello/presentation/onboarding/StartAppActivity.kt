@@ -20,20 +20,15 @@ class StartAppActivity :
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         askNotificationPermission()
-        initTutorialView()
-    }
-
-    private fun initTutorialView() {
-        binding.btnStartYello.setOnSingleClickListener {
-            AmplitudeUtils.trackEventWithProperties("click_onboarding_notification")
-        }
     }
 
     private val requestPermissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
             if (isGranted) {
+                AmplitudeUtils.updateUserProperties("user_pushnotification", "enabled")
                 startTutorialActivity()
             } else {
+                AmplitudeUtils.updateUserProperties("user_pushnotification", "disabled")
                 startTutorialActivity()
             }
         }
@@ -48,12 +43,14 @@ class StartAppActivity :
 
     private fun askNotificationPermission() {
         binding.btnStartYello.setOnSingleClickListener {
+            AmplitudeUtils.trackEventWithProperties("click_onboarding_notification")
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                 if (ContextCompat.checkSelfPermission(
                         this,
                         Manifest.permission.POST_NOTIFICATIONS,
                     ) == PackageManager.PERMISSION_GRANTED
                 ) {
+                    startTutorialActivity()
                 } else if (shouldShowRequestPermissionRationale(Manifest.permission.POST_NOTIFICATIONS)) {
                     requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
                 } else {

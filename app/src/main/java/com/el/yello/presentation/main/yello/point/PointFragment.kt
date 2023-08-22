@@ -37,14 +37,14 @@ class PointFragment : BindingFragment<FragmentPointBinding>(R.layout.fragment_po
             when (state) {
                 is UiState.Success -> {
                     if (state.data?.isSubscribe == true) {
-                        binding.tvPointPointLabel.visibility = View.VISIBLE
+                        binding.tvPointPlusLabel.visibility = View.VISIBLE
                     } else {
-                        binding.tvPointPointLabel.visibility = View.GONE
+                        binding.tvPointPlusLabel.visibility = View.GONE
                     }
                 }
 
                 is UiState.Failure -> {
-                    binding.tvPointPointLabel.visibility = View.GONE
+                    binding.tvPointPlusLabel.visibility = View.GONE
                 }
 
                 is UiState.Loading -> {}

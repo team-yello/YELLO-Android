@@ -36,13 +36,14 @@ class StartAppFragment : BindingFragment<FragmentStartAppBinding>(R.layout.fragm
 
     private fun askNotificationPermission() {
         binding.btnStartYello.setOnSingleClickListener {
+            AmplitudeUtils.trackEventWithProperties("click_onboarding_notification")
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                 if (ContextCompat.checkSelfPermission(
                         requireContext(),
                         Manifest.permission.POST_NOTIFICATIONS,
                     ) == PackageManager.PERMISSION_GRANTED
                 ) {
-                    requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+                   startTutorialActivity()
                 } else if (shouldShowRequestPermissionRationale(Manifest.permission.POST_NOTIFICATIONS)) {
                     requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
                 } else {
@@ -50,7 +51,6 @@ class StartAppFragment : BindingFragment<FragmentStartAppBinding>(R.layout.fragm
                 }
             }
         }
-        AmplitudeUtils.trackEventWithProperties("click_onboarding_notification")
         (activity as? OnBoardingActivity)?.endTutorialActivity()
     }
 

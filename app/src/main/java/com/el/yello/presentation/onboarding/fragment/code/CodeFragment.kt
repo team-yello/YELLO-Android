@@ -2,7 +2,6 @@ package com.el.yello.presentation.onboarding.fragment.code
 
 import android.os.Bundle
 import android.view.View
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.el.yello.R
@@ -12,13 +11,16 @@ import com.el.yello.presentation.onboarding.activity.OnBoardingViewModel
 import com.el.yello.util.amplitude.AmplitudeUtils
 import com.el.yello.util.context.yelloSnackbar
 import com.example.ui.base.BindingFragment
+import com.example.ui.fragment.toast
 import com.example.ui.view.UiState
 import com.example.ui.view.setOnSingleClickListener
 import org.json.JSONObject
 
 class CodeFragment : BindingFragment<FragmentCodeBinding>(R.layout.fragment_code) {
     private val viewModel by activityViewModels<OnBoardingViewModel>()
+    private var backPressedTime: Long = 0
     val properties = JSONObject()
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.vm = viewModel
@@ -27,6 +29,7 @@ class CodeFragment : BindingFragment<FragmentCodeBinding>(R.layout.fragment_code
         setDeleteCodeBtnClickListener()
         setupPostSignupState()
         viewModel.validYellIdLoading()
+        onBackButtonClick()
     }
 
     override fun onResume() {
@@ -108,9 +111,15 @@ class CodeFragment : BindingFragment<FragmentCodeBinding>(R.layout.fragment_code
     private fun initIdEditTextViewError() {
         binding.etCode.setBackgroundResource(R.drawable.shape_fill_red20_line_semantic_status_red500_rect_8)
         binding.ivCodeDelete.setBackgroundResource(R.drawable.ic_onboarding_delete_red)
-        binding.tvCodeHint.text = getString(R.string.onboarding_code_duplicate_msg)
-        binding.tvCodeHint.setTextColor(ContextCompat.getColor(requireContext(), R.color.semantic_red_500))
-        binding.tvCodeHintPoint.visibility = View.INVISIBLE
-        binding.tvCodeHintEnd.visibility = View.INVISIBLE
+        binding.tvCodeWarning.text = getString(R.string.onboarding_code_duplicate_msg)
+    }
+
+    private fun onBackButtonClick() {
+        if (System.currentTimeMillis() - backPressedTime >= 2000) {
+            backPressedTime = System.currentTimeMillis()
+            toast(getString(R.string.main_toast_back_pressed))
+        } else {
+            activity?.finish()
+        }
     }
 }

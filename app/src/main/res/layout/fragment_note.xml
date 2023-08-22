@@ -6,6 +6,10 @@
 
     <data>
         <variable
+            name="index"
+            type="Integer" />
+
+        <variable
             name="bgIndex"
             type="Integer" />
 
@@ -38,7 +42,7 @@
                 android:id="@+id/view_note_progress"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="@{bgIndex + 1}"
+                android:layout_weight="@{index + 1}"
                 android:background="@drawable/shape_white_fill_8_rect"
                 tools:layout_weight="1" />
 
@@ -46,7 +50,7 @@
                 android:id="@+id/view_note_progress_left"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="@{7 - bgIndex}"
+                android:layout_weight="@{7 - index}"
                 tools:layout_weight="7" />
         </LinearLayout>
 
@@ -62,7 +66,7 @@
 
             <com.airbnb.lottie.LottieAnimationView
                 android:id="@+id/lottie_note_balloon"
-                setBalloonSrc="@{bgIndex}"
+                setBalloonSrc="@{index}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
@@ -88,7 +92,7 @@
 
             <ImageView
                 android:id="@+id/iv_note_face"
-                setFaceSrc="@{bgIndex}"
+                setFaceSrc="@{index}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"

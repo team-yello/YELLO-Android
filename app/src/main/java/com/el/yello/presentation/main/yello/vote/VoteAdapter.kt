@@ -16,6 +16,7 @@ class VoteAdapter(
     override fun createFragment(position: Int): Fragment {
         return when (position) {
             in INDEX_START_POSITION until voteListSize -> NoteFragment.newInstance(
+                position,
                 bgIndex,
                 voteListSize
             )

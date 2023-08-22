@@ -1,11 +1,12 @@
 package com.el.yello.presentation.onboarding.fragment.startapp
 
+import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.view.View
-import androidx.core.app.ActivityCompat
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import com.el.yello.R
 import com.el.yello.databinding.FragmentStartAppBinding
@@ -14,13 +15,43 @@ import com.el.yello.presentation.tutorial.TutorialAActivity
 import com.el.yello.util.amplitude.AmplitudeUtils
 import com.example.ui.base.BindingFragment
 import com.example.ui.view.setOnSingleClickListener
-import org.json.JSONObject
 
 class StartAppFragment : BindingFragment<FragmentStartAppBinding>(R.layout.fragment_start_app) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         (activity as? OnBoardingActivity)?.hideViews()
-        initTutorialView()
+        askNotificationPermission()
+    }
+
+    private val requestPermissionLauncher =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
+            if (isGranted) {
+                AmplitudeUtils.updateUserProperties("user_pushnotification", "enabled")
+                startTutorialActivity()
+            } else {
+                AmplitudeUtils.updateUserProperties("user_pushnotification", "disabled")
+                startTutorialActivity()
+            }
+        }
+
+    private fun askNotificationPermission() {
+        binding.btnStartYello.setOnSingleClickListener {
+            AmplitudeUtils.trackEventWithProperties("click_onboarding_notification")
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                if (ContextCompat.checkSelfPermission(
+                        requireContext(),
+                        Manifest.permission.POST_NOTIFICATIONS,
+                    ) == PackageManager.PERMISSION_GRANTED
+                ) {
+                   startTutorialActivity()
+                } else if (shouldShowRequestPermissionRationale(Manifest.permission.POST_NOTIFICATIONS)) {
+                    requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+                } else {
+                    requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+                }
+            }
+        }
+        (activity as? OnBoardingActivity)?.endTutorialActivity()
     }
 
     private fun startTutorialActivity() {
@@ -29,47 +60,5 @@ class StartAppFragment : BindingFragment<FragmentStartAppBinding>(R.layout.fragm
         }
         startActivity(intent)
         requireActivity().finish()
-    }
-
-    private fun initTutorialView() {
-        binding.btnStartYello.setOnSingleClickListener {
-            AmplitudeUtils.trackEventWithProperties("click_onboarding_notification")
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                if (ContextCompat.checkSelfPermission(
-                        requireContext(),
-                        android.Manifest.permission.POST_NOTIFICATIONS,
-                    ) != PackageManager.PERMISSION_GRANTED
-                ) {
-                    ActivityCompat.requestPermissions(
-                        requireActivity(),
-                        arrayOf(android.Manifest.permission.POST_NOTIFICATIONS),
-                        PERMISSION_REQUEST_CODE,
-                    )
-                } else {
-                    startTutorialActivity()
-                }
-            } else {
-                startTutorialActivity()
-            }
-            (activity as? OnBoardingActivity)?.endTutorialActivity()
-        }
-    }
-
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray,
-    ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (requestCode == PERMISSION_REQUEST_CODE) {
-            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                startTutorialActivity()
-            } else {
-            }
-        }
-    }
-
-    companion object {
-        private const val PERMISSION_REQUEST_CODE = 1
     }
 }

@@ -44,7 +44,7 @@ class NoteFragment : BindingFragment<FragmentNoteBinding>(R.layout.fragment_note
     private fun getBundleArgs() {
         arguments ?: return
         _noteIndex = arguments?.getInt(ARGS_NOTE_INDEX)
-        binding.index = viewModel.currentNoteIndex
+        binding.index = noteIndex
         _backgroundIndex = arguments?.getInt(ARGS_BACKGROUND_INDEX)?.plus(noteIndex)
         binding.bgIndex = backgroundIndex
         _voteListSize = arguments?.getInt(ARGS_VOTE_LIST_SIZE)

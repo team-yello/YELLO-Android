@@ -7,10 +7,10 @@
 <br>
 
 ## CONTRIBUTORS
-| 이강민<br/>([@kkk5474096](https://github.com/kkk5474096)) | 전채연<br/>([@b1urrrr](https://github.com/b1urrrr)) | 김상호<br/>([@Marchbreeze](https://github.com/Marchbreeze)) | 박민주<br/>([@minju1459](https://github.com/minju1459)) |
-| :---: | :---: | :---: | :---: |
+|                                   이강민<br/>([@kkk5474096](https://github.com/kkk5474096))                                    |                                      전채연<br/>([@b1urrrr](https://github.com/b1urrrr))                                       |                                  김상호<br/>([@Marchbreeze](https://github.com/Marchbreeze))                                   |                                    박민주<br/>([@minju1459](https://github.com/minju1459))                                     |
+|:---------------------------------------------------------------------------------------------------------------------------:|:---------------------------------------------------------------------------------------------------------------------------:|:---------------------------------------------------------------------------------------------------------------------------:|:---------------------------------------------------------------------------------------------------------------------------:|
 | <img width="200px" src="https://github.com/team-yello/YELLO-Android/assets/76741702/d197584e-394c-415c-a86a-0d7515315c02"/> | <img width="200px" src="https://github.com/team-yello/YELLO-Android/assets/76741702/120c0877-a84b-40d9-8185-78aa03d866b8"/> | <img width="200px" src="https://github.com/team-yello/YELLO-Android/assets/76741702/c42f8a50-3d29-4c1f-bcad-7f2a2ce4f8b1"/> | <img width="200px" src="https://github.com/team-yello/YELLO-Android/assets/76741702/8c36ce54-4803-4c4f-b318-6887953e54a6"/> |
-| `내 옐로`<br/>`친구들 옐로` | `투표` | `내 프로필`<br/>`추천 친구` | `온보딩` |
+|                                                      `내 옐로`<br/>`푸시알람`                                                      |                                                         `투표(옐로하기)`                                                          |                                          `프로필`<br/>`추천친구` <br/>`타임라인` <br/>`인앱결제`                                           |                                                      `온보딩` <br/>`튜토리얼`                                                      |
 <br>
 
 ## TECH STACK
@@ -18,9 +18,12 @@
 - Multi-Module
 - Hilt
 - Coroutine
+- Paging3
 - Data Binding
+- Timber, Coil, Lottie, Shimmer
+- Firebase Cloud Messaging
 - Kakao Open API
-- Coil
+- Google Play Billing API (in-app purchases API)
 <br>
 
 ## COMMON TYPE

@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.el.yello.util.amplitude.AmplitudeUtils
 import com.example.domain.entity.MyYello
 import com.example.domain.entity.vote.VoteCount
 import com.example.domain.repository.YelloRepository
@@ -57,10 +58,17 @@ class MyYelloViewModel @Inject constructor(
                             }
                         _totalCount.value = it.totalCount
                     }
+                    AmplitudeUtils.updateUserIntProperties("user_message_received", it!!.totalCount)
+                    AmplitudeUtils.updateUserIntProperties("user_message_open", it.openCount)
+                    AmplitudeUtils.updateUserIntProperties("user_message_open_keyword", it.openKeywordCount)
+                    AmplitudeUtils.updateUserIntProperties("user_message_open_firstletter", it.openNameCount)
+                    AmplitudeUtils.updateUserIntProperties("user_message_open_fullname", it.openFullNameCount)
+                    AmplitudeUtils.updateUserIntProperties("user_message_open_fullname", it.openFullNameCount)
                 }.onFailure {
                     _myYelloData.value = UiState.Failure("내 쪽지 목록 서버 통신 실패")
                 }
         }
+
     }
 
     fun getVoteCount() {

@@ -51,17 +51,17 @@ class PayInAppDialog :
 
     private fun setDialogByItem() {
         when (viewModel.currentInAppItem) {
-            1 -> {
+            "yello_ticket_one" -> {
                 binding.tvPayDialogSubtitle1.text = getString(R.string.pay_dialog_in_app_title_1)
                 binding.ivPayInApp.load(R.drawable.ic_pay_in_app_1)
             }
 
-            2 -> {
+            "yello_ticket_two" -> {
                 binding.tvPayDialogSubtitle1.text = getString(R.string.pay_dialog_in_app_title_2)
                 binding.ivPayInApp.load(R.drawable.ic_pay_in_app_2)
             }
 
-            5 -> {
+            "yello_ticket_five" -> {
                 binding.tvPayDialogSubtitle1.text = getString(R.string.pay_dialog_in_app_title_5)
                 binding.ivPayInApp.load(R.drawable.ic_pay_in_app_5)
             }

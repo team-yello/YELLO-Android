@@ -60,11 +60,9 @@ class NoteFragment : BindingFragment<FragmentNoteBinding>(R.layout.fragment_note
         }
 
         for (i in noteIndex + 1 until voteListSize) {
-            if (voteListSize in 1..8) {
-                if (noteIndex in 1..8) {
-                    val properties = JSONObject().put("vote_step", noteIndex)
-                    AmplitudeUtils.trackEventWithProperties("view_vote_question", properties)
-                }
+            if (voteListSize in 1..8 && noteIndex in 1..8) {
+                val properties = JSONObject().put("vote_step", noteIndex)
+                AmplitudeUtils.trackEventWithProperties("view_vote_question", properties)
             }
             layoutInflater.inflate(
                 R.layout.layout_vote_progress_bar,

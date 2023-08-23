@@ -11,9 +11,8 @@ import androidx.fragment.app.replace
 import com.el.yello.R
 import com.el.yello.databinding.FragmentYelloBinding
 import com.el.yello.presentation.main.yello.lock.YelloLockFragment
-import com.el.yello.presentation.main.yello.vote.note.start.YelloStartFragment
 import com.el.yello.presentation.main.yello.vote.VoteActivity
-import com.el.yello.presentation.main.yello.wait.YelloWaitFragment
+import com.el.yello.presentation.main.yello.vote.note.start.YelloStartFragment
 import com.el.yello.util.context.yelloSnackbar
 import com.example.domain.entity.type.YelloState.Lock
 import com.example.domain.entity.type.YelloState.Valid
@@ -45,7 +44,7 @@ class YelloFragment : BindingFragment<FragmentYelloBinding>(R.layout.fragment_ye
                     when (state.data) {
                         is Lock -> navigateTo<YelloLockFragment>()
                         is Valid -> navigateTo<YelloStartFragment>()
-                        is Wait -> navigateTo<YelloWaitFragment>()
+                        is Wait -> navigateTo<YelloStartFragment>()
                     }
                 }
 

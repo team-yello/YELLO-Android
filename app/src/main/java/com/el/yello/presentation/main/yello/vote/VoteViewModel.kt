@@ -262,8 +262,11 @@ class VoteViewModel @Inject constructor(
         _voteState.value = Success(vote.questionList)
         _choiceList.value = vote.choiceList
         _totalPoint.value = vote.totalPoint
-        _currentNoteIndex.value = vote.currentIndex
         initCurrentChoice()
+        viewModelScope.launch {
+            delay(100L)
+            _currentNoteIndex.value = vote.currentIndex
+        }
     }
 
     private fun isOptionSelected() =

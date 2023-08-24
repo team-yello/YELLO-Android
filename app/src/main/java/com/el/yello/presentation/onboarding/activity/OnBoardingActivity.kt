@@ -19,7 +19,6 @@ import com.el.yello.presentation.auth.SignInActivity.Companion.EXTRA_PROFILE_IMA
 import com.el.yello.presentation.auth.SocialSyncActivity
 import com.el.yello.presentation.tutorial.TutorialAActivity
 import com.example.ui.base.BindingActivity
-import com.example.ui.view.UiState
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -27,7 +26,7 @@ class OnBoardingActivity :
     BindingActivity<ActivityOnboardingBinding>(R.layout.activity_onboarding) {
     private val viewModel by viewModels<OnBoardingViewModel>()
     private var backPressedTime: Long = 0
-    private val BACK_PRESSED_INTERVAL = 2000 // 2초
+    private val BACK_PRESSED_INTERVAL = 2000
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         getIntentExtraData()
@@ -49,9 +48,6 @@ class OnBoardingActivity :
                 backPressedTime = currentTime
                 Toast.makeText(this, "버튼을 한번 더 누르면 종료됩니다", Toast.LENGTH_SHORT).show()
             }
-        } else if (currentDestinationId == R.id.addFriendFragment) {
-            if (viewModel.friendListState.value == UiState.Loading) {
-            }
         } else {
             super.onBackPressed()
             progressBarMinus()
@@ -66,9 +62,6 @@ class OnBoardingActivity :
         if (currentDestinationId == R.id.universityInfoFragment) {
             val intent = Intent(this, SocialSyncActivity::class.java)
             startActivity(intent)
-        } else if (currentDestinationId == R.id.addFriendFragment) {
-            if (viewModel.friendListState.value == UiState.Loading) {
-            }
         } else {
             navController.popBackStack()
             progressBarMinus()

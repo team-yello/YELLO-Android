@@ -17,7 +17,6 @@ import com.example.ui.view.setOnSingleClickListener
 class StartAppActivity :
     BindingActivity<ActivityStartAppBinding>(R.layout.activity_start_app) {
 
-    // 카카오톡 로그인 -> 푸시 설정-> 튜토리얼 -> 투표하기
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         askNotificationPermission()

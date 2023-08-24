@@ -58,11 +58,6 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
         observeCheckIsSubscribed()
     }
 
-    override fun onResume() {
-        super.onResume()
-        viewModel.getPurchaseInfoFromServer()
-    }
-
     override fun onDestroy() {
         super.onDestroy()
         _adapter = null
@@ -79,6 +74,7 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
         binding.tvOriginalPrice.paintFlags =
             binding.tvOriginalPrice.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
         viewModel.isFirstCreated = true
+        viewModel.getPurchaseInfoFromServer()
     }
 
     // BillingManager 설정 시 BillingClient 연결 & 콜백 응답 설정 -> 검증 진행
@@ -220,6 +216,7 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
     // 구독 상품 검증 옵저버
     private fun observeCheckSubsState() {
         viewModel.postSubsCheckState.observe(this) { state ->
+            stopLoadingScreen()
             when (state) {
                 is UiState.Success -> {
                     AmplitudeUtils.trackEventWithProperties(
@@ -227,7 +224,6 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
                         JSONObject().put("buy_type", "subscribe").put("buy_price", "3900")
                     )
                     AmplitudeUtils.setUserDataProperties("user_buy_date")
-                    stopLoadingScreen()
                     paySubsDialog = PaySubsDialog()
                     paySubsDialog?.show(supportFragmentManager, DIALOG_SUBS)
                 }
@@ -317,12 +313,10 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
     }
 
     private fun showErrorDialog() {
-        AlertDialog.Builder(this)
-            .setTitle(getString(R.string.pay_error_dialog_title))
+        AlertDialog.Builder(this).setTitle(getString(R.string.pay_error_dialog_title))
             .setMessage(getString(R.string.pay_error_dialog_msg))
             .setPositiveButton(getString(R.string.pay_error_dialog_btn)) { dialog, _ -> dialog.dismiss() }
-            .create()
-            .show()
+            .create().show()
     }
 
     // 구독 여부 확인해서 화면 표시 변경

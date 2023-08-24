@@ -1,5 +1,6 @@
 package com.el.yello.presentation.onboarding.fragment.code
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.activityViewModels
@@ -108,5 +109,6 @@ class CodeFragment : BindingFragment<FragmentCodeBinding>(R.layout.fragment_code
         binding.etCode.setBackgroundResource(R.drawable.shape_fill_red20_line_semantic_status_red500_rect_8)
         binding.ivCodeDelete.setBackgroundResource(R.drawable.ic_onboarding_delete_red)
         binding.tvCodeWarning.text = getString(R.string.onboarding_code_duplicate_msg)
+        binding.tvCodeWarning.setTextColor(Color.parseColor("#F04646"))
     }
 }

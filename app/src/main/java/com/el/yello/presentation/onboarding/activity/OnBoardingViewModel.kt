@@ -30,10 +30,6 @@ class OnBoardingViewModel @Inject constructor(
     private val authRepository: AuthRepository,
 ) : ViewModel() {
 
-
-    fun performExpectedWorkBeforeBackStack(onComplete: () -> Unit) {
-        onComplete.invoke()
-    }
     var currentpercent = 20
     fun plusCurrentPercent() {
         currentpercent += 20

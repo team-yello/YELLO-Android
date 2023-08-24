@@ -44,6 +44,9 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
     private var paySubsDialog: PaySubsDialog? = null
     private var payInAppDialog: PayInAppDialog? = null
 
+    private var isSubscribed = false
+    private var ticketCount = 0
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -56,11 +59,6 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
         observeCheckSubsState()
         observeCheckInAppState()
         observeCheckIsSubscribed()
-    }
-
-    override fun onResume() {
-        super.onResume()
-        viewModel.getPurchaseInfoFromServer()
     }
 
     override fun onDestroy() {
@@ -79,6 +77,7 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
         binding.tvOriginalPrice.paintFlags =
             binding.tvOriginalPrice.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
         viewModel.isFirstCreated = true
+        viewModel.getPurchaseInfoFromServer()
     }
 
     // BillingManager 설정 시 BillingClient 연결 & 콜백 응답 설정 -> 검증 진행
@@ -220,6 +219,7 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
     // 구독 상품 검증 옵저버
     private fun observeCheckSubsState() {
         viewModel.postSubsCheckState.observe(this) { state ->
+            stopLoadingScreen()
             when (state) {
                 is UiState.Success -> {
                     AmplitudeUtils.trackEventWithProperties(
@@ -227,7 +227,7 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
                         JSONObject().put("buy_type", "subscribe").put("buy_price", "3900")
                     )
                     AmplitudeUtils.setUserDataProperties("user_buy_date")
-                    stopLoadingScreen()
+                    isSubscribed = true
                     paySubsDialog = PaySubsDialog()
                     paySubsDialog?.show(supportFragmentManager, DIALOG_SUBS)
                 }
@@ -260,6 +260,7 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
                                 "complete_shop_buy",
                                 JSONObject().put("buy_type", "ticket1").put("buy_price", "1400")
                             )
+                            ticketCount += 1
                         }
 
                         "yello_ticket_two" -> {
@@ -267,6 +268,7 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
                                 "complete_shop_buy",
                                 JSONObject().put("buy_type", "ticket2").put("buy_price", "2800")
                             )
+                            ticketCount += 2
                         }
 
                         "yello_ticket_five" -> {
@@ -274,6 +276,7 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
                                 "complete_shop_buy",
                                 JSONObject().put("buy_type", "ticket5").put("buy_price", "5900")
                             )
+                            ticketCount += 5
                         }
 
                         else -> {
@@ -317,12 +320,10 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
     }
 
     private fun showErrorDialog() {
-        AlertDialog.Builder(this)
-            .setTitle(getString(R.string.pay_error_dialog_title))
+        AlertDialog.Builder(this).setTitle(getString(R.string.pay_error_dialog_title))
             .setMessage(getString(R.string.pay_error_dialog_msg))
             .setPositiveButton(getString(R.string.pay_error_dialog_btn)) { dialog, _ -> dialog.dismiss() }
-            .create()
-            .show()
+            .create().show()
     }
 
     // 구독 여부 확인해서 화면 표시 변경
@@ -332,9 +333,12 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
                 is UiState.Success -> {
                     if (state.data?.isSubscribe == true) {
                         binding.layoutShowSubs.visibility = View.VISIBLE
+                        isSubscribed = true
                     } else {
                         binding.layoutShowSubs.visibility = View.GONE
+                        isSubscribed = false
                     }
+                    ticketCount = state.data?.ticketCount ?: 0
                 }
 
                 is UiState.Failure -> {

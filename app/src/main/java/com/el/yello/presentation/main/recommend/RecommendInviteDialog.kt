@@ -4,6 +4,7 @@ import android.content.ActivityNotFoundException
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
+import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
@@ -16,6 +17,7 @@ import com.el.yello.presentation.main.yello.dialog.UnlockDialogFragment.Companio
 import com.el.yello.util.amplitude.AmplitudeUtils
 import com.el.yello.util.context.yelloSnackbar
 import com.example.ui.base.BindingDialogFragment
+import com.example.ui.fragment.toast
 import com.example.ui.view.setOnSingleClickListener
 import com.kakao.sdk.common.util.KakaoCustomTabsClient
 import com.kakao.sdk.share.ShareClient
@@ -98,6 +100,7 @@ class RecommendInviteDialog :
                 requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
             val clipData = ClipData.newPlainText(CLIP_LABEL, linkText)
             clipboardManager.setPrimaryClip(clipData)
+            if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.S_V2) toast(getString(R.string.invite_clipboard_msg))
         }
     }
 

@@ -9,6 +9,7 @@ import coil.transform.CircleCropTransformation
 import com.el.yello.R
 import com.el.yello.databinding.FragmentProfileItemBottomSheetBinding
 import com.el.yello.presentation.main.profile.ProfileViewModel
+import com.el.yello.presentation.main.profile.ProfileViewModel.Companion.BASIC_THUMBNAIL
 import com.example.ui.base.BindingBottomSheetDialog
 import com.example.ui.view.setOnSingleClickListener
 
@@ -44,8 +45,12 @@ class ProfileFriendItemBottomSheet :
     }
 
     private fun setItemImage() {
-        binding.ivProfileFriendThumbnail.load(viewModel.clickedItemThumbnail.value) {
-            transformations(CircleCropTransformation())
+        if (viewModel.clickedItemThumbnail.value == BASIC_THUMBNAIL) {
+            binding.ivProfileFriendThumbnail.setImageResource(R.drawable.img_yello_basic)
+        } else {
+            binding.ivProfileFriendThumbnail.load(viewModel.clickedItemThumbnail.value) {
+                transformations(CircleCropTransformation())
+            }
         }
     }
 

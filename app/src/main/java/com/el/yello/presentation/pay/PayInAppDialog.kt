@@ -46,6 +46,7 @@ class PayInAppDialog :
     private fun initConfirmBtnListener() {
         binding.btnPayConfirm.setOnSingleClickListener {
             dismiss()
+            (activity as PayActivity).finish()
         }
     }
 

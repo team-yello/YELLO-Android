@@ -11,15 +11,12 @@ import com.el.yello.presentation.onboarding.activity.OnBoardingViewModel
 import com.el.yello.util.amplitude.AmplitudeUtils
 import com.el.yello.util.context.yelloSnackbar
 import com.example.ui.base.BindingFragment
-import com.example.ui.fragment.toast
 import com.example.ui.view.UiState
 import com.example.ui.view.setOnSingleClickListener
 import org.json.JSONObject
 
 class CodeFragment : BindingFragment<FragmentCodeBinding>(R.layout.fragment_code) {
     private val viewModel by activityViewModels<OnBoardingViewModel>()
-    private var backPressedTime: Long = 0
-    val properties = JSONObject()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -29,7 +26,6 @@ class CodeFragment : BindingFragment<FragmentCodeBinding>(R.layout.fragment_code
         setDeleteCodeBtnClickListener()
         setupPostSignupState()
         viewModel.validYellIdLoading()
-        onBackButtonClick()
     }
 
     override fun onResume() {
@@ -40,7 +36,7 @@ class CodeFragment : BindingFragment<FragmentCodeBinding>(R.layout.fragment_code
 
     private fun setConfirmBtnCLickListener() {
         binding.btnCodeSkip.setOnClickListener {
-            AmplitudeUtils.trackEventWithProperties("complete_onboarding_finish", properties)
+            AmplitudeUtils.trackEventWithProperties("complete_onboarding_finish")
             AmplitudeUtils.trackEventWithProperties(
                 "click_onboarding_recommend",
                 JSONObject().put("rec_exist", "pass"),
@@ -49,7 +45,7 @@ class CodeFragment : BindingFragment<FragmentCodeBinding>(R.layout.fragment_code
             viewModel.postSignup()
         }
         binding.btnCodeNext.setOnSingleClickListener {
-            AmplitudeUtils.trackEventWithProperties("complete_onboarding_finish", properties)
+            AmplitudeUtils.trackEventWithProperties("complete_onboarding_finish")
             AmplitudeUtils.trackEventWithProperties(
                 "click_onboarding_recommend",
                 JSONObject().put("rec_exist", "next"),
@@ -112,14 +108,5 @@ class CodeFragment : BindingFragment<FragmentCodeBinding>(R.layout.fragment_code
         binding.etCode.setBackgroundResource(R.drawable.shape_fill_red20_line_semantic_status_red500_rect_8)
         binding.ivCodeDelete.setBackgroundResource(R.drawable.ic_onboarding_delete_red)
         binding.tvCodeWarning.text = getString(R.string.onboarding_code_duplicate_msg)
-    }
-
-    private fun onBackButtonClick() {
-        if (System.currentTimeMillis() - backPressedTime >= 2000) {
-            backPressedTime = System.currentTimeMillis()
-            toast(getString(R.string.main_toast_back_pressed))
-        } else {
-            activity?.finish()
-        }
     }
 }

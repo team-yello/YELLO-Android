@@ -23,7 +23,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:src="@drawable/ic_onboarding_school_yello_bubble"
+            android:src="@drawable/ic_onboarding_yelloid_bubble"
             app:layout_constraintStart_toStartOf="parent"
            app:layout_constraintTop_toTopOf="parent" />
 
@@ -59,7 +59,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="18dp"
             android:background="@{vm.isValidId() ? @drawable/sel_onbarding_editext_focus : @drawable/shape_fill_red20_line_semantic_status_red500_rect_8}"
             android:fontFamily="@font/font_pretendard_medium"
             android:hint="@string/onboarding_et_id"

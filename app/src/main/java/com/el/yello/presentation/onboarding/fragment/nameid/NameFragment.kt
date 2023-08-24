@@ -3,7 +3,6 @@ package com.el.yello.presentation.onboarding.fragment.nameid
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.activityViewModels
-import androidx.navigation.fragment.findNavController
 import com.el.yello.R
 import com.el.yello.databinding.FragmentNameBinding
 import com.el.yello.presentation.onboarding.activity.OnBoardingActivity

@@ -3,6 +3,7 @@ package com.el.yello.presentation.onboarding.activity
 import android.animation.ObjectAnimator
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.animation.LinearInterpolator
 import androidx.activity.viewModels
@@ -28,6 +29,13 @@ class OnBoardingActivity :
         super.onCreate(savedInstanceState)
         getIntentExtraData()
     }
+
+    override fun onBackPressed() {
+        val navController = findNavController(R.id.nav_main_fragment)
+        super.onBackPressed()
+        Log.e("minju2", navController.currentDestination.toString())
+        progressBarMinus()
+    }
     fun onBackButtonClicked(view: View?) {
         val navController = findNavController(R.id.nav_main_fragment)
         val currentDestinationId = navController.currentDestination?.id
@@ -36,10 +44,10 @@ class OnBoardingActivity :
             startActivity(intent)
         } else {
             navController.popBackStack()
+            Log.e("minju", navController.currentDestination.toString())
             progressBarMinus()
         }
     }
-
     private fun getIntentExtraData() {
         intent.apply {
             viewModel.kakaoId = getLongExtra(EXTRA_KAKAO_ID, -1).toString()

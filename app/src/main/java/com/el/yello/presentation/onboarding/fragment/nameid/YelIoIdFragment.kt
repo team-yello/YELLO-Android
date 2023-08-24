@@ -35,9 +35,6 @@ class YelIoIdFragment : BindingFragment<FragmentYelloIdBinding>(R.layout.fragmen
             )
             AmplitudeUtils.updateUserProperties("user_id", viewModel.id)
             viewModel.getValidYelloId(viewModel.id)
-            findNavController().navigate(R.id.action_yelIoIdFragment_to_addFriendFragment)
-            val activity = requireActivity() as OnBoardingActivity
-            activity.progressBarPlus()
         }
     }
 
@@ -55,7 +52,10 @@ class YelIoIdFragment : BindingFragment<FragmentYelloIdBinding>(R.layout.fragmen
                         initIdEditTextViewError()
                         return@observe
                     }
+                    viewModel.resetGetVaildYelloId()
                     findNavController().navigate(R.id.action_yelIoIdFragment_to_addFriendFragment)
+                    val activity = requireActivity() as OnBoardingActivity
+                    activity.progressBarPlus()
                 }
 
                 is UiState.Failure -> {

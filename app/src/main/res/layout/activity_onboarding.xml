@@ -19,8 +19,8 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
             android:background="@null"
-            android:padding="12dp"
             android:onClick="onBackButtonClicked"
+            android:padding="12dp"
             android:src="@drawable/ic_onboarding_btn_back"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

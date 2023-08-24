@@ -34,11 +34,15 @@ class OnBoardingViewModel @Inject constructor(
     fun plusCurrentPercent() {
         currentpercent += 20
     }
+
     fun minusCurrentPercent() {
         currentpercent -= 20
     }
 
     var isFirstUser: Boolean = false
+    fun resetGetVaildYelloId() {
+        _getValidYelloId.value = UiState.Loading
+    }
 
     // 학력 선택
     val studentType = MutableLiveData("")

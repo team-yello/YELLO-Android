@@ -3,11 +3,12 @@ package com.el.yello.presentation.onboarding.activity
 import android.animation.ObjectAnimator
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.animation.LinearInterpolator
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.navigation.findNavController
-import com.amplitude.api.Identify
 import com.el.yello.R
 import com.el.yello.databinding.ActivityOnboardingBinding
 import com.el.yello.presentation.auth.SignInActivity.Companion.EXTRA_EMAIL
@@ -24,14 +25,40 @@ import dagger.hilt.android.AndroidEntryPoint
 class OnBoardingActivity :
     BindingActivity<ActivityOnboardingBinding>(R.layout.activity_onboarding) {
     private val viewModel by viewModels<OnBoardingViewModel>()
-
+    private var backPressedTime: Long = 0
+    private val BACK_PRESSED_INTERVAL = 2000
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         getIntentExtraData()
     }
+
+    // 뒤로 가기
+    override fun onBackPressed() {
+        val navController = findNavController(R.id.nav_main_fragment)
+        val currentDestinationId = navController.currentDestination?.id
+
+        if (currentDestinationId == R.id.universityInfoFragment) {
+            val intent = Intent(this, SocialSyncActivity::class.java)
+            startActivity(intent)
+        } else if (currentDestinationId == R.id.codeFragment) {
+            val currentTime = System.currentTimeMillis()
+            if (currentTime - backPressedTime < BACK_PRESSED_INTERVAL) {
+                finish() // 두 번째 뒤로 가기 누름으로 앱 종료
+            } else {
+                backPressedTime = currentTime
+                Toast.makeText(this, "버튼을 한번 더 누르면 종료됩니다", Toast.LENGTH_SHORT).show()
+            }
+        } else {
+            super.onBackPressed()
+            progressBarMinus()
+        }
+    }
+
+    // backbtn 뒤로 가기 클릭 시
     fun onBackButtonClicked(view: View?) {
         val navController = findNavController(R.id.nav_main_fragment)
         val currentDestinationId = navController.currentDestination?.id
+
         if (currentDestinationId == R.id.universityInfoFragment) {
             val intent = Intent(this, SocialSyncActivity::class.java)
             startActivity(intent)
@@ -74,6 +101,10 @@ class OnBoardingActivity :
 
     fun hideBackbtn() {
         binding.backBtn.visibility = View.INVISIBLE
+    }
+
+    fun showBackbtn() {
+        binding.backBtn.visibility = View.VISIBLE
     }
 
     fun endTutorialActivity() {

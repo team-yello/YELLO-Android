@@ -1,8 +1,8 @@
 package com.el.yello.presentation.onboarding.fragment.code
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.View
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.el.yello.R
@@ -18,7 +18,7 @@ import org.json.JSONObject
 
 class CodeFragment : BindingFragment<FragmentCodeBinding>(R.layout.fragment_code) {
     private val viewModel by activityViewModels<OnBoardingViewModel>()
-    val properties = JSONObject()
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.vm = viewModel
@@ -37,7 +37,7 @@ class CodeFragment : BindingFragment<FragmentCodeBinding>(R.layout.fragment_code
 
     private fun setConfirmBtnCLickListener() {
         binding.btnCodeSkip.setOnClickListener {
-            AmplitudeUtils.trackEventWithProperties("complete_onboarding_finish", properties)
+            AmplitudeUtils.trackEventWithProperties("complete_onboarding_finish")
             AmplitudeUtils.trackEventWithProperties(
                 "click_onboarding_recommend",
                 JSONObject().put("rec_exist", "pass"),
@@ -46,13 +46,14 @@ class CodeFragment : BindingFragment<FragmentCodeBinding>(R.layout.fragment_code
             viewModel.postSignup()
         }
         binding.btnCodeNext.setOnSingleClickListener {
-            AmplitudeUtils.trackEventWithProperties("complete_onboarding_finish", properties)
+            AmplitudeUtils.trackEventWithProperties("complete_onboarding_finish")
             AmplitudeUtils.trackEventWithProperties(
                 "click_onboarding_recommend",
                 JSONObject().put("rec_exist", "next"),
             )
             AmplitudeUtils.updateUserProperties("user_recommend", "yes")
             viewModel.getValidYelloId(viewModel.codeText.value.toString())
+            viewModel.postSignup()
         }
     }
 
@@ -108,9 +109,7 @@ class CodeFragment : BindingFragment<FragmentCodeBinding>(R.layout.fragment_code
     private fun initIdEditTextViewError() {
         binding.etCode.setBackgroundResource(R.drawable.shape_fill_red20_line_semantic_status_red500_rect_8)
         binding.ivCodeDelete.setBackgroundResource(R.drawable.ic_onboarding_delete_red)
-        binding.tvCodeHint.text = getString(R.string.onboarding_code_duplicate_msg)
-        binding.tvCodeHint.setTextColor(ContextCompat.getColor(requireContext(), R.color.semantic_red_500))
-        binding.tvCodeHintPoint.visibility = View.INVISIBLE
-        binding.tvCodeHintEnd.visibility = View.INVISIBLE
+        binding.tvCodeWarning.text = getString(R.string.onboarding_code_duplicate_msg)
+        binding.tvCodeWarning.setTextColor(Color.parseColor("#F04646"))
     }
 }

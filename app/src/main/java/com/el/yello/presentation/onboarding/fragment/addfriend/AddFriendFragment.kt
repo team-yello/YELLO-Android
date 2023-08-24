@@ -40,7 +40,9 @@ class AddFriendFragment : BindingFragment<FragmentAddFriendBinding>(R.layout.fra
         setConfirmBtnClickListener()
         setKakaoRecommendList()
         observeAddListState()
+        (activity as? OnBoardingActivity)?.showBackbtn()
     }
+
     private fun initFriendAdapter() {
         _adapter = AddFriendAdapter { friend, position ->
             friend.isSelected = !friend.isSelected

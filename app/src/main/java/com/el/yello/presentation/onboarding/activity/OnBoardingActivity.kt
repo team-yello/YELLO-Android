@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.view.animation.LinearInterpolator
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.navigation.findNavController
 import com.el.yello.R
@@ -24,7 +25,8 @@ import dagger.hilt.android.AndroidEntryPoint
 class OnBoardingActivity :
     BindingActivity<ActivityOnboardingBinding>(R.layout.activity_onboarding) {
     private val viewModel by viewModels<OnBoardingViewModel>()
-
+    private var backPressedTime: Long = 0
+    private val BACK_PRESSED_INTERVAL = 2000 // 2초
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         getIntentExtraData()
@@ -38,6 +40,14 @@ class OnBoardingActivity :
         if (currentDestinationId == R.id.universityInfoFragment) {
             val intent = Intent(this, SocialSyncActivity::class.java)
             startActivity(intent)
+        } else if (currentDestinationId == R.id.codeFragment) {
+            val currentTime = System.currentTimeMillis()
+            if (currentTime - backPressedTime < BACK_PRESSED_INTERVAL) {
+                finish() // 두 번째 뒤로 가기 누름으로 앱 종료
+            } else {
+                backPressedTime = currentTime
+                Toast.makeText(this, "버튼을 한번 더 누르면 종료됩니다", Toast.LENGTH_SHORT).show()
+            }
         } else {
             super.onBackPressed() // 기본 뒤로 가기 동작 수행
             progressBarMinus()

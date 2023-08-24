@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.View
 import android.view.animation.LinearInterpolator
 import androidx.activity.viewModels
+import androidx.fragment.app.FragmentManager
 import androidx.navigation.findNavController
 import com.el.yello.R
 import com.el.yello.databinding.ActivityOnboardingBinding
@@ -44,6 +45,7 @@ class OnBoardingActivity :
             startActivity(intent)
         } else {
             navController.popBackStack()
+
             Log.e("minju", navController.currentDestination.toString())
             progressBarMinus()
         }

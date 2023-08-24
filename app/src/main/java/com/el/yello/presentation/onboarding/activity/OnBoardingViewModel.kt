@@ -40,8 +40,12 @@ class OnBoardingViewModel @Inject constructor(
     }
 
     var isFirstUser: Boolean = false
-    fun resetGetVaildYelloId(){
+    fun resetGetVaildYelloId() {
         _getValidYelloId.value = UiState.Loading
+    }
+
+    fun resetAddListState() {
+        _friendListState.value = UiState.Loading
     }
 
     // 학력 선택

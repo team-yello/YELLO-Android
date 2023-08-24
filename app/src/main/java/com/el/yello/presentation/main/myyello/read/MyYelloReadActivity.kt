@@ -212,8 +212,9 @@ class MyYelloReadActivity :
         } else if (yello.nameHint == -3) {
             binding.clZeroInitialCheck.isVisible = false
             binding.tvInitialCheck.isVisible = false
+            binding.clSendOpen.isVisible = false
         }
-        binding.tvNameCheckFinish.isVisible = yello.nameHint == -2
+        binding.tvNameCheckFinish.isVisible = yello.nameHint == -2 || yello.nameHint == -3
 
         if (yello.nameHint != -3) {
             AmplitudeUtils.trackEventWithProperties("view_open_message")

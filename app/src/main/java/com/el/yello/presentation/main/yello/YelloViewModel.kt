@@ -17,17 +17,17 @@ import com.example.ui.view.UiState.Empty
 import com.example.ui.view.UiState.Failure
 import com.example.ui.view.UiState.Success
 import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import timber.log.Timber
+import javax.inject.Inject
 
 @HiltViewModel
 class YelloViewModel @Inject constructor(
     private val voteRepository: VoteRepository,
     private val authRepository: AuthRepository,
-    private val payRepository: PayRepository
+    private val payRepository: PayRepository,
 ) : ViewModel() {
     private val _yelloState = MutableLiveData<UiState<YelloState>>()
     val yelloState: LiveData<UiState<YelloState>>

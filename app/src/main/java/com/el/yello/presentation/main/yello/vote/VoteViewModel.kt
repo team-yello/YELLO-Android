@@ -17,11 +17,11 @@ import com.example.ui.view.UiState
 import com.example.ui.view.UiState.Empty
 import com.example.ui.view.UiState.Success
 import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import timber.log.Timber
+import javax.inject.Inject
 
 @HiltViewModel
 class VoteViewModel @Inject constructor(
@@ -258,12 +258,15 @@ class VoteViewModel @Inject constructor(
             return
         }
         totalListCount = vote.questionList.size - 1
-        _voteState.value = Success(vote.questionList)
         _voteList.value = vote.questionList
+        _voteState.value = Success(vote.questionList)
         _choiceList.value = vote.choiceList
         _totalPoint.value = vote.totalPoint
-        _currentNoteIndex.value = vote.currentIndex
         initCurrentChoice()
+        viewModelScope.launch {
+            delay(100L)
+            _currentNoteIndex.value = vote.currentIndex
+        }
     }
 
     private fun isOptionSelected() =

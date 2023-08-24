@@ -44,6 +44,9 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
     private var paySubsDialog: PaySubsDialog? = null
     private var payInAppDialog: PayInAppDialog? = null
 
+    private var isSubscribed = false
+    private var ticketCount = 0
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -224,6 +227,7 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
                         JSONObject().put("buy_type", "subscribe").put("buy_price", "3900")
                     )
                     AmplitudeUtils.setUserDataProperties("user_buy_date")
+                    isSubscribed = true
                     paySubsDialog = PaySubsDialog()
                     paySubsDialog?.show(supportFragmentManager, DIALOG_SUBS)
                 }
@@ -256,6 +260,7 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
                                 "complete_shop_buy",
                                 JSONObject().put("buy_type", "ticket1").put("buy_price", "1400")
                             )
+                            ticketCount += 1
                         }
 
                         "yello_ticket_two" -> {
@@ -263,6 +268,7 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
                                 "complete_shop_buy",
                                 JSONObject().put("buy_type", "ticket2").put("buy_price", "2800")
                             )
+                            ticketCount += 2
                         }
 
                         "yello_ticket_five" -> {
@@ -270,6 +276,7 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
                                 "complete_shop_buy",
                                 JSONObject().put("buy_type", "ticket5").put("buy_price", "5900")
                             )
+                            ticketCount += 5
                         }
 
                         else -> {
@@ -326,9 +333,12 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
                 is UiState.Success -> {
                     if (state.data?.isSubscribe == true) {
                         binding.layoutShowSubs.visibility = View.VISIBLE
+                        isSubscribed = true
                     } else {
                         binding.layoutShowSubs.visibility = View.GONE
+                        isSubscribed = false
                     }
+                    ticketCount = state.data?.ticketCount ?: 0
                 }
 
                 is UiState.Failure -> {

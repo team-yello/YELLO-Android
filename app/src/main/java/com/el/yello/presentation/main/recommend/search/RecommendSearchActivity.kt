@@ -68,6 +68,7 @@ class RecommendSearchActivity :
         )
     }
 
+    // 처음 들어왔을 때 키보드 올라오도록 설정 (개인정보보호옵션 켜진 경우 불가능)
     private fun initFocusToEditText() {
         binding.etRecommendSearchBox.requestFocus()
         val inputMethodManager =
@@ -84,6 +85,7 @@ class RecommendSearchActivity :
         }
     }
 
+    // 텍스트 변경 감지 시 로딩 화면 출력
     private fun setLoadingScreen() {
         binding.etRecommendSearchBox.doOnTextChanged { _, _, _, _ ->
             showLoadingScreen()
@@ -92,13 +94,14 @@ class RecommendSearchActivity :
         }
     }
 
+    // 0.5초 뒤 검색 서버통신 진행
     private fun setDebounceSearch() {
         binding.etRecommendSearchBox.doAfterTextChanged { text ->
+            searchJob?.cancel()
             if (text.isNullOrBlank()) {
                 showNoFriendScreen()
                 binding.layoutRecommendNoSearch.visibility = View.GONE
             } else {
-                searchJob?.cancel()
                 searchJob = viewModel.viewModelScope.launch {
                     delay(debounceTime)
                     text.toString().let { text ->

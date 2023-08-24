@@ -65,7 +65,6 @@ class OnBoardingActivity :
         } else {
             navController.popBackStack()
             progressBarMinus()
-            Log.e("minju", navController.currentDestination.toString())
         }
     }
 

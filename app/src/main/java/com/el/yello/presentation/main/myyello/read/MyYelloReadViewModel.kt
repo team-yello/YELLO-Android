@@ -1,6 +1,5 @@
 package com.el.yello.presentation.main.myyello.read
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.el.yello.util.amplitude.AmplitudeUtils

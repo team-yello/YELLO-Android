@@ -11,6 +11,7 @@ import com.example.ui.context.toast
 import com.example.ui.transformation.FadeOutTransformation
 import com.example.ui.view.UiState
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 
 @AndroidEntryPoint
 class VoteActivity : BindingActivity<ActivityVoteBinding>(R.layout.activity_vote) {
@@ -28,9 +29,9 @@ class VoteActivity : BindingActivity<ActivityVoteBinding>(R.layout.activity_vote
         super.onCreate(savedInstanceState)
         binding.vm = viewModel
 
-        setupVoteState()
         setupCurrentNoteIndex()
         setupPostVoteState()
+        setupVoteState()
     }
 
     private fun setupVoteState() {

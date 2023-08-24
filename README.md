@@ -7,10 +7,10 @@
 <br>
 
 ## CONTRIBUTORS
-| 이강민<br/>([@kkk5474096](https://github.com/kkk5474096)) | 전채연<br/>([@b1urrrr](https://github.com/b1urrrr)) | 김상호<br/>([@Marchbreeze](https://github.com/Marchbreeze)) | 박민주<br/>([@minju1459](https://github.com/minju1459)) |
-| :---: | :---: | :---: | :---: |
+|                                   이강민<br/>([@kkk5474096](https://github.com/kkk5474096))                                    |                                      전채연<br/>([@b1urrrr](https://github.com/b1urrrr))                                       |                                  김상호<br/>([@Marchbreeze](https://github.com/Marchbreeze))                                   |                                    박민주<br/>([@minju1459](https://github.com/minju1459))                                     |
+|:---------------------------------------------------------------------------------------------------------------------------:|:---------------------------------------------------------------------------------------------------------------------------:|:---------------------------------------------------------------------------------------------------------------------------:|:---------------------------------------------------------------------------------------------------------------------------:|
 | <img width="200px" src="https://github.com/team-yello/YELLO-Android/assets/76741702/d197584e-394c-415c-a86a-0d7515315c02"/> | <img width="200px" src="https://github.com/team-yello/YELLO-Android/assets/76741702/120c0877-a84b-40d9-8185-78aa03d866b8"/> | <img width="200px" src="https://github.com/team-yello/YELLO-Android/assets/76741702/c42f8a50-3d29-4c1f-bcad-7f2a2ce4f8b1"/> | <img width="200px" src="https://github.com/team-yello/YELLO-Android/assets/76741702/8c36ce54-4803-4c4f-b318-6887953e54a6"/> |
-| `내 옐로`<br/>`친구들 옐로` | `투표` | `내 프로필`<br/>`추천 친구` | `온보딩` |
+|                                                      `내 쪽지`<br/>`푸시알림`                                                      |                                                         `투표(옐로하기)`                                                          |                                          `프로필`<br/>`추천친구` <br/>`타임라인` <br/>`인앱결제`                                           |                                                      `온보딩` <br/>`튜토리얼`                                                      |
 <br>
 
 ## TECH STACK
@@ -18,9 +18,23 @@
 - Multi-Module
 - Hilt
 - Coroutine
+- Paging3
 - Data Binding
+- Timber,  Coil,  Lottie,  Shimmer
+- Firebase Cloud Messaging
 - Kakao Open API
-- Coil
+- Google Play Billing API (in-app purchases API)
+<br>
+
+## SCREENSHOTS
+|       뷰       |                                                              1                                                              |                                                              2                                                              |                                                              3                                                              |                                                              4                                                              |
+|:-------------:|:---------------------------------------------------------------------------------------------------------------------------:|:---------------------------------------------------------------------------------------------------------------------------:|:---------------------------------------------------------------------------------------------------------------------------:|:---------------------------------------------------------------------------------------------------------------------------:|
+| 스플래쉬 <br> 로그인 | <img width="200px" src="https://github.com/team-yello/YELLO-Android/assets/97405341/ce2916a1-d2ac-4d6e-9d83-01bf1d6a287d"/> | <img width="200px" src="https://github.com/team-yello/YELLO-Android/assets/97405341/b3e9cfb5-c9e3-473e-acbd-f9a17234887b"/> |                                                                                                                             |                                                                                                                             |
+| 온보딩 <br> 튜토리얼 | <img width="200px" src="https://github.com/team-yello/YELLO-Android/assets/97405341/68b6b390-4a98-4372-8cab-524df53a97d6"/> | <img width="200px" src="https://github.com/team-yello/YELLO-Android/assets/97405341/4492a57b-e536-4fb0-b6f0-c6c653ef7588"/> | <img width="200px" src="https://github.com/team-yello/YELLO-Android/assets/97405341/8c70cef1-887d-45a1-8dd4-3f6646df687e"/> | <img width="200px" src="https://github.com/team-yello/YELLO-Android/assets/97405341/9cacf1be-f920-4976-b2da-24a8e33eba7f"/> |
+|   투표 (옐로하기)   | <img width="200px" src="https://github.com/team-yello/YELLO-Android/assets/97405341/bf2a6b53-53f2-4e48-8ad2-fdb8faf569c5"/> | <img width="200px" src="https://github.com/team-yello/YELLO-Android/assets/97405341/e1b0395a-44c2-4563-ba91-a2a037939595"/> | <img width="200px" src="https://github.com/team-yello/YELLO-Android/assets/97405341/04c43634-ccf0-4e62-b61a-e98eefa61d84"/> | <img width="200px" src="https://github.com/team-yello/YELLO-Android/assets/97405341/72be3901-8736-4d9d-b482-474d755fe6b4"/> |
+| 내 쪽지 <br> 결제  | <img width="200px" src="https://github.com/team-yello/YELLO-Android/assets/97405341/6680eb1a-24ab-4fcd-978d-7edfe85ef7eb"/> | <img width="200px" src="https://github.com/team-yello/YELLO-Android/assets/97405341/dbea7358-719b-4655-a82b-5de967ada176"/> | <img width="200px" src="https://github.com/team-yello/YELLO-Android/assets/97405341/437553f5-646d-402a-add5-0d8d795b2bdd"/> | <img width="200px" src="https://github.com/team-yello/YELLO-Android/assets/97405341/cbd01fed-2ced-4547-b599-6ec97447c0dc"/> |
+|     추천친구      | <img width="200px" src="https://github.com/team-yello/YELLO-Android/assets/97405341/8a45cfc7-b04b-4a46-8be7-c4a7979413a4"/> | <img width="200px" src="https://github.com/team-yello/YELLO-Android/assets/97405341/28e16d1c-9faa-48ed-a1f4-efbc367ee891"/> | <img width="200px" src="https://github.com/team-yello/YELLO-Android/assets/97405341/215c0e3e-f8da-4771-ac29-b8bcd5728bc6"/> | <img width="200px" src="https://github.com/team-yello/YELLO-Android/assets/97405341/2627ecb0-4325-4cbc-91be-e5b799557ef0"/> |
+| 타임라인 <br> 프로필 | <img width="200px" src="https://github.com/team-yello/YELLO-Android/assets/97405341/2aaf58fb-1f65-4fb0-a3c8-5fc6b18ef20e"/> | <img width="200px" src="https://github.com/team-yello/YELLO-Android/assets/97405341/23b73f80-df55-405f-963a-1d9f61771d57"/> | <img width="200px" src="https://github.com/team-yello/YELLO-Android/assets/97405341/723f372d-1431-4b75-8c80-b63664a4176c"/> | <img width="200px" src="https://github.com/team-yello/YELLO-Android/assets/97405341/de797eef-6aab-4c5a-9e50-a6adabb014f2"/> |
 <br>
 
 ## COMMON TYPE
@@ -95,8 +109,3 @@
  ┣ 📂repository
 ```
 <br>
-
-## SCREENSHOTS
-| 온보딩 | 옐로하기 | 내 옐로 | 프로필 |
-| :---: | :---: | :---: | :---: |
-| <img width="200px" src="https://github.com/team-yello/YELLO-Android/assets/70993562/9f751926-4d30-4b04-bd6a-9e29bd605ff1"/> | <img width="200px" src="https://github.com/team-yello/YELLO-Android/assets/70993562/44ad9dd6-2831-453f-8c20-7c80c1640e0f"/> | <img width="200px" src="https://github.com/team-yello/YELLO-Android/assets/70993562/03627c42-90b4-470a-b905-a0603aa0a9cf"/> | <img width="200px" src="https://github.com/team-yello/YELLO-Android/assets/70993562/971d7dc2-6752-42c2-91e4-ed54cc20d4f9"/> |

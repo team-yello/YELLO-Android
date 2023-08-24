@@ -22,7 +22,7 @@
     <fragment
         android:id="@+id/addFriendFragment"
         android:name="com.el.yello.presentation.onboarding.fragment.addfriend.AddFriendFragment"
-        android:label="AddFriendFragment" >
+        android:label="AddFriendFragment">
         <action
             android:id="@+id/action_addFriendFragment_to_codeFragment"
             app:destination="@id/codeFragment" />
@@ -38,5 +38,7 @@
     <fragment
         android:id="@+id/startAppFragment"
         android:name="com.el.yello.presentation.onboarding.fragment.startapp.StartAppFragment"
-        android:label="StartAppFragment" />
+        android:label="StartAppFragment"
+        app:popUpTo="@id/codeFragment"
+        app:popUpToInclusive="true" />
 </navigation>

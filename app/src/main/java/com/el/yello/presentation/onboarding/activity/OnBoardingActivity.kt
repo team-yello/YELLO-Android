@@ -7,7 +7,6 @@ import android.util.Log
 import android.view.View
 import android.view.animation.LinearInterpolator
 import androidx.activity.viewModels
-import androidx.fragment.app.FragmentManager
 import androidx.navigation.findNavController
 import com.el.yello.R
 import com.el.yello.databinding.ActivityOnboardingBinding
@@ -31,25 +30,36 @@ class OnBoardingActivity :
         getIntentExtraData()
     }
 
+    // 뒤로 가기
     override fun onBackPressed() {
         val navController = findNavController(R.id.nav_main_fragment)
-        super.onBackPressed()
-        Log.e("minju2", navController.currentDestination.toString())
-        progressBarMinus()
+        val currentDestinationId = navController.currentDestination?.id
+
+        if (currentDestinationId == R.id.universityInfoFragment) {
+            val intent = Intent(this, SocialSyncActivity::class.java)
+            startActivity(intent)
+        } else {
+            super.onBackPressed() // 기본 뒤로 가기 동작 수행
+            progressBarMinus()
+            Log.e("minju2", navController.currentDestination.toString())
+        }
     }
+
+    // backbtn 뒤로 가기 클릭 시
     fun onBackButtonClicked(view: View?) {
         val navController = findNavController(R.id.nav_main_fragment)
         val currentDestinationId = navController.currentDestination?.id
+
         if (currentDestinationId == R.id.universityInfoFragment) {
             val intent = Intent(this, SocialSyncActivity::class.java)
             startActivity(intent)
         } else {
             navController.popBackStack()
-
-            Log.e("minju", navController.currentDestination.toString())
             progressBarMinus()
+            Log.e("minju", navController.currentDestination.toString())
         }
     }
+
     private fun getIntentExtraData() {
         intent.apply {
             viewModel.kakaoId = getLongExtra(EXTRA_KAKAO_ID, -1).toString()
@@ -83,6 +93,10 @@ class OnBoardingActivity :
 
     fun hideBackbtn() {
         binding.backBtn.visibility = View.INVISIBLE
+    }
+
+    fun showBackbtn() {
+        binding.backBtn.visibility = View.VISIBLE
     }
 
     fun endTutorialActivity() {

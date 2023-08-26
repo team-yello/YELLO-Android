@@ -72,7 +72,6 @@ class AddFriendFragment : BindingFragment<FragmentAddFriendBinding>(R.layout.fra
 
     // 서버 통신 성공 시 카카오 추천 친구 추가
     private fun setKakaoRecommendList() {
-        adapter.submitList(listOf())
         setListWithInfinityScroll()
         viewModel.initFriendPagingVariable()
         viewModel.addListWithKakaoIdList()

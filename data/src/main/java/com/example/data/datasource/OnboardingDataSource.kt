@@ -16,14 +16,14 @@ interface OnboardingDataSource {
     ): BaseResponse<ResponseServiceTokenDto>
 
     suspend fun getSchoolNameData(
-        search: String,
         page: Int,
+        search: String,
     ): BaseResponse<ResponseSchoolDto>
 
     suspend fun getDepartmentNameData(
+        page: Int,
         school: String,
         search: String,
-        page: Int,
     ): BaseResponse<ResponseDepartmentDto>
 
     suspend fun getValidYelloId(

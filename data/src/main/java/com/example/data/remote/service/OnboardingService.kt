@@ -1,8 +1,8 @@
 package com.example.data.remote.service
 
+import com.example.data.model.request.onboarding.RequestAddFriendDto
 import com.example.data.model.request.onboarding.RequestPostSignupDto
 import com.example.data.model.request.onboarding.RequestServiceTokenDto
-import com.example.data.model.request.onboarding.RequestAddFriendDto
 import com.example.data.model.response.BaseResponse
 import com.example.data.model.response.onboarding.ResponseDepartmentDto
 import com.example.data.model.response.onboarding.ResponseFriendListDto
@@ -20,17 +20,17 @@ interface OnboardingService {
         @Body request: RequestServiceTokenDto,
     ): BaseResponse<ResponseServiceTokenDto>
 
-    @GET("api/v1/auth/school/school")
+    @GET("api/v1/auth/school")
     suspend fun getSchoolSearchService(
-        @Query("search") search: String,
         @Query("page") page: Int,
+        @Query("keyword") keyword: String,
     ): BaseResponse<ResponseSchoolDto>
 
     @GET("api/v1/auth/school/department")
     suspend fun getDepartmentSearchService(
-        @Query("school") school: String,
-        @Query("search") search: String,
         @Query("page") page: Int,
+        @Query("school") school: String,
+        @Query("keyword") keyword: String,
     ): BaseResponse<ResponseDepartmentDto>
 
     @GET("api/v1/auth/valid")

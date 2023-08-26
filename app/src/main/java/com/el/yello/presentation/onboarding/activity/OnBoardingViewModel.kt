@@ -180,8 +180,8 @@ class OnBoardingViewModel @Inject constructor(
         viewModelScope.launch {
             _schoolData.value = UiState.Loading
             onboardingRepository.getSchoolList(
-                search,
                 0,
+                search,
                 // ++schoolPage,
             ).onSuccess { schoolList ->
                 Timber.d("GET SCHOOL LIST SUCCESS : $schoolList")
@@ -210,9 +210,9 @@ class OnBoardingViewModel @Inject constructor(
         viewModelScope.launch {
             _departmentData.value = UiState.Loading
             onboardingRepository.getGroupList(
+                0,
                 school,
                 search,
-                0,
                 // ++departmentPage,
             ).onSuccess { groupList ->
                 if (groupList == null) {

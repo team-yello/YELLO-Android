@@ -3,6 +3,7 @@ package com.el.yello.presentation.main.myyello
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.el.yello.R
@@ -56,8 +57,10 @@ class MyYelloAdapter(private val itemClick: (Yello, Int) -> (Unit)) :
             binding.data = item
             binding.ivReadYelloPoint.isVisible = !item.isRead
             binding.tvTime.text = item.createdAt
-            binding.clSendCheck.isVisible = item.isHintUsed && item.isRead
-            binding.tvGender.isVisible = !item.isHintUsed || !item.isRead
+            binding.clSendCheck.isVisible = (item.isHintUsed || item.nameHint != -1) && item.isRead
+            binding.clMiddle.isGone = !item.isHintUsed && (item.nameHint == -2 || item.nameHint == -3) && item.isRead
+            binding.clBottom.isGone = !item.isHintUsed && (item.nameHint == -2 || item.nameHint == -3) && item.isRead
+            binding.tvGender.isVisible = (!item.isHintUsed && item.nameHint == -1) || !item.isRead
             binding.cardMyYello.setCardBackgroundColor(
                 ContextCompat.getColor(
                     itemView.context,
@@ -66,7 +69,7 @@ class MyYelloAdapter(private val itemClick: (Yello, Int) -> (Unit)) :
             )
             binding.tvTime.setTextColor(ContextCompat.getColor(itemView.context, R.color.grayscales_600))
             if (item.gender == GenderEnum.M) {
-                if (item.isHintUsed) {
+                if ((item.isHintUsed || item.nameHint != -1) && item.isRead) {
                     binding.cardMyYello.setCardBackgroundColor(
                         ContextCompat.getColor(
                             itemView.context,
@@ -87,7 +90,7 @@ class MyYelloAdapter(private val itemClick: (Yello, Int) -> (Unit)) :
                 )
                 binding.tvGender.text = "남학생이 보냄"
             } else {
-                if (item.isHintUsed) {
+                if ((item.isHintUsed || item.nameHint != -1) && item.isRead) {
                     binding.cardMyYello.setCardBackgroundColor(
                         ContextCompat.getColor(
                             itemView.context,
@@ -117,10 +120,11 @@ class MyYelloAdapter(private val itemClick: (Yello, Int) -> (Unit)) :
                 binding.tvKeywordFoot.text = item.vote.keywordFoot
                 if (item.nameHint >= 0) {
                     binding.tvSendName.text = Utils.setChosungText(item.senderName, item.nameHint)
-                } else if(item.nameHint == -2 || item.nameHint == -3) {
-                    binding.tvSendName.text = item.senderName
                 }
                 binding.clSendName.isVisible = item.nameHint != -1
+            }
+            if(item.nameHint == -2 || item.nameHint == -3) {
+                binding.tvSendName.text = item.senderName
             }
 
             binding.root.setOnSingleClickListener {

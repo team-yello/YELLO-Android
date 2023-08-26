@@ -94,84 +94,93 @@
                         app:layout_constraintTop_toTopOf="parent" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <TextView
-                    android:id="@+id/tv_name_head"
-                    setNullOrBlankVisible="@{data.vote.nameHead}"
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/cl_middle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
-                    android:textAppearance="@style/TextAppearance.Yello.BodySmall"
-                    android:textColor="@color/white"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/cl_send_name"
-                    app:layout_goneMarginTop="0dp"
-                    tools:text="술자리에서" />
+                    app:layout_goneMarginTop="0dp">
 
-                <TextView
-                    android:id="@+id/tv_name_middle"
+                    <TextView
+                        android:id="@+id/tv_name_head"
+                        setNullOrBlankVisible="@{data.vote.nameHead}"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="@style/TextAppearance.Yello.BodySmall"
+                        android:textColor="@color/white"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:text="술자리에서" />
+
+                    <TextView
+                        android:id="@+id/tv_name_middle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="4dp"
+                        android:text="@string/my_yello_you"
+                        android:textAppearance="@style/TextAppearance.Yello.BodySmall"
+                        android:textColor="@color/white"
+                        app:layout_constraintStart_toEndOf="@id/tv_name_head"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_goneMarginStart="0dp" />
+
+                    <TextView
+                        android:id="@+id/tv_name_foot"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="@style/TextAppearance.Yello.BodySmall"
+                        android:textColor="@color/white"
+                        app:layout_constraintStart_toEndOf="@id/tv_name_middle"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:text="가" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/cl_bottom"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="4dp"
                     android:layout_marginTop="4dp"
-                    android:text="@string/my_yello_you"
-                    android:textAppearance="@style/TextAppearance.Yello.BodySmall"
-                    android:textColor="@color/white"
-                    app:layout_constraintStart_toEndOf="@id/tv_name_head"
-                    app:layout_constraintTop_toBottomOf="@id/cl_send_name"
-                    app:layout_goneMarginStart="0dp"
-                    app:layout_goneMarginTop="0dp" />
-
-                <TextView
-                    android:id="@+id/tv_name_foot"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:textAppearance="@style/TextAppearance.Yello.BodySmall"
-                    android:textColor="@color/white"
-                    app:layout_constraintStart_toEndOf="@id/tv_name_middle"
-                    app:layout_constraintTop_toBottomOf="@id/cl_send_name"
-                    app:layout_goneMarginTop="0dp"
-                    tools:text="가" />
-
-                <TextView
-                    android:id="@+id/tv_keyword_head"
-                    setNullOrBlankVisible="@{data.vote.keywordHead}"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:textAppearance="@style/TextAppearance.Yello.BodySmall"
-                    android:textColor="@color/white"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tv_name_middle"
-                    tools:text="사라진다면" />
+                    app:layout_constraintTop_toBottomOf="@id/cl_middle">
 
-                <TextView
-                    android:id="@+id/tv_keyword"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="4dp"
-                    android:layout_marginTop="4dp"
-                    android:textAppearance="@style/TextAppearance.Yello.BodySmall"
-                    android:textColor="@color/white"
-                    app:layout_constraintStart_toEndOf="@id/tv_keyword_head"
-                    app:layout_constraintTop_toBottomOf="@id/tv_name_middle"
-                    app:layout_goneMarginStart="0dp"
-                    tools:text="달빛산책 간거" />
+                    <TextView
+                        android:id="@+id/tv_keyword_head"
+                        setNullOrBlankVisible="@{data.vote.keywordHead}"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="@style/TextAppearance.Yello.BodySmall"
+                        android:textColor="@color/white"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:text="사라진다면" />
 
-                <TextView
-                    android:id="@+id/tv_keyword_foot"
-                    setNullOrBlankVisible="@{data.vote.keywordFoot}"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="4dp"
-                    android:layout_marginTop="4dp"
-                    android:text="(이)야"
-                    android:textAppearance="@style/TextAppearance.Yello.BodySmall"
-                    android:textColor="@color/white"
-                    app:layout_constraintStart_toEndOf="@id/tv_keyword"
-                    app:layout_constraintTop_toBottomOf="@id/tv_name_middle"
-                    app:layout_goneMarginStart="0dp" />
+                    <TextView
+                        android:id="@+id/tv_keyword"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="4dp"
+                        android:textAppearance="@style/TextAppearance.Yello.BodySmall"
+                        android:textColor="@color/white"
+                        app:layout_constraintStart_toEndOf="@id/tv_keyword_head"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_goneMarginStart="0dp"
+                        tools:text="달빛산책 간거" />
 
+                    <TextView
+                        android:id="@+id/tv_keyword_foot"
+                        setNullOrBlankVisible="@{data.vote.keywordFoot}"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="4dp"
+                        android:text="(이)야"
+                        android:textAppearance="@style/TextAppearance.Yello.BodySmall"
+                        android:textColor="@color/white"
+                        app:layout_constraintStart_toEndOf="@id/tv_keyword"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_goneMarginStart="0dp" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <TextView

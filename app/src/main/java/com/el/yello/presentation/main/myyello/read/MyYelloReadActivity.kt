@@ -161,13 +161,12 @@ class MyYelloReadActivity :
                 PointEnum.SUBSCRIBE.ordinal
             ).show(supportFragmentManager, "dialog")
         }
-
-
     }
 
     private fun observe() {
         viewModel.yelloDetailData.flowWithLifecycle(lifecycle)
             .onEach {
+                binding.uiState = it.getUiStateModel()
                 when (it) {
                     is UiState.Success -> {
                         binding.data = it.data

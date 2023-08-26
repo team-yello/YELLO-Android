@@ -24,25 +24,25 @@ class OnboardingRepositoryImpl @Inject constructor(
         ).data?.toServiceTokenModel()
     }
 
-    override suspend fun getSchoolList(search: String, page: Int): Result<SchoolList?> {
+    override suspend fun getSchoolList(page: Int, search: String): Result<SchoolList?> {
         return runCatching {
             onboardingDataSource.getSchoolNameData(
-                search,
                 page,
+                search,
             ).data?.toMySchool()
         }
     }
 
     override suspend fun getGroupList(
+        page: Int,
         school: String,
         search: String,
-        page: Int,
     ): Result<GroupList?> {
         return runCatching {
             onboardingDataSource.getDepartmentNameData(
+                page,
                 school,
                 search,
-                page,
             ).data?.toMyDepartment()
         }
     }

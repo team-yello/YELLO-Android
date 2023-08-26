@@ -15,14 +15,14 @@ interface OnboardingRepository {
     ): ServiceTokenModel?
 
     suspend fun getSchoolList(
-        search: String,
         page: Int,
+        search: String,
     ): Result<SchoolList?>
 
     suspend fun getGroupList(
+        page: Int,
         school: String,
         search: String,
-        page: Int,
     ): Result<GroupList?>
 
     suspend fun getValidYelloId(

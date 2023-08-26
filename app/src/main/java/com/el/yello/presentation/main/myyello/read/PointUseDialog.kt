@@ -49,7 +49,7 @@ class PointUseDialog : BindingDialogFragment<DialogPointUseBinding>(R.layout.dia
                 binding.tvTitle.text = getString(R.string.dialog_get_keyword_question)
                 binding.tvOk.text = getString(R.string.dialog_get_keyword)
             } else {
-                binding.tvTitle.text = getString(R.string.dialog_get_keyword_free_question)
+                binding.tvTitle.text = getString(R.string.dialog_get_initial_free_question)
                 binding.tvOk.text = getString(R.string.dialog_get_initial)
             }
         }

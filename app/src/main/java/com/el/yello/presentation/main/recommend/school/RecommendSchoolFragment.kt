@@ -18,7 +18,7 @@ import com.el.yello.presentation.main.recommend.list.RecommendItemDecoration
 import com.el.yello.presentation.main.recommend.list.RecommendViewHolder
 import com.el.yello.util.amplitude.AmplitudeUtils
 import com.el.yello.util.context.yelloSnackbar
-import com.example.domain.entity.RecommendModel
+import com.example.domain.entity.RecommendModel.RecommendFriend
 import com.example.ui.base.BindingFragment
 import com.example.ui.view.UiState
 import com.example.ui.view.setOnSingleClickListener
@@ -40,7 +40,7 @@ class RecommendSchoolFragment :
     private var recommendInviteYesFriendDialog: RecommendInviteDialog? = null
     private var recommendInviteNoFriendDialog: RecommendInviteDialog? = null
 
-    private lateinit var friendsList: List<RecommendModel.RecommendFriend>
+    private lateinit var friendsList: List<RecommendFriend>
 
     private lateinit var itemDivider: RecommendItemDecoration
 
@@ -86,7 +86,7 @@ class RecommendSchoolFragment :
         }
 
         binding.btnRecommendNoFriend.setOnSingleClickListener {
-            recommendInviteYesFriendDialog =
+            recommendInviteNoFriendDialog =
                 RecommendInviteDialog.newInstance(viewModel.getYelloId(), SCHOOL_NO_FRIEND)
             AmplitudeUtils.trackEventWithProperties(
                 "click_invite",

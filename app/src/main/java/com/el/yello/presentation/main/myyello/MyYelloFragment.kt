@@ -29,9 +29,11 @@ import org.json.JSONObject
 
 @AndroidEntryPoint
 class MyYelloFragment : BindingFragment<FragmentMyYelloBinding>(R.layout.fragment_my_yello) {
+
     private val viewModel by viewModels<MyYelloViewModel>()
     private var adapter: MyYelloAdapter? = null
     private var isScrolled: Boolean = false
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         AmplitudeUtils.trackEventWithProperties("view_all_messages")
@@ -72,7 +74,10 @@ class MyYelloFragment : BindingFragment<FragmentMyYelloBinding>(R.layout.fragmen
 
     private fun initEvent() {
         binding.btnSendCheck.setOnSingleClickListener {
-            AmplitudeUtils.trackEventWithProperties("click_go_shop", JSONObject().put("shop_button","cta_main"))
+            AmplitudeUtils.trackEventWithProperties(
+                "click_go_shop",
+                JSONObject().put("shop_button", "cta_main")
+            )
             Intent(requireContext(), PayActivity::class.java).apply {
                 startActivity(this)
             }
@@ -83,7 +88,10 @@ class MyYelloFragment : BindingFragment<FragmentMyYelloBinding>(R.layout.fragmen
         }
 
         binding.btnShop.setOnSingleClickListener {
-            AmplitudeUtils.trackEventWithProperties("click_go_shop", JSONObject().put("shop_button","message_shop"))
+            AmplitudeUtils.trackEventWithProperties(
+                "click_go_shop",
+                JSONObject().put("shop_button", "message_shop")
+            )
             goToPayActivity()
         }
     }
@@ -151,6 +159,7 @@ class MyYelloFragment : BindingFragment<FragmentMyYelloBinding>(R.layout.fragmen
                     }
                 }
             }
+
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
                 if (newState == RecyclerView.SCROLL_STATE_IDLE && !isScrolled) {

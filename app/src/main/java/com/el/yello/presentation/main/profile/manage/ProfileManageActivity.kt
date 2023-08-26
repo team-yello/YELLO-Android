@@ -119,7 +119,7 @@ class ProfileManageActivity :
 
     companion object {
         const val CUSTOMER_CENTER_URL =
-            "https://yell0.notion.site/YELLO-34028220a873416b91d5d2f1cd827432?pvs=4"
+            "http://pf.kakao.com/_pcFzG/chat"
         const val PRIVACY_URL =
             "https://yell0.notion.site/97f57eaed6c749bbb134c7e8dc81ab3f"
         const val SERVICE_URL =

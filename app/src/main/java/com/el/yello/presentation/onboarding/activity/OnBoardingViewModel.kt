@@ -162,6 +162,7 @@ class OnBoardingViewModel @Inject constructor(
     private var isFirstFriendsListPage: Boolean = true
 
     fun initFriendPagingVariable() {
+        selectedFriendCount.value = 0
         isFirstFriendsListPage = true
         currentFriendOffset = -100
         currentFriendPage = -1

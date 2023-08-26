@@ -323,4 +323,6 @@
 
     <string name="splash_update_error">업데이트가 취소되었습니다.</string>
 
+    <string name="invite_clipboard_msg">클립보드에 복사되었어요.</string>
+
 </resources>

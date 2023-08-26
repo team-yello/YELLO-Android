@@ -2,7 +2,6 @@ package com.el.yello.presentation.tutorial
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.activity.viewModels
 import com.el.yello.R
 import com.el.yello.databinding.ActivityTutorialCBinding
 import com.el.yello.util.amplitude.AmplitudeUtils

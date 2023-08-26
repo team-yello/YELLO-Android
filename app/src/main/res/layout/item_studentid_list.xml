@@ -24,6 +24,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
+            android:background="@drawable/sel_onboarding_studentid"
             android:paddingVertical="8dp"
             android:text="@{@string/onboarding_student_id(studentId)}"
             android:textAlignment="center"

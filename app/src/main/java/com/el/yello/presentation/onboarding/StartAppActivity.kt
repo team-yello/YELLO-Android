@@ -40,7 +40,6 @@ class StartAppActivity :
         startActivity(intent)
         finish()
     }
-
     private fun askNotificationPermission() {
         binding.btnStartYello.setOnSingleClickListener {
             AmplitudeUtils.trackEventWithProperties("click_onboarding_notification")

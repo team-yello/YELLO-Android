@@ -15,7 +15,7 @@ import retrofit2.http.POST
 import retrofit2.http.Query
 
 interface OnboardingService {
-    @POST("api/v1/auth/oauth")
+    @POST("api/v1/user/device")
     suspend fun postTokenToServiceToken(
         @Body request: RequestServiceTokenDto,
     ): BaseResponse<ResponseServiceTokenDto>

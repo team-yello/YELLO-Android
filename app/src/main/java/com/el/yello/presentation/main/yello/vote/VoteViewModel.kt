@@ -6,7 +6,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.el.yello.presentation.main.yello.vote.NoteState.InvalidCancel
 import com.el.yello.presentation.main.yello.vote.NoteState.InvalidShuffle
-import com.el.yello.presentation.main.yello.vote.NoteState.InvalidSkip
 import com.el.yello.util.amplitude.AmplitudeUtils
 import com.example.domain.entity.vote.Choice
 import com.example.domain.entity.vote.ChoiceList
@@ -179,13 +178,7 @@ class VoteViewModel @Inject constructor(
     }
 
     fun skip() {
-        if (isOptionSelected()) {
-            _noteState.value = InvalidSkip
-            return
-        }
-
         if (isTransitioning) return
-
         skipToNextVote()
     }
 
@@ -268,9 +261,6 @@ class VoteViewModel @Inject constructor(
             _currentNoteIndex.value = vote.currentIndex
         }
     }
-
-    private fun isOptionSelected() =
-        currentChoice.friendId != null || currentChoice.keywordName != null
 
     companion object {
         private const val MAX_COUNT_SHUFFLE = 3

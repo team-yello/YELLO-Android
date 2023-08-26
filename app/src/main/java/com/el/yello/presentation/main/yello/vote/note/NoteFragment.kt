@@ -103,10 +103,6 @@ class NoteFragment : BindingFragment<FragmentNoteBinding>(R.layout.fragment_note
         viewModel.noteState.observe(viewLifecycleOwner) { state ->
             when (state) {
                 NoteState.Success -> return@observe
-                NoteState.InvalidSkip -> yelloSnackbar(
-                    binding.root,
-                    getString(R.string.note_msg_invalid_skip),
-                )
 
                 NoteState.InvalidCancel -> yelloSnackbar(
                     binding.root,

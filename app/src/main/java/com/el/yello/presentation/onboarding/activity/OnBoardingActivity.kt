@@ -3,7 +3,6 @@ package com.el.yello.presentation.onboarding.activity
 import android.animation.ObjectAnimator
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.view.animation.LinearInterpolator
 import android.widget.Toast

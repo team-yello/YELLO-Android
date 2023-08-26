@@ -30,7 +30,6 @@ class AddFriendFragment : BindingFragment<FragmentAddFriendBinding>(R.layout.fra
     private lateinit var friendsList: List<FriendModel>
 
     private var selectedItemIdList = mutableListOf<Long>()
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -73,7 +72,6 @@ class AddFriendFragment : BindingFragment<FragmentAddFriendBinding>(R.layout.fra
 
     // 서버 통신 성공 시 카카오 추천 친구 추가
     private fun setKakaoRecommendList() {
-        adapter.submitList(listOf())
         setListWithInfinityScroll()
         viewModel.initFriendPagingVariable()
         viewModel.addListWithKakaoIdList()
@@ -104,12 +102,10 @@ class AddFriendFragment : BindingFragment<FragmentAddFriendBinding>(R.layout.fra
             when (state) {
                 is UiState.Success -> {
                     stopShimmerView()
-                    friendsList = state.data.friendList
+                    friendsList = state.data
                     adapter.submitList(friendsList)
                     selectedItemIdList.addAll(friendsList.map { friend -> friend.id })
-                    viewModel.selectedFriendCount.value =
-                        viewModel.selectedFriendCount.value?.plus(friendsList.size)
-                    adapter.notifyDataSetChanged()
+                    viewModel.selectedFriendCount.value = friendsList.size
                 }
 
                 is UiState.Failure -> {

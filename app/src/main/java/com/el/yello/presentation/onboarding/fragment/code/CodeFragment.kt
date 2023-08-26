@@ -28,7 +28,6 @@ class CodeFragment : BindingFragment<FragmentCodeBinding>(R.layout.fragment_code
         setupPostSignupState()
         viewModel.validYellIdLoading()
     }
-
     override fun onResume() {
         super.onResume()
         setupGetValidYelloIdState()
@@ -64,11 +63,9 @@ class CodeFragment : BindingFragment<FragmentCodeBinding>(R.layout.fragment_code
                     AmplitudeUtils.setUserDataProperties("user_signup_date")
                     findNavController().navigate(R.id.action_codeFragment_to_startAppFragment)
                 }
-
                 is UiState.Failure -> {
                     yelloSnackbar(binding.root, getString(R.string.msg_error))
                 }
-
                 is UiState.Loading -> {}
 
                 is UiState.Empty -> {}

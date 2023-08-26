@@ -15,22 +15,22 @@ import retrofit2.http.POST
 import retrofit2.http.Query
 
 interface OnboardingService {
-    @POST("api/v1/user/device")
+    @POST("api/v1/auth/oauth")
     suspend fun postTokenToServiceToken(
         @Body request: RequestServiceTokenDto,
     ): BaseResponse<ResponseServiceTokenDto>
 
     @GET("api/v1/auth/school")
     suspend fun getSchoolSearchService(
-        @Query("keyword") keyword: String,
         @Query("page") page: Int,
+        @Query("keyword") keyword: String,
     ): BaseResponse<ResponseSchoolDto>
 
     @GET("api/v1/auth/school/department")
     suspend fun getDepartmentSearchService(
+        @Query("page") page: Int,
         @Query("school") school: String,
         @Query("keyword") keyword: String,
-        @Query("page") page: Int,
     ): BaseResponse<ResponseDepartmentDto>
 
     @GET("api/v1/auth/valid")

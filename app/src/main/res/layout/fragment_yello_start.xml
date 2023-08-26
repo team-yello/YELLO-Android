@@ -83,7 +83,7 @@
             android:id="@+id/layout_start_description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="21dp"
+            android:layout_marginTop="24dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_start_point">
@@ -186,7 +186,7 @@
             android:id="@+id/btn_start_vote"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="80dp"
+            android:layout_marginBottom="73dp"
             android:background="@drawable/shape_yello500_fill_500_rect"
             android:fontFamily="@font/unbounded_bold"
             android:paddingHorizontal="50dp"

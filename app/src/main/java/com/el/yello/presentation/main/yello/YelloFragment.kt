@@ -41,6 +41,7 @@ class YelloFragment : BindingFragment<FragmentYelloBinding>(R.layout.fragment_ye
         viewModel.yelloState.observe(viewLifecycleOwner) { state ->
             when (state) {
                 is Loading -> {}
+
                 is Success -> {
                     when (state.data) {
                         is Lock -> navigateTo<YelloLockFragment>()
@@ -91,7 +92,6 @@ class YelloFragment : BindingFragment<FragmentYelloBinding>(R.layout.fragment_ye
 
     override fun onResume() {
         super.onResume()
-
         viewModel.getVoteState()
     }
 

@@ -269,8 +269,7 @@ class VoteViewModel @Inject constructor(
         }
     }
 
-    private fun isOptionSelected() =
-        currentChoice.friendId != null || currentChoice.keywordName != null
+    private fun isOptionSelected() = currentChoice.keywordName != null
 
     companion object {
         private const val MAX_COUNT_SHUFFLE = 3

@@ -102,12 +102,10 @@ class AddFriendFragment : BindingFragment<FragmentAddFriendBinding>(R.layout.fra
             when (state) {
                 is UiState.Success -> {
                     stopShimmerView()
-                    friendsList = state.data.friendList
+                    friendsList = state.data
                     adapter.submitList(friendsList)
                     selectedItemIdList.addAll(friendsList.map { friend -> friend.id })
-                    viewModel.selectedFriendCount.value =
-                        viewModel.selectedFriendCount.value?.plus(friendsList.size)
-                    adapter.notifyDataSetChanged()
+                    viewModel.selectedFriendCount.value = friendsList.size
                 }
 
                 is UiState.Failure -> {

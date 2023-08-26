@@ -91,8 +91,8 @@ class OnBoardingViewModel @Inject constructor(
     private val _studentIdResult: MutableLiveData<List<Int>> = MutableLiveData()
     val studentIdResult: LiveData<List<Int>> = _studentIdResult
 
-    private val _friendListState = MutableLiveData<UiState<AddFriendListModel>>()
-    val friendListState: LiveData<UiState<AddFriendListModel>> = _friendListState
+    private val _friendListState = MutableLiveData<UiState<List<AddFriendListModel.FriendModel>>>(UiState.Loading)
+    val friendListState: LiveData<UiState<List<AddFriendListModel.FriendModel>>> = _friendListState
 
     var selectedFriendIdList: List<Long> = listOf()
     var selectedFriendCount: MutableLiveData<Int> = MutableLiveData(0)
@@ -102,6 +102,8 @@ class OnBoardingViewModel @Inject constructor(
 
     private val _postSignupState = MutableLiveData<UiState<UserInfo>>()
     val postSignupState: LiveData<UiState<UserInfo>> get() = _postSignupState
+
+    private val totalFriendList = mutableListOf<AddFriendListModel.FriendModel>()
 
     // 학력 선택
     fun selectStudentType(student: String) {
@@ -163,6 +165,7 @@ class OnBoardingViewModel @Inject constructor(
 
     fun initFriendPagingVariable() {
         selectedFriendCount.value = 0
+        totalFriendList.clear()
         isFirstFriendsListPage = true
         currentFriendOffset = -100
         currentFriendPage = -1
@@ -272,7 +275,8 @@ class OnBoardingViewModel @Inject constructor(
                 )
             }.onSuccess { friendList ->
                 friendList ?: return@launch
-                _friendListState.value = UiState.Success(friendList)
+                totalFriendList.addAll(friendList.friendList)
+                _friendListState.value = UiState.Success(totalFriendList)
             }.onFailure {
                 _friendListState.value = UiState.Failure(it.message.toString())
             }

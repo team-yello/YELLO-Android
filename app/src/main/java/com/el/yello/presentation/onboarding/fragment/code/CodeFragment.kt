@@ -28,7 +28,6 @@ class CodeFragment : BindingFragment<FragmentCodeBinding>(R.layout.fragment_code
         setupPostSignupState()
         viewModel.validYellIdLoading()
     }
-
     override fun onResume() {
         super.onResume()
         setupGetValidYelloIdState()

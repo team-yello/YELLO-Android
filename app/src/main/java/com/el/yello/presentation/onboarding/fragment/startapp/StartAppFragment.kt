@@ -43,7 +43,7 @@ class StartAppFragment : BindingFragment<FragmentStartAppBinding>(R.layout.fragm
                         Manifest.permission.POST_NOTIFICATIONS,
                     ) == PackageManager.PERMISSION_GRANTED
                 ) {
-                   startTutorialActivity()
+                    startTutorialActivity()
                 } else if (shouldShowRequestPermissionRationale(Manifest.permission.POST_NOTIFICATIONS)) {
                     requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
                 } else {

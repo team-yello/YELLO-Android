@@ -30,7 +30,6 @@ class AddFriendFragment : BindingFragment<FragmentAddFriendBinding>(R.layout.fra
     private lateinit var friendsList: List<FriendModel>
 
     private var selectedItemIdList = mutableListOf<Long>()
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 

@@ -13,7 +13,6 @@ import org.json.JSONObject
 
 class TutorialAActivity : BindingActivity<ActivityTutorialABinding>(R.layout.activity_tutorial_a) {
     private val isFromOnBoarding by boolExtra()
-    // private val viewModel by viewModels<TutorialViewmodel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,7 +21,6 @@ class TutorialAActivity : BindingActivity<ActivityTutorialABinding>(R.layout.act
             "view_onboarding_tutorial",
             JSONObject().put("tutorial_step", "1"),
         )
-        // viewModel.currentView = 1
         binding.root.setOnSingleClickListener {
             val isCodeEmpty = intent.getBooleanExtra("codeTextEmpty", false)
             val intent = Intent(this@TutorialAActivity, TutorialBActivity::class.java).apply {

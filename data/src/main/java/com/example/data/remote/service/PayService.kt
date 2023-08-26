@@ -12,7 +12,7 @@ import retrofit2.http.POST
 
 interface PayService {
 
-    @POST("/api/v1/purchase/google/subscriptionsv2/verify")
+    @POST("/api/v1/purchase/google/verify/subscribe")
     suspend fun postToCheckSubs(
         @Body request: RequestPayDto
     ): BaseResponse<ResponsePaySubsDto>
@@ -22,11 +22,11 @@ interface PayService {
         @Body request: RequestPayDto
     ): BaseResponse<ResponsePayInAppDto>
 
-    @GET("/api/v1/purchase/subscribeNeed")
+    @GET("/api/v1/purchase/subscribe")
     suspend fun getSubsNeeded(
     ): BaseResponse<ResponseSubsNeededDto>
 
-    @GET("/api/v1/purchase/purchaseInfo")
+    @GET("/api/v1/purchase")
     suspend fun getPurchaseInfo(
     ): BaseResponse<ResponsePurchaseInfoDto>
 

@@ -20,9 +20,9 @@ interface OnboardingService {
         @Body request: RequestServiceTokenDto,
     ): BaseResponse<ResponseServiceTokenDto>
 
-    @GET("api/v1/auth/school/school")
+    @GET("api/v1/auth/school")
     suspend fun getSchoolSearchService(
-        @Query("search") search: String,
+        @Query("keyword") keyword: String,
         @Query("page") page: Int,
     ): BaseResponse<ResponseSchoolDto>
 

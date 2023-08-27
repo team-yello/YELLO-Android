@@ -302,6 +302,7 @@ class MyYelloReadActivity :
         viewModel.nameIndex?.let {
             intent.putExtra("nameIndex", it)
         }
+        intent.putExtra("ticketCount", viewModel.myReadingTicketCount)
         setResult(RESULT_OK, intent)
         super.finish()
     }

@@ -183,6 +183,7 @@ class MyYelloFragment : BindingFragment<FragmentMyYelloBinding>(R.layout.fragmen
             it.data?.let { intent ->
                 val isHintUsed = intent.getBooleanExtra("isHintUsed", false)
                 val nameIndex = intent.getIntExtra("nameIndex", -1)
+                val ticketCount = intent.getIntExtra("ticketCount", -1)
                 val list = adapter?.currentList()
                 val selectItem = list?.get(viewModel.position)
                 selectItem?.apply {
@@ -192,6 +193,9 @@ class MyYelloFragment : BindingFragment<FragmentMyYelloBinding>(R.layout.fragmen
                 }
                 selectItem?.let {
                     adapter?.changeItem(viewModel.position, selectItem)
+                }
+                if (ticketCount != -1) {
+                    binding.tvKeyNumber.text = ticketCount.toString()
                 }
                 viewModel.getVoteCount()
             }

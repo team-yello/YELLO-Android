@@ -9,9 +9,15 @@ import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.getSystemService
 import com.el.yello.R
 import com.el.yello.presentation.main.MainActivity
+import com.example.data.model.request.auth.toDeviceToken
+import com.example.data.remote.service.AuthService
 import com.example.domain.YelloDataStore
+import com.google.firebase.messaging.FirebaseMessaging
 import com.google.firebase.messaging.FirebaseMessagingService
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import timber.log.Timber
 import java.util.Random
 import javax.inject.Inject
 
@@ -20,10 +26,21 @@ class YelloMessagingService : FirebaseMessagingService() {
     @Inject
     lateinit var dataStore: YelloDataStore
 
+    @Inject
+    lateinit var authService: AuthService
+
     override fun onNewToken(token: String) {
         super.onNewToken(token)
 
-        dataStore.deviceToken = token
+        if (dataStore.userToken != "") {
+            GlobalScope.launch {
+                runCatching {
+                    authService.putDeviceToken(
+                        token.toDeviceToken()
+                    )
+                }.onFailure(Timber::e)
+            }
+        }
     }
 
     override fun handleIntent(intent: Intent?) {
@@ -54,7 +71,8 @@ class YelloMessagingService : FirebaseMessagingService() {
         val channelId = getString(R.string.default_notification_channel_id)
 
         val notificationBuilder =
-            NotificationCompat.Builder(this, channelId).setSmallIcon(R.mipmap.ic_yello_launcher).apply {
+            NotificationCompat.Builder(this, channelId).setSmallIcon(R.mipmap.ic_yello_launcher)
+                .apply {
                     setContentTitle(message.title).setContentText(message.body)
                     setPriority(NotificationManagerCompat.IMPORTANCE_HIGH).setAutoCancel(true)
                     setContentIntent(pendingIntent)

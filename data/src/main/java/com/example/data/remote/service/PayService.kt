@@ -17,7 +17,7 @@ interface PayService {
         @Body request: RequestPayDto
     ): BaseResponse<ResponsePaySubsDto>
 
-    @POST("/api/v1/purchase/google/inapp/verify")
+    @POST("/api/v1/purchase/google/verify/ticket")
     suspend fun postToCheckInApp(
         @Body request: RequestPayDto
     ): BaseResponse<ResponsePayInAppDto>

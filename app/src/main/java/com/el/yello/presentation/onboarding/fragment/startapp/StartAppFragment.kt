@@ -17,10 +17,13 @@ import com.example.ui.base.BindingFragment
 import com.example.ui.view.setOnSingleClickListener
 
 class StartAppFragment : BindingFragment<FragmentStartAppBinding>(R.layout.fragment_start_app) {
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        (activity as? OnBoardingActivity)?.hideViews()
-        askNotificationPermission()
+
+        binding.btnStartYello.setOnSingleClickListener {
+            askNotificationPermission()
+        }
     }
 
     private val requestPermissionLauncher =
@@ -35,23 +38,20 @@ class StartAppFragment : BindingFragment<FragmentStartAppBinding>(R.layout.fragm
         }
 
     private fun askNotificationPermission() {
-        binding.btnStartYello.setOnSingleClickListener {
-            AmplitudeUtils.trackEventWithProperties("click_onboarding_notification")
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                if (ContextCompat.checkSelfPermission(
-                        requireContext(),
-                        Manifest.permission.POST_NOTIFICATIONS,
-                    ) == PackageManager.PERMISSION_GRANTED
-                ) {
-                    startTutorialActivity()
-                } else if (shouldShowRequestPermissionRationale(Manifest.permission.POST_NOTIFICATIONS)) {
-                    requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
-                } else {
-                    requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
-                }
+        AmplitudeUtils.trackEventWithProperties("click_onboarding_notification")
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(
+                    requireContext(),
+                    Manifest.permission.POST_NOTIFICATIONS,
+                ) == PackageManager.PERMISSION_GRANTED
+            ) {
+                startTutorialActivity()
+            } else if (shouldShowRequestPermissionRationale(Manifest.permission.POST_NOTIFICATIONS)) {
+                requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+            } else {
+                requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
             }
         }
-        (activity as? OnBoardingActivity)?.endTutorialActivity()
     }
 
     private fun startTutorialActivity() {
@@ -59,6 +59,8 @@ class StartAppFragment : BindingFragment<FragmentStartAppBinding>(R.layout.fragm
             addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         }
         startActivity(intent)
+        (activity as? OnBoardingActivity)?.hideViews()
+        (activity as? OnBoardingActivity)?.endTutorialActivity()
         requireActivity().finish()
     }
 }

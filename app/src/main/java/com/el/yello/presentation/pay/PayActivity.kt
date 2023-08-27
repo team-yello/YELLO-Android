@@ -352,6 +352,12 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
         }
     }
 
+    override fun finish() {
+        intent.putExtra("ticketCount", ticketCount)
+        setResult(RESULT_OK, intent)
+        super.finish()
+    }
+
     companion object {
         const val YELLO_PLUS = "yello_plus_subscribe"
         const val YELLO_ONE = "yello_ticket_one"

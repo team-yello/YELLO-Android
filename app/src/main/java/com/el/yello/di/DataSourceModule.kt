@@ -1,11 +1,13 @@
 package com.el.yello.di
 
+import com.example.data.datasource.AuthDataSource
 import com.example.data.datasource.OnboardingDataSource
 import com.example.data.datasource.PayDataSource
 import com.example.data.datasource.ProfileDataSource
 import com.example.data.datasource.RecommendDataSource
 import com.example.data.datasource.VoteDataSource
 import com.example.data.datasource.YelloDataSource
+import com.example.data.datasource.remote.AuthDataSourceImpl
 import com.example.data.datasource.remote.OnboardingDataSourceImpl
 import com.example.data.datasource.remote.PayDataSourceImpl
 import com.example.data.datasource.remote.ProfileDataSourceImpl
@@ -51,4 +53,8 @@ object DataSourceModule {
     fun providePayDataSource(payDataSourceImpl: PayDataSourceImpl): PayDataSource =
         payDataSourceImpl
 
+    @Provides
+    @Singleton
+    fun provideAuthDataSource(authDataSourceImpl: AuthDataSourceImpl): AuthDataSource =
+        authDataSourceImpl
 }

@@ -14,6 +14,7 @@ import com.example.domain.repository.PayRepository
 import com.example.domain.repository.ProfileRepository
 import com.example.domain.repository.YelloRepository
 import com.example.ui.view.UiState
+import com.google.firebase.messaging.FirebaseMessaging
 import com.kakao.sdk.user.UserApiClient
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
@@ -22,6 +23,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
+import timber.log.Timber
 import javax.inject.Inject
 import kotlin.math.ceil
 
@@ -30,7 +32,7 @@ class ProfileViewModel @Inject constructor(
     private val profileRepository: ProfileRepository,
     private val authRepository: AuthRepository,
     private val yelloRepository: YelloRepository,
-    private val payRepository: PayRepository,
+    private val payRepository: PayRepository
 ) : ViewModel() {
 
     private val _getState = MutableLiveData<UiState<ProfileUserModel>>()
@@ -212,7 +214,7 @@ class ProfileViewModel @Inject constructor(
             }.onSuccess {
                 it ?: return@launch
                 _getPurchaseInfoState.value = UiState.Success(it)
-                AmplitudeUtils.updateUserIntProperties("user_ticket",it.ticketCount )
+                AmplitudeUtils.updateUserIntProperties("user_ticket", it.ticketCount)
                 if (!it.isSubscribe) {
                     AmplitudeUtils.updateUserProperties("user_subscription", "yes")
                 } else {
@@ -242,7 +244,27 @@ class ProfileViewModel @Inject constructor(
         authRepository.clearLocalPref()
     }
 
+    fun putDeviceToken() {
+        FirebaseMessaging.getInstance().token.addOnCompleteListener {
+            runCatching {
+                it.result
+            }.onSuccess { token ->
+                if (authRepository.getDeviceToken() != token) {
+                    authRepository.setDeviceToken(token)
+                    viewModelScope.launch {
+                        runCatching {
+                            authRepository.putDeviceToken(
+                                token
+                            )
+                        }.onFailure(Timber::e)
+                    }
+                }
+            }
+        }
+    }
+
     companion object {
-        const val BASIC_THUMBNAIL = "https://k.kakaocdn.net/dn/dpk9l1/btqmGhA2lKL/Oz0wDuJn1YV2DIn92f6DVK/img_640x640.jpg"
+        const val BASIC_THUMBNAIL =
+            "https://k.kakaocdn.net/dn/dpk9l1/btqmGhA2lKL/Oz0wDuJn1YV2DIn92f6DVK/img_640x640.jpg"
     }
 }

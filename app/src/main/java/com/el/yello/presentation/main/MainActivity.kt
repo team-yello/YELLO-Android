@@ -44,6 +44,7 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
         initBnvItemIconTintList()
         initBnvItemSelectedListener()
         initBnvItemReselectedListener()
+        initDeviceToken()
         pushNotificationEvent()
         viewModel.getVoteCount()
         viewModel.setIsFirstLoginData()
@@ -116,6 +117,10 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
                 }
             }
         }
+    }
+
+    private fun initDeviceToken() {
+        viewModel.putDeviceToken()
     }
 
     private fun initBadge(voteCount: Int) {

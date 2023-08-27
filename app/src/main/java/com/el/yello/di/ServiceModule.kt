@@ -1,5 +1,6 @@
 package com.el.yello.di
 
+import com.example.data.remote.service.AuthService
 import com.example.data.remote.service.LookService
 import com.example.data.remote.service.OnboardingService
 import com.example.data.remote.service.PayService
@@ -51,5 +52,10 @@ object ServiceModule {
     @Singleton
     fun providePayService(retrofit: Retrofit): PayService =
         retrofit.create(PayService::class.java)
+
+    @Provides
+    @Singleton
+    fun provideAuthService(retrofit: Retrofit): AuthService =
+        retrofit.create(AuthService::class.java)
 
 }

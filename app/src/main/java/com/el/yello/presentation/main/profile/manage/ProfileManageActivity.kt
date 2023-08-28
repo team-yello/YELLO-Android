@@ -5,6 +5,7 @@ import android.net.Uri
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
+import com.el.yello.BuildConfig
 import com.el.yello.R
 import com.el.yello.databinding.ActivityProfileManageBinding
 import com.el.yello.presentation.main.profile.ProfileViewModel
@@ -34,6 +35,7 @@ class ProfileManageActivity :
         initPrivacyBtnListener()
         initServiceBtnListener()
         initLogoutBtnListener()
+        setVersionCode()
         observeKakaoLogoutState()
     }
 
@@ -86,6 +88,11 @@ class ProfileManageActivity :
             }
             finish()
         }
+    }
+
+    private fun setVersionCode() {
+        binding.tvProfileManageVersion.text =
+            getString(R.string.profile_manage_tv_version, BuildConfig.VERSION_NAME)
     }
 
     private fun observeKakaoLogoutState() {

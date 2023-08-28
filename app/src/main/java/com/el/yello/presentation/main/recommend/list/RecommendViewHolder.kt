@@ -5,7 +5,6 @@ import coil.load
 import coil.transform.CircleCropTransformation
 import com.el.yello.R
 import com.el.yello.databinding.ItemRecommendListBinding
-import com.el.yello.presentation.main.profile.ProfileViewModel
 import com.el.yello.presentation.main.profile.ProfileViewModel.Companion.BASIC_THUMBNAIL
 import com.example.domain.entity.RecommendModel.RecommendFriend
 import com.example.ui.view.setOnSingleClickListener
@@ -22,7 +21,7 @@ class RecommendViewHolder(
 
         item.profileImage.let { thumbnail ->
             if (thumbnail == BASIC_THUMBNAIL) {
-                binding.ivRecommendItemThumbnail.setImageResource(R.drawable.img_yello_basic)
+                binding.ivRecommendItemThumbnail.load(R.drawable.img_yello_basic)
             } else {
                 binding.ivRecommendItemThumbnail.load(thumbnail) {
                     transformations(CircleCropTransformation())

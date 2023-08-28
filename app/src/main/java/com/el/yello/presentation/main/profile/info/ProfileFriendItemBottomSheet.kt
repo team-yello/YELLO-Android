@@ -46,7 +46,7 @@ class ProfileFriendItemBottomSheet :
 
     private fun setItemImage() {
         if (viewModel.clickedItemThumbnail.value == BASIC_THUMBNAIL) {
-            binding.ivProfileFriendThumbnail.setImageResource(R.drawable.img_yello_basic)
+            binding.ivProfileFriendThumbnail.load(R.drawable.img_yello_basic)
         } else {
             binding.ivProfileFriendThumbnail.load(viewModel.clickedItemThumbnail.value) {
                 transformations(CircleCropTransformation())

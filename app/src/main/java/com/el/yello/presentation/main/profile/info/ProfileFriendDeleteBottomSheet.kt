@@ -35,7 +35,7 @@ class ProfileFriendDeleteBottomSheet :
 
     private fun setItemImage() {
         if (viewModel.clickedItemThumbnail.value == ProfileViewModel.BASIC_THUMBNAIL) {
-            binding.ivProfileFriendDeleteThumbnail.setImageResource(R.drawable.img_yello_basic)
+            binding.ivProfileFriendDeleteThumbnail.load(R.drawable.img_yello_basic)
         } else {
             binding.ivProfileFriendDeleteThumbnail.load(viewModel.clickedItemThumbnail.value) {
                 transformations(CircleCropTransformation())

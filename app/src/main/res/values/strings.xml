@@ -182,7 +182,7 @@
     <string name="profile_manage_tv_privacy">개인정보 처리방침</string>
     <string name="profile_manage_tv_service">이용약관</string>
     <string name="profile_manage_tv_logout">로그아웃</string>
-    <string name="profile_manage_tv_version">버전 1.1</string>
+    <string name="profile_manage_tv_version">버전 %s</string>
     <string name="profile_manage_tv_quit">계정 탈퇴</string>
 
     <string name="profile_quit_tv_title">계정 탈퇴</string>

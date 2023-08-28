@@ -20,7 +20,7 @@ class ProfileFriendsListViewHolder(
         binding.tvProfileFriendItemSchool.text = item.group
         item.profileImageUrl.let { thumbnail ->
             if (thumbnail == BASIC_THUMBNAIL) {
-                binding.ivProfileFriendItemThumbnail.setImageResource(R.drawable.img_yello_basic)
+                binding.ivProfileFriendItemThumbnail.load(R.drawable.img_yello_basic)
             } else {
                 binding.ivProfileFriendItemThumbnail.load(thumbnail) {
                     transformations(CircleCropTransformation())

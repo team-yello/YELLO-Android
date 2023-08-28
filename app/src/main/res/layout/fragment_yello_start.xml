@@ -26,7 +26,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:lottie_autoPlay="true"
             app:lottie_loop="true"
             app:lottie_rawRes="@raw/lottie_yello_vote_entrance_bg"
             app:lottie_repeatMode="restart" />
@@ -39,7 +38,6 @@
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:lottie_autoPlay="true"
             app:lottie_loop="true"
             app:lottie_rawRes="@raw/lottie_yello_vote_entrance"
             app:lottie_repeatMode="restart"

@@ -42,11 +42,13 @@ class YelloStartFragment :
 
             layoutParams.width = (2.22 * displayWidth).toInt()
             setMargins(this, 0, 0, 0, (-0.435 * displayHeight).toInt())
+            playAnimation()
         }
     }
 
     private fun initShadowView() {
         binding.shadowStart.setLayerType(View.LAYER_TYPE_SOFTWARE, null)
+        binding.lottieStartBackground.playAnimation()
     }
 
     private fun setMargins(v: View, l: Int, t: Int, r: Int, b: Int) {

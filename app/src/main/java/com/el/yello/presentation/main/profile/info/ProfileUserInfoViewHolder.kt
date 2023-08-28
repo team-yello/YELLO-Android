@@ -21,7 +21,7 @@ class ProfileUserInfoViewHolder(
         binding.executePendingBindings()
 
         if (viewModel.myThumbnail.value == BASIC_THUMBNAIL) {
-            binding.ivProfileInfoThumbnail.setImageResource(R.drawable.img_yello_basic)
+            binding.ivProfileInfoThumbnail.load(R.drawable.img_yello_basic)
         } else {
             binding.ivProfileInfoThumbnail.load(viewModel.myThumbnail.value) {
                 transformations(CircleCropTransformation())

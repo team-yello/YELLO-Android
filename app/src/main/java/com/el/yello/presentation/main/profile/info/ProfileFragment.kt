@@ -247,7 +247,7 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
                             )
                         }
                         binding.rvProfileFriendsList.removeItemDecoration(itemDivider)
-                        delay(300)
+                        delay(450)
                         binding.rvProfileFriendsList.addItemDecoration(itemDivider)
                         if (viewModel.myTotalFriends.value != "") {
                             viewModel.myTotalFriends.value =

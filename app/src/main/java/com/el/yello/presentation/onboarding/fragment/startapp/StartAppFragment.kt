@@ -24,6 +24,7 @@ class StartAppFragment : BindingFragment<FragmentStartAppBinding>(R.layout.fragm
         binding.btnStartYello.setOnSingleClickListener {
             askNotificationPermission()
         }
+        (activity as? OnBoardingActivity)?.hideViews()
     }
 
     private val requestPermissionLauncher =
@@ -59,7 +60,6 @@ class StartAppFragment : BindingFragment<FragmentStartAppBinding>(R.layout.fragm
             addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         }
         startActivity(intent)
-        (activity as? OnBoardingActivity)?.hideViews()
         (activity as? OnBoardingActivity)?.endTutorialActivity()
         requireActivity().finish()
     }

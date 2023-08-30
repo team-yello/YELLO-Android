@@ -27,4 +27,9 @@ class TutorialBActivity : BindingActivity<ActivityTutorialBBinding>(R.layout.act
             finish()
         }
     }
+
+    override fun onPause() {
+        super.onPause()
+        overridePendingTransition(0, 0)
+    }
 }

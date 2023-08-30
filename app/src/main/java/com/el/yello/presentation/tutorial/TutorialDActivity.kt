@@ -41,4 +41,8 @@ class TutorialDActivity : BindingActivity<ActivityTutorialDBinding>(R.layout.act
             }
         }
     }
+    override fun onPause() {
+        super.onPause()
+        overridePendingTransition(0, 0)
+    }
 }

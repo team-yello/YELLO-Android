@@ -1,4 +1,4 @@
-package com.el.yello.presentation.main.yello.vote.note.start
+package com.el.yello.presentation.main.yello.start
 
 import android.content.Intent
 import android.graphics.Point

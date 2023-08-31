@@ -112,4 +112,9 @@ class OnBoardingActivity :
         startActivity(intent)
         finish()
     }
+
+    override fun onPause() {
+        super.onPause()
+        overridePendingTransition(0, 0)
+    }
 }

@@ -132,6 +132,7 @@ class RecommendKakaoFragment :
                 lifecycleScope.launch {
                     adapter.clearList()
                     setKakaoRecommendList()
+                    delay(200)
                     binding.layoutRecommendKakaoSwipe.isRefreshing = false
                 }
             }

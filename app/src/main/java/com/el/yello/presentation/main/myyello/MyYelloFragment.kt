@@ -24,6 +24,7 @@ import com.example.ui.base.BindingFragment
 import com.example.ui.view.UiState
 import com.example.ui.view.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -225,6 +226,7 @@ class MyYelloFragment : BindingFragment<FragmentMyYelloBinding>(R.layout.fragmen
                     adapter?.clearList()
                     viewModel.setToFirstPage()
                     viewModel.getMyYelloList()
+                    delay(200)
                     binding.layoutMyYelloSwipe.isRefreshing = false
                 }
             }

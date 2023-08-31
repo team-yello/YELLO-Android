@@ -96,6 +96,7 @@ class RecommendSearchActivity :
                     adapter.submitList(listOf())
                     viewModel.setNewPage()
                     viewModel.setListFromServer(searchText)
+                    delay(200)
                     binding.layoutSearchSwipe.isRefreshing = false
                 }
             }

@@ -111,6 +111,7 @@ class RecommendSchoolFragment :
                     adapter.clearList()
                     viewModel.setFirstPageLoading()
                     viewModel.addListFromServer()
+                    delay(200)
                     binding.layoutRecommendSchoolSwipe.isRefreshing = false
                 }
             }

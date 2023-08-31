@@ -170,6 +170,7 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
                     viewModel.getPurchaseInfoFromServer()
                     viewModel.getUserDataFromServer()
                     viewModel.getFriendsListFromServer()
+                    delay(200)
                     binding.layoutProfileSwipe.isRefreshing = false
                 }
             }

@@ -17,6 +17,7 @@ import com.el.yello.util.context.yelloSnackbar
 import com.example.ui.base.BindingFragment
 import com.example.ui.view.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.json.JSONObject
@@ -83,6 +84,7 @@ class LookFragment : BindingFragment<FragmentLookBinding>(R.layout.fragment_look
                     _adapter = null
                     initAdapterWithFirstList()
                     getTimelinePagingList()
+                    delay(200)
                     binding.layoutLookSwipe.isRefreshing = false
                 }
             }
@@ -133,13 +135,13 @@ class LookFragment : BindingFragment<FragmentLookBinding>(R.layout.fragment_look
     private fun startShimmerView() {
         binding.shimmerLookList.startShimmer()
         binding.shimmerLookList.visibility = View.VISIBLE
-        binding.layoutLookSwipe.visibility = View.GONE
+        binding.rvLook.visibility = View.GONE
     }
 
     private fun stopShimmerView() {
         binding.shimmerLookList.stopShimmer()
         binding.shimmerLookList.visibility = View.GONE
-        binding.layoutLookSwipe.visibility = View.VISIBLE
+        binding.rvLook.visibility = View.VISIBLE
     }
 
     fun scrollToTop() {

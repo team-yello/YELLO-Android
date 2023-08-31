@@ -5,8 +5,10 @@ import android.os.Bundle
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.activity.viewModels
+import androidx.core.content.ContextCompat
 import androidx.core.widget.doAfterTextChanged
 import androidx.core.widget.doOnTextChanged
+import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -44,6 +46,7 @@ class RecommendSearchActivity :
         initFocusToEditText()
         initAdapterWithDivider()
         initBackBtnListener()
+        initPullToScrollListener()
         observeSearchListState()
         observeAddFriendState()
         setDebounceSearch()
@@ -82,6 +85,21 @@ class RecommendSearchActivity :
     private fun initBackBtnListener() {
         binding.btnRecommendSearchBack.setOnSingleClickListener {
             finish()
+        }
+    }
+
+    private fun initPullToScrollListener() {
+        binding.layoutSearchSwipe.apply {
+            setOnRefreshListener {
+                lifecycleScope.launch {
+                    adapter.submitList(listOf())
+                    viewModel.setNewPage()
+                    viewModel.setListFromServer(searchText)
+                    binding.layoutSearchSwipe.isRefreshing = false
+                }
+            }
+            setProgressBackgroundColorSchemeColor(ContextCompat.getColor(context, R.color.grayscales_700))
+            setColorSchemeColors(ContextCompat.getColor(context, R.color.grayscales_500))
         }
     }
 
@@ -189,19 +207,19 @@ class RecommendSearchActivity :
     }
 
     private fun showFriendListScreen() {
-        binding.rvRecommendSearch.visibility = View.VISIBLE
+        binding.layoutSearchSwipe.visibility = View.VISIBLE
         binding.layoutRecommendSearchLoading.visibility = View.GONE
         binding.layoutRecommendNoSearch.visibility = View.GONE
     }
 
     private fun showLoadingScreen() {
-        binding.rvRecommendSearch.visibility = View.GONE
+        binding.layoutSearchSwipe.visibility = View.GONE
         binding.layoutRecommendSearchLoading.visibility = View.VISIBLE
         binding.layoutRecommendNoSearch.visibility = View.GONE
     }
 
     private fun showNoFriendScreen() {
-        binding.rvRecommendSearch.visibility = View.GONE
+        binding.layoutSearchSwipe.visibility = View.GONE
         binding.layoutRecommendSearchLoading.visibility = View.GONE
         binding.layoutRecommendNoSearch.visibility = View.VISIBLE
     }

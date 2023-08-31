@@ -32,6 +32,11 @@ class TutorialAActivity : BindingActivity<ActivityTutorialABinding>(R.layout.act
         }
     }
 
+    override fun onPause() {
+        super.onPause()
+        overridePendingTransition(0, 0)
+    }
+
     companion object {
         @JvmStatic
         fun newIntent(context: Context, isFromOnBoarding: Boolean) =

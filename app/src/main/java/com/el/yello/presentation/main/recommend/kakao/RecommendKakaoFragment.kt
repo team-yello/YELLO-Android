@@ -249,9 +249,9 @@ class RecommendKakaoFragment :
             delay(300)
             binding.rvRecommendKakao.removeItemDecoration(itemDivider)
             adapter.removeItem(position)
-            activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
             delay(500)
             binding.rvRecommendKakao.addItemDecoration(itemDivider)
+            activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
             if (adapter.itemCount == 0) {
                 showNoFriendScreen()
             }
@@ -259,7 +259,7 @@ class RecommendKakaoFragment :
     }
 
     private fun changeToCheckIcon(holder: RecommendViewHolder) {
-        holder.binding.btnRecommendItemAdd.visibility = View.GONE
+        holder.binding.btnRecommendItemAdd.visibility = View.INVISIBLE
         holder.binding.btnRecommendItemAddPressed.visibility = View.VISIBLE
     }
 

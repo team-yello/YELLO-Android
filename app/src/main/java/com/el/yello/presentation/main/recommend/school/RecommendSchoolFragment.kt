@@ -240,8 +240,8 @@ class RecommendSchoolFragment :
             delay(300)
             binding.rvRecommendSchool.removeItemDecoration(itemDivider)
             adapter.removeItem(position)
-            activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
             delay(500)
+            activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
             binding.rvRecommendSchool.addItemDecoration(itemDivider)
             if (adapter.itemCount == 0) {
                 showNoFriendScreen()
@@ -250,7 +250,7 @@ class RecommendSchoolFragment :
     }
 
     private fun changeToCheckIcon(holder: RecommendViewHolder) {
-        holder.binding.btnRecommendItemAdd.visibility = View.GONE
+        holder.binding.btnRecommendItemAdd.visibility = View.INVISIBLE
         holder.binding.btnRecommendItemAddPressed.visibility = View.VISIBLE
     }
 

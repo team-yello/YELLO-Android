@@ -48,10 +48,6 @@ class YelloViewModel @Inject constructor(
     private val _getPurchaseInfoState = MutableLiveData<UiState<ResponsePurchaseInfoModel?>>()
     val getPurchaseInfoState: LiveData<UiState<ResponsePurchaseInfoModel?>> = _getPurchaseInfoState
 
-    init {
-        getVoteState()
-    }
-
     private fun decreaseTime() {
         leftTime.value ?: return
         if (isDecreasing) return

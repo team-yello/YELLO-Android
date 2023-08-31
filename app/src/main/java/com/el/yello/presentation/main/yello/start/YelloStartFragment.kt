@@ -15,6 +15,7 @@ import com.example.ui.base.BindingFragment
 import com.example.ui.view.UiState
 import com.example.ui.view.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 
 @AndroidEntryPoint
 class YelloStartFragment :
@@ -26,6 +27,7 @@ class YelloStartFragment :
         super.onViewCreated(view, savedInstanceState)
         binding.vm = viewModel
 
+        Timber.d("QATEST : Yello Start Fragment View Created!!!")
         initEntranceLottie()
         initShadowView()
         initVoteBtnClickListener()
@@ -42,13 +44,11 @@ class YelloStartFragment :
 
             layoutParams.width = (2.22 * displayWidth).toInt()
             setMargins(this, 0, 0, 0, (-0.435 * displayHeight).toInt())
-            playAnimation()
         }
     }
 
     private fun initShadowView() {
         binding.shadowStart.setLayerType(View.LAYER_TYPE_SOFTWARE, null)
-        binding.lottieStartBackground.playAnimation()
     }
 
     private fun setMargins(v: View, l: Int, t: Int, r: Int, b: Int) {
@@ -72,7 +72,6 @@ class YelloStartFragment :
         }
     }
 
-    // 구독 여부 확인
     private fun observeCheckIsSubscribed() {
         viewModel.getPurchaseInfoState.observe(viewLifecycleOwner) { state ->
             when (state) {

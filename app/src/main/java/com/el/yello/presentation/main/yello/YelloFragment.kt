@@ -11,8 +11,8 @@ import androidx.fragment.app.replace
 import com.el.yello.R
 import com.el.yello.databinding.FragmentYelloBinding
 import com.el.yello.presentation.main.yello.lock.YelloLockFragment
-import com.el.yello.presentation.main.yello.vote.VoteActivity
 import com.el.yello.presentation.main.yello.start.YelloStartFragment
+import com.el.yello.presentation.main.yello.vote.VoteActivity
 import com.el.yello.presentation.main.yello.wait.YelloWaitFragment
 import com.el.yello.util.context.yelloSnackbar
 import com.example.domain.entity.type.YelloState.Lock
@@ -25,6 +25,7 @@ import com.example.ui.view.UiState.Failure
 import com.example.ui.view.UiState.Loading
 import com.example.ui.view.UiState.Success
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 
 @AndroidEntryPoint
 class YelloFragment : BindingFragment<FragmentYelloBinding>(R.layout.fragment_yello) {
@@ -33,12 +34,15 @@ class YelloFragment : BindingFragment<FragmentYelloBinding>(R.layout.fragment_ye
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        Timber.d("QATEST : Yello Fragment View Created")
         setupYelloState()
+        getVoteState()
         checkStoredVote()
     }
 
     private fun setupYelloState() {
         viewModel.yelloState.observe(viewLifecycleOwner) { state ->
+            Timber.d("QATEST : Yello State Observe : $state")
             when (state) {
                 is Loading -> {}
 
@@ -65,6 +69,10 @@ class YelloFragment : BindingFragment<FragmentYelloBinding>(R.layout.fragment_ye
         }
     }
 
+    private fun getVoteState() {
+        viewModel.getVoteState()
+    }
+
     private inline fun <reified T : Fragment> navigateTo() {
         requireActivity().supportFragmentManager.commit {
             replace<T>(R.id.fcv_yello, T::class.java.canonicalName)
@@ -88,11 +96,6 @@ class YelloFragment : BindingFragment<FragmentYelloBinding>(R.layout.fragment_ye
         Intent(activity, VoteActivity::class.java).apply {
             startActivity(this)
         }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        viewModel.getVoteState()
     }
 
     companion object {

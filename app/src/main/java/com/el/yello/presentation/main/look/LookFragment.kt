@@ -133,13 +133,13 @@ class LookFragment : BindingFragment<FragmentLookBinding>(R.layout.fragment_look
     private fun startShimmerView() {
         binding.shimmerLookList.startShimmer()
         binding.shimmerLookList.visibility = View.VISIBLE
-        binding.rvLook.visibility = View.GONE
+        binding.layoutLookSwipe.visibility = View.GONE
     }
 
     private fun stopShimmerView() {
         binding.shimmerLookList.stopShimmer()
         binding.shimmerLookList.visibility = View.GONE
-        binding.rvLook.visibility = View.VISIBLE
+        binding.layoutLookSwipe.visibility = View.VISIBLE
     }
 
     fun scrollToTop() {

@@ -42,6 +42,12 @@ class MyYelloViewModel @Inject constructor(
         position = pos
     }
 
+    fun setToFirstPage() {
+        currentPage = -1
+        isPagingFinish = false
+        totalPage = Int.MAX_VALUE
+    }
+
     fun getMyYelloList() {
         if (isPagingFinish) return
         viewModelScope.launch {

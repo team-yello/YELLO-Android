@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
 import android.view.animation.AnimationUtils
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -45,7 +46,10 @@ class RecommendKakaoFragment :
         super.onViewCreated(view, savedInstanceState)
 
         initInviteBtnListener()
+        initPullToScrollListener()
         setItemDivider()
+        setListWithInfinityScroll()
+        setFirstResume()
         setKakaoRecommendList()
         setAdapterWithClickListener()
         observeKakaoError()
@@ -59,9 +63,7 @@ class RecommendKakaoFragment :
         super.onResume()
         if (!viewModel.isFirstResume) {
             adapter.clearList()
-            viewModel.setFirstPageLoading()
-            viewModel.initPagingVariable()
-            viewModel.addListWithKakaoIdList()
+            setKakaoRecommendList()
         }
         viewModel.isFirstResume = false
     }
@@ -74,11 +76,13 @@ class RecommendKakaoFragment :
 
     // 서버 통신 성공 시 카카오 추천 친구 추가
     private fun setKakaoRecommendList() {
-        setListWithInfinityScroll()
-        viewModel.isFirstResume = true
         viewModel.setFirstPageLoading()
         viewModel.initPagingVariable()
         viewModel.addListWithKakaoIdList()
+    }
+
+    private fun setFirstResume() {
+        viewModel.isFirstResume = true
     }
 
     // 무한 스크롤 구현
@@ -119,6 +123,20 @@ class RecommendKakaoFragment :
                 JSONObject().put("invite_view", KAKAO_NO_FRIEND)
             )
             recommendInviteNoFriendDialog?.show(parentFragmentManager, INVITE_DIALOG)
+        }
+    }
+
+    private fun initPullToScrollListener() {
+        binding.layoutRecommendKakaoSwipe.apply {
+            setOnRefreshListener {
+                lifecycleScope.launch {
+                    adapter.clearList()
+                    setKakaoRecommendList()
+                    binding.layoutRecommendKakaoSwipe.isRefreshing = false
+                }
+            }
+            setProgressBackgroundColorSchemeColor(ContextCompat.getColor(context, R.color.grayscales_700))
+            setColorSchemeColors(ContextCompat.getColor(context, R.color.grayscales_500))
         }
     }
 

@@ -35,8 +35,7 @@ class RecommendSearchActivity :
 
     private val viewModel by viewModels<RecommendSearchViewModel>()
 
-    private val inputMethodManager =
-        getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+    private lateinit var inputMethodManager: InputMethodManager
 
     private val debounceTime = 500L
     private var searchJob: Job? = null
@@ -76,10 +75,10 @@ class RecommendSearchActivity :
 
     // 처음 들어왔을 때 키보드 올라오도록 설정 (개인정보보호옵션 켜진 경우 불가능)
     private fun initFocusToEditText() {
+        inputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         binding.etRecommendSearchBox.requestFocus()
         inputMethodManager.showSoftInput(
-            binding.etRecommendSearchBox,
-            InputMethodManager.SHOW_IMPLICIT
+            binding.etRecommendSearchBox, InputMethodManager.SHOW_IMPLICIT
         )
     }
 
@@ -93,13 +92,18 @@ class RecommendSearchActivity :
         binding.layoutSearchSwipe.apply {
             setOnRefreshListener {
                 lifecycleScope.launch {
+                    viewModel.isNewText = false
                     adapter.submitList(listOf())
                     viewModel.setNewPage()
                     viewModel.setListFromServer(searchText)
                     binding.layoutSearchSwipe.isRefreshing = false
                 }
             }
-            setProgressBackgroundColorSchemeColor(ContextCompat.getColor(context, R.color.grayscales_700))
+            setProgressBackgroundColorSchemeColor(
+                ContextCompat.getColor(
+                    context, R.color.grayscales_700
+                )
+            )
             setColorSchemeColors(ContextCompat.getColor(context, R.color.grayscales_500))
         }
     }
@@ -107,6 +111,7 @@ class RecommendSearchActivity :
     // 텍스트 변경 감지 시 로딩 화면 출력
     private fun setLoadingScreen() {
         binding.etRecommendSearchBox.doOnTextChanged { _, _, _, _ ->
+            viewModel.isNewText = true
             showLoadingScreen()
             adapter.submitList(listOf())
             viewModel.setNewPage()
@@ -137,7 +142,9 @@ class RecommendSearchActivity :
         viewModel.postFriendsListState.observe(this) { state ->
             when (state) {
                 is UiState.Success -> {
-                    inputMethodManager.hideSoftInputFromWindow(binding.etRecommendSearchBox.windowToken, 0)
+                    inputMethodManager.hideSoftInputFromWindow(
+                        binding.etRecommendSearchBox.windowToken, 0
+                    )
                     if (state.data?.friendList?.size == 0) {
                         showNoFriendScreen()
                     } else {
@@ -152,7 +159,7 @@ class RecommendSearchActivity :
                 }
 
                 is UiState.Loading -> {
-                    showLoadingScreen()
+                    if (viewModel.isNewText) showLoadingScreen()
                 }
 
                 is UiState.Empty -> {
@@ -169,10 +176,8 @@ class RecommendSearchActivity :
                 super.onScrolled(recyclerView, dx, dy)
                 if (dy > 0) {
                     recyclerView.layoutManager?.let { layoutManager ->
-                        if (!binding.rvRecommendSearch.canScrollVertically(1)
-                            && layoutManager is LinearLayoutManager
-                            && layoutManager.findLastVisibleItemPosition() == adapter.itemCount - 1
-                        ) {
+                        if (!binding.rvRecommendSearch.canScrollVertically(1) && layoutManager is LinearLayoutManager && layoutManager.findLastVisibleItemPosition() == adapter.itemCount - 1) {
+                            viewModel.isNewText = false
                             viewModel.setListFromServer(searchText)
                         }
                     }

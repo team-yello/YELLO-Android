@@ -109,7 +109,8 @@ class RecommendSchoolFragment :
             setOnRefreshListener {
                 lifecycleScope.launch {
                     adapter.clearList()
-                    initFirstList()
+                    viewModel.setFirstPageLoading()
+                    viewModel.addListFromServer()
                     binding.layoutRecommendSchoolSwipe.isRefreshing = false
                 }
             }

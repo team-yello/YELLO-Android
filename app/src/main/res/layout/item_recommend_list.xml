@@ -77,6 +77,7 @@
         android:id="@+id/btn_recommend_item_add_pressed"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:visibility="gone"
         android:layout_marginEnd="24dp"
         android:src="@drawable/ic_onboarding_friend_check"
         app:layout_constraintBottom_toBottomOf="@id/btn_recommend_item_add"

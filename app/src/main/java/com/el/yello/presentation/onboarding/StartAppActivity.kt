@@ -55,6 +55,8 @@ class StartAppActivity :
                 } else {
                     requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
                 }
+            } else {
+                startTutorialActivity()
             }
         }
     }

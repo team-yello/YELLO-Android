@@ -34,7 +34,6 @@ class YelloFragment : BindingFragment<FragmentYelloBinding>(R.layout.fragment_ye
         super.onViewCreated(view, savedInstanceState)
 
         setupYelloState()
-        getVoteState()
         checkStoredVote()
     }
 
@@ -93,6 +92,11 @@ class YelloFragment : BindingFragment<FragmentYelloBinding>(R.layout.fragment_ye
         Intent(activity, VoteActivity::class.java).apply {
             startActivity(this)
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.getVoteState()
     }
 
     companion object {

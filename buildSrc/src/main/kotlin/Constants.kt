@@ -3,6 +3,6 @@ object Constants {
     const val compileSdk = 33
     const val minSdk = 28
     const val targetSdk = 33
-    const val versionCode = 19
+    const val versionCode = 20
     const val versionName = "1.2"
 }

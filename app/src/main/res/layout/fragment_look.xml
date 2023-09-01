@@ -8,8 +8,7 @@
         android:id="@+id/layout_look"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/black"
-        android:paddingBottom="15dp">
+        android:background="@color/black">
 
         <TextView
             android:id="@+id/tv_layout_title"
@@ -28,10 +27,6 @@
             android:id="@+id/layout_look_swipe"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:clipToPadding="false"
-            android:orientation="vertical"
-            android:overScrollMode="never"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

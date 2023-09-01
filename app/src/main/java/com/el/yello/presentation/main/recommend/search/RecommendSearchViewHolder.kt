@@ -20,7 +20,7 @@ class RecommendSearchViewHolder(
 
     fun onBind(item: SearchFriendModel, position: Int) {
         binding.tvRecommendItemName.text = item.name
-        binding.tvRecommendItemId.text = item.yelloId
+        binding.tvRecommendItemId.text = String.format("@%s", item.yelloId)
         binding.tvRecommendItemSchool.text = item.group
 
         item.profileImage.let { thumbnail ->

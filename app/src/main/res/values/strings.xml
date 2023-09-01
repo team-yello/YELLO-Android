@@ -242,6 +242,7 @@
     <string name="recommend_search_title">친구 검색</string>
     <string name="recommend_search_hint">| 이름 또는 아이디를 입력해보세요!</string>
     <string name="recommend_search_error">검색 결과 가져오기 실패</string>
+    <string name="recommend_search_friend">내 친구</string>
 
     <string name="onboarding_highschool_hint">ex. 옐로고등학교</string>
     <string name="onboarding_grade_title">몇 학년인가요?</string>

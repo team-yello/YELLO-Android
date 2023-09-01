@@ -5,6 +5,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.view.animation.AnimationUtils
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
@@ -47,6 +48,7 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
         super.onViewCreated(view, savedInstanceState)
 
         initProfileSetting()
+        initPullToScrollListener()
         setItemDivider()
         setUserDataFromServer()
         setFriendsListDataFromServer()
@@ -157,6 +159,24 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
         })
         adapter.setItemList(listOf())
         binding.rvProfileFriendsList.adapter = adapter
+    }
+
+    private fun initPullToScrollListener() {
+        binding.layoutProfileSwipe.apply {
+            setOnRefreshListener {
+                lifecycleScope.launch {
+                    adapter.setItemList(listOf())
+                    viewModel.initPagingVariable()
+                    viewModel.getPurchaseInfoFromServer()
+                    viewModel.getUserDataFromServer()
+                    viewModel.getFriendsListFromServer()
+                    delay(200)
+                    binding.layoutProfileSwipe.isRefreshing = false
+                }
+            }
+            setProgressBackgroundColorSchemeColor(ContextCompat.getColor(context, R.color.grayscales_700))
+            setColorSchemeColors(ContextCompat.getColor(context, R.color.grayscales_500))
+        }
     }
 
     // 유저 정보 서버 통신 성공 시 어댑터 생성 후 리사이클러뷰에 부착

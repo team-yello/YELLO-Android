@@ -5,8 +5,10 @@ import android.os.Bundle
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.activity.viewModels
+import androidx.core.content.ContextCompat
 import androidx.core.widget.doAfterTextChanged
 import androidx.core.widget.doOnTextChanged
+import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -33,6 +35,8 @@ class RecommendSearchActivity :
 
     private val viewModel by viewModels<RecommendSearchViewModel>()
 
+    private lateinit var inputMethodManager: InputMethodManager
+
     private val debounceTime = 500L
     private var searchJob: Job? = null
 
@@ -44,6 +48,7 @@ class RecommendSearchActivity :
         initFocusToEditText()
         initAdapterWithDivider()
         initBackBtnListener()
+        initPullToScrollListener()
         observeSearchListState()
         observeAddFriendState()
         setDebounceSearch()
@@ -70,12 +75,10 @@ class RecommendSearchActivity :
 
     // 처음 들어왔을 때 키보드 올라오도록 설정 (개인정보보호옵션 켜진 경우 불가능)
     private fun initFocusToEditText() {
+        inputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         binding.etRecommendSearchBox.requestFocus()
-        val inputMethodManager =
-            getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         inputMethodManager.showSoftInput(
-            binding.etRecommendSearchBox,
-            InputMethodManager.SHOW_IMPLICIT
+            binding.etRecommendSearchBox, InputMethodManager.SHOW_IMPLICIT
         )
     }
 
@@ -85,9 +88,31 @@ class RecommendSearchActivity :
         }
     }
 
+    private fun initPullToScrollListener() {
+        binding.layoutSearchSwipe.apply {
+            setOnRefreshListener {
+                lifecycleScope.launch {
+                    viewModel.isNewText = false
+                    adapter.submitList(listOf())
+                    viewModel.setNewPage()
+                    viewModel.setListFromServer(searchText)
+                    delay(200)
+                    binding.layoutSearchSwipe.isRefreshing = false
+                }
+            }
+            setProgressBackgroundColorSchemeColor(
+                ContextCompat.getColor(
+                    context, R.color.grayscales_700
+                )
+            )
+            setColorSchemeColors(ContextCompat.getColor(context, R.color.grayscales_500))
+        }
+    }
+
     // 텍스트 변경 감지 시 로딩 화면 출력
     private fun setLoadingScreen() {
         binding.etRecommendSearchBox.doOnTextChanged { _, _, _, _ ->
+            viewModel.isNewText = true
             showLoadingScreen()
             adapter.submitList(listOf())
             viewModel.setNewPage()
@@ -118,6 +143,9 @@ class RecommendSearchActivity :
         viewModel.postFriendsListState.observe(this) { state ->
             when (state) {
                 is UiState.Success -> {
+                    inputMethodManager.hideSoftInputFromWindow(
+                        binding.etRecommendSearchBox.windowToken, 0
+                    )
                     if (state.data?.friendList?.size == 0) {
                         showNoFriendScreen()
                     } else {
@@ -132,7 +160,7 @@ class RecommendSearchActivity :
                 }
 
                 is UiState.Loading -> {
-                    showLoadingScreen()
+                    if (viewModel.isNewText) showLoadingScreen()
                 }
 
                 is UiState.Empty -> {
@@ -149,10 +177,8 @@ class RecommendSearchActivity :
                 super.onScrolled(recyclerView, dx, dy)
                 if (dy > 0) {
                     recyclerView.layoutManager?.let { layoutManager ->
-                        if (!binding.rvRecommendSearch.canScrollVertically(1)
-                            && layoutManager is LinearLayoutManager
-                            && layoutManager.findLastVisibleItemPosition() == adapter.itemCount - 1
-                        ) {
+                        if (!binding.rvRecommendSearch.canScrollVertically(1) && layoutManager is LinearLayoutManager && layoutManager.findLastVisibleItemPosition() == adapter.itemCount - 1) {
+                            viewModel.isNewText = false
                             viewModel.setListFromServer(searchText)
                         }
                     }
@@ -189,19 +215,19 @@ class RecommendSearchActivity :
     }
 
     private fun showFriendListScreen() {
-        binding.rvRecommendSearch.visibility = View.VISIBLE
+        binding.layoutSearchSwipe.visibility = View.VISIBLE
         binding.layoutRecommendSearchLoading.visibility = View.GONE
         binding.layoutRecommendNoSearch.visibility = View.GONE
     }
 
     private fun showLoadingScreen() {
-        binding.rvRecommendSearch.visibility = View.GONE
+        binding.layoutSearchSwipe.visibility = View.GONE
         binding.layoutRecommendSearchLoading.visibility = View.VISIBLE
         binding.layoutRecommendNoSearch.visibility = View.GONE
     }
 
     private fun showNoFriendScreen() {
-        binding.rvRecommendSearch.visibility = View.GONE
+        binding.layoutSearchSwipe.visibility = View.GONE
         binding.layoutRecommendSearchLoading.visibility = View.GONE
         binding.layoutRecommendNoSearch.visibility = View.VISIBLE
     }

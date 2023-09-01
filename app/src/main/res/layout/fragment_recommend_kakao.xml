@@ -89,19 +89,33 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_recommend_kakao"
-                android:layout_width="match_parent"
+            <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+                android:id="@+id/layout_recommend_kakao_swipe"
+                android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:overScrollMode="never"
                 android:clipToPadding="false"
+                android:overScrollMode="never"
                 android:paddingBottom="15dp"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/layout_invite_friend"
-                tools:listitem="@layout/item_recommend_list" />
+                app:layout_constraintTop_toBottomOf="@id/layout_invite_friend">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_recommend_kakao"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:overScrollMode="never"
+                    android:paddingBottom="15dp"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:listitem="@layout/item_recommend_list" />
+
+            </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
             <com.facebook.shimmer.ShimmerFrameLayout
                 android:id="@+id/shimmer_friend_list"

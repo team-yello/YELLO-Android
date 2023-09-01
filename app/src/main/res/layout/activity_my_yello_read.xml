@@ -196,7 +196,7 @@
                 android:lineHeight="32dp"
                 android:text="@{data.vote.nameFoot}"
                 android:textColor="@color/white"
-                android:textSize="24dp"
+                android:textSize="24sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/tv_you"
                 app:layout_constraintTop_toTopOf="parent"

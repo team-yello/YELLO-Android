@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.flowWithLifecycle
@@ -23,8 +24,10 @@ import com.example.ui.base.BindingFragment
 import com.example.ui.view.UiState
 import com.example.ui.view.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 import org.json.JSONObject
 
 @AndroidEntryPoint
@@ -40,6 +43,7 @@ class MyYelloFragment : BindingFragment<FragmentMyYelloBinding>(R.layout.fragmen
         initView()
         initEvent()
         observe()
+        initPullToScrollListener()
     }
 
     private fun initView() {
@@ -212,6 +216,22 @@ class MyYelloFragment : BindingFragment<FragmentMyYelloBinding>(R.layout.fragmen
                     binding.tvKeyNumber.text = ticketCount.toString()
                 }
             }
+        }
+    }
+
+    private fun initPullToScrollListener() {
+        binding.layoutMyYelloSwipe.apply {
+            setOnRefreshListener {
+                lifecycleScope.launch {
+                    adapter?.clearList()
+                    viewModel.setToFirstPage()
+                    viewModel.getMyYelloList()
+                    delay(200)
+                    binding.layoutMyYelloSwipe.isRefreshing = false
+                }
+            }
+            setProgressBackgroundColorSchemeColor(ContextCompat.getColor(context, R.color.grayscales_700))
+            setColorSchemeColors(ContextCompat.getColor(context, R.color.grayscales_500))
         }
     }
 

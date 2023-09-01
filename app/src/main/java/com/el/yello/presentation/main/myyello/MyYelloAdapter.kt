@@ -40,6 +40,11 @@ class MyYelloAdapter(private val itemClick: (Yello, Int) -> (Unit)) :
         notifyDataSetChanged()
     }
 
+    fun clearList() {
+        yelloList.clear()
+        notifyDataSetChanged()
+    }
+
     fun currentList(): List<Yello> {
         return yelloList
     }

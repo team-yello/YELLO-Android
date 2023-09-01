@@ -30,6 +30,8 @@ class RecommendSearchViewModel @Inject constructor(
     private var isPagingFinish = false
     private var totalPage = Int.MAX_VALUE
 
+    var isNewText = true
+
     fun setPositionAndHolder(position: Int, holder: RecommendSearchViewHolder) {
         itemPosition = position
         itemHolder = holder

@@ -73,20 +73,20 @@ class RecommendKakaoViewModel @Inject constructor(
             } else if (friends != null) {
                 totalPage = ceil((friends.totalCount * 0.01)).toInt() - 1
                 if (totalPage == currentPage) isPagingFinish = true
-                val friendIdList: List<String> =
+                getListFromServer(
                     friends.elements?.map { friend -> friend.id.toString() } ?: listOf()
-                getListFromServer(friendIdList)
+                )
             }
         }
     }
 
     // 서버 통신 - 추천 친구 리스트 추가
-    private fun getListFromServer(friendKakaoId: List<String>) {
+    private fun getListFromServer(friendsKakaoId: List<String>) {
         viewModelScope.launch {
             runCatching {
                 recommendRepository.postToGetKakaoFriendList(
                     0,
-                    RequestRecommendKakaoModel(friendKakaoId),
+                    RequestRecommendKakaoModel(friendsKakaoId),
                 )
             }.onSuccess {
                 it ?: return@launch

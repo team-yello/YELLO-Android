@@ -79,21 +79,28 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_recommend_search"
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/layout_search_swipe"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:overScrollMode="never"
             android:layout_marginHorizontal="16dp"
             android:layout_marginTop="8dp"
-            android:orientation="vertical"
             android:visibility="visible"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/layout_recommend_search_box"
-            tools:listitem="@layout/item_recommend_search" />
+            app:layout_constraintTop_toBottomOf="@id/layout_recommend_search_box">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_recommend_search"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:overScrollMode="never"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:listitem="@layout/item_recommend_search" />
+
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layout_recommend_search_loading"

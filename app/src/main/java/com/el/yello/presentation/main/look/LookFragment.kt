@@ -2,6 +2,7 @@ package com.el.yello.presentation.main.look
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.content.ContextCompat
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
@@ -11,12 +12,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.el.yello.R
 import com.el.yello.databinding.FragmentLookBinding
 import com.el.yello.presentation.main.recommend.RecommendInviteDialog
-import com.el.yello.presentation.main.recommend.school.RecommendSchoolFragment
 import com.el.yello.util.amplitude.AmplitudeUtils
 import com.el.yello.util.context.yelloSnackbar
 import com.example.ui.base.BindingFragment
 import com.example.ui.view.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.json.JSONObject
@@ -39,7 +40,8 @@ class LookFragment : BindingFragment<FragmentLookBinding>(R.layout.fragment_look
 
         initAdapterWithFirstList()
         initNoFriendScreenInviteBtnListener()
-        getSearchPagingList()
+        initPullToScrollListener()
+        getTimelinePagingList()
         observeIsLoading()
         observeErrorResult()
         catchScrollForAmplitude()
@@ -52,12 +54,12 @@ class LookFragment : BindingFragment<FragmentLookBinding>(R.layout.fragment_look
     }
 
     private fun initAdapterWithFirstList() {
-        viewModel.setFirstPageLoading()
+        viewModel.setNotLoading()
         _adapter = LookAdapter()
         binding.rvLook.adapter = adapter
 
         adapter.addLoadStateListener { combinedLoadStates ->
-            if(combinedLoadStates.prepend.endOfPaginationReached) {
+            if(combinedLoadStates.prepend.endOfPaginationReached && viewModel.isLoading.value == false) {
                 binding.layoutLookNoFriendsList.isVisible = adapter.itemCount < 1
                 binding.rvLook.isGone = adapter.itemCount < 1
             }
@@ -75,7 +77,23 @@ class LookFragment : BindingFragment<FragmentLookBinding>(R.layout.fragment_look
         }
     }
 
-    private fun getSearchPagingList() {
+    private fun initPullToScrollListener() {
+        binding.layoutLookSwipe.apply {
+            setOnRefreshListener {
+                lifecycleScope.launch {
+                    _adapter = null
+                    initAdapterWithFirstList()
+                    getTimelinePagingList()
+                    delay(200)
+                    binding.layoutLookSwipe.isRefreshing = false
+                }
+            }
+            setProgressBackgroundColorSchemeColor(ContextCompat.getColor(context, R.color.grayscales_700))
+            setColorSchemeColors(ContextCompat.getColor(context, R.color.grayscales_500))
+        }
+    }
+
+    private fun getTimelinePagingList() {
         lifecycleScope.launch {
             viewModel.getLookListWithPaging()
                 .flowWithLifecycle(lifecycle)

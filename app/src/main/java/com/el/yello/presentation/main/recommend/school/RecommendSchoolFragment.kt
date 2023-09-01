@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
 import android.view.animation.AnimationUtils
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -49,6 +50,7 @@ class RecommendSchoolFragment :
 
         initFirstList()
         initInviteBtnListener()
+        initPullToScrollListener()
         setItemDivider()
         setAdapterWithClickListener()
         setListWithInfinityScroll()
@@ -100,6 +102,22 @@ class RecommendSchoolFragment :
         viewModel.isFirstResume = true
         viewModel.setFirstPageLoading()
         viewModel.addListFromServer()
+    }
+
+    private fun initPullToScrollListener() {
+        binding.layoutRecommendSchoolSwipe.apply {
+            setOnRefreshListener {
+                lifecycleScope.launch {
+                    adapter.clearList()
+                    viewModel.setFirstPageLoading()
+                    viewModel.addListFromServer()
+                    delay(200)
+                    binding.layoutRecommendSchoolSwipe.isRefreshing = false
+                }
+            }
+            setProgressBackgroundColorSchemeColor(ContextCompat.getColor(context, R.color.grayscales_700))
+            setColorSchemeColors(ContextCompat.getColor(context, R.color.grayscales_500))
+        }
     }
 
     private fun setItemDivider() {
@@ -224,8 +242,8 @@ class RecommendSchoolFragment :
             delay(300)
             binding.rvRecommendSchool.removeItemDecoration(itemDivider)
             adapter.removeItem(position)
-            activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
             delay(500)
+            activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
             binding.rvRecommendSchool.addItemDecoration(itemDivider)
             if (adapter.itemCount == 0) {
                 showNoFriendScreen()
@@ -234,7 +252,7 @@ class RecommendSchoolFragment :
     }
 
     private fun changeToCheckIcon(holder: RecommendViewHolder) {
-        holder.binding.btnRecommendItemAdd.visibility = View.GONE
+        holder.binding.btnRecommendItemAdd.visibility = View.INVISIBLE
         holder.binding.btnRecommendItemAddPressed.visibility = View.VISIBLE
     }
 

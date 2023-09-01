@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="vm"
+            type="com.el.yello.presentation.onboarding.activity.OnBoardingViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout_university"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/black">
+
+        <ImageView
+            android:id="@+id/iv_yello_bubble"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:src="@drawable/ic_onboarding_school_yello_bubble"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_university_where"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="24dp"
+            android:text="@string/onboarding_tv_what_school"
+            android:textAppearance="?textAppearanceHeadline1"
+            android:textColor="@color/white"
+            android:gravity="center"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/iv_yello_bubble" />
+
+        <TextView
+            android:id="@+id/tv_university_search"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="24dp"
+            android:layout_marginTop="18dp"
+            android:background="@{vm.schoolText.isEmpty() ? @drawable/shape_grayscales800_fill_8_rect : @drawable/shape_grayscales800_fill_grayscales700_line_8_rect}"
+            android:hint="@string/onboarding_school_hint"
+            android:textAppearance="?textAppearanceBodyLarge"
+            android:drawablePadding="12dp"
+            android:ellipsize="end"
+            android:gravity="center_vertical"
+            android:textColorHint="@color/grayscales_700"
+            android:maxLines="1"
+            android:paddingVertical="16dp"
+            android:paddingStart="20dp"
+            android:paddingEnd="12dp"
+            android:textColor="@color/white"
+            app:drawableEndCompat="@drawable/ic_onboarding_search"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_university_where" />
+
+        <TextView
+            android:id="@+id/tv_department_search"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="24dp"
+            android:background="@{vm.departmentText.isEmpty() ?@drawable/shape_grayscales800_fill_8_rect : @drawable/shape_grayscales800_fill_grayscales700_line_8_rect}"
+            android:fontFamily="@font/font_pretendard_medium"
+            android:layout_marginTop="16dp"
+            android:gravity="center_vertical"
+            android:paddingVertical="16dp"
+            android:paddingStart="20dp"
+            android:hint="@string/onboarding_department_hint"
+            android:paddingEnd="12dp"
+            android:textColor="@color/white"
+            android:textColorHint="@color/grayscales_700"
+            android:textSize="16sp"
+            app:drawableEndCompat="@drawable/ic_onboarding_search"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_university_search" />
+
+        <TextView
+            android:id="@+id/tv_studentid_search"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="24dp"
+            android:background="@{vm.studentIdText == null ? @drawable/shape_grayscales800_fill_8_rect : @drawable/shape_grayscales800_fill_grayscales700_line_8_rect}"
+            android:fontFamily="@font/font_pretendard_medium"
+            android:gravity="center_vertical"
+            android:hint="@string/onboarding_tv_hint_select_studentid"
+            android:paddingVertical="16dp"
+            android:layout_marginTop="16dp"
+            android:paddingStart="20dp"
+            android:paddingEnd="12dp"
+            android:textColor="@color/white"
+            android:textColorHint="@color/grayscales_700"
+            android:textSize="16sp"
+            app:drawableEndCompat="@drawable/ic_onboarding_studentid_down"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_department_search"
+            tools:background="shape_black_fill_grayscales600_line_8_rect" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_university_info_next"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginBottom="32dp"
+            android:background="@{vm.schoolText.isEmpty() || vm.departmentText.isEmpty() || vm.studentIdText == null ? @drawable/shape_grayscales_800_fill_100_rect : @drawable/shape_yello_main_500_fill_100_rect}"
+            android:clickable="@{!vm.schoolText.isEmpty() &amp; !vm.departmentText.isEmpty() &amp; vm.studentIdText != null }"
+            android:paddingVertical="12dp"
+            android:text="@string/onboarding_btn_next"
+            android:textAppearance="?textAppearanceBodyMedium"
+            android:textColor="@{vm.schoolText.isEmpty() || vm.departmentText.isEmpty()|| vm.studentIdText == null? @color/grayscales_700 : @color/black}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

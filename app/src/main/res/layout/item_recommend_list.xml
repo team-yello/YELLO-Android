@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/black">
+
+    <ImageView
+        android:id="@+id/iv_recommend_item_thumbnail"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="17dp"
+        android:layout_marginBottom="-16dp"
+        app:layout_constraintBottom_toBottomOf="@id/tv_recommend_item_name"
+        app:layout_constraintDimensionRatio="1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@drawable/ic_main_yello_active" />
+
+    <TextView
+        android:id="@+id/tv_recommend_item_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:maxLines="1"
+        android:paddingTop="20dp"
+        android:paddingBottom="3dp"
+        android:textAppearance="@style/TextAppearance.Yello.Subtitle01"
+        android:textColor="@color/white"
+        app:layout_constraintStart_toEndOf="@id/iv_recommend_item_thumbnail"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="김상호" />
+
+    <TextView
+        android:id="@+id/tv_recommend_item_school"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="100dp"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:paddingTop="2dp"
+        android:paddingBottom="19dp"
+        android:textAppearance="@style/TextAppearance.Yello.LabelMedium"
+        android:textColor="@color/grayscales_600"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/iv_recommend_item_thumbnail"
+        app:layout_constraintTop_toBottomOf="@id/tv_recommend_item_name"
+        tools:text="고려대학교 산업경영공학부 19학번" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_recommend_item_add"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="23dp"
+        android:layout_marginEnd="24dp"
+        android:backgroundTint="@color/yello_main_500"
+        android:includeFontPadding="false"
+        android:insetTop="0dp"
+        android:insetBottom="0dp"
+        android:minWidth="0dp"
+        android:minHeight="0dp"
+        android:paddingHorizontal="15dp"
+        android:paddingVertical="9dp"
+        android:text="@string/recommend_item_btn_add"
+        android:textAppearance="@style/TextAppearance.Yello.Button"
+        android:textColor="@color/black"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/btn_recommend_item_add_pressed"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visibility="gone"
+        android:layout_marginEnd="24dp"
+        android:src="@drawable/ic_onboarding_friend_check"
+        app:layout_constraintBottom_toBottomOf="@id/btn_recommend_item_add"
+        app:layout_constraintDimensionRatio="1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/btn_recommend_item_add" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

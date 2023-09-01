@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".presentation.main.recommend.RecommendFragment">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/black">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_recommend_friends_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layout_invite_friend"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:id="@+id/iv_recommend_invite"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginVertical="17dp"
+                    android:layout_marginStart="25dp"
+                    android:src="@drawable/img_banner_invite"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintDimensionRatio="1"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_recommend_invite_title"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginTop="17dp"
+                    android:paddingVertical="3dp"
+                    android:text="@string/recommend_invite_title"
+                    android:textAppearance="@style/TextAppearance.Yello.BodyMedium"
+                    android:textColor="@color/white"
+                    app:layout_constraintEnd_toStartOf="@id/iv_recommend_invite_next"
+                    app:layout_constraintStart_toEndOf="@id/iv_recommend_invite"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_recommend_invite_subtitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginBottom="18dp"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:paddingVertical="2dp"
+                    android:text="@string/recommend_invite_subtitle"
+                    android:textAppearance="@style/TextAppearance.Yello.LabelMedium"
+                    android:textColor="@color/grayscales_600"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/iv_recommend_invite_next"
+                    app:layout_constraintStart_toEndOf="@id/iv_recommend_invite"
+                    app:layout_constraintTop_toBottomOf="@id/tv_recommend_invite_title" />
+
+                <ImageView
+                    android:id="@+id/iv_recommend_invite_next"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginVertical="14dp"
+                    android:layout_marginEnd="12dp"
+                    android:padding="12dp"
+                    android:src="@drawable/ic_right"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintDimensionRatio="1"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+                android:id="@+id/layout_recommend_kakao_swipe"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/layout_invite_friend">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_recommend_kakao"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:overScrollMode="never"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:listitem="@layout/item_recommend_list" />
+
+            </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+            <com.facebook.shimmer.ShimmerFrameLayout
+                android:id="@+id/shimmer_friend_list"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/layout_invite_friend">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <include layout="@layout/item_recommend_list_shimmer" />
+
+                    <include layout="@layout/item_recommend_list_shimmer" />
+
+                    <include layout="@layout/item_recommend_list_shimmer" />
+
+                    <include layout="@layout/item_recommend_list_shimmer" />
+
+                    <include layout="@layout/item_recommend_list_shimmer" />
+
+                    <include layout="@layout/item_recommend_list_shimmer" />
+
+                    <include layout="@layout/item_recommend_list_shimmer" />
+
+                    <include layout="@layout/item_recommend_list_shimmer" />
+
+                    <include layout="@layout/item_recommend_list_shimmer" />
+
+                    <include layout="@layout/item_recommend_list_shimmer" />
+
+                    <include layout="@layout/item_recommend_list_shimmer" />
+
+                    <include layout="@layout/item_recommend_list_shimmer" />
+
+                </LinearLayout>
+
+            </com.facebook.shimmer.ShimmerFrameLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_recommend_no_friends_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/iv_recommend_no_friend"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:src="@drawable/img_banner_invite"
+                app:layout_constraintBottom_toTopOf="@id/tv_recommend_no_friend_title"
+                app:layout_constraintDimensionRatio="1"
+                app:layout_constraintEnd_toEndOf="@id/tv_recommend_no_friend_title"
+                app:layout_constraintStart_toStartOf="@id/tv_recommend_no_friend_title"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_chainStyle="packed" />
+
+            <TextView
+                android:id="@+id/tv_recommend_no_friend_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:gravity="center"
+                android:text="@string/recommend_invite_no_title"
+                android:textAppearance="?textAppearanceBodyLarge"
+                android:textColor="@color/grayscales_300"
+                app:layout_constraintBottom_toTopOf="@id/btn_recommend_no_friend"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/iv_recommend_no_friend"
+                app:layout_constraintVertical_chainStyle="packed" />
+
+            <TextView
+                android:id="@+id/btn_recommend_no_friend"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="40dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="60dp"
+                android:background="@drawable/shape_grayscales_800_fill_100_rect"
+                android:gravity="center"
+                android:paddingHorizontal="30dp"
+                android:paddingVertical="17dp"
+                android:text="@string/recommend_invite_no_subtitle"
+                android:textAppearance="?textAppearanceButton"
+                android:textColor="@color/yello_main_500"
+                android:textSize="15sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_recommend_no_friend_title"
+                app:layout_constraintVertical_chainStyle="packed" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

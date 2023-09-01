@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/activity_navigate"
+    app:startDestination="@id/universityInfoFragment">
+    <fragment
+        android:id="@+id/universityInfoFragment"
+        android:name="com.el.yello.presentation.onboarding.fragment.universityinfo.UniversityInfoFragment"
+        android:label="UniversityInfoFragment" >
+        <action
+            android:id="@+id/action_universityInfoFragment_to_yelIoIdFragment"
+            app:destination="@id/yelIoIdFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/yelIoIdFragment"
+        android:name="com.el.yello.presentation.onboarding.fragment.nameid.YelIoIdFragment"
+        android:label="YelIoIdFragment" >
+        <action
+            android:id="@+id/action_yelIoIdFragment_to_addFriendFragment"
+            app:destination="@id/addFriendFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addFriendFragment"
+        android:name="com.el.yello.presentation.onboarding.fragment.addfriend.AddFriendFragment"
+        android:label="AddFriendFragment">
+        <action
+            android:id="@+id/action_addFriendFragment_to_codeFragment"
+            app:destination="@id/codeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/codeFragment"
+        android:name="com.el.yello.presentation.onboarding.fragment.code.CodeFragment"
+        android:label="CodeFragment" >
+        <action
+            android:id="@+id/action_codeFragment_to_startAppFragment"
+            app:destination="@id/startAppFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/startAppFragment"
+        android:name="com.el.yello.presentation.onboarding.fragment.startapp.StartAppFragment"
+        android:label="StartAppFragment"
+        app:popUpTo="@id/codeFragment"
+        app:popUpToInclusive="true" />
+</navigation>

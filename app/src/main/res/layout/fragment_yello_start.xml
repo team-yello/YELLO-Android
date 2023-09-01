@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".presentation.main.yello.start.YelloStartFragment">
+
+    <data>
+
+        <variable
+            name="vm"
+            type="com.el.yello.presentation.main.yello.YelloViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout_start"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/black">
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/lottie_start_background"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:scaleType="fitXY"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/lottie_yello_vote_entrance_bg"
+            app:lottie_repeatMode="restart" />
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/lottie_start_entrance"
+            android:layout_width="800dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/lottie_yello_vote_entrance"
+            app:lottie_repeatMode="restart"
+            tools:layout_marginBottom="-348dp" />
+
+        <com.el.yello.util.view.YelloStartShadowView
+            android:id="@+id/shadow_start"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="-120dp"
+            android:background="#660D0D0F"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/lottie_start_entrance" />
+
+        <TextView
+            android:id="@+id/tv_start_point"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="16dp"
+            android:text="@{vm.point.toString()}"
+            android:textAppearance="?textAppearanceBodyLarge"
+            android:textColor="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="200" />
+
+        <ImageView
+            android:id="@+id/iv_start_point"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="4dp"
+            android:src="@drawable/ic_yello_start_point"
+            app:layout_constraintBottom_toBottomOf="@id/tv_start_point"
+            app:layout_constraintEnd_toStartOf="@id/tv_start_point"
+            app:layout_constraintTop_toTopOf="@id/tv_start_point" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_start_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_start_point">
+
+            <TextView
+                android:id="@+id/tv_start_balloon_top"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:background="@drawable/shape_gray900_fill_18_rect"
+                android:fontFamily="@font/font_pretendard_bold"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="4dp"
+                android:text="@string/yello_start_balloon_top"
+                android:textColor="@color/grayscales_600"
+                android:textSize="23sp"
+                app:layout_constraintStart_toStartOf="@id/iv_start_balloon_tail_top"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/iv_start_balloon_tail_top"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/img_yello_start_balloon_left"
+                app:layout_constraintBottom_toBottomOf="@id/tv_start_balloon_top"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layout_start_balloon_mid"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:layout_marginEnd="4dp"
+                android:background="@drawable/shape_gray900_fill_18_rect"
+                android:paddingHorizontal="19dp"
+                android:paddingVertical="4dp"
+                app:layout_constraintEnd_toEndOf="@id/iv_start_balloon_tail_mid"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_start_balloon_top">
+
+                <TextView
+                    android:id="@+id/tv_start_balloon_mid1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/font_pretendard_bold"
+                    android:text="@string/yello_start_balloon_mid1"
+                    android:textColor="@color/white"
+                    android:textSize="23sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_start_balloon_mid2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/font_pretendard_bold"
+                    android:text="@string/yello_start_balloon_mid2"
+                    android:textColor="@color/grayscales_600"
+                    android:textSize="23sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/tv_start_balloon_mid1"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <ImageView
+                android:id="@+id/iv_start_balloon_tail_mid"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/img_yello_start_balloon_right"
+                app:layout_constraintBottom_toBottomOf="@id/layout_start_balloon_mid"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_start_balloon_bottom"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:layout_marginEnd="4dp"
+                android:background="@drawable/shape_gray900_fill_18_rect"
+                android:fontFamily="@font/font_pretendard_bold"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="4dp"
+                android:text="@string/yello_start_balloon_bottom"
+                android:textColor="@color/grayscales_600"
+                android:textSize="23sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/layout_start_balloon_mid" />
+
+            <ImageView
+                android:id="@+id/iv_start_balloon_tail_bottom"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/img_yello_start_balloon_right"
+                app:layout_constraintBottom_toBottomOf="@id/tv_start_balloon_bottom"
+                app:layout_constraintEnd_toEndOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/btn_start_vote"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="73dp"
+            android:background="@drawable/shape_yello500_fill_500_rect"
+            android:fontFamily="@font/unbounded_bold"
+            android:paddingHorizontal="50dp"
+            android:paddingVertical="18dp"
+            android:text="@string/yello_start_vote"
+            android:textColor="@color/black"
+            android:textSize="22sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_subs_double"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btn_start_vote">
+
+            <TextView
+                android:id="@+id/tv_start_plus_point"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/unbounded_medium"
+                android:text="@string/yello_start_point"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="@id/tv_start_plus_double"
+                app:layout_constraintEnd_toStartOf="@id/tv_start_plus_double"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/tv_start_plus_double" />
+
+            <TextView
+                android:id="@+id/tv_start_plus_double"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:background="@drawable/shape_gradient_plus_fill_10_rect"
+                android:fontFamily="@font/unbounded_medium"
+                android:paddingHorizontal="6dp"
+                android:paddingVertical="1dp"
+                android:text="@string/yello_start_double"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/tv_start_plus_point"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

@@ -1,0 +1,85 @@
+name: YELLO Push Builder
+
+on:
+  push:
+    branches: [ develop, production ]
+
+defaults:
+  run:
+    shell: bash
+    working-directory: .
+
+jobs:
+  build:
+    name: APK Builder When Push
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Gradle cache
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+      - name: set up JDK 17
+        uses: actions/setup-java@v1
+        with:
+          java-version: 17
+
+      - name: Change gradlew permissions
+        run: chmod +x ./gradlew
+        
+      - name: Create Local Properties
+        run: touch local.properties
+        
+      - name: Access Local Properties
+        env:
+          base_url: ${{ secrets.BASE_URL }}
+          native_app_key: ${{ secrets.NATIVE_APP_KEY }}
+          test_base_url: ${{ secrets.TEST_BASE_URL }}
+          test_native_app_key: ${{ secrets.TEST_NATIVE_APP_KEY }}
+          amplitude_api_key: ${{ secrets.AMPLITUDE_API_KEY }}
+          amplitude_api_test_key: ${{ secrets.AMPLITUDE_API_TEST_KEY }}
+        run: |
+          echo base.url=\"$base_url\" >> local.properties
+          echo native.app.key=\"$native_app_key\" >> local.properties
+          echo nativeAppKey=$native_app_key >> local.properties
+          echo test.base.url=\"$test_base_url\" >> local.properties
+          echo test.native.app.key=\"$test_native_app_key\" >> local.properties
+          echo testNativeAppKey=$test_native_app_key >> local.properties
+          echo amplitude.api.key=$amplitude_api_key >> local.properties
+          echo amplitude.api.test.key=$amplitude_api_test_key >> local.properties
+
+      - name: Access Firebase Service
+        run: echo '${{ secrets.GOOGLE_SERVICES_JSON }}' > ./app/google-services.json
+
+      - name: Build debug APK
+        run: ./gradlew assembleDebug --stacktrace
+
+      - name: On Success
+        if: ${{ success() }}
+        uses: MeilCli/slack-upload-file@v1
+        with:
+          slack_token: ${{ secrets.SLACK_BOT_TOKEN}}
+          channels: ${{ secrets.SLACK_CHANNEL_ID }}
+          file_path: 'app/build/outputs/apk/debug/app-debug.apk'
+          file_name: 'YELLO.apk'
+          file_type: 'apk'
+          initial_comment: '🎉 YELLO가 슬랙으로 들어왔습니다'
+
+      - name: On Failed, Notify in Slack
+        if: ${{ failure() }}
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_COLOR: '#ff0000'
+          SLACK_ICON: https://avatars.githubusercontent.com/u/137089215?s=48&v=4
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+          SLACK_TITLE: 'YELLO/Android Debug build Fail❌'
+          MSG_MINIMAL: true
+          SLACK_USERNAME: YELLO_ANDROID
+          SLACK_MESSAGE: 'APK 생성 중 에러가 발생했습니다. 에러를 확인해주세요'

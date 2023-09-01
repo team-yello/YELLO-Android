@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout_profile_manage"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/black">
+
+        <ImageView
+            android:id="@+id/btn_profile_manage_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:padding="12dp"
+            android:src="@drawable/ic_arrow_left"
+            app:layout_constraintBottom_toBottomOf="@id/tv_profile_manage_title"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tv_profile_manage_title" />
+
+        <TextView
+            android:id="@+id/tv_profile_manage_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="-4dp"
+            android:layout_marginTop="1dp"
+            android:paddingVertical="15dp"
+            android:text="@string/profile_manage_tv_title"
+            android:textAppearance="?textAppearanceSubtitle1"
+            android:textColor="@color/white"
+            app:layout_constraintStart_toEndOf="@id/btn_profile_manage_back"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/btn_profile_manage_center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/shape_grayscales900_fill_8_rect"
+            android:maxLines="1"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="21dp"
+            android:text="@string/profile_manage_tv_center"
+            android:textAppearance="?textAppearanceBodySmall"
+            android:textColor="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_profile_manage_title" />
+
+        <TextView
+            android:id="@+id/btn_profile_manage_privacy"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="4dp"
+            android:background="@drawable/shape_grayscales900_fill_8_rect"
+            android:maxLines="1"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="21dp"
+            android:text="@string/profile_manage_tv_privacy"
+            android:textAppearance="?textAppearanceBodySmall"
+            android:textColor="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btn_profile_manage_center" />
+
+        <TextView
+            android:id="@+id/btn_profile_manage_service"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="4dp"
+            android:background="@drawable/shape_grayscales900_fill_8_rect"
+            android:maxLines="1"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="21dp"
+            android:text="@string/profile_manage_tv_service"
+            android:textAppearance="?textAppearanceBodySmall"
+            android:textColor="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btn_profile_manage_privacy" />
+
+        <TextView
+            android:id="@+id/btn_profile_manage_logout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="4dp"
+            android:background="@drawable/shape_grayscales900_fill_8_rect"
+            android:maxLines="1"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="21dp"
+            android:text="@string/profile_manage_tv_logout"
+            android:textAppearance="?textAppearanceBodySmall"
+            android:textColor="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btn_profile_manage_service" />
+
+        <TextView
+            android:id="@+id/tv_profile_manage_version"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginBottom="25dp"
+            android:textAppearance="?textAppearanceBody2"
+            android:textColor="@color/grayscales_600"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:text="버전 1.2" />
+
+        <TextView
+            android:id="@+id/btn_profile_manage_quit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="4dp"
+            android:layout_marginBottom="13dp"
+            android:padding="12dp"
+            android:text="@string/profile_manage_tv_quit"
+            android:textAppearance="?textAppearanceBody2"
+            android:textColor="@color/grayscales_600"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

@@ -17,6 +17,7 @@ import com.el.yello.presentation.main.recommend.RecommendInviteDialog
 import com.el.yello.presentation.main.recommend.list.RecommendAdapter
 import com.el.yello.presentation.main.recommend.list.RecommendItemDecoration
 import com.el.yello.presentation.main.recommend.list.RecommendViewHolder
+import com.el.yello.presentation.util.BaseLinearRcvItemDeco
 import com.el.yello.util.amplitude.AmplitudeUtils
 import com.el.yello.util.context.yelloSnackbar
 import com.example.domain.entity.RecommendModel.RecommendFriend
@@ -51,7 +52,7 @@ class RecommendSchoolFragment :
         initFirstList()
         initInviteBtnListener()
         initPullToScrollListener()
-        setItemDivider()
+        setItemDecoration()
         setAdapterWithClickListener()
         setListWithInfinityScroll()
         observeAddListState()
@@ -120,9 +121,20 @@ class RecommendSchoolFragment :
         }
     }
 
-    private fun setItemDivider() {
+    private fun setItemDecoration() {
         itemDivider = RecommendItemDecoration(requireContext())
         binding.rvRecommendSchool.addItemDecoration(itemDivider)
+        binding.rvRecommendSchool.addItemDecoration(
+            BaseLinearRcvItemDeco(
+                0,
+                0,
+                0,
+                0,
+                0,
+                RecyclerView.VERTICAL,
+                12,
+            ),
+        )
     }
 
     // 처음 리스트 설정 및 어댑터 클릭 리스너 설정

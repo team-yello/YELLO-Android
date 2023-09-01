@@ -35,8 +35,6 @@ class RecommendSearchActivity :
 
     private val viewModel by viewModels<RecommendSearchViewModel>()
 
-    private lateinit var inputMethodManager: InputMethodManager
-
     private val debounceTime = 500L
     private var searchJob: Job? = null
 
@@ -75,7 +73,8 @@ class RecommendSearchActivity :
 
     // 처음 들어왔을 때 키보드 올라오도록 설정 (개인정보보호옵션 켜진 경우 불가능)
     private fun initFocusToEditText() {
-        inputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        val inputMethodManager =
+            getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         binding.etRecommendSearchBox.requestFocus()
         inputMethodManager.showSoftInput(
             binding.etRecommendSearchBox, InputMethodManager.SHOW_IMPLICIT
@@ -143,9 +142,6 @@ class RecommendSearchActivity :
         viewModel.postFriendsListState.observe(this) { state ->
             when (state) {
                 is UiState.Success -> {
-                    inputMethodManager.hideSoftInputFromWindow(
-                        binding.etRecommendSearchBox.windowToken, 0
-                    )
                     if (state.data?.friendList?.size == 0) {
                         showNoFriendScreen()
                     } else {

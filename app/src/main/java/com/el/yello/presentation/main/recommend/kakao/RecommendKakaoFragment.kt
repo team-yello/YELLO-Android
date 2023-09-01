@@ -17,6 +17,7 @@ import com.el.yello.presentation.main.recommend.RecommendInviteDialog
 import com.el.yello.presentation.main.recommend.list.RecommendAdapter
 import com.el.yello.presentation.main.recommend.list.RecommendItemDecoration
 import com.el.yello.presentation.main.recommend.list.RecommendViewHolder
+import com.el.yello.presentation.util.BaseLinearRcvItemDeco
 import com.el.yello.util.amplitude.AmplitudeUtils
 import com.el.yello.util.context.yelloSnackbar
 import com.example.ui.base.BindingFragment
@@ -47,7 +48,7 @@ class RecommendKakaoFragment :
 
         initInviteBtnListener()
         initPullToScrollListener()
-        setItemDivider()
+        setItemDecoration()
         setListWithInfinityScroll()
         setFirstResume()
         setKakaoRecommendList()
@@ -92,10 +93,7 @@ class RecommendKakaoFragment :
                 super.onScrolled(recyclerView, dx, dy)
                 if (dy > 0) {
                     recyclerView.layoutManager?.let { layoutManager ->
-                        if (!binding.rvRecommendKakao.canScrollVertically(1)
-                            && layoutManager is LinearLayoutManager
-                            && layoutManager.findLastVisibleItemPosition() == adapter.itemCount - 1
-                        ) {
+                        if (!binding.rvRecommendKakao.canScrollVertically(1) && layoutManager is LinearLayoutManager && layoutManager.findLastVisibleItemPosition() == adapter.itemCount - 1) {
                             viewModel.addListWithKakaoIdList()
                         }
                     }
@@ -109,8 +107,7 @@ class RecommendKakaoFragment :
             recommendInviteYesFriendDialog =
                 RecommendInviteDialog.newInstance(viewModel.getYelloId(), KAKAO_YES_FRIEND)
             AmplitudeUtils.trackEventWithProperties(
-                "click_invite",
-                JSONObject().put("invite_view", KAKAO_YES_FRIEND)
+                "click_invite", JSONObject().put("invite_view", KAKAO_YES_FRIEND)
             )
             recommendInviteYesFriendDialog?.show(parentFragmentManager, INVITE_DIALOG)
         }
@@ -119,8 +116,7 @@ class RecommendKakaoFragment :
             recommendInviteNoFriendDialog =
                 RecommendInviteDialog.newInstance(viewModel.getYelloId(), KAKAO_NO_FRIEND)
             AmplitudeUtils.trackEventWithProperties(
-                "click_invite",
-                JSONObject().put("invite_view", KAKAO_NO_FRIEND)
+                "click_invite", JSONObject().put("invite_view", KAKAO_NO_FRIEND)
             )
             recommendInviteNoFriendDialog?.show(parentFragmentManager, INVITE_DIALOG)
         }
@@ -136,14 +132,29 @@ class RecommendKakaoFragment :
                     binding.layoutRecommendKakaoSwipe.isRefreshing = false
                 }
             }
-            setProgressBackgroundColorSchemeColor(ContextCompat.getColor(context, R.color.grayscales_700))
+            setProgressBackgroundColorSchemeColor(
+                ContextCompat.getColor(
+                    context, R.color.grayscales_700
+                )
+            )
             setColorSchemeColors(ContextCompat.getColor(context, R.color.grayscales_500))
         }
     }
 
-    private fun setItemDivider() {
+    private fun setItemDecoration() {
         itemDivider = RecommendItemDecoration(requireContext())
         binding.rvRecommendKakao.addItemDecoration(itemDivider)
+        binding.rvRecommendKakao.addItemDecoration(
+            BaseLinearRcvItemDeco(
+                0,
+                0,
+                0,
+                0,
+                0,
+                RecyclerView.VERTICAL,
+                12,
+            ),
+        )
     }
 
     // 어댑터 클릭 리스너 설정

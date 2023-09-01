@@ -60,6 +60,14 @@ class ProfileFriendAdapter(
             val itemPosition = position - HEADER_COUNT
             holder.onBind(itemList[itemPosition], itemPosition)
         }
+
+        val layoutParams = holder.itemView.layoutParams as RecyclerView.LayoutParams
+        if (position == itemList.size) {
+            layoutParams.bottomMargin = 24
+        } else {
+            layoutParams.bottomMargin = 0
+        }
+        holder.itemView.layoutParams = layoutParams
     }
 
     override fun getItemCount(): Int {

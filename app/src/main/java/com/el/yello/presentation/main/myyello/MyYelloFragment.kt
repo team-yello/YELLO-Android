@@ -67,7 +67,7 @@ class MyYelloFragment : BindingFragment<FragmentMyYelloBinding>(R.layout.fragmen
                 0,
                 5,
                 RecyclerView.VERTICAL,
-                94,
+                110,
             ),
         )
         adapter?.setHasStableIds(true)

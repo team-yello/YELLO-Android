@@ -52,6 +52,8 @@ class StartAppFragment : BindingFragment<FragmentStartAppBinding>(R.layout.fragm
             } else {
                 requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
             }
+        } else {
+            startTutorialActivity()
         }
     }
 

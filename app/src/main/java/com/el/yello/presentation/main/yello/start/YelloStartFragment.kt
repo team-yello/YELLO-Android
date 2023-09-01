@@ -27,7 +27,6 @@ class YelloStartFragment :
         super.onViewCreated(view, savedInstanceState)
         binding.vm = viewModel
 
-        Timber.d("QATEST : Yello Start Fragment View Created!!!")
         initEntranceLottie()
         initShadowView()
         initVoteBtnClickListener()

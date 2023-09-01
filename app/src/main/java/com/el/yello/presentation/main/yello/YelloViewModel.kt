@@ -48,10 +48,6 @@ class YelloViewModel @Inject constructor(
     private val _getPurchaseInfoState = MutableLiveData<UiState<ResponsePurchaseInfoModel?>>()
     val getPurchaseInfoState: LiveData<UiState<ResponsePurchaseInfoModel?>> = _getPurchaseInfoState
 
-    init {
-        getVoteState()
-    }
-
     private fun decreaseTime() {
         leftTime.value ?: return
         if (isDecreasing) return
@@ -80,6 +76,10 @@ class YelloViewModel @Inject constructor(
 
                     _point.value = voteState.point
                     if (voteState.isStart || voteState.leftTime !in 1..SEC_MAX_LOCK_TIME) {
+                        val currentState = yelloState.value
+                        if (currentState is Success) {
+                            if (currentState.data is Valid) return@onSuccess
+                        }
                         _yelloState.value = Success(Valid(voteState.point))
                         return@launch
                     }

@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.el.yello.R
 import com.el.yello.databinding.FragmentLookBinding
 import com.el.yello.presentation.main.recommend.RecommendInviteDialog
-import com.el.yello.presentation.main.recommend.list.RecommendItemDecoration
 import com.el.yello.presentation.util.BaseLinearRcvItemDeco
 import com.el.yello.util.amplitude.AmplitudeUtils
 import com.el.yello.util.context.yelloSnackbar
@@ -40,7 +39,7 @@ class LookFragment : BindingFragment<FragmentLookBinding>(R.layout.fragment_look
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        initAdapterWithFirstList()
+        initAdapter()
         initNoFriendScreenInviteBtnListener()
         initPullToScrollListener()
         setItemDecoration()
@@ -56,13 +55,13 @@ class LookFragment : BindingFragment<FragmentLookBinding>(R.layout.fragment_look
         _adapter = null
     }
 
-    private fun initAdapterWithFirstList() {
+    private fun initAdapter() {
         viewModel.setNotLoading()
         _adapter = LookAdapter()
         binding.rvLook.adapter = adapter
 
         adapter.addLoadStateListener { combinedLoadStates ->
-            if(combinedLoadStates.prepend.endOfPaginationReached && viewModel.isLoading.value == false) {
+            if (combinedLoadStates.prepend.endOfPaginationReached && viewModel.isLoading.value == false) {
                 binding.layoutLookNoFriendsList.isVisible = adapter.itemCount < 1
                 binding.rvLook.isGone = adapter.itemCount < 1
             }
@@ -71,10 +70,10 @@ class LookFragment : BindingFragment<FragmentLookBinding>(R.layout.fragment_look
 
     private fun initNoFriendScreenInviteBtnListener() {
         binding.btnLookNoFriend.setOnSingleClickListener {
-            inviteFriendDialog = RecommendInviteDialog.newInstance(viewModel.getYelloId(), TIMELINE_NO_FRIEND)
+            inviteFriendDialog =
+                RecommendInviteDialog.newInstance(viewModel.getYelloId(), TIMELINE_NO_FRIEND)
             AmplitudeUtils.trackEventWithProperties(
-                "click_invite",
-                JSONObject().put("invite_view", TIMELINE_NO_FRIEND)
+                "click_invite", JSONObject().put("invite_view", TIMELINE_NO_FRIEND)
             )
             inviteFriendDialog?.show(parentFragmentManager, INVITE_DIALOG)
         }
@@ -84,14 +83,16 @@ class LookFragment : BindingFragment<FragmentLookBinding>(R.layout.fragment_look
         binding.layoutLookSwipe.apply {
             setOnRefreshListener {
                 lifecycleScope.launch {
-                    _adapter = null
-                    initAdapterWithFirstList()
                     getTimelinePagingList()
                     delay(200)
                     binding.layoutLookSwipe.isRefreshing = false
                 }
             }
-            setProgressBackgroundColorSchemeColor(ContextCompat.getColor(context, R.color.grayscales_700))
+            setProgressBackgroundColorSchemeColor(
+                ContextCompat.getColor(
+                    context, R.color.grayscales_700
+                )
+            )
             setColorSchemeColors(ContextCompat.getColor(context, R.color.grayscales_500))
         }
     }
@@ -112,8 +113,7 @@ class LookFragment : BindingFragment<FragmentLookBinding>(R.layout.fragment_look
 
     private fun getTimelinePagingList() {
         lifecycleScope.launch {
-            viewModel.getLookListWithPaging()
-                .flowWithLifecycle(lifecycle)
+            viewModel.getLookListWithPaging().flowWithLifecycle(lifecycle)
                 .collectLatest { pagingData ->
                     adapter.submitData(pagingData)
                 }

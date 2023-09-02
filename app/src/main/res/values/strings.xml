@@ -300,6 +300,10 @@
     <string name="pay_is_subs">옐로플러스 구독중</string>
     <string name="pay_subtitle">쪽지 보낸 사람을 알고 싶다면?</string>
 
+    <string name="pay_banner_item_1">이름 열람권 매주 3회</string>
+    <string name="pay_banner_item_2">초성 힌트 무제한 제공</string>
+    <string name="pay_banner_item_3">포인트 2배</string>
+
     <string name="pay_subs_title">옐로플러스 구독하기</string>
     <string name="pay_subs_subtitle">(50%할인)</string>
     <string name="pay_subs_original_price">7900원</string>

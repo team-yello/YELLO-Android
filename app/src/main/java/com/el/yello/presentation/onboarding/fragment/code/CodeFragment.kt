@@ -25,12 +25,10 @@ class CodeFragment : BindingFragment<FragmentCodeBinding>(R.layout.fragment_code
 
         setConfirmBtnCLickListener()
         setDeleteCodeBtnClickListener()
-        setupPostSignupState()
         viewModel.validYellIdLoading()
     }
     override fun onResume() {
         super.onResume()
-        setupGetValidYelloIdState()
         (activity as? OnBoardingActivity)?.hideBackbtn()
     }
 
@@ -42,6 +40,7 @@ class CodeFragment : BindingFragment<FragmentCodeBinding>(R.layout.fragment_code
                 JSONObject().put("rec_exist", "pass"),
             )
             AmplitudeUtils.updateUserProperties("user_recommend", "no")
+            setupPostSignupState()
             viewModel.postSignup()
         }
         binding.btnCodeNext.setOnSingleClickListener {
@@ -52,7 +51,7 @@ class CodeFragment : BindingFragment<FragmentCodeBinding>(R.layout.fragment_code
             )
             AmplitudeUtils.updateUserProperties("user_recommend", "yes")
             viewModel.getValidYelloId(viewModel.codeText.value.toString())
-            viewModel.postSignup()
+            setupGetValidYelloIdState()
         }
     }
 
@@ -81,6 +80,7 @@ class CodeFragment : BindingFragment<FragmentCodeBinding>(R.layout.fragment_code
                         initIdEditTextViewError()
                         return@observe
                     }
+                    findNavController().navigate(R.id.action_codeFragment_to_startAppFragment)
                     viewModel.postSignup()
                 }
 

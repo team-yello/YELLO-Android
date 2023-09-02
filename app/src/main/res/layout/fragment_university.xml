@@ -31,6 +31,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="24dp"
             android:gravity="center"
+            android:paddingVertical="5dp"
             android:text="@string/onboarding_tv_what_school"
             android:textAppearance="?textAppearanceHeadline1"
             android:textColor="@color/white"
@@ -112,12 +113,14 @@
             android:layout_marginBottom="32dp"
             android:background="@{vm.schoolText.isEmpty() || vm.departmentText.isEmpty() || vm.studentIdText == null ? @drawable/shape_grayscales_800_fill_100_rect : @drawable/shape_yello_main_500_fill_100_rect}"
             android:clickable="@{!vm.schoolText.isEmpty() &amp; !vm.departmentText.isEmpty() &amp; vm.studentIdText != null }"
-            android:paddingVertical="12dp"
+            android:paddingVertical="16dp"
             android:text="@string/onboarding_btn_next"
             android:textAppearance="?textAppearanceBodyMedium"
             android:textColor="@{vm.schoolText.isEmpty() || vm.departmentText.isEmpty()|| vm.studentIdText == null? @color/grayscales_700 : @color/black}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </layout>

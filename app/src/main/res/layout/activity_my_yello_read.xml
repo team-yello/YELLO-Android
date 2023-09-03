@@ -398,6 +398,7 @@
                 android:id="@+id/btn_send_check"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                tools:visibility="visible"
                 android:layout_marginHorizontal="16dp"
                 android:layout_marginTop="8dp"
                 android:drawableStart="@drawable/ic_lock"

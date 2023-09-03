@@ -11,11 +11,11 @@ import com.example.domain.enum.PointEnum
 import com.example.domain.repository.YelloRepository
 import com.example.ui.view.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @HiltViewModel
 class MyYelloReadViewModel @Inject constructor(
@@ -134,7 +134,6 @@ class MyYelloReadViewModel @Inject constructor(
                             minusPoint()
                         }
                         _nameData.value = UiState.Success(it)
-
                     }
                 }.onFailure {
                     _nameData.value = UiState.Failure("이름 확인 서버 통신 실패")

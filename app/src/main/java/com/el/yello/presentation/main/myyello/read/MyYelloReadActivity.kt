@@ -32,14 +32,14 @@ import com.example.ui.intent.longExtra
 import com.example.ui.view.UiState
 import com.example.ui.view.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
+import java.io.ByteArrayOutputStream
+import java.text.SimpleDateFormat
+import java.util.Date
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import org.json.JSONObject
-import java.io.ByteArrayOutputStream
-import java.text.SimpleDateFormat
-import java.util.Date
 
 @AndroidEntryPoint
 class MyYelloReadActivity :
@@ -62,10 +62,21 @@ class MyYelloReadActivity :
         viewModel.setHintUsed(isHintUsed)
 
         binding.tv300.paintFlags = binding.tv300.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+
+        initViewAmplitude()
+    }
+
+    private fun initViewAmplitude() {
+        with(viewModel.yelloDetail ?: return) {
+            if (!isAnswerRevealed && nameHint == -2) {
+                AmplitudeUtils.trackEventWithProperties("view_open_fullnamefirst")
+            }
+        }
     }
 
     private fun initClick() {
         binding.tvInitialCheck.setOnSingleClickListener {
+            AmplitudeUtils.trackEventWithProperties("click_open_keyword")
             viewModel.setIsFinishCheck(false)
             PointUseDialog.newInstance(
                 if (binding.tvInitialCheck.text.toString()
@@ -81,30 +92,34 @@ class MyYelloReadActivity :
                     PointEnum.INITIAL.ordinal
                 } else {
                     PointEnum.KEYWORD.ordinal
-                }
+                },
             ).show(supportFragmentManager, "dialog")
         }
 
         binding.btnSendCheck.setOnSingleClickListener {
             if (binding.tvNameNotYet.isVisible && binding.tvKeywordNotYet.isVisible) {
+                AmplitudeUtils.trackEventWithProperties("click_open_fullnamefirst")
                 AmplitudeUtils.trackEventWithProperties(
                     "click_go_shop",
-                    JSONObject().put("shop_button", "cta_nothing")
+                    JSONObject().put("shop_button", "cta_nothing"),
                 )
             } else if (viewModel.yelloDetail?.isSubscribe == true && binding.tvKeywordNotYet.isGone) {
+                AmplitudeUtils.trackEventWithProperties("click_open_fullname")
                 AmplitudeUtils.trackEventWithProperties(
                     "click_go_shop",
-                    JSONObject().put("shop_button", "cta_keyword_sub")
+                    JSONObject().put("shop_button", "cta_keyword_sub"),
                 )
             } else if (viewModel.yelloDetail?.isSubscribe == false && binding.tvKeywordNotYet.isGone) {
+                AmplitudeUtils.trackEventWithProperties("click_open_fullname")
                 AmplitudeUtils.trackEventWithProperties(
                     "click_go_shop",
-                    JSONObject().put("shop_button", "cta_keyword_nosub")
+                    JSONObject().put("shop_button", "cta_keyword_nosub"),
                 )
             } else if ((viewModel.yelloDetail?.nameHint == 0 || viewModel.yelloDetail?.nameHint == 1) && binding.tvKeywordNotYet.isVisible) {
+                AmplitudeUtils.trackEventWithProperties("click_open_fullnamefirst")
                 AmplitudeUtils.trackEventWithProperties(
                     "click_go_shop",
-                    JSONObject().put("shop_button", "cta_firstletter")
+                    JSONObject().put("shop_button", "cta_firstletter"),
                 )
             }
             Intent(this, PayActivity::class.java).apply {
@@ -113,8 +128,14 @@ class MyYelloReadActivity :
         }
 
         binding.clSendOpen.setOnSingleClickListener {
+            if (binding.tvKeywordNotYet.isVisible) {
+                AmplitudeUtils.trackEventWithProperties("click_open_fullnamefirst")
+            } else {
+                AmplitudeUtils.trackEventWithProperties("click_open_fullname")
+            }
             viewModel.setIsFinishCheck(false)
-            ReadingTicketUseDialog().show(supportFragmentManager, "reading_ticket_dialog")
+            ReadingTicketUseDialog.newInstance(binding.tvKeywordNotYet.isGone)
+                .show(supportFragmentManager, "reading_ticket_dialog")
         }
 
         binding.ivBack.setOnSingleClickListener {
@@ -125,27 +146,27 @@ class MyYelloReadActivity :
             if (binding.tvNameNotYet.isVisible && binding.tvKeywordNotYet.isVisible) {
                 AmplitudeUtils.trackEventWithProperties(
                     "click_instagram",
-                    JSONObject().put("insta_view", "message")
+                    JSONObject().put("insta_view", "message"),
                 )
             } else if (binding.tvNameNotYet.isVisible && binding.tvKeywordNotYet.isGone) {
                 AmplitudeUtils.trackEventWithProperties(
                     "click_instagram",
-                    JSONObject().put("insta_view", "keyword")
+                    JSONObject().put("insta_view", "keyword"),
                 )
             } else if ((viewModel.yelloDetail?.nameHint == 0 || viewModel.yelloDetail?.nameHint == 1) && binding.tvKeywordNotYet.isVisible) {
                 AmplitudeUtils.trackEventWithProperties(
                     "click_instagram",
-                    JSONObject().put("insta_view", "firstletter")
+                    JSONObject().put("insta_view", "firstletter"),
                 )
             } else if (viewModel.yelloDetail?.nameHint == -2 && binding.tvKeywordNotYet.isGone) {
                 AmplitudeUtils.trackEventWithProperties(
                     "click_instagram",
-                    JSONObject().put("insta_view", "fullname")
+                    JSONObject().put("insta_view", "fullname"),
                 )
             } else if (viewModel.yelloDetail?.nameHint == -2 && binding.tvKeywordNotYet.isVisible) {
                 AmplitudeUtils.trackEventWithProperties(
                     "click_instagram",
-                    JSONObject().put("insta_view", "fullnamefirst")
+                    JSONObject().put("insta_view", "fullnamefirst"),
                 )
             }
             setViewInstagram(true)
@@ -156,9 +177,10 @@ class MyYelloReadActivity :
         }
 
         binding.clZeroInitialCheck.setOnSingleClickListener {
+            AmplitudeUtils.trackEventWithProperties("click_open_firstletter")
             PointUseDialog.newInstance(
                 true,
-                PointEnum.SUBSCRIBE.ordinal
+                PointEnum.SUBSCRIBE.ordinal,
             ).show(supportFragmentManager, "dialog")
         }
     }
@@ -313,7 +335,7 @@ class MyYelloReadActivity :
             context: Context,
             id: Long,
             nameIndex: Int? = null,
-            isHintUsed: Boolean? = null
+            isHintUsed: Boolean? = null,
         ) =
             Intent(context, MyYelloReadActivity::class.java)
                 .putExtra("id", id)

@@ -80,7 +80,7 @@ class MyYelloFragment : BindingFragment<FragmentMyYelloBinding>(R.layout.fragmen
         binding.btnSendCheck.setOnSingleClickListener {
             AmplitudeUtils.trackEventWithProperties(
                 "click_go_shop",
-                JSONObject().put("shop_button", "cta_main")
+                JSONObject().put("shop_button", "cta_main"),
             )
             Intent(requireContext(), PayActivity::class.java).apply {
                 payActivityLauncher.launch(this)
@@ -94,7 +94,7 @@ class MyYelloFragment : BindingFragment<FragmentMyYelloBinding>(R.layout.fragmen
         binding.btnShop.setOnSingleClickListener {
             AmplitudeUtils.trackEventWithProperties(
                 "click_go_shop",
-                JSONObject().put("shop_button", "message_shop")
+                JSONObject().put("shop_button", "message_shop"),
             )
             goToPayActivity()
         }
@@ -233,7 +233,12 @@ class MyYelloFragment : BindingFragment<FragmentMyYelloBinding>(R.layout.fragmen
                     binding.layoutMyYelloSwipe.isRefreshing = false
                 }
             }
-            setProgressBackgroundColorSchemeColor(ContextCompat.getColor(context, R.color.grayscales_700))
+            setProgressBackgroundColorSchemeColor(
+                ContextCompat.getColor(
+                    context,
+                    R.color.grayscales_700,
+                ),
+            )
             setColorSchemeColors(ContextCompat.getColor(context, R.color.grayscales_500))
         }
     }

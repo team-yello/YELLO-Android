@@ -82,25 +82,28 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
 
     // BillingManager 설정 시 BillingClient 연결 & 콜백 응답 설정 -> 검증 진행
     private fun setBillingManager() {
-        _manager = BillingManager(this, object : BillingCallback {
-            override fun onBillingConnected() {
-                lifecycleScope.launch {
-                    manager.getProductDetails() { list -> productDetailsList = list }
+        _manager = BillingManager(
+            this,
+            object : BillingCallback {
+                override fun onBillingConnected() {
+                    lifecycleScope.launch {
+                        manager.getProductDetails() { list -> productDetailsList = list }
+                    }
                 }
-            }
 
-            override fun onSuccess(purchase: Purchase) {
-                if (purchase.products[0] == "yello_plus_subscribe") {
-                    viewModel.checkSubsToServer(purchase.toRequestPayModel())
-                } else {
-                    viewModel.checkInAppToServer(purchase.toRequestPayModel())
+                override fun onSuccess(purchase: Purchase) {
+                    if (purchase.products[0] == "yello_plus_subscribe") {
+                        viewModel.checkSubsToServer(purchase.toRequestPayModel())
+                    } else {
+                        viewModel.checkInAppToServer(purchase.toRequestPayModel())
+                    }
                 }
-            }
 
-            override fun onFailure(responseCode: Int) {
-                Timber.d(responseCode.toString())
-            }
-        })
+                override fun onFailure(responseCode: Int) {
+                    Timber.d(responseCode.toString())
+                }
+            },
+        )
     }
 
     // 배너 자동 스크롤 로직
@@ -155,7 +158,8 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
         binding.clSubscribe.setOnSingleClickListener {
             viewModel.payCheck(0)
             AmplitudeUtils.trackEventWithProperties(
-                "click_shop_buy", JSONObject().put("buy_type", "subscribe")
+                "click_shop_buy",
+                JSONObject().put("buy_type", "subscribe"),
             )
             productDetailsList.withIndex().find { it.value.productId == YELLO_PLUS }
                 ?.let { productDetails ->
@@ -168,7 +172,8 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
         binding.clNameCheckOne.setOnSingleClickListener {
             viewModel.payCheck(1)
             AmplitudeUtils.trackEventWithProperties(
-                "click_shop_buy", JSONObject().put("buy_type", "ticket1")
+                "click_shop_buy",
+                JSONObject().put("buy_type", "ticket1"),
             )
             productDetailsList.withIndex().find { it.value.productId == YELLO_ONE }
                 ?.let { productDetails ->
@@ -181,7 +186,8 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
         binding.clNameCheckTwo.setOnSingleClickListener {
             viewModel.payCheck(2)
             AmplitudeUtils.trackEventWithProperties(
-                "click_shop_buy", JSONObject().put("buy_type", "ticket2")
+                "click_shop_buy",
+                JSONObject().put("buy_type", "ticket2"),
             )
             productDetailsList.withIndex().find { it.value.productId == YELLO_TWO }
                 ?.let { productDetails ->
@@ -194,7 +200,8 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
         binding.clNameCheckFive.setOnSingleClickListener {
             viewModel.payCheck(3)
             AmplitudeUtils.trackEventWithProperties(
-                "click_shop_buy", JSONObject().put("buy_type", "ticket5")
+                "click_shop_buy",
+                JSONObject().put("buy_type", "ticket5"),
             )
             productDetailsList.withIndex().find { it.value.productId == YELLO_FIVE }
                 ?.let { productDetails ->
@@ -224,7 +231,7 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
                 is UiState.Success -> {
                     AmplitudeUtils.trackEventWithProperties(
                         "complete_shop_buy",
-                        JSONObject().put("buy_type", "subscribe").put("buy_price", "3900")
+                        JSONObject().put("buy_type", "subscribe").put("buy_price", "3900"),
                     )
                     AmplitudeUtils.setUserDataProperties("user_buy_date")
                     isSubscribed = true
@@ -258,7 +265,7 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
                         "yello_ticket_one" -> {
                             AmplitudeUtils.trackEventWithProperties(
                                 "complete_shop_buy",
-                                JSONObject().put("buy_type", "ticket1").put("buy_price", "1400")
+                                JSONObject().put("buy_type", "ticket1").put("buy_price", "1400"),
                             )
                             ticketCount += 1
                         }
@@ -266,7 +273,7 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
                         "yello_ticket_two" -> {
                             AmplitudeUtils.trackEventWithProperties(
                                 "complete_shop_buy",
-                                JSONObject().put("buy_type", "ticket2").put("buy_price", "2800")
+                                JSONObject().put("buy_type", "ticket2").put("buy_price", "2800"),
                             )
                             ticketCount += 2
                         }
@@ -274,7 +281,7 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
                         "yello_ticket_five" -> {
                             AmplitudeUtils.trackEventWithProperties(
                                 "complete_shop_buy",
-                                JSONObject().put("buy_type", "ticket5").put("buy_price", "5900")
+                                JSONObject().put("buy_type", "ticket5").put("buy_price", "5900"),
                             )
                             ticketCount += 5
                         }

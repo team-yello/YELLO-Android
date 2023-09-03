@@ -124,7 +124,7 @@ class MyYelloReadActivity :
                 AmplitudeUtils.trackEventWithProperties("click_open_fullname")
             }
             viewModel.setIsFinishCheck(false)
-            ReadingTicketUseDialog().show(supportFragmentManager, "reading_ticket_dialog")
+            ReadingTicketUseDialog.newInstance(binding.tvKeywordNotYet.isGone).show(supportFragmentManager, "reading_ticket_dialog")
         }
 
         binding.ivBack.setOnSingleClickListener {

@@ -4,6 +4,7 @@ import android.content.res.Resources
 import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
+import androidx.core.os.bundleOf
 import androidx.fragment.app.activityViewModels
 import com.el.yello.R
 import com.el.yello.databinding.DialogReadingTicketUseBinding
@@ -11,14 +12,26 @@ import com.el.yello.util.amplitude.AmplitudeUtils
 import com.example.ui.base.BindingDialogFragment
 import com.example.ui.view.setOnSingleClickListener
 
-class ReadingTicketUseDialog : BindingDialogFragment<DialogReadingTicketUseBinding>(R.layout.dialog_reading_ticket_use) {
+class ReadingTicketUseDialog :
+    BindingDialogFragment<DialogReadingTicketUseBinding>(R.layout.dialog_reading_ticket_use) {
     private val viewModel by activityViewModels<MyYelloReadViewModel>()
+
+    private var _isKeywordOpened: Boolean? = null
+    private val isKeywordOpened
+        get() = _isKeywordOpened ?: false
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        getBundleArgs()
         initView()
         setDialogBackground()
         initEvent()
+    }
+
+    private fun getBundleArgs() {
+        arguments ?: return
+        _isKeywordOpened = arguments?.getBoolean(ARGS_IS_KEYWORD_OPENED)
     }
 
     private fun initView() {
@@ -27,13 +40,21 @@ class ReadingTicketUseDialog : BindingDialogFragment<DialogReadingTicketUseBindi
 
     private fun initEvent() {
         binding.tvOk.setOnSingleClickListener {
-            AmplitudeUtils.trackEventWithProperties("click_modal_fullname_yes")
+            if (isKeywordOpened) {
+                AmplitudeUtils.trackEventWithProperties("click_modal_fullname_yes")
+            } else {
+                AmplitudeUtils.trackEventWithProperties("click_modal_fullnamefirst_yes")
+            }
             dismiss()
             ReadingTicketAfterDialog.newInstance().show(parentFragmentManager, "dialog")
         }
 
         binding.tvNo.setOnSingleClickListener {
-            AmplitudeUtils.trackEventWithProperties("click_modal_fullname_no")
+            if (isKeywordOpened) {
+                AmplitudeUtils.trackEventWithProperties("click_modal_fullname_no")
+            } else {
+                AmplitudeUtils.trackEventWithProperties("click_modal_fullnamefirst_no")
+            }
             dismiss()
         }
     }
@@ -50,5 +71,16 @@ class ReadingTicketUseDialog : BindingDialogFragment<DialogReadingTicketUseBindi
             setBackgroundDrawableResource(R.drawable.shape_fill_gray900_12dp)
         }
         dialog?.setCancelable(true)
+    }
+
+    companion object {
+        private const val ARGS_IS_KEYWORD_OPENED = "is_keyword_opened"
+
+        @JvmStatic
+        fun newInstance(isKeywordOpened: Boolean) = ReadingTicketUseDialog().apply {
+            arguments = bundleOf(
+                ARGS_IS_KEYWORD_OPENED to isKeywordOpened,
+            )
+        }
     }
 }

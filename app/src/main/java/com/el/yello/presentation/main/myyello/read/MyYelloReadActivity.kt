@@ -88,21 +88,25 @@ class MyYelloReadActivity :
 
         binding.btnSendCheck.setOnSingleClickListener {
             if (binding.tvNameNotYet.isVisible && binding.tvKeywordNotYet.isVisible) {
+                AmplitudeUtils.trackEventWithProperties("click_open_fullnamefirst")
                 AmplitudeUtils.trackEventWithProperties(
                     "click_go_shop",
                     JSONObject().put("shop_button", "cta_nothing"),
                 )
             } else if (viewModel.yelloDetail?.isSubscribe == true && binding.tvKeywordNotYet.isGone) {
+                AmplitudeUtils.trackEventWithProperties("click_open_fullname")
                 AmplitudeUtils.trackEventWithProperties(
                     "click_go_shop",
                     JSONObject().put("shop_button", "cta_keyword_sub"),
                 )
             } else if (viewModel.yelloDetail?.isSubscribe == false && binding.tvKeywordNotYet.isGone) {
+                AmplitudeUtils.trackEventWithProperties("click_open_fullname")
                 AmplitudeUtils.trackEventWithProperties(
                     "click_go_shop",
                     JSONObject().put("shop_button", "cta_keyword_nosub"),
                 )
             } else if ((viewModel.yelloDetail?.nameHint == 0 || viewModel.yelloDetail?.nameHint == 1) && binding.tvKeywordNotYet.isVisible) {
+                AmplitudeUtils.trackEventWithProperties("click_open_fullnamefirst")
                 AmplitudeUtils.trackEventWithProperties(
                     "click_go_shop",
                     JSONObject().put("shop_button", "cta_firstletter"),
@@ -114,7 +118,11 @@ class MyYelloReadActivity :
         }
 
         binding.clSendOpen.setOnSingleClickListener {
-            AmplitudeUtils.trackEventWithProperties("click_open_fullname")
+            if (binding.tvKeywordNotYet.isVisible) {
+                AmplitudeUtils.trackEventWithProperties("click_open_fullnamefirst")
+            } else {
+                AmplitudeUtils.trackEventWithProperties("click_open_fullname")
+            }
             viewModel.setIsFinishCheck(false)
             ReadingTicketUseDialog().show(supportFragmentManager, "reading_ticket_dialog")
         }

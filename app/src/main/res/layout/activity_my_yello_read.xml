@@ -398,6 +398,7 @@
                 android:id="@+id/btn_send_check"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                tools:visibility="visible"
                 android:layout_marginHorizontal="16dp"
                 android:layout_marginTop="8dp"
                 android:drawableStart="@drawable/ic_lock"
@@ -420,7 +421,6 @@
                 android:layout_marginTop="8dp"
                 android:background="@drawable/shape_purple_gradient_100dp"
                 android:visibility="gone"
-                tools:visibility="visible"
                 app:layout_constraintTop_toBottomOf="@id/tv_initial_check">
 
                 <ImageView

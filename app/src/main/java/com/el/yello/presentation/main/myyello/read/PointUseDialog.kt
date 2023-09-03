@@ -7,14 +7,13 @@ import android.view.View
 import android.view.WindowManager
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
-import com.amplitude.api.Amplitude
 import com.el.yello.R
 import com.el.yello.databinding.DialogPointUseBinding
+import com.el.yello.presentation.main.MainActivity
+import com.el.yello.util.amplitude.AmplitudeUtils
 import com.example.domain.enum.PointEnum
 import com.example.ui.base.BindingDialogFragment
 import com.example.ui.view.setOnSingleClickListener
-import com.el.yello.presentation.main.MainActivity
-import com.el.yello.util.amplitude.AmplitudeUtils
 import org.json.JSONObject
 
 class PointUseDialog : BindingDialogFragment<DialogPointUseBinding>(R.layout.dialog_point_use) {
@@ -45,7 +44,7 @@ class PointUseDialog : BindingDialogFragment<DialogPointUseBinding>(R.layout.dia
             if (viewModel.pointType == PointEnum.INITIAL.ordinal) {
                 binding.tvTitle.text = getString(R.string.dialog_get_initial_question)
                 binding.tvOk.text = getString(R.string.dialog_get_initial)
-            } else if(viewModel.pointType == PointEnum.KEYWORD.ordinal) {
+            } else if (viewModel.pointType == PointEnum.KEYWORD.ordinal) {
                 binding.tvTitle.text = getString(R.string.dialog_get_keyword_question)
                 binding.tvOk.text = getString(R.string.dialog_get_keyword)
             } else {
@@ -67,10 +66,22 @@ class PointUseDialog : BindingDialogFragment<DialogPointUseBinding>(R.layout.dia
             } else {
                 dismiss()
                 if (viewModel.pointType == PointEnum.INITIAL.ordinal) {
-                    AmplitudeUtils.trackEventWithProperties("view_open_firstletter", JSONObject().put("subscription type", "sub_no"))
+                    AmplitudeUtils.trackEventWithProperties("click_modal_firstletter_yes")
+                    // TODO : 확인
+                    AmplitudeUtils.trackEventWithProperties(
+                        "view_open_firstletter",
+                        JSONObject().put("subscription type", "sub_no"),
+                    )
                 } else if (viewModel.pointType == PointEnum.SUBSCRIBE.ordinal) {
-                    AmplitudeUtils.trackEventWithProperties("view_open_firstletter", JSONObject().put("subscription type", "sub_yes"))
+                    AmplitudeUtils.trackEventWithProperties("click_modal_firstletter_yes")
+                    // TODO : 확인
+                    AmplitudeUtils.trackEventWithProperties(
+                        "view_open_firstletter",
+                        JSONObject().put("subscription type", "sub_yes"),
+                    )
                 } else if (viewModel.pointType == PointEnum.KEYWORD.ordinal) {
+                    AmplitudeUtils.trackEventWithProperties("click_modal_keyword_yes")
+                    // TODO : 확인
                     AmplitudeUtils.trackEventWithProperties("view_open_keyword")
                 }
                 PointAfterDialog.newInstance().show(parentFragmentManager, "dialog")
@@ -78,6 +89,11 @@ class PointUseDialog : BindingDialogFragment<DialogPointUseBinding>(R.layout.dia
         }
 
         binding.tvNo.setOnSingleClickListener {
+            if (viewModel.pointType == PointEnum.INITIAL.ordinal) {
+                AmplitudeUtils.trackEventWithProperties("click_modal_firstletter_no")
+            } else {
+                AmplitudeUtils.trackEventWithProperties("click_modal_keyword_no")
+            }
             dismiss()
         }
 

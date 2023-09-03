@@ -32,14 +32,14 @@ import com.example.ui.intent.longExtra
 import com.example.ui.view.UiState
 import com.example.ui.view.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
-import java.io.ByteArrayOutputStream
-import java.text.SimpleDateFormat
-import java.util.Date
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import org.json.JSONObject
+import java.io.ByteArrayOutputStream
+import java.text.SimpleDateFormat
+import java.util.Date
 
 @AndroidEntryPoint
 class MyYelloReadActivity :
@@ -114,6 +114,7 @@ class MyYelloReadActivity :
         }
 
         binding.clSendOpen.setOnSingleClickListener {
+            AmplitudeUtils.trackEventWithProperties("click_open_fullname")
             viewModel.setIsFinishCheck(false)
             ReadingTicketUseDialog().show(supportFragmentManager, "reading_ticket_dialog")
         }

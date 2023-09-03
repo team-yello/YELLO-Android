@@ -32,14 +32,14 @@ import com.example.ui.intent.longExtra
 import com.example.ui.view.UiState
 import com.example.ui.view.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
+import java.io.ByteArrayOutputStream
+import java.text.SimpleDateFormat
+import java.util.Date
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import org.json.JSONObject
-import java.io.ByteArrayOutputStream
-import java.text.SimpleDateFormat
-import java.util.Date
 
 @AndroidEntryPoint
 class MyYelloReadActivity :
@@ -62,6 +62,16 @@ class MyYelloReadActivity :
         viewModel.setHintUsed(isHintUsed)
 
         binding.tv300.paintFlags = binding.tv300.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+
+        initViewAmplitude()
+    }
+
+    private fun initViewAmplitude() {
+        with(viewModel.yelloDetail ?: return) {
+            if (!isAnswerRevealed && nameHint == -2) {
+                AmplitudeUtils.trackEventWithProperties("view_open_fullnamefirst")
+            }
+        }
     }
 
     private fun initClick() {
@@ -124,7 +134,8 @@ class MyYelloReadActivity :
                 AmplitudeUtils.trackEventWithProperties("click_open_fullname")
             }
             viewModel.setIsFinishCheck(false)
-            ReadingTicketUseDialog.newInstance(binding.tvKeywordNotYet.isGone).show(supportFragmentManager, "reading_ticket_dialog")
+            ReadingTicketUseDialog.newInstance(binding.tvKeywordNotYet.isGone)
+                .show(supportFragmentManager, "reading_ticket_dialog")
         }
 
         binding.ivBack.setOnSingleClickListener {

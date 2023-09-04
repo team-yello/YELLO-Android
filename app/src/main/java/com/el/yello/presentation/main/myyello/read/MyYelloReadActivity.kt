@@ -32,14 +32,14 @@ import com.example.ui.intent.longExtra
 import com.example.ui.view.UiState
 import com.example.ui.view.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
-import java.io.ByteArrayOutputStream
-import java.text.SimpleDateFormat
-import java.util.Date
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import org.json.JSONObject
+import java.io.ByteArrayOutputStream
+import java.text.SimpleDateFormat
+import java.util.Date
 
 @AndroidEntryPoint
 class MyYelloReadActivity :
@@ -54,6 +54,36 @@ class MyYelloReadActivity :
         initView()
         initClick()
         observe()
+        setViewAmplitude()
+    }
+
+    private fun setViewAmplitude() {
+        with(viewModel.yelloDetail ?: return) {
+            if (nameHint != -3) {
+                AmplitudeUtils.trackEventWithProperties("view_open_message")
+            }
+            if (!isAnswerRevealed && nameHint == -2) {
+                AmplitudeUtils.trackEventWithProperties("view_open_fullnamefirst")
+            }
+            if (isAnswerRevealed && nameHint == -2) {
+                AmplitudeUtils.trackEventWithProperties("view_open_fullname")
+            }
+            if (isAnswerRevealed && nameHint == -1) {
+                AmplitudeUtils.trackEventWithProperties("view_open_keyword")
+            }
+            if (isAnswerRevealed && nameHint == 0 && !isSubscribe) {
+                AmplitudeUtils.trackEventWithProperties(
+                    "view_open_firstletter",
+                    JSONObject().put("subscription type", "sub_no"),
+                )
+            }
+            if (isAnswerRevealed && nameHint == 0 && isSubscribe) {
+                AmplitudeUtils.trackEventWithProperties(
+                    "view_open_firstletter",
+                    JSONObject().put("subscription type", "sub_yes"),
+                )
+            }
+        }
     }
 
     private fun initView() {
@@ -62,16 +92,6 @@ class MyYelloReadActivity :
         viewModel.setHintUsed(isHintUsed)
 
         binding.tv300.paintFlags = binding.tv300.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
-
-        initViewAmplitude()
-    }
-
-    private fun initViewAmplitude() {
-        with(viewModel.yelloDetail ?: return) {
-            if (!isAnswerRevealed && nameHint == -2) {
-                AmplitudeUtils.trackEventWithProperties("view_open_fullnamefirst")
-            }
-        }
     }
 
     private fun initClick() {
@@ -261,13 +281,6 @@ class MyYelloReadActivity :
             binding.btnSendCheck.isVisible = false
         }
         binding.tvNameCheckFinish.isVisible = yello.nameHint == -2 || yello.nameHint == -3
-
-        if (yello.nameHint != -3) {
-            AmplitudeUtils.trackEventWithProperties("view_open_message")
-        }
-        if (yello.isAnswerRevealed && yello.nameHint == -2) {
-            AmplitudeUtils.trackEventWithProperties("view_open_fullname")
-        }
     }
 
     private fun shareInstagramStory() {

@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="vm"
             type="com.el.yello.presentation.onboarding.activity.OnBoardingViewModel" />
@@ -28,8 +29,9 @@
             android:id="@+id/tv_school_dialog"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="28dp"
+            android:layout_marginTop="29dp"
             android:fontFamily="@font/font_pretendard_bold"
+            android:paddingVertical="3dp"
             android:text="@string/onboarding_tv_search_school"
             android:textColor="@color/white"
             android:textSize="16sp"
@@ -57,7 +59,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="20dp"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="15dp"
             android:background="@drawable/shape_grayscales800_fill_grayscales700_line_8_rect"
             android:drawableEnd="@drawable/ic_onboarding_search"
             android:drawablePadding="24dp"
@@ -78,7 +80,7 @@
             android:id="@+id/tv_school_add"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="1dp"
+            android:layout_marginTop="8dp"
             android:background="@null"
             android:fontFamily="@font/font_pretendard_medium"
             android:padding="12dp"
@@ -93,14 +95,16 @@
             android:id="@+id/rv_school_list"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:overScrollMode="never"
             android:layout_marginTop="8dp"
-            app:layout_constraintBottom_toBottomOf="parent"
             android:orientation="vertical"
+            android:overScrollMode="never"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_school_add"
-            tools:listitem="@layout/item_highschool_list" />
+            tools:listitem="@layout/item_university_list" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </layout>

@@ -218,6 +218,8 @@ class MyYelloFragment : BindingFragment<FragmentMyYelloBinding>(R.layout.fragmen
                 if (ticketCount != -1) {
                     binding.tvKeyNumber.text = ticketCount.toString()
                 }
+                binding.clSendOpen.isVisible = ticketCount != 0
+                binding.btnSendCheck.isVisible = ticketCount == 0
             }
         }
     }

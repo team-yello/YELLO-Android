@@ -67,22 +67,10 @@ class PointUseDialog : BindingDialogFragment<DialogPointUseBinding>(R.layout.dia
                 dismiss()
                 if (viewModel.pointType == PointEnum.INITIAL.ordinal) {
                     AmplitudeUtils.trackEventWithProperties("click_modal_firstletter_yes")
-                    // TODO : 확인
-                    AmplitudeUtils.trackEventWithProperties(
-                        "view_open_firstletter",
-                        JSONObject().put("subscription type", "sub_no"),
-                    )
                 } else if (viewModel.pointType == PointEnum.SUBSCRIBE.ordinal) {
                     AmplitudeUtils.trackEventWithProperties("click_modal_firstletter_yes")
-                    // TODO : 확인
-                    AmplitudeUtils.trackEventWithProperties(
-                        "view_open_firstletter",
-                        JSONObject().put("subscription type", "sub_yes"),
-                    )
                 } else if (viewModel.pointType == PointEnum.KEYWORD.ordinal) {
                     AmplitudeUtils.trackEventWithProperties("click_modal_keyword_yes")
-                    // TODO : 확인
-                    AmplitudeUtils.trackEventWithProperties("view_open_keyword")
                 }
                 PointAfterDialog.newInstance().show(parentFragmentManager, "dialog")
             }

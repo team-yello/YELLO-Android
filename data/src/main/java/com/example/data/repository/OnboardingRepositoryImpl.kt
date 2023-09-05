@@ -18,13 +18,20 @@ class OnboardingRepositoryImpl @Inject constructor(
     private val onboardingDataSource: OnboardingDataSource,
 ) : OnboardingRepository {
 
-    override suspend fun postTokenToServiceToken(requestServiceTokenModel: RequestServiceTokenModel): ServiceTokenModel? {
-        return onboardingDataSource.postTokenToServiceTokenData(
-            requestServiceTokenModel.toRequestDto(),
-        ).data?.toServiceTokenModel()
+    override suspend fun postTokenToServiceToken(
+        requestServiceTokenModel: RequestServiceTokenModel
+    ): Result<ServiceTokenModel?> {
+        return runCatching {
+            onboardingDataSource.postTokenToServiceTokenData(
+                requestServiceTokenModel.toRequestDto(),
+            ).data?.toServiceTokenModel()
+        }
     }
 
-    override suspend fun getSchoolList(page: Int, search: String): Result<SchoolList?> {
+    override suspend fun getSchoolList(
+        page: Int,
+        search: String
+    ): Result<SchoolList?> {
         return runCatching {
             onboardingDataSource.getSchoolNameData(
                 page,
@@ -47,7 +54,9 @@ class OnboardingRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getValidYelloId(yelloId: String): Result<Boolean?> {
+    override suspend fun getValidYelloId(
+        yelloId: String
+    ): Result<Boolean?> {
         return runCatching {
             onboardingDataSource.getValidYelloId(
                 yelloId,
@@ -58,11 +67,13 @@ class OnboardingRepositoryImpl @Inject constructor(
     override suspend fun postToGetFriendList(
         request: RequestAddFriendModel,
         page: Int,
-    ): AddFriendListModel? {
-        return onboardingDataSource.postToGetFriendsListData(
-            request.toRequestDto(),
-            page,
-        ).data?.toFriendListModel()
+    ): Result<AddFriendListModel?> {
+        return runCatching {
+            onboardingDataSource.postToGetFriendsListData(
+                request.toRequestDto(),
+                page,
+            ).data?.toFriendListModel()
+        }
     }
 
     override suspend fun postSignup(signupInfo: SignupInfo): Result<UserInfo?> = runCatching {

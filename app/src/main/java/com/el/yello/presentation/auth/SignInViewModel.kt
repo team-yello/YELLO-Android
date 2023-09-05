@@ -45,9 +45,11 @@ class SignInViewModel @Inject constructor(
 
     var isResigned = false
         private set
+
     fun getIsFirstLoginData(): Boolean {
         return authRepository.getIsFirstLoginData()
     }
+
     // 웹 로그인 실행
     fun loginWithWebCallback(
         context: Context,
@@ -92,27 +94,27 @@ class SignInViewModel @Inject constructor(
     fun changeTokenFromServer(accessToken: String, social: String = KAKAO, deviceToken: String) {
         viewModelScope.launch {
             _postChangeTokenState.value = UiState.Loading
-            runCatching {
-                onboardingRepository.postTokenToServiceToken(
-                    RequestServiceTokenModel(accessToken, social, deviceToken),
-                )
-            }.onSuccess {
-                if (it == null) {
-                    _postChangeTokenState.value = UiState.Empty
-                    return@launch
+            onboardingRepository.postTokenToServiceToken(
+                RequestServiceTokenModel(accessToken, social, deviceToken),
+            )
+                .onSuccess {
+                    if (it == null) {
+                        _postChangeTokenState.value = UiState.Empty
+                        return@launch
+                    }
+                    authRepository.setAutoLogin(it.accessToken, it.refreshToken)
+                    isResigned = it.isResigned
+                    _postChangeTokenState.value = UiState.Success(it)
                 }
-                authRepository.setAutoLogin(it.accessToken, it.refreshToken)
-                isResigned = it.isResigned
-                _postChangeTokenState.value = UiState.Success(it)
-            }.onFailure {
-                if (it is HttpException && it.code() == 403) {
-                    _postChangeTokenState.value = UiState.Failure(CODE_NOT_SIGNED_IN)
-                } else if (it is HttpException && it.code() == 404) {
-                    _postChangeTokenState.value = UiState.Failure(CODE_NO_UUID)
-                } else {
-                    _postChangeTokenState.value = UiState.Failure("ERROR")
+                .onFailure {
+                    if (it is HttpException && it.code() == 403) {
+                        _postChangeTokenState.value = UiState.Failure(CODE_NOT_SIGNED_IN)
+                    } else if (it is HttpException && it.code() == 404) {
+                        _postChangeTokenState.value = UiState.Failure(CODE_NO_UUID)
+                    } else {
+                        _postChangeTokenState.value = UiState.Failure("ERROR")
+                    }
                 }
-            }
         }
     }
 

@@ -12,7 +12,7 @@ import com.example.domain.entity.onboarding.UserInfo
 interface OnboardingRepository {
     suspend fun postTokenToServiceToken(
         requestServiceTokenModel: RequestServiceTokenModel
-    ): ServiceTokenModel?
+    ): Result<ServiceTokenModel?>
 
     suspend fun getSchoolList(
         page: Int,
@@ -32,7 +32,7 @@ interface OnboardingRepository {
     suspend fun postToGetFriendList(
         request: RequestAddFriendModel,
         page: Int,
-    ): AddFriendListModel?
+    ): Result<AddFriendListModel?>
 
     suspend fun postSignup(
         signupInfo: SignupInfo,

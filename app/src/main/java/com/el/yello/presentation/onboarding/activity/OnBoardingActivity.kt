@@ -79,7 +79,7 @@ class OnBoardingActivity :
 
     fun progressBarPlus() {
         viewModel.plusCurrentPercent()
-        val animator = ObjectAnimator.ofInt(binding.onboardingProgressbar, "progress", binding.onboardingProgressbar.progress, viewModel.currentpercent)
+        val animator = ObjectAnimator.ofInt(binding.onboardingProgressbar, "progress", binding.onboardingProgressbar.progress, viewModel.currentPercent)
         animator.duration = 300
         animator.interpolator = LinearInterpolator()
         animator.start()
@@ -87,7 +87,7 @@ class OnBoardingActivity :
 
     fun progressBarMinus() {
         viewModel.minusCurrentPercent()
-        val animator = ObjectAnimator.ofInt(binding.onboardingProgressbar, "progress", binding.onboardingProgressbar.progress, viewModel.currentpercent)
+        val animator = ObjectAnimator.ofInt(binding.onboardingProgressbar, "progress", binding.onboardingProgressbar.progress, viewModel.currentPercent)
         animator.duration = 300
         animator.interpolator = LinearInterpolator()
         animator.start()

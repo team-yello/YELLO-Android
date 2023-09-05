@@ -30,13 +30,13 @@ class OnBoardingViewModel @Inject constructor(
     private val authRepository: AuthRepository,
 ) : ViewModel() {
 
-    var currentpercent = 20
+    var currentPercent = 20
     fun plusCurrentPercent() {
-        currentpercent += 20
+        currentPercent += 20
     }
 
     fun minusCurrentPercent() {
-        currentpercent -= 20
+        currentPercent -= 20
     }
 
     var isFirstUser: Boolean = false
@@ -91,7 +91,8 @@ class OnBoardingViewModel @Inject constructor(
     private val _studentIdResult: MutableLiveData<List<Int>> = MutableLiveData()
     val studentIdResult: LiveData<List<Int>> = _studentIdResult
 
-    private val _friendListState = MutableLiveData<UiState<List<AddFriendListModel.FriendModel>>>(UiState.Loading)
+    private val _friendListState =
+        MutableLiveData<UiState<List<AddFriendListModel.FriendModel>>>(UiState.Loading)
     val friendListState: LiveData<UiState<List<AddFriendListModel.FriendModel>>> = _friendListState
 
     var selectedFriendIdList: List<Long> = listOf()
@@ -268,39 +269,43 @@ class OnBoardingViewModel @Inject constructor(
             isFirstFriendsListPage = false
         }
         viewModelScope.launch {
-            runCatching {
-                onboardingRepository.postToGetFriendList(
-                    RequestAddFriendModel(friendKakaoId, groupId),
-                    0,
-                )
-            }.onSuccess { friendList ->
-                friendList ?: return@launch
-                totalFriendList.addAll(friendList.friendList)
-                _friendListState.value = UiState.Success(totalFriendList)
-            }.onFailure {
-                _friendListState.value = UiState.Failure(it.message.toString())
-            }
+            onboardingRepository.postToGetFriendList(
+                RequestAddFriendModel(friendKakaoId, groupId),
+                0,
+            )
+                .onSuccess { friendList ->
+                    friendList ?: return@launch
+                    totalFriendList.addAll(friendList.friendList)
+                    _friendListState.value = UiState.Success(totalFriendList)
+                }
+                .onFailure {
+                    _friendListState.value = UiState.Failure(it.message.toString())
+                }
         }
     }
 
     // 서버 통신 - 옐로아이디
     fun getValidYelloId(unknownId: String) {
         viewModelScope.launch {
-            onboardingRepository.getValidYelloId(yelloId = unknownId).onSuccess { isValid ->
-                Timber.d("GET VALID YELLO ID SUCCESS : $isValid")
-                if (isValid == null) {
-                    _getValidYelloId.value = UiState.Empty
-                    return@launch
+            onboardingRepository.getValidYelloId(
+                unknownId
+            )
+                .onSuccess { isValid ->
+                    Timber.d("GET VALID YELLO ID SUCCESS : $isValid")
+                    if (isValid == null) {
+                        _getValidYelloId.value = UiState.Empty
+                        return@launch
+                    }
+                    _getValidYelloId.value = UiState.Success(isValid)
                 }
-                _getValidYelloId.value = UiState.Success(isValid)
-            }.onFailure { t ->
-                if (t is HttpException) {
-                    Timber.e("GET VALID YELLO ID FAILURE : $t")
-                    _getValidYelloId.value = UiState.Failure(t.code().toString())
-                    return@launch
+                .onFailure { t ->
+                    if (t is HttpException) {
+                        Timber.e("GET VALID YELLO ID FAILURE : $t")
+                        _getValidYelloId.value = UiState.Failure(t.code().toString())
+                        return@launch
+                    }
+                    Timber.e("GET VALID YELLO ID ERROR : $t")
                 }
-                Timber.e("GET VALID YELLO ID ERROR : $t")
-            }
         }
     }
 
@@ -309,42 +314,47 @@ class OnBoardingViewModel @Inject constructor(
     var profileImg: String = ""
     var name: String = ""
     var gender: String = ""
+
     fun postSignup() {
         viewModelScope.launch {
             val deviceToken = authRepository.getDeviceToken()
-            val signupInfo = SignupInfo(
-                kakaoId = kakaoId,
-                email = email,
-                profileImg = profileImg,
-                groupId = groupId,
-                studentId = studentId,
-                name = name,
-                yelloId = id,
-                gender = gender,
-                friendList = selectedFriendIdList,
-                recommendId = codeText.value,
-                deviceToken = deviceToken,
+            onboardingRepository.postSignup(
+                SignupInfo(
+                    kakaoId = kakaoId,
+                    email = email,
+                    profileImg = profileImg,
+                    groupId = groupId,
+                    studentId = studentId,
+                    name = name,
+                    yelloId = id,
+                    gender = gender,
+                    friendList = selectedFriendIdList,
+                    recommendId = codeText.value,
+                    deviceToken = deviceToken,
+                )
             )
-            onboardingRepository.postSignup(signupInfo).onSuccess { userInfo ->
-                Timber.d("POST SIGN UP SUCCESS : $userInfo")
-                if (userInfo == null) {
-                    _postSignupState.value = UiState.Empty
-                    return@launch
+                .onSuccess { userInfo ->
+                    Timber.d("POST SIGN UP SUCCESS : $userInfo")
+                    if (userInfo == null) {
+                        _postSignupState.value = UiState.Empty
+                        return@launch
+                    }
+                    authRepository.setAutoLogin(userInfo.accessToken, userInfo.refreshToken)
+                    authRepository.setYelloId(userInfo.yelloId)
+                    _postSignupState.value = UiState.Success(userInfo)
                 }
-                authRepository.setAutoLogin(userInfo.accessToken, userInfo.refreshToken)
-                authRepository.setYelloId(userInfo.yelloId)
-                _postSignupState.value = UiState.Success(userInfo)
-            }.onFailure { t ->
-                if (t is HttpException) {
-                    Timber.e("POST SIGN UP FAILURE : $t")
-                    _postSignupState.value = UiState.Failure(t.code().toString())
-                    return@launch
+                .onFailure { t ->
+                    if (t is HttpException) {
+                        Timber.e("POST SIGN UP FAILURE : $t")
+                        _postSignupState.value = UiState.Failure(t.code().toString())
+                        return@launch
+                    }
+                    Timber.e("POST SIGN UP ERROR : $t")
                 }
-                Timber.e("POST SIGN UP ERROR : $t")
-            }
         }
         AmplitudeUtils.updateUserProperties("user_sex", gender)
     }
+
     companion object {
         private const val REGEX_NAME_PATTERN = "^([가-힣]*)\$"
         private const val REGEX_ID_PATTERN = "^([A-Za-z0-9_.]*)\$"

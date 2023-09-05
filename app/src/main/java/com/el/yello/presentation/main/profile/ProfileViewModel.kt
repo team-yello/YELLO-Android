@@ -209,20 +209,20 @@ class ProfileViewModel @Inject constructor(
     // 서버 통신 - 구독 여부 & 열람권 개수 받아오기
     fun getPurchaseInfoFromServer() {
         viewModelScope.launch {
-            runCatching {
-                payRepository.getPurchaseInfo()
-            }.onSuccess {
-                it ?: return@launch
-                _getPurchaseInfoState.value = UiState.Success(it)
-                AmplitudeUtils.updateUserIntProperties("user_ticket", it.ticketCount)
-                if (it.isSubscribe) {
-                    AmplitudeUtils.updateUserProperties("user_subscription", "yes")
-                } else {
-                    AmplitudeUtils.updateUserProperties("user_subscription", "no")
+            payRepository.getPurchaseInfo()
+                .onSuccess {
+                    it ?: return@launch
+                    _getPurchaseInfoState.value = UiState.Success(it)
+                    AmplitudeUtils.updateUserIntProperties("user_ticket", it.ticketCount)
+                    if (it.isSubscribe) {
+                        AmplitudeUtils.updateUserProperties("user_subscription", "yes")
+                    } else {
+                        AmplitudeUtils.updateUserProperties("user_subscription", "no")
+                    }
                 }
-            }.onFailure {
-                _getPurchaseInfoState.value = UiState.Failure(it.message ?: "")
-            }
+                .onFailure {
+                    _getPurchaseInfoState.value = UiState.Failure(it.message ?: "")
+                }
         }
 
     }

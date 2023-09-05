@@ -108,13 +108,13 @@ class YelloViewModel @Inject constructor(
     // 서버 통신 - 구독 여부 & 열람권 개수 받아오기
     fun getPurchaseInfoFromServer() {
         viewModelScope.launch {
-            runCatching {
-                payRepository.getPurchaseInfo()
-            }.onSuccess {
-                _getPurchaseInfoState.value = Success(it)
-            }.onFailure {
-                _getPurchaseInfoState.value = Failure(it.message ?: "")
-            }
+            payRepository.getPurchaseInfo()
+                .onSuccess {
+                    _getPurchaseInfoState.value = Success(it)
+                }
+                .onFailure {
+                    _getPurchaseInfoState.value = Failure(it.message ?: "")
+                }
         }
     }
 

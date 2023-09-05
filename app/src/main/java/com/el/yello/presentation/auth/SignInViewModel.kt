@@ -121,16 +121,15 @@ class SignInViewModel @Inject constructor(
     // 서버통신 - (가입되어 있는) 유저 정보 가져오기
     fun getUserData() {
         viewModelScope.launch {
-            runCatching {
-                profileRepository.getUserData()
-            }.onSuccess { profile ->
-                if (profile == null) {
-                    _getUserProfileState.value = UiState.Empty
-                    return@launch
+            profileRepository.getUserData()
+                .onSuccess { profile ->
+                    if (profile == null) {
+                        _getUserProfileState.value = UiState.Empty
+                        return@launch
+                    }
+                    _getUserProfileState.value = UiState.Success(Unit)
+                    authRepository.setYelloId(profile.yelloId)
                 }
-                _getUserProfileState.value = UiState.Success(Unit)
-                authRepository.setYelloId(profile.yelloId)
-            }
                 .onFailure { t ->
                     if (t is HttpException) {
                         _getUserProfileState.value = UiState.Failure(t.code().toString())

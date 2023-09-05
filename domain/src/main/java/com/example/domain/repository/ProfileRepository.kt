@@ -6,17 +6,17 @@ import com.example.domain.entity.ProfileUserModel
 interface ProfileRepository {
 
     suspend fun getUserData(
-    ): ProfileUserModel?
+    ): Result<ProfileUserModel?>
 
     suspend fun getFriendsData(
         page: Int
-    ): ProfileFriendsListModel?
+    ): Result<ProfileFriendsListModel?>
 
     suspend fun deleteUserData(
-    ): Unit
+    ): Result<Unit>
 
     suspend fun deleteFriendData(
         friendId: Int
-    ): Unit
+    ): Result<Unit>
 
 }

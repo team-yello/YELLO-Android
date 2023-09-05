@@ -10,19 +10,27 @@ class ProfileRepositoryImpl @Inject constructor(
     private val profileDataSource: ProfileDataSource,
 ) : ProfileRepository {
 
-    override suspend fun getUserData(): ProfileUserModel? {
-        return profileDataSource.getUserData().data?.toProfileUserModel()
+    override suspend fun getUserData(): Result<ProfileUserModel?> {
+        return runCatching {
+            profileDataSource.getUserData().data?.toProfileUserModel()
+        }
     }
 
-    override suspend fun getFriendsData(page: Int): ProfileFriendsListModel? {
-        return profileDataSource.getFriendsData(page).data?.toProfileFriendsListModel()
+    override suspend fun getFriendsData(page: Int): Result<ProfileFriendsListModel?> {
+        return runCatching {
+            profileDataSource.getFriendsData(page).data?.toProfileFriendsListModel()
+        }
     }
 
-    override suspend fun deleteUserData() {
-        return profileDataSource.deleteUserData().data ?: Unit
+    override suspend fun deleteUserData(): Result<Unit> {
+        return runCatching {
+            profileDataSource.deleteUserData().data
+        }
     }
 
-    override suspend fun deleteFriendData(friendId: Int) {
-        return profileDataSource.deleteFriendData(friendId).data ?: Unit
+    override suspend fun deleteFriendData(friendId: Int): Result<Unit> {
+        return runCatching {
+            profileDataSource.deleteFriendData(friendId).data
+        }
     }
 }

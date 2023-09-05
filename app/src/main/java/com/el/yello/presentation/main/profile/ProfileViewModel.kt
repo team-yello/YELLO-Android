@@ -109,19 +109,19 @@ class ProfileViewModel @Inject constructor(
     fun getUserDataFromServer() {
         viewModelScope.launch {
             _getState.value = UiState.Loading
-            runCatching {
-                profileRepository.getUserData()
-            }.onSuccess { profile ->
-                if (profile == null) {
-                    _getState.value = UiState.Empty
-                    return@launch
+            profileRepository.getUserData()
+                .onSuccess { profile ->
+                    if (profile == null) {
+                        _getState.value = UiState.Empty
+                        return@launch
+                    }
+                    _getState.value = UiState.Success(profile)
                 }
-                _getState.value = UiState.Success(profile)
-            }.onFailure { t ->
-                if (t is HttpException) {
-                    _getState.value = UiState.Failure(t.message.toString())
+                .onFailure { t ->
+                    if (t is HttpException) {
+                        _getState.value = UiState.Failure(t.message.toString())
+                    }
                 }
-            }
         }
     }
 
@@ -133,19 +133,19 @@ class ProfileViewModel @Inject constructor(
             isFirstScroll = false
         }
         viewModelScope.launch {
-            runCatching {
-                profileRepository.getFriendsData(
-                    ++currentPage,
-                )
-            }.onSuccess {
-                it ?: return@launch
-                totalPage = ceil((it.totalCount * 0.1)).toInt() - 1
-                if (totalPage == currentPage) isPagingFinish = true
-                _getListState.value = UiState.Success(it)
-                AmplitudeUtils.updateUserIntProperties("user_friends", it.totalCount)
-            }.onFailure {
-                _getListState.value = UiState.Failure(it.message.toString())
-            }
+            profileRepository.getFriendsData(
+                ++currentPage,
+            )
+                .onSuccess {
+                    it ?: return@launch
+                    totalPage = ceil((it.totalCount * 0.1)).toInt() - 1
+                    if (totalPage == currentPage) isPagingFinish = true
+                    _getListState.value = UiState.Success(it)
+                    AmplitudeUtils.updateUserIntProperties("user_friends", it.totalCount)
+                }
+                .onFailure {
+                    _getListState.value = UiState.Failure(it.message.toString())
+                }
         }
     }
 
@@ -153,15 +153,15 @@ class ProfileViewModel @Inject constructor(
     fun deleteUserDataToServer() {
         viewModelScope.launch {
             _deleteUserState.value = UiState.Loading
-            runCatching {
-                profileRepository.deleteUserData()
-                clearLocalInfo()
-                delay(500)
-            }.onSuccess {
-                _deleteUserState.value = UiState.Success(it)
-            }.onFailure {
-                _deleteUserState.value = UiState.Failure(it.message.toString())
-            }
+            profileRepository.deleteUserData()
+                .onSuccess {
+                    clearLocalInfo()
+                    delay(300)
+                    _deleteUserState.value = UiState.Success(it)
+                }
+                .onFailure {
+                    _deleteUserState.value = UiState.Failure(it.message.toString())
+                }
         }
     }
 
@@ -169,15 +169,15 @@ class ProfileViewModel @Inject constructor(
     fun deleteFriendDataToServer(friendId: Int) {
         viewModelScope.launch {
             _deleteFriendState.value = UiState.Loading
-            runCatching {
-                profileRepository.deleteFriendData(
-                    friendId,
-                )
-            }.onSuccess {
-                _deleteFriendState.value = UiState.Success(it)
-            }.onFailure {
-                _deleteFriendState.value = UiState.Failure(it.message.toString())
-            }
+            profileRepository.deleteFriendData(
+                friendId,
+            )
+                .onSuccess {
+                    _deleteFriendState.value = UiState.Success(it)
+                }
+                .onFailure {
+                    _deleteFriendState.value = UiState.Failure(it.message.toString())
+                }
         }
     }
 
@@ -215,7 +215,7 @@ class ProfileViewModel @Inject constructor(
                 it ?: return@launch
                 _getPurchaseInfoState.value = UiState.Success(it)
                 AmplitudeUtils.updateUserIntProperties("user_ticket", it.ticketCount)
-                if (!it.isSubscribe) {
+                if (it.isSubscribe) {
                     AmplitudeUtils.updateUserProperties("user_subscription", "yes")
                 } else {
                     AmplitudeUtils.updateUserProperties("user_subscription", "no")
@@ -234,7 +234,8 @@ class ProfileViewModel @Inject constructor(
                     if (it != null) {
                         _voteCount.value = UiState.Success(it)
                     }
-                }.onFailure {
+                }
+                .onFailure {
                     _voteCount.value = UiState.Failure(it.message.toString())
                 }
         }

@@ -83,17 +83,17 @@ class RecommendKakaoViewModel @Inject constructor(
     // 서버 통신 - 추천 친구 리스트 추가
     private fun getListFromServer(friendsKakaoId: List<String>) {
         viewModelScope.launch {
-            runCatching {
-                recommendRepository.postToGetKakaoFriendList(
-                    0,
-                    RequestRecommendKakaoModel(friendsKakaoId),
-                )
-            }.onSuccess {
-                it ?: return@launch
-                _postFriendsListState.value = UiState.Success(it)
-            }.onFailure {
-                _postFriendsListState.value = UiState.Failure(it.message.toString())
-            }
+            recommendRepository.postToGetKakaoFriendList(
+                0,
+                RequestRecommendKakaoModel(friendsKakaoId),
+            )
+                .onSuccess {
+                    it ?: return@launch
+                    _postFriendsListState.value = UiState.Success(it)
+                }
+                .onFailure {
+                    _postFriendsListState.value = UiState.Failure(it.message.toString())
+                }
         }
     }
 
@@ -101,15 +101,13 @@ class RecommendKakaoViewModel @Inject constructor(
     fun addFriendToServer(friendId: Long) {
         viewModelScope.launch {
             _addFriendState.value = UiState.Loading
-            runCatching {
-                recommendRepository.postFriendAdd(
-                    friendId,
-                )
-            }.onSuccess {
-                _addFriendState.value = UiState.Success(it)
-            }.onFailure {
-                _addFriendState.value = UiState.Failure(it.message.toString())
-            }
+            recommendRepository.postFriendAdd(friendId)
+                .onSuccess {
+                    _addFriendState.value = UiState.Success(it)
+                }
+                .onFailure {
+                    _addFriendState.value = UiState.Failure(it.message.toString())
+                }
         }
     }
 

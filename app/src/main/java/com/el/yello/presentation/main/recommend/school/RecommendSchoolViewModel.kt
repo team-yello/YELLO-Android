@@ -56,18 +56,18 @@ class RecommendSchoolViewModel @Inject constructor(
                 _postFriendsListState.value = UiState.Loading
                 isFirstFriendsListPage = false
             }
-            runCatching {
-                recommendRepository.getSchoolFriendList(
-                    ++currentPage,
-                )
-            }.onSuccess {
-                it ?: return@launch
-                totalPage = ceil((it.totalCount * 0.01)).toInt() - 1
-                if (totalPage == currentPage) isPagingFinish = true
-                _postFriendsListState.value = UiState.Success(it)
-            }.onFailure {
-                _postFriendsListState.value = UiState.Failure(it.message ?: "")
-            }
+            recommendRepository.getSchoolFriendList(
+                ++currentPage,
+            )
+                .onSuccess {
+                    it ?: return@launch
+                    totalPage = ceil((it.totalCount * 0.01)).toInt() - 1
+                    if (totalPage == currentPage) isPagingFinish = true
+                    _postFriendsListState.value = UiState.Success(it)
+                }
+                .onFailure {
+                    _postFriendsListState.value = UiState.Failure(it.message.toString())
+                }
         }
     }
 
@@ -75,15 +75,13 @@ class RecommendSchoolViewModel @Inject constructor(
     fun addFriendToServer(friendId: Long) {
         viewModelScope.launch {
             _addFriendState.value = UiState.Loading
-            runCatching {
-                recommendRepository.postFriendAdd(
-                    friendId,
-                )
-            }.onSuccess {
-                _addFriendState.value = UiState.Success(it)
-            }.onFailure {
-                _addFriendState.value = UiState.Failure(it.message ?: "")
-            }
+            recommendRepository.postFriendAdd(friendId)
+                .onSuccess {
+                    _addFriendState.value = UiState.Success(it)
+                }
+                .onFailure {
+                    _addFriendState.value = UiState.Failure(it.message.toString())
+                }
         }
     }
 

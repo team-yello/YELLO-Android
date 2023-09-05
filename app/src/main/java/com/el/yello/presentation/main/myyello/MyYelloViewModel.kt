@@ -70,7 +70,8 @@ class MyYelloViewModel @Inject constructor(
                     AmplitudeUtils.updateUserIntProperties("user_message_open_firstletter", it.openNameCount)
                     AmplitudeUtils.updateUserIntProperties("user_message_open_fullname", it.openFullNameCount)
                     AmplitudeUtils.updateUserIntProperties("user_message_open_fullname", it.openFullNameCount)
-                }.onFailure {
+                }
+                .onFailure {
                     _myYelloData.value = UiState.Failure("내 쪽지 목록 서버 통신 실패")
                 }
         }
@@ -84,7 +85,8 @@ class MyYelloViewModel @Inject constructor(
                     if (it != null) {
                         _voteCount.value = UiState.Success(it)
                     }
-                }.onFailure {
+                }
+                .onFailure {
                     _voteCount.value = UiState.Failure(it.message.toString())
                 }
         }

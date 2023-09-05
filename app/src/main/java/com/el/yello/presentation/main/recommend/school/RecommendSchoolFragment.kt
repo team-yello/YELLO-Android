@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.el.yello.R
 import com.el.yello.databinding.FragmentRecommendSchoolBinding
-import com.el.yello.presentation.main.recommend.RecommendInviteDialog
+import com.el.yello.presentation.main.invite.InviteFriendDialog
 import com.el.yello.presentation.main.recommend.list.RecommendAdapter
 import com.el.yello.presentation.main.recommend.list.RecommendItemDecoration
 import com.el.yello.presentation.main.recommend.list.RecommendViewHolder
@@ -39,8 +39,8 @@ class RecommendSchoolFragment :
 
     private val viewModel by viewModels<RecommendSchoolViewModel>()
 
-    private var recommendInviteYesFriendDialog: RecommendInviteDialog? = null
-    private var recommendInviteNoFriendDialog: RecommendInviteDialog? = null
+    private var inviteYesFriendDialog: InviteFriendDialog? = null
+    private var inviteNoFriendDialog: InviteFriendDialog? = null
 
     private lateinit var friendsList: List<RecommendFriend>
 
@@ -79,23 +79,23 @@ class RecommendSchoolFragment :
 
     private fun initInviteBtnListener() {
         binding.layoutInviteFriend.setOnSingleClickListener {
-            recommendInviteYesFriendDialog =
-                RecommendInviteDialog.newInstance(viewModel.getYelloId(), SCHOOL_YES_FRIEND)
+            inviteYesFriendDialog =
+                InviteFriendDialog.newInstance(viewModel.getYelloId(), SCHOOL_YES_FRIEND)
             AmplitudeUtils.trackEventWithProperties(
                 "click_invite",
                 JSONObject().put("invite_view", SCHOOL_YES_FRIEND)
             )
-            recommendInviteYesFriendDialog?.show(parentFragmentManager, INVITE_DIALOG)
+            inviteYesFriendDialog?.show(parentFragmentManager, INVITE_DIALOG)
         }
 
         binding.btnRecommendNoFriend.setOnSingleClickListener {
-            recommendInviteNoFriendDialog =
-                RecommendInviteDialog.newInstance(viewModel.getYelloId(), SCHOOL_NO_FRIEND)
+            inviteNoFriendDialog =
+                InviteFriendDialog.newInstance(viewModel.getYelloId(), SCHOOL_NO_FRIEND)
             AmplitudeUtils.trackEventWithProperties(
                 "click_invite",
                 JSONObject().put("invite_view", SCHOOL_NO_FRIEND)
             )
-            recommendInviteNoFriendDialog?.show(parentFragmentManager, INVITE_DIALOG)
+            inviteNoFriendDialog?.show(parentFragmentManager, INVITE_DIALOG)
         }
     }
 
@@ -243,8 +243,8 @@ class RecommendSchoolFragment :
     }
 
     private fun dismissDialog() {
-        if (recommendInviteYesFriendDialog?.isAdded == true) recommendInviteYesFriendDialog?.dismiss()
-        if (recommendInviteNoFriendDialog?.isAdded == true) recommendInviteNoFriendDialog?.dismiss()
+        if (inviteYesFriendDialog?.isAdded == true) inviteYesFriendDialog?.dismiss()
+        if (inviteNoFriendDialog?.isAdded == true) inviteNoFriendDialog?.dismiss()
     }
 
     // 삭제 시 체크 버튼으로 전환 후 0.3초 뒤 애니메이션 적용

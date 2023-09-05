@@ -11,7 +11,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import com.el.yello.R
 import com.el.yello.databinding.FragmentLookBinding
-import com.el.yello.presentation.main.recommend.RecommendInviteDialog
+import com.el.yello.presentation.main.invite.InviteFriendDialog
 import com.el.yello.presentation.util.BaseLinearRcvItemDeco
 import com.el.yello.util.amplitude.AmplitudeUtils
 import com.el.yello.util.context.yelloSnackbar
@@ -32,7 +32,7 @@ class LookFragment : BindingFragment<FragmentLookBinding>(R.layout.fragment_look
 
     private val viewModel by viewModels<LookViewModel>()
 
-    private var inviteFriendDialog: RecommendInviteDialog? = null
+    private var inviteFriendDialog: InviteFriendDialog? = null
 
     private var isScrolled: Boolean = false
 
@@ -71,7 +71,7 @@ class LookFragment : BindingFragment<FragmentLookBinding>(R.layout.fragment_look
     private fun initNoFriendScreenInviteBtnListener() {
         binding.btnLookNoFriend.setOnSingleClickListener {
             inviteFriendDialog =
-                RecommendInviteDialog.newInstance(viewModel.getYelloId(), TIMELINE_NO_FRIEND)
+                InviteFriendDialog.newInstance(viewModel.getYelloId(), TIMELINE_NO_FRIEND)
             AmplitudeUtils.trackEventWithProperties(
                 "click_invite", JSONObject().put("invite_view", TIMELINE_NO_FRIEND)
             )

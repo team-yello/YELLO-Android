@@ -1,4 +1,4 @@
-package com.el.yello.presentation.main.recommend
+package com.el.yello.presentation.main.invite
 
 import android.content.ActivityNotFoundException
 import android.content.ClipData
@@ -11,11 +11,9 @@ import android.view.WindowManager
 import androidx.core.os.bundleOf
 import com.el.yello.BuildConfig
 import com.el.yello.R
-import com.el.yello.databinding.FragmentRecommendInviteDialogBinding
-import com.el.yello.presentation.main.yello.dialog.UnlockDialogFragment
+import com.el.yello.databinding.FragmentInviteFriendDialogBinding
 import com.el.yello.presentation.main.yello.dialog.UnlockDialogFragment.Companion.ARGS_YELLO_ID
 import com.el.yello.util.amplitude.AmplitudeUtils
-import com.el.yello.util.context.yelloSnackbar
 import com.example.ui.base.BindingDialogFragment
 import com.example.ui.fragment.toast
 import com.example.ui.view.setOnSingleClickListener
@@ -25,8 +23,8 @@ import com.kakao.sdk.share.WebSharerClient
 import org.json.JSONObject
 import timber.log.Timber
 
-class RecommendInviteDialog :
-    BindingDialogFragment<FragmentRecommendInviteDialogBinding>(R.layout.fragment_recommend_invite_dialog) {
+class InviteFriendDialog :
+    BindingDialogFragment<FragmentInviteFriendDialogBinding>(R.layout.fragment_invite_friend_dialog) {
 
     private lateinit var myYelloId: String
     private lateinit var previousScreen: String
@@ -157,7 +155,7 @@ class RecommendInviteDialog :
         const val CLIP_LABEL = "RECOMMEND_LINK"
 
         @JvmStatic
-        fun newInstance(yelloId: String, previousScreen: String) = RecommendInviteDialog().apply {
+        fun newInstance(yelloId: String, previousScreen: String) = InviteFriendDialog().apply {
             val args = bundleOf(
                 ARGS_YELLO_ID to yelloId, ARGS_PREVIOUS_SCREEN to previousScreen
             )

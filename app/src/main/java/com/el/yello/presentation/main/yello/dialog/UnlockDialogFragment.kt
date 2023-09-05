@@ -12,7 +12,7 @@ import androidx.core.os.bundleOf
 import com.el.yello.BuildConfig
 import com.el.yello.R
 import com.el.yello.databinding.FragmentUnlockDialogBinding
-import com.el.yello.presentation.main.recommend.RecommendInviteDialog
+import com.el.yello.presentation.main.invite.InviteFriendDialog
 import com.el.yello.util.amplitude.AmplitudeUtils
 import com.example.ui.base.BindingDialogFragment
 import com.example.ui.fragment.toast
@@ -60,7 +60,7 @@ class UnlockDialogFragment :
         myYelloId = arguments?.getString(ARGS_YELLO_ID) ?: ""
         previousScreen = arguments?.getString(ARGS_PREVIOUS_SCREEN) ?: ""
         binding.yelloId = myYelloId
-        linkText = RecommendInviteDialog.LINK_TEXT.format(myYelloId)
+        linkText = InviteFriendDialog.LINK_TEXT.format(myYelloId)
     }
 
     private fun setRecommendId() {
@@ -69,9 +69,9 @@ class UnlockDialogFragment :
 
     private fun setTemplateId() {
         templateId = if (BuildConfig.DEBUG) {
-            RecommendInviteDialog.TEST_TEMPLATE_ID.toLong()
+            InviteFriendDialog.TEST_TEMPLATE_ID.toLong()
         } else {
-            RecommendInviteDialog.TEMPLATE_ID.toLong()
+            InviteFriendDialog.TEMPLATE_ID.toLong()
         }
     }
 

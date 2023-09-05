@@ -5,8 +5,8 @@ import android.view.View
 import androidx.fragment.app.activityViewModels
 import com.el.yello.R
 import com.el.yello.databinding.FragmentYelloWaitBinding
+import com.el.yello.presentation.main.dialog.InviteFriendDialog
 import com.el.yello.presentation.main.yello.YelloViewModel
-import com.el.yello.presentation.main.yello.dialog.UnlockDialogFragment
 import com.el.yello.presentation.main.yello.lock.YelloLockFragment.Companion.TAG_UNLOCK_DIALOG
 import com.el.yello.util.amplitude.AmplitudeUtils
 import com.example.ui.base.BindingFragment
@@ -39,7 +39,7 @@ class YelloWaitFragment : BindingFragment<FragmentYelloWaitBinding>(R.layout.fra
                 "click_invite",
                 JSONObject().put("invite_view", VOTE_40MIN_SCREEN)
             )
-            UnlockDialogFragment.newInstance(viewModel.getYelloId(), VOTE_40MIN_SCREEN)
+            InviteFriendDialog.newInstance(viewModel.getYelloId(), VOTE_40MIN_SCREEN)
                 .show(parentFragmentManager, TAG_UNLOCK_DIALOG)
         }
     }

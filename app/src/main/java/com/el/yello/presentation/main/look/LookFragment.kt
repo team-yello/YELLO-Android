@@ -11,7 +11,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import com.el.yello.R
 import com.el.yello.databinding.FragmentLookBinding
-import com.el.yello.presentation.main.invite.InviteFriendDialog
+import com.el.yello.presentation.main.dialog.InviteFriendDialog
 import com.el.yello.presentation.util.BaseLinearRcvItemDeco
 import com.el.yello.util.amplitude.AmplitudeUtils
 import com.el.yello.util.context.yelloSnackbar

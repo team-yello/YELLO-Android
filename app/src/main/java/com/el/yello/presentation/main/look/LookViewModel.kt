@@ -31,16 +31,12 @@ class LookViewModel @Inject constructor(
         _isLoading.value = false
     }
 
-    fun setPagingLoading() {
-        _isLoading.value = true
-    }
-
     // 서버 통신 - 둘러보기 리스트 추가
     fun getLookListWithPaging() = Pager(
         config = PagingConfig(10),
         pagingSourceFactory = { LookPagingSource(lookService) }
     ).flow.cachedIn(viewModelScope).onStart {
-        setPagingLoading()
+        _isLoading.value = true
         checkLookConnection()
     }
 

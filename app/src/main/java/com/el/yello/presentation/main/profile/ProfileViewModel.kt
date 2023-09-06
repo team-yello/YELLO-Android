@@ -169,9 +169,7 @@ class ProfileViewModel @Inject constructor(
     fun deleteFriendDataToServer(friendId: Int) {
         viewModelScope.launch {
             _deleteFriendState.value = UiState.Loading
-            profileRepository.deleteFriendData(
-                friendId,
-            )
+            profileRepository.deleteFriendData(friendId)
                 .onSuccess {
                     _deleteFriendState.value = UiState.Success(it)
                 }
@@ -212,13 +210,10 @@ class ProfileViewModel @Inject constructor(
             payRepository.getPurchaseInfo()
                 .onSuccess {
                     it ?: return@launch
-                    _getPurchaseInfoState.value = UiState.Success(it)
+                    val subStatus: String = if (it.isSubscribe) "yes" else "no"
+                    AmplitudeUtils.updateUserProperties("user_subscription", subStatus)
                     AmplitudeUtils.updateUserIntProperties("user_ticket", it.ticketCount)
-                    if (it.isSubscribe) {
-                        AmplitudeUtils.updateUserProperties("user_subscription", "yes")
-                    } else {
-                        AmplitudeUtils.updateUserProperties("user_subscription", "no")
-                    }
+                    _getPurchaseInfoState.value = UiState.Success(it)
                 }
                 .onFailure {
                     _getPurchaseInfoState.value = UiState.Failure(it.message ?: "")
@@ -241,26 +236,26 @@ class ProfileViewModel @Inject constructor(
         }
     }
 
-    fun clearLocalInfo() {
+    private fun clearLocalInfo() {
         authRepository.clearLocalPref()
     }
 
     fun putDeviceToken() {
-        FirebaseMessaging.getInstance().token.addOnCompleteListener {
+        FirebaseMessaging.getInstance().token.addOnCompleteListener { addTask ->
             runCatching {
-                it.result
+                addTask.result
             }.onSuccess { token ->
-                if (authRepository.getDeviceToken() != token) {
-                    authRepository.setDeviceToken(token)
-                    viewModelScope.launch {
-                        runCatching {
-                            authRepository.putDeviceToken(
-                                token
-                            )
-                        }.onFailure(Timber::e)
-                    }
-                }
+                if (authRepository.getDeviceToken() != token) resetDeviceToken(token)
             }
+        }
+    }
+
+    private fun resetDeviceToken(token: String) {
+        authRepository.setDeviceToken(token)
+        viewModelScope.launch {
+            runCatching {
+                authRepository.putDeviceToken(token)
+            }.onFailure(Timber::e)
         }
     }
 

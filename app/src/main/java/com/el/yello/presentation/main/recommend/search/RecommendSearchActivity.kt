@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.el.yello.R
 import com.el.yello.databinding.ActivityRecommendSearchBinding
+import com.el.yello.util.Utils.setPullToScrollColor
 import com.el.yello.util.amplitude.AmplitudeUtils
 import com.el.yello.util.context.yelloSnackbar
 import com.example.ui.base.BindingActivity
@@ -99,12 +100,7 @@ class RecommendSearchActivity :
                     binding.layoutSearchSwipe.isRefreshing = false
                 }
             }
-            setProgressBackgroundColorSchemeColor(
-                ContextCompat.getColor(
-                    context, R.color.grayscales_700
-                )
-            )
-            setColorSchemeColors(ContextCompat.getColor(context, R.color.grayscales_500))
+            setPullToScrollColor(R.color.grayscales_500, R.color.grayscales_700)
         }
     }
 
@@ -173,7 +169,9 @@ class RecommendSearchActivity :
                 super.onScrolled(recyclerView, dx, dy)
                 if (dy > 0) {
                     recyclerView.layoutManager?.let { layoutManager ->
-                        if (!binding.rvRecommendSearch.canScrollVertically(1) && layoutManager is LinearLayoutManager && layoutManager.findLastVisibleItemPosition() == adapter.itemCount - 1) {
+                        if (!binding.rvRecommendSearch.canScrollVertically(1)
+                            && layoutManager is LinearLayoutManager
+                            && layoutManager.findLastVisibleItemPosition() == adapter.itemCount - 1) {
                             viewModel.isNewText = false
                             viewModel.setListFromServer(searchText)
                         }

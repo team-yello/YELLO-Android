@@ -9,10 +9,12 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.el.yello.R
 import com.el.yello.databinding.FragmentLookBinding
 import com.el.yello.presentation.main.dialog.InviteFriendDialog
 import com.el.yello.presentation.util.BaseLinearRcvItemDeco
+import com.el.yello.util.Utils.setPullToScrollColor
 import com.el.yello.util.amplitude.AmplitudeUtils
 import com.el.yello.util.context.yelloSnackbar
 import com.example.ui.base.BindingFragment
@@ -40,7 +42,7 @@ class LookFragment : BindingFragment<FragmentLookBinding>(R.layout.fragment_look
         super.onViewCreated(view, savedInstanceState)
 
         initAdapter()
-        initNoFriendScreenInviteBtnListener()
+        initInviteBtnListener()
         initPullToScrollListener()
         setItemDecoration()
         getTimelinePagingList()
@@ -68,7 +70,7 @@ class LookFragment : BindingFragment<FragmentLookBinding>(R.layout.fragment_look
         }
     }
 
-    private fun initNoFriendScreenInviteBtnListener() {
+    private fun initInviteBtnListener() {
         binding.btnLookNoFriend.setOnSingleClickListener {
             inviteFriendDialog =
                 InviteFriendDialog.newInstance(viewModel.getYelloId(), TIMELINE_NO_FRIEND)
@@ -88,12 +90,7 @@ class LookFragment : BindingFragment<FragmentLookBinding>(R.layout.fragment_look
                     binding.layoutLookSwipe.isRefreshing = false
                 }
             }
-            setProgressBackgroundColorSchemeColor(
-                ContextCompat.getColor(
-                    context, R.color.grayscales_700
-                )
-            )
-            setColorSchemeColors(ContextCompat.getColor(context, R.color.grayscales_500))
+            setPullToScrollColor(R.color.grayscales_500, R.color.grayscales_700)
         }
     }
 

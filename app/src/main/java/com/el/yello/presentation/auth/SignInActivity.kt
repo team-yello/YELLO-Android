@@ -14,20 +14,11 @@ import com.example.ui.base.BindingActivity
 import com.example.ui.context.toast
 import com.example.ui.view.UiState
 import com.example.ui.view.setOnSingleClickListener
-import com.kakao.sdk.auth.model.OAuthToken
-import com.kakao.sdk.common.model.ClientError
-import com.kakao.sdk.common.model.ClientErrorCause
-import com.kakao.sdk.user.UserApiClient
 import com.kakao.sdk.user.model.User
 import dagger.hilt.android.AndroidEntryPoint
-import timber.log.Timber
 
 @AndroidEntryPoint
 class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_sign_in) {
-
-    private lateinit var appLoginCallback: (OAuthToken?, Throwable?) -> Unit
-    private lateinit var webLoginCallback: (OAuthToken?, Throwable?) -> Unit
-    private lateinit var deviceToken: String
 
     private val viewModel by viewModels<SignInViewModel>()
 
@@ -35,63 +26,20 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
         super.onCreate(savedInstanceState)
 
         initSignInBtnListener()
+        viewModel.initLoginState()
         viewModel.getDeviceToken()
         observeDeviceTokenState()
+        observeAppLoginState()
         observeKakaoUserDataState()
         observeChangeTokenState()
         observeUserDataExists()
     }
 
+    // 카카오톡 앱 설치 유무에 따라 로그인 진행
     private fun initSignInBtnListener() {
         binding.btnSignIn.setOnSingleClickListener {
             AmplitudeUtils.trackEventWithProperties("click_onboarding_kakao")
-            setWebLoginCallback()
-            setAppLoginCallback()
-            startKakaoLogin()
-        }
-    }
-
-    // 웹에서 계정 로그인 callback 구성
-    private fun setWebLoginCallback() {
-        webLoginCallback = { token, error ->
-            if (error != null && token != null) {
-                viewModel.changeTokenFromServer(
-                    accessToken = token.accessToken,
-                    deviceToken = deviceToken,
-                )
-            } else {
-                Timber.tag(TAG_AUTH).d(getString(R.string.sign_in_error_empty_kakao_token))
-            }
-        }
-    }
-
-    // 카카오톡 앱 로그인 callback 구성
-    private fun setAppLoginCallback() {
-        appLoginCallback = { token, error ->
-            if (error != null) {
-                // 뒤로가기 경우 예외 처리
-                if (error is ClientError && error.reason == ClientErrorCause.Cancelled) {
-                    Timber.tag(TAG_AUTH).e(error, getString(R.string.sign_in_error_cancelled))
-                } else {
-                    viewModel.loginWithWebCallback(this, webLoginCallback)
-                }
-            } else if (token != null) {
-                viewModel.changeTokenFromServer(
-                    accessToken = token.accessToken,
-                    deviceToken = deviceToken,
-                )
-            } else {
-                Timber.tag(TAG_AUTH).d(getString(R.string.sign_in_error_empty_kakao_token))
-            }
-        }
-    }
-
-    // 카카오톡 앱 설치 유무에 따라 로그인 진행
-    private fun startKakaoLogin() {
-        if (UserApiClient.instance.isKakaoTalkLoginAvailable(this)) {
-            viewModel.loginWithAppCallback(this, appLoginCallback)
-        } else {
-            viewModel.loginWithWebCallback(this, webLoginCallback)
+            viewModel.startKakaoLogIn(this)
         }
     }
 
@@ -99,18 +47,21 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
     private fun observeDeviceTokenState() {
         viewModel.getDeviceTokenState.observe(this) { state ->
             when (state) {
-                is UiState.Success -> {
-                    deviceToken = state.data
-                }
+                is UiState.Success -> {}
 
-                is UiState.Failure -> {
-                    toast(getString(R.string.sign_in_error_connection))
-                }
+                is UiState.Failure -> toast(getString(R.string.sign_in_error_connection))
 
                 is UiState.Loading -> {}
 
                 is UiState.Empty -> {}
             }
+        }
+    }
+
+    // 카카오통 앱 로그인에 실패한 경우 웹 로그인 시도
+    private fun observeAppLoginState() {
+        viewModel.isAppLoginAvailable.observe(this) { available ->
+            if (!available) viewModel.startKakaoLogIn(this)
         }
     }
 

@@ -50,11 +50,6 @@ class LookFragment : BindingFragment<FragmentLookBinding>(R.layout.fragment_look
         AmplitudeUtils.trackEventWithProperties("view_timeline")
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _adapter = null
-    }
-
     private fun initAdapter() {
         viewModel.setNotLoading()
         _adapter = LookAdapter()
@@ -150,6 +145,11 @@ class LookFragment : BindingFragment<FragmentLookBinding>(R.layout.fragment_look
 
     fun scrollToTop() {
         binding.rvLook.smoothScrollToPosition(0)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _adapter = null
     }
 
     companion object {

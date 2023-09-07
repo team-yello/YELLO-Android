@@ -16,8 +16,7 @@ import com.example.ui.view.setOnSingleClickListener
 class ProfileFriendItemBottomSheet :
     BindingBottomSheetDialog<FragmentProfileItemBottomSheetBinding>(R.layout.fragment_profile_item_bottom_sheet) {
 
-    private var profileFriendDeleteBottomSheet: ProfileFriendDeleteBottomSheet? =
-        ProfileFriendDeleteBottomSheet()
+    private var deleteBottomSheet: ProfileFriendDeleteBottomSheet? = ProfileFriendDeleteBottomSheet()
     private val viewModel by activityViewModels<ProfileViewModel>()
 
     override fun onStart() {
@@ -41,7 +40,7 @@ class ProfileFriendItemBottomSheet :
 
     override fun onDestroyView() {
         super.onDestroyView()
-        profileFriendDeleteBottomSheet = null
+        deleteBottomSheet = null
     }
 
     private fun setItemImage() {
@@ -57,7 +56,7 @@ class ProfileFriendItemBottomSheet :
     // 다음 바텀시트 출력
     private fun initDeleteBtnListener() {
         binding.btnProfileFriendDelete.setOnSingleClickListener {
-            profileFriendDeleteBottomSheet?.show(parentFragmentManager, DELETE_BOTTOM_SHEET)
+            deleteBottomSheet?.show(parentFragmentManager, DELETE_BOTTOM_SHEET)
             dismiss()
         }
     }

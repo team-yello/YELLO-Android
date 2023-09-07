@@ -5,7 +5,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.flowWithLifecycle
@@ -61,15 +60,7 @@ class MyYelloFragment : BindingFragment<FragmentMyYelloBinding>(R.layout.fragmen
             )
         }
         binding.rvMyYelloReceive.addItemDecoration(
-            BaseLinearRcvItemDeco(
-                8,
-                8,
-                0,
-                0,
-                5,
-                RecyclerView.VERTICAL,
-                110,
-            ),
+            BaseLinearRcvItemDeco(8, 8, 0, 0, 5, RecyclerView.VERTICAL, 110)
         )
         adapter?.setHasStableIds(true)
         binding.rvMyYelloReceive.adapter = adapter
@@ -130,13 +121,11 @@ class MyYelloFragment : BindingFragment<FragmentMyYelloBinding>(R.layout.fragmen
             }
         }
 
-        viewModel.totalCount.flowWithLifecycle(viewLifecycleOwner.lifecycle)
-            .onEach {
+        viewModel.totalCount.flowWithLifecycle(viewLifecycleOwner.lifecycle).onEach {
                 binding.tvCount.text = it.toString()
             }.launchIn(viewLifecycleOwner.lifecycleScope)
 
-        viewModel.voteCount.flowWithLifecycle(viewLifecycleOwner.lifecycle)
-            .onEach {
+        viewModel.voteCount.flowWithLifecycle(viewLifecycleOwner.lifecycle).onEach {
                 when (it) {
                     is UiState.Success -> {
                         (activity as? MainActivity)?.setBadgeCount(it.data.totalCount)
@@ -157,9 +146,7 @@ class MyYelloFragment : BindingFragment<FragmentMyYelloBinding>(R.layout.fragmen
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
                 if (dy > 0) {
-                    if (!binding.rvMyYelloReceive.canScrollVertically(1) &&
-                        (recyclerView.layoutManager as LinearLayoutManager).findLastVisibleItemPosition() == adapter!!.itemCount - 1
-                    ) {
+                    if (!binding.rvMyYelloReceive.canScrollVertically(1) && (recyclerView.layoutManager as LinearLayoutManager).findLastVisibleItemPosition() == adapter!!.itemCount - 1) {
                         viewModel.getMyYelloList()
                     }
                 }

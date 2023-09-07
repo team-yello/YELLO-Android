@@ -55,11 +55,6 @@ class RecommendSearchActivity :
         setListWithInfinityScroll()
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        _adapter = null
-    }
-
     private fun initAdapterWithDivider() {
         _adapter = RecommendSearchAdapter { searchFriendModel, position, holder ->
             viewModel.setPositionAndHolder(position, holder)
@@ -224,5 +219,10 @@ class RecommendSearchActivity :
         binding.layoutSearchSwipe.visibility = View.GONE
         binding.layoutRecommendSearchLoading.visibility = View.GONE
         binding.layoutRecommendNoSearch.visibility = View.VISIBLE
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _adapter = null
     }
 }

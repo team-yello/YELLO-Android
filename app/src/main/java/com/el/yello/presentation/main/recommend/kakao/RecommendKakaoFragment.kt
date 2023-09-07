@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
 import android.view.animation.AnimationUtils
-import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -49,14 +48,14 @@ class RecommendKakaoFragment :
 
         initInviteBtnListener()
         initPullToScrollListener()
-        setItemDecoration()
-        setListWithInfinityScroll()
-        setFirstResume()
+        viewModel.isFirstResume = true
         setKakaoRecommendList()
         setAdapterWithClickListener()
         observeKakaoError()
         observeAddListState()
         observeAddFriendState()
+        setItemDecoration()
+        setInfinityScroll()
         setDeleteAnimation()
         AmplitudeUtils.trackEventWithProperties("view_recommend_kakao")
     }
@@ -83,12 +82,8 @@ class RecommendKakaoFragment :
         viewModel.addListWithKakaoIdList()
     }
 
-    private fun setFirstResume() {
-        viewModel.isFirstResume = true
-    }
-
     // 무한 스크롤 구현
-    private fun setListWithInfinityScroll() {
+    private fun setInfinityScroll() {
         binding.rvRecommendKakao.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
@@ -96,7 +91,8 @@ class RecommendKakaoFragment :
                     recyclerView.layoutManager?.let { layoutManager ->
                         if (!binding.rvRecommendKakao.canScrollVertically(1)
                             && layoutManager is LinearLayoutManager
-                            && layoutManager.findLastVisibleItemPosition() == adapter.itemCount - 1) {
+                            && layoutManager.findLastVisibleItemPosition() == adapter.itemCount - 1
+                        ) {
                             viewModel.addListWithKakaoIdList()
                         }
                     }
@@ -143,15 +139,7 @@ class RecommendKakaoFragment :
         itemDivider = RecommendItemDecoration(requireContext())
         binding.rvRecommendKakao.addItemDecoration(itemDivider)
         binding.rvRecommendKakao.addItemDecoration(
-            BaseLinearRcvItemDeco(
-                0,
-                0,
-                0,
-                0,
-                0,
-                RecyclerView.VERTICAL,
-                12,
-            ),
+            BaseLinearRcvItemDeco(0, 0, 0, 0, 0, RecyclerView.VERTICAL, 12)
         )
     }
 
@@ -230,9 +218,7 @@ class RecommendKakaoFragment :
                     )
                 }
 
-                is UiState.Empty -> {
-                    activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
-                }
+                is UiState.Empty -> {}
             }
         }
     }

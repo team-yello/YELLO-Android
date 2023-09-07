@@ -125,15 +125,7 @@ class RecommendSchoolFragment :
         itemDivider = RecommendItemDecoration(requireContext())
         binding.rvRecommendSchool.addItemDecoration(itemDivider)
         binding.rvRecommendSchool.addItemDecoration(
-            BaseLinearRcvItemDeco(
-                0,
-                0,
-                0,
-                0,
-                0,
-                RecyclerView.VERTICAL,
-                12,
-            ),
+            BaseLinearRcvItemDeco(0, 0, 0, 0, 0, RecyclerView.VERTICAL, 12)
         )
     }
 
@@ -225,9 +217,7 @@ class RecommendSchoolFragment :
                     )
                 }
 
-                is UiState.Empty -> {
-                    activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
-                }
+                is UiState.Empty -> {}
             }
         }
     }

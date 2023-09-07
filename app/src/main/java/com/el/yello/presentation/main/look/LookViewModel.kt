@@ -35,22 +35,25 @@ class LookViewModel @Inject constructor(
     fun getLookListWithPaging() = Pager(
         config = PagingConfig(10),
         pagingSourceFactory = { LookPagingSource(lookService) }
-    ).flow.cachedIn(viewModelScope).onStart {
-        _isLoading.value = true
-        checkLookConnection()
-    }
+    ).flow
+        .cachedIn(viewModelScope).onStart {
+            _isLoading.value = true
+            checkLookConnection()
+        }
 
     // 서버 통신 확인
     private fun checkLookConnection() {
         viewModelScope.launch {
             runCatching {
                 lookService.getLookList(0)
-            }.onSuccess {
-                _isLoading.value = false
-            }.onFailure { exception ->
-                _isLoading.value = false
-                _getErrorResult.value = exception.message
             }
+                .onSuccess {
+                    _isLoading.value = false
+                }
+                .onFailure { exception ->
+                    _isLoading.value = false
+                    _getErrorResult.value = exception.message
+                }
         }
     }
 

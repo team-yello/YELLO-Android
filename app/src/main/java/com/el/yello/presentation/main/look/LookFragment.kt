@@ -2,14 +2,12 @@ package com.el.yello.presentation.main.look
 
 import android.os.Bundle
 import android.view.View
-import androidx.core.content.ContextCompat
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.el.yello.R
 import com.el.yello.databinding.FragmentLookBinding
 import com.el.yello.presentation.main.dialog.InviteFriendDialog
@@ -96,15 +94,7 @@ class LookFragment : BindingFragment<FragmentLookBinding>(R.layout.fragment_look
 
     private fun setItemDecoration() {
         binding.rvLook.addItemDecoration(
-            BaseLinearRcvItemDeco(
-                8,
-                8,
-                16,
-                16,
-                0,
-                RecyclerView.VERTICAL,
-                20,
-            ),
+            BaseLinearRcvItemDeco(8, 8, 16, 16, 0, RecyclerView.VERTICAL, 20)
         )
     }
 
@@ -137,8 +127,8 @@ class LookFragment : BindingFragment<FragmentLookBinding>(R.layout.fragment_look
     }
 
     private fun observeIsLoading() {
-        viewModel.isLoading.observe(viewLifecycleOwner) { state ->
-            if (state) {
+        viewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
+            if (isLoading) {
                 startShimmerView()
             } else {
                 stopShimmerView()

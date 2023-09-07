@@ -1,7 +1,6 @@
 package com.el.yello.presentation.auth
 
 import android.content.Context
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -41,12 +40,12 @@ class SignInViewModel @Inject constructor(
     private val _getKakaoDataState = MutableLiveData<UiState<User?>>()
     val getKakaoDataState: LiveData<UiState<User?>> = _getKakaoDataState
 
-    private val _getDeviceTokenState = MutableLiveData<UiState<String>>()
-    val getDeviceTokenState: LiveData<UiState<String>> = _getDeviceTokenState
-
     private val serviceTermsList = listOf(THUMBNAIL, EMAIL, FRIEND_LIST, NAME, GENDER)
 
     private var deviceToken = String()
+
+    private val _getDeviceTokenError = MutableLiveData<String>()
+    val getDeviceTokenError: LiveData<String> = _getDeviceTokenError
 
     private val _isAppLoginAvailable = MutableLiveData<Boolean>()
     val isAppLoginAvailable: LiveData<Boolean> = _isAppLoginAvailable
@@ -107,10 +106,9 @@ class SignInViewModel @Inject constructor(
                     return@me
                 }
             } catch (e: IllegalArgumentException) {
-                _getKakaoDataState.value = UiState.Failure(e.message ?: "")
+                _getKakaoDataState.value = UiState.Failure(e.message.toString())
             }
         }
-        _getKakaoDataState.value = UiState.Failure("카카오 정보 불러오기 실패")
     }
 
     // 서버통신 - 카카오 토큰 보내서 서비스 토큰 받아오기
@@ -134,19 +132,18 @@ class SignInViewModel @Inject constructor(
                     _postChangeTokenState.value = UiState.Success(it)
                 }
                 .onFailure {
-                    if (it is HttpException && it.code() == 403) {
-                        _postChangeTokenState.value = UiState.Failure(CODE_NOT_SIGNED_IN)
-                    } else if (it is HttpException && it.code() == 404) {
-                        _postChangeTokenState.value = UiState.Failure(CODE_NO_UUID)
-                    } else {
-                        _postChangeTokenState.value = UiState.Failure("ERROR")
+                    val errorMessage = when {
+                        it is HttpException && it.code() == 403 -> CODE_NOT_SIGNED_IN
+                        it is HttpException && it.code() == 404 -> CODE_NO_UUID
+                        else -> ERROR
                     }
+                    _postChangeTokenState.value = UiState.Failure(errorMessage)
                 }
         }
     }
 
     // 서버통신 - (가입되어 있는) 유저 정보 가져오기
-    fun getUserData() {
+    fun getUserDataFromServer() {
         viewModelScope.launch {
             profileRepository.getUserData()
                 .onSuccess { profile ->
@@ -168,13 +165,12 @@ class SignInViewModel @Inject constructor(
     // 디바이스 토큰 FCM에서 받아 로컬에 저장
     fun getDeviceToken() {
         FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
-            _getDeviceTokenState.value = UiState.Loading
             if (task.isSuccessful && task.result.isNotEmpty()) {
                 deviceToken = task.result
                 authRepository.setDeviceToken(deviceToken)
-                return@addOnCompleteListener
+            } else {
+                _getDeviceTokenError.value = task.result
             }
-            _getDeviceTokenState.value = UiState.Failure(task.result)
         }
     }
 
@@ -184,10 +180,13 @@ class SignInViewModel @Inject constructor(
 
     private companion object {
         const val KAKAO = "KAKAO"
+
         const val THUMBNAIL = "profile_image"
         const val EMAIL = "account_email"
         const val FRIEND_LIST = "friends"
         const val NAME = "name"
         const val GENDER = "gender"
+
+        const val ERROR = "error"
     }
 }

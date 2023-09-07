@@ -28,11 +28,11 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
         initSignInBtnListener()
         viewModel.initLoginState()
         viewModel.getDeviceToken()
-        observeDeviceTokenState()
-        observeAppLoginState()
+        observeDeviceTokenError()
+        observeAppLoginError()
         observeKakaoUserDataState()
         observeChangeTokenState()
-        observeUserDataExists()
+        observeUserDataState()
     }
 
     // 카카오톡 앱 설치 유무에 따라 로그인 진행
@@ -43,23 +43,14 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
         }
     }
 
-    // Firebase에서 디바이스 토큰 받아와 저장
-    private fun observeDeviceTokenState() {
-        viewModel.getDeviceTokenState.observe(this) { state ->
-            when (state) {
-                is UiState.Success -> {}
-
-                is UiState.Failure -> toast(getString(R.string.sign_in_error_connection))
-
-                is UiState.Loading -> {}
-
-                is UiState.Empty -> {}
-            }
+    private fun observeDeviceTokenError() {
+        viewModel.getDeviceTokenError.observe(this) {
+            toast(getString(R.string.sign_in_error_connection))
         }
     }
 
     // 카카오통 앱 로그인에 실패한 경우 웹 로그인 시도
-    private fun observeAppLoginState() {
+    private fun observeAppLoginError() {
         viewModel.isAppLoginAvailable.observe(this) { available ->
             if (!available) viewModel.startKakaoLogIn(this)
         }
@@ -71,7 +62,7 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
             when (state) {
                 is UiState.Success -> {
                     // 200(가입된 아이디): 온보딩 뷰 생략하고 바로 메인 화면으로 이동 위해 유저 정보 받기
-                    viewModel.getUserData()
+                    viewModel.getUserDataFromServer()
                 }
 
                 is UiState.Failure -> {
@@ -111,7 +102,7 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
     }
 
     // Success -> 서버에 등록된 유저 정보가 있는지 확인 후 메인 액티비티로 이동
-    private fun observeUserDataExists() {
+    private fun observeUserDataState() {
         viewModel.getUserProfileState.observe(this) { state ->
             when (state) {
                 is UiState.Success -> {
@@ -169,7 +160,5 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
 
         const val CODE_NOT_SIGNED_IN = "403"
         const val CODE_NO_UUID = "404"
-
-        const val TAG_AUTH = "authSignIn"
     }
 }

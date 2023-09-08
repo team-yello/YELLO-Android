@@ -30,8 +30,6 @@ class RecommendSearchViewModel @Inject constructor(
     private var isPagingFinish = false
     private var totalPage = Int.MAX_VALUE
 
-    var isNewText = true
-
     fun setPositionAndHolder(position: Int, holder: RecommendSearchViewHolder) {
         itemPosition = position
         itemHolder = holder
@@ -46,7 +44,6 @@ class RecommendSearchViewModel @Inject constructor(
     // 서버 통신 - 추천 친구 리스트 추가
     fun setListFromServer(keyword: String) {
         if (isPagingFinish) return
-        _postFriendsListState.value = UiState.Loading
         viewModelScope.launch {
             recommendRepository.getSearchList(
                 ++currentPage,

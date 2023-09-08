@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.activity.viewModels
-import androidx.core.content.ContextCompat
 import androidx.core.widget.doAfterTextChanged
 import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.lifecycleScope
@@ -87,7 +86,6 @@ class RecommendSearchActivity :
         binding.layoutSearchSwipe.apply {
             setOnRefreshListener {
                 lifecycleScope.launch {
-                    viewModel.isNewText = false
                     adapter.submitList(listOf())
                     viewModel.setNewPage()
                     viewModel.setListFromServer(searchText)
@@ -102,7 +100,6 @@ class RecommendSearchActivity :
     // 텍스트 변경 감지 시 로딩 화면 출력
     private fun setLoadingScreen() {
         binding.etRecommendSearchBox.doOnTextChanged { _, _, _, _ ->
-            viewModel.isNewText = true
             showLoadingScreen()
             adapter.submitList(listOf())
             viewModel.setNewPage()
@@ -146,13 +143,9 @@ class RecommendSearchActivity :
                     showFriendListScreen()
                 }
 
-                is UiState.Loading -> {
-                    if (viewModel.isNewText) showLoadingScreen()
-                }
+                is UiState.Loading -> {}
 
-                is UiState.Empty -> {
-                    showFriendListScreen()
-                }
+                is UiState.Empty -> {}
             }
         }
     }
@@ -166,8 +159,8 @@ class RecommendSearchActivity :
                     recyclerView.layoutManager?.let { layoutManager ->
                         if (!binding.rvRecommendSearch.canScrollVertically(1)
                             && layoutManager is LinearLayoutManager
-                            && layoutManager.findLastVisibleItemPosition() == adapter.itemCount - 1) {
-                            viewModel.isNewText = false
+                            && layoutManager.findLastVisibleItemPosition() == adapter.itemCount - 1
+                        ) {
                             viewModel.setListFromServer(searchText)
                         }
                     }

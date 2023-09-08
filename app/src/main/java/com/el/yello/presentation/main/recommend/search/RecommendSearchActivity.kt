@@ -102,6 +102,7 @@ class RecommendSearchActivity :
         binding.etRecommendSearchBox.doOnTextChanged { _, _, _, _ ->
             showLoadingScreen()
             adapter.submitList(listOf())
+            adapter.notifyDataSetChanged()
             viewModel.setNewPage()
         }
     }

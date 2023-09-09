@@ -24,7 +24,6 @@ class NameFragment : BindingFragment<FragmentNameBinding>(R.layout.fragment_name
             // findNavController().navigate(R.id.action_nameFragment_to_yelIoIdFragment)
             val activity = requireActivity() as OnBoardingActivity
             activity.progressBarPlus()
-            AmplitudeUtils.updateUserProperties("user_name", viewModel.name)
         }
     }
 

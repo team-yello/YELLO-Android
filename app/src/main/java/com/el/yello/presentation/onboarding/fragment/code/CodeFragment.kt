@@ -42,6 +42,7 @@ class CodeFragment : BindingFragment<FragmentCodeBinding>(R.layout.fragment_code
             AmplitudeUtils.updateUserProperties("user_recommend", "no")
             setupPostSignupState()
             viewModel.postSignup()
+            AmplitudeUtils.updateUserProperties("user_name", viewModel.name)
         }
         binding.btnCodeNext.setOnSingleClickListener {
             AmplitudeUtils.trackEventWithProperties("complete_onboarding_finish")
@@ -52,6 +53,7 @@ class CodeFragment : BindingFragment<FragmentCodeBinding>(R.layout.fragment_code
             AmplitudeUtils.updateUserProperties("user_recommend", "yes")
             viewModel.getValidYelloId(viewModel.codeText.value.toString())
             setupGetValidYelloIdState()
+            AmplitudeUtils.updateUserProperties("user_name", viewModel.name)
         }
     }
 

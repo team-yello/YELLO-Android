@@ -216,9 +216,9 @@ class ProfileViewModel @Inject constructor(
                 _getPurchaseInfoState.value = UiState.Success(it)
                 AmplitudeUtils.updateUserIntProperties("user_ticket", it.ticketCount)
                 if (!it.isSubscribe) {
-                    AmplitudeUtils.updateUserProperties("user_subscription", "yes")
-                } else {
                     AmplitudeUtils.updateUserProperties("user_subscription", "no")
+                } else {
+                    AmplitudeUtils.updateUserProperties("user_subscription", "yes")
                 }
             }.onFailure {
                 _getPurchaseInfoState.value = UiState.Failure(it.message ?: "")

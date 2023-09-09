@@ -13,7 +13,7 @@
     </fragment>
     <fragment
         android:id="@+id/yelIoIdFragment"
-        android:name="com.el.yello.presentation.onboarding.fragment.nameid.YelIoIdFragment"
+        android:name="com.el.yello.presentation.onboarding.fragment.yelloid.YelIoIdFragment"
         android:label="YelIoIdFragment" >
         <action
             android:id="@+id/action_yelIoIdFragment_to_addFriendFragment"

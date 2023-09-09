@@ -1,4 +1,4 @@
-package com.el.yello.presentation.onboarding.fragment.nameid
+package com.el.yello.presentation.onboarding.fragment.yelloid
 
 import android.os.Bundle
 import android.view.View

@@ -7,6 +7,7 @@ import com.el.yello.R
 import com.el.yello.databinding.FragmentNameBinding
 import com.el.yello.presentation.onboarding.activity.OnBoardingActivity
 import com.el.yello.presentation.onboarding.activity.OnBoardingViewModel
+import com.el.yello.util.amplitude.AmplitudeUtils
 import com.example.ui.base.BindingFragment
 import com.example.ui.view.setOnSingleClickListener
 

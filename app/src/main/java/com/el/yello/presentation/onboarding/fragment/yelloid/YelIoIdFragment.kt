@@ -23,17 +23,13 @@ class YelIoIdFragment : BindingFragment<FragmentYelloIdBinding>(R.layout.fragmen
         super.onViewCreated(view, savedInstanceState)
         binding.vm = viewModel
         setDeleteBtnClickListener()
-        setConfirmBtnClickListener()
+        setYelloIdBtnClickListener()
         setupGetValidYelloId()
     }
 
-    private fun setConfirmBtnClickListener() {
+    private fun setYelloIdBtnClickListener() {
         binding.btnYelloIdNext.setOnSingleClickListener {
-            AmplitudeUtils.trackEventWithProperties(
-                "click_onboarding_next",
-                JSONObject().put("onboard_view", "id"),
-            )
-            AmplitudeUtils.updateUserProperties("user_id", viewModel.id)
+            amplitudeYelloIdInfo()
             viewModel.getValidYelloId(viewModel.id)
         }
     }
@@ -83,5 +79,13 @@ class YelIoIdFragment : BindingFragment<FragmentYelloIdBinding>(R.layout.fragmen
         )
         binding.tvIdErrorSecond.visibility = View.INVISIBLE
         binding.tvIdErrorThird.visibility = View.INVISIBLE
+    }
+
+    private fun amplitudeYelloIdInfo() {
+        AmplitudeUtils.trackEventWithProperties(
+            "click_onboarding_next",
+            JSONObject().put("onboard_view", "id"),
+        )
+        AmplitudeUtils.updateUserProperties("user_id", viewModel.id)
     }
 }

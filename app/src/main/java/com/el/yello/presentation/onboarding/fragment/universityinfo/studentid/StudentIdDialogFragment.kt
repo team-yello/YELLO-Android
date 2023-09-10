@@ -11,25 +11,25 @@ import com.example.ui.base.BindingBottomSheetDialog
 class StudentIdDialogFragment :
     BindingBottomSheetDialog<FragmentDialogStudentIdBinding>(R.layout.fragment_dialog_student_id) {
 
-    private lateinit var idList: List<Int>
+    private lateinit var studentIdList: List<Int>
 
     private val viewModel by activityViewModels<OnBoardingViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.vm = viewModel
-        initStudentidAdapter()
+        initStudentIdViewAdapter()
     }
 
-    private fun initStudentidAdapter() {
+    private fun initStudentIdViewAdapter() {
         viewModel.addStudentId()
-        idList = viewModel.studentIdResult.value ?: emptyList()
+        studentIdList = viewModel.studentIdResult.value ?: emptyList()
         val adapter = StudentIdDialogAdapter(storeStudentId = ::storeStudentId)
         binding.rvStudentid.adapter = adapter
-        adapter.submitList(idList)
+        adapter.submitList(studentIdList)
     }
 
-    fun storeStudentId(studentId: Int) {
+    private fun storeStudentId(studentId: Int) {
         viewModel.setStudentId(studentId)
         dismiss()
     }

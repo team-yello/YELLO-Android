@@ -1,4 +1,4 @@
-package com.el.yello.presentation.onboarding.fragment.universityinfo.school
+package com.el.yello.presentation.onboarding.fragment.universityinfo.university
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -8,9 +8,9 @@ import com.el.yello.databinding.ItemUniversityListBinding
 import com.example.ui.view.ItemDiffCallback
 import com.example.ui.view.setOnSingleClickListener
 
-class SchoolAdapter(
+class UniversityAdapter(
     private val storeSchool: (String) -> Unit,
-) : ListAdapter<String, SchoolAdapter.SchoolViewHolder>(diffUtil) {
+) : ListAdapter<String, UniversityAdapter.SchoolViewHolder>(diffUtil) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SchoolViewHolder {
         return SchoolViewHolder(
             ItemUniversityListBinding.inflate(

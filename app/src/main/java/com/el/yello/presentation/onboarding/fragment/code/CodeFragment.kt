@@ -23,7 +23,7 @@ class CodeFragment : BindingFragment<FragmentCodeBinding>(R.layout.fragment_code
         super.onViewCreated(view, savedInstanceState)
         binding.vm = viewModel
 
-        setConfirmBtnCLickListener()
+        setCodeBtnCLickListener()
         setDeleteCodeBtnClickListener()
         viewModel.validYellIdLoading()
     }
@@ -32,28 +32,16 @@ class CodeFragment : BindingFragment<FragmentCodeBinding>(R.layout.fragment_code
         (activity as? OnBoardingActivity)?.hideBackbtn()
     }
 
-    private fun setConfirmBtnCLickListener() {
+    private fun setCodeBtnCLickListener() {
         binding.btnCodeSkip.setOnClickListener {
-            AmplitudeUtils.trackEventWithProperties("complete_onboarding_finish")
-            AmplitudeUtils.trackEventWithProperties(
-                "click_onboarding_recommend",
-                JSONObject().put("rec_exist", "pass"),
-            )
-            AmplitudeUtils.updateUserProperties("user_recommend", "no")
             setupPostSignupState()
             viewModel.postSignup()
-            AmplitudeUtils.updateUserProperties("user_name", viewModel.name)
+            amplitudeUCodeSkipInfo()
         }
         binding.btnCodeNext.setOnSingleClickListener {
-            AmplitudeUtils.trackEventWithProperties("complete_onboarding_finish")
-            AmplitudeUtils.trackEventWithProperties(
-                "click_onboarding_recommend",
-                JSONObject().put("rec_exist", "next"),
-            )
-            AmplitudeUtils.updateUserProperties("user_recommend", "yes")
             viewModel.getValidYelloId(viewModel.codeText.value.toString())
             setupGetValidYelloIdState()
-            AmplitudeUtils.updateUserProperties("user_name", viewModel.name)
+            amplitudeUCodeNextInfo()
         }
     }
 
@@ -110,5 +98,25 @@ class CodeFragment : BindingFragment<FragmentCodeBinding>(R.layout.fragment_code
         binding.ivCodeDelete.setBackgroundResource(R.drawable.ic_onboarding_delete_red)
         binding.tvCodeWarning.text = getString(R.string.onboarding_code_duplicate_msg)
         binding.tvCodeWarning.setTextColor(Color.parseColor("#F04646"))
+    }
+
+    private fun amplitudeUCodeSkipInfo() {
+        AmplitudeUtils.trackEventWithProperties("complete_onboarding_finish")
+        AmplitudeUtils.trackEventWithProperties(
+            "click_onboarding_recommend",
+            JSONObject().put("rec_exist", "pass"),
+        )
+        AmplitudeUtils.updateUserProperties("user_recommend", "no")
+        AmplitudeUtils.updateUserProperties("user_name", viewModel.name)
+    }
+
+    private fun amplitudeUCodeNextInfo() {
+        AmplitudeUtils.trackEventWithProperties("complete_onboarding_finish")
+        AmplitudeUtils.trackEventWithProperties(
+            "click_onboarding_recommend",
+            JSONObject().put("rec_exist", "next"),
+        )
+        AmplitudeUtils.updateUserProperties("user_recommend", "yes")
+        AmplitudeUtils.updateUserProperties("user_name", viewModel.name)
     }
 }

@@ -6,7 +6,7 @@ import androidx.activity.viewModels
 import com.el.yello.R
 import com.el.yello.databinding.ActivitySignInBinding
 import com.el.yello.presentation.main.MainActivity
-import com.el.yello.presentation.onboarding.StartAppActivity
+import com.el.yello.presentation.onboarding.GetAlarmActivity
 import com.el.yello.presentation.tutorial.TutorialAActivity
 import com.el.yello.util.amplitude.AmplitudeUtils
 import com.el.yello.util.context.yelloSnackbar
@@ -20,7 +20,6 @@ import com.kakao.sdk.common.model.ClientErrorCause
 import com.kakao.sdk.user.UserApiClient
 import com.kakao.sdk.user.model.User
 import dagger.hilt.android.AndroidEntryPoint
-import org.json.JSONObject
 import timber.log.Timber
 
 @AndroidEntryPoint
@@ -190,7 +189,7 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
                             startMainActivity()
                         }
                     } else {
-                        val intent = Intent(this, StartAppActivity::class.java)
+                        val intent = Intent(this, GetAlarmActivity::class.java)
                         startActivity(intent)
                     }
                 }

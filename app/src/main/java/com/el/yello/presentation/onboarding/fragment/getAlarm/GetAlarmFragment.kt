@@ -1,4 +1,4 @@
-package com.el.yello.presentation.onboarding.fragment.startapp
+package com.el.yello.presentation.onboarding.fragment.getAlarm
 
 import android.Manifest
 import android.content.Intent
@@ -9,14 +9,14 @@ import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import com.el.yello.R
-import com.el.yello.databinding.FragmentStartAppBinding
+import com.el.yello.databinding.FragmentGetAlarmBinding
 import com.el.yello.presentation.onboarding.activity.OnBoardingActivity
 import com.el.yello.presentation.tutorial.TutorialAActivity
 import com.el.yello.util.amplitude.AmplitudeUtils
 import com.example.ui.base.BindingFragment
 import com.example.ui.view.setOnSingleClickListener
 
-class StartAppFragment : BindingFragment<FragmentStartAppBinding>(R.layout.fragment_start_app) {
+class GetAlarmFragment : BindingFragment<FragmentGetAlarmBinding>(R.layout.fragment_get_alarm) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

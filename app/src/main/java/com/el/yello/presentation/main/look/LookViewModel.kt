@@ -7,7 +7,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
-import com.example.data.datasource.remote.LookPagingSource
+import com.example.data.datasource.paging.LookPagingSource
 import com.example.data.remote.service.LookService
 import com.example.domain.repository.AuthRepository
 import dagger.hilt.android.lifecycle.HiltViewModel

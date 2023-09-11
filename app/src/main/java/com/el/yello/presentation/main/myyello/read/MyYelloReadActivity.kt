@@ -54,10 +54,10 @@ class MyYelloReadActivity :
         initView()
         initClick()
         observe()
-        setViewAmplitude()
+        trackAmplitudeEvent()
     }
 
-    private fun setViewAmplitude() {
+    private fun trackAmplitudeEvent() {
         with(viewModel.yelloDetail ?: return) {
             if (nameHint != -3) {
                 AmplitudeUtils.trackEventWithProperties("view_open_message")
@@ -281,6 +281,8 @@ class MyYelloReadActivity :
             binding.btnSendCheck.isVisible = false
         }
         binding.tvNameCheckFinish.isVisible = yello.nameHint == -2 || yello.nameHint == -3
+
+        trackAmplitudeEvent()
     }
 
     private fun shareInstagramStory() {

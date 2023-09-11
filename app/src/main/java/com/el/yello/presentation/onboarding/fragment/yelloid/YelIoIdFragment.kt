@@ -86,6 +86,5 @@ class YelIoIdFragment : BindingFragment<FragmentYelloIdBinding>(R.layout.fragmen
             "click_onboarding_next",
             JSONObject().put("onboard_view", "id"),
         )
-        AmplitudeUtils.updateUserProperties("user_id", viewModel.id)
     }
 }

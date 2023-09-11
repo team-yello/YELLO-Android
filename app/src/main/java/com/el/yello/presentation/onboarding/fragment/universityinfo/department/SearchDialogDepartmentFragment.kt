@@ -39,35 +39,14 @@ class SearchDialogDepartmentFragment :
         super.onViewCreated(view, savedInstanceState)
         binding.vm = viewModel
 
-        initDepartmentAdapter()
+        initDepartmentDialogView()
         setupDepartmentData()
         recyclerviewScroll()
         setClickToDepartmentForm()
         setListWithInfinityScroll()
     }
 
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val dialog = BottomSheetDialog(requireContext(), theme)
-        dialog.setOnShowListener {
-            val bottomSheetDialog = it as BottomSheetDialog
-            val parentLayout =
-                bottomSheetDialog.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet)
-            parentLayout?.let { it ->
-                val behaviour = BottomSheetBehavior.from(it)
-                setupFullHeight(it)
-                behaviour.state = BottomSheetBehavior.STATE_EXPANDED
-            }
-        }
-        return dialog
-    }
-
-    private fun setupFullHeight(bottomSheet: View) {
-        val layoutParams = bottomSheet.layoutParams
-        layoutParams.height = WindowManager.LayoutParams.MATCH_PARENT
-        bottomSheet.layoutParams = layoutParams
-    }
-
-    private fun initDepartmentAdapter() {
+    private fun initDepartmentDialogView() {
         setHideKeyboard()
         binding.etDepartmentSearch.doAfterTextChanged { it ->
             searchJob?.cancel()
@@ -83,12 +62,19 @@ class SearchDialogDepartmentFragment :
         }
     }
 
-    private fun setHideKeyboard() {
-        binding.layoutDepartmentDialog.setOnSingleClickListener {
-            requireContext().hideKeyboard(
-                requireView(),
-            )
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        val dialog = BottomSheetDialog(requireContext(), theme)
+        dialog.setOnShowListener {
+            val bottomSheetDialog = it as BottomSheetDialog
+            val parentLayout =
+                bottomSheetDialog.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet)
+            parentLayout?.let { it ->
+                val behaviour = BottomSheetBehavior.from(it)
+                setupFullHeight(it)
+                behaviour.state = BottomSheetBehavior.STATE_EXPANDED
+            }
         }
+        return dialog
     }
 
     private fun setupDepartmentData() {
@@ -112,15 +98,19 @@ class SearchDialogDepartmentFragment :
         viewModel.clearDepartmentData()
         dismiss()
     }
-    private fun recyclerviewScroll() {
-        binding.rvDepartmentList.setOnTouchListener { view, motionEvent ->
-            when (motionEvent.action) {
-                MotionEvent.ACTION_MOVE -> {
-                    binding.layoutDepartmentDialog.requestDisallowInterceptTouchEvent(true)
-                }
+
+    private fun setClickToDepartmentForm() {
+        binding.tvDepartmentAdd.setOnClickListener {
+            Intent(Intent.ACTION_VIEW, Uri.parse(DEPARTMENT_FORM_URL)).apply {
+                startActivity(this)
             }
-            return@setOnTouchListener false
         }
+    }
+
+    private fun setupFullHeight(bottomSheet: View) {
+        val layoutParams = bottomSheet.layoutParams
+        layoutParams.height = WindowManager.LayoutParams.MATCH_PARENT
+        bottomSheet.layoutParams = layoutParams
     }
 
     private fun setListWithInfinityScroll() {
@@ -141,11 +131,22 @@ class SearchDialogDepartmentFragment :
         })
     }
 
-    private fun setClickToDepartmentForm() {
-        binding.tvDepartmentAdd.setOnClickListener {
-            Intent(Intent.ACTION_VIEW, Uri.parse(DEPARTMENT_FORM_URL)).apply {
-                startActivity(this)
+    private fun setHideKeyboard() {
+        binding.layoutDepartmentDialog.setOnSingleClickListener {
+            requireContext().hideKeyboard(
+                requireView(),
+            )
+        }
+    }
+
+    private fun recyclerviewScroll() {
+        binding.rvDepartmentList.setOnTouchListener { view, motionEvent ->
+            when (motionEvent.action) {
+                MotionEvent.ACTION_MOVE -> {
+                    binding.layoutDepartmentDialog.requestDisallowInterceptTouchEvent(true)
+                }
             }
+            return@setOnTouchListener false
         }
     }
 

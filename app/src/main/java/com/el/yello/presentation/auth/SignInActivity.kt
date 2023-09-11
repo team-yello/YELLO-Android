@@ -6,7 +6,7 @@ import androidx.activity.viewModels
 import com.el.yello.R
 import com.el.yello.databinding.ActivitySignInBinding
 import com.el.yello.presentation.main.MainActivity
-import com.el.yello.presentation.onboarding.StartAppActivity
+import com.el.yello.presentation.onboarding.GetAlarmActivity
 import com.el.yello.presentation.tutorial.TutorialAActivity
 import com.el.yello.util.amplitude.AmplitudeUtils
 import com.el.yello.util.context.yelloSnackbar
@@ -113,7 +113,7 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
                             startMainActivity()
                         }
                     } else {
-                        startActivity(Intent(this, StartAppActivity::class.java))
+                        startActivity(Intent(this, GetAlarmActivity::class.java))
                     }
                 }
 

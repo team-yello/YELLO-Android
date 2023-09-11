@@ -34,6 +34,7 @@ class PointAfterDialog :
     private fun initView() {
         if (viewModel.pointType == PointEnum.KEYWORD.ordinal) {
             viewModel.checkKeyword()
+
         } else {
             viewModel.checkInitial()
         }

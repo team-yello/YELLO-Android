@@ -327,7 +327,6 @@ class OnBoardingViewModel @Inject constructor(
         AmplitudeUtils.updateUserProperties("user_sex", gender)
     }
     companion object {
-        private const val REGEX_NAME_PATTERN = "^([가-힣]*)\$"
         private const val REGEX_ID_PATTERN = "^([A-Za-z0-9_.]*)\$"
     }
 }

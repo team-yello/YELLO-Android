@@ -118,7 +118,7 @@ class CodeFragment : BindingFragment<FragmentCodeBinding>(R.layout.fragment_code
             JSONObject().put("rec_exist", "next"),
         )
         AmplitudeUtils.updateUserProperties("user_recommend", "yes")
-        AmplitudeUtils.updateUserProperties("user_name", viewModel.name)
         AmplitudeUtils.updateUserProperties("user_sex", viewModel.gender)
+        AmplitudeUtils.updateUserProperties("user_name", viewModel.name)
     }
 }

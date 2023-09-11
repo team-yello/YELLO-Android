@@ -31,7 +31,7 @@ class OnBoardingViewModel @Inject constructor(
 ) : ViewModel() {
 
     var currentPercent = 20
-    var isFirstUser: Boolean = false
+    
     fun plusCurrentPercent() {
         currentPercent += 20
     }

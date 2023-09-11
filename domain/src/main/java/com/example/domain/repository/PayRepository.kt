@@ -10,16 +10,16 @@ interface PayRepository {
 
     suspend fun postToCheckSubs(
         request: RequestPayModel
-    ): ResponsePaySubsModel?
+    ): Result<ResponsePaySubsModel?>
 
     suspend fun postToCheckInApp(
         request: RequestPayModel
-    ): ResponsePayInAppModel?
+    ): Result<ResponsePayInAppModel?>
 
     suspend fun getSubsNeeded(
-    ): ResponseSubsNeededModel?
+    ): Result<ResponseSubsNeededModel?>
 
     suspend fun getPurchaseInfo(
-    ): ResponsePurchaseInfoModel?
+    ): Result<ResponsePurchaseInfoModel?>
 
 }

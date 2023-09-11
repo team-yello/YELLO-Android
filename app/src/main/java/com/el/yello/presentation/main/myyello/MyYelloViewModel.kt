@@ -1,6 +1,5 @@
 package com.el.yello.presentation.main.myyello
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -56,37 +55,41 @@ class MyYelloViewModel @Inject constructor(
                 .onSuccess {
                     if (it == null) {
                         _myYelloData.value = UiState.Empty
-                    } else {
-                        totalPage = ceil((it.totalCount * 0.1)).toInt() - 1
-                        if (totalPage == currentPage) isPagingFinish = true
-                        _myYelloData.value = when {
-                            it.yello.isEmpty() -> UiState.Empty
-                            else -> UiState.Success(it)
-                        }
-                        _totalCount.value = it.totalCount
-                        AmplitudeUtils.updateUserIntProperties(
-                            "user_message_received",
-                            it.totalCount,
-                        )
-                        AmplitudeUtils.updateUserIntProperties("user_message_open", it.openCount)
-                        AmplitudeUtils.updateUserIntProperties(
-                            "user_message_open_keyword",
-                            it.openKeywordCount,
-                        )
-                        AmplitudeUtils.updateUserIntProperties(
-                            "user_message_open_firstletter",
-                            it.openNameCount,
-                        )
-                        AmplitudeUtils.updateUserIntProperties(
-                            "user_message_open_fullname",
-                            it.openFullNameCount,
-                        )
-                        AmplitudeUtils.updateUserIntProperties(
-                            "user_message_open_fullname",
-                            it.openFullNameCount,
-                        )
+                        return@launch
                     }
-                }.onFailure {
+                    totalPage = ceil((it.totalCount * 0.1)).toInt() - 1
+                    if (totalPage == currentPage) isPagingFinish = true
+                    _myYelloData.value = when {
+                        it.yello.isEmpty() -> UiState.Empty
+                        else -> UiState.Success(it)
+                    }
+                    _totalCount.value = it.totalCount
+                    AmplitudeUtils.updateUserIntProperties(
+                        "user_message_received",
+                        it.totalCount,
+                    )
+                    AmplitudeUtils.updateUserIntProperties(
+                        "user_message_open",
+                        it.openCount,
+                    )
+                    AmplitudeUtils.updateUserIntProperties(
+                        "user_message_open_keyword",
+                        it.openKeywordCount,
+                    )
+                    AmplitudeUtils.updateUserIntProperties(
+                        "user_message_open_firstletter",
+                        it.openNameCount,
+                    )
+                    AmplitudeUtils.updateUserIntProperties(
+                        "user_message_open_fullname",
+                        it.openFullNameCount,
+                    )
+                    AmplitudeUtils.updateUserIntProperties(
+                        "user_message_open_fullname",
+                        it.openFullNameCount,
+                    )
+                }
+                .onFailure {
                     _myYelloData.value = UiState.Failure("내 쪽지 목록 서버 통신 실패")
                 }
         }
@@ -94,14 +97,13 @@ class MyYelloViewModel @Inject constructor(
 
     fun getVoteCount() {
         viewModelScope.launch {
-            repository.voteCount()
-                .onSuccess {
-                    if (it != null) {
-                        _voteCount.value = UiState.Success(it)
-                    }
-                }.onFailure {
-                    _voteCount.value = UiState.Failure(it.message.toString())
+            repository.voteCount().onSuccess {
+                if (it != null) {
+                    _voteCount.value = UiState.Success(it)
                 }
+            }.onFailure {
+                _voteCount.value = UiState.Failure(it.message.toString())
+            }
         }
     }
 }

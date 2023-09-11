@@ -5,7 +5,6 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.view.animation.AnimationUtils
-import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
@@ -17,6 +16,7 @@ import com.el.yello.databinding.FragmentProfileBinding
 import com.el.yello.presentation.main.profile.ProfileViewModel
 import com.el.yello.presentation.main.profile.manage.ProfileManageActivity
 import com.el.yello.presentation.pay.PayActivity
+import com.el.yello.util.Utils.setPullToScrollColor
 import com.el.yello.util.amplitude.AmplitudeUtils
 import com.el.yello.util.context.yelloSnackbar
 import com.example.domain.entity.ProfileUserModel
@@ -50,16 +50,16 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
         initProfileSetting()
         initPullToScrollListener()
         setItemDivider()
-        setUserDataFromServer()
-        setFriendsListDataFromServer()
-        setFriendDeleteToServer()
-        setIsSubscribedFromServer()
+        setInfinityScroll()
+        setDeleteAnimation()
+        viewModel.getUserDataFromServer()
+        viewModel.getFriendsListFromServer()
+        viewModel.getPurchaseInfoFromServer()
+        observeUserDataState()
+        observeFriendsDataState()
+        observeFriendDeleteState()
+        observeCheckIsSubscribed()
         AmplitudeUtils.trackEventWithProperties("view_profile")
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _adapter = null
     }
 
     private fun initProfileSetting() {
@@ -74,27 +74,6 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
     private fun setItemDivider() {
         itemDivider = ProfileItemDecoration(requireContext())
         binding.rvProfileFriendsList.addItemDecoration(itemDivider)
-    }
-
-    private fun setUserDataFromServer() {
-        observeUserDataState()
-        viewModel.getUserDataFromServer()
-    }
-
-    private fun setFriendsListDataFromServer() {
-        observeFriendsDataState()
-        setListWithInfinityScroll()
-        viewModel.getFriendsListFromServer()
-    }
-
-    private fun setFriendDeleteToServer() {
-        observeFriendDeleteState()
-        setDeleteAnimation()
-    }
-
-    private fun setIsSubscribedFromServer() {
-        observeCheckIsSubscribed()
-        viewModel.getPurchaseInfoFromServer()
     }
 
     // 관리 액티비티 실행 & 뒤로가기 누를 때 다시 돌아오도록 현재 화면 finish 진행 X
@@ -174,8 +153,7 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
                     binding.layoutProfileSwipe.isRefreshing = false
                 }
             }
-            setProgressBackgroundColorSchemeColor(ContextCompat.getColor(context, R.color.grayscales_700))
-            setColorSchemeColors(ContextCompat.getColor(context, R.color.grayscales_500))
+            setPullToScrollColor(R.color.grayscales_500, R.color.grayscales_700)
         }
     }
 
@@ -229,7 +207,7 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
     }
 
     // 무한 스크롤 구현
-    private fun setListWithInfinityScroll() {
+    private fun setInfinityScroll() {
         binding.rvProfileFriendsList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
@@ -322,6 +300,11 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
 
     fun scrollToTop() {
         binding.rvProfileFriendsList.smoothScrollToPosition(0)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _adapter = null
     }
 
     private companion object {

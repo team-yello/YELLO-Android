@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.activity.viewModels
-import androidx.core.content.ContextCompat
 import androidx.core.widget.doAfterTextChanged
 import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.lifecycleScope
@@ -14,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.el.yello.R
 import com.el.yello.databinding.ActivityRecommendSearchBinding
+import com.el.yello.util.Utils.setPullToScrollColor
 import com.el.yello.util.amplitude.AmplitudeUtils
 import com.el.yello.util.context.yelloSnackbar
 import com.example.ui.base.BindingActivity
@@ -54,11 +54,6 @@ class RecommendSearchActivity :
         setListWithInfinityScroll()
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        _adapter = null
-    }
-
     private fun initAdapterWithDivider() {
         _adapter = RecommendSearchAdapter { searchFriendModel, position, holder ->
             viewModel.setPositionAndHolder(position, holder)
@@ -91,7 +86,6 @@ class RecommendSearchActivity :
         binding.layoutSearchSwipe.apply {
             setOnRefreshListener {
                 lifecycleScope.launch {
-                    viewModel.isNewText = false
                     adapter.submitList(listOf())
                     viewModel.setNewPage()
                     viewModel.setListFromServer(searchText)
@@ -99,21 +93,16 @@ class RecommendSearchActivity :
                     binding.layoutSearchSwipe.isRefreshing = false
                 }
             }
-            setProgressBackgroundColorSchemeColor(
-                ContextCompat.getColor(
-                    context, R.color.grayscales_700
-                )
-            )
-            setColorSchemeColors(ContextCompat.getColor(context, R.color.grayscales_500))
+            setPullToScrollColor(R.color.grayscales_500, R.color.grayscales_700)
         }
     }
 
     // 텍스트 변경 감지 시 로딩 화면 출력
     private fun setLoadingScreen() {
         binding.etRecommendSearchBox.doOnTextChanged { _, _, _, _ ->
-            viewModel.isNewText = true
             showLoadingScreen()
             adapter.submitList(listOf())
+            adapter.notifyDataSetChanged()
             viewModel.setNewPage()
         }
     }
@@ -155,13 +144,9 @@ class RecommendSearchActivity :
                     showFriendListScreen()
                 }
 
-                is UiState.Loading -> {
-                    if (viewModel.isNewText) showLoadingScreen()
-                }
+                is UiState.Loading -> {}
 
-                is UiState.Empty -> {
-                    showFriendListScreen()
-                }
+                is UiState.Empty -> {}
             }
         }
     }
@@ -173,8 +158,10 @@ class RecommendSearchActivity :
                 super.onScrolled(recyclerView, dx, dy)
                 if (dy > 0) {
                     recyclerView.layoutManager?.let { layoutManager ->
-                        if (!binding.rvRecommendSearch.canScrollVertically(1) && layoutManager is LinearLayoutManager && layoutManager.findLastVisibleItemPosition() == adapter.itemCount - 1) {
-                            viewModel.isNewText = false
+                        if (!binding.rvRecommendSearch.canScrollVertically(1)
+                            && layoutManager is LinearLayoutManager
+                            && layoutManager.findLastVisibleItemPosition() == adapter.itemCount - 1
+                        ) {
                             viewModel.setListFromServer(searchText)
                         }
                     }
@@ -226,5 +213,10 @@ class RecommendSearchActivity :
         binding.layoutSearchSwipe.visibility = View.GONE
         binding.layoutRecommendSearchLoading.visibility = View.GONE
         binding.layoutRecommendNoSearch.visibility = View.VISIBLE
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _adapter = null
     }
 }

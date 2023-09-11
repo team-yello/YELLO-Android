@@ -22,6 +22,7 @@ import timber.log.Timber
 @AndroidEntryPoint
 class ProfileQuitDialog :
     BindingDialogFragment<FragmentProfileQuitDialogBinding>(R.layout.fragment_profile_quit_dialog) {
+
     private val viewModel by activityViewModels<ProfileViewModel>()
 
     override fun onStart() {

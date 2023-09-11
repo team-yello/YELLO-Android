@@ -1,4 +1,4 @@
-package com.el.yello.presentation.main.recommend
+package com.el.yello.presentation.main.dialog
 
 import android.content.ActivityNotFoundException
 import android.content.ClipData
@@ -11,11 +11,8 @@ import android.view.WindowManager
 import androidx.core.os.bundleOf
 import com.el.yello.BuildConfig
 import com.el.yello.R
-import com.el.yello.databinding.FragmentRecommendInviteDialogBinding
-import com.el.yello.presentation.main.yello.dialog.UnlockDialogFragment
-import com.el.yello.presentation.main.yello.dialog.UnlockDialogFragment.Companion.ARGS_YELLO_ID
+import com.el.yello.databinding.FragmentInviteFriendDialogBinding
 import com.el.yello.util.amplitude.AmplitudeUtils
-import com.el.yello.util.context.yelloSnackbar
 import com.example.ui.base.BindingDialogFragment
 import com.example.ui.fragment.toast
 import com.example.ui.view.setOnSingleClickListener
@@ -25,8 +22,8 @@ import com.kakao.sdk.share.WebSharerClient
 import org.json.JSONObject
 import timber.log.Timber
 
-class RecommendInviteDialog :
-    BindingDialogFragment<FragmentRecommendInviteDialogBinding>(R.layout.fragment_recommend_invite_dialog) {
+class InviteFriendDialog :
+    BindingDialogFragment<FragmentInviteFriendDialogBinding>(R.layout.fragment_invite_friend_dialog) {
 
     private lateinit var myYelloId: String
     private lateinit var previousScreen: String
@@ -111,7 +108,7 @@ class RecommendInviteDialog :
             ShareClient.instance.shareCustom(
                 context,
                 templateId,
-                mapOf("KEY" to myYelloId),
+                mapOf(KEY_YELLO_ID to myYelloId),
             ) { sharingResult, error ->
                 if (error != null) {
                     Timber.tag(TAG_SHARE).e(error, getString(R.string.invite_error_kakao))
@@ -145,6 +142,7 @@ class RecommendInviteDialog :
         const val TAG_SHARE = "recommendInvite"
 
         const val ARGS_PREVIOUS_SCREEN = "PREVIOUS_SCREEN"
+        const val ARGS_YELLO_ID = "YELLO_ID"
 
         const val TEMPLATE_ID = 95890
         const val TEST_TEMPLATE_ID = 96906
@@ -155,11 +153,13 @@ class RecommendInviteDialog :
                 "iOS: https://apps.apple.com/app/id6451451050"
 
         const val CLIP_LABEL = "RECOMMEND_LINK"
+        private const val KEY_YELLO_ID = "KEY"
 
         @JvmStatic
-        fun newInstance(yelloId: String, previousScreen: String) = RecommendInviteDialog().apply {
+        fun newInstance(yelloId: String, previousScreen: String) = InviteFriendDialog().apply {
             val args = bundleOf(
-                ARGS_YELLO_ID to yelloId, ARGS_PREVIOUS_SCREEN to previousScreen
+                ARGS_YELLO_ID to yelloId,
+                ARGS_PREVIOUS_SCREEN to previousScreen
             )
             arguments = args
         }

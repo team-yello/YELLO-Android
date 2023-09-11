@@ -62,15 +62,13 @@ class PayViewModel @Inject constructor(
     fun checkSubsToServer(request: RequestPayModel) {
         viewModelScope.launch {
             _postSubsCheckState.value = UiState.Loading
-            runCatching {
-                payRepository.postToCheckSubs(
-                    request
-                )
-            }.onSuccess {
-                _postSubsCheckState.value = UiState.Success(it)
-            }.onFailure {
-                _postSubsCheckState.value = UiState.Failure(it.message ?: "")
-            }
+            payRepository.postToCheckSubs(request)
+                .onSuccess {
+                    _postSubsCheckState.value = UiState.Success(it)
+                }
+                .onFailure {
+                    _postSubsCheckState.value = UiState.Failure(it.message ?: "")
+                }
         }
     }
 
@@ -78,41 +76,39 @@ class PayViewModel @Inject constructor(
     fun checkInAppToServer(request: RequestPayModel) {
         viewModelScope.launch {
             _postInAppCheckState.value = UiState.Loading
-            runCatching {
-                payRepository.postToCheckInApp(
-                    request
-                )
-            }.onSuccess {
-                _postInAppCheckState.value = UiState.Success(it)
-            }.onFailure {
-                _postInAppCheckState.value = UiState.Failure(it.message ?: "")
-            }
+            payRepository.postToCheckInApp(request)
+                .onSuccess {
+                    _postInAppCheckState.value = UiState.Success(it)
+                }
+                .onFailure {
+                    _postInAppCheckState.value = UiState.Failure(it.message ?: "")
+                }
         }
     }
 
     // 서버 통신 - (아직 사용 X) 구독 재촉 알림 필요 여부 확인
     fun getSubsNeededFromServer() {
         viewModelScope.launch {
-            runCatching {
-                payRepository.getSubsNeeded()
-            }.onSuccess {
-                _getSubsNeededState.value = UiState.Success(it)
-            }.onFailure {
-                _getSubsNeededState.value = UiState.Failure(it.message ?: "")
-            }
+            payRepository.getSubsNeeded()
+                .onSuccess {
+                    _getSubsNeededState.value = UiState.Success(it)
+                }
+                .onFailure {
+                    _getSubsNeededState.value = UiState.Failure(it.message ?: "")
+                }
         }
     }
 
     // 서버 통신 - 구독 여부 & 열람권 개수 받아오기
     fun getPurchaseInfoFromServer() {
         viewModelScope.launch {
-            runCatching {
-                payRepository.getPurchaseInfo()
-            }.onSuccess {
-                _getPurchaseInfoState.value = UiState.Success(it)
-            }.onFailure {
-                _getPurchaseInfoState.value = UiState.Failure(it.message ?: "")
-            }
+            payRepository.getPurchaseInfo()
+                .onSuccess {
+                    _getPurchaseInfoState.value = UiState.Success(it)
+                }
+                .onFailure {
+                    _getPurchaseInfoState.value = UiState.Failure(it.message ?: "")
+                }
         }
     }
 }

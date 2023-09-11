@@ -15,6 +15,8 @@ import com.example.domain.repository.ProfileRepository
 import com.example.ui.view.UiState
 import com.google.firebase.messaging.FirebaseMessaging
 import com.kakao.sdk.auth.model.OAuthToken
+import com.kakao.sdk.common.model.ClientError
+import com.kakao.sdk.common.model.ClientErrorCause
 import com.kakao.sdk.user.UserApiClient
 import com.kakao.sdk.user.model.User
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -26,7 +28,7 @@ import javax.inject.Inject
 class SignInViewModel @Inject constructor(
     private val onboardingRepository: OnboardingRepository,
     private val authRepository: AuthRepository,
-    private val profileRepository: ProfileRepository,
+    private val profileRepository: ProfileRepository
 ) : ViewModel() {
 
     private val _postChangeTokenState = MutableLiveData<UiState<ServiceTokenModel?>>()
@@ -38,38 +40,60 @@ class SignInViewModel @Inject constructor(
     private val _getKakaoDataState = MutableLiveData<UiState<User?>>()
     val getKakaoDataState: LiveData<UiState<User?>> = _getKakaoDataState
 
-    private val _getDeviceTokenState = MutableLiveData<UiState<String>>()
-    val getDeviceTokenState: LiveData<UiState<String>> = _getDeviceTokenState
-
     private val serviceTermsList = listOf(THUMBNAIL, EMAIL, FRIEND_LIST, NAME, GENDER)
+
+    private var deviceToken = String()
+
+    private val _getDeviceTokenError = MutableLiveData<String>()
+    val getDeviceTokenError: LiveData<String> = _getDeviceTokenError
+
+    private val _isAppLoginAvailable = MutableLiveData<Boolean>()
+    val isAppLoginAvailable: LiveData<Boolean> = _isAppLoginAvailable
 
     var isResigned = false
         private set
-    fun getIsFirstLoginData(): Boolean {
-        return authRepository.getIsFirstLoginData()
-    }
-    // 웹 로그인 실행
-    fun loginWithWebCallback(
-        context: Context,
-        callback: (token: OAuthToken?, error: Throwable?) -> Unit,
-    ) {
-        UserApiClient.instance.loginWithKakaoAccount(
-            context = context,
-            callback = callback,
-            serviceTerms = serviceTermsList,
-        )
+
+    private var webLoginCallback: (OAuthToken?, Throwable?) -> Unit = { token, error ->
+        if (error == null && token != null) {
+            changeTokenFromServer(
+                accessToken = token.accessToken,
+                deviceToken = deviceToken,
+            )
+        }
     }
 
-    // 앱 로그인 실행
-    fun loginWithAppCallback(
-        context: Context,
-        callback: (token: OAuthToken?, error: Throwable?) -> Unit,
-    ) {
-        UserApiClient.instance.loginWithKakaoTalk(
-            context = context,
-            callback = callback,
-            serviceTerms = serviceTermsList,
-        )
+    private var appLoginCallback: (OAuthToken?, Throwable?) -> Unit = { token, error ->
+        if (error != null) {
+            // 뒤로가기 경우 예외 처리
+            if (!(error is ClientError && error.reason == ClientErrorCause.Cancelled)) {
+                _isAppLoginAvailable.value = false
+            }
+        } else if (token != null) {
+            changeTokenFromServer(
+                accessToken = token.accessToken,
+                deviceToken = deviceToken,
+            )
+        }
+    }
+
+    fun initLoginState() {
+        _isAppLoginAvailable.value = true
+    }
+
+    fun startKakaoLogIn(context: Context) {
+        if (UserApiClient.instance.isKakaoTalkLoginAvailable(context) && isAppLoginAvailable.value == true) {
+            UserApiClient.instance.loginWithKakaoTalk(
+                context = context,
+                callback = appLoginCallback,
+                serviceTerms = serviceTermsList,
+            )
+        } else {
+            UserApiClient.instance.loginWithKakaoAccount(
+                context = context,
+                callback = webLoginCallback,
+                serviceTerms = serviceTermsList,
+            )
+        }
     }
 
     // 카카오 통신 - 카카오 유저 정보 받아오기
@@ -82,53 +106,54 @@ class SignInViewModel @Inject constructor(
                     return@me
                 }
             } catch (e: IllegalArgumentException) {
-                _getKakaoDataState.value = UiState.Failure(e.message ?: "")
+                _getKakaoDataState.value = UiState.Failure(e.message.toString())
             }
         }
-        _getKakaoDataState.value = UiState.Failure("카카오 정보 불러오기 실패")
     }
 
     // 서버통신 - 카카오 토큰 보내서 서비스 토큰 받아오기
-    fun changeTokenFromServer(accessToken: String, social: String = KAKAO, deviceToken: String) {
+    private fun changeTokenFromServer(
+        accessToken: String,
+        social: String = KAKAO,
+        deviceToken: String
+    ) {
         viewModelScope.launch {
             _postChangeTokenState.value = UiState.Loading
-            runCatching {
-                onboardingRepository.postTokenToServiceToken(
-                    RequestServiceTokenModel(accessToken, social, deviceToken),
-                )
-            }.onSuccess {
-                if (it == null) {
-                    _postChangeTokenState.value = UiState.Empty
-                    return@launch
+            onboardingRepository.postTokenToServiceToken(
+                RequestServiceTokenModel(accessToken, social, deviceToken),
+            )
+                .onSuccess {
+                    if (it == null) {
+                        _postChangeTokenState.value = UiState.Empty
+                        return@launch
+                    }
+                    authRepository.setAutoLogin(it.accessToken, it.refreshToken)
+                    isResigned = it.isResigned
+                    _postChangeTokenState.value = UiState.Success(it)
                 }
-                authRepository.setAutoLogin(it.accessToken, it.refreshToken)
-                isResigned = it.isResigned
-                _postChangeTokenState.value = UiState.Success(it)
-            }.onFailure {
-                if (it is HttpException && it.code() == 403) {
-                    _postChangeTokenState.value = UiState.Failure(CODE_NOT_SIGNED_IN)
-                } else if (it is HttpException && it.code() == 404) {
-                    _postChangeTokenState.value = UiState.Failure(CODE_NO_UUID)
-                } else {
-                    _postChangeTokenState.value = UiState.Failure("ERROR")
+                .onFailure {
+                    val errorMessage = when {
+                        it is HttpException && it.code() == 403 -> CODE_NOT_SIGNED_IN
+                        it is HttpException && it.code() == 404 -> CODE_NO_UUID
+                        else -> ERROR
+                    }
+                    _postChangeTokenState.value = UiState.Failure(errorMessage)
                 }
-            }
         }
     }
 
     // 서버통신 - (가입되어 있는) 유저 정보 가져오기
-    fun getUserData() {
+    fun getUserDataFromServer() {
         viewModelScope.launch {
-            runCatching {
-                profileRepository.getUserData()
-            }.onSuccess { profile ->
-                if (profile == null) {
-                    _getUserProfileState.value = UiState.Empty
-                    return@launch
+            profileRepository.getUserData()
+                .onSuccess { profile ->
+                    if (profile == null) {
+                        _getUserProfileState.value = UiState.Empty
+                        return@launch
+                    }
+                    _getUserProfileState.value = UiState.Success(Unit)
+                    authRepository.setYelloId(profile.yelloId)
                 }
-                _getUserProfileState.value = UiState.Success(Unit)
-                authRepository.setYelloId(profile.yelloId)
-            }
                 .onFailure { t ->
                     if (t is HttpException) {
                         _getUserProfileState.value = UiState.Failure(t.code().toString())
@@ -140,22 +165,28 @@ class SignInViewModel @Inject constructor(
     // 디바이스 토큰 FCM에서 받아 로컬에 저장
     fun getDeviceToken() {
         FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
-            _getDeviceTokenState.value = UiState.Loading
-            if (task.isSuccessful) {
-                authRepository.setDeviceToken(task.result)
-                _getDeviceTokenState.value = UiState.Success(task.result)
-                return@addOnCompleteListener
+            if (task.isSuccessful && task.result.isNotEmpty()) {
+                deviceToken = task.result
+                authRepository.setDeviceToken(deviceToken)
+            } else {
+                _getDeviceTokenError.value = task.result
             }
-            _getDeviceTokenState.value = UiState.Failure(task.result)
         }
+    }
+
+    fun getIsFirstLoginData(): Boolean {
+        return authRepository.getIsFirstLoginData()
     }
 
     private companion object {
         const val KAKAO = "KAKAO"
+
         const val THUMBNAIL = "profile_image"
         const val EMAIL = "account_email"
         const val FRIEND_LIST = "friends"
         const val NAME = "name"
         const val GENDER = "gender"
+
+        const val ERROR = "error"
     }
 }

@@ -5,8 +5,8 @@ import android.view.View
 import androidx.fragment.app.activityViewModels
 import com.el.yello.R
 import com.el.yello.databinding.FragmentYelloLockBinding
+import com.el.yello.presentation.main.dialog.InviteFriendDialog
 import com.el.yello.presentation.main.yello.YelloViewModel
-import com.el.yello.presentation.main.yello.dialog.UnlockDialogFragment
 import com.el.yello.util.amplitude.AmplitudeUtils
 import com.example.ui.base.BindingFragment
 import com.example.ui.view.setOnSingleClickListener
@@ -29,7 +29,7 @@ class YelloLockFragment : BindingFragment<FragmentYelloLockBinding>(R.layout.fra
                 "click_invite",
                 JSONObject().put("invite_view", VOTE_4_DOWN),
             )
-            UnlockDialogFragment.newInstance(viewModel.getYelloId(), VOTE_4_DOWN)
+            InviteFriendDialog.newInstance(viewModel.getYelloId(), VOTE_4_DOWN)
                 .show(parentFragmentManager, TAG_UNLOCK_DIALOG)
         }
     }

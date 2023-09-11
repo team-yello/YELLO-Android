@@ -13,11 +13,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.el.yello.R
 import com.el.yello.databinding.FragmentRecommendSchoolBinding
-import com.el.yello.presentation.main.recommend.RecommendInviteDialog
+import com.el.yello.presentation.main.dialog.InviteFriendDialog
 import com.el.yello.presentation.main.recommend.list.RecommendAdapter
 import com.el.yello.presentation.main.recommend.list.RecommendItemDecoration
 import com.el.yello.presentation.main.recommend.list.RecommendViewHolder
 import com.el.yello.presentation.util.BaseLinearRcvItemDeco
+import com.el.yello.util.Utils.setPullToScrollColor
 import com.el.yello.util.amplitude.AmplitudeUtils
 import com.el.yello.util.context.yelloSnackbar
 import com.example.domain.entity.RecommendModel.RecommendFriend
@@ -39,8 +40,8 @@ class RecommendSchoolFragment :
 
     private val viewModel by viewModels<RecommendSchoolViewModel>()
 
-    private var recommendInviteYesFriendDialog: RecommendInviteDialog? = null
-    private var recommendInviteNoFriendDialog: RecommendInviteDialog? = null
+    private var inviteYesFriendDialog: InviteFriendDialog? = null
+    private var inviteNoFriendDialog: InviteFriendDialog? = null
 
     private lateinit var friendsList: List<RecommendFriend>
 
@@ -79,23 +80,23 @@ class RecommendSchoolFragment :
 
     private fun initInviteBtnListener() {
         binding.layoutInviteFriend.setOnSingleClickListener {
-            recommendInviteYesFriendDialog =
-                RecommendInviteDialog.newInstance(viewModel.getYelloId(), SCHOOL_YES_FRIEND)
+            inviteYesFriendDialog =
+                InviteFriendDialog.newInstance(viewModel.getYelloId(), SCHOOL_YES_FRIEND)
             AmplitudeUtils.trackEventWithProperties(
                 "click_invite",
                 JSONObject().put("invite_view", SCHOOL_YES_FRIEND)
             )
-            recommendInviteYesFriendDialog?.show(parentFragmentManager, INVITE_DIALOG)
+            inviteYesFriendDialog?.show(parentFragmentManager, INVITE_DIALOG)
         }
 
         binding.btnRecommendNoFriend.setOnSingleClickListener {
-            recommendInviteNoFriendDialog =
-                RecommendInviteDialog.newInstance(viewModel.getYelloId(), SCHOOL_NO_FRIEND)
+            inviteNoFriendDialog =
+                InviteFriendDialog.newInstance(viewModel.getYelloId(), SCHOOL_NO_FRIEND)
             AmplitudeUtils.trackEventWithProperties(
                 "click_invite",
                 JSONObject().put("invite_view", SCHOOL_NO_FRIEND)
             )
-            recommendInviteNoFriendDialog?.show(parentFragmentManager, INVITE_DIALOG)
+            inviteNoFriendDialog?.show(parentFragmentManager, INVITE_DIALOG)
         }
     }
 
@@ -116,8 +117,7 @@ class RecommendSchoolFragment :
                     binding.layoutRecommendSchoolSwipe.isRefreshing = false
                 }
             }
-            setProgressBackgroundColorSchemeColor(ContextCompat.getColor(context, R.color.grayscales_700))
-            setColorSchemeColors(ContextCompat.getColor(context, R.color.grayscales_500))
+            setPullToScrollColor(R.color.grayscales_500, R.color.grayscales_700)
         }
     }
 
@@ -125,15 +125,7 @@ class RecommendSchoolFragment :
         itemDivider = RecommendItemDecoration(requireContext())
         binding.rvRecommendSchool.addItemDecoration(itemDivider)
         binding.rvRecommendSchool.addItemDecoration(
-            BaseLinearRcvItemDeco(
-                0,
-                0,
-                0,
-                0,
-                0,
-                RecyclerView.VERTICAL,
-                12,
-            ),
+            BaseLinearRcvItemDeco(0, 0, 0, 0, 0, RecyclerView.VERTICAL, 12)
         )
     }
 
@@ -225,9 +217,7 @@ class RecommendSchoolFragment :
                     )
                 }
 
-                is UiState.Empty -> {
-                    activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
-                }
+                is UiState.Empty -> {}
             }
         }
     }
@@ -243,8 +233,8 @@ class RecommendSchoolFragment :
     }
 
     private fun dismissDialog() {
-        if (recommendInviteYesFriendDialog?.isAdded == true) recommendInviteYesFriendDialog?.dismiss()
-        if (recommendInviteNoFriendDialog?.isAdded == true) recommendInviteNoFriendDialog?.dismiss()
+        if (inviteYesFriendDialog?.isAdded == true) inviteYesFriendDialog?.dismiss()
+        if (inviteNoFriendDialog?.isAdded == true) inviteNoFriendDialog?.dismiss()
     }
 
     // 삭제 시 체크 버튼으로 전환 후 0.3초 뒤 애니메이션 적용

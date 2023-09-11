@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
 import android.view.animation.AnimationUtils
-import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -13,11 +12,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.el.yello.R
 import com.el.yello.databinding.FragmentRecommendKakaoBinding
-import com.el.yello.presentation.main.recommend.RecommendInviteDialog
+import com.el.yello.presentation.main.dialog.InviteFriendDialog
 import com.el.yello.presentation.main.recommend.list.RecommendAdapter
 import com.el.yello.presentation.main.recommend.list.RecommendItemDecoration
 import com.el.yello.presentation.main.recommend.list.RecommendViewHolder
 import com.el.yello.presentation.util.BaseLinearRcvItemDeco
+import com.el.yello.util.Utils.setPullToScrollColor
 import com.el.yello.util.amplitude.AmplitudeUtils
 import com.el.yello.util.context.yelloSnackbar
 import com.example.ui.base.BindingFragment
@@ -38,8 +38,8 @@ class RecommendKakaoFragment :
 
     private val viewModel by viewModels<RecommendKakaoViewModel>()
 
-    private var recommendInviteYesFriendDialog: RecommendInviteDialog? = null
-    private var recommendInviteNoFriendDialog: RecommendInviteDialog? = null
+    private var inviteYesFriendDialog: InviteFriendDialog? = null
+    private var inviteNoFriendDialog: InviteFriendDialog? = null
 
     private lateinit var itemDivider: RecommendItemDecoration
 
@@ -48,14 +48,14 @@ class RecommendKakaoFragment :
 
         initInviteBtnListener()
         initPullToScrollListener()
-        setItemDecoration()
-        setListWithInfinityScroll()
-        setFirstResume()
+        viewModel.isFirstResume = true
         setKakaoRecommendList()
         setAdapterWithClickListener()
         observeKakaoError()
         observeAddListState()
         observeAddFriendState()
+        setItemDecoration()
+        setInfinityScroll()
         setDeleteAnimation()
         AmplitudeUtils.trackEventWithProperties("view_recommend_kakao")
     }
@@ -82,18 +82,17 @@ class RecommendKakaoFragment :
         viewModel.addListWithKakaoIdList()
     }
 
-    private fun setFirstResume() {
-        viewModel.isFirstResume = true
-    }
-
     // 무한 스크롤 구현
-    private fun setListWithInfinityScroll() {
+    private fun setInfinityScroll() {
         binding.rvRecommendKakao.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
                 if (dy > 0) {
                     recyclerView.layoutManager?.let { layoutManager ->
-                        if (!binding.rvRecommendKakao.canScrollVertically(1) && layoutManager is LinearLayoutManager && layoutManager.findLastVisibleItemPosition() == adapter.itemCount - 1) {
+                        if (!binding.rvRecommendKakao.canScrollVertically(1)
+                            && layoutManager is LinearLayoutManager
+                            && layoutManager.findLastVisibleItemPosition() == adapter.itemCount - 1
+                        ) {
                             viewModel.addListWithKakaoIdList()
                         }
                     }
@@ -104,21 +103,21 @@ class RecommendKakaoFragment :
 
     private fun initInviteBtnListener() {
         binding.layoutInviteFriend.setOnSingleClickListener {
-            recommendInviteYesFriendDialog =
-                RecommendInviteDialog.newInstance(viewModel.getYelloId(), KAKAO_YES_FRIEND)
+            inviteYesFriendDialog =
+                InviteFriendDialog.newInstance(viewModel.getYelloId(), KAKAO_YES_FRIEND)
             AmplitudeUtils.trackEventWithProperties(
                 "click_invite", JSONObject().put("invite_view", KAKAO_YES_FRIEND)
             )
-            recommendInviteYesFriendDialog?.show(parentFragmentManager, INVITE_DIALOG)
+            inviteYesFriendDialog?.show(parentFragmentManager, INVITE_DIALOG)
         }
 
         binding.btnRecommendNoFriend.setOnSingleClickListener {
-            recommendInviteNoFriendDialog =
-                RecommendInviteDialog.newInstance(viewModel.getYelloId(), KAKAO_NO_FRIEND)
+            inviteNoFriendDialog =
+                InviteFriendDialog.newInstance(viewModel.getYelloId(), KAKAO_NO_FRIEND)
             AmplitudeUtils.trackEventWithProperties(
                 "click_invite", JSONObject().put("invite_view", KAKAO_NO_FRIEND)
             )
-            recommendInviteNoFriendDialog?.show(parentFragmentManager, INVITE_DIALOG)
+            inviteNoFriendDialog?.show(parentFragmentManager, INVITE_DIALOG)
         }
     }
 
@@ -132,12 +131,7 @@ class RecommendKakaoFragment :
                     binding.layoutRecommendKakaoSwipe.isRefreshing = false
                 }
             }
-            setProgressBackgroundColorSchemeColor(
-                ContextCompat.getColor(
-                    context, R.color.grayscales_700
-                )
-            )
-            setColorSchemeColors(ContextCompat.getColor(context, R.color.grayscales_500))
+            setPullToScrollColor(R.color.grayscales_500, R.color.grayscales_700)
         }
     }
 
@@ -145,15 +139,7 @@ class RecommendKakaoFragment :
         itemDivider = RecommendItemDecoration(requireContext())
         binding.rvRecommendKakao.addItemDecoration(itemDivider)
         binding.rvRecommendKakao.addItemDecoration(
-            BaseLinearRcvItemDeco(
-                0,
-                0,
-                0,
-                0,
-                0,
-                RecyclerView.VERTICAL,
-                12,
-            ),
+            BaseLinearRcvItemDeco(0, 0, 0, 0, 0, RecyclerView.VERTICAL, 12)
         )
     }
 
@@ -232,9 +218,7 @@ class RecommendKakaoFragment :
                     )
                 }
 
-                is UiState.Empty -> {
-                    activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
-                }
+                is UiState.Empty -> {}
             }
         }
     }
@@ -250,8 +234,8 @@ class RecommendKakaoFragment :
     }
 
     private fun dismissDialog() {
-        if (recommendInviteYesFriendDialog?.isAdded == true) recommendInviteYesFriendDialog?.dismiss()
-        if (recommendInviteNoFriendDialog?.isAdded == true) recommendInviteNoFriendDialog?.dismiss()
+        if (inviteYesFriendDialog?.isAdded == true) inviteYesFriendDialog?.dismiss()
+        if (inviteNoFriendDialog?.isAdded == true) inviteNoFriendDialog?.dismiss()
     }
 
     // 삭제 시 체크 버튼으로 전환 후 0.3초 뒤 애니메이션 적용

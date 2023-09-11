@@ -17,7 +17,6 @@ import com.example.ui.base.BindingActivity
 import com.example.ui.view.UiState
 import com.example.ui.view.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
-import timber.log.Timber
 
 @AndroidEntryPoint
 class SocialSyncActivity :
@@ -28,7 +27,7 @@ class SocialSyncActivity :
         super.onCreate(savedInstanceState)
 
         initSocialSyncBtnListener()
-        observeKakaoFriendsList()
+        observeFriendsAccessState()
     }
 
     private fun initSocialSyncBtnListener() {
@@ -39,7 +38,7 @@ class SocialSyncActivity :
     }
 
     // 친구목록 동의만 받고 온보딩 뷰로 이동 (친구 목록은 이후에 추가)
-    private fun observeKakaoFriendsList() {
+    private fun observeFriendsAccessState() {
         viewModel.getFriendListState.observe(this) { state ->
             when (state) {
                 is UiState.Success -> {
@@ -58,23 +57,15 @@ class SocialSyncActivity :
     }
 
     private fun startOnBoardingActivity() {
-        intent.apply {
-            val kakaoId = getLongExtra(EXTRA_KAKAO_ID, -1)
-            val email = getStringExtra(EXTRA_EMAIL)
-            val profileImage = getStringExtra(EXTRA_PROFILE_IMAGE)
-            val name = getStringExtra(EXTRA_NAME)
-            val gender = getStringExtra(EXTRA_GENDER)
-            Timber.d("KAKAO ID : $kakaoId, EMAIL : $email, PROFILE : $profileImage")
-            Intent(this@SocialSyncActivity, OnBoardingActivity::class.java).apply {
-                putExtra(EXTRA_KAKAO_ID, kakaoId)
-                putExtra(EXTRA_EMAIL, email)
-                putExtra(EXTRA_PROFILE_IMAGE, profileImage)
-                putExtra(EXTRA_NAME, name)
-                putExtra(EXTRA_GENDER, gender)
-                addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                startActivity(this)
-            }
-            finish()
+        Intent(this@SocialSyncActivity, OnBoardingActivity::class.java).apply {
+            putExtra(EXTRA_KAKAO_ID, getLongExtra(EXTRA_KAKAO_ID, -1))
+            putExtra(EXTRA_EMAIL, getStringExtra(EXTRA_EMAIL))
+            putExtra(EXTRA_PROFILE_IMAGE, getStringExtra(EXTRA_PROFILE_IMAGE))
+            putExtra(EXTRA_NAME, getStringExtra(EXTRA_NAME))
+            putExtra(EXTRA_GENDER, getStringExtra(EXTRA_GENDER))
+            addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            startActivity(this)
         }
+        finish()
     }
 }

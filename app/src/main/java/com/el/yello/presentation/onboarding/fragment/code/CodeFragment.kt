@@ -36,12 +36,12 @@ class CodeFragment : BindingFragment<FragmentCodeBinding>(R.layout.fragment_code
         binding.btnCodeSkip.setOnClickListener {
             setupPostSignupState()
             viewModel.postSignup()
-            amplitudeUCodeSkipInfo()
+            amplitudeCodeSkipInfo()
         }
         binding.btnCodeNext.setOnSingleClickListener {
             viewModel.getValidYelloId(viewModel.codeText.value.toString())
             setupGetValidYelloIdState()
-            amplitudeUCodeNextInfo()
+            amplitudeCodeNextInfo()
         }
     }
 
@@ -100,7 +100,7 @@ class CodeFragment : BindingFragment<FragmentCodeBinding>(R.layout.fragment_code
         binding.tvCodeWarning.setTextColor(Color.parseColor("#F04646"))
     }
 
-    private fun amplitudeUCodeSkipInfo() {
+    private fun amplitudeCodeSkipInfo() {
         AmplitudeUtils.trackEventWithProperties("complete_onboarding_finish")
         AmplitudeUtils.trackEventWithProperties(
             "click_onboarding_recommend",
@@ -108,9 +108,10 @@ class CodeFragment : BindingFragment<FragmentCodeBinding>(R.layout.fragment_code
         )
         AmplitudeUtils.updateUserProperties("user_recommend", "no")
         AmplitudeUtils.updateUserProperties("user_name", viewModel.name)
+        AmplitudeUtils.updateUserProperties("user_sex", viewModel.gender)
     }
 
-    private fun amplitudeUCodeNextInfo() {
+    private fun amplitudeCodeNextInfo() {
         AmplitudeUtils.trackEventWithProperties("complete_onboarding_finish")
         AmplitudeUtils.trackEventWithProperties(
             "click_onboarding_recommend",
@@ -118,5 +119,6 @@ class CodeFragment : BindingFragment<FragmentCodeBinding>(R.layout.fragment_code
         )
         AmplitudeUtils.updateUserProperties("user_recommend", "yes")
         AmplitudeUtils.updateUserProperties("user_name", viewModel.name)
+        AmplitudeUtils.updateUserProperties("user_sex", viewModel.gender)
     }
 }

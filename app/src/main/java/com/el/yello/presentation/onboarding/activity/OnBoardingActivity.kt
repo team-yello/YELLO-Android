@@ -31,7 +31,6 @@ class OnBoardingActivity :
         getIntentExtraData()
     }
 
-    // 뒤로 가기
     override fun onBackPressed() {
         val navController = findNavController(R.id.nav_main_fragment)
         val currentDestinationId = navController.currentDestination?.id
@@ -101,7 +100,7 @@ class OnBoardingActivity :
         binding.backBtn.visibility = View.INVISIBLE
     }
 
-    fun showBackbtn() {
+    fun showBackBtn() {
         binding.backBtn.visibility = View.VISIBLE
     }
 

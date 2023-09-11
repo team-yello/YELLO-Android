@@ -31,7 +31,6 @@ class OnBoardingActivity :
         getIntentExtraData()
     }
 
-    // 뒤로 가기
     override fun onBackPressed() {
         val navController = findNavController(R.id.nav_main_fragment)
         val currentDestinationId = navController.currentDestination?.id
@@ -42,7 +41,7 @@ class OnBoardingActivity :
         } else if (currentDestinationId == R.id.codeFragment) {
             val currentTime = System.currentTimeMillis()
             if (currentTime - backPressedTime < BACK_PRESSED_INTERVAL) {
-                finish() // 두 번째 뒤로 가기 누름으로 앱 종료
+                finish()
             } else {
                 backPressedTime = currentTime
                 Toast.makeText(this, "버튼을 한번 더 누르면 종료됩니다", Toast.LENGTH_SHORT).show()
@@ -53,8 +52,7 @@ class OnBoardingActivity :
         }
     }
 
-    // backbtn 뒤로 가기 클릭 시
-    fun onBackButtonClicked(view: View?) {
+    fun onBackButtonClicked() {
         val navController = findNavController(R.id.nav_main_fragment)
         val currentDestinationId = navController.currentDestination?.id
 
@@ -98,11 +96,11 @@ class OnBoardingActivity :
         binding.onboardingProgressbar.visibility = View.INVISIBLE
     }
 
-    fun hideBackbtn() {
+    fun hideBackBtn() {
         binding.backBtn.visibility = View.INVISIBLE
     }
 
-    fun showBackbtn() {
+    fun showBackBtn() {
         binding.backBtn.visibility = View.VISIBLE
     }
 

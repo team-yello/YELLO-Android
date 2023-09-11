@@ -1,4 +1,4 @@
-package com.el.yello.presentation.onboarding.fragment.universityinfo.school
+package com.el.yello.presentation.onboarding.fragment.universityinfo.university
 
 import android.app.Dialog
 import android.content.Intent
@@ -26,9 +26,9 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class SearchDialogSchoolFragment :
+class SearchDialogUniversityFragment :
     BindingBottomSheetDialog<FragmentDialogUniversityBinding>(R.layout.fragment_dialog_university) {
-    private var adapter: SchoolAdapter? = null
+    private var adapter: UniversityAdapter? = null
     private val viewModel by activityViewModels<OnBoardingViewModel>()
     private var inputText: String = ""
     private val debounceTime = 500L
@@ -37,11 +37,27 @@ class SearchDialogSchoolFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.vm = viewModel
-        initView()
-        setupSchoolData()
+        initUniversityDialogView()
+        setupUniversityData()
+        setClickToSchoolForm()
         setListWithInfinityScroll()
         recyclerviewScroll()
-        setClickToSchoolForm()
+    }
+
+    private fun initUniversityDialogView() {
+        setHideKeyboard()
+        binding.etSchoolSearch.doAfterTextChanged { input ->
+            searchJob?.cancel()
+            searchJob = viewModel.viewModelScope.launch {
+                delay(debounceTime)
+                input?.toString()?.let { viewModel.getSchoolList(it) }
+            }
+        }
+        adapter = UniversityAdapter(storeSchool = ::storeSchool)
+        binding.rvSchoolList.adapter = adapter
+        binding.btnBackDialog.setOnSingleClickListener {
+            dismiss()
+        }
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -59,26 +75,41 @@ class SearchDialogSchoolFragment :
         return dialog
     }
 
+    private fun setupUniversityData() {
+        viewModel.schoolData.observe(viewLifecycleOwner) { state ->
+            when (state) {
+                is UiState.Success -> {
+                    adapter?.submitList(state.data.schoolList)
+                }
+
+                is UiState.Failure -> {
+                    yelloSnackbar(binding.root, getString(R.string.msg_error))
+                }
+
+                is UiState.Loading -> {}
+                is UiState.Empty -> {}
+            }
+        }
+    }
+
+    private fun storeSchool(school: String) {
+        viewModel.setSchool(school)
+        viewModel.clearSchoolData()
+        dismiss()
+    }
+
+    private fun setClickToSchoolForm() {
+        binding.tvSchoolAdd.setOnClickListener {
+            Intent(Intent.ACTION_VIEW, Uri.parse(SCHOOL_FORM_URL)).apply {
+                startActivity(this)
+            }
+        }
+    }
+
     private fun setupFullHeight(bottomSheet: View) {
         val layoutParams = bottomSheet.layoutParams
         layoutParams.height = WindowManager.LayoutParams.MATCH_PARENT
         bottomSheet.layoutParams = layoutParams
-    }
-
-    private fun initView() {
-        setHideKeyboard()
-        binding.etSchoolSearch.doAfterTextChanged { input ->
-            searchJob?.cancel()
-            searchJob = viewModel.viewModelScope.launch {
-                delay(debounceTime)
-                input?.toString()?.let { viewModel.getSchoolList(it) }
-            }
-        }
-        adapter = SchoolAdapter(storeSchool = ::storeSchool)
-        binding.rvSchoolList.adapter = adapter
-        binding.btnBackDialog.setOnSingleClickListener {
-            dismiss()
-        }
     }
 
     private fun setListWithInfinityScroll() {
@@ -88,8 +119,8 @@ class SearchDialogSchoolFragment :
                 if (dy > 0) {
                     recyclerView.layoutManager?.let { layoutManager ->
                         if (!binding.rvSchoolList.canScrollVertically(1) &&
-                            layoutManager is LinearLayoutManager &&
-                            layoutManager.findLastVisibleItemPosition() == adapter!!.itemCount - 1
+                            (layoutManager is LinearLayoutManager) &&
+                            (layoutManager.findLastVisibleItemPosition() == (adapter!!.itemCount - 1))
                         ) {
                             viewModel.getSchoolList(inputText)
                         }
@@ -107,26 +138,6 @@ class SearchDialogSchoolFragment :
         }
     }
 
-    private fun setupSchoolData() {
-        viewModel.schoolData.observe(viewLifecycleOwner) { state ->
-            when (state) {
-                is UiState.Success -> {
-                    adapter?.submitList(state.data.schoolList)
-                }
-                is UiState.Failure -> {
-                    yelloSnackbar(binding.root, getString(R.string.msg_error))
-                }
-                is UiState.Loading -> {}
-                is UiState.Empty -> {}
-            }
-        }
-    }
-
-    private fun storeSchool(school: String) {
-        viewModel.setSchool(school)
-        viewModel.clearSchoolData()
-        dismiss()
-    }
     private fun recyclerviewScroll() {
         binding.rvSchoolList.setOnTouchListener { view, motionEvent ->
             when (motionEvent.action) {
@@ -137,15 +148,6 @@ class SearchDialogSchoolFragment :
             return@setOnTouchListener false
         }
     }
-
-    private fun setClickToSchoolForm() {
-        binding.tvSchoolAdd.setOnClickListener {
-            Intent(Intent.ACTION_VIEW, Uri.parse(SCHOOL_FORM_URL)).apply {
-                startActivity(this)
-            }
-        }
-    }
-
     override fun onDestroyView() {
         super.onDestroyView()
         adapter = null
@@ -153,7 +155,7 @@ class SearchDialogSchoolFragment :
 
     companion object {
         @JvmStatic
-        fun newInstance() = SearchDialogSchoolFragment()
+        fun newInstance() = SearchDialogUniversityFragment()
         private const val SCHOOL_FORM_URL = "https://bit.ly/46Yv0Hc"
     }
 }

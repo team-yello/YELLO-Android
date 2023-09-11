@@ -13,7 +13,7 @@
     </fragment>
     <fragment
         android:id="@+id/yelIoIdFragment"
-        android:name="com.el.yello.presentation.onboarding.fragment.nameid.YelIoIdFragment"
+        android:name="com.el.yello.presentation.onboarding.fragment.yelloid.YelIoIdFragment"
         android:label="YelIoIdFragment" >
         <action
             android:id="@+id/action_yelIoIdFragment_to_addFriendFragment"
@@ -33,11 +33,11 @@
         android:label="CodeFragment" >
         <action
             android:id="@+id/action_codeFragment_to_startAppFragment"
-            app:destination="@id/startAppFragment" />
+            app:destination="@id/getAlarmFragment" />
     </fragment>
     <fragment
-        android:id="@+id/startAppFragment"
-        android:name="com.el.yello.presentation.onboarding.fragment.startapp.StartAppFragment"
+        android:id="@+id/getAlarmFragment"
+        android:name="com.el.yello.presentation.onboarding.fragment.getAlarm.GetAlarmFragment"
         android:label="StartAppFragment"
         app:popUpTo="@id/codeFragment"
         app:popUpToInclusive="true" />

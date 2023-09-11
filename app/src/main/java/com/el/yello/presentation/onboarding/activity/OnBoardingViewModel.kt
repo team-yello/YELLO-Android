@@ -31,6 +31,7 @@ class OnBoardingViewModel @Inject constructor(
 ) : ViewModel() {
 
     var currentpercent = 20
+    var isFirstUser: Boolean = false
     fun plusCurrentPercent() {
         currentpercent += 20
     }
@@ -39,7 +40,6 @@ class OnBoardingViewModel @Inject constructor(
         currentpercent -= 20
     }
 
-    var isFirstUser: Boolean = false
     fun resetGetVaildYelloId() {
         _getValidYelloId.value = UiState.Loading
     }
@@ -51,34 +51,26 @@ class OnBoardingViewModel @Inject constructor(
     val highSchoolText = MutableLiveData("")
     val gradeText = MutableLiveData("")
     val groupText = MutableLiveData<Int>()
-    val schoolText = MutableLiveData("")
 
     // 대학생
     val school: String get() = schoolText.value?.trim() ?: ""
+    val schoolText = MutableLiveData("")
     val departmentText = MutableLiveData("")
     val studentIdText = MutableLiveData<Int>()
     val studentId: Int get() = requireNotNull(studentIdText.value)
     private val _groupId = MutableLiveData<Long>()
     val groupId: Long get() = requireNotNull(_groupId.value)
-
-    val nameText = MutableLiveData("")
-
     val idText = MutableLiveData("")
     val id: String get() = idText.value?.trim() ?: ""
-
-    val isValidName: LiveData<Boolean> = nameText.map { name -> checkName(name) }
     val isValidId: LiveData<Boolean> = idText.map { id -> checkId(id) }
-    private fun checkName(name: String) = Pattern.matches(REGEX_NAME_PATTERN, name)
     private fun checkId(id: String) = Pattern.matches(REGEX_ID_PATTERN, id)
-
-    // 공통
-    val genderText = MutableLiveData("")
 
     val codeText = MutableLiveData("")
     fun isCodeTextEmpty(): Boolean {
         return codeText.value.isNullOrEmpty()
     }
 
+    // TODO: 고등학생 group
     private val _groupResult: MutableLiveData<List<Int>> = MutableLiveData()
     val groupResult: LiveData<List<Int>> = _groupResult
 
@@ -96,14 +88,13 @@ class OnBoardingViewModel @Inject constructor(
 
     var selectedFriendIdList: List<Long> = listOf()
     var selectedFriendCount: MutableLiveData<Int> = MutableLiveData(0)
+    private val totalFriendList = mutableListOf<AddFriendListModel.FriendModel>()
 
     private val _getValidYelloId = MutableLiveData<UiState<Boolean>>()
     val getValidYelloId: LiveData<UiState<Boolean>> get() = _getValidYelloId
 
     private val _postSignupState = MutableLiveData<UiState<UserInfo>>()
     val postSignupState: LiveData<UiState<UserInfo>> get() = _postSignupState
-
-    private val totalFriendList = mutableListOf<AddFriendListModel.FriendModel>()
 
     // 학력 선택
     fun selectStudentType(student: String) {
@@ -143,19 +134,16 @@ class OnBoardingViewModel @Inject constructor(
         _groupId.value = groupId
     }
 
+    fun clearDepartmentData() {
+        _departmentData.value = UiState.Success(GroupList(0, emptyList()))
+    }
+
     fun addStudentId() {
         val studentIdList = listOf(15, 16, 17, 18, 19, 20, 21, 22, 23)
         _studentIdResult.value = studentIdList
     }
 
-    fun clearDepartmentData() {
-        _departmentData.value = UiState.Success(GroupList(0, emptyList()))
-    }
-
     // 공통
-    fun selectGender(gender: String) {
-        genderText.value = gender
-    }
 
     private var currentFriendOffset = -100
     private var currentFriendPage = -1
@@ -179,21 +167,17 @@ class OnBoardingViewModel @Inject constructor(
 
     // 서버 통신 - 학교 찾기
     fun getSchoolList(search: String) {
-        // if (isSchoolPagingFinish) return
         viewModelScope.launch {
             _schoolData.value = UiState.Loading
             onboardingRepository.getSchoolList(
                 0,
                 search,
-                // ++schoolPage,
             ).onSuccess { schoolList ->
                 Timber.d("GET SCHOOL LIST SUCCESS : $schoolList")
                 if (schoolList == null) {
                     _schoolData.value = UiState.Empty
                     return@launch
                 }
-                // totalSchoolPage = ceil((schoolList.totalCount * 0.1)).toInt()
-                // if (totalSchoolPage == schoolPage) isSchoolPagingFinish = true
                 _schoolData.value = when {
                     schoolList.schoolList.isEmpty() -> UiState.Empty
                     else -> UiState.Success(schoolList)
@@ -209,21 +193,17 @@ class OnBoardingViewModel @Inject constructor(
 
     // 서버 통신 - 학과 찾기
     fun getGroupList(search: String) {
-        // if (isDepartmentPagingFinish) return
         viewModelScope.launch {
             _departmentData.value = UiState.Loading
             onboardingRepository.getGroupList(
                 0,
                 school,
                 search,
-                // ++departmentPage,
             ).onSuccess { groupList ->
                 if (groupList == null) {
                     _departmentData.value = UiState.Empty
                     return@launch
                 }
-                // totalDepartmentPage = ceil((department.totalCount * 0.1)).toLong()
-                // if (totalDepartmentPage == departmentPage) isDepartmentPagingFinish = true
                 _departmentData.value = when {
                     groupList.groupList.isEmpty() -> UiState.Empty
                     else -> UiState.Success(groupList)
@@ -283,7 +263,7 @@ class OnBoardingViewModel @Inject constructor(
         }
     }
 
-    // 서버 통신 - 옐로아이디
+    // 서버 통신 - 옐로 아이디
     fun getValidYelloId(unknownId: String) {
         viewModelScope.launch {
             onboardingRepository.getValidYelloId(yelloId = unknownId).onSuccess { isValid ->
@@ -304,6 +284,7 @@ class OnBoardingViewModel @Inject constructor(
         }
     }
 
+    // 회원 가입
     var kakaoId: String = ""
     var email: String = ""
     var profileImg: String = ""
@@ -344,9 +325,9 @@ class OnBoardingViewModel @Inject constructor(
             }
         }
         AmplitudeUtils.updateUserProperties("user_sex", gender)
+        AmplitudeUtils.updateUserProperties("user_name", name)
     }
     companion object {
-        private const val REGEX_NAME_PATTERN = "^([가-힣]*)\$"
         private const val REGEX_ID_PATTERN = "^([A-Za-z0-9_.]*)\$"
     }
 }

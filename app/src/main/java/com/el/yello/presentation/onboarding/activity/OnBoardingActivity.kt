@@ -101,7 +101,7 @@ class OnBoardingActivity :
         binding.backBtn.visibility = View.INVISIBLE
     }
 
-    fun showBackBtn() {
+    fun showBackbtn() {
         binding.backBtn.visibility = View.VISIBLE
     }
 

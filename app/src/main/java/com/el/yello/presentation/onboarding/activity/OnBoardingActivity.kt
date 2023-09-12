@@ -35,7 +35,7 @@ class OnBoardingActivity :
         val navController = findNavController(R.id.nav_main_fragment)
         val currentDestinationId = navController.currentDestination?.id
 
-        if (currentDestinationId == R.id.universityInfoFragment) {
+        if (currentDestinationId == R.id.selectStudentFragment) {
             val intent = Intent(this, SocialSyncActivity::class.java)
             startActivity(intent)
         } else if (currentDestinationId == R.id.codeFragment) {
@@ -52,11 +52,11 @@ class OnBoardingActivity :
         }
     }
 
-    fun onBackButtonClicked() {
+    fun onBackButtonClicked(view: View) {
         val navController = findNavController(R.id.nav_main_fragment)
         val currentDestinationId = navController.currentDestination?.id
 
-        if (currentDestinationId == R.id.universityInfoFragment) {
+        if (currentDestinationId == R.id.selectStudentFragment) {
             val intent = Intent(this, SocialSyncActivity::class.java)
             startActivity(intent)
         } else {

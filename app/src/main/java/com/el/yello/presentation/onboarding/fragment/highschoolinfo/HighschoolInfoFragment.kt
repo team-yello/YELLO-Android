@@ -3,27 +3,24 @@ package com.el.yello.presentation.onboarding.fragment.highschoolinfo
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import com.el.yello.R
 import com.el.yello.databinding.FragmentHighschoolBinding
+import com.el.yello.presentation.onboarding.activity.OnBoardingActivity
 import com.el.yello.presentation.onboarding.activity.OnBoardingViewModel
 import com.el.yello.presentation.onboarding.fragment.highschoolinfo.group.GroupDialogFragment
 import com.el.yello.presentation.onboarding.fragment.highschoolinfo.school.SearchDialogHighSchoolFragment
 import com.example.domain.enum.GradeEnum
 import com.example.ui.base.BindingFragment
 import com.example.ui.view.setOnSingleClickListener
-import java.util.Timer
-import kotlin.concurrent.timer
 
 class HighschoolInfoFragment :
     BindingFragment<FragmentHighschoolBinding>(R.layout.fragment_highschool) {
     private val viewModel by activityViewModels<OnBoardingViewModel>()
 
-    var timer: Timer? = null
-    var deltaTime = 16
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.vm = viewModel
-        progressBarTimerFun()
 
         binding.first = GradeEnum.A.toString()
         binding.second = GradeEnum.B.toString()
@@ -32,17 +29,6 @@ class HighschoolInfoFragment :
         setupGroup()
         initSearchInfoBtnClickListener()
         setConfirmBtnClickListener()
-    }
-
-    private fun progressBarTimerFun() {
-        binding.highschoolProgressbar.progress = 16
-        timer?.cancel()
-        timer = Timer()
-        timer = timer(period = 8, initialDelay = 300) {
-            if (deltaTime > 32) cancel()
-            binding.highschoolProgressbar.setProgress(++deltaTime)
-            println(binding.highschoolProgressbar.progress)
-        }
     }
 
     private fun initSearchInfoBtnClickListener() {
@@ -95,10 +81,9 @@ class HighschoolInfoFragment :
 
     private fun setConfirmBtnClickListener() {
         binding.btnHighschoolinfoNextBtn.setOnSingleClickListener {
-           // findNavController().navigate(R.id.action_highschoolInfoFragment_to_genderFragment)
-        }
-        binding.btnHighschoolinfoBackBtn.setOnSingleClickListener {
-           // findNavController().navigate(R.id.action_highschoolInfoFragment_to_selectStudentFragment)
+            findNavController().navigate(R.id.action_highschoolInfoFragment_to_yelIoIdFragment)
+            val activity = requireActivity() as OnBoardingActivity
+            activity.progressBarPlus()
         }
     }
 }

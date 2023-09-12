@@ -1,10 +1,12 @@
-package com.el.yello.presentation.onboarding.fragment.gender
+package com.el.yello.presentation.onboarding.fragment.studenttype
 
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import com.el.yello.R
 import com.el.yello.databinding.FragmentSelectStudentTypeBinding
+import com.el.yello.presentation.onboarding.activity.OnBoardingActivity
 import com.el.yello.presentation.onboarding.activity.OnBoardingViewModel
 import com.example.domain.enum.StudentTypeEnum
 import com.example.ui.base.BindingFragment
@@ -34,7 +36,9 @@ class SelectStudentFragment :
                     binding.tvStudentHighschool.setTextColor(resources.getColor(R.color.yello_main_500))
                     binding.tvStudentUniversity.setTextColor(resources.getColor(R.color.grayscales_700))
                     binding.btnSelectTypeNext.setOnSingleClickListener {
-                        // findNavController().navigate(R.id.action_selectStudentFragment_to_highschoolInfoFragment)
+                        findNavController().navigate(R.id.action_selectStudentFragment_to_highschoolInfoFragment)
+                        val activity = requireActivity() as OnBoardingActivity
+                        activity.progressBarPlus()
                     }
                 }
                 StudentTypeEnum.U.toString() -> {
@@ -45,7 +49,9 @@ class SelectStudentFragment :
                     binding.tvStudentUniversity.setTextColor(resources.getColor(R.color.yello_main_500))
                     binding.tvStudentHighschool.setTextColor(resources.getColor(R.color.grayscales_700))
                     binding.btnSelectTypeNext.setOnSingleClickListener {
-                        //  findNavController().navigate(R.id.action_selectStudentFragment_to_universityInfoFragment)
+                        findNavController().navigate(R.id.action_selectStudentFragment_to_universityInfoFragment)
+                        val activity = requireActivity() as OnBoardingActivity
+                        activity.progressBarPlus()
                     }
                 }
             }

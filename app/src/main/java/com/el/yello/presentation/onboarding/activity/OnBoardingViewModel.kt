@@ -30,14 +30,14 @@ class OnBoardingViewModel @Inject constructor(
     private val authRepository: AuthRepository,
 ) : ViewModel() {
 
-    var currentPercent = 20
-    
+    var currentPercent = 17
+
     fun plusCurrentPercent() {
-        currentPercent += 20
+        currentPercent += 17
     }
 
     fun minusCurrentPercent() {
-        currentPercent -= 20
+        currentPercent -= 17
     }
 
     fun resetGetVaildYelloId() {
@@ -268,7 +268,7 @@ class OnBoardingViewModel @Inject constructor(
     fun getValidYelloId(unknownId: String) {
         viewModelScope.launch {
             onboardingRepository.getValidYelloId(
-                unknownId
+                unknownId,
             )
                 .onSuccess { isValid ->
                     Timber.d("GET VALID YELLO ID SUCCESS : $isValid")
@@ -312,7 +312,7 @@ class OnBoardingViewModel @Inject constructor(
                     friendList = selectedFriendIdList,
                     recommendId = codeText.value,
                     deviceToken = deviceToken,
-                )
+                ),
             )
                 .onSuccess { userInfo ->
                     Timber.d("POST SIGN UP SUCCESS : $userInfo")

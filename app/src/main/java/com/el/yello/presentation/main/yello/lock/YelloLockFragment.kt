@@ -26,17 +26,19 @@ class YelloLockFragment : BindingFragment<FragmentYelloLockBinding>(R.layout.fra
     private fun initInviteBtnClickListener() {
         binding.btnLockVote.setOnSingleClickListener {
             AmplitudeUtils.trackEventWithProperties(
-                "click_invite",
-                JSONObject().put("invite_view", VOTE_4_DOWN),
+                EVENT_CLICK_INVITE,
+                JSONObject().put(JSON_INVITE_VIEW, VALUE_VOTE_4_DOWN),
             )
-            InviteFriendDialog.newInstance(viewModel.getYelloId(), VOTE_4_DOWN)
+            InviteFriendDialog.newInstance(viewModel.getYelloId(), VALUE_VOTE_4_DOWN)
                 .show(parentFragmentManager, TAG_UNLOCK_DIALOG)
         }
     }
 
     companion object {
         const val TAG_UNLOCK_DIALOG = "UNLOCK_DIALOG"
-        const val VOTE_4_DOWN = "vote_4down"
+        const val EVENT_CLICK_INVITE = "click_invite"
+        const val JSON_INVITE_VIEW = "invite_view"
+        private const val VALUE_VOTE_4_DOWN = "vote_4down"
 
         @JvmStatic
         fun newInstance() = YelloLockFragment()

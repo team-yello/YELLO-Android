@@ -59,7 +59,7 @@ class YelloStartFragment :
 
     private fun initVoteBtnClickListener() {
         binding.btnStartVote.setOnSingleClickListener {
-            AmplitudeUtils.trackEventWithProperties("click_vote_start")
+            AmplitudeUtils.trackEventWithProperties(EVENT_CLICK_VOTE_START)
             intentToVoteScreen()
         }
     }
@@ -93,6 +93,8 @@ class YelloStartFragment :
     }
 
     companion object {
+        private const val EVENT_CLICK_VOTE_START = "click_vote_start"
+
         @JvmStatic
         fun newInstance() = YelloStartFragment()
     }

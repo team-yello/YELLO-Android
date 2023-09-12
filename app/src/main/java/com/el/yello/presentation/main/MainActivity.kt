@@ -71,15 +71,17 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
         binding.bnvMain.setOnItemSelectedListener { menu ->
             when (menu.itemId) {
                 R.id.menu_recommend -> {
-                    AmplitudeUtils.trackEventWithProperties("click_recommend_navigation")
+                    AmplitudeUtils.trackEventWithProperties(EVENT_CLICK_RECOMMEND_NAVIGATION)
                     navigateTo<RecommendFragment>()
                 }
+
                 R.id.menu_look -> navigateTo<LookFragment>()
                 R.id.menu_yello -> {
                     navigateTo<YelloFragment>()
                     binding.btnMainYelloActive.visibility = View.VISIBLE
                     return@setOnItemSelectedListener true
                 }
+
                 R.id.menu_my_yello -> navigateTo<MyYelloFragment>()
                 R.id.menu_profile -> navigateTo<ProfileFragment>()
             }
@@ -206,6 +208,8 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
         const val NEW_FRIEND = "NEW_FRIEND"
         const val VOTE_AVAILABLE = "VOTE_AVAILABLE"
         const val RECOMMEND = "RECOMMEND"
+
+        private const val EVENT_CLICK_RECOMMEND_NAVIGATION = "click_recommend_navigation"
 
         fun getIntent(context: Context, type: String? = null, path: String? = null) =
             Intent(context, MainActivity::class.java).apply {

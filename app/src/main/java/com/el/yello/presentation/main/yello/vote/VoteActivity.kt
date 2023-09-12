@@ -13,7 +13,6 @@ import com.example.ui.transformation.FadeOutTransformation
 import com.example.ui.view.UiState
 import dagger.hilt.android.AndroidEntryPoint
 import org.json.JSONObject
-import timber.log.Timber
 
 @AndroidEntryPoint
 class VoteActivity : BindingActivity<ActivityVoteBinding>(R.layout.activity_vote) {
@@ -62,11 +61,9 @@ class VoteActivity : BindingActivity<ActivityVoteBinding>(R.layout.activity_vote
     private fun setupCurrentNoteIndex() {
         viewModel._currentNoteIndex.observe(this) { index ->
             binding.vpVote.setCurrentItemWithDuration(index, DURATION_NOTE_TRANSITION)
-            Timber.d("QATEST current note index : $index")
             if (index <= viewModel.totalListCount) {
-                Timber.d("QATEST AMPLITUDE current note index : ${index + 1}")
-                val properties = JSONObject().put("vote_step", index + 1)
-                AmplitudeUtils.trackEventWithProperties("view_vote_question", properties)
+                val properties = JSONObject().put(JSON_VOTE_STEP, index + 1)
+                AmplitudeUtils.trackEventWithProperties(EVENT_VIEW_VOTE_QUESTION, properties)
             }
         }
     }
@@ -90,5 +87,8 @@ class VoteActivity : BindingActivity<ActivityVoteBinding>(R.layout.activity_vote
 
     companion object {
         private const val DURATION_NOTE_TRANSITION = 400L
+
+        private const val JSON_VOTE_STEP = "vote_step"
+        private const val EVENT_VIEW_VOTE_QUESTION = "view_vote_question"
     }
 }

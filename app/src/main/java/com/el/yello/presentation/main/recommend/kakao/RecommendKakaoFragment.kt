@@ -48,7 +48,6 @@ class RecommendKakaoFragment :
 
         initInviteBtnListener()
         initPullToScrollListener()
-        viewModel.isFirstResume = true
         setKakaoRecommendList()
         setAdapterWithClickListener()
         observeKakaoError()
@@ -58,15 +57,6 @@ class RecommendKakaoFragment :
         setInfinityScroll()
         setDeleteAnimation()
         AmplitudeUtils.trackEventWithProperties("view_recommend_kakao")
-    }
-
-    override fun onResume() {
-        super.onResume()
-        if (!viewModel.isFirstResume) {
-            adapter.clearList()
-            setKakaoRecommendList()
-        }
-        viewModel.isFirstResume = false
     }
 
     override fun onDestroyView() {

@@ -189,7 +189,6 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
             when (state) {
                 is UiState.Success -> {
                     binding.ivProfileLoading.visibility = View.GONE
-                    startFadeIn()
                     friendsList = state.data?.friends ?: listOf()
                     adapter.addItemList(friendsList)
                 }
@@ -297,11 +296,6 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
                 return super.animateRemove(holder)
             }
         }
-    }
-
-    private fun startFadeIn() {
-        val animation = AnimationUtils.loadAnimation(requireContext(), R.anim.fade_in)
-        binding.rvProfileFriendsList.startAnimation(animation)
     }
 
     fun scrollToTop() {

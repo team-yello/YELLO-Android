@@ -6,6 +6,7 @@ import android.view.WindowManager
 import android.view.animation.AnimationUtils
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -13,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.el.yello.R
 import com.el.yello.databinding.FragmentRecommendSchoolBinding
 import com.el.yello.presentation.main.dialog.InviteFriendDialog
+import com.el.yello.presentation.main.recommend.kakao.RecommendKakaoViewModel
 import com.el.yello.presentation.main.recommend.list.RecommendAdapter
 import com.el.yello.presentation.main.recommend.list.RecommendItemDecoration
 import com.el.yello.presentation.main.recommend.list.RecommendViewHolder
@@ -37,7 +39,7 @@ class RecommendSchoolFragment :
     private val adapter
         get() = requireNotNull(_adapter) { getString(R.string.adapter_not_initialized_error_msg) }
 
-    private val viewModel by viewModels<RecommendSchoolViewModel>()
+    private lateinit var viewModel: RecommendSchoolViewModel
 
     private var inviteYesFriendDialog: InviteFriendDialog? = null
     private var inviteNoFriendDialog: InviteFriendDialog? = null
@@ -49,6 +51,7 @@ class RecommendSchoolFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        initViewModel()
         initFirstList()
         initInviteBtnListener()
         initPullToScrollListener()
@@ -59,6 +62,16 @@ class RecommendSchoolFragment :
         observeAddFriendState()
         setDeleteAnimation()
         AmplitudeUtils.trackEventWithProperties("view_recommend_school")
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (viewModel.isSearchViewShowed.value == true) {
+            adapter.clearList()
+            viewModel.setFirstPageLoading()
+            viewModel.addListFromServer()
+            viewModel.updateIsSearchViewShowed(false)
+        }
     }
 
     override fun onDestroyView() {
@@ -87,6 +100,11 @@ class RecommendSchoolFragment :
             )
             inviteNoFriendDialog?.show(parentFragmentManager, INVITE_DIALOG)
         }
+    }
+
+    private fun initViewModel() {
+        viewModel = ViewModelProvider(requireActivity())[RecommendSchoolViewModel::class.java]
+        viewModel.updateIsSearchViewShowed(false)
     }
 
     private fun initFirstList() {

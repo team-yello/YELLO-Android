@@ -26,6 +26,9 @@ class RecommendSchoolViewModel @Inject constructor(
     private val _addFriendState = MutableLiveData<UiState<Unit>>()
     val addFriendState: LiveData<UiState<Unit>> = _addFriendState
 
+    private val _isSearchViewShowed = MutableLiveData(false)
+    val isSearchViewShowed: LiveData<Boolean> = _isSearchViewShowed
+
     var itemPosition: Int? = null
     var itemHolder: RecommendViewHolder? = null
 
@@ -46,6 +49,11 @@ class RecommendSchoolViewModel @Inject constructor(
         itemPosition = position
         itemHolder = holder
     }
+
+    fun updateIsSearchViewShowed(newValue: Boolean) {
+        _isSearchViewShowed.value = newValue
+    }
+
 
     // 서버 통신 - 추천 친구 리스트 추가
     fun addListFromServer() {

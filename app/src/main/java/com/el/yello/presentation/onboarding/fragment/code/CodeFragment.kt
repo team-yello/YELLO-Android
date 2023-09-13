@@ -70,7 +70,6 @@ class CodeFragment : BindingFragment<FragmentCodeBinding>(R.layout.fragment_code
                         initIdEditTextViewError()
                         return@observe
                     }
-                    findNavController().navigate(R.id.action_codeFragment_to_startAppFragment)
                     viewModel.postSignup()
                 }
 

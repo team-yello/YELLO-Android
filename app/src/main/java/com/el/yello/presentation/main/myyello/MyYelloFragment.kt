@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.view.animation.AnimationUtils
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
@@ -98,6 +99,7 @@ class MyYelloFragment : BindingFragment<FragmentMyYelloBinding>(R.layout.fragmen
             when (it) {
                 is UiState.Success -> {
                     binding.shimmerMyYelloReceive.stopShimmer()
+                    startFadeIn()
                     binding.clSendOpen.isVisible = it.data.ticketCount != 0
                     binding.btnSendCheck.isVisible = it.data.ticketCount == 0
                     binding.tvKeyNumber.text = it.data.ticketCount.toString()
@@ -225,6 +227,11 @@ class MyYelloFragment : BindingFragment<FragmentMyYelloBinding>(R.layout.fragmen
             }
             setPullToScrollColor(R.color.grayscales_500, R.color.grayscales_700)
         }
+    }
+
+    private fun startFadeIn() {
+        val animation = AnimationUtils.loadAnimation(requireContext(), R.anim.fade_in)
+        binding.rvMyYelloReceive.startAnimation(animation)
     }
 
     fun scrollToTop() {

@@ -168,6 +168,7 @@ class RecommendSchoolFragment :
         viewModel.postFriendsListState.observe(viewLifecycleOwner) { state ->
             when (state) {
                 is UiState.Success -> {
+                    startFadeIn()
                     if (state.data?.friends?.isEmpty() == true && adapter.itemCount == 0) {
                         showNoFriendScreen()
                     } else {
@@ -262,6 +263,11 @@ class RecommendSchoolFragment :
     private fun changeToCheckIcon(holder: RecommendViewHolder) {
         holder.binding.btnRecommendItemAdd.visibility = View.INVISIBLE
         holder.binding.btnRecommendItemAddPressed.visibility = View.VISIBLE
+    }
+
+    private fun startFadeIn() {
+        val animation = AnimationUtils.loadAnimation(requireContext(), R.anim.fade_in)
+        binding.rvRecommendSchool.startAnimation(animation)
     }
 
     private fun showShimmerScreen() {

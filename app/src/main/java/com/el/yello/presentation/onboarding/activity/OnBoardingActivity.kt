@@ -27,14 +27,12 @@ class OnBoardingActivity :
 
     private val viewModel by viewModels<OnBoardingViewModel>()
 
-    val navController = findNavController(R.id.nav_main_fragment)
-    val currentDestinationId = navController.currentDestination?.id
-
     private var backPressedTime: Long = 0
 
     private val onBackPressedCallback = object : OnBackPressedCallback(true) {
         override fun handleOnBackPressed() {
-            when (currentDestinationId) {
+            val navController = findNavController(R.id.nav_main_fragment)
+            when (navController.currentDestination?.id) {
                 R.id.universityInfoFragment -> startSocialSyncActivity()
 
                 R.id.codeFragment -> {
@@ -62,6 +60,8 @@ class OnBoardingActivity :
     }
 
     fun onBackButtonClicked() {
+        val navController = findNavController(R.id.nav_main_fragment)
+        val currentDestinationId = navController.currentDestination?.id
         if (currentDestinationId == R.id.universityInfoFragment) {
             startSocialSyncActivity()
         } else {

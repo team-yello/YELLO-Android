@@ -89,6 +89,7 @@ class SearchDialogDepartmentFragment :
                 }
                 is UiState.Loading -> {}
                 is UiState.Empty -> {}
+                else -> {}
             }
         }
     }

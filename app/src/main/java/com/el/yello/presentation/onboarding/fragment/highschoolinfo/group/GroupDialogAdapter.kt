@@ -33,7 +33,7 @@ class GroupDialogAdapter(
     ) :
         RecyclerView.ViewHolder(binding.root) {
         fun setGroup(group: Int) {
-            binding.group = group
+            binding.group = group.toString()
             binding.root.setOnSingleClickListener {
                 storeGroup(group)
                 binding.tvItemGroup.setBackgroundResource(R.drawable.shape_grayscales_800_fill_100_rect)

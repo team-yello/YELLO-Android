@@ -3,9 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <data
-        android:layout_width="5dp"
-        android:layout_height="0dp">
+    <data>
 
         <variable
             name="vm"
@@ -59,7 +57,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="24dp"
             android:layout_marginTop="18dp"
-            android:background="@{vm.highSchoolText.isEmpty() ? @drawable/shape_grayscales800_fill_8_rect : @drawable/shape_grayscales800_fill_grayscales700_line_8_rect}"
+            android:background="@{vm.schoolText.isEmpty() ? @drawable/shape_grayscales800_fill_8_rect : @drawable/shape_grayscales800_fill_grayscales700_line_8_rect}"
             android:drawablePadding="12dp"
             android:ellipsize="end"
             android:gravity="center_vertical"

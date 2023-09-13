@@ -9,7 +9,7 @@ import com.example.ui.view.ItemDiffCallback
 import com.example.ui.view.setOnSingleClickListener
 
 class HighSchoolAdapter(
-    private val storeHighSchool: (String) -> Unit,
+    private val storeSchool: (String) -> Unit,
 ) : ListAdapter<String, HighSchoolAdapter.HighSchoolViewHolder>(diffUtil) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HighSchoolViewHolder {
         return HighSchoolViewHolder(
@@ -18,26 +18,26 @@ class HighSchoolAdapter(
                 parent,
                 false,
             ),
-            storeHighSchool,
+            storeSchool,
         )
     }
 
     override fun onBindViewHolder(holder: HighSchoolViewHolder, position: Int) {
-        holder.setHighSchool(getItem(position))
+        holder.setSchool(getItem(position))
     }
 
     class HighSchoolViewHolder(
         private val binding: ItemHighschoolListBinding,
-        private val storeHighSchool: (String) -> Unit,
+        private val storeSchool: (String) -> Unit,
     ) :
         RecyclerView.ViewHolder(binding.root) {
-        fun setHighSchool(highschool: String) {
-            binding.data = highschool
+        fun setSchool(school: String) {
+            binding.data = school
             binding.root.setOnSingleClickListener {
-                storeHighSchool(highschool)
+                storeSchool(school)
             }
             binding.tvHighschoolName.setOnSingleClickListener {
-                storeHighSchool(highschool)
+                storeSchool(school)
             }
         }
     }

@@ -14,7 +14,7 @@ import com.example.domain.enum.GradeEnum
 import com.example.ui.base.BindingFragment
 import com.example.ui.view.setOnSingleClickListener
 
-class HighschoolInfoFragment :
+class HighSchoolInfoFragment :
     BindingFragment<FragmentHighschoolBinding>(R.layout.fragment_highschool) {
     private val viewModel by activityViewModels<OnBoardingViewModel>()
 
@@ -25,6 +25,7 @@ class HighschoolInfoFragment :
         binding.first = GradeEnum.A.toString()
         binding.second = GradeEnum.B.toString()
         binding.third = GradeEnum.C.toString()
+        setupHighSchool()
         setupGrade()
         setupGroup()
         initSearchInfoBtnClickListener()
@@ -37,6 +38,12 @@ class HighschoolInfoFragment :
         }
         binding.tvGroupSearch.setOnSingleClickListener {
             GroupDialogFragment().show(parentFragmentManager, this.tag)
+        }
+    }
+
+    private fun setupHighSchool() {
+        viewModel.schoolText.observe(viewLifecycleOwner) { school ->
+            binding.tvHighschoolSearch.text = school
         }
     }
 

@@ -54,7 +54,7 @@
     </fragment>
     <fragment
         android:id="@+id/highschoolInfoFragment"
-        android:name="com.el.yello.presentation.onboarding.fragment.highschoolinfo.HighschoolInfoFragment"
+        android:name="com.el.yello.presentation.onboarding.fragment.highschoolinfo.HighSchoolInfoFragment"
         android:label="HighschoolInfoFragment">
         <action
             android:id="@+id/action_highschoolInfoFragment_to_yelIoIdFragment"

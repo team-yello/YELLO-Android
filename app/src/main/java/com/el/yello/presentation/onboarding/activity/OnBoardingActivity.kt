@@ -23,9 +23,12 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class OnBoardingActivity :
     BindingActivity<ActivityOnboardingBinding>(R.layout.activity_onboarding) {
+
     private val viewModel by viewModels<OnBoardingViewModel>()
+
     private var backPressedTime: Long = 0
     private val BACK_PRESSED_INTERVAL = 2000
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         getIntentExtraData()

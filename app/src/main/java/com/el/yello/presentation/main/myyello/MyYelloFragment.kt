@@ -40,6 +40,7 @@ class MyYelloFragment : BindingFragment<FragmentMyYelloBinding>(R.layout.fragmen
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         AmplitudeUtils.trackEventWithProperties("view_all_messages")
         initView()
         initEvent()
@@ -111,35 +112,27 @@ class MyYelloFragment : BindingFragment<FragmentMyYelloBinding>(R.layout.fragmen
                     yelloSnackbar(requireView(), it.msg)
                 }
 
-                is UiState.Empty -> {
-                    binding.shimmerMyYelloReceive.stopShimmer()
-                }
+                is UiState.Empty -> binding.shimmerMyYelloReceive.stopShimmer()
 
-                is UiState.Loading -> {
-                    binding.shimmerMyYelloReceive.startShimmer()
-                }
+                is UiState.Loading -> binding.shimmerMyYelloReceive.startShimmer()
 
                 else -> {}
             }
         }
 
         viewModel.totalCount.flowWithLifecycle(viewLifecycleOwner.lifecycle).onEach {
-                binding.tvCount.text = it.toString()
-            }.launchIn(viewLifecycleOwner.lifecycleScope)
+            binding.tvCount.text = it.toString()
+        }.launchIn(viewLifecycleOwner.lifecycleScope)
 
         viewModel.voteCount.flowWithLifecycle(viewLifecycleOwner.lifecycle).onEach {
-                when (it) {
-                    is UiState.Success -> {
-                        (activity as? MainActivity)?.setBadgeCount(it.data.totalCount)
-                    }
+            when (it) {
+                is UiState.Success -> (activity as? MainActivity)?.setBadgeCount(it.data.totalCount)
 
-                    is UiState.Failure -> {
-                        yelloSnackbar(binding.root, it.msg)
-                    }
+                is UiState.Failure -> yelloSnackbar(binding.root, it.msg)
 
-                    else -> {}
-                }
-            }.launchIn(viewLifecycleOwner.lifecycleScope)
+                else -> {}
+            }
+        }.launchIn(viewLifecycleOwner.lifecycleScope)
     }
 
     // 페이지네이션
@@ -147,10 +140,8 @@ class MyYelloFragment : BindingFragment<FragmentMyYelloBinding>(R.layout.fragmen
         binding.rvMyYelloReceive.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
-                if (dy > 0) {
-                    if (!binding.rvMyYelloReceive.canScrollVertically(1) && (recyclerView.layoutManager as LinearLayoutManager).findLastVisibleItemPosition() == adapter!!.itemCount - 1) {
-                        viewModel.getMyYelloList()
-                    }
+                if (dy > 0 && !binding.rvMyYelloReceive.canScrollVertically(1) && (recyclerView.layoutManager as LinearLayoutManager).findLastVisibleItemPosition() == adapter!!.itemCount - 1) {
+                    viewModel.getMyYelloList()
                 }
             }
 

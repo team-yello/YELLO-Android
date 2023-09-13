@@ -39,11 +39,12 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
 
     val path by stringExtra()
     val type by stringExtra()
+
     private var backPressedTime: Long = 0
 
     private val onBackPressedCallback = object : OnBackPressedCallback(true) {
         override fun handleOnBackPressed() {
-            if (System.currentTimeMillis() - backPressedTime >= 2000) {
+            if (System.currentTimeMillis() - backPressedTime >= BACK_PRESSED_INTERVAL) {
                 backPressedTime = System.currentTimeMillis()
                 toast(getString(R.string.main_toast_back_pressed))
             } else {
@@ -214,6 +215,8 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
         const val NEW_FRIEND = "NEW_FRIEND"
         const val VOTE_AVAILABLE = "VOTE_AVAILABLE"
         const val RECOMMEND = "RECOMMEND"
+
+        const val BACK_PRESSED_INTERVAL = 2000
 
         fun getIntent(context: Context, type: String? = null, path: String? = null) =
             Intent(context, MainActivity::class.java).apply {

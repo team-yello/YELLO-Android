@@ -72,8 +72,8 @@ class NoteFragment : BindingFragment<FragmentNoteBinding>(R.layout.fragment_note
         binding.btnNoteShuffle.setOnSingleClickListener {
             viewModel.shuffle()
             if (noteIndex in 1..8) {
-                val properties = JSONObject().put("question_id", noteIndex + 1)
-                AmplitudeUtils.trackEventWithProperties("click_vote_shuffle", properties)
+                val properties = JSONObject().put(JSON_QUESTION_ID, noteIndex + 1)
+                AmplitudeUtils.trackEventWithProperties(EVENT_CLICK_VOTE_SHUFFLE, properties)
             }
         }
     }
@@ -82,8 +82,8 @@ class NoteFragment : BindingFragment<FragmentNoteBinding>(R.layout.fragment_note
         binding.btnNoteSkip.setOnSingleClickListener {
             viewModel.skip()
             if (noteIndex in 1..8) {
-                val properties = JSONObject().put("question_id", noteIndex + 1)
-                AmplitudeUtils.trackEventWithProperties("click_vote_skip", properties)
+                val properties = JSONObject().put(JSON_QUESTION_ID, noteIndex + 1)
+                AmplitudeUtils.trackEventWithProperties(EVENT_CLICK_VOTE_SKIP, properties)
             }
         }
     }
@@ -113,6 +113,11 @@ class NoteFragment : BindingFragment<FragmentNoteBinding>(R.layout.fragment_note
                     getString(R.string.note_msg_invalid_shuffle),
                 )
 
+                NoteState.InvalidName -> yelloSnackbar(
+                    binding.root,
+                    getString(R.string.note_msg_invalid_name),
+                )
+
                 NoteState.Failure -> yelloSnackbar(
                     binding.root,
                     getString(R.string.msg_error),
@@ -125,6 +130,11 @@ class NoteFragment : BindingFragment<FragmentNoteBinding>(R.layout.fragment_note
         private const val ARGS_NOTE_INDEX = "NOTE_INDEX"
         private const val ARGS_BACKGROUND_INDEX = "BACKGROUND_INDEX"
         private const val ARGS_VOTE_LIST_SIZE = "VOTE_LIST_SIZE"
+
+        private const val JSON_QUESTION_ID = "question_id"
+
+        private const val EVENT_CLICK_VOTE_SHUFFLE = "click_vote_shuffle"
+        private const val EVENT_CLICK_VOTE_SKIP = "click_vote_skip"
 
         private val progressDegree =
             listOf(165f, -30f, -120f, -165f, -60f, -20f, -117f, 24f, -45f, 12f)

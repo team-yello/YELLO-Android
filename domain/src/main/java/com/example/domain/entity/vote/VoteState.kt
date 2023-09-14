@@ -4,4 +4,5 @@ data class VoteState(
     val isStart: Boolean,
     val point: Int,
     val leftTime: Long,
+    val hasFourFriends: Boolean,
 )

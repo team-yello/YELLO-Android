@@ -21,12 +21,15 @@ class CodeFragment : BindingFragment<FragmentCodeBinding>(R.layout.fragment_code
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.vm = viewModel
 
+        binding.vm = viewModel
+        observePostSignupState()
+        observeGetValidYelloIdState()
         setCodeBtnCLickListener()
         setDeleteCodeBtnClickListener()
-        viewModel.validYellIdLoading()
+        viewModel.validYelloIdLoading()
     }
+
     override fun onResume() {
         super.onResume()
         (activity as? OnBoardingActivity)?.hideBackBtn()
@@ -34,27 +37,28 @@ class CodeFragment : BindingFragment<FragmentCodeBinding>(R.layout.fragment_code
 
     private fun setCodeBtnCLickListener() {
         binding.btnCodeSkip.setOnClickListener {
-            setupPostSignupState()
             viewModel.postSignup()
             amplitudeCodeSkipInfo()
         }
+
         binding.btnCodeNext.setOnSingleClickListener {
             viewModel.getValidYelloId(viewModel.codeText.value.toString())
-            setupGetValidYelloIdState()
             amplitudeCodeNextInfo()
         }
     }
 
-    private fun setupPostSignupState() {
+    private fun observePostSignupState() {
         viewModel.postSignupState.observe(viewLifecycleOwner) { state ->
             when (state) {
                 is UiState.Success -> {
                     AmplitudeUtils.setUserDataProperties("user_signup_date")
                     findNavController().navigate(R.id.action_codeFragment_to_startAppFragment)
                 }
+
                 is UiState.Failure -> {
                     yelloSnackbar(binding.root, getString(R.string.msg_error))
                 }
+
                 is UiState.Loading -> {}
 
                 is UiState.Empty -> {}
@@ -62,7 +66,7 @@ class CodeFragment : BindingFragment<FragmentCodeBinding>(R.layout.fragment_code
         }
     }
 
-    private fun setupGetValidYelloIdState() {
+    private fun observeGetValidYelloIdState() {
         viewModel.getValidYelloId.observe(viewLifecycleOwner) { state ->
             when (state) {
                 is UiState.Success -> {
@@ -70,7 +74,6 @@ class CodeFragment : BindingFragment<FragmentCodeBinding>(R.layout.fragment_code
                         initIdEditTextViewError()
                         return@observe
                     }
-                    findNavController().navigate(R.id.action_codeFragment_to_startAppFragment)
                     viewModel.postSignup()
                 }
 

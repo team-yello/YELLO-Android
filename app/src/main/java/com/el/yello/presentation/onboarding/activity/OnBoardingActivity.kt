@@ -5,7 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.view.animation.LinearInterpolator
-import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.viewModels
 import androidx.navigation.findNavController
 import com.el.yello.R
@@ -18,50 +18,56 @@ import com.el.yello.presentation.auth.SignInActivity.Companion.EXTRA_PROFILE_IMA
 import com.el.yello.presentation.auth.SocialSyncActivity
 import com.el.yello.presentation.tutorial.TutorialAActivity
 import com.example.ui.base.BindingActivity
+import com.example.ui.context.toast
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class OnBoardingActivity :
     BindingActivity<ActivityOnboardingBinding>(R.layout.activity_onboarding) {
+
     private val viewModel by viewModels<OnBoardingViewModel>()
+
     private var backPressedTime: Long = 0
-    private val BACK_PRESSED_INTERVAL = 2000
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        getIntentExtraData()
-    }
 
-    override fun onBackPressed() {
-        val navController = findNavController(R.id.nav_main_fragment)
-        val currentDestinationId = navController.currentDestination?.id
+    private val onBackPressedCallback = object : OnBackPressedCallback(true) {
+        override fun handleOnBackPressed() {
+            val navController = findNavController(R.id.nav_main_fragment)
+            when (navController.currentDestination?.id) {
+                R.id.universityInfoFragment -> startSocialSyncActivity()
 
-        if (currentDestinationId == R.id.selectStudentFragment) {
-            val intent = Intent(this, SocialSyncActivity::class.java)
-            startActivity(intent)
-        } else if (currentDestinationId == R.id.codeFragment) {
-            val currentTime = System.currentTimeMillis()
-            if (currentTime - backPressedTime < BACK_PRESSED_INTERVAL) {
-                finish()
-            } else {
-                backPressedTime = currentTime
-                Toast.makeText(this, "버튼을 한번 더 누르면 종료됩니다", Toast.LENGTH_SHORT).show()
+                R.id.codeFragment -> {
+                    if (System.currentTimeMillis() - backPressedTime >= BACK_PRESSED_INTERVAL) {
+                        backPressedTime = System.currentTimeMillis()
+                        toast(getString(R.string.main_toast_back_pressed))
+                    } else {
+                        finish()
+                    }
+                }
+
+                else -> {
+                    navController.popBackStack()
+                    progressBarMinus()
+                }
             }
-        } else {
-            super.onBackPressed()
-            progressBarMinus()
         }
     }
 
-    fun onBackButtonClicked(view: View) {
-        val navController = findNavController(R.id.nav_main_fragment)
-        val currentDestinationId = navController.currentDestination?.id
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
 
-        if (currentDestinationId == R.id.selectStudentFragment) {
-            val intent = Intent(this, SocialSyncActivity::class.java)
-            startActivity(intent)
-        } else {
-            navController.popBackStack()
-            progressBarMinus()
+        getIntentExtraData()
+        this.onBackPressedDispatcher.addCallback(this, onBackPressedCallback)
+    }
+
+    fun onBackButtonClicked() {
+        val navController = findNavController(R.id.nav_main_fragment)
+        when (navController.currentDestination?.id) {
+            R.id.universityInfoFragment -> startSocialSyncActivity()
+
+            else -> {
+                navController.popBackStack()
+                progressBarMinus()
+            }
         }
     }
 
@@ -77,7 +83,12 @@ class OnBoardingActivity :
 
     fun progressBarPlus() {
         viewModel.plusCurrentPercent()
-        val animator = ObjectAnimator.ofInt(binding.onboardingProgressbar, "progress", binding.onboardingProgressbar.progress, viewModel.currentPercent)
+        val animator = ObjectAnimator.ofInt(
+            binding.onboardingProgressbar,
+            "progress",
+            binding.onboardingProgressbar.progress,
+            viewModel.currentPercent
+        )
         animator.duration = 300
         animator.interpolator = LinearInterpolator()
         animator.start()
@@ -85,7 +96,12 @@ class OnBoardingActivity :
 
     fun progressBarMinus() {
         viewModel.minusCurrentPercent()
-        val animator = ObjectAnimator.ofInt(binding.onboardingProgressbar, "progress", binding.onboardingProgressbar.progress, viewModel.currentPercent)
+        val animator = ObjectAnimator.ofInt(
+            binding.onboardingProgressbar,
+            "progress",
+            binding.onboardingProgressbar.progress,
+            viewModel.currentPercent
+        )
         animator.duration = 300
         animator.interpolator = LinearInterpolator()
         animator.start()
@@ -104,9 +120,14 @@ class OnBoardingActivity :
         binding.backBtn.visibility = View.VISIBLE
     }
 
+    fun startSocialSyncActivity() {
+        val intent = Intent(this, SocialSyncActivity::class.java)
+        startActivity(intent)
+    }
+
     fun endTutorialActivity() {
         val intent = TutorialAActivity.newIntent(this, true)
-        intent.putExtra("codeTextEmpty", viewModel.isCodeTextEmpty())
+        intent.putExtra(EXTRA_CODE_TEXT_EMPTY, viewModel.isCodeTextEmpty())
         startActivity(intent)
         finish()
     }
@@ -114,5 +135,11 @@ class OnBoardingActivity :
     override fun onPause() {
         super.onPause()
         overridePendingTransition(0, 0)
+    }
+
+    companion object {
+        private const val BACK_PRESSED_INTERVAL = 2000
+
+        const val EXTRA_CODE_TEXT_EMPTY = "codeTextEmpty"
     }
 }

@@ -5,5 +5,6 @@ sealed class NoteState {
     object InvalidSkip : NoteState()
     object InvalidCancel : NoteState()
     object InvalidShuffle : NoteState()
+    object InvalidName : NoteState()
     object Failure : NoteState()
 }

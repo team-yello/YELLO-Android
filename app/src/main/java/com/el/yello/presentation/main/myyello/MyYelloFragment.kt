@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.view.animation.AnimationUtils
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
@@ -39,6 +40,7 @@ class MyYelloFragment : BindingFragment<FragmentMyYelloBinding>(R.layout.fragmen
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         AmplitudeUtils.trackEventWithProperties("view_all_messages")
         initView()
         initEvent()
@@ -98,6 +100,7 @@ class MyYelloFragment : BindingFragment<FragmentMyYelloBinding>(R.layout.fragmen
             when (it) {
                 is UiState.Success -> {
                     binding.shimmerMyYelloReceive.stopShimmer()
+                    startFadeIn()
                     binding.clSendOpen.isVisible = it.data.ticketCount != 0
                     binding.btnSendCheck.isVisible = it.data.ticketCount == 0
                     binding.tvKeyNumber.text = it.data.ticketCount.toString()
@@ -109,35 +112,27 @@ class MyYelloFragment : BindingFragment<FragmentMyYelloBinding>(R.layout.fragmen
                     yelloSnackbar(requireView(), it.msg)
                 }
 
-                is UiState.Empty -> {
-                    binding.shimmerMyYelloReceive.stopShimmer()
-                }
+                is UiState.Empty -> binding.shimmerMyYelloReceive.stopShimmer()
 
-                is UiState.Loading -> {
-                    binding.shimmerMyYelloReceive.startShimmer()
-                }
+                is UiState.Loading -> binding.shimmerMyYelloReceive.startShimmer()
 
                 else -> {}
             }
         }
 
         viewModel.totalCount.flowWithLifecycle(viewLifecycleOwner.lifecycle).onEach {
-                binding.tvCount.text = it.toString()
-            }.launchIn(viewLifecycleOwner.lifecycleScope)
+            binding.tvCount.text = it.toString()
+        }.launchIn(viewLifecycleOwner.lifecycleScope)
 
         viewModel.voteCount.flowWithLifecycle(viewLifecycleOwner.lifecycle).onEach {
-                when (it) {
-                    is UiState.Success -> {
-                        (activity as? MainActivity)?.setBadgeCount(it.data.totalCount)
-                    }
+            when (it) {
+                is UiState.Success -> (activity as? MainActivity)?.setBadgeCount(it.data.totalCount)
 
-                    is UiState.Failure -> {
-                        yelloSnackbar(binding.root, it.msg)
-                    }
+                is UiState.Failure -> yelloSnackbar(binding.root, it.msg)
 
-                    else -> {}
-                }
-            }.launchIn(viewLifecycleOwner.lifecycleScope)
+                else -> {}
+            }
+        }.launchIn(viewLifecycleOwner.lifecycleScope)
     }
 
     // 페이지네이션
@@ -145,10 +140,8 @@ class MyYelloFragment : BindingFragment<FragmentMyYelloBinding>(R.layout.fragmen
         binding.rvMyYelloReceive.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
-                if (dy > 0) {
-                    if (!binding.rvMyYelloReceive.canScrollVertically(1) && (recyclerView.layoutManager as LinearLayoutManager).findLastVisibleItemPosition() == adapter!!.itemCount - 1) {
-                        viewModel.getMyYelloList()
-                    }
+                if (dy > 0 && !binding.rvMyYelloReceive.canScrollVertically(1) && (recyclerView.layoutManager as LinearLayoutManager).findLastVisibleItemPosition() == adapter!!.itemCount - 1) {
+                    viewModel.getMyYelloList()
                 }
             }
 
@@ -225,6 +218,11 @@ class MyYelloFragment : BindingFragment<FragmentMyYelloBinding>(R.layout.fragmen
             }
             setPullToScrollColor(R.color.grayscales_500, R.color.grayscales_700)
         }
+    }
+
+    private fun startFadeIn() {
+        val animation = AnimationUtils.loadAnimation(requireContext(), R.anim.fade_in)
+        binding.rvMyYelloReceive.startAnimation(animation)
     }
 
     fun scrollToTop() {

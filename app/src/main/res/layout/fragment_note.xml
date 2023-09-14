@@ -510,6 +510,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
+                    android:visibility="@{(vm._voteList.get(vm.currentNoteIndex).friendList.get(1).id == -1)? View.INVISIBLE : View.VISIBLE}"
                     android:fontFamily="@font/font_pretendard_medium"
                     android:lineHeight="10sp"
                     android:onClick="@{()->vm.selectName(1)}"
@@ -520,6 +521,19 @@
                     app:layout_constraintTop_toBottomOf="@id/tv_note_name2_name"
                     tools:text="\@hj__p_"
                     tools:textColor="@color/grayscales_600" />
+
+                <TextView
+                    android:id="@+id/tv_note_name2_null"
+                    android:layout_width="wrap_content"
+                    android:visibility="@{(vm._voteList.get(vm.currentNoteIndex).friendList.get(1).id == -1)? View.VISIBLE : View.INVISIBLE}"
+                    android:layout_height="wrap_content"
+                    android:text="@string/note_friend_null"
+                    android:textAppearance="?textAppearanceBody2"
+                    android:textColor="@color/grayscales_600"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -592,6 +606,7 @@
                     optionId="@{vm._voteList[vm.currentNoteIndex].friendList[2].id}"
                     selectedId="@{vm._currentChoice.friendId}"
                     android:layout_width="wrap_content"
+                    android:visibility="@{(vm._voteList.get(vm.currentNoteIndex).friendList.get(2).id == -1)? View.INVISIBLE : View.VISIBLE}"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
                     android:fontFamily="@font/font_pretendard_medium"
@@ -605,6 +620,19 @@
                     app:layout_constraintTop_toBottomOf="@id/tv_note_name3_name"
                     tools:text="\@_euije"
                     tools:textColor="@color/grayscales_600" />
+
+                <TextView
+                    android:id="@+id/tv_note_name3_null"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="@{(vm._voteList.get(vm.currentNoteIndex).friendList.get(2).id == -1)? View.VISIBLE : View.INVISIBLE}"
+                    android:text="@string/note_friend_null"
+                    android:textAppearance="?textAppearanceBody2"
+                    android:textColor="@color/grayscales_600"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -680,6 +708,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
+                    android:visibility="@{(vm._voteList.get(vm.currentNoteIndex).friendList.get(3).id == -1)? View.INVISIBLE : View.VISIBLE}"
                     android:fontFamily="@font/font_pretendard_medium"
                     android:lineHeight="10sp"
                     android:onClick="@{()->vm.selectName(3)}"
@@ -690,6 +719,19 @@
                     app:layout_constraintTop_toBottomOf="@id/tv_note_name4_name"
                     tools:text="\@nahyunyou"
                     tools:textColor="@color/grayscales_600" />
+
+                <TextView
+                    android:id="@+id/tv_note_name4_null"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/note_friend_null"
+                    android:visibility="@{(vm._voteList.get(vm.currentNoteIndex).friendList.get(3).id == -1)? View.VISIBLE : View.INVISIBLE}"
+                    android:textAppearance="?textAppearanceBody2"
+                    android:textColor="@color/grayscales_600"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout

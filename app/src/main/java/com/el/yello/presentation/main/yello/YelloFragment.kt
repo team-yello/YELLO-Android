@@ -25,6 +25,7 @@ import com.example.ui.view.UiState.Failure
 import com.example.ui.view.UiState.Loading
 import com.example.ui.view.UiState.Success
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 
 @AndroidEntryPoint
 class YelloFragment : BindingFragment<FragmentYelloBinding>(R.layout.fragment_yello) {
@@ -39,6 +40,7 @@ class YelloFragment : BindingFragment<FragmentYelloBinding>(R.layout.fragment_ye
 
     private fun setupYelloState() {
         viewModel.yelloState.observe(viewLifecycleOwner) { state ->
+            Timber.d("QATEST observe $state")
             when (state) {
                 is Loading -> {}
 
@@ -63,10 +65,6 @@ class YelloFragment : BindingFragment<FragmentYelloBinding>(R.layout.fragment_ye
                 }
             }
         }
-    }
-
-    private fun getVoteState() {
-        viewModel.getVoteState()
     }
 
     private inline fun <reified T : Fragment> navigateTo() {

@@ -2,6 +2,7 @@ package com.el.yello.presentation.main.look
 
 import android.os.Bundle
 import android.view.View
+import android.view.animation.AnimationUtils
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
@@ -127,8 +128,14 @@ class LookFragment : BindingFragment<FragmentLookBinding>(R.layout.fragment_look
                 startShimmerView()
             } else {
                 stopShimmerView()
+                startFadeIn()
             }
         }
+    }
+
+    private fun startFadeIn() {
+        val animation = AnimationUtils.loadAnimation(requireContext(), R.anim.fade_in)
+        binding.rvLook.startAnimation(animation)
     }
 
     private fun startShimmerView() {

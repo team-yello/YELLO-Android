@@ -40,7 +40,7 @@ class OnBoardingViewModel @Inject constructor(
         currentPercent -= 17
     }
 
-    fun resetGetVaildYelloId() {
+    fun resetGetValidYelloId() {
         _getValidYelloId.value = UiState.Loading
     }
 
@@ -169,7 +169,7 @@ class OnBoardingViewModel @Inject constructor(
         totalFriendPage = Int.MAX_VALUE
     }
 
-    fun validYellIdLoading() {
+    fun validYelloIdLoading() {
         _getValidYelloId.value = UiState.Loading
     }
 

@@ -59,7 +59,7 @@ class OnBoardingActivity :
         this.onBackPressedDispatcher.addCallback(this, onBackPressedCallback)
     }
 
-    fun onBackButtonClicked() {
+    fun onBackButtonClicked(view: View) {
         val navController = findNavController(R.id.nav_main_fragment)
         when (navController.currentDestination?.id) {
             R.id.universityInfoFragment -> startSocialSyncActivity()

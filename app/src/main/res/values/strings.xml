@@ -332,5 +332,6 @@
 
     <string name="invite_clipboard_msg">클립보드에 복사되었어요.</string>
     <string name="start_balloon_tooltip">💛4명 이상의 친구💛를 가지면 옐로가 더 재밌어요!</string>
+    <string name="note_friend_null">친구를 추가해주세요!</string>
 
 </resources>

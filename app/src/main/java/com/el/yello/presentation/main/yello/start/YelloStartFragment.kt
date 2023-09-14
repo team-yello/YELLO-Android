@@ -35,6 +35,7 @@ class YelloStartFragment :
     }
 
     private fun setBalloonVisibility() {
+        // TODO: 삭제 이후 바로 반영되도록 로직 보완
         val yelloState = viewModel.yelloState.value
         if (yelloState is UiState.Success) {
             if (yelloState.data is YelloState.Valid) {

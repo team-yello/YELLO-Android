@@ -88,6 +88,19 @@ class VoteViewModel @Inject constructor(
                         _voteState.value = Empty
                         return@launch
                     }
+
+                    for (noteIndex in notes.indices) {
+                        val newFriendList = mutableListOf<Note.Friend>()
+                        for (friendIndex in 0..3) {
+                            if (notes[noteIndex].friendList.size < friendIndex + 1) {
+                                newFriendList.add(Note.Friend(-1, "", ""))
+                                continue
+                            }
+                            newFriendList.add(notes[noteIndex].friendList[friendIndex])
+                        }
+                        notes[noteIndex].friendList = newFriendList
+                    }
+
                     totalListCount = notes.size - 1
                     _voteState.value = Success(notes)
                     _voteList.value = notes

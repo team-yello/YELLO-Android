@@ -33,7 +33,7 @@ class OnBoardingActivity :
         override fun handleOnBackPressed() {
             val navController = findNavController(R.id.nav_main_fragment)
             when (navController.currentDestination?.id) {
-                R.id.universityInfoFragment -> startSocialSyncActivity()
+                R.id.selectStudentFragment -> startSocialSyncActivity()
 
                 R.id.codeFragment -> {
                     if (System.currentTimeMillis() - backPressedTime >= BACK_PRESSED_INTERVAL) {
@@ -59,10 +59,10 @@ class OnBoardingActivity :
         this.onBackPressedDispatcher.addCallback(this, onBackPressedCallback)
     }
 
-    fun onBackButtonClicked() {
+    fun onBackButtonClicked(view: View) {
         val navController = findNavController(R.id.nav_main_fragment)
         when (navController.currentDestination?.id) {
-            R.id.universityInfoFragment -> startSocialSyncActivity()
+            R.id.selectStudentFragment -> startSocialSyncActivity()
 
             else -> {
                 navController.popBackStack()
@@ -87,7 +87,7 @@ class OnBoardingActivity :
             binding.onboardingProgressbar,
             "progress",
             binding.onboardingProgressbar.progress,
-            viewModel.currentPercent
+            viewModel.currentPercent,
         )
         animator.duration = 300
         animator.interpolator = LinearInterpolator()
@@ -100,7 +100,7 @@ class OnBoardingActivity :
             binding.onboardingProgressbar,
             "progress",
             binding.onboardingProgressbar.progress,
-            viewModel.currentPercent
+            viewModel.currentPercent,
         )
         animator.duration = 300
         animator.interpolator = LinearInterpolator()
@@ -139,7 +139,6 @@ class OnBoardingActivity :
 
     companion object {
         private const val BACK_PRESSED_INTERVAL = 2000
-
         const val EXTRA_CODE_TEXT_EMPTY = "codeTextEmpty"
     }
 }

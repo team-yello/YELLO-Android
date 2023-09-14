@@ -11,6 +11,7 @@ import com.el.yello.databinding.FragmentYelloStartBinding
 import com.el.yello.presentation.main.yello.YelloViewModel
 import com.el.yello.presentation.main.yello.vote.VoteActivity
 import com.el.yello.util.amplitude.AmplitudeUtils
+import com.example.domain.entity.type.YelloState
 import com.example.ui.base.BindingFragment
 import com.example.ui.view.UiState
 import com.example.ui.view.setOnSingleClickListener
@@ -19,18 +20,28 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class YelloStartFragment :
     BindingFragment<FragmentYelloStartBinding>(R.layout.fragment_yello_start) {
-
     private val viewModel by activityViewModels<YelloViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.vm = viewModel
 
+        setBalloonVisibility()
         initEntranceLottie()
         initShadowView()
         initVoteBtnClickListener()
         observeCheckIsSubscribed()
         viewModel.getPurchaseInfoFromServer()
+    }
+
+    private fun setBalloonVisibility() {
+        val yelloState = viewModel.yelloState.value
+        if (yelloState is UiState.Success) {
+            if (yelloState.data is YelloState.Valid) {
+                binding.layoutStartBalloon.visibility =
+                    if ((yelloState.data as YelloState.Valid).hasFourFriends) View.GONE else View.VISIBLE
+            }
+        }
     }
 
     private fun initEntranceLottie() {

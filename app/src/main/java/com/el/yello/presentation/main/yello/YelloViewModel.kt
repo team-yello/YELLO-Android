@@ -80,7 +80,7 @@ class YelloViewModel @Inject constructor(
                         if (currentState is Success) {
                             if (currentState.data is Valid) return@onSuccess
                         }
-                        _yelloState.value = Success(Valid(voteState.point))
+                        _yelloState.value = Success(Valid(voteState.point, voteState.hasFourFriends))
                         return@launch
                     }
 

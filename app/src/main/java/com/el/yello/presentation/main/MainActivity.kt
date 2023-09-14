@@ -127,15 +127,9 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
 
     private fun initBadge(voteCount: Int) {
         val badgeDrawable = binding.bnvMain.getOrCreateBadge(R.id.menu_my_yello)
-        // 수직 위치 변경 (입력값이 클수록 뱃지가 아래로 이동)
         badgeDrawable.verticalOffset = 12.dp
-        // 수평 위치 변경 (입력값이 클수록 뱃지가 왼쪽으로 이동)
         badgeDrawable.horizontalOffset = 10.dp
-
-        // 뱃지에 들어갈 숫자 입력
         badgeDrawable.number = voteCount
-
-        // 뱃지의 색깔 설정
         badgeDrawable.backgroundColor = ContextCompat.getColor(
             this,
             R.color.semantic_red_500,

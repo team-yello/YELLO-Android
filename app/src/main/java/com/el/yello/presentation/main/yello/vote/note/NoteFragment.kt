@@ -113,6 +113,11 @@ class NoteFragment : BindingFragment<FragmentNoteBinding>(R.layout.fragment_note
                     getString(R.string.note_msg_invalid_shuffle),
                 )
 
+                NoteState.InvalidName -> yelloSnackbar(
+                    binding.root,
+                    getString(R.string.note_msg_invalid_name),
+                )
+
                 NoteState.Failure -> yelloSnackbar(
                     binding.root,
                     getString(R.string.msg_error),

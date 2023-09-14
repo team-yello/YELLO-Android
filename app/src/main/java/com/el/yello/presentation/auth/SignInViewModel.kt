@@ -18,6 +18,7 @@ import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.model.ClientError
 import com.kakao.sdk.common.model.ClientErrorCause
 import com.kakao.sdk.user.UserApiClient
+import com.kakao.sdk.user.model.Scope
 import com.kakao.sdk.user.model.User
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -39,6 +40,9 @@ class SignInViewModel @Inject constructor(
 
     private val _getKakaoDataState = MutableLiveData<UiState<User?>>()
     val getKakaoDataState: LiveData<UiState<User?>> = _getKakaoDataState
+
+    private val _getKakaoValidState = MutableLiveData<UiState<List<Scope>>>()
+    val getKakaoValidState: LiveData<UiState<List<Scope>>> = _getKakaoValidState
 
     private val serviceTermsList = listOf(THUMBNAIL, EMAIL, FRIEND_LIST, NAME, GENDER)
 
@@ -111,6 +115,17 @@ class SignInViewModel @Inject constructor(
         }
     }
 
+    fun checkFriendsListValid() {
+        val scopes = mutableListOf(FRIEND_LIST)
+        UserApiClient.instance.scopes(scopes) { scopeInfo, error->
+            if (error != null) {
+                _getKakaoValidState.value = UiState.Failure(error.message.toString())
+            } else if (scopeInfo != null) {
+                _getKakaoValidState.value = UiState.Success(scopeInfo.scopes ?: listOf())
+            }
+        }
+    }
+
     // 서버통신 - 카카오 토큰 보내서 서비스 토큰 받아오기
     private fun changeTokenFromServer(
         accessToken: String,
@@ -178,7 +193,7 @@ class SignInViewModel @Inject constructor(
         return authRepository.getIsFirstLoginData()
     }
 
-    private companion object {
+    companion object {
         const val KAKAO = "KAKAO"
 
         const val THUMBNAIL = "profile_image"

@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import com.el.yello.R
 import com.el.yello.databinding.ActivitySignInBinding
+import com.el.yello.presentation.auth.SignInViewModel.Companion.FRIEND_LIST
 import com.el.yello.presentation.main.MainActivity
 import com.el.yello.presentation.onboarding.GetAlarmActivity
 import com.el.yello.presentation.tutorial.TutorialAActivity
@@ -31,6 +32,7 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
         observeDeviceTokenError()
         observeAppLoginError()
         observeKakaoUserDataState()
+        observeFriendsListValidState()
         observeChangeTokenState()
         observeUserDataState()
     }
@@ -87,7 +89,30 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
         viewModel.getKakaoDataState.observe(this) { state ->
             when (state) {
                 is UiState.Success -> {
-                    startSocialSyncActivity(state.data)
+                    viewModel.checkFriendsListValid()
+                }
+
+                is UiState.Failure -> {
+                    yelloSnackbar(binding.root, getString(R.string.msg_error))
+                }
+
+                is UiState.Empty -> {}
+
+                is UiState.Loading -> {}
+            }
+        }
+    }
+
+    private fun observeFriendsListValidState() {
+        viewModel.getKakaoValidState.observe(this) { state ->
+            when (state) {
+                is UiState.Success -> {
+                    val friendScope = state.data.find { it.displayName == FRIEND_LIST }
+                    if (friendScope?.agreed == true) {
+
+                    } else {
+                        
+                    }
                 }
 
                 is UiState.Failure -> {

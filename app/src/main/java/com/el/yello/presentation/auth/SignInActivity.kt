@@ -168,11 +168,7 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
 
     private fun startSocialSyncActivity() {
         Intent(this, SocialSyncActivity::class.java).apply {
-            putExtra(EXTRA_KAKAO_ID, userKakaoId)
-            putExtra(EXTRA_NAME, userName)
-            putExtra(EXTRA_GENDER, userGender)
-            putExtra(EXTRA_EMAIL, userEmail)
-            putExtra(EXTRA_PROFILE_IMAGE, userImage)
+            addPutExtra()
             addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
             startActivity(this)
         }
@@ -181,15 +177,20 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
 
     private fun startOnBoardingActivity() {
         Intent(this, OnBoardingActivity::class.java).apply {
-            putExtra(EXTRA_KAKAO_ID, userKakaoId)
-            putExtra(EXTRA_NAME, userName)
-            putExtra(EXTRA_GENDER, userGender)
-            putExtra(EXTRA_EMAIL, userEmail)
-            putExtra(EXTRA_PROFILE_IMAGE, userImage)
+            addPutExtra()
             addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
             startActivity(this)
         }
         finish()
+    }
+
+    private fun Intent.addPutExtra() {
+        putExtra(EXTRA_KAKAO_ID, userKakaoId)
+        putExtra(EXTRA_NAME, userName)
+        putExtra(EXTRA_GENDER, userGender)
+        putExtra(EXTRA_EMAIL, userEmail)
+        putExtra(EXTRA_PROFILE_IMAGE, userImage)
+        addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
     }
 
     private fun startMainActivity() {

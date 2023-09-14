@@ -15,7 +15,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.el.yello.R
 import com.el.yello.databinding.FragmentDialogHighschoolBinding
 import com.el.yello.presentation.onboarding.activity.OnBoardingViewModel
-import com.el.yello.presentation.onboarding.fragment.universityinfo.university.SearchDialogUniversityFragment
 import com.el.yello.util.context.yelloSnackbar
 import com.example.ui.base.BindingBottomSheetDialog
 import com.example.ui.context.hideKeyboard
@@ -51,9 +50,8 @@ class SearchDialogHighSchoolFragment :
             searchJob?.cancel()
             searchJob = viewModel.viewModelScope.launch {
                 delay(debounceTime)
-                // TODO : getschoollist
+                // TODO : viewmodel. getschoollist -> 고등학교
                 input?.toString()?.let { viewModel.getSchoolList(it) }
-
             }
         }
         adapter = HighSchoolAdapter(storeSchool = ::storeSchool)
@@ -79,9 +77,11 @@ class SearchDialogHighSchoolFragment :
     }
 
     private fun setupHighSchoolData() {
+        // TODO : viewmodel.schooldata
         viewModel.schoolData.observe(viewLifecycleOwner) { state ->
             when (state) {
                 is UiState.Success -> {
+                    // TODO : schoollist
                     adapter?.submitList(state.data.schoolList)
                 }
 
@@ -91,11 +91,13 @@ class SearchDialogHighSchoolFragment :
 
                 is UiState.Loading -> {}
                 is UiState.Empty -> {}
+                else -> {}
             }
         }
     }
 
     private fun storeSchool(school: String) {
+        // TODO : 바꾸기
         viewModel.setSchool(school)
         viewModel.clearSchoolData()
         dismiss()
@@ -159,6 +161,7 @@ class SearchDialogHighSchoolFragment :
     companion object {
         @JvmStatic
         fun newInstance() = SearchDialogHighSchoolFragment()
+
         // TODO : 링크 change
         private const val SCHOOL_FORM_URL = "https://bit.ly/46Yv0Hc"
     }

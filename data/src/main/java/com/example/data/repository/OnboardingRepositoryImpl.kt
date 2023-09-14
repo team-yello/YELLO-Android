@@ -19,7 +19,7 @@ class OnboardingRepositoryImpl @Inject constructor(
 ) : OnboardingRepository {
 
     override suspend fun postTokenToServiceToken(
-        requestServiceTokenModel: RequestServiceTokenModel
+        requestServiceTokenModel: RequestServiceTokenModel,
     ): Result<ServiceTokenModel?> {
         return runCatching {
             onboardingDataSource.postTokenToServiceTokenData(
@@ -30,7 +30,7 @@ class OnboardingRepositoryImpl @Inject constructor(
 
     override suspend fun getSchoolList(
         page: Int,
-        search: String
+        search: String,
     ): Result<SchoolList?> {
         return runCatching {
             onboardingDataSource.getSchoolNameData(
@@ -55,7 +55,7 @@ class OnboardingRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getValidYelloId(
-        yelloId: String
+        yelloId: String,
     ): Result<Boolean?> {
         return runCatching {
             onboardingDataSource.getValidYelloId(

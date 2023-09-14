@@ -61,12 +61,13 @@ class OnBoardingActivity :
 
     fun onBackButtonClicked() {
         val navController = findNavController(R.id.nav_main_fragment)
-        val currentDestinationId = navController.currentDestination?.id
-        if (currentDestinationId == R.id.universityInfoFragment) {
-            startSocialSyncActivity()
-        } else {
-            navController.popBackStack()
-            progressBarMinus()
+        when (navController.currentDestination?.id) {
+            R.id.universityInfoFragment -> startSocialSyncActivity()
+
+            else -> {
+                navController.popBackStack()
+                progressBarMinus()
+            }
         }
     }
 
@@ -126,7 +127,7 @@ class OnBoardingActivity :
 
     fun endTutorialActivity() {
         val intent = TutorialAActivity.newIntent(this, true)
-        intent.putExtra("codeTextEmpty", viewModel.isCodeTextEmpty())
+        intent.putExtra(EXTRA_CODE_TEXT_EMPTY, viewModel.isCodeTextEmpty())
         startActivity(intent)
         finish()
     }
@@ -138,5 +139,7 @@ class OnBoardingActivity :
 
     companion object {
         private const val BACK_PRESSED_INTERVAL = 2000
+
+        const val EXTRA_CODE_TEXT_EMPTY = "codeTextEmpty"
     }
 }

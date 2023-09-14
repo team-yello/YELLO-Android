@@ -65,10 +65,11 @@ class YelloViewModel @Inject constructor(
     }
 
     fun getVoteState() {
+        Timber.d("QATEST get vote state")
         viewModelScope.launch {
             voteRepository.getVoteAvailable()
                 .onSuccess { voteState ->
-                    Timber.d("GET VOTE STATE SUCCESS : $voteState")
+                    Timber.d("QATEST GET VOTE STATE SUCCESS : $voteState")
                     if (voteState == null) {
                         _yelloState.value = Empty
                         return@launch
@@ -80,7 +81,8 @@ class YelloViewModel @Inject constructor(
                         if (currentState is Success) {
                             if (currentState.data is Valid) return@onSuccess
                         }
-                        _yelloState.value = Success(Valid(voteState.point))
+                        _yelloState.value =
+                            Success(Valid(voteState.point, voteState.hasFourFriends))
                         return@launch
                     }
 
@@ -105,7 +107,6 @@ class YelloViewModel @Inject constructor(
         }
     }
 
-    // 서버 통신 - 구독 여부 & 열람권 개수 받아오기
     fun getPurchaseInfoFromServer() {
         viewModelScope.launch {
             payRepository.getPurchaseInfo()

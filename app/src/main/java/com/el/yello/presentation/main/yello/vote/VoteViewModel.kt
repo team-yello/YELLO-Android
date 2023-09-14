@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.el.yello.presentation.main.yello.vote.NoteState.InvalidCancel
+import com.el.yello.presentation.main.yello.vote.NoteState.InvalidName
 import com.el.yello.presentation.main.yello.vote.NoteState.InvalidShuffle
 import com.el.yello.presentation.main.yello.vote.NoteState.InvalidSkip
 import com.el.yello.util.amplitude.AmplitudeUtils
@@ -88,6 +89,19 @@ class VoteViewModel @Inject constructor(
                         _voteState.value = Empty
                         return@launch
                     }
+
+                    for (noteIndex in notes.indices) {
+                        val newFriendList = mutableListOf<Note.Friend>()
+                        for (friendIndex in 0..3) {
+                            if (notes[noteIndex].friendList.size < friendIndex + 1) {
+                                newFriendList.add(Note.Friend(-1, "", ""))
+                                continue
+                            }
+                            newFriendList.add(notes[noteIndex].friendList[friendIndex])
+                        }
+                        notes[noteIndex].friendList = newFriendList
+                    }
+
                     totalListCount = notes.size - 1
                     _voteState.value = Success(notes)
                     _voteList.value = notes
@@ -108,6 +122,10 @@ class VoteViewModel @Inject constructor(
 
     fun selectName(nameIndex: Int) {
         if (currentNoteIndex > totalListCount) return
+        if (voteList[currentNoteIndex].friendList[nameIndex].id == -1) {
+            _noteState.value = InvalidName
+            return
+        }
         if (currentChoice.friendId == voteList[currentNoteIndex].friendList[nameIndex].id) {
             _noteState.value = InvalidCancel
             return
@@ -163,8 +181,17 @@ class VoteViewModel @Inject constructor(
                             _noteState.value = NoteState.Failure
                             return@launch
                         }
+                        val newFriendList = mutableListOf<Note.Friend>()
+                        for (i in 0..3) {
+                            if (friends.size < i + 1) {
+                                newFriendList.add(Note.Friend(-1, "", ""))
+                                continue
+                            }
+                            newFriendList.add(friends[i])
+                        }
+
                         _shuffleCount.value = count - 1
-                        _voteList.value?.get(currentNoteIndex)?.friendList = friends
+                        _voteList.value?.get(currentNoteIndex)?.friendList = newFriendList
                         _voteList.value = voteList
                     }
                     .onFailure { t ->

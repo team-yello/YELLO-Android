@@ -1,12 +1,12 @@
 package com.example.data.model.response.vote
 
 import com.example.domain.entity.vote.VoteState
-import java.text.ParseException
-import java.text.SimpleDateFormat
-import java.util.TimeZone
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import timber.log.Timber
+import java.text.ParseException
+import java.text.SimpleDateFormat
+import java.util.TimeZone
 
 @Serializable
 data class ResponseGetVoteAvailableDto(
@@ -16,11 +16,14 @@ data class ResponseGetVoteAvailableDto(
     val point: Int,
     @SerialName("createdAt")
     val createdAt: String,
+    @SerialName("friendStatus")
+    val friendStatus: Int,
 ) {
     fun toVoteState() = VoteState(
         isStart = isStart,
         point = point,
         leftTime = createdAt.toRemainTime(),
+        hasFourFriends = friendStatus == STATUS_MORE_THAN_FOUR_FRIENDS,
     )
 
     private fun String.toRemainTime(): Long {
@@ -39,5 +42,9 @@ data class ResponseGetVoteAvailableDto(
             e.printStackTrace()
             2400
         }
+    }
+
+    companion object {
+        private const val STATUS_MORE_THAN_FOUR_FRIENDS = 1
     }
 }

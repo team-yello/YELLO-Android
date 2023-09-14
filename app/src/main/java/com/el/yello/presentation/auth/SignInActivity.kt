@@ -8,6 +8,7 @@ import com.el.yello.databinding.ActivitySignInBinding
 import com.el.yello.presentation.auth.SignInViewModel.Companion.FRIEND_LIST
 import com.el.yello.presentation.main.MainActivity
 import com.el.yello.presentation.onboarding.GetAlarmActivity
+import com.el.yello.presentation.onboarding.activity.OnBoardingActivity
 import com.el.yello.presentation.tutorial.TutorialAActivity
 import com.el.yello.util.amplitude.AmplitudeUtils
 import com.el.yello.util.context.yelloSnackbar
@@ -15,13 +16,18 @@ import com.example.ui.base.BindingActivity
 import com.example.ui.context.toast
 import com.example.ui.view.UiState
 import com.example.ui.view.setOnSingleClickListener
-import com.kakao.sdk.user.model.User
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_sign_in) {
 
     private val viewModel by viewModels<SignInViewModel>()
+
+    private var userKakaoId: Long = 0
+    private var userName: String = ""
+    private var userGender: String = ""
+    private var userEmail: String = ""
+    private var userImage: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -89,6 +95,11 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
         viewModel.getKakaoDataState.observe(this) { state ->
             when (state) {
                 is UiState.Success -> {
+                    userKakaoId = state.data?.id ?: 0
+                    userName = state.data?.kakaoAccount?.name.toString()
+                    userGender = state.data?.kakaoAccount?.gender.toString()
+                    userEmail = state.data?.kakaoAccount?.email.toString()
+                    userImage = state.data?.kakaoAccount?.profile?.profileImageUrl.toString()
                     viewModel.checkFriendsListValid()
                 }
 
@@ -109,9 +120,9 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
                 is UiState.Success -> {
                     val friendScope = state.data.find { it.displayName == FRIEND_LIST }
                     if (friendScope?.agreed == true) {
-
+                        startOnBoardingActivity()
                     } else {
-                        
+                        startSocialSyncActivity()
                     }
                 }
 
@@ -155,13 +166,26 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
         }
     }
 
-    private fun startSocialSyncActivity(data: User?) {
+    private fun startSocialSyncActivity() {
         Intent(this, SocialSyncActivity::class.java).apply {
-            putExtra(EXTRA_KAKAO_ID, data?.id)
-            putExtra(EXTRA_NAME, data?.kakaoAccount?.name)
-            putExtra(EXTRA_GENDER, data?.kakaoAccount?.gender.toString())
-            putExtra(EXTRA_EMAIL, data?.kakaoAccount?.email)
-            putExtra(EXTRA_PROFILE_IMAGE, data?.kakaoAccount?.profile?.profileImageUrl)
+            putExtra(EXTRA_KAKAO_ID, userKakaoId)
+            putExtra(EXTRA_NAME, userName)
+            putExtra(EXTRA_GENDER, userGender)
+            putExtra(EXTRA_EMAIL, userEmail)
+            putExtra(EXTRA_PROFILE_IMAGE, userImage)
+            addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            startActivity(this)
+        }
+        finish()
+    }
+
+    private fun startOnBoardingActivity() {
+        Intent(this, OnBoardingActivity::class.java).apply {
+            putExtra(EXTRA_KAKAO_ID, userKakaoId)
+            putExtra(EXTRA_NAME, userName)
+            putExtra(EXTRA_GENDER, userGender)
+            putExtra(EXTRA_EMAIL, userEmail)
+            putExtra(EXTRA_PROFILE_IMAGE, userImage)
             addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
             startActivity(this)
         }

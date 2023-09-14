@@ -5,7 +5,7 @@ import android.view.View
 import android.view.WindowManager
 import android.view.animation.AnimationUtils
 import androidx.core.view.isVisible
-import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -36,7 +36,7 @@ class RecommendKakaoFragment :
     private val adapter
         get() = requireNotNull(_adapter) { getString(R.string.adapter_not_initialized_error_msg) }
 
-    private val viewModel by viewModels<RecommendKakaoViewModel>()
+    private lateinit var viewModel: RecommendKakaoViewModel
 
     private var inviteYesFriendDialog: InviteFriendDialog? = null
     private var inviteNoFriendDialog: InviteFriendDialog? = null
@@ -46,9 +46,9 @@ class RecommendKakaoFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        initViewModel()
         initInviteBtnListener()
         initPullToScrollListener()
-        viewModel.isFirstResume = true
         setKakaoRecommendList()
         setAdapterWithClickListener()
         observeKakaoError()
@@ -62,17 +62,22 @@ class RecommendKakaoFragment :
 
     override fun onResume() {
         super.onResume()
-        if (!viewModel.isFirstResume) {
+        if (viewModel.isSearchViewShowed.value == true) {
             adapter.clearList()
             setKakaoRecommendList()
+            viewModel.updateIsSearchViewShowed(false)
         }
-        viewModel.isFirstResume = false
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _adapter = null
         dismissDialog()
+    }
+
+    private fun initViewModel() {
+        viewModel = ViewModelProvider(requireActivity())[RecommendKakaoViewModel::class.java]
+        viewModel.updateIsSearchViewShowed(false)
     }
 
     // 서버 통신 성공 시 카카오 추천 친구 추가
@@ -164,6 +169,7 @@ class RecommendKakaoFragment :
         viewModel.postFriendsListState.observe(viewLifecycleOwner) { state ->
             when (state) {
                 is UiState.Success -> {
+                    startFadeIn()
                     if (state.data?.friends?.isEmpty() == true && adapter.itemCount == 0) {
                         showNoFriendScreen()
                     } else {
@@ -257,6 +263,11 @@ class RecommendKakaoFragment :
     private fun changeToCheckIcon(holder: RecommendViewHolder) {
         holder.binding.btnRecommendItemAdd.visibility = View.INVISIBLE
         holder.binding.btnRecommendItemAddPressed.visibility = View.VISIBLE
+    }
+
+    private fun startFadeIn() {
+        val animation = AnimationUtils.loadAnimation(requireContext(), R.anim.fade_in)
+        binding.rvRecommendKakao.startAnimation(animation)
     }
 
     private fun showShimmerScreen() {

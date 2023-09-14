@@ -3,6 +3,7 @@ package com.el.yello.presentation.main.recommend.search
 import android.content.Context
 import android.os.Bundle
 import android.view.View
+import android.view.animation.AnimationUtils
 import android.view.inputmethod.InputMethodManager
 import androidx.activity.viewModels
 import androidx.core.widget.doAfterTextChanged
@@ -131,6 +132,7 @@ class RecommendSearchActivity :
         viewModel.postFriendsListState.observe(this) { state ->
             when (state) {
                 is UiState.Success -> {
+                    startFadeIn()
                     if (state.data?.friendList?.size == 0) {
                         showNoFriendScreen()
                     } else {
@@ -195,6 +197,11 @@ class RecommendSearchActivity :
                 is UiState.Empty -> {}
             }
         }
+    }
+
+    private fun startFadeIn() {
+        val animation = AnimationUtils.loadAnimation(this, R.anim.fade_in)
+        binding.rvRecommendSearch.startAnimation(animation)
     }
 
     private fun showFriendListScreen() {

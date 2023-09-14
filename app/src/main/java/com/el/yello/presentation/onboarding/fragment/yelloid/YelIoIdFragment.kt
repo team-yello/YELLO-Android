@@ -48,7 +48,7 @@ class YelIoIdFragment : BindingFragment<FragmentYelloIdBinding>(R.layout.fragmen
                         initIdEditTextViewError()
                         return@observe
                     }
-                    viewModel.resetGetVaildYelloId()
+                    viewModel.resetGetValidYelloId()
                     findNavController().navigate(R.id.action_yelIoIdFragment_to_addFriendFragment)
                     val activity = requireActivity() as OnBoardingActivity
                     activity.progressBarPlus()

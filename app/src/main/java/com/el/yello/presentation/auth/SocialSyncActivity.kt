@@ -23,6 +23,7 @@ class SocialSyncActivity :
     BindingActivity<ActivitySocialSyncBinding>(R.layout.activity_social_sync) {
 
     private val viewModel by viewModels<SocialSyncViewModel>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -57,15 +58,23 @@ class SocialSyncActivity :
     }
 
     private fun startOnBoardingActivity() {
-        Intent(this@SocialSyncActivity, OnBoardingActivity::class.java).apply {
-            putExtra(EXTRA_KAKAO_ID, getLongExtra(EXTRA_KAKAO_ID, -1))
-            putExtra(EXTRA_EMAIL, getStringExtra(EXTRA_EMAIL))
-            putExtra(EXTRA_PROFILE_IMAGE, getStringExtra(EXTRA_PROFILE_IMAGE))
-            putExtra(EXTRA_NAME, getStringExtra(EXTRA_NAME))
-            putExtra(EXTRA_GENDER, getStringExtra(EXTRA_GENDER))
-            addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-            startActivity(this)
-        }
-        finish()
+            intent.apply {
+                val kakaoId = getLongExtra(EXTRA_KAKAO_ID, -1)
+                val email = getStringExtra(EXTRA_EMAIL)
+                val profileImage = getStringExtra(EXTRA_PROFILE_IMAGE)
+                val name = getStringExtra(EXTRA_NAME)
+                val gender = getStringExtra(EXTRA_GENDER)
+
+                Intent(this@SocialSyncActivity, OnBoardingActivity::class.java).apply {
+                    putExtra(EXTRA_KAKAO_ID, kakaoId)
+                    putExtra(EXTRA_EMAIL, email)
+                    putExtra(EXTRA_PROFILE_IMAGE, profileImage)
+                    putExtra(EXTRA_NAME, name)
+                    putExtra(EXTRA_GENDER, gender)
+                    addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                    startActivity(this)
+                }
+                finish()
+            }
     }
 }

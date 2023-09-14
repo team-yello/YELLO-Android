@@ -31,6 +31,9 @@ class RecommendKakaoViewModel @Inject constructor(
     private val _addFriendState = MutableLiveData<UiState<Unit>>()
     val addFriendState: LiveData<UiState<Unit>> = _addFriendState
 
+    private val _isSearchViewShowed = MutableLiveData(false)
+    val isSearchViewShowed: LiveData<Boolean> = _isSearchViewShowed
+
     var itemPosition: Int? = null
     var itemHolder: RecommendViewHolder? = null
 
@@ -40,7 +43,6 @@ class RecommendKakaoViewModel @Inject constructor(
     private var totalPage = Int.MAX_VALUE
 
     private var isFirstFriendsListPage: Boolean = true
-    var isFirstResume: Boolean = true
 
     fun setFirstPageLoading() {
         isFirstFriendsListPage = true
@@ -49,6 +51,10 @@ class RecommendKakaoViewModel @Inject constructor(
     fun setPositionAndHolder(position: Int, holder: RecommendViewHolder) {
         itemPosition = position
         itemHolder = holder
+    }
+
+    fun updateIsSearchViewShowed(newValue: Boolean) {
+        _isSearchViewShowed.value = newValue
     }
 
     fun initPagingVariable() {

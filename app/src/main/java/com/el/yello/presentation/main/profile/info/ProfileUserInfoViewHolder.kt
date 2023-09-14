@@ -16,9 +16,9 @@ class ProfileUserInfoViewHolder(
     val shopClick: (ProfileViewModel) -> (Unit)
 ) :
     RecyclerView.ViewHolder(binding.root) {
+
     fun onBind(viewModel: ProfileViewModel) {
         binding.vm = viewModel
-        binding.executePendingBindings()
 
         if (viewModel.myThumbnail.value == BASIC_THUMBNAIL) {
             binding.ivProfileInfoThumbnail.load(R.drawable.img_yello_basic)

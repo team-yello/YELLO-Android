@@ -33,7 +33,14 @@ class OnBoardingActivity :
         override fun handleOnBackPressed() {
             val navController = findNavController(R.id.nav_main_fragment)
             when (navController.currentDestination?.id) {
-                R.id.selectStudentFragment -> startSocialSyncActivity()
+                R.id.selectStudentFragment -> {
+                    if (System.currentTimeMillis() - backPressedTime >= BACK_PRESSED_INTERVAL) {
+                        backPressedTime = System.currentTimeMillis()
+                        toast(getString(R.string.main_toast_back_pressed))
+                    } else {
+                        finish()
+                    }
+                }
 
                 R.id.codeFragment -> {
                     if (System.currentTimeMillis() - backPressedTime >= BACK_PRESSED_INTERVAL) {
@@ -62,8 +69,8 @@ class OnBoardingActivity :
     fun onBackButtonClicked(view: View) {
         val navController = findNavController(R.id.nav_main_fragment)
         when (navController.currentDestination?.id) {
-            R.id.selectStudentFragment -> startSocialSyncActivity()
-
+            R.id.selectStudentFragment -> {
+            }
             else -> {
                 navController.popBackStack()
                 progressBarMinus()
@@ -139,6 +146,7 @@ class OnBoardingActivity :
 
     companion object {
         private const val BACK_PRESSED_INTERVAL = 2000
+
         const val EXTRA_CODE_TEXT_EMPTY = "codeTextEmpty"
     }
 }

@@ -33,6 +33,11 @@ class UniversityInfoFragment :
         setupStudentId()
     }
 
+    override fun onResume() {
+        super.onResume()
+        (activity as? OnBoardingActivity)?.hideBackBtn()
+    }
+
     private fun initSearchInfoBtnClickListener() {
         binding.tvUniversitySearch.setOnSingleClickListener {
             SearchDialogUniversityFragment().show(parentFragmentManager, this.tag)

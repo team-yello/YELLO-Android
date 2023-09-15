@@ -135,7 +135,6 @@ class MyYelloFragment : BindingFragment<FragmentMyYelloBinding>(R.layout.fragmen
         }.launchIn(viewLifecycleOwner.lifecycleScope)
     }
 
-    // 페이지네이션
     private fun infinityScroll() {
         binding.rvMyYelloReceive.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {

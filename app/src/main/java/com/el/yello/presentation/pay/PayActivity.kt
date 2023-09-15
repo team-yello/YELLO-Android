@@ -118,7 +118,6 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
         }
     }
 
-    //
     private fun setBannerOnChangeListener() {
         binding.vpBanner.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             private var currentPosition = 0
@@ -157,10 +156,7 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
     private fun initEvent() {
         binding.clSubscribe.setOnSingleClickListener {
             viewModel.payCheck(0)
-            AmplitudeUtils.trackEventWithProperties(
-                "click_shop_buy",
-                JSONObject().put("buy_type", "subscribe"),
-            )
+            setClickShopBuyAmplitude("subscribe")
             productDetailsList.withIndex().find { it.value.productId == YELLO_PLUS }
                 ?.let { productDetails ->
                     manager.purchaseProduct(productDetails.index, productDetails.value)
@@ -171,10 +167,7 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
 
         binding.clNameCheckOne.setOnSingleClickListener {
             viewModel.payCheck(1)
-            AmplitudeUtils.trackEventWithProperties(
-                "click_shop_buy",
-                JSONObject().put("buy_type", "ticket1"),
-            )
+            setClickShopBuyAmplitude("ticket1")
             productDetailsList.withIndex().find { it.value.productId == YELLO_ONE }
                 ?.let { productDetails ->
                     manager.purchaseProduct(productDetails.index, productDetails.value)
@@ -185,10 +178,7 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
 
         binding.clNameCheckTwo.setOnSingleClickListener {
             viewModel.payCheck(2)
-            AmplitudeUtils.trackEventWithProperties(
-                "click_shop_buy",
-                JSONObject().put("buy_type", "ticket2"),
-            )
+            setClickShopBuyAmplitude("ticket2")
             productDetailsList.withIndex().find { it.value.productId == YELLO_TWO }
                 ?.let { productDetails ->
                     manager.purchaseProduct(productDetails.index, productDetails.value)
@@ -199,10 +189,7 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
 
         binding.clNameCheckFive.setOnSingleClickListener {
             viewModel.payCheck(3)
-            AmplitudeUtils.trackEventWithProperties(
-                "click_shop_buy",
-                JSONObject().put("buy_type", "ticket5"),
-            )
+            setClickShopBuyAmplitude("ticket5")
             productDetailsList.withIndex().find { it.value.productId == YELLO_FIVE }
                 ?.let { productDetails ->
                     manager.purchaseProduct(productDetails.index, productDetails.value)
@@ -229,10 +216,7 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
             stopLoadingScreen()
             when (state) {
                 is UiState.Success -> {
-                    AmplitudeUtils.trackEventWithProperties(
-                        "complete_shop_buy",
-                        JSONObject().put("buy_type", "subscribe").put("buy_price", "3900"),
-                    )
+                    setCompleteShopBuyAmplitude("subscribe", "3900")
                     AmplitudeUtils.setUserDataProperties("user_buy_date")
                     isSubscribed = true
                     paySubsDialog = PaySubsDialog()
@@ -263,26 +247,17 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
                     stopLoadingScreen()
                     when (state.data?.productId) {
                         "yello_ticket_one" -> {
-                            AmplitudeUtils.trackEventWithProperties(
-                                "complete_shop_buy",
-                                JSONObject().put("buy_type", "ticket1").put("buy_price", "1400"),
-                            )
+                            setCompleteShopBuyAmplitude("ticket1", "1400")
                             ticketCount += 1
                         }
 
                         "yello_ticket_two" -> {
-                            AmplitudeUtils.trackEventWithProperties(
-                                "complete_shop_buy",
-                                JSONObject().put("buy_type", "ticket2").put("buy_price", "2800"),
-                            )
+                            setCompleteShopBuyAmplitude("ticket2", "2800")
                             ticketCount += 2
                         }
 
                         "yello_ticket_five" -> {
-                            AmplitudeUtils.trackEventWithProperties(
-                                "complete_shop_buy",
-                                JSONObject().put("buy_type", "ticket5").put("buy_price", "5900"),
-                            )
+                            setCompleteShopBuyAmplitude("ticket5", "5900")
                             ticketCount += 5
                         }
 
@@ -357,6 +332,20 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
                 is UiState.Empty -> {}
             }
         }
+    }
+
+    private fun setClickShopBuyAmplitude(buyType: String) {
+        AmplitudeUtils.trackEventWithProperties(
+            "click_shop_buy",
+            JSONObject().put("buy_type", buyType),
+        )
+    }
+
+    private fun setCompleteShopBuyAmplitude(buyType: String, buyPrice: String) {
+        AmplitudeUtils.trackEventWithProperties(
+            "complete_shop_buy",
+            JSONObject().put("buy_type", buyType).put("buy_price", buyPrice),
+        )
     }
 
     override fun finish() {

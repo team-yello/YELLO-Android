@@ -84,6 +84,7 @@ class HighSchoolInfoFragment :
     private fun setupGroup() {
         viewModel.groupText.observe(viewLifecycleOwner) { group ->
             binding.tvGroupSearch.text = group
+            viewModel.getHighSchoolList(group)
         }
     }
 

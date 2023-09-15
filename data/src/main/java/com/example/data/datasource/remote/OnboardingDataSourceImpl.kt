@@ -5,6 +5,7 @@ import com.example.data.model.request.onboarding.RequestAddFriendDto
 import com.example.data.model.request.onboarding.RequestPostSignupDto
 import com.example.data.model.request.onboarding.RequestServiceTokenDto
 import com.example.data.model.response.BaseResponse
+import com.example.data.model.response.onboarding.ResponseClassDto
 import com.example.data.model.response.onboarding.ResponseDepartmentDto
 import com.example.data.model.response.onboarding.ResponseFriendListDto
 import com.example.data.model.response.onboarding.ResponseHighSchoolDto
@@ -44,6 +45,14 @@ class OnboardingDataSourceImpl @Inject constructor(
         search: String,
     ): BaseResponse<ResponseDepartmentDto> {
         return onboardingService.getDepartmentSearchService(page, school, search)
+    }
+
+    override suspend fun getClassNameData(
+        school: String,
+        search: String,
+        page: Int,
+    ): BaseResponse<ResponseClassDto> {
+        return onboardingService.getClassSearchService(school, search, page)
     }
 
     override suspend fun getValidYelloId(yelloId: String): BaseResponse<Boolean> {

@@ -6,6 +6,7 @@ import com.example.data.model.request.onboarding.toRequestPostSignupDto
 import com.example.domain.entity.RequestServiceTokenModel
 import com.example.domain.entity.ServiceTokenModel
 import com.example.domain.entity.onboarding.AddFriendListModel
+import com.example.domain.entity.onboarding.GroupHighSchoolList
 import com.example.domain.entity.onboarding.GroupList
 import com.example.domain.entity.onboarding.HighSchoolList
 import com.example.domain.entity.onboarding.RequestAddFriendModel
@@ -62,6 +63,20 @@ class OnboardingRepositoryImpl @Inject constructor(
                 school,
                 search,
             ).data?.toMyDepartment()
+        }
+    }
+
+    override suspend fun getGroupHighSchoolList(
+        school: String,
+        search: String,
+        page: Int,
+    ): Result<GroupHighSchoolList?> {
+        return runCatching {
+            onboardingDataSource.getClassNameData(
+                school,
+                search,
+                page,
+            ).data?.toMyClass()
         }
     }
 

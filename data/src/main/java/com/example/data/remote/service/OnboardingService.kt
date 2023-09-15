@@ -4,6 +4,7 @@ import com.example.data.model.request.onboarding.RequestAddFriendDto
 import com.example.data.model.request.onboarding.RequestPostSignupDto
 import com.example.data.model.request.onboarding.RequestServiceTokenDto
 import com.example.data.model.response.BaseResponse
+import com.example.data.model.response.onboarding.ResponseClassDto
 import com.example.data.model.response.onboarding.ResponseDepartmentDto
 import com.example.data.model.response.onboarding.ResponseFriendListDto
 import com.example.data.model.response.onboarding.ResponseHighSchoolDto
@@ -40,6 +41,13 @@ interface OnboardingService {
         @Query("school") school: String,
         @Query("keyword") keyword: String,
     ): BaseResponse<ResponseDepartmentDto>
+
+    @GET("api/v1/auth/group/high/class")
+    suspend fun getClassSearchService(
+        @Query("school") school: String,
+        @Query("keyword") keyword: String,
+        @Query("page") page: Int,
+    ): BaseResponse<ResponseClassDto>
 
     @GET("api/v1/auth/valid")
     suspend fun getValidYelloId(

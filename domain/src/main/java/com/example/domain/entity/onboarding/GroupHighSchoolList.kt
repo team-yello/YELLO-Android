@@ -1,13 +1,11 @@
 package com.example.domain.entity.onboarding
 
-import kotlin.String
-
-data class GroupList(
+data class GroupHighSchoolList(
     val totalCount: Int,
     val groupList: List<Group>,
 )
 
-data class Group(
+data class GroupHighSchool(
     val groupId: Long,
-    val name: String,
+    val className: String,
 )

@@ -69,6 +69,8 @@ class OnBoardingActivity :
     fun onBackButtonClicked(view: View) {
         val navController = findNavController(R.id.nav_main_fragment)
         when (navController.currentDestination?.id) {
+            R.id.universityInfoFragment ->{
+            }
             else -> {
                 navController.popBackStack()
                 progressBarMinus()

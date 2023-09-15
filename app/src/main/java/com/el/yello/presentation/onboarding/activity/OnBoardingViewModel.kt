@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.el.yello.util.amplitude.AmplitudeUtils
 import com.example.domain.entity.onboarding.AddFriendListModel
 import com.example.domain.entity.onboarding.GroupList
+import com.example.domain.entity.onboarding.HighSchoolList
 import com.example.domain.entity.onboarding.RequestAddFriendModel
 import com.example.domain.entity.onboarding.SchoolList
 import com.example.domain.entity.onboarding.SignupInfo
@@ -82,6 +83,9 @@ class OnBoardingViewModel @Inject constructor(
     private val _schoolData = MutableLiveData<UiState<SchoolList>>()
     val schoolData: MutableLiveData<UiState<SchoolList>> = _schoolData
 
+    private val _highSchoolData = MutableLiveData<UiState<HighSchoolList>>()
+    val highSchoolData: MutableLiveData<UiState<HighSchoolList>> = _highSchoolData
+
     private val _departmentData = MutableLiveData<UiState<GroupList>>()
     val departmentData: MutableLiveData<UiState<GroupList>> = _departmentData
 
@@ -109,6 +113,15 @@ class OnBoardingViewModel @Inject constructor(
 
     // 고등학생
     // 학년 ( 1학년 | 2학년 | 3학년 | )
+
+    fun setHighSchool(school: String) {
+        highSchoolText.value = school
+    }
+
+    fun clearHighSchoolData() {
+        _highSchoolData.value = UiState.Success(HighSchoolList(0, emptyList()))
+    }
+
     fun selectGrade(grade: String?) {
         gradeText.value = grade ?: ""
     }
@@ -178,8 +191,8 @@ class OnBoardingViewModel @Inject constructor(
         viewModelScope.launch {
             _schoolData.value = UiState.Loading
             onboardingRepository.getSchoolList(
-                0,
                 search,
+                0,
             ).onSuccess { schoolList ->
                 Timber.d("GET SCHOOL LIST SUCCESS : $schoolList")
                 if (schoolList == null) {
@@ -194,6 +207,32 @@ class OnBoardingViewModel @Inject constructor(
                 if (t is HttpException) {
                     Timber.e("GET SCHOOL LIST FAILURE : $t")
                     _schoolData.value = UiState.Failure(t.code().toString())
+                }
+            }
+        }
+    }
+
+    // 서버 통신 - 고등학교 검색
+    fun getHighSchoolList(search: String) {
+        viewModelScope.launch {
+            _highSchoolData.value = UiState.Loading
+            onboardingRepository.getHighSchoolList(
+                search,
+                0,
+            ).onSuccess { highSchoolList ->
+                Timber.d("GET SCHOOL LIST SUCCESS : $highSchoolList")
+                if (highSchoolList == null) {
+                    _highSchoolData.value = UiState.Empty
+                    return@launch
+                }
+                _highSchoolData.value = when {
+                    highSchoolList.schoolList.isEmpty() -> UiState.Empty
+                    else -> UiState.Success(highSchoolList)
+                }
+            }.onFailure { t ->
+                if (t is HttpException) {
+                    Timber.e("GET SCHOOL LIST FAILURE : $t")
+                    _highSchoolData.value = UiState.Failure(t.code().toString())
                 }
             }
         }

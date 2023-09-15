@@ -4,6 +4,7 @@ import com.example.domain.entity.RequestServiceTokenModel
 import com.example.domain.entity.ServiceTokenModel
 import com.example.domain.entity.onboarding.AddFriendListModel
 import com.example.domain.entity.onboarding.GroupList
+import com.example.domain.entity.onboarding.HighSchoolList
 import com.example.domain.entity.onboarding.RequestAddFriendModel
 import com.example.domain.entity.onboarding.SchoolList
 import com.example.domain.entity.onboarding.SignupInfo
@@ -15,9 +16,14 @@ interface OnboardingRepository {
     ): Result<ServiceTokenModel?>
 
     suspend fun getSchoolList(
-        page: Int,
-        search: String,
+        keyword: String,
+        page: Long,
     ): Result<SchoolList?>
+
+    suspend fun getHighSchoolList(
+        keyword: String,
+        page: Long,
+    ): Result<HighSchoolList?>
 
     suspend fun getGroupList(
         page: Int,

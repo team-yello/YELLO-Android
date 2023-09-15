@@ -43,7 +43,7 @@ class HighSchoolInfoFragment :
 
     private fun setupHighSchool() {
         // TODO : viewmodel.schoolText xml도 확인
-        viewModel.schoolText.observe(viewLifecycleOwner) { school ->
+        viewModel.highSchoolText.observe(viewLifecycleOwner) { school ->
             binding.tvHighschoolSearch.text = school
         }
     }

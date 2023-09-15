@@ -51,7 +51,7 @@ class SearchDialogHighSchoolFragment :
             searchJob = viewModel.viewModelScope.launch {
                 delay(debounceTime)
                 // TODO : viewmodel. getschoollist -> 고등학교
-                input?.toString()?.let { viewModel.getSchoolList(it) }
+                input?.toString()?.let { viewModel.getHighSchoolList(it) }
             }
         }
         adapter = HighSchoolAdapter(storeSchool = ::storeSchool)
@@ -78,10 +78,9 @@ class SearchDialogHighSchoolFragment :
 
     private fun setupHighSchoolData() {
         // TODO : viewmodel.schooldata
-        viewModel.schoolData.observe(viewLifecycleOwner) { state ->
+        viewModel.highSchoolData.observe(viewLifecycleOwner) { state ->
             when (state) {
                 is UiState.Success -> {
-                    // TODO : schoollist
                     adapter?.submitList(state.data.schoolList)
                 }
 
@@ -98,8 +97,8 @@ class SearchDialogHighSchoolFragment :
 
     private fun storeSchool(school: String) {
         // TODO : 바꾸기
-        viewModel.setSchool(school)
-        viewModel.clearSchoolData()
+        viewModel.setHighSchool(school)
+        viewModel.clearHighSchoolData()
         dismiss()
     }
 
@@ -161,8 +160,6 @@ class SearchDialogHighSchoolFragment :
     companion object {
         @JvmStatic
         fun newInstance() = SearchDialogHighSchoolFragment()
-
-        // TODO : 링크 change
         private const val HIGHSCHOOL_FORM_URL = "https://forms.gle/sMyn6uq7oHDovSdi8"
     }
 }

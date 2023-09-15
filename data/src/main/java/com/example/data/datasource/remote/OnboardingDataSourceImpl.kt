@@ -1,12 +1,13 @@
 package com.example.data.datasource.remote
 
 import com.example.data.datasource.OnboardingDataSource
+import com.example.data.model.request.onboarding.RequestAddFriendDto
 import com.example.data.model.request.onboarding.RequestPostSignupDto
 import com.example.data.model.request.onboarding.RequestServiceTokenDto
-import com.example.data.model.request.onboarding.RequestAddFriendDto
 import com.example.data.model.response.BaseResponse
 import com.example.data.model.response.onboarding.ResponseDepartmentDto
 import com.example.data.model.response.onboarding.ResponseFriendListDto
+import com.example.data.model.response.onboarding.ResponseHighSchoolDto
 import com.example.data.model.response.onboarding.ResponsePostSignupDto
 import com.example.data.model.response.onboarding.ResponseSchoolDto
 import com.example.data.model.response.onboarding.ResponseServiceTokenDto
@@ -24,10 +25,17 @@ class OnboardingDataSourceImpl @Inject constructor(
     }
 
     override suspend fun getSchoolNameData(
-        page: Int,
-        search: String,
+        keyword: String,
+        page: Long,
     ): BaseResponse<ResponseSchoolDto> {
-        return onboardingService.getSchoolSearchService(page, search)
+        return onboardingService.getSchoolSearchService(keyword, page)
+    }
+
+    override suspend fun getHighSchoolNameData(
+        keyword: String,
+        page: Long,
+    ): BaseResponse<ResponseHighSchoolDto> {
+        return onboardingService.getHighSchoolSearchService(keyword, page)
     }
 
     override suspend fun getDepartmentNameData(

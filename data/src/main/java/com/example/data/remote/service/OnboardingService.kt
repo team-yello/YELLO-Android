@@ -6,6 +6,7 @@ import com.example.data.model.request.onboarding.RequestServiceTokenDto
 import com.example.data.model.response.BaseResponse
 import com.example.data.model.response.onboarding.ResponseDepartmentDto
 import com.example.data.model.response.onboarding.ResponseFriendListDto
+import com.example.data.model.response.onboarding.ResponseHighSchoolDto
 import com.example.data.model.response.onboarding.ResponsePostSignupDto
 import com.example.data.model.response.onboarding.ResponseSchoolDto
 import com.example.data.model.response.onboarding.ResponseServiceTokenDto
@@ -20,11 +21,18 @@ interface OnboardingService {
         @Body request: RequestServiceTokenDto,
     ): BaseResponse<ResponseServiceTokenDto>
 
-    @GET("api/v1/auth/school")
+    @GET("api/v1/auth/group/univ")
     suspend fun getSchoolSearchService(
-        @Query("page") page: Int,
         @Query("keyword") keyword: String,
+        @Query("page") page: Long,
+
     ): BaseResponse<ResponseSchoolDto>
+
+    @GET("api/v1/auth/group/high")
+    suspend fun getHighSchoolSearchService(
+        @Query("keyword") keyword: String,
+        @Query("page") page: Long,
+    ): BaseResponse<ResponseHighSchoolDto>
 
     @GET("api/v1/auth/school/department")
     suspend fun getDepartmentSearchService(

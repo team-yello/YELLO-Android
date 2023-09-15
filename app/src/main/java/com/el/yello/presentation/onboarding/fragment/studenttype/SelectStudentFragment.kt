@@ -25,6 +25,10 @@ class SelectStudentFragment :
         setupStudentType()
     }
 
+    override fun onResume() {
+        super.onResume()
+        (activity as? OnBoardingActivity)?.hideBackBtn()
+    }
     private fun setupStudentType() {
         viewModel.studentType.observe(viewLifecycleOwner) { studenyType ->
             when (studenyType) {

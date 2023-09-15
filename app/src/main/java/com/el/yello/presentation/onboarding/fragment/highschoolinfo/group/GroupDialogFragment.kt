@@ -11,7 +11,7 @@ import com.example.ui.base.BindingBottomSheetDialog
 class GroupDialogFragment :
     BindingBottomSheetDialog<FragmentDialogGroupBinding>(R.layout.fragment_dialog_group) {
 
-    private lateinit var groupList: List<Int>
+    private lateinit var groupList: List<String>
 
     private val viewModel by activityViewModels<OnBoardingViewModel>()
 
@@ -29,7 +29,7 @@ class GroupDialogFragment :
         adapter.submitList(groupList)
     }
 
-    fun storeGroup(group: Int) {
+    fun storeGroup(group: String) {
         viewModel.setGroup(group)
         dismiss()
     }

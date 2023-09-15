@@ -52,9 +52,10 @@ class OnBoardingViewModel @Inject constructor(
     val highSchoolText = MutableLiveData("")
     val gradeText = MutableLiveData("")
 
-    // TODO : 서버통신 postsignup grade
     val grade: String get() = gradeText.value ?: ""
-    val groupText = MutableLiveData<Int>()
+
+    val groupText = MutableLiveData<String>()
+    val group: String get() = requireNotNull(groupText.value)
 
     // 대학생
     val school: String get() = schoolText.value?.trim() ?: ""
@@ -74,12 +75,11 @@ class OnBoardingViewModel @Inject constructor(
         return codeText.value.isNullOrEmpty()
     }
 
-    // TODO: 고등학생 group
-    private val _groupResult: MutableLiveData<List<Int>> = MutableLiveData()
-    val groupResult: LiveData<List<Int>> = _groupResult
+    // 고등 학생
+    private val _groupResult: MutableLiveData<List<String>> = MutableLiveData()
+    val groupResult: LiveData<List<String>> = _groupResult
 
     // 대학생
-
     private val _schoolData = MutableLiveData<UiState<SchoolList>>()
     val schoolData: MutableLiveData<UiState<SchoolList>> = _schoolData
 
@@ -112,7 +112,6 @@ class OnBoardingViewModel @Inject constructor(
     }
 
     // 고등학생
-    // 학년 ( 1학년 | 2학년 | 3학년 | )
 
     fun setHighSchool(school: String) {
         highSchoolText.value = school
@@ -122,18 +121,19 @@ class OnBoardingViewModel @Inject constructor(
         _highSchoolData.value = UiState.Success(HighSchoolList(0, emptyList()))
     }
 
+    // 학년 ( 1학년 | 2학년 | 3학년 | )
     fun selectGrade(grade: String?) {
         gradeText.value = grade ?: ""
     }
 
     // 1반 2반 3반 ----
-    fun setGroup(group: Int) {
+    fun setGroup(group: String) {
         groupText.value = group
     }
 
     fun addGroup() {
         val studentGroupList =
-            listOf(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20)
+            listOf("1반", "2반", "3반", "4반", "5반", "6반", "7반")
         _groupResult.value = studentGroupList
     }
 

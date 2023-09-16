@@ -15,11 +15,13 @@ class ResponseClassDto(
     data class GroupListDto(
         @SerialName("groupId")
         val groupId: Long,
+        @SerialName("grade")
+        val grade: String,
         @SerialName("className")
         val className: String,
     ) {
         fun toGroupHighSchoolList(): GroupHighSchool {
-            return GroupHighSchool(groupId, className)
+            return GroupHighSchool(groupId, grade, className)
         }
     }
 

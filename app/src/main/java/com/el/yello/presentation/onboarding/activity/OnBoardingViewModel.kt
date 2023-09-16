@@ -53,21 +53,53 @@ class OnBoardingViewModel @Inject constructor(
     // 고등학생
     val highSchool: String get() = highSchoolText.value?.trim() ?: ""
     val highSchoolText = MutableLiveData("")
-    val gradeText = MutableLiveData("")
 
+    val gradeText = MutableLiveData("")
     val grade: String get() = gradeText.value ?: ""
 
     val groupText = MutableLiveData<String>()
-    // val group: String get() = requireNotNull(groupText.value)
+    val group: String get() = groupText.value ?: ""
 
     // 대학생
     val school: String get() = schoolText.value?.trim() ?: ""
     val schoolText = MutableLiveData("")
+
     val departmentText = MutableLiveData("")
     val studentIdText = MutableLiveData<Int>()
     val studentId: Int get() = requireNotNull(studentIdText.value)
     private val _groupId = MutableLiveData<Long>()
     val groupId: Long get() = requireNotNull(_groupId.value)
+
+    fun clearSchoolData() {
+        _schoolData.value = UiState.Success(SchoolList(0, emptyList()))
+    }
+
+    fun setStudentId(studentId: Int) {
+        studentIdText.value = studentId
+    }
+
+    fun setGroupInfo(department: String, groupId: Long) {
+        departmentText.value = department
+        _groupId.value = groupId
+    }
+
+    fun setHighSchoolGroupIdData(grade: String, className: String) {
+        GroupHighSchool(
+            groupId = groupId,
+            grade = grade,
+            className = className,
+        )
+    }
+
+    fun clearDepartmentData() {
+        _departmentData.value = UiState.Success(GroupList(0, emptyList()))
+    }
+
+    fun addStudentId() {
+        val studentIdList = listOf(15, 16, 17, 18, 19, 20, 21, 22, 23)
+        _studentIdResult.value = studentIdList
+    }
+
     val idText = MutableLiveData("")
     val id: String get() = idText.value?.trim() ?: ""
     val isValidId: LiveData<Boolean> = idText.map { id -> checkId(id) }
@@ -79,8 +111,11 @@ class OnBoardingViewModel @Inject constructor(
     }
 
     // 고등 학생
-    private val _groupResult: MutableLiveData<List<GroupHighSchool>> = MutableLiveData()
-    val groupResult: LiveData<List<GroupHighSchool>> = _groupResult
+    private val _groupData = MutableLiveData<UiState<GroupHighSchoolList>>()
+    val groupData: MutableLiveData<UiState<GroupHighSchoolList>> = _groupData
+
+    private val _groupResult: MutableLiveData<List<String>> = MutableLiveData()
+    val groupResult: LiveData<List<String>> = _groupResult
 
     // 대학생
     private val _schoolData = MutableLiveData<UiState<SchoolList>>()
@@ -91,9 +126,6 @@ class OnBoardingViewModel @Inject constructor(
 
     private val _departmentData = MutableLiveData<UiState<GroupList>>()
     val departmentData: MutableLiveData<UiState<GroupList>> = _departmentData
-
-    private val _groupData = MutableLiveData<UiState<GroupHighSchoolList>>()
-    val groupData: MutableLiveData<UiState<GroupHighSchoolList>> = _groupData
 
     private val _studentIdResult: MutableLiveData<List<Int>> = MutableLiveData()
     val studentIdResult: LiveData<List<Int>> = _studentIdResult
@@ -132,33 +164,9 @@ class OnBoardingViewModel @Inject constructor(
         gradeText.value = grade ?: ""
     }
 
-    // 1반 2반 3반 ----
-    fun setGroup(group: String) {
-        groupText.value = group
-    }
-
     fun addGroup() {
         val studentGroupList = listOf(
-            GroupHighSchool(1, "1반"),
-            GroupHighSchool(2, "2반"),
-            GroupHighSchool(3, "3반"),
-            GroupHighSchool(4, "4반"),
-            GroupHighSchool(5, "5반"),
-            GroupHighSchool(6, "6반"),
-            GroupHighSchool(7, "7반"),
-            GroupHighSchool(8, "8반"),
-            GroupHighSchool(9, "9반"),
-            GroupHighSchool(10, "10반"),
-            GroupHighSchool(11, "11반"),
-            GroupHighSchool(12, "12반"),
-            GroupHighSchool(13, "13반"),
-            GroupHighSchool(14, "14반"),
-            GroupHighSchool(15, "15반"),
-            GroupHighSchool(16, "16반"),
-            GroupHighSchool(17, "17반"),
-            GroupHighSchool(18, "18반"),
-            GroupHighSchool(19, "19반"),
-            GroupHighSchool(20, "20반"),
+            "1반", "2반", "3반", "4반", "5반", "6반", "7반", "8반", "9반", "10반", "11반", "12반", "13반", "14반", "15반", "16반", "17반", "18반", "19반", "20반",
         )
         _groupResult.value = studentGroupList
     }
@@ -168,31 +176,8 @@ class OnBoardingViewModel @Inject constructor(
         schoolText.value = university
     }
 
-    fun clearSchoolData() {
-        _schoolData.value = UiState.Success(SchoolList(0, emptyList()))
-    }
-
-    fun setStudentId(studentId: Int) {
-        studentIdText.value = studentId
-    }
-
-    fun setGroupInfo(department: String, groupId: Long) {
-        departmentText.value = department
-        _groupId.value = groupId
-    }
-
-    fun setGroupHighSchoolInfo(group: String, groupId: Long) {
+    fun setGroupHighSchoolInfo(group: String) {
         groupText.value = group
-        _groupId.value = groupId
-    }
-
-    fun clearDepartmentData() {
-        _departmentData.value = UiState.Success(GroupList(0, emptyList()))
-    }
-
-    fun addStudentId() {
-        val studentIdList = listOf(15, 16, 17, 18, 19, 20, 21, 22, 23)
-        _studentIdResult.value = studentIdList
     }
 
     // 공통
@@ -290,32 +275,6 @@ class OnBoardingViewModel @Inject constructor(
                 if (t is HttpException) {
                     Timber.e("GET GROUP LIST FAILURE : $t")
                     _departmentData.value = UiState.Failure(t.code().toString())
-                }
-                Timber.e("GET GROUP LIST ERROR : $t")
-            }
-        }
-    }
-
-    fun getHighGroupList(search: String) {
-        viewModelScope.launch {
-            _groupData.value = UiState.Loading
-            onboardingRepository.getGroupHighSchoolList(
-                highSchool,
-                search,
-                0,
-            ).onSuccess { groupHighSchoolList ->
-                if (groupHighSchoolList == null) {
-                    _groupData.value = UiState.Empty
-                    return@launch
-                }
-                _groupData.value = when {
-                    groupHighSchoolList.groupList.isEmpty() -> UiState.Empty
-                    else -> UiState.Success(groupHighSchoolList)
-                }
-            }.onFailure { t ->
-                if (t is HttpException) {
-                    Timber.e("GET GROUP LIST FAILURE : $t")
-                    _groupData.value = UiState.Failure(t.code().toString())
                 }
                 Timber.e("GET GROUP LIST ERROR : $t")
             }

@@ -7,5 +7,6 @@ data class GroupHighSchoolList(
 
 data class GroupHighSchool(
     val groupId: Long,
+    val grade: String,
     val className: String,
 )

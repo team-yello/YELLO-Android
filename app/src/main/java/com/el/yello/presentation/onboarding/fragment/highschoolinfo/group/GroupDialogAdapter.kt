@@ -6,13 +6,12 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.el.yello.R
 import com.el.yello.databinding.ItemGroupListBinding
-import com.example.domain.entity.onboarding.GroupHighSchool
 import com.example.ui.view.ItemDiffCallback
 import com.example.ui.view.setOnSingleClickListener
 
 class GroupDialogAdapter(
-    private val storeGroup: (String, Long) -> Unit,
-) : ListAdapter<GroupHighSchool, GroupDialogAdapter.GroupViewHolder>(diffUtil) {
+    private val storeGroup: (String) -> Unit,
+) : ListAdapter<String, GroupDialogAdapter.GroupViewHolder>(diffUtil) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GroupViewHolder {
         return GroupViewHolder(
             ItemGroupListBinding.inflate(
@@ -30,20 +29,20 @@ class GroupDialogAdapter(
 
     class GroupViewHolder(
         private val binding: ItemGroupListBinding,
-        private val storeGroup: (String, Long) -> Unit,
+        private val storeGroup: (String) -> Unit,
     ) :
         RecyclerView.ViewHolder(binding.root) {
-        fun setGroup(group: GroupHighSchool) {
-            binding.group = group.className
+        fun setGroup(group: String) {
+            binding.group = group
             binding.root.setOnSingleClickListener {
-                storeGroup(group.className, group.groupId)
+                storeGroup(group)
                 binding.tvItemGroup.setBackgroundResource(R.drawable.shape_grayscales_800_fill_100_rect)
             }
         }
     }
 
     companion object {
-        private val diffUtil = ItemDiffCallback<GroupHighSchool>(
+        private val diffUtil = ItemDiffCallback<String>(
             onItemsTheSame = { old, new -> old == new },
             onContentsTheSame = { old, new -> old == new },
         )

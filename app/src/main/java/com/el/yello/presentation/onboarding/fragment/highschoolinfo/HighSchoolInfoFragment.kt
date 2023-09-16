@@ -1,6 +1,7 @@
 package com.el.yello.presentation.onboarding.fragment.highschoolinfo
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -84,7 +85,6 @@ class HighSchoolInfoFragment :
     private fun setupGroup() {
         viewModel.groupText.observe(viewLifecycleOwner) { group ->
             binding.tvGroupSearch.text = group
-            viewModel.getHighSchoolList(group)
         }
     }
 
@@ -93,6 +93,9 @@ class HighSchoolInfoFragment :
             findNavController().navigate(R.id.action_highschoolInfoFragment_to_yelIoIdFragment)
             val activity = requireActivity() as OnBoardingActivity
             activity.progressBarPlus()
+            viewModel.setHighSchoolGroupIdData(viewModel.grade, viewModel.group)
+            Log.e("minju",viewModel.grade)
+            Log.e("minju",viewModel.group)
         }
     }
 }

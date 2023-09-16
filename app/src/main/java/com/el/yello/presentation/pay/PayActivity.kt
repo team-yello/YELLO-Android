@@ -155,7 +155,6 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
 
     private fun initEvent() {
         binding.clSubscribe.setOnSingleClickListener {
-            viewModel.payCheck(0)
             setClickShopBuyAmplitude("subscribe")
             productDetailsList.withIndex().find { it.value.productId == YELLO_PLUS }
                 ?.let { productDetails ->
@@ -166,7 +165,6 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
         }
 
         binding.clNameCheckOne.setOnSingleClickListener {
-            viewModel.payCheck(1)
             setClickShopBuyAmplitude("ticket1")
             productDetailsList.withIndex().find { it.value.productId == YELLO_ONE }
                 ?.let { productDetails ->
@@ -177,7 +175,6 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
         }
 
         binding.clNameCheckTwo.setOnSingleClickListener {
-            viewModel.payCheck(2)
             setClickShopBuyAmplitude("ticket2")
             productDetailsList.withIndex().find { it.value.productId == YELLO_TWO }
                 ?.let { productDetails ->
@@ -188,7 +185,6 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
         }
 
         binding.clNameCheckFive.setOnSingleClickListener {
-            viewModel.payCheck(3)
             setClickShopBuyAmplitude("ticket5")
             productDetailsList.withIndex().find { it.value.productId == YELLO_FIVE }
                 ?.let { productDetails ->
@@ -301,6 +297,7 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
         window?.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
     }
 
+    // 서버 오류(500) 시 시스템 다이얼로그 띄우기
     private fun showErrorDialog() {
         AlertDialog.Builder(this).setTitle(getString(R.string.pay_error_dialog_title))
             .setMessage(getString(R.string.pay_error_dialog_msg))

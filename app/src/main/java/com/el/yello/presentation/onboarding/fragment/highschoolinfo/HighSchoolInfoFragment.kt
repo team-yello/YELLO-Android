@@ -33,6 +33,11 @@ class HighSchoolInfoFragment :
         setConfirmBtnClickListener()
     }
 
+    override fun onResume() {
+        super.onResume()
+        (activity as? OnBoardingActivity)?.showBackBtn()
+    }
+
     private fun initSearchInfoBtnClickListener() {
         binding.tvHighschoolSearch.setOnSingleClickListener {
             SearchDialogHighSchoolFragment().show(parentFragmentManager, this.tag)
@@ -93,9 +98,10 @@ class HighSchoolInfoFragment :
             findNavController().navigate(R.id.action_highschoolInfoFragment_to_yelIoIdFragment)
             val activity = requireActivity() as OnBoardingActivity
             activity.progressBarPlus()
+            // 서버 배포 시 매개 변수 groupId 추가
             viewModel.setHighSchoolGroupIdData(viewModel.grade, viewModel.group)
-            Log.e("minju",viewModel.grade)
-            Log.e("minju",viewModel.group)
+            Log.e("minju", viewModel.grade)
+            Log.e("minju", viewModel.group)
         }
     }
 }

@@ -32,6 +32,10 @@ class UniversityInfoFragment :
         setupDepartment()
         setupStudentId()
     }
+    override fun onResume() {
+        super.onResume()
+        (activity as? OnBoardingActivity)?.showBackBtn()
+    }
 
     private fun initSearchInfoBtnClickListener() {
         binding.tvUniversitySearch.setOnSingleClickListener {

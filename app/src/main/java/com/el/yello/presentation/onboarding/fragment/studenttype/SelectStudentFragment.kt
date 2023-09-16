@@ -1,6 +1,7 @@
 package com.el.yello.presentation.onboarding.fragment.studenttype
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -30,8 +31,9 @@ class SelectStudentFragment :
         (activity as? OnBoardingActivity)?.hideBackBtn()
     }
     private fun setupStudentType() {
-        viewModel.studentType.observe(viewLifecycleOwner) { studenyType ->
-            when (studenyType) {
+        viewModel.studentType.observe(viewLifecycleOwner) { studentyType ->
+            Log.e("minjju", viewModel.studentType.value.toString())
+            when (studentyType) {
                 StudentTypeEnum.H.toString() -> {
                     binding.btnSchoolHighschool.setBackgroundResource(R.drawable.shape_black_fill_yello_main_500_line_8_rect)
                     binding.btnSchoolUniversity.setBackgroundResource(R.drawable.shape_black_fill_grayscales700_line_8_rect)

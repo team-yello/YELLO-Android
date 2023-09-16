@@ -361,6 +361,7 @@ class OnBoardingViewModel @Inject constructor(
     fun postSignup() {
         viewModelScope.launch {
             val deviceToken = authRepository.getDeviceToken()
+            val studentId = if (studentType.value.toString() == "HIGHSCHOOL") 0 else studentId
             onboardingRepository.postSignup(
                 SignupInfo(
                     kakaoId = kakaoId,

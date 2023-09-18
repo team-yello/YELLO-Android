@@ -33,90 +33,31 @@ class OnBoardingViewModel @Inject constructor(
 ) : ViewModel() {
 
     var currentPercent = 17
+    fun plusCurrentPercent() { currentPercent += 17 }
+    fun minusCurrentPercent() { currentPercent -= 17 }
+    fun resetGetValidYelloId() { _getValidYelloId.value = UiState.Loading }
 
-    fun plusCurrentPercent() {
-        currentPercent += 17
-    }
-
-    fun minusCurrentPercent() {
-        currentPercent -= 17
-    }
-
-    fun resetGetValidYelloId() {
-        _getValidYelloId.value = UiState.Loading
-    }
-
-    // 학력 선택
     val studentType = MutableLiveData("")
-
-    // 고등학생
-
-    val highSchoolText = MutableLiveData("")
-
-    val gradeText = MutableLiveData("")
-    val grade: String get() = gradeText.value ?: ""
-
-    val groupText = MutableLiveData<String>()
-    val group: String get() = groupText.value ?: ""
-
-    // 대학생
     val school: String get() = schoolText.value?.trim() ?: ""
     val schoolText = MutableLiveData("")
+    val highSchoolText = MutableLiveData("")
 
     val departmentText = MutableLiveData("")
-    val studentIdText = MutableLiveData<Int>()
-    val studentId: Int get() = requireNotNull(studentIdText.value)
+    val groupText = MutableLiveData<String>()
+    val group: String get() = groupText.value ?: ""
+    val gradeText = MutableLiveData("")
     private val _groupId = MutableLiveData<Long>()
     val groupId: Long get() = requireNotNull(_groupId.value)
 
-    fun clearSchoolData() {
-        _schoolData.value = UiState.Success(SchoolList(0, emptyList()))
-    }
-
-    fun setStudentId(studentId: Int) {
-        studentIdText.value = studentId
-    }
-
-    fun setGroupInfo(department: String, groupId: Long) {
-        departmentText.value = department
-        _groupId.value = groupId
-    }
-
-    fun setHighSchoolGroupIdData(grade: String, className: String) {
-        GroupHighSchool(
-            groupId = groupId,
-            grade = grade,
-            className = className,
-        )
-    }
-
-    fun clearDepartmentData() {
-        _departmentData.value = UiState.Success(GroupList(0, emptyList()))
-    }
-
-    fun addStudentId() {
-        val studentIdList = listOf(15, 16, 17, 18, 19, 20, 21, 22, 23)
-        _studentIdResult.value = studentIdList
-    }
+    val studentIdText = MutableLiveData<Int>()
+    val studentId: Int get() = requireNotNull(studentIdText.value)
+    val grade: String get() = gradeText.value ?: ""
 
     val idText = MutableLiveData("")
     val id: String get() = idText.value?.trim() ?: ""
     val isValidId: LiveData<Boolean> = idText.map { id -> checkId(id) }
-    private fun checkId(id: String) = Pattern.matches(REGEX_ID_PATTERN, id)
-
     val codeText = MutableLiveData("")
-    fun isCodeTextEmpty(): Boolean {
-        return codeText.value.isNullOrEmpty()
-    }
 
-    // 고등 학생
-    private val _groupData = MutableLiveData<UiState<GroupHighSchool>>()
-    val groupData: MutableLiveData<UiState<GroupHighSchool>> = _groupData
-
-    private val _groupResult: MutableLiveData<List<String>> = MutableLiveData()
-    val groupResult: LiveData<List<String>> = _groupResult
-
-    // 대학생
     private val _schoolData = MutableLiveData<UiState<SchoolList>>()
     val schoolData: MutableLiveData<UiState<SchoolList>> = _schoolData
 
@@ -125,6 +66,12 @@ class OnBoardingViewModel @Inject constructor(
 
     private val _departmentData = MutableLiveData<UiState<GroupList>>()
     val departmentData: MutableLiveData<UiState<GroupList>> = _departmentData
+
+    private val _groupData = MutableLiveData<UiState<GroupHighSchool>>()
+    val groupData: MutableLiveData<UiState<GroupHighSchool>> = _groupData
+
+    private val _groupResult: MutableLiveData<List<String>> = MutableLiveData()
+    val groupResult: LiveData<List<String>> = _groupResult
 
     private val _studentIdResult: MutableLiveData<List<Int>> = MutableLiveData()
     val studentIdResult: LiveData<List<Int>> = _studentIdResult
@@ -143,43 +90,31 @@ class OnBoardingViewModel @Inject constructor(
     private val _postSignupState = MutableLiveData<UiState<UserInfo>>()
     val postSignupState: LiveData<UiState<UserInfo>> get() = _postSignupState
 
-    // 학력 선택
-    fun selectStudentType(student: String) {
-        studentType.value = student
-    }
-
-    // 고등학생
-
-    fun setHighSchool(school: String) {
-        highSchoolText.value = school
-    }
-
-    fun clearHighSchoolData() {
-        _highSchoolData.value = UiState.Success(HighSchoolList(0, emptyList()))
-    }
-
-    // 학년 ( 1학년 | 2학년 | 3학년 | )
-    fun selectGrade(grade: String?) {
-        gradeText.value = grade ?: ""
+    fun selectStudentType(student: String) { studentType.value = student }
+    fun setSchool(university: String) { schoolText.value = university }
+    fun clearSchoolData() { _schoolData.value = UiState.Success(SchoolList(0, emptyList())) }
+    fun setHighSchool(school: String) { highSchoolText.value = school }
+    fun clearHighSchoolData() { _highSchoolData.value = UiState.Success(HighSchoolList(0, emptyList())) }
+    fun clearDepartmentData() { _departmentData.value = UiState.Success(GroupList(0, emptyList())) }
+    fun setGroupInfo(department: String, groupId: Long) {
+        departmentText.value = department
+        _groupId.value = groupId
     }
 
     fun addGroup() {
-        val studentGroupList = listOf(
-            "1반", "2반", "3반", "4반", "5반", "6반", "7반", "8반", "9반", "10반", "11반", "12반", "13반", "14반", "15반", "16반", "17반", "18반", "19반", "20반",
-        )
+        val studentGroupList = listOf("1반", "2반", "3반", "4반", "5반", "6반", "7반", "8반", "9반", "10반", "11반", "12반", "13반", "14반", "15반", "16반", "17반", "18반", "19반", "20반")
         _groupResult.value = studentGroupList
     }
 
-    // 대학생
-    fun setSchool(university: String) {
-        schoolText.value = university
+    fun setGroupHighSchoolInfo(group: String) { groupText.value = group }
+    fun setStudentId(studentId: Int) { studentIdText.value = studentId }
+    fun addStudentId() {
+        val studentIdList = listOf(15, 16, 17, 18, 19, 20, 21, 22, 23)
+        _studentIdResult.value = studentIdList
     }
-
-    fun setGroupHighSchoolInfo(group: String) {
-        groupText.value = group
-    }
-
-    // 공통
+    fun selectGrade(grade: String?) { gradeText.value = grade ?: "" }
+    private fun checkId(id: String) = Pattern.matches(REGEX_ID_PATTERN, id)
+    fun isCodeTextEmpty(): Boolean { return codeText.value.isNullOrEmpty() }
 
     private var currentFriendOffset = -100
     private var currentFriendPage = -1
@@ -196,10 +131,7 @@ class OnBoardingViewModel @Inject constructor(
         isFriendPagingFinish = false
         totalFriendPage = Int.MAX_VALUE
     }
-
-    fun validYelloIdLoading() {
-        _getValidYelloId.value = UiState.Loading
-    }
+    fun validYelloIdLoading() { _getValidYelloId.value = UiState.Loading }
 
     // 서버 통신 - 학교 찾기
     fun getSchoolList(search: String) {
@@ -227,7 +159,7 @@ class OnBoardingViewModel @Inject constructor(
         }
     }
 
-    // 서버 통신 - 고등학교 검색
+    // 서버 통신 - 고등 학교 검색
     fun getHighSchoolList(search: String) {
         viewModelScope.launch {
             _highSchoolData.value = UiState.Loading
@@ -278,6 +210,13 @@ class OnBoardingViewModel @Inject constructor(
                 Timber.e("GET GROUP LIST ERROR : $t")
             }
         }
+    }
+
+    // TODO : 학반 서버 통신
+    fun setHighSchoolGroupIdData(grade: String, className: String) {
+        GroupHighSchool(
+            groupId = groupId,
+        )
     }
 
     // 서버 통신 - 카카오 리스트 통신 후 친구 리스트 추가 서버 통신 진행
@@ -398,7 +337,6 @@ class OnBoardingViewModel @Inject constructor(
         AmplitudeUtils.updateUserProperties("user_sex", gender)
         AmplitudeUtils.updateUserProperties("user_name", name)
     }
-
     companion object {
         private const val REGEX_ID_PATTERN = "^([A-Za-z0-9_.]*)\$"
     }

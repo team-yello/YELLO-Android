@@ -22,14 +22,13 @@ interface OnboardingService {
         @Body request: RequestServiceTokenDto,
     ): BaseResponse<ResponseServiceTokenDto>
 
-    @GET("api/v1/auth/school")
+    @GET("api/v1/auth/group/univ/name")
     suspend fun getSchoolSearchService(
         @Query("keyword") keyword: String,
         @Query("page") page: Long,
-
     ): BaseResponse<ResponseSchoolDto>
 
-    @GET("api/v1/auth/group/high")
+    @GET("api/v1/auth/group/high/name")
     suspend fun getHighSchoolSearchService(
         @Query("keyword") keyword: String,
         @Query("page") page: Long,

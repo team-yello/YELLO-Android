@@ -19,7 +19,7 @@ interface OnboardingDataSource {
 
     suspend fun getSchoolNameData(
         keyword: String,
-        page: Long
+        page: Long,
     ): BaseResponse<ResponseSchoolDto>
 
     suspend fun getHighSchoolNameData(
@@ -34,9 +34,8 @@ interface OnboardingDataSource {
     ): BaseResponse<ResponseDepartmentDto>
 
     suspend fun getClassNameData(
-        school: String,
-        search: String,
-        page: Int,
+        name: String,
+        keyword: String,
     ): BaseResponse<ResponseClassDto>
 
     suspend fun getValidYelloId(

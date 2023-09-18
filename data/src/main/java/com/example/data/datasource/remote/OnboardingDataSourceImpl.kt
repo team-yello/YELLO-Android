@@ -48,11 +48,10 @@ class OnboardingDataSourceImpl @Inject constructor(
     }
 
     override suspend fun getClassNameData(
-        school: String,
-        search: String,
-        page: Int,
+        name: String,
+        keyword: String,
     ): BaseResponse<ResponseClassDto> {
-        return onboardingService.getClassSearchService(school, search, page)
+        return onboardingService.getClassSearchService(name, keyword)
     }
 
     override suspend fun getValidYelloId(yelloId: String): BaseResponse<Boolean> {

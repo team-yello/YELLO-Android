@@ -81,7 +81,7 @@ class SearchDialogHighSchoolFragment :
         viewModel.highSchoolData.observe(viewLifecycleOwner) { state ->
             when (state) {
                 is UiState.Success -> {
-                    adapter?.submitList(state.data.schoolList)
+                    adapter?.submitList(state.data.groupNameList)
                 }
 
                 is UiState.Failure -> {

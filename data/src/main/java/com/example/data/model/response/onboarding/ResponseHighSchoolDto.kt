@@ -1,7 +1,6 @@
 package com.example.data.model.response.onboarding
 
 import com.example.domain.entity.onboarding.HighSchoolList
-import com.example.domain.entity.onboarding.SchoolList
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -15,9 +14,9 @@ data class ResponseHighSchoolDto(
     fun toMyHighSchool(): HighSchoolList {
         return HighSchoolList(
             totalCount = totalCount,
-            schoolList = groupNameList,
+            groupNameList = groupNameList,
         )
     }
 }
 
-//TODO :고등학교로 바꾸기 dto
+// TODO :고등학교로 바꾸기 dto

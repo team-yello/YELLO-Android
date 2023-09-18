@@ -44,9 +44,8 @@ interface OnboardingService {
 
     @GET("api/v1/auth/group/high/class")
     suspend fun getClassSearchService(
-        @Query("school") school: String,
+        @Query("name") name: String,
         @Query("keyword") keyword: String,
-        @Query("page") page: Int,
     ): BaseResponse<ResponseClassDto>
 
     @GET("api/v1/auth/valid")

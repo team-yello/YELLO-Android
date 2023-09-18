@@ -8,7 +8,6 @@ import androidx.lifecycle.viewModelScope
 import com.el.yello.util.amplitude.AmplitudeUtils
 import com.example.domain.entity.onboarding.AddFriendListModel
 import com.example.domain.entity.onboarding.GroupHighSchool
-import com.example.domain.entity.onboarding.GroupHighSchoolList
 import com.example.domain.entity.onboarding.GroupList
 import com.example.domain.entity.onboarding.HighSchoolList
 import com.example.domain.entity.onboarding.RequestAddFriendModel
@@ -51,7 +50,7 @@ class OnBoardingViewModel @Inject constructor(
     val studentType = MutableLiveData("")
 
     // 고등학생
-    val highSchool: String get() = highSchoolText.value?.trim() ?: ""
+
     val highSchoolText = MutableLiveData("")
 
     val gradeText = MutableLiveData("")
@@ -111,8 +110,8 @@ class OnBoardingViewModel @Inject constructor(
     }
 
     // 고등 학생
-    private val _groupData = MutableLiveData<UiState<GroupHighSchoolList>>()
-    val groupData: MutableLiveData<UiState<GroupHighSchoolList>> = _groupData
+    private val _groupData = MutableLiveData<UiState<GroupHighSchool>>()
+    val groupData: MutableLiveData<UiState<GroupHighSchool>> = _groupData
 
     private val _groupResult: MutableLiveData<List<String>> = MutableLiveData()
     val groupResult: LiveData<List<String>> = _groupResult
@@ -242,7 +241,7 @@ class OnBoardingViewModel @Inject constructor(
                     return@launch
                 }
                 _highSchoolData.value = when {
-                    highSchoolList.schoolList.isEmpty() -> UiState.Empty
+                    highSchoolList.groupNameList.isEmpty() -> UiState.Empty
                     else -> UiState.Success(highSchoolList)
                 }
             }.onFailure { t ->

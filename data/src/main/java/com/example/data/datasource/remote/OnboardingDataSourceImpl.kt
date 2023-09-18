@@ -41,10 +41,10 @@ class OnboardingDataSourceImpl @Inject constructor(
 
     override suspend fun getDepartmentNameData(
         page: Int,
-        school: String,
+        name: String,
         search: String,
     ): BaseResponse<ResponseDepartmentDto> {
-        return onboardingService.getDepartmentSearchService(page, school, search)
+        return onboardingService.getDepartmentSearchService(page, name, search)
     }
 
     override suspend fun getClassNameData(

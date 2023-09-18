@@ -28,7 +28,7 @@ interface OnboardingRepository {
 
     suspend fun getGroupList(
         page: Int,
-        school: String,
+        name: String,
         search: String,
     ): Result<GroupList?>
 

@@ -23,7 +23,7 @@ class GroupDialogFragment :
 
     private fun initGroupAdapter() {
         viewModel.addGroup()
-        groupList = viewModel.groupResult.value ?: emptyList()
+        groupList = viewModel.groupList.value ?: emptyList()
         val adapter = GroupDialogAdapter(storeGroup = ::storeGroup)
         binding.rvGroup.adapter = adapter
         adapter.submitList(groupList)

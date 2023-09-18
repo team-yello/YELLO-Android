@@ -68,15 +68,15 @@ class OnboardingRepositoryImpl @Inject constructor(
 
     override suspend fun getGroupHighSchool(
         name: String,
-        keyword: String
+        keyword: String,
     ): Result<GroupHighSchool?> {
         return runCatching {
             onboardingDataSource.getClassNameData(
-                name,keyword
+                name,
+                keyword,
             ).data?.toGroupHighSchool()
         }
     }
-
 
     override suspend fun getValidYelloId(
         yelloId: String,

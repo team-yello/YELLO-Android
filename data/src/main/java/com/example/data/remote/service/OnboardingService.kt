@@ -34,10 +34,10 @@ interface OnboardingService {
         @Query("page") page: Long,
     ): BaseResponse<ResponseHighSchoolDto>
 
-    @GET("api/v1/auth/school/department")
+    @GET("api/v1/auth/group/univ/department")
     suspend fun getDepartmentSearchService(
         @Query("page") page: Int,
-        @Query("school") school: String,
+        @Query("name") name: String,
         @Query("keyword") keyword: String,
     ): BaseResponse<ResponseDepartmentDto>
 

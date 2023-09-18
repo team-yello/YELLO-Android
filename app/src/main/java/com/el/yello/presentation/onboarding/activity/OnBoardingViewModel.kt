@@ -44,14 +44,12 @@ class OnBoardingViewModel @Inject constructor(
 
     val departmentText = MutableLiveData("")
     val groupText = MutableLiveData<String>()
-    val group: String get() = groupText.value ?: ""
     val gradeText = MutableLiveData("")
     private val _groupId = MutableLiveData<Long>()
     val groupId: Long get() = requireNotNull(_groupId.value)
 
     val studentIdText = MutableLiveData<Int>()
     val studentId: Int get() = requireNotNull(studentIdText.value)
-    val grade: String get() = gradeText.value ?: ""
 
     val idText = MutableLiveData("")
     val id: String get() = idText.value?.trim() ?: ""
@@ -70,14 +68,13 @@ class OnBoardingViewModel @Inject constructor(
     private val _groupData = MutableLiveData<UiState<GroupHighSchool>>()
     val groupData: MutableLiveData<UiState<GroupHighSchool>> = _groupData
 
-    private val _groupResult: MutableLiveData<List<String>> = MutableLiveData()
-    val groupResult: LiveData<List<String>> = _groupResult
+    private val _groupList: MutableLiveData<List<String>> = MutableLiveData()
+    val groupList: LiveData<List<String>> = _groupList
 
     private val _studentIdResult: MutableLiveData<List<Int>> = MutableLiveData()
     val studentIdResult: LiveData<List<Int>> = _studentIdResult
 
-    private val _friendListState =
-        MutableLiveData<UiState<List<AddFriendListModel.FriendModel>>>(UiState.Loading)
+    private val _friendListState = MutableLiveData<UiState<List<AddFriendListModel.FriendModel>>>(UiState.Loading)
     val friendListState: LiveData<UiState<List<AddFriendListModel.FriendModel>>> = _friendListState
 
     var selectedFriendIdList: List<Long> = listOf()
@@ -103,7 +100,7 @@ class OnBoardingViewModel @Inject constructor(
 
     fun addGroup() {
         val studentGroupList = listOf("1반", "2반", "3반", "4반", "5반", "6반", "7반", "8반", "9반", "10반", "11반", "12반", "13반", "14반", "15반", "16반", "17반", "18반", "19반", "20반")
-        _groupResult.value = studentGroupList
+        _groupList.value = studentGroupList
     }
 
     fun setGroupHighSchoolInfo(group: String) { groupText.value = group }
@@ -299,7 +296,6 @@ class OnBoardingViewModel @Inject constructor(
     fun postSignup() {
         viewModelScope.launch {
             val deviceToken = authRepository.getDeviceToken()
-            val studentId = if (studentType.value.toString() == "HIGHSCHOOL") 0 else studentId
             onboardingRepository.postSignup(
                 SignupInfo(
                     kakaoId = kakaoId,

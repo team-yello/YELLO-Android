@@ -18,6 +18,7 @@ import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.model.ClientError
 import com.kakao.sdk.common.model.ClientErrorCause
 import com.kakao.sdk.user.UserApiClient
+import com.kakao.sdk.user.model.Scope
 import com.kakao.sdk.user.model.User
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -37,8 +38,11 @@ class SignInViewModel @Inject constructor(
     private val _getUserProfileState = MutableLiveData<UiState<Unit>>()
     val getUserProfileState: LiveData<UiState<Unit>> = _getUserProfileState
 
-    private val _getKakaoDataState = MutableLiveData<UiState<User?>>()
-    val getKakaoDataState: LiveData<UiState<User?>> = _getKakaoDataState
+    private val _getKakaoInfoState = MutableLiveData<UiState<User?>>()
+    val getKakaoInfoState: LiveData<UiState<User?>> = _getKakaoInfoState
+
+    private val _getKakaoValidState = MutableLiveData<UiState<List<Scope>>>()
+    val getKakaoValidState: LiveData<UiState<List<Scope>>> = _getKakaoValidState
 
     private val serviceTermsList = listOf(THUMBNAIL, EMAIL, FRIEND_LIST, NAME, GENDER)
 
@@ -99,14 +103,25 @@ class SignInViewModel @Inject constructor(
     // 카카오 통신 - 카카오 유저 정보 받아오기
     fun getKakaoInfo() {
         UserApiClient.instance.me { user, _ ->
-            _getKakaoDataState.value = UiState.Loading
+            _getKakaoInfoState.value = UiState.Loading
             try {
                 if (user != null) {
-                    _getKakaoDataState.value = UiState.Success(user)
+                    _getKakaoInfoState.value = UiState.Success(user)
                     return@me
                 }
             } catch (e: IllegalArgumentException) {
-                _getKakaoDataState.value = UiState.Failure(e.message.toString())
+                _getKakaoInfoState.value = UiState.Failure(e.message.toString())
+            }
+        }
+    }
+
+    fun checkFriendsListValid() {
+        val scopes = mutableListOf(FRIEND_LIST)
+        UserApiClient.instance.scopes(scopes) { scopeInfo, error->
+            if (error != null) {
+                _getKakaoValidState.value = UiState.Failure(error.message.toString())
+            } else if (scopeInfo != null) {
+                _getKakaoValidState.value = UiState.Success(scopeInfo.scopes ?: listOf())
             }
         }
     }
@@ -178,7 +193,7 @@ class SignInViewModel @Inject constructor(
         return authRepository.getIsFirstLoginData()
     }
 
-    private companion object {
+    companion object {
         const val KAKAO = "KAKAO"
 
         const val THUMBNAIL = "profile_image"

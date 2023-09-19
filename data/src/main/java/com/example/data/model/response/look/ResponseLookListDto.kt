@@ -1,6 +1,6 @@
 package com.example.data.model.response.look
 
-import com.example.domain.entity.LookListModel
+import com.example.domain.entity.ResponseLookListModel
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -41,14 +41,14 @@ data class ResponseLookListDto(
         )
     }
 
-    fun toLookListModel(): LookListModel {
-        return LookListModel(
+    fun toLookListModel(): ResponseLookListModel {
+        return ResponseLookListModel(
             totalCount, friendVotes.map {
-                LookListModel.LookModel(
+                ResponseLookListModel.LookModel(
                     it.id,
                     it.receiverName,
                     it.senderGender,
-                    LookListModel.LookModel.LookVoteModel(
+                    ResponseLookListModel.LookModel.LookVoteModel(
                         it.vote.nameHead,
                         it.vote.nameFoot,
                         it.vote.keywordHead,

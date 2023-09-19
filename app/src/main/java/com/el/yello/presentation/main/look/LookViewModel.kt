@@ -41,7 +41,7 @@ class LookViewModel @Inject constructor(
             checkLookConnection()
         }
 
-    // 서버 통신 확인
+    // 서버 통신 여부 - 페이지 한번 가져와 보는거로 확인
     private fun checkLookConnection() {
         viewModelScope.launch {
             runCatching {

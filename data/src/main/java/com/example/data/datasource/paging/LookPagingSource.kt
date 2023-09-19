@@ -3,7 +3,7 @@ package com.example.data.datasource.paging
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.example.data.remote.service.LookService
-import com.example.domain.entity.LookListModel.LookModel
+import com.example.domain.entity.ResponseLookListModel.LookModel
 
 class LookPagingSource(
     private val lookService: LookService

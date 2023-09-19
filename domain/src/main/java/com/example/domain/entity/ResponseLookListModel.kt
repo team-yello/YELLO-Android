@@ -1,6 +1,6 @@
 package com.example.domain.entity
 
-data class LookListModel(
+data class ResponseLookListModel(
     val totalCount: Int,
     val friendVotes: List<LookModel>
 ) {

@@ -2,6 +2,7 @@ package com.el.yello.presentation.auth
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.viewModels
 import com.el.yello.R
 import com.el.yello.databinding.ActivitySignInBinding
@@ -37,7 +38,7 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
         viewModel.getDeviceToken()
         observeDeviceTokenError()
         observeAppLoginError()
-        observeKakaoUserDataState()
+        observeKakaoUserInfoState()
         observeFriendsListValidState()
         observeChangeTokenState()
         observeUserDataState()
@@ -91,8 +92,8 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
     }
 
     // Failure -> 카카오에 등록된 유저 정보 받아온 후 친구목록 동의 화면으로 이동
-    private fun observeKakaoUserDataState() {
-        viewModel.getKakaoDataState.observe(this) { state ->
+    private fun observeKakaoUserInfoState() {
+        viewModel.getKakaoInfoState.observe(this) { state ->
             when (state) {
                 is UiState.Success -> {
                     userKakaoId = state.data?.id ?: 0
@@ -118,7 +119,7 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
         viewModel.getKakaoValidState.observe(this) { state ->
             when (state) {
                 is UiState.Success -> {
-                    val friendScope = state.data.find { it.displayName == FRIEND_LIST }
+                    val friendScope = state.data.find { it.id == FRIEND_LIST }
                     if (friendScope?.agreed == true) {
                         startOnBoardingActivity()
                     } else {

@@ -38,8 +38,8 @@ class SignInViewModel @Inject constructor(
     private val _getUserProfileState = MutableLiveData<UiState<Unit>>()
     val getUserProfileState: LiveData<UiState<Unit>> = _getUserProfileState
 
-    private val _getKakaoDataState = MutableLiveData<UiState<User?>>()
-    val getKakaoDataState: LiveData<UiState<User?>> = _getKakaoDataState
+    private val _getKakaoInfoState = MutableLiveData<UiState<User?>>()
+    val getKakaoInfoState: LiveData<UiState<User?>> = _getKakaoInfoState
 
     private val _getKakaoValidState = MutableLiveData<UiState<List<Scope>>>()
     val getKakaoValidState: LiveData<UiState<List<Scope>>> = _getKakaoValidState
@@ -103,14 +103,14 @@ class SignInViewModel @Inject constructor(
     // 카카오 통신 - 카카오 유저 정보 받아오기
     fun getKakaoInfo() {
         UserApiClient.instance.me { user, _ ->
-            _getKakaoDataState.value = UiState.Loading
+            _getKakaoInfoState.value = UiState.Loading
             try {
                 if (user != null) {
-                    _getKakaoDataState.value = UiState.Success(user)
+                    _getKakaoInfoState.value = UiState.Success(user)
                     return@me
                 }
             } catch (e: IllegalArgumentException) {
-                _getKakaoDataState.value = UiState.Failure(e.message.toString())
+                _getKakaoInfoState.value = UiState.Failure(e.message.toString())
             }
         }
     }

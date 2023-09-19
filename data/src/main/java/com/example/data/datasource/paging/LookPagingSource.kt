@@ -4,8 +4,9 @@ import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.example.data.remote.service.LookService
 import com.example.domain.entity.ResponseLookListModel.LookModel
+import javax.inject.Inject
 
-class LookPagingSource(
+class LookPagingSource @Inject constructor(
     private val lookService: LookService
 ) : PagingSource<Int, LookModel>() {
 

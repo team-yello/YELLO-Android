@@ -1,11 +1,11 @@
 package com.example.domain.repository
 
-import com.example.domain.entity.ResponseLookListModel
+import androidx.paging.PagingData
+import com.example.domain.entity.ResponseLookListModel.LookModel
+import kotlinx.coroutines.flow.Flow
 
 interface LookRepository {
 
-    suspend fun getLookList(
-        page: Int
-    ): Result<ResponseLookListModel?>
+    suspend fun getLookList(): Flow<PagingData<LookModel>>
 
 }

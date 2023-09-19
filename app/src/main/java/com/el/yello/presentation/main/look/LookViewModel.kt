@@ -4,12 +4,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.paging.Pager
-import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
-import com.example.data.datasource.paging.LookPagingSource
-import com.example.data.remote.service.LookService
 import com.example.domain.repository.AuthRepository
+import com.example.domain.repository.LookRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
@@ -17,7 +14,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LookViewModel @Inject constructor(
-    private val lookService: LookService,
+    private val lookRepository: LookRepository,
     private val authRepository: AuthRepository
 ) : ViewModel() {
 
@@ -32,20 +29,21 @@ class LookViewModel @Inject constructor(
     }
 
     // 서버 통신 - 둘러보기 리스트 추가
-    fun getLookListWithPaging() = Pager(
-        config = PagingConfig(10),
-        pagingSourceFactory = { LookPagingSource(lookService) }
-    ).flow
-        .cachedIn(viewModelScope).onStart {
-            _isLoading.value = true
-            checkLookConnection()
+    fun getLookListWithPaging() {
+        viewModelScope.launch {
+            lookRepository.getLookList().cachedIn(viewModelScope)
+                .onStart {
+                    _isLoading.value = true
+                    checkLookConnection()
+                }
         }
+    }
 
     // 서버 통신 여부 - 페이지 한번 가져와 보는거로 확인
     private fun checkLookConnection() {
         viewModelScope.launch {
             runCatching {
-                lookService.getLookList(0)
+                lookRepository.getLookList()
             }
                 .onSuccess {
                     _isLoading.value = false

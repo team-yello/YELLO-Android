@@ -72,10 +72,7 @@ class MyYelloFragment : BindingFragment<FragmentMyYelloBinding>(R.layout.fragmen
 
     private fun initEvent() {
         binding.btnSendCheck.setOnSingleClickListener {
-            AmplitudeUtils.trackEventWithProperties(
-                "click_go_shop",
-                JSONObject().put("shop_button", "cta_main"),
-            )
+            setClickGoShopAmplitude("cta_main")
             Intent(requireContext(), PayActivity::class.java).apply {
                 payActivityLauncher.launch(this)
             }
@@ -86,10 +83,7 @@ class MyYelloFragment : BindingFragment<FragmentMyYelloBinding>(R.layout.fragmen
         }
 
         binding.btnShop.setOnSingleClickListener {
-            AmplitudeUtils.trackEventWithProperties(
-                "click_go_shop",
-                JSONObject().put("shop_button", "message_shop"),
-            )
+            setClickGoShopAmplitude("message_shop")
             goToPayActivity()
         }
     }
@@ -226,6 +220,13 @@ class MyYelloFragment : BindingFragment<FragmentMyYelloBinding>(R.layout.fragmen
 
     fun scrollToTop() {
         binding.rvMyYelloReceive.smoothScrollToPosition(0)
+    }
+
+    private fun setClickGoShopAmplitude(value: String) {
+        AmplitudeUtils.trackEventWithProperties(
+            "click_go_shop",
+            JSONObject().put("shop_button", value),
+        )
     }
 
     override fun onDestroyView() {

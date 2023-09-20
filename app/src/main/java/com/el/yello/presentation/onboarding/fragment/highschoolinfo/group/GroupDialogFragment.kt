@@ -31,7 +31,7 @@ class GroupDialogFragment :
         binding.rvGroup.adapter = adapter
         adapter.submitList(groupList)
         binding.rvGroup.setOnClickListener {
-            viewModel.getHighSchoolList(viewModel.groupList.value.toString())
+            viewModel.getHighSchoolGroupIdData(viewModel.groupList.value.toString())
         }
         Log.d("minju2", viewModel.groupText.value.toString())
     }

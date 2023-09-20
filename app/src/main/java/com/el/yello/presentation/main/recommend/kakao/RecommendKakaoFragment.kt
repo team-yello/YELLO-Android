@@ -94,9 +94,9 @@ class RecommendKakaoFragment :
                 super.onScrolled(recyclerView, dx, dy)
                 if (dy > 0) {
                     recyclerView.layoutManager?.let { layoutManager ->
-                        if (!binding.rvRecommendKakao.canScrollVertically(1)
-                            && layoutManager is LinearLayoutManager
-                            && layoutManager.findLastVisibleItemPosition() == adapter.itemCount - 1
+                        if (!binding.rvRecommendKakao.canScrollVertically(1) &&
+                            layoutManager is LinearLayoutManager &&
+                            layoutManager.findLastVisibleItemPosition() == adapter.itemCount - 1
                         ) {
                             viewModel.addListWithKakaoIdList()
                         }
@@ -111,7 +111,8 @@ class RecommendKakaoFragment :
             inviteYesFriendDialog =
                 InviteFriendDialog.newInstance(viewModel.getYelloId(), KAKAO_YES_FRIEND)
             AmplitudeUtils.trackEventWithProperties(
-                "click_invite", JSONObject().put("invite_view", KAKAO_YES_FRIEND)
+                "click_invite",
+                JSONObject().put("invite_view", KAKAO_YES_FRIEND),
             )
             inviteYesFriendDialog?.show(parentFragmentManager, INVITE_DIALOG)
         }
@@ -120,7 +121,8 @@ class RecommendKakaoFragment :
             inviteNoFriendDialog =
                 InviteFriendDialog.newInstance(viewModel.getYelloId(), KAKAO_NO_FRIEND)
             AmplitudeUtils.trackEventWithProperties(
-                "click_invite", JSONObject().put("invite_view", KAKAO_NO_FRIEND)
+                "click_invite",
+                JSONObject().put("invite_view", KAKAO_NO_FRIEND),
             )
             inviteNoFriendDialog?.show(parentFragmentManager, INVITE_DIALOG)
         }
@@ -144,7 +146,7 @@ class RecommendKakaoFragment :
         itemDivider = RecommendItemDecoration(requireContext())
         binding.rvRecommendKakao.addItemDecoration(itemDivider)
         binding.rvRecommendKakao.addItemDecoration(
-            BaseLinearRcvItemDeco(0, 0, 0, 0, 0, RecyclerView.VERTICAL, 12)
+            BaseLinearRcvItemDeco(0, 0, 0, 0, 0, RecyclerView.VERTICAL, 12),
         )
     }
 

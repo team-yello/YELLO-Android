@@ -2,13 +2,10 @@ package com.example.data.local
 
 import android.content.Context
 import androidx.core.content.edit
-import androidx.security.crypto.EncryptedSharedPreferences
-import androidx.security.crypto.MasterKeys
 import com.example.domain.YelloDataStore
 import com.example.domain.entity.vote.StoredVote
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
-import com.yello.data.BuildConfig
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
@@ -16,37 +13,17 @@ class YelloDataStoreImpl @Inject constructor(
     @ApplicationContext context: Context,
 ) : YelloDataStore {
     private val userDelegate by lazy {
-        if (BuildConfig.DEBUG) {
-            context.getSharedPreferences(
-                context.packageName,
-                Context.MODE_PRIVATE,
-            )
-        } else {
-            EncryptedSharedPreferences.create(
-                context.packageName,
-                MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC),
-                context,
-                EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
-                EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM,
-            )
-        }
+        context.getSharedPreferences(
+            context.packageName,
+            Context.MODE_PRIVATE,
+        )
     }
 
     private val appDelegate by lazy {
-        if (BuildConfig.DEBUG) {
-            context.getSharedPreferences(
-                "APP_DATA",
-                Context.MODE_PRIVATE,
-            )
-        } else {
-            EncryptedSharedPreferences.create(
-                "APP_DATA",
-                MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC),
-                context,
-                EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
-                EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM,
-            )
-        }
+        context.getSharedPreferences(
+            "APP_DATA",
+            Context.MODE_PRIVATE,
+        )
     }
 
     override var userToken: String

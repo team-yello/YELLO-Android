@@ -2,6 +2,7 @@ package com.el.yello.presentation.main.yello.start
 
 import android.content.Intent
 import android.graphics.Point
+import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup.MarginLayoutParams
@@ -48,7 +49,13 @@ class YelloStartFragment :
     private fun initEntranceLottie() {
         with(binding.lottieStartEntrance) {
             val size = Point()
-            display.getRealSize(size)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                val windowMetrics = requireActivity().windowManager.currentWindowMetrics
+                size.x = windowMetrics.bounds.width()
+                size.y = windowMetrics.bounds.height()
+            } else {
+                display.getRealSize(size)
+            }
             val displayWidth = size.x
             val displayHeight = size.y
 

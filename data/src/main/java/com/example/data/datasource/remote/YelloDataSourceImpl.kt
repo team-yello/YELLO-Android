@@ -1,9 +1,7 @@
 package com.example.data.datasource.remote
 
 import com.example.data.datasource.YelloDataSource
-import com.example.data.model.request.RequestPayIndexDto
 import com.example.data.model.response.BaseResponse
-import com.example.data.model.response.ResponseDto
 import com.example.data.model.response.vote.ResponseVoteCount
 import com.example.data.model.response.yello.ResponseCheckKeyword
 import com.example.data.model.response.yello.ResponseCheckName
@@ -30,10 +28,6 @@ class YelloDataSourceImpl @Inject constructor(
 
     override suspend fun checkName(id: Long): BaseResponse<ResponseCheckName> {
         return service.checkName(id)
-    }
-
-    override suspend fun payCheck(index: Int): ResponseDto {
-        return service.payCheck(RequestPayIndexDto(index))
     }
 
     override suspend fun voteCount(): BaseResponse<ResponseVoteCount> {

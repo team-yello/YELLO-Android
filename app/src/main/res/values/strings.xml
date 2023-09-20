@@ -74,7 +74,7 @@
     <string name="onboarding_tv_freind_end">명</string>
     <string name="onboarding_tv_hint_fix">\@</string>
     <string name="onboarding_student_id">%d학번</string>
-    <string name="onboarding_group">%d반</string>
+    <string name="onboarding_group">%s반</string>
     <string name="onboarding_code_complete">완료</string>
     <string name="onboarding_name_id_name_hint">ex.김옐로</string>
     <string name="onboarding_name_id_hangul_error">자음과 모음 조합의 한글만 입력 가능해요.</string>

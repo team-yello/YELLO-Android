@@ -11,15 +11,15 @@
 
         <variable
             name="first"
-            type="String" />
+            type="Integer" />
 
         <variable
             name="second"
-            type="String" />
+            type="Integer" />
 
         <variable
             name="third"
-            type="String" />
+            type="Integer" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -162,11 +162,11 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
             android:layout_marginBottom="32dp"
-            android:background="@{ vm.gradeText == null ? @drawable/shape_grayscales_800_fill_100_rect : @drawable/shape_yello_main_500_fill_100_rect}"
+            android:background="@{ vm.studentIdText == null ? @drawable/shape_grayscales_800_fill_100_rect : @drawable/shape_yello_main_500_fill_100_rect}"
             android:paddingVertical="16dp"
             android:text="@string/onboarding_btn_next"
             android:textAppearance="?textAppearanceBodyMedium"
-            android:textColor="@{vm.gradeText.isEmpty()|| vm.gradeText == null? @color/grayscales_700 : @color/black}"
+            android:textColor="@{ vm.studentIdText == null? @color/grayscales_700 : @color/black}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />

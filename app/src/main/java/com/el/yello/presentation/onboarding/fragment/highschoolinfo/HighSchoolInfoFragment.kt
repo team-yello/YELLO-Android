@@ -1,6 +1,7 @@
 package com.el.yello.presentation.onboarding.fragment.highschoolinfo
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -22,9 +23,9 @@ class HighSchoolInfoFragment :
         super.onViewCreated(view, savedInstanceState)
         binding.vm = viewModel
 
-        binding.first = GradeEnum.A.toString()
-        binding.second = GradeEnum.B.toString()
-        binding.third = GradeEnum.C.toString()
+        binding.first = GradeEnum.A.toInt()
+        binding.second = GradeEnum.B.toInt()
+        binding.third = GradeEnum.C.toInt()
         setupHighSchool()
         setupGrade()
         setupGroup()
@@ -54,9 +55,9 @@ class HighSchoolInfoFragment :
     }
 
     private fun setupGrade() {
-        viewModel.gradeText.observe(viewLifecycleOwner) { grade ->
+        viewModel.studentIdText.observe(viewLifecycleOwner) { grade ->
             when (grade) {
-                GradeEnum.A.toString() -> {
+                GradeEnum.A.toInt() -> {
                     binding.tvGradeFirst.setBackgroundResource(R.drawable.shape_grayscales900_fill_yello_main600_line_8_leftrect)
                     binding.tvGradeFirst.setTextColor(resources.getColor(R.color.yello_main_600))
                     binding.tvGradeSecond.setBackgroundResource(R.drawable.shape_grayscales900_fill_grayscales700_line_8_square)
@@ -65,7 +66,7 @@ class HighSchoolInfoFragment :
                     binding.tvGradeThird.setTextColor(resources.getColor(R.color.grayscales_700))
                 }
 
-                GradeEnum.B.toString() -> {
+                GradeEnum.B.toInt() -> {
                     binding.tvGradeFirst.setBackgroundResource(R.drawable.shape_grayscales900_fill_grayscales700_line_8_leftrect)
                     binding.tvGradeFirst.setTextColor(resources.getColor(R.color.grayscales_700))
                     binding.tvGradeSecond.setBackgroundResource(R.drawable.shape_grayscales900_fill_yello_main600_line_8_square)
@@ -74,7 +75,7 @@ class HighSchoolInfoFragment :
                     binding.tvGradeThird.setTextColor(resources.getColor(R.color.grayscales_700))
                 }
 
-                GradeEnum.C.toString() -> {
+                GradeEnum.C.toInt() -> {
                     binding.tvGradeFirst.setBackgroundResource(R.drawable.shape_grayscales900_fill_grayscales700_line_8_leftrect)
                     binding.tvGradeFirst.setTextColor(resources.getColor(R.color.grayscales_700))
                     binding.tvGradeSecond.setBackgroundResource(R.drawable.shape_grayscales900_fill_grayscales700_line_8_square)
@@ -88,8 +89,9 @@ class HighSchoolInfoFragment :
 
     private fun setupGroup() {
         viewModel.groupText.observe(viewLifecycleOwner) { group ->
-            binding.tvGroupSearch.text = group
+            binding.tvGroupSearch.text = getString(R.string.onboarding_group, group)
         }
+        Log.d("minju1", viewModel.groupText.value.toString())
     }
 
     private fun setConfirmBtnClickListener() {

@@ -1,6 +1,7 @@
 package com.el.yello.presentation.main.look
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.animation.AnimationUtils
 import androidx.core.view.isGone
@@ -46,19 +47,19 @@ class LookFragment : BindingFragment<FragmentLookBinding>(R.layout.fragment_look
         initInviteBtnListener()
         initPullToScrollListener()
         setItemDecoration()
-        getTimelinePagingList()
-        observeIsLoading()
+        viewModel.getLookListWithPaging()
+        observeTimelinePagingList()
         catchScrollForAmplitude()
         AmplitudeUtils.trackEventWithProperties("view_timeline")
     }
 
     private fun initAdapter() {
-        viewModel.setNotLoading()
+        viewModel.setFirstLoading(true)
         _adapter = LookAdapter()
         binding.rvLook.adapter = adapter
 
         adapter.addLoadStateListener { combinedLoadStates ->
-            if (combinedLoadStates.prepend.endOfPaginationReached && viewModel.isLoading.value == false) {
+            if (combinedLoadStates.prepend.endOfPaginationReached && viewModel.isFirstLoading.value == false) {
                 binding.layoutLookNoFriendsList.isVisible = adapter.itemCount < 1
                 binding.rvLook.isGone = adapter.itemCount < 1
             }
@@ -80,7 +81,8 @@ class LookFragment : BindingFragment<FragmentLookBinding>(R.layout.fragment_look
         binding.layoutLookSwipe.apply {
             setOnRefreshListener {
                 lifecycleScope.launch {
-                    getTimelinePagingList()
+                    viewModel.setFirstLoading(true)
+                    viewModel.getLookListWithPaging()
                     delay(200)
                     binding.layoutLookSwipe.isRefreshing = false
                 }
@@ -95,26 +97,32 @@ class LookFragment : BindingFragment<FragmentLookBinding>(R.layout.fragment_look
         )
     }
 
-    private fun getTimelinePagingList() {
-        viewModel.getLookListWithPaging()
+    private fun observeTimelinePagingList() {
         lifecycleScope.launch {
             viewModel.getLookListState.flowWithLifecycle(viewLifecycleOwner.lifecycle)
-                .onEach { state ->
+                .collect { state ->
                     when (state) {
                         is UiState.Success -> {
+                            Log.d("okhttp", "success : ${state.data}")
                             adapter.submitData(state.data)
+                            stopShimmerView()
+                            startFadeIn()
                         }
 
                         is UiState.Failure -> {
+                            Log.d("okhttp", "failure")
                             yelloSnackbar(requireView(), getString(R.string.look_error_friend_list))
                             startShimmerView()
                         }
 
-                        is UiState.Loading -> {}
+                        is UiState.Loading -> {
+                            Log.d("okhttp", "loading")
+                            startShimmerView()
+                        }
 
                         is UiState.Empty -> {}
                     }
-                }.launchIn(viewLifecycleOwner.lifecycleScope)
+                }
         }
     }
 
@@ -130,29 +138,20 @@ class LookFragment : BindingFragment<FragmentLookBinding>(R.layout.fragment_look
         })
     }
 
-    private fun observeIsLoading() {
-        viewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
-            if (isLoading) {
-                startShimmerView()
-            } else {
-                stopShimmerView()
-                startFadeIn()
-            }
-        }
-    }
-
     private fun startFadeIn() {
         val animation = AnimationUtils.loadAnimation(requireContext(), R.anim.fade_in)
         binding.rvLook.startAnimation(animation)
     }
 
     private fun startShimmerView() {
+        Log.d("okhttp", "start shimmer")
         binding.shimmerLookList.startShimmer()
         binding.shimmerLookList.visibility = View.VISIBLE
         binding.rvLook.visibility = View.GONE
     }
 
     private fun stopShimmerView() {
+        Log.d("okhttp", "stop shimmer")
         binding.shimmerLookList.stopShimmer()
         binding.shimmerLookList.visibility = View.GONE
         binding.rvLook.visibility = View.VISIBLE

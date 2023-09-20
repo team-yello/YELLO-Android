@@ -1,5 +1,6 @@
 package com.el.yello.presentation.main.look
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -15,38 +16,37 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class LookViewModel @Inject constructor(
-    private val lookRepository: LookRepository,
-    private val authRepository: AuthRepository
+    private val lookRepository: LookRepository, private val authRepository: AuthRepository
 ) : ViewModel() {
 
     private val _getLookListState = MutableStateFlow<UiState<PagingData<LookModel>>>(UiState.Empty)
     val getLookListState: StateFlow<UiState<PagingData<LookModel>>> = _getLookListState.asStateFlow()
 
-    private val _isLoading = MutableLiveData(false)
-    val isLoading: LiveData<Boolean> = _isLoading
+    private val _isFirstLoading = MutableLiveData(false)
+    val isFirstLoading: LiveData<Boolean> = _isFirstLoading
 
-    fun setNotLoading() {
-        _isLoading.value = false
+    fun setFirstLoading(boolean: Boolean) {
+        _isFirstLoading.value = boolean
     }
 
     // 서버 통신 - 둘러보기 리스트 추가
     fun getLookListWithPaging() {
         viewModelScope.launch {
-            _getLookListState.emit(UiState.Loading)
+            Log.d("okhttp", "launch")
+            if (isFirstLoading.value == true) {
+                _getLookListState.emit(UiState.Loading)
+                setFirstLoading(false)
+                Log.d("okhttp", "set loading")
+            }
             try {
                 lookRepository.getLookList().cachedIn(viewModelScope)
-                    .onStart {
-                        _isLoading.value = true
-                    }
-                    .collectLatest { response ->
-                        _getLookListState.emit(UiState.Success(response))
-                        _isLoading.value = false
+                    .collectLatest { pagingData ->
+                        _getLookListState.emit(UiState.Success(pagingData))
                     }
             } catch (e: Exception) {
                 _getLookListState.emit(UiState.Failure(e.message.toString()))

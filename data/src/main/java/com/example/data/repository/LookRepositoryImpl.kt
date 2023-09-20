@@ -14,7 +14,7 @@ class LookRepositoryImpl @Inject constructor(
     private val lookService: LookService
 ) : LookRepository {
 
-    override suspend fun getLookList(): Flow<PagingData<LookModel>> {
+    override fun getLookList(): Flow<PagingData<LookModel>> {
         return Pager(
             config = PagingConfig(10),
             pagingSourceFactory = { LookPagingSource(lookService) }

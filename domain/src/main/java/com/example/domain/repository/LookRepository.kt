@@ -6,6 +6,6 @@ import kotlinx.coroutines.flow.Flow
 
 interface LookRepository {
 
-    suspend fun getLookList(): Flow<PagingData<LookModel>>
+    fun getLookList(): Flow<PagingData<LookModel>>
 
 }

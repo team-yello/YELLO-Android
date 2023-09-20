@@ -17,10 +17,12 @@ import com.el.yello.util.Utils.setPullToScrollColor
 import com.el.yello.util.amplitude.AmplitudeUtils
 import com.el.yello.util.context.yelloSnackbar
 import com.example.ui.base.BindingFragment
+import com.example.ui.view.UiState
 import com.example.ui.view.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import org.json.JSONObject
 
@@ -46,7 +48,6 @@ class LookFragment : BindingFragment<FragmentLookBinding>(R.layout.fragment_look
         setItemDecoration()
         getTimelinePagingList()
         observeIsLoading()
-        observeErrorResult()
         catchScrollForAmplitude()
         AmplitudeUtils.trackEventWithProperties("view_timeline")
     }
@@ -95,11 +96,25 @@ class LookFragment : BindingFragment<FragmentLookBinding>(R.layout.fragment_look
     }
 
     private fun getTimelinePagingList() {
+        viewModel.getLookListWithPaging()
         lifecycleScope.launch {
-            viewModel.getLookListWithPaging().flowWithLifecycle(lifecycle)
-                .collectLatest { pagingData ->
-                    adapter.submitData(pagingData)
-                }
+            viewModel.getLookListState.flowWithLifecycle(viewLifecycleOwner.lifecycle)
+                .onEach { state ->
+                    when (state) {
+                        is UiState.Success -> {
+                            adapter.submitData(state.data)
+                        }
+
+                        is UiState.Failure -> {
+                            yelloSnackbar(requireView(), getString(R.string.look_error_friend_list))
+                            startShimmerView()
+                        }
+
+                        is UiState.Loading -> {}
+
+                        is UiState.Empty -> {}
+                    }
+                }.launchIn(viewLifecycleOwner.lifecycleScope)
         }
     }
 
@@ -113,13 +128,6 @@ class LookFragment : BindingFragment<FragmentLookBinding>(R.layout.fragment_look
                 }
             }
         })
-    }
-
-    private fun observeErrorResult() {
-        viewModel.getErrorResult.observe(viewLifecycleOwner) {
-            yelloSnackbar(requireView(), getString(R.string.look_error_friend_list))
-            startShimmerView()
-        }
     }
 
     private fun observeIsLoading() {

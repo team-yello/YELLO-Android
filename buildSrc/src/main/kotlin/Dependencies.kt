@@ -18,7 +18,6 @@ object AndroidXDependencies {
     const val activity = "androidx.activity:activity-ktx:${Versions.activityKtxVersion}"
     const val fragment = "androidx.fragment:fragment-ktx:${Versions.fragmentKtxVersion}"
     const val legacy = "androidx.legacy:legacy-support-v4:${Versions.legacySupportVersion}"
-    const val security = "androidx.security:security-crypto:${Versions.securityVersion}"
     const val lifeCycleKtx = "androidx.lifecycle:lifecycle-runtime-ktx:${Versions.lifecycleVersion}"
     const val lifeCycleLiveDataKtx =
         "androidx.lifecycle:lifecycle-livedata-ktx:${Versions.lifecycleVersion}"

@@ -1,7 +1,6 @@
 package com.el.yello.presentation.onboarding.fragment.highschoolinfo
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -91,7 +90,6 @@ class HighSchoolInfoFragment :
         viewModel.groupText.observe(viewLifecycleOwner) { group ->
             binding.tvGroupSearch.text = getString(R.string.onboarding_group, group)
         }
-        Log.d("minju1", viewModel.groupText.value.toString())
     }
 
     private fun setConfirmBtnClickListener() {

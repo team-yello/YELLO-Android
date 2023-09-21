@@ -44,7 +44,7 @@ class OnBoardingViewModel @Inject constructor(
     val highSchoolText = MutableLiveData("")
 
     val departmentText = MutableLiveData("")
-    val groupText = MutableLiveData<String>()
+    val groupText = MutableLiveData("")
     private val _groupId = MutableLiveData<Long>()
     val groupId: Long get() = requireNotNull(_groupId.value)
 

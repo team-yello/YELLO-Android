@@ -27,8 +27,8 @@ class LookViewModel @Inject constructor(
     private val _getLookListState = MutableStateFlow<UiState<PagingData<LookModel>>>(UiState.Empty)
     val getLookListState: StateFlow<UiState<PagingData<LookModel>>> = _getLookListState.asStateFlow()
 
-    private val _isFirstLoading = MutableLiveData(false)
-    val isFirstLoading: LiveData<Boolean> = _isFirstLoading
+    private val _isFirstLoading = MutableStateFlow(false)
+    val isFirstLoading: StateFlow<Boolean> = _isFirstLoading
 
     fun setFirstLoading(boolean: Boolean) {
         _isFirstLoading.value = boolean
@@ -38,7 +38,7 @@ class LookViewModel @Inject constructor(
     fun getLookListWithPaging() {
         viewModelScope.launch {
             Log.d("okhttp", "launch")
-            if (isFirstLoading.value == true) {
+            if (isFirstLoading.value) {
                 _getLookListState.emit(UiState.Loading)
                 setFirstLoading(false)
                 Log.d("okhttp", "set loading")

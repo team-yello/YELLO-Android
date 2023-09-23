@@ -27,7 +27,7 @@ class HighSchoolInfoFragment :
         binding.third = GradeEnum.C.toInt()
         setupHighSchool()
         setupGrade()
-        setupGroup()
+        setupHighSchoolGroup()
         initSearchInfoBtnClickListener()
         setConfirmBtnClickListener()
     }
@@ -89,8 +89,8 @@ class HighSchoolInfoFragment :
         }
     }
 
-    private fun setupGroup() {
-        viewModel.groupText.observe(viewLifecycleOwner) { group ->
+    private fun setupHighSchoolGroup() {
+        viewModel.highSchoolGroupText.observe(viewLifecycleOwner) { group ->
             binding.tvGroupSearch.text = getString(R.string.onboarding_group, group)
         }
     }

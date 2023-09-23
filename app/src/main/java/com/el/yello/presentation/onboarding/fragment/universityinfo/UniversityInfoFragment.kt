@@ -54,7 +54,7 @@ class UniversityInfoFragment :
     }
 
     private fun setupUniversity() {
-        viewModel.schoolText.observe(viewLifecycleOwner) { school ->
+        viewModel.universityText.observe(viewLifecycleOwner) { school ->
             binding.tvUniversitySearch.text = school
         }
     }
@@ -88,8 +88,8 @@ class UniversityInfoFragment :
             "click_onboarding_next",
             JSONObject().put("onboard_view", "school"),
         )
-        AmplitudeUtils.updateUserProperties("user_school", viewModel.school)
-        AmplitudeUtils.updateUserProperties("user_department", viewModel.departmentData.toString())
+        AmplitudeUtils.updateUserProperties("user_school", viewModel.university)
+        AmplitudeUtils.updateUserProperties("user_department", viewModel.departmentState.toString())
         AmplitudeUtils.updateUserIntProperties("user_grade", viewModel.studentId)
     }
 }

@@ -41,7 +41,7 @@ class YelIoIdFragment : BindingFragment<FragmentYelloIdBinding>(R.layout.fragmen
     }
 
     private fun setupGetValidYelloId() {
-        viewModel.getValidYelloId.observe(viewLifecycleOwner) { state ->
+        viewModel.getValidYelloIdState.observe(viewLifecycleOwner) { state ->
             when (state) {
                 is UiState.Success -> {
                     if (state.data) {

@@ -37,24 +37,23 @@ class SearchDialogHighSchoolFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.vm = viewModel
-        iniHighSchoolDialogView()
+        initHighSchoolDialogView()
         setupHighSchoolData()
         setClickToSchoolForm()
         setListWithInfinityScroll()
         recyclerviewScroll()
     }
 
-    private fun iniHighSchoolDialogView() {
+    private fun initHighSchoolDialogView() {
         setHideKeyboard()
         binding.etHighschoolSearch.doAfterTextChanged { input ->
             searchJob?.cancel()
             searchJob = viewModel.viewModelScope.launch {
                 delay(debounceTime)
-                // TODO : viewmodel. getschoollist -> 고등학교
                 input?.toString()?.let { viewModel.getHighSchoolList(it) }
             }
         }
-        adapter = HighSchoolAdapter(storeSchool = ::storeSchool)
+        adapter = HighSchoolAdapter(storeHighSchool = ::storeHighSchool)
         binding.rvHighschoolList.adapter = adapter
         binding.btnHighschoolBackDialog.setOnSingleClickListener {
             dismiss()
@@ -77,8 +76,7 @@ class SearchDialogHighSchoolFragment :
     }
 
     private fun setupHighSchoolData() {
-        // TODO : viewmodel.schooldata
-        viewModel.highSchoolData.observe(viewLifecycleOwner) { state ->
+        viewModel.highSchoolState.observe(viewLifecycleOwner) { state ->
             when (state) {
                 is UiState.Success -> {
                     adapter?.submitList(state.data.groupNameList)
@@ -95,8 +93,7 @@ class SearchDialogHighSchoolFragment :
         }
     }
 
-    private fun storeSchool(school: String) {
-        // TODO : 바꾸기
+    private fun storeHighSchool(school: String) {
         viewModel.setHighSchool(school)
         viewModel.clearHighSchoolData()
         dismiss()
@@ -126,7 +123,7 @@ class SearchDialogHighSchoolFragment :
                             (layoutManager is LinearLayoutManager) &&
                             (layoutManager.findLastVisibleItemPosition() == (adapter!!.itemCount - 1))
                         ) {
-                            viewModel.getSchoolList(inputText)
+                            viewModel.getUniversityList(inputText)
                         }
                     }
                 }

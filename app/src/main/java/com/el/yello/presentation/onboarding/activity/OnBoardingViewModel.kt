@@ -33,20 +33,28 @@ class OnBoardingViewModel @Inject constructor(
 ) : ViewModel() {
 
     var currentPercent = 17
-    fun plusCurrentPercent() { currentPercent += 17 }
-    fun minusCurrentPercent() { currentPercent -= 17 }
-    fun resetGetValidYelloId() { _getValidYelloId.value = UiState.Loading }
+    fun plusCurrentPercent() {
+        currentPercent += 17
+    }
+
+    fun minusCurrentPercent() {
+        currentPercent -= 17
+    }
+
+    fun resetGetValidYelloId() {
+        _getValidYelloIdState.value = UiState.Loading
+    }
 
     val studentType = MutableLiveData("")
-    val school: String get() = schoolText.value?.trim() ?: ""
-    val schoolText = MutableLiveData("")
-    val highSchool: String get() = highSchoolText.value?.trim() ?: ""
+    val university: String get() = universityText.value?.trim() ?: ""
+    val universityText = MutableLiveData("")
+    private val highSchool: String get() = highSchoolText.value?.trim() ?: ""
     val highSchoolText = MutableLiveData("")
 
     val departmentText = MutableLiveData("")
-    val groupText = MutableLiveData<String>()
+    val highSchoolGroupText = MutableLiveData<String>()
     private val _groupId = MutableLiveData<Long>()
-    val groupId: Long get() = requireNotNull(_groupId.value)
+    private val groupId: Long get() = requireNotNull(_groupId.value)
 
     val studentIdText = MutableLiveData<Int>()
     val studentId: Int get() = requireNotNull(studentIdText.value)
@@ -56,25 +64,24 @@ class OnBoardingViewModel @Inject constructor(
     val isValidId: LiveData<Boolean> = idText.map { id -> checkId(id) }
     val codeText = MutableLiveData("")
 
-    private val _schoolData = MutableLiveData<UiState<SchoolList>>()
-    val schoolData: MutableLiveData<UiState<SchoolList>> = _schoolData
+    private val _universityState = MutableLiveData<UiState<SchoolList>>()
+    val universityState: MutableLiveData<UiState<SchoolList>> = _universityState
 
-    private val _highSchoolData = MutableLiveData<UiState<HighSchoolList>>()
-    val highSchoolData: MutableLiveData<UiState<HighSchoolList>> = _highSchoolData
+    private val _highSchoolState = MutableLiveData<UiState<HighSchoolList>>()
+    val highSchoolState: MutableLiveData<UiState<HighSchoolList>> = _highSchoolState
 
-    private val _departmentData = MutableLiveData<UiState<GroupList>>()
-    val departmentData: MutableLiveData<UiState<GroupList>> = _departmentData
+    private val _departmentState = MutableLiveData<UiState<GroupList>>()
+    val departmentState: MutableLiveData<UiState<GroupList>> = _departmentState
 
-    private val _groupData = MutableLiveData<UiState<GroupHighSchool?>>()
-    val groupData: MutableLiveData<UiState<GroupHighSchool?>> = _groupData
+    private val _highSchoolGroupState = MutableLiveData<UiState<GroupHighSchool?>>()
 
-    private val _groupList: MutableLiveData<List<String>> = MutableLiveData()
-    val groupList: LiveData<List<String>> = _groupList
-    fun addGroup() {
-        val studentGroupList = listOf(
+    private val _highSchoolGroupList: MutableLiveData<List<String>> = MutableLiveData()
+    val highSchoolGroupList: LiveData<List<String>> = _highSchoolGroupList
+    fun addHighSchoolGroup() {
+        val highSchoolGroupList = listOf(
             "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20",
         )
-        _groupList.value = studentGroupList
+        _highSchoolGroupList.value = highSchoolGroupList
     }
 
     private val _studentIdResult: MutableLiveData<List<Int>> = MutableLiveData()
@@ -88,47 +95,51 @@ class OnBoardingViewModel @Inject constructor(
     var selectedFriendCount: MutableLiveData<Int> = MutableLiveData(0)
     private val totalFriendList = mutableListOf<AddFriendListModel.FriendModel>()
 
-    private val _getValidYelloId = MutableLiveData<UiState<Boolean>>()
-    val getValidYelloId: LiveData<UiState<Boolean>> get() = _getValidYelloId
+    private val _getValidYelloIdState = MutableLiveData<UiState<Boolean>>()
+    val getValidYelloIdState: LiveData<UiState<Boolean>> get() = _getValidYelloIdState
 
     private val _postSignupState = MutableLiveData<UiState<UserInfo>>()
     val postSignupState: LiveData<UiState<UserInfo>> get() = _postSignupState
 
-    fun selectStudentType(student: String) { studentType.value = student }
-    fun setSchool(university: String) {
-        schoolText.value = university
+    fun selectStudentType(student: String) {
+        studentType.value = student
     }
 
-    fun clearSchoolData() {
-        _schoolData.value = UiState.Success(SchoolList(0, emptyList()))
+    fun setUniversity(university: String) {
+        universityText.value = university
     }
 
-    fun setHighSchool(school: String) {
-        highSchoolText.value = school
+    fun clearUniversityData() {
+        _universityState.value = UiState.Success(SchoolList(0, emptyList()))
+    }
+
+    fun setHighSchool(highSchool: String) {
+        highSchoolText.value = highSchool
     }
 
     fun clearHighSchoolData() {
-        _highSchoolData.value = UiState.Success(HighSchoolList(0, emptyList()))
+        _highSchoolState.value = UiState.Success(HighSchoolList(0, emptyList()))
     }
 
     fun clearDepartmentData() {
-        _departmentData.value = UiState.Success(GroupList(0, emptyList()))
+        _departmentState.value = UiState.Success(GroupList(0, emptyList()))
     }
 
-    fun setGroupInfo(department: String, groupId: Long) {
+    fun setGroupUniversityInfo(department: String, groupId: Long) {
         departmentText.value = department
+        _groupId.value = groupId
     }
 
     fun setGroupHighSchoolInfo(group: String) {
-        groupText.value = group
-        getHighSchoolGroupIdData(group)
+        highSchoolGroupText.value = group
+        getHighSchoolGroupId(group)
     }
 
     fun setStudentId(studentId: Int) {
         studentIdText.value = studentId
     }
 
-    fun addStudentId() {
+    fun addUniversityStudentId() {
         val studentIdList = listOf(15, 16, 17, 18, 19, 20, 21, 22, 23)
         _studentIdResult.value = studentIdList
     }
@@ -157,102 +168,98 @@ class OnBoardingViewModel @Inject constructor(
         isFriendPagingFinish = false
         totalFriendPage = Int.MAX_VALUE
     }
-    fun validYelloIdLoading() { _getValidYelloId.value = UiState.Loading }
 
-    // 서버 통신 - 학교 찾기
-    fun getSchoolList(search: String) {
+    fun validYelloIdLoading() {
+        _getValidYelloIdState.value = UiState.Loading
+    }
+
+    fun getUniversityList(search: String) {
         viewModelScope.launch {
-            _schoolData.value = UiState.Loading
+            _universityState.value = UiState.Loading
             onboardingRepository.getSchoolList(
                 search,
                 0,
             ).onSuccess { schoolList ->
                 Timber.d("GET SCHOOL LIST SUCCESS : $schoolList")
                 if (schoolList == null) {
-                    _schoolData.value = UiState.Empty
+                    _universityState.value = UiState.Empty
                     return@launch
                 }
-                _schoolData.value = when {
+                _universityState.value = when {
                     schoolList.schoolList.isEmpty() -> UiState.Empty
                     else -> UiState.Success(schoolList)
                 }
             }.onFailure { t ->
                 if (t is HttpException) {
                     Timber.e("GET SCHOOL LIST FAILURE : $t")
-                    _schoolData.value = UiState.Failure(t.code().toString())
+                    _universityState.value = UiState.Failure(t.code().toString())
                 }
             }
         }
     }
-
-    // 서버 통신 - 고등 학교 검색
     fun getHighSchoolList(search: String) {
         viewModelScope.launch {
-            _highSchoolData.value = UiState.Loading
+            _highSchoolState.value = UiState.Loading
             onboardingRepository.getHighSchoolList(
                 search,
                 0,
             ).onSuccess { highSchoolList ->
                 Timber.d("GET SCHOOL LIST SUCCESS : $highSchoolList")
                 if (highSchoolList == null) {
-                    _highSchoolData.value = UiState.Empty
+                    _highSchoolState.value = UiState.Empty
                     return@launch
                 }
-                _highSchoolData.value = when {
+                _highSchoolState.value = when {
                     highSchoolList.groupNameList.isEmpty() -> UiState.Empty
                     else -> UiState.Success(highSchoolList)
                 }
             }.onFailure { t ->
                 if (t is HttpException) {
                     Timber.e("GET SCHOOL LIST FAILURE : $t")
-                    _highSchoolData.value = UiState.Failure(t.code().toString())
+                    _highSchoolState.value = UiState.Failure(t.code().toString())
                 }
             }
         }
     }
-
-    // 서버 통신 - 학과 찾기
-    fun getGroupList(search: String) {
+    fun getUniversityGroupId(search: String) {
         viewModelScope.launch {
-            _departmentData.value = UiState.Loading
+            _departmentState.value = UiState.Loading
             onboardingRepository.getGroupList(
                 0,
-                school,
+                university,
                 search,
             ).onSuccess { groupList ->
                 if (groupList == null) {
-                    _departmentData.value = UiState.Empty
+                    _departmentState.value = UiState.Empty
                     return@launch
                 }
-                _departmentData.value = when {
+                _departmentState.value = when {
                     groupList.groupList.isEmpty() -> UiState.Empty
                     else -> UiState.Success(groupList)
                 }
             }.onFailure { t ->
                 if (t is HttpException) {
                     Timber.e("GET GROUP LIST FAILURE : $t")
-                    _departmentData.value = UiState.Failure(t.code().toString())
+                    _departmentState.value = UiState.Failure(t.code().toString())
                 }
                 Timber.e("GET GROUP LIST ERROR : $t")
             }
         }
     }
-
-    // TODO : 학반 서버 통신
-    fun getHighSchoolGroupIdData(group: String) {
+    fun getHighSchoolGroupId(group: String) {
         viewModelScope.launch {
             onboardingRepository.getGroupHighSchool(
                 highSchool,
                 group,
             ).onSuccess {
                 if (it == null) {
-                    _groupData.value = UiState.Empty
+                    _highSchoolGroupState.value = UiState.Empty
                     return@onSuccess
                 }
-                _groupData.value = UiState.Success(it)
+                _highSchoolGroupState.value = UiState.Success(it)
                 _groupId.value = it.groupId
             }.onFailure {
-                _groupData.value = UiState.Failure(it.message.toString())
+                _highSchoolGroupState.value = UiState.Failure(it.message.toString())
             }
         }
     }
@@ -301,8 +308,6 @@ class OnBoardingViewModel @Inject constructor(
                 }
         }
     }
-
-    // 서버 통신 - 옐로 아이디
     fun getValidYelloId(unknownId: String) {
         viewModelScope.launch {
             onboardingRepository.getValidYelloId(
@@ -311,15 +316,15 @@ class OnBoardingViewModel @Inject constructor(
                 .onSuccess { isValid ->
                     Timber.d("GET VALID YELLO ID SUCCESS : $isValid")
                     if (isValid == null) {
-                        _getValidYelloId.value = UiState.Empty
+                        _getValidYelloIdState.value = UiState.Empty
                         return@launch
                     }
-                    _getValidYelloId.value = UiState.Success(isValid)
+                    _getValidYelloIdState.value = UiState.Success(isValid)
                 }
                 .onFailure { t ->
                     if (t is HttpException) {
                         Timber.e("GET VALID YELLO ID FAILURE : $t")
-                        _getValidYelloId.value = UiState.Failure(t.code().toString())
+                        _getValidYelloIdState.value = UiState.Failure(t.code().toString())
                         return@launch
                     }
                     Timber.e("GET VALID YELLO ID ERROR : $t")

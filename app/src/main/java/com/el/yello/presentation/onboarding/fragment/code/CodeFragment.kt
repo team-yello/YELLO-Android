@@ -67,7 +67,7 @@ class CodeFragment : BindingFragment<FragmentCodeBinding>(R.layout.fragment_code
     }
 
     private fun observeGetValidYelloIdState() {
-        viewModel.getValidYelloId.observe(viewLifecycleOwner) { state ->
+        viewModel.getValidYelloIdState.observe(viewLifecycleOwner) { state ->
             when (state) {
                 is UiState.Success -> {
                     if (!state.data) {

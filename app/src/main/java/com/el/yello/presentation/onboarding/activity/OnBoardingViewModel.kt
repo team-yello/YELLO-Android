@@ -44,7 +44,7 @@ class OnBoardingViewModel @Inject constructor(
     val highSchoolText = MutableLiveData("")
 
     val departmentText = MutableLiveData("")
-    val groupText = MutableLiveData("")
+    val groupText = MutableLiveData<String>()
     private val _groupId = MutableLiveData<Long>()
     val groupId: Long get() = requireNotNull(_groupId.value)
 
@@ -117,12 +117,11 @@ class OnBoardingViewModel @Inject constructor(
 
     fun setGroupInfo(department: String, groupId: Long) {
         departmentText.value = department
-        _groupId.value = groupId
     }
 
-    fun setGroupHighSchoolInfo(group: String, groupId: Long) {
-        _groupId.value = groupId
+    fun setGroupHighSchoolInfo(group: String) {
         groupText.value = group
+        getHighSchoolGroupIdData(group)
     }
 
     fun setStudentId(studentId: Int) {
@@ -246,7 +245,12 @@ class OnBoardingViewModel @Inject constructor(
                 highSchool,
                 group,
             ).onSuccess {
+                if (it == null) {
+                    _groupData.value = UiState.Empty
+                    return@onSuccess
+                }
                 _groupData.value = UiState.Success(it)
+                _groupId.value = it.groupId
             }.onFailure {
                 _groupData.value = UiState.Failure(it.message.toString())
             }

@@ -1,6 +1,7 @@
 package com.el.yello.presentation.onboarding.fragment.highschoolinfo.group
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.activityViewModels
 import com.el.yello.R
@@ -24,16 +25,13 @@ class GroupDialogFragment :
     private fun initGroupAdapter() {
         viewModel.addGroup()
         groupList = viewModel.groupList.value ?: emptyList()
-        val adapter = GroupDialogAdapter { groupId ->
-            storeGroup(viewModel.groupText.value.toString(), groupId.toLong())
-        }
+        val adapter = GroupDialogAdapter(storeGroup = ::storeGroup)
         binding.rvGroup.adapter = adapter
         adapter.submitList(groupList)
-        viewModel.getHighSchoolGroupIdData(viewModel.groupText.value.toString())
     }
 
-    private fun storeGroup(group: String, groupId: Long) {
-        viewModel.setGroupHighSchoolInfo(group, groupId)
+    private fun storeGroup(group: String) {
+        viewModel.setGroupHighSchoolInfo(group)
         dismiss()
     }
 

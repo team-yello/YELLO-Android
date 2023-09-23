@@ -20,7 +20,6 @@ class StudentIdDialogFragment :
         binding.vm = viewModel
         initStudentIdViewAdapter()
     }
-
     private fun initStudentIdViewAdapter() {
         viewModel.addStudentId()
         studentIdList = viewModel.studentIdResult.value ?: emptyList()

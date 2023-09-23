@@ -58,6 +58,7 @@ dependencies {
         implementation(hilt)
         implementation(coreKtx)
         implementation(pagingRuntime)
+        implementation(security)
         implementation(billing)
     }
 

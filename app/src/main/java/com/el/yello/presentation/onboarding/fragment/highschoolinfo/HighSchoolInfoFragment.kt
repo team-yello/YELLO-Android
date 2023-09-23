@@ -10,6 +10,7 @@ import com.el.yello.presentation.onboarding.activity.OnBoardingActivity
 import com.el.yello.presentation.onboarding.activity.OnBoardingViewModel
 import com.el.yello.presentation.onboarding.fragment.highschoolinfo.group.GroupDialogFragment
 import com.el.yello.presentation.onboarding.fragment.highschoolinfo.school.SearchDialogHighSchoolFragment
+import com.el.yello.util.context.yelloSnackbar
 import com.example.domain.enum.GradeEnum
 import com.example.ui.base.BindingFragment
 import com.example.ui.view.setOnSingleClickListener
@@ -21,7 +22,6 @@ class HighSchoolInfoFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.vm = viewModel
-
         binding.first = GradeEnum.A.toInt()
         binding.second = GradeEnum.B.toInt()
         binding.third = GradeEnum.C.toInt()
@@ -42,12 +42,15 @@ class HighSchoolInfoFragment :
             SearchDialogHighSchoolFragment().show(parentFragmentManager, this.tag)
         }
         binding.tvGroupSearch.setOnSingleClickListener {
-            GroupDialogFragment().show(parentFragmentManager, this.tag)
+            if (binding.tvHighschoolSearch.text.isNotBlank()) {
+                GroupDialogFragment().show(parentFragmentManager, this.tag)
+            } else {
+                yelloSnackbar(binding.root.rootView, "학교와 학년을 선택해야 반을 선택할 수 있어요!")
+            }
         }
     }
 
     private fun setupHighSchool() {
-        // TODO : viewmodel.schoolText xml도 확인
         viewModel.highSchoolText.observe(viewLifecycleOwner) { school ->
             binding.tvHighschoolSearch.text = school
         }

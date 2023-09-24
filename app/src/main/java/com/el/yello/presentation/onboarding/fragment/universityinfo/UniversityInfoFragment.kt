@@ -70,7 +70,11 @@ class UniversityInfoFragment :
 
     private fun setupStudentId() {
         viewModel.studentIdText.observe(viewLifecycleOwner) { studentId ->
-            binding.tvStudentidSearch.text = getString(R.string.onboarding_student_id, studentId)
+            if (studentId in 1..3) {
+                binding.tvStudentidSearch.text = ""
+            } else {
+                binding.tvStudentidSearch.text = getString(R.string.onboarding_student_id, studentId)
+            }
         }
     }
 

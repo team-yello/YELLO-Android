@@ -13,7 +13,6 @@ object Versions {
     const val constraintLayoutVersion = "2.1.4"
     const val appStartUpVersion = "1.1.1"
     const val legacySupportVersion = "1.0.0"
-    const val securityVersion = "1.1.0-alpha06"
     const val hiltVersion = "2.46.1"
     const val activityKtxVersion = "1.7.2"
     const val fragmentKtxVersion = "1.5.7"

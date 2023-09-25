@@ -117,7 +117,6 @@ dependencies {
         implementation(fragment)
         implementation(startup)
         implementation(legacy)
-        implementation(security)
         implementation(hilt)
         implementation(lifeCycleKtx)
         implementation(lifecycleJava8)

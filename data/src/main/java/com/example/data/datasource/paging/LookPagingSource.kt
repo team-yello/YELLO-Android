@@ -21,14 +21,14 @@ class LookPagingSource @Inject constructor(
     // 현재 페이지의 정보 로드
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, LookModel> {
         val currentPosition = params.key ?: 0
-        val page = currentPosition.times(0.1).toInt()
+        val page = currentPosition.times(LOOK_PAGING_POSITION).toInt()
         val response = runCatching {
             lookService.getLookList(page)
         }.getOrElse {
             return LoadResult.Error(it)
         }
         val nextPosition =
-            if (response.data?.friendVotes?.isEmpty() == true) null else currentPosition + 10
+            if (response.data?.friendVotes?.isEmpty() == true) null else currentPosition + LOOK_PAGING_SIZE
         val previousPosition =
             if (currentPosition == 0) null else currentPosition - 1
         return runCatching {
@@ -40,5 +40,10 @@ class LookPagingSource @Inject constructor(
         }.getOrElse {
             LoadResult.Error(it)
         }
+    }
+
+    companion object {
+        const val LOOK_PAGING_SIZE = 10
+        const val LOOK_PAGING_POSITION = 0.1
     }
 }

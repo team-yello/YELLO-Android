@@ -4,6 +4,7 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.example.data.datasource.paging.LookPagingSource
+import com.example.data.datasource.paging.LookPagingSource.Companion.LOOK_PAGING_SIZE
 import com.example.data.remote.service.LookService
 import com.example.domain.entity.ResponseLookListModel.LookModel
 import com.example.domain.repository.LookRepository
@@ -16,7 +17,7 @@ class LookRepositoryImpl @Inject constructor(
 
     override fun getLookList(): Flow<PagingData<LookModel>> {
         return Pager(
-            config = PagingConfig(10),
+            config = PagingConfig(LOOK_PAGING_SIZE),
             pagingSourceFactory = { LookPagingSource(lookService) }
         ).flow
     }

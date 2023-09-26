@@ -18,7 +18,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LookViewModel @Inject constructor(
-    private val lookRepository: LookRepository, private val authRepository: AuthRepository
+    private val lookRepository: LookRepository,
+    private val authRepository: AuthRepository
 ) : ViewModel() {
 
     private val _getLookListState = MutableStateFlow<UiState<PagingData<LookModel>>>(UiState.Empty)

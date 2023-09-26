@@ -1,7 +1,6 @@
 package com.el.yello.presentation.main.look
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.view.animation.AnimationUtils
 import androidx.core.view.isGone
@@ -22,8 +21,6 @@ import com.example.ui.view.UiState
 import com.example.ui.view.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import org.json.JSONObject
 
@@ -103,20 +100,17 @@ class LookFragment : BindingFragment<FragmentLookBinding>(R.layout.fragment_look
                 .collect { state ->
                     when (state) {
                         is UiState.Success -> {
-                            Log.d("okhttp", "success : ${state.data}")
-                            adapter.submitData(state.data)
                             stopShimmerView()
                             startFadeIn()
+                            adapter.submitData(state.data)
                         }
 
                         is UiState.Failure -> {
-                            Log.d("okhttp", "failure")
                             yelloSnackbar(requireView(), getString(R.string.look_error_friend_list))
                             startShimmerView()
                         }
 
                         is UiState.Loading -> {
-                            Log.d("okhttp", "loading")
                             startShimmerView()
                         }
 
@@ -144,14 +138,12 @@ class LookFragment : BindingFragment<FragmentLookBinding>(R.layout.fragment_look
     }
 
     private fun startShimmerView() {
-        Log.d("okhttp", "start shimmer")
         binding.shimmerLookList.startShimmer()
         binding.shimmerLookList.visibility = View.VISIBLE
         binding.rvLook.visibility = View.GONE
     }
 
     private fun stopShimmerView() {
-        Log.d("okhttp", "stop shimmer")
         binding.shimmerLookList.stopShimmer()
         binding.shimmerLookList.visibility = View.GONE
         binding.rvLook.visibility = View.VISIBLE

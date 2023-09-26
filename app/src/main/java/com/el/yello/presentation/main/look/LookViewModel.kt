@@ -1,8 +1,5 @@
 package com.el.yello.presentation.main.look
 
-import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
@@ -25,7 +22,8 @@ class LookViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val _getLookListState = MutableStateFlow<UiState<PagingData<LookModel>>>(UiState.Empty)
-    val getLookListState: StateFlow<UiState<PagingData<LookModel>>> = _getLookListState.asStateFlow()
+    val getLookListState: StateFlow<UiState<PagingData<LookModel>>> =
+        _getLookListState.asStateFlow()
 
     private val _isFirstLoading = MutableStateFlow(false)
     val isFirstLoading: StateFlow<Boolean> = _isFirstLoading
@@ -37,11 +35,9 @@ class LookViewModel @Inject constructor(
     // 서버 통신 - 둘러보기 리스트 추가
     fun getLookListWithPaging() {
         viewModelScope.launch {
-            Log.d("okhttp", "launch")
             if (isFirstLoading.value) {
                 _getLookListState.emit(UiState.Loading)
                 setFirstLoading(false)
-                Log.d("okhttp", "set loading")
             }
             try {
                 lookRepository.getLookList().cachedIn(viewModelScope)

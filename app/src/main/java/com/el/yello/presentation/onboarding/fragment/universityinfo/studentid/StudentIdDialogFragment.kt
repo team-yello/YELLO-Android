@@ -20,9 +20,8 @@ class StudentIdDialogFragment :
         binding.vm = viewModel
         initStudentIdViewAdapter()
     }
-
     private fun initStudentIdViewAdapter() {
-        viewModel.addStudentId()
+        viewModel.addUniversityStudentId()
         studentIdList = viewModel.studentIdResult.value ?: emptyList()
         val adapter = StudentIdDialogAdapter(storeStudentId = ::storeStudentId)
         binding.rvStudentid.adapter = adapter

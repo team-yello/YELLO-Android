@@ -4,8 +4,10 @@ import com.example.data.model.request.onboarding.RequestAddFriendDto
 import com.example.data.model.request.onboarding.RequestPostSignupDto
 import com.example.data.model.request.onboarding.RequestServiceTokenDto
 import com.example.data.model.response.BaseResponse
+import com.example.data.model.response.onboarding.ResponseClassDto
 import com.example.data.model.response.onboarding.ResponseDepartmentDto
 import com.example.data.model.response.onboarding.ResponseFriendListDto
+import com.example.data.model.response.onboarding.ResponseHighSchoolDto
 import com.example.data.model.response.onboarding.ResponsePostSignupDto
 import com.example.data.model.response.onboarding.ResponseSchoolDto
 import com.example.data.model.response.onboarding.ResponseServiceTokenDto
@@ -20,18 +22,30 @@ interface OnboardingService {
         @Body request: RequestServiceTokenDto,
     ): BaseResponse<ResponseServiceTokenDto>
 
-    @GET("api/v1/auth/school")
+    @GET("api/v1/auth/group/univ/name")
     suspend fun getSchoolSearchService(
-        @Query("page") page: Int,
         @Query("keyword") keyword: String,
+        @Query("page") page: Long,
     ): BaseResponse<ResponseSchoolDto>
 
-    @GET("api/v1/auth/school/department")
+    @GET("api/v1/auth/group/high/name")
+    suspend fun getHighSchoolSearchService(
+        @Query("keyword") keyword: String,
+        @Query("page") page: Long,
+    ): BaseResponse<ResponseHighSchoolDto>
+
+    @GET("api/v1/auth/group/univ/department")
     suspend fun getDepartmentSearchService(
         @Query("page") page: Int,
-        @Query("school") school: String,
+        @Query("name") name: String,
         @Query("keyword") keyword: String,
     ): BaseResponse<ResponseDepartmentDto>
+
+    @GET("api/v1/auth/group/high/class")
+    suspend fun getClassSearchService(
+        @Query("name") name: String,
+        @Query("keyword") keyword: String,
+    ): BaseResponse<ResponseClassDto>
 
     @GET("api/v1/auth/valid")
     suspend fun getValidYelloId(

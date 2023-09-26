@@ -3,46 +3,38 @@ package com.el.yello.presentation.onboarding.fragment.highschoolinfo
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import com.el.yello.R
 import com.el.yello.databinding.FragmentHighschoolBinding
+import com.el.yello.presentation.onboarding.activity.OnBoardingActivity
 import com.el.yello.presentation.onboarding.activity.OnBoardingViewModel
 import com.el.yello.presentation.onboarding.fragment.highschoolinfo.group.GroupDialogFragment
 import com.el.yello.presentation.onboarding.fragment.highschoolinfo.school.SearchDialogHighSchoolFragment
+import com.el.yello.util.context.yelloSnackbar
 import com.example.domain.enum.GradeEnum
 import com.example.ui.base.BindingFragment
 import com.example.ui.view.setOnSingleClickListener
-import java.util.Timer
-import kotlin.concurrent.timer
 
-class HighschoolInfoFragment :
+class HighSchoolInfoFragment :
     BindingFragment<FragmentHighschoolBinding>(R.layout.fragment_highschool) {
     private val viewModel by activityViewModels<OnBoardingViewModel>()
 
-    var timer: Timer? = null
-    var deltaTime = 16
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.vm = viewModel
-        progressBarTimerFun()
-
-        binding.first = GradeEnum.A.toString()
-        binding.second = GradeEnum.B.toString()
-        binding.third = GradeEnum.C.toString()
+        binding.first = GradeEnum.A.toInt()
+        binding.second = GradeEnum.B.toInt()
+        binding.third = GradeEnum.C.toInt()
+        setupHighSchool()
         setupGrade()
-        setupGroup()
+        setupHighSchoolGroup()
         initSearchInfoBtnClickListener()
         setConfirmBtnClickListener()
     }
 
-    private fun progressBarTimerFun() {
-        binding.highschoolProgressbar.progress = 16
-        timer?.cancel()
-        timer = Timer()
-        timer = timer(period = 8, initialDelay = 300) {
-            if (deltaTime > 32) cancel()
-            binding.highschoolProgressbar.setProgress(++deltaTime)
-            println(binding.highschoolProgressbar.progress)
-        }
+    override fun onResume() {
+        super.onResume()
+        (activity as? OnBoardingActivity)?.showBackBtn()
     }
 
     private fun initSearchInfoBtnClickListener() {
@@ -50,14 +42,24 @@ class HighschoolInfoFragment :
             SearchDialogHighSchoolFragment().show(parentFragmentManager, this.tag)
         }
         binding.tvGroupSearch.setOnSingleClickListener {
-            GroupDialogFragment().show(parentFragmentManager, this.tag)
+            if (binding.tvHighschoolSearch.text.isNotBlank()) {
+                GroupDialogFragment().show(parentFragmentManager, this.tag)
+            } else {
+                yelloSnackbar(binding.root.rootView, "학교와 학년을 선택해야 반을 선택할 수 있어요!")
+            }
+        }
+    }
+
+    private fun setupHighSchool() {
+        viewModel.highSchoolText.observe(viewLifecycleOwner) { school ->
+            binding.tvHighschoolSearch.text = school
         }
     }
 
     private fun setupGrade() {
-        viewModel.gradeText.observe(viewLifecycleOwner) { grade ->
+        viewModel.studentIdText.observe(viewLifecycleOwner) { grade ->
             when (grade) {
-                GradeEnum.A.toString() -> {
+                GradeEnum.A.toInt() -> {
                     binding.tvGradeFirst.setBackgroundResource(R.drawable.shape_grayscales900_fill_yello_main600_line_8_leftrect)
                     binding.tvGradeFirst.setTextColor(resources.getColor(R.color.yello_main_600))
                     binding.tvGradeSecond.setBackgroundResource(R.drawable.shape_grayscales900_fill_grayscales700_line_8_square)
@@ -66,7 +68,7 @@ class HighschoolInfoFragment :
                     binding.tvGradeThird.setTextColor(resources.getColor(R.color.grayscales_700))
                 }
 
-                GradeEnum.B.toString() -> {
+                GradeEnum.B.toInt() -> {
                     binding.tvGradeFirst.setBackgroundResource(R.drawable.shape_grayscales900_fill_grayscales700_line_8_leftrect)
                     binding.tvGradeFirst.setTextColor(resources.getColor(R.color.grayscales_700))
                     binding.tvGradeSecond.setBackgroundResource(R.drawable.shape_grayscales900_fill_yello_main600_line_8_square)
@@ -75,7 +77,7 @@ class HighschoolInfoFragment :
                     binding.tvGradeThird.setTextColor(resources.getColor(R.color.grayscales_700))
                 }
 
-                GradeEnum.C.toString() -> {
+                GradeEnum.C.toInt() -> {
                     binding.tvGradeFirst.setBackgroundResource(R.drawable.shape_grayscales900_fill_grayscales700_line_8_leftrect)
                     binding.tvGradeFirst.setTextColor(resources.getColor(R.color.grayscales_700))
                     binding.tvGradeSecond.setBackgroundResource(R.drawable.shape_grayscales900_fill_grayscales700_line_8_square)
@@ -87,18 +89,17 @@ class HighschoolInfoFragment :
         }
     }
 
-    private fun setupGroup() {
-        viewModel.groupText.observe(viewLifecycleOwner) { group ->
+    private fun setupHighSchoolGroup() {
+        viewModel.highSchoolGroupText.observe(viewLifecycleOwner) { group ->
             binding.tvGroupSearch.text = getString(R.string.onboarding_group, group)
         }
     }
 
     private fun setConfirmBtnClickListener() {
         binding.btnHighschoolinfoNextBtn.setOnSingleClickListener {
-           // findNavController().navigate(R.id.action_highschoolInfoFragment_to_genderFragment)
-        }
-        binding.btnHighschoolinfoBackBtn.setOnSingleClickListener {
-           // findNavController().navigate(R.id.action_highschoolInfoFragment_to_selectStudentFragment)
+            findNavController().navigate(R.id.action_highschoolInfoFragment_to_yelIoIdFragment)
+            val activity = requireActivity() as OnBoardingActivity
+            activity.progressBarPlus()
         }
     }
 }

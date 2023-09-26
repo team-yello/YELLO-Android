@@ -7,8 +7,7 @@
 
         <variable
             name="group"
-            type="Integer" />
-
+            type="String" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -34,5 +33,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="1반" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </layout>

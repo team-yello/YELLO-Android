@@ -9,6 +9,7 @@ import android.view.View
 import android.view.WindowManager
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.el.yello.R
@@ -21,25 +22,44 @@ import com.example.ui.view.UiState
 import com.example.ui.view.setOnSingleClickListener
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class SearchDialogHighSchoolFragment :
     BindingBottomSheetDialog<FragmentDialogHighschoolBinding>(R.layout.fragment_dialog_highschool) {
     private val viewModel by activityViewModels<OnBoardingViewModel>()
     private var adapter: HighSchoolAdapter? = null
     private var inputText: String = ""
+    private val debounceTime = 500L
+    private var searchJob: Job? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.vm = viewModel
+        initHighSchoolDialogView()
+        setupHighSchoolData()
+        setClickToSchoolForm()
+        setListWithInfinityScroll()
+        recyclerviewScroll()
+    }
+
+    private fun initHighSchoolDialogView() {
+        setHideKeyboard()
+        binding.etHighschoolSearch.doAfterTextChanged { input ->
+            searchJob?.cancel()
+            searchJob = viewModel.viewModelScope.launch {
+                delay(debounceTime)
+                input?.toString()?.let { viewModel.getHighSchoolList(it) }
+            }
+        }
+        adapter = HighSchoolAdapter(storeHighSchool = ::storeHighSchool)
+        binding.rvHighschoolList.adapter = adapter
         binding.btnHighschoolBackDialog.setOnSingleClickListener {
             dismiss()
         }
-        initView()
-        setupHighSchoolData()
-        setListWithInfinityScroll()
-        recyclerviewScroll()
-        setClickToSchoolForm()
     }
+
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialog = BottomSheetDialog(requireContext(), theme)
         dialog.setOnShowListener {
@@ -55,6 +75,38 @@ class SearchDialogHighSchoolFragment :
         return dialog
     }
 
+    private fun setupHighSchoolData() {
+        viewModel.highSchoolState.observe(viewLifecycleOwner) { state ->
+            when (state) {
+                is UiState.Success -> {
+                    adapter?.submitList(state.data.groupNameList)
+                }
+
+                is UiState.Failure -> {
+                    yelloSnackbar(binding.root, getString(R.string.msg_error))
+                }
+
+                is UiState.Loading -> {}
+                is UiState.Empty -> {}
+                else -> {}
+            }
+        }
+    }
+
+    private fun storeHighSchool(school: String) {
+        viewModel.setHighSchool(school)
+        viewModel.clearHighSchoolData()
+        dismiss()
+    }
+
+    private fun setClickToSchoolForm() {
+        binding.tvHighschoolAdd.setOnClickListener {
+            Intent(Intent.ACTION_VIEW, Uri.parse(HIGHSCHOOL_FORM_URL)).apply {
+                startActivity(this)
+            }
+        }
+    }
+
     private fun setupFullHeight(bottomSheet: View) {
         val layoutParams = bottomSheet.layoutParams
         layoutParams.height = WindowManager.LayoutParams.MATCH_PARENT
@@ -68,10 +120,10 @@ class SearchDialogHighSchoolFragment :
                 if (dy > 0) {
                     recyclerView.layoutManager?.let { layoutManager ->
                         if (!binding.rvHighschoolList.canScrollVertically(1) &&
-                            layoutManager is LinearLayoutManager &&
-                            layoutManager.findLastVisibleItemPosition() == adapter!!.itemCount - 1
+                            (layoutManager is LinearLayoutManager) &&
+                            (layoutManager.findLastVisibleItemPosition() == (adapter!!.itemCount - 1))
                         ) {
-                            viewModel.getSchoolList(inputText)
+                            viewModel.getUniversityList(inputText)
                         }
                     }
                 }
@@ -87,39 +139,6 @@ class SearchDialogHighSchoolFragment :
         }
     }
 
-    private fun initView() {
-        setHideKeyboard()
-        binding.etHighschoolSearch.doAfterTextChanged { input ->
-            inputText = input.toString()
-            // TODO getHighSchoollist서버통신 -> viewModel.getHighSchoolList(inputText)
-        }
-        adapter = HighSchoolAdapter(storeHighSchool = ::storeHighSchool)
-        binding.rvHighschoolList.adapter = adapter
-        binding.btnHighschoolBackDialog.setOnSingleClickListener {
-            dismiss()
-        }
-    }
-    private fun setupHighSchoolData() {
-        // TODO schoolData -> highschoolData
-        viewModel.schoolData.observe(viewLifecycleOwner) { state ->
-            when (state) {
-                is UiState.Success -> {
-                    adapter?.submitList(state.data.schoolList)
-                }
-                is UiState.Failure -> {
-                    yelloSnackbar(binding.root, getString(R.string.msg_error))
-                }
-                is UiState.Loading -> {}
-                is UiState.Empty -> {}
-            }
-        }
-    }
-    private fun storeHighSchool(school: String) {
-        viewModel.setSchool(school)
-        viewModel.clearSchoolData()
-        dismiss()
-    }
-
     private fun recyclerviewScroll() {
         binding.rvHighschoolList.setOnTouchListener { view, motionEvent ->
             when (motionEvent.action) {
@@ -130,16 +149,6 @@ class SearchDialogHighSchoolFragment :
             return@setOnTouchListener false
         }
     }
-
-    // TODO : 학교 링크 변경
-    private fun setClickToSchoolForm() {
-        binding.tvHighschoolAdd.setOnClickListener {
-            Intent(Intent.ACTION_VIEW, Uri.parse(SCHOOL_FORM_URL)).apply {
-                startActivity(this)
-            }
-        }
-    }
-
     override fun onDestroyView() {
         super.onDestroyView()
         adapter = null
@@ -148,6 +157,6 @@ class SearchDialogHighSchoolFragment :
     companion object {
         @JvmStatic
         fun newInstance() = SearchDialogHighSchoolFragment()
-        private const val SCHOOL_FORM_URL = "https://bit.ly/46Yv0Hc"
+        private const val HIGHSCHOOL_FORM_URL = "https://forms.gle/sMyn6uq7oHDovSdi8"
     }
 }

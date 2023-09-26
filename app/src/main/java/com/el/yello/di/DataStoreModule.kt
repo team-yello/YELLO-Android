@@ -12,9 +12,9 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import javax.inject.Singleton
 import java.security.GeneralSecurityException
 import java.security.KeyStore
+import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)

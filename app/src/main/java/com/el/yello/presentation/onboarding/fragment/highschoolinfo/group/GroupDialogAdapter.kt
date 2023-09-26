@@ -11,8 +11,8 @@ import com.example.ui.view.setOnSingleClickListener
 
 class GroupDialogAdapter(
     private val storeHighSchoolGroup: (String) -> Unit,
-
 ) : ListAdapter<String, GroupDialogAdapter.GroupViewHolder>(diffUtil) {
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GroupViewHolder {
         return GroupViewHolder(
             ItemGroupListBinding.inflate(

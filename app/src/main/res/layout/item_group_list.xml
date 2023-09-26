@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="group"
             type="String" />
@@ -32,5 +33,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="1반" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </layout>

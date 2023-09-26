@@ -21,9 +21,9 @@ class LookPagingSource @Inject constructor(
     // 현재 페이지의 정보 로드
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, LookModel> {
         val currentPosition = params.key ?: 0
-        val page = currentPosition.times(LOOK_PAGING_POSITION).toInt()
+        val currentPage = currentPosition.times(LOOK_PAGING_POSITION).toInt()
         val response = runCatching {
-            lookService.getLookList(page)
+            lookService.getLookList(currentPage)
         }.getOrElse {
             return LoadResult.Error(it)
         }

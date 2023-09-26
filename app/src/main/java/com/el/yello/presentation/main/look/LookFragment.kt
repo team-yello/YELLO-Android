@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.el.yello.R
 import com.el.yello.databinding.FragmentLookBinding
 import com.el.yello.presentation.main.dialog.InviteFriendDialog
-import com.el.yello.presentation.util.BaseLinearRcvItemDeco
 import com.el.yello.util.Utils.setPullToScrollColor
 import com.el.yello.util.amplitude.AmplitudeUtils
 import com.el.yello.util.context.yelloSnackbar
@@ -43,7 +42,6 @@ class LookFragment : BindingFragment<FragmentLookBinding>(R.layout.fragment_look
         initAdapter()
         initInviteBtnListener()
         initPullToScrollListener()
-        setItemDecoration()
         viewModel.getLookListWithPaging()
         observeTimelinePagingList()
         catchScrollForAmplitude()
@@ -86,12 +84,6 @@ class LookFragment : BindingFragment<FragmentLookBinding>(R.layout.fragment_look
             }
             setPullToScrollColor(R.color.grayscales_500, R.color.grayscales_700)
         }
-    }
-
-    private fun setItemDecoration() {
-        binding.rvLook.addItemDecoration(
-            BaseLinearRcvItemDeco(8, 8, 16, 16, 0, RecyclerView.VERTICAL, 20)
-        )
     }
 
     private fun observeTimelinePagingList() {

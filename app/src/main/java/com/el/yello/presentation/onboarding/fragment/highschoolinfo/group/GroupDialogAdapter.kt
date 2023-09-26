@@ -10,8 +10,9 @@ import com.example.ui.view.ItemDiffCallback
 import com.example.ui.view.setOnSingleClickListener
 
 class GroupDialogAdapter(
-    private val storeGroup: (Int) -> Unit,
-) : ListAdapter<Int, GroupDialogAdapter.GroupViewHolder>(diffUtil) {
+    private val storeHighSchoolGroup: (String) -> Unit,
+) : ListAdapter<String, GroupDialogAdapter.GroupViewHolder>(diffUtil) {
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GroupViewHolder {
         return GroupViewHolder(
             ItemGroupListBinding.inflate(
@@ -19,30 +20,30 @@ class GroupDialogAdapter(
                 parent,
                 false,
             ),
-            storeGroup,
+            storeHighSchoolGroup,
         )
     }
 
     override fun onBindViewHolder(holder: GroupViewHolder, position: Int) {
-        holder.setGroup(getItem(position))
+        holder.setHighSchoolGroup(getItem(position))
     }
 
     class GroupViewHolder(
         private val binding: ItemGroupListBinding,
-        private val storeGroup: (Int) -> Unit,
+        private val storeHighSchoolGroup: (String) -> Unit,
     ) :
         RecyclerView.ViewHolder(binding.root) {
-        fun setGroup(group: Int) {
+        fun setHighSchoolGroup(group: String) {
             binding.group = group
             binding.root.setOnSingleClickListener {
-                storeGroup(group)
+                storeHighSchoolGroup(group)
                 binding.tvItemGroup.setBackgroundResource(R.drawable.shape_grayscales_800_fill_100_rect)
             }
         }
     }
 
     companion object {
-        private val diffUtil = ItemDiffCallback<Int>(
+        private val diffUtil = ItemDiffCallback<String>(
             onItemsTheSame = { old, new -> old == new },
             onContentsTheSame = { old, new -> old == new },
         )

@@ -1,6 +1,5 @@
 package com.example.domain.entity.onboarding
 
-data class FriendGroup(
-    val friendIdList: List<String>,
+data class GroupHighSchool(
     val groupId: Long,
 )

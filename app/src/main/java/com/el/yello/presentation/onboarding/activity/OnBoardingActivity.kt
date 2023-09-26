@@ -1,7 +1,6 @@
 package com.el.yello.presentation.onboarding.activity
 
 import android.animation.ObjectAnimator
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.view.animation.LinearInterpolator
@@ -15,7 +14,6 @@ import com.el.yello.presentation.auth.SignInActivity.Companion.EXTRA_GENDER
 import com.el.yello.presentation.auth.SignInActivity.Companion.EXTRA_KAKAO_ID
 import com.el.yello.presentation.auth.SignInActivity.Companion.EXTRA_NAME
 import com.el.yello.presentation.auth.SignInActivity.Companion.EXTRA_PROFILE_IMAGE
-import com.el.yello.presentation.auth.SocialSyncActivity
 import com.el.yello.presentation.tutorial.TutorialAActivity
 import com.example.ui.base.BindingActivity
 import com.example.ui.context.toast
@@ -33,7 +31,7 @@ class OnBoardingActivity :
         override fun handleOnBackPressed() {
             val navController = findNavController(R.id.nav_main_fragment)
             when (navController.currentDestination?.id) {
-                R.id.universityInfoFragment -> {
+                R.id.selectStudentFragment -> {
                     if (System.currentTimeMillis() - backPressedTime >= BACK_PRESSED_INTERVAL) {
                         backPressedTime = System.currentTimeMillis()
                         toast(getString(R.string.main_toast_back_pressed))
@@ -69,7 +67,7 @@ class OnBoardingActivity :
     fun onBackButtonClicked(view: View) {
         val navController = findNavController(R.id.nav_main_fragment)
         when (navController.currentDestination?.id) {
-            R.id.universityInfoFragment ->{
+            R.id.selectStudentFragment -> {
             }
             else -> {
                 navController.popBackStack()
@@ -125,11 +123,6 @@ class OnBoardingActivity :
 
     fun showBackBtn() {
         binding.backBtn.visibility = View.VISIBLE
-    }
-
-    fun startSocialSyncActivity() {
-        val intent = Intent(this, SocialSyncActivity::class.java)
-        startActivity(intent)
     }
 
     fun endTutorialActivity() {

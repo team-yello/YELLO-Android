@@ -52,10 +52,10 @@ class SearchDialogDepartmentFragment :
             searchJob?.cancel()
             searchJob = viewModel.viewModelScope.launch {
                 delay(debounceTime)
-                it?.toString()?.let { viewModel.getGroupList(it) }
+                it?.toString()?.let { viewModel.getUniversityGroupId(it) }
             }
         }
-        adapter = DepartmentAdapter(storeDepartment = ::storeGroup)
+        adapter = DepartmentAdapter(storeDepartment = ::storeUniversityGroup)
         binding.rvDepartmentList.adapter = adapter
         binding.btnBackDialog.setOnSingleClickListener {
             dismiss()
@@ -78,7 +78,7 @@ class SearchDialogDepartmentFragment :
     }
 
     private fun setupDepartmentData() {
-        viewModel.departmentData.observe(viewLifecycleOwner) { state ->
+        viewModel.departmentState.observe(viewLifecycleOwner) { state ->
             Timber.d("GET GROUP LIST OBSERVE : $state")
             when (state) {
                 is UiState.Success -> {
@@ -89,12 +89,13 @@ class SearchDialogDepartmentFragment :
                 }
                 is UiState.Loading -> {}
                 is UiState.Empty -> {}
+                else -> {}
             }
         }
     }
 
-    private fun storeGroup(department: String, groupId: Long) {
-        viewModel.setGroupInfo(department, groupId)
+    private fun storeUniversityGroup(department: String, groupId: Long) {
+        viewModel.setGroupUniversityInfo(department, groupId)
         viewModel.clearDepartmentData()
         dismiss()
     }
@@ -123,7 +124,7 @@ class SearchDialogDepartmentFragment :
                             layoutManager is LinearLayoutManager &&
                             layoutManager.findLastVisibleItemPosition() == adapter!!.itemCount - 1
                         ) {
-                            viewModel.getGroupList(inputText)
+                            viewModel.getUniversityGroupId(inputText)
                         }
                     }
                 }

@@ -32,10 +32,9 @@ class UniversityInfoFragment :
         setupDepartment()
         setupStudentId()
     }
-
     override fun onResume() {
         super.onResume()
-        (activity as? OnBoardingActivity)?.hideBackBtn()
+        (activity as? OnBoardingActivity)?.showBackBtn()
     }
 
     private fun initSearchInfoBtnClickListener() {
@@ -55,7 +54,7 @@ class UniversityInfoFragment :
     }
 
     private fun setupUniversity() {
-        viewModel.schoolText.observe(viewLifecycleOwner) { school ->
+        viewModel.universityText.observe(viewLifecycleOwner) { school ->
             binding.tvUniversitySearch.text = school
         }
     }
@@ -71,7 +70,11 @@ class UniversityInfoFragment :
 
     private fun setupStudentId() {
         viewModel.studentIdText.observe(viewLifecycleOwner) { studentId ->
-            binding.tvStudentidSearch.text = getString(R.string.onboarding_student_id, studentId)
+            if (studentId in 1..3) {
+                binding.tvStudentidSearch.text = ""
+            } else {
+                binding.tvStudentidSearch.text = getString(R.string.onboarding_student_id, studentId)
+            }
         }
     }
 
@@ -89,8 +92,8 @@ class UniversityInfoFragment :
             "click_onboarding_next",
             JSONObject().put("onboard_view", "school"),
         )
-        AmplitudeUtils.updateUserProperties("user_school", viewModel.school)
-        AmplitudeUtils.updateUserProperties("user_department", viewModel.departmentData.toString())
+        AmplitudeUtils.updateUserProperties("user_school", viewModel.university)
+        AmplitudeUtils.updateUserProperties("user_department", viewModel.departmentState.toString())
         AmplitudeUtils.updateUserIntProperties("user_grade", viewModel.studentId)
     }
 }

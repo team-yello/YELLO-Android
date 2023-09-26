@@ -50,10 +50,10 @@ class SearchDialogUniversityFragment :
             searchJob?.cancel()
             searchJob = viewModel.viewModelScope.launch {
                 delay(debounceTime)
-                input?.toString()?.let { viewModel.getSchoolList(it) }
+                input?.toString()?.let { viewModel.getUniversityList(it) }
             }
         }
-        adapter = UniversityAdapter(storeSchool = ::storeSchool)
+        adapter = UniversityAdapter(storeUniversity = ::storeUniversity)
         binding.rvSchoolList.adapter = adapter
         binding.btnBackDialog.setOnSingleClickListener {
             dismiss()
@@ -76,7 +76,7 @@ class SearchDialogUniversityFragment :
     }
 
     private fun setupUniversityData() {
-        viewModel.schoolData.observe(viewLifecycleOwner) { state ->
+        viewModel.universityState.observe(viewLifecycleOwner) { state ->
             when (state) {
                 is UiState.Success -> {
                     adapter?.submitList(state.data.schoolList)
@@ -88,13 +88,14 @@ class SearchDialogUniversityFragment :
 
                 is UiState.Loading -> {}
                 is UiState.Empty -> {}
+                else -> {}
             }
         }
     }
 
-    private fun storeSchool(school: String) {
-        viewModel.setSchool(school)
-        viewModel.clearSchoolData()
+    private fun storeUniversity(school: String) {
+        viewModel.setUniversity(school)
+        viewModel.clearUniversityData()
         dismiss()
     }
 
@@ -122,7 +123,7 @@ class SearchDialogUniversityFragment :
                             (layoutManager is LinearLayoutManager) &&
                             (layoutManager.findLastVisibleItemPosition() == (adapter!!.itemCount - 1))
                         ) {
-                            viewModel.getSchoolList(inputText)
+                            viewModel.getUniversityList(inputText)
                         }
                     }
                 }

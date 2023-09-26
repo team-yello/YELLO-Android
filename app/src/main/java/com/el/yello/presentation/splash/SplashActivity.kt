@@ -49,10 +49,11 @@ class SplashActivity : BindingActivity<ActivitySplashBinding>(R.layout.activity_
                     } else {
                         initSplash()
                     }
+                }.addOnFailureListener {
+                    initSplash()
                 }
             }
         } else {
-            // TODO 이거 다이얼로그 디자인 받아서 변경해야 함 지금은 귀찮으니깐 못생긴 안드 기본 다이얼로그로 구현함
             AlertDialog.Builder(this)
                 .setTitle("안내")
                 .setMessage("인터넷 연결을 확인해주세요.")

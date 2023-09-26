@@ -1,93 +1,58 @@
 package com.example.data.local
 
-import android.content.Context
+import android.content.SharedPreferences
 import androidx.core.content.edit
-import androidx.security.crypto.EncryptedSharedPreferences
-import androidx.security.crypto.MasterKeys
+import com.example.data.local.qualifier.App
+import com.example.data.local.qualifier.User
 import com.example.domain.YelloDataStore
 import com.example.domain.entity.vote.StoredVote
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
-import com.yello.data.BuildConfig
-import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
 class YelloDataStoreImpl @Inject constructor(
-    @ApplicationContext context: Context,
+    @User private val userPref: SharedPreferences,
+    @App private val appPref: SharedPreferences
 ) : YelloDataStore {
-    private val userDelegate by lazy {
-        if (BuildConfig.DEBUG) {
-            context.getSharedPreferences(
-                context.packageName,
-                Context.MODE_PRIVATE,
-            )
-        } else {
-            EncryptedSharedPreferences.create(
-                context.packageName,
-                MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC),
-                context,
-                EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
-                EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM,
-            )
-        }
-    }
-
-    private val appDelegate by lazy {
-        if (BuildConfig.DEBUG) {
-            context.getSharedPreferences(
-                "APP_DATA",
-                Context.MODE_PRIVATE,
-            )
-        } else {
-            EncryptedSharedPreferences.create(
-                "APP_DATA",
-                MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC),
-                context,
-                EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
-                EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM,
-            )
-        }
-    }
-
     override var userToken: String
-        get() = userDelegate.getString(PREF_USER_TOKEN, "") ?: ""
-        set(value) = userDelegate.edit { putString(PREF_USER_TOKEN, value) }
+        get() = userPref.getString(PREF_USER_TOKEN, "") ?: ""
+        set(value) = userPref.edit { putString(PREF_USER_TOKEN, value) }
 
     override var refreshToken: String
-        get() = userDelegate.getString(PREF_REFRESH_TOKEN, "") ?: ""
-        set(value) = userDelegate.edit { putString(PREF_REFRESH_TOKEN, value) }
+        get() = userPref.getString(PREF_REFRESH_TOKEN, "") ?: ""
+        set(value) = userPref.edit { putString(PREF_REFRESH_TOKEN, value) }
 
     override var deviceToken: String
-        get() = userDelegate.getString(PREF_DEVICE_TOKEN, "") ?: ""
-        set(value) = userDelegate.edit { putString(PREF_DEVICE_TOKEN, value) }
+        get() = userPref.getString(PREF_DEVICE_TOKEN, "") ?: ""
+        set(value) = userPref.edit { putString(PREF_DEVICE_TOKEN, value) }
 
     override var isLogin: Boolean
-        get() = userDelegate.getBoolean(PREF_IS_LOGIN, false)
-        set(value) = userDelegate.edit { putBoolean(PREF_IS_LOGIN, value) }
+        get() = userPref.getBoolean(PREF_IS_LOGIN, false)
+        set(value) = userPref.edit { putBoolean(PREF_IS_LOGIN, value) }
 
     override var yelloId: String
-        get() = userDelegate.getString(PREF_YELLO_ID, "") ?: ""
-        set(value) = userDelegate.edit { putString(PREF_YELLO_ID, value) }
+        get() = userPref.getString(PREF_YELLO_ID, "") ?: ""
+        set(value) = userPref.edit { putString(PREF_YELLO_ID, value) }
 
     override var isFirstLogin: Boolean
-        get() = appDelegate.getBoolean(PREF_IS_FIRST_LOGIN, false)
-        set(value) = appDelegate.edit { putBoolean(PREF_IS_FIRST_LOGIN, value) }
+        get() = appPref.getBoolean(PREF_IS_FIRST_LOGIN, false)
+        set(value) = appPref.edit { putBoolean(PREF_IS_FIRST_LOGIN, value) }
 
     override var storedVote: StoredVote?
         get() {
-            val vote = userDelegate.getString(PREF_STORED_VOTE, "")
+            val vote = userPref.getString(PREF_STORED_VOTE, "")
             return try {
                 Gson().fromJson(vote, StoredVote::class.java)
             } catch (e: Exception) {
                 null
             }
         }
-        set(value) = userDelegate.edit {
+        set(value) = userPref.edit {
             val storedVote = GsonBuilder().create().toJson(value)
             putString(PREF_STORED_VOTE, storedVote)
         }
 
-    override fun clearLocalPref() = userDelegate.edit { clear() }
+    override fun clearLocalPref() = userPref.edit { clear() }
 
     companion object {
         private const val PREF_USER_TOKEN = "USER_TOKEN"

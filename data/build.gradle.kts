@@ -56,7 +56,6 @@ dependencies {
     implementation(project(":domain"))
     AndroidXDependencies.run {
         implementation(hilt)
-        implementation(security)
         implementation(coreKtx)
         implementation(pagingRuntime)
         implementation(billing)

@@ -1,16 +1,20 @@
 package com.el.yello.presentation.splash
 
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AlertDialog
 import com.el.yello.BuildConfig
 import com.el.yello.R
+import com.el.yello.databinding.ActivitySplashBinding
 import com.el.yello.presentation.auth.SignInActivity
 import com.el.yello.presentation.main.MainActivity
+import com.el.yello.util.NetworkManager
+import com.example.ui.base.BindingActivity
 import com.example.ui.context.toast
 import com.google.android.play.core.appupdate.AppUpdateInfo
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory
@@ -21,33 +25,46 @@ import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
 @AndroidEntryPoint
-class SplashActivity : AppCompatActivity() {
+class SplashActivity : BindingActivity<ActivitySplashBinding>(R.layout.activity_splash) {
     private val viewModel by viewModels<SplashViewModel>()
 
     private val appUpdateManager by lazy { AppUpdateManagerFactory.create(this) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_splash)
 
         initAppUpdate()
-
     }
 
-
     private fun initAppUpdate() {
-        if (BuildConfig.DEBUG) {
-            initSplash()
-        } else {
-            val appUpdateInfoTask = appUpdateManager.appUpdateInfo
-            appUpdateInfoTask.addOnSuccessListener { appUpdateInfo ->
-                if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE) {
-                    appUpdateInfo.isUpdateTypeAllowed(IMMEDIATE)
-                    requestUpdate(appUpdateInfo)
-                } else {
-                    initSplash()
+        if (NetworkManager.checkNetworkState(this)) {
+            if (BuildConfig.DEBUG) {
+                initSplash()
+            } else {
+                val appUpdateInfoTask = appUpdateManager.appUpdateInfo
+                appUpdateInfoTask.addOnSuccessListener { appUpdateInfo ->
+                    if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE) {
+                        appUpdateInfo.isUpdateTypeAllowed(IMMEDIATE)
+                        requestUpdate(appUpdateInfo)
+                    } else {
+                        initSplash()
+                    }
                 }
             }
+        } else {
+            // TODO 이거 다이얼로그 디자인 받아서 변경해야 함 지금은 귀찮으니깐 못생긴 안드 기본 다이얼로그로 구현함
+            AlertDialog.Builder(this)
+                .setTitle("안내")
+                .setMessage("인터넷 연결을 확인해주세요.")
+                .setCancelable(false)
+                .setPositiveButton(
+                    "확인",
+                    DialogInterface.OnClickListener { dialog, _ ->
+                        finishAffinity()
+                    },
+                )
+                .create()
+                .show()
         }
     }
 
@@ -68,7 +85,7 @@ class SplashActivity : AppCompatActivity() {
                 activityResultLauncher,
                 AppUpdateOptions.newBuilder(IMMEDIATE)
                     .setAllowAssetPackDeletion(true)
-                    .build()
+                    .build(),
             )
         }.onFailure {
             Timber.e(it)
@@ -116,7 +133,7 @@ class SplashActivity : AppCompatActivity() {
                             appUpdateInfo,
                             activityResultLauncher,
                             AppUpdateOptions.newBuilder(IMMEDIATE)
-                                .build()
+                                .build(),
                         )
                     }.onFailure {
                         Timber.e(it)

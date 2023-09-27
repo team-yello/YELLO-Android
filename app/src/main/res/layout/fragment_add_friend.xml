@@ -111,15 +111,17 @@
             app:layout_constraintTop_toBottomOf="@+id/tv_friend_how_many"
             tools:listitem="@layout/item_add_friend" />
 
-        <android.widget.Button
+        <TextView
             android:id="@+id/btn_add_friend_next"
             android:layout_width="0dp"
+            android:textAlignment="center"
+            tools:background="@drawable/shape_yello_main_500_fill_100_rect"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
             android:layout_marginBottom="34dp"
             android:background="@drawable/shape_yello_main_500_fill_100_rect"
             android:backgroundTint="@color/yello_main_500"
-            android:paddingVertical="12dp"
+            android:paddingVertical="16dp"
             android:text="@string/onboarding_btn_addfriend_next"
             android:textAppearance="?textAppearanceBodyMedium"
             android:textColor="@color/black"

@@ -154,22 +154,25 @@
 
         <TextView
             android:id="@+id/btn_code_skip"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="2dp"
             android:background="@null"
             android:gravity="center"
             android:padding="12dp"
+            android:layout_marginHorizontal="16dp"
             android:text="@string/onboarding_btn_code_skip"
+            android:clickable="@{vm.codeText.isEmpty()}"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             android:textColor="@color/grayscales_200"
             app:layout_constraintBottom_toTopOf="@+id/btn_code_next"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
-        <android.widget.Button
+        <TextView
             android:id="@+id/btn_code_next"
             android:layout_width="0dp"
+            tools:background="@drawable/shape_yello_main_500_fill_100_rect"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
             android:layout_marginBottom="32dp"
@@ -177,6 +180,7 @@
             android:clickable="@{!vm.codeText.isEmpty()}"
             android:paddingVertical="16dp"
             android:text="@string/onboarding_code_complete"
+            android:textAlignment="center"
             android:textAppearance="?textAppearanceBodyMedium"
             android:textColor="@{!vm.codeText.isEmpty()? @color/black : @color/grayscales_700}"
             app:layout_constraintBottom_toBottomOf="parent"

@@ -38,6 +38,7 @@ class LookFragment : BindingFragment<FragmentLookBinding>(R.layout.fragment_look
     private var inviteFriendDialog: InviteFriendDialog? = null
 
     private var isScrolled: Boolean = false
+    private var isNoFriend: Boolean = false
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -61,6 +62,7 @@ class LookFragment : BindingFragment<FragmentLookBinding>(R.layout.fragment_look
             if (combinedLoadStates.prepend.endOfPaginationReached) {
                 binding.layoutLookNoFriendsList.isVisible = adapter.itemCount < 1
                 binding.rvLook.isGone = adapter.itemCount < 1
+                isNoFriend = adapter.itemCount < 1
             }
         }
     }
@@ -107,7 +109,7 @@ class LookFragment : BindingFragment<FragmentLookBinding>(R.layout.fragment_look
             adapter.loadStateFlow.collectLatest { loadStates ->
                 when (loadStates.refresh) {
                     is LoadState.Loading -> {
-                        startShimmerView()
+                        if (!isNoFriend) startShimmerView()
                     }
 
                     is LoadState.NotLoading -> {

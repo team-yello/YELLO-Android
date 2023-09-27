@@ -14,23 +14,23 @@ class LookPagingSource @Inject constructor(
     override fun getRefreshKey(state: PagingState<Int, LookModel>): Int? {
         return state.anchorPosition?.let { anchorPosition ->
             val anchorPage = state.closestPageToPosition(anchorPosition)
-            anchorPage?.prevKey?.plus(1) ?: anchorPage?.nextKey?.minus(1)
+            anchorPage?.prevKey?.plus(LOOK_PAGE_SIZE) ?: anchorPage?.nextKey?.minus(LOOK_PAGE_SIZE)
         }
     }
 
     // 현재 페이지의 정보 로드
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, LookModel> {
         val currentPosition = params.key ?: 0
-        val currentPage = currentPosition.times(LOOK_PAGING_POSITION).toInt()
+        val currentPage = currentPosition.times(LOOK_POSITION_TO_PAGE).toInt()
         val response = runCatching {
             lookService.getLookList(currentPage)
         }.getOrElse {
             return LoadResult.Error(it)
         }
         val nextPosition =
-            if (response.data?.friendVotes?.isEmpty() == true) null else currentPosition + LOOK_PAGING_SIZE
+            if (response.data?.friendVotes.isNullOrEmpty()) null else currentPosition + LOOK_PAGE_SIZE
         val previousPosition =
-            if (currentPosition == 0) null else currentPosition - 1
+            if (currentPosition == 0) null else currentPosition - LOOK_PAGE_SIZE
         return runCatching {
             LoadResult.Page(
                 data = response.data?.toLookListModel()?.friendVotes ?: listOf(),
@@ -43,7 +43,7 @@ class LookPagingSource @Inject constructor(
     }
 
     companion object {
-        const val LOOK_PAGING_SIZE = 10
-        const val LOOK_PAGING_POSITION = 0.1
+        const val LOOK_PAGE_SIZE = 10
+        const val LOOK_POSITION_TO_PAGE = 0.1
     }
 }

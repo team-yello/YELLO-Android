@@ -6,8 +6,10 @@ import android.view.animation.AnimationUtils
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.flowWithLifecycle
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import androidx.paging.LoadState
 import androidx.recyclerview.widget.RecyclerView
 import com.el.yello.R
 import com.el.yello.databinding.FragmentLookBinding
@@ -16,10 +18,11 @@ import com.el.yello.util.Utils.setPullToScrollColor
 import com.el.yello.util.amplitude.AmplitudeUtils
 import com.el.yello.util.context.yelloSnackbar
 import com.example.ui.base.BindingFragment
-import com.example.ui.view.UiState
 import com.example.ui.view.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.distinctUntilChangedBy
 import kotlinx.coroutines.launch
 import org.json.JSONObject
 
@@ -41,9 +44,9 @@ class LookFragment : BindingFragment<FragmentLookBinding>(R.layout.fragment_look
 
         initAdapter()
         initInviteBtnListener()
-        initPullToScrollListener()
-        viewModel.getLookListWithPaging()
-        observeTimelinePagingList()
+        setTimelinePagingList()
+        setPullToScrollListener()
+        observePagingLoadingState()
         catchScrollForAmplitude()
         AmplitudeUtils.trackEventWithProperties("view_timeline")
     }
@@ -52,9 +55,10 @@ class LookFragment : BindingFragment<FragmentLookBinding>(R.layout.fragment_look
         viewModel.setFirstLoading(true)
         _adapter = LookAdapter()
         binding.rvLook.adapter = adapter
+        binding.lifecycleOwner = this
 
         adapter.addLoadStateListener { combinedLoadStates ->
-            if (combinedLoadStates.prepend.endOfPaginationReached && !viewModel.isFirstLoading.value) {
+            if (combinedLoadStates.prepend.endOfPaginationReached) {
                 binding.layoutLookNoFriendsList.isVisible = adapter.itemCount < 1
                 binding.rvLook.isGone = adapter.itemCount < 1
             }
@@ -72,43 +76,54 @@ class LookFragment : BindingFragment<FragmentLookBinding>(R.layout.fragment_look
         }
     }
 
-    private fun initPullToScrollListener() {
+    private fun setTimelinePagingList() {
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.getLookListWithPaging().collectLatest { adapter.submitData(it) }
+            }
+        }
+    }
+
+    private fun setPullToScrollListener() {
         binding.layoutLookSwipe.apply {
             setOnRefreshListener {
-                lifecycleScope.launch {
-                    viewModel.setFirstLoading(true)
-                    viewModel.getLookListWithPaging()
+                adapter.refresh()
+                viewModel.setFirstLoading(true)
+            }
+            setPullToScrollColor(R.color.grayscales_500, R.color.grayscales_700)
+        }
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.CREATED) {
+                adapter.loadStateFlow.distinctUntilChangedBy { it.refresh }.collect {
                     delay(200)
                     binding.layoutLookSwipe.isRefreshing = false
                 }
             }
-            setPullToScrollColor(R.color.grayscales_500, R.color.grayscales_700)
         }
     }
 
-    private fun observeTimelinePagingList() {
+    private fun observePagingLoadingState() {
         lifecycleScope.launch {
-            viewModel.getLookListState.flowWithLifecycle(viewLifecycleOwner.lifecycle)
-                .collect { state ->
-                    when (state) {
-                        is UiState.Success -> {
-                            stopShimmerView()
+            adapter.loadStateFlow.collectLatest { loadStates ->
+                when (loadStates.refresh) {
+                    is LoadState.Loading -> {
+                        startShimmerView()
+                    }
+
+                    is LoadState.NotLoading -> {
+                        if (viewModel.isFirstLoading.value) {
                             startFadeIn()
-                            adapter.submitData(state.data)
+                            viewModel.setFirstLoading(false)
                         }
+                        stopShimmerView()
+                    }
 
-                        is UiState.Failure -> {
-                            yelloSnackbar(requireView(), getString(R.string.look_error_friend_list))
-                            startShimmerView()
-                        }
-
-                        is UiState.Loading -> {
-                            startShimmerView()
-                        }
-
-                        is UiState.Empty -> {}
+                    is LoadState.Error -> {
+                        startShimmerView()
+                        yelloSnackbar(requireView(), getString(R.string.look_error_friend_list))
                     }
                 }
+            }
         }
     }
 

@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.el.yello.presentation.main.recommend.list.RecommendViewHolder
-import com.example.domain.entity.RecommendModel
+import com.example.domain.entity.RecommendListModel
 import com.example.domain.repository.AuthRepository
 import com.example.domain.repository.RecommendRepository
 import com.example.ui.view.UiState
@@ -20,8 +20,8 @@ class RecommendSchoolViewModel @Inject constructor(
     private val authRepository: AuthRepository,
 ) : ViewModel() {
 
-    private val _postFriendsListState = MutableLiveData<UiState<RecommendModel?>>()
-    val postFriendsListState: LiveData<UiState<RecommendModel?>> = _postFriendsListState
+    private val _postFriendsListState = MutableLiveData<UiState<RecommendListModel?>>()
+    val postFriendsListState: LiveData<UiState<RecommendListModel?>> = _postFriendsListState
 
     private val _addFriendState = MutableLiveData<UiState<Unit>>()
     val addFriendState: LiveData<UiState<Unit>> = _addFriendState

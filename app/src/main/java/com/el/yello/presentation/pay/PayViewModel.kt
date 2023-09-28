@@ -4,14 +4,17 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.domain.entity.RequestPayModel
-import com.example.domain.entity.ResponsePayInAppModel
-import com.example.domain.entity.ResponsePaySubsModel
-import com.example.domain.entity.ResponsePurchaseInfoModel
-import com.example.domain.entity.ResponseSubsNeededModel
+import com.example.domain.entity.PayRequestModel
+import com.example.domain.entity.PayInAppModel
+import com.example.domain.entity.PaySubsModel
+import com.example.domain.entity.PayInfoModel
+import com.example.domain.entity.PaySubsNeededModel
 import com.example.domain.repository.PayRepository
 import com.example.ui.view.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -22,19 +25,20 @@ class PayViewModel @Inject constructor(
 
     var currentInAppItem: String = ""
 
-    private val _postSubsCheckState = MutableLiveData<UiState<ResponsePaySubsModel?>>()
-    val postSubsCheckState: LiveData<UiState<ResponsePaySubsModel?>> = _postSubsCheckState
+    private val _postSubsCheckState = MutableLiveData<UiState<PaySubsModel?>>()
+    val postSubsCheckState: LiveData<UiState<PaySubsModel?>> = _postSubsCheckState
 
-    private val _postInAppCheckState = MutableLiveData<UiState<ResponsePayInAppModel?>>()
-    val postInAppCheckState: LiveData<UiState<ResponsePayInAppModel?>> = _postInAppCheckState
+    private val _postInAppCheckState = MutableLiveData<UiState<PayInAppModel?>>()
+    val postInAppCheckState: LiveData<UiState<PayInAppModel?>> = _postInAppCheckState
 
-    private val _getSubsNeededState = MutableLiveData<UiState<ResponseSubsNeededModel?>>()
-    val getSubsNeededState: LiveData<UiState<ResponseSubsNeededModel?>> = _getSubsNeededState
+    private val _getSubsNeededState = MutableLiveData<UiState<PaySubsNeededModel?>>()
+    val getSubsNeededState: LiveData<UiState<PaySubsNeededModel?>> = _getSubsNeededState
 
-    private val _getPurchaseInfoState = MutableLiveData<UiState<ResponsePurchaseInfoModel?>>()
-    val getPurchaseInfoState: LiveData<UiState<ResponsePurchaseInfoModel?>> = _getPurchaseInfoState
+    private val _getPurchaseInfoState = MutableStateFlow<UiState<PayInfoModel?>>(UiState.Empty)
+    val getPurchaseInfoState: StateFlow<UiState<PayInfoModel?>> = _getPurchaseInfoState.asStateFlow()
 
-   var ticketCount = 0
+    var ticketCount = 0
+        private set
 
     fun setTicketCount(count: Int) {
         ticketCount = count
@@ -45,28 +49,24 @@ class PayViewModel @Inject constructor(
     }
 
     // 서버 통신 - 구독 상품 검증
-    fun checkSubsToServer(request: RequestPayModel) {
+    fun checkSubsToServer(request: PayRequestModel) {
         viewModelScope.launch {
             _postSubsCheckState.value = UiState.Loading
-            payRepository.postToCheckSubs(request)
-                .onSuccess {
+            payRepository.postToCheckSubs(request).onSuccess {
                     _postSubsCheckState.value = UiState.Success(it)
-                }
-                .onFailure {
+                }.onFailure {
                     _postSubsCheckState.value = UiState.Failure(it.message.toString())
                 }
         }
     }
 
     // 서버 통신 - 열람권 상품 검증
-    fun checkInAppToServer(request: RequestPayModel) {
+    fun checkInAppToServer(request: PayRequestModel) {
         viewModelScope.launch {
             _postInAppCheckState.value = UiState.Loading
-            payRepository.postToCheckInApp(request)
-                .onSuccess {
+            payRepository.postToCheckInApp(request).onSuccess {
                     _postInAppCheckState.value = UiState.Success(it)
-                }
-                .onFailure {
+                }.onFailure {
                     _postInAppCheckState.value = UiState.Failure(it.message.toString())
                 }
         }
@@ -75,11 +75,9 @@ class PayViewModel @Inject constructor(
     // 서버 통신 - (아직 사용 X) 구독 재촉 알림 필요 여부 확인
     fun getSubsNeededFromServer() {
         viewModelScope.launch {
-            payRepository.getSubsNeeded()
-                .onSuccess {
+            payRepository.getSubsNeeded().onSuccess {
                     _getSubsNeededState.value = UiState.Success(it)
-                }
-                .onFailure {
+                }.onFailure {
                     _getSubsNeededState.value = UiState.Failure(it.message.toString())
                 }
         }
@@ -88,11 +86,9 @@ class PayViewModel @Inject constructor(
     // 서버 통신 - 구독 여부 & 열람권 개수 받아오기
     fun getPurchaseInfoFromServer() {
         viewModelScope.launch {
-            payRepository.getPurchaseInfo()
-                .onSuccess {
+            payRepository.getPurchaseInfo().onSuccess {
                     _getPurchaseInfoState.value = UiState.Success(it)
-                }
-                .onFailure {
+                }.onFailure {
                     _getPurchaseInfoState.value = UiState.Failure(it.message.toString())
                 }
         }

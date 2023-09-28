@@ -5,8 +5,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.el.yello.presentation.main.recommend.list.RecommendViewHolder
-import com.example.domain.entity.RecommendModel
-import com.example.domain.entity.RequestRecommendKakaoModel
+import com.example.domain.entity.RecommendListModel
+import com.example.domain.entity.RecommendRequestModel
 import com.example.domain.repository.AuthRepository
 import com.example.domain.repository.RecommendRepository
 import com.example.ui.view.UiState
@@ -25,8 +25,8 @@ class RecommendKakaoViewModel @Inject constructor(
     private val _getKakaoErrorResult = MutableLiveData<String>()
     val getKakaoErrorResult: LiveData<String> = _getKakaoErrorResult
 
-    private val _postFriendsListState = MutableLiveData<UiState<RecommendModel?>>()
-    val postFriendsListState: LiveData<UiState<RecommendModel?>> = _postFriendsListState
+    private val _postFriendsListState = MutableLiveData<UiState<RecommendListModel?>>()
+    val postFriendsListState: LiveData<UiState<RecommendListModel?>> = _postFriendsListState
 
     private val _addFriendState = MutableLiveData<UiState<Unit>>()
     val addFriendState: LiveData<UiState<Unit>> = _addFriendState
@@ -91,7 +91,7 @@ class RecommendKakaoViewModel @Inject constructor(
         viewModelScope.launch {
             recommendRepository.postToGetKakaoFriendList(
                 0,
-                RequestRecommendKakaoModel(friendsKakaoId),
+                RecommendRequestModel(friendsKakaoId),
             )
                 .onSuccess {
                     it ?: return@launch

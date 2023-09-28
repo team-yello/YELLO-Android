@@ -6,7 +6,7 @@ import androidx.paging.PagingData
 import com.example.data.datasource.paging.LookPagingSource
 import com.example.data.datasource.paging.LookPagingSource.Companion.LOOK_PAGE_SIZE
 import com.example.data.remote.service.LookService
-import com.example.domain.entity.ResponseLookListModel.LookModel
+import com.example.domain.entity.LookListModel.LookModel
 import com.example.domain.repository.LookRepository
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject

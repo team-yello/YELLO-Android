@@ -2,9 +2,9 @@ package com.example.data.repository
 
 import com.example.data.datasource.RecommendDataSource
 import com.example.data.model.request.recommend.toRequestDto
-import com.example.domain.entity.RecommendModel
+import com.example.domain.entity.RecommendListModel
 import com.example.domain.entity.RecommendSearchModel
-import com.example.domain.entity.RequestRecommendKakaoModel
+import com.example.domain.entity.RecommendRequestModel
 import com.example.domain.repository.RecommendRepository
 import javax.inject.Inject
 
@@ -14,8 +14,8 @@ class RecommendRepositoryImpl @Inject constructor(
 
     override suspend fun postToGetKakaoFriendList(
         page: Int,
-        request: RequestRecommendKakaoModel,
-    ): Result<RecommendModel?> {
+        request: RecommendRequestModel,
+    ): Result<RecommendListModel?> {
         return runCatching {
             recommendDataSource.postToGetKakaoListData(
                 page,
@@ -26,7 +26,7 @@ class RecommendRepositoryImpl @Inject constructor(
 
     override suspend fun getSchoolFriendList(
         page: Int
-    ): Result<RecommendModel?> {
+    ): Result<RecommendListModel?> {
         return runCatching {
             recommendDataSource.getSchoolListData(
                 page,

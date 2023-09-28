@@ -7,7 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.el.yello.util.amplitude.AmplitudeUtils
 import com.example.domain.entity.ProfileFriendsListModel
 import com.example.domain.entity.ProfileUserModel
-import com.example.domain.entity.ResponsePurchaseInfoModel
+import com.example.domain.entity.PayInfoModel
 import com.example.domain.entity.vote.VoteCount
 import com.example.domain.repository.AuthRepository
 import com.example.domain.repository.PayRepository
@@ -53,8 +53,8 @@ class ProfileViewModel @Inject constructor(
     private val _kakaoQuitState = MutableLiveData<UiState<Unit>>()
     val kakaoQuitState: LiveData<UiState<Unit>> = _kakaoQuitState
 
-    private val _getPurchaseInfoState = MutableLiveData<UiState<ResponsePurchaseInfoModel?>>()
-    val getPurchaseInfoState: LiveData<UiState<ResponsePurchaseInfoModel?>> = _getPurchaseInfoState
+    private val _getPurchaseInfoState = MutableLiveData<UiState<PayInfoModel?>>()
+    val getPurchaseInfoState: LiveData<UiState<PayInfoModel?>> = _getPurchaseInfoState
 
     var isSubscribed: Boolean = false
 

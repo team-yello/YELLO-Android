@@ -1,6 +1,6 @@
 package com.example.data.model.response.recommend
 
-import com.example.domain.entity.RecommendModel
+import com.example.domain.entity.RecommendListModel
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -23,10 +23,10 @@ data class ResponseRecommendDto(
         val profileImage: String?
     )
 
-    fun toRecommendModel(): RecommendModel {
-        return RecommendModel(
+    fun toRecommendModel(): RecommendListModel {
+        return RecommendListModel(
             totalCount, friends.map {
-                RecommendModel.RecommendFriend(
+                RecommendListModel.RecommendFriend(
                     it.id,
                     it.name,
                     it.group,

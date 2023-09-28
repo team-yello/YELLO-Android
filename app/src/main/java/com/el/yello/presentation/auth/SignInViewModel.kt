@@ -7,8 +7,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.el.yello.presentation.auth.SignInActivity.Companion.CODE_NOT_SIGNED_IN
 import com.el.yello.presentation.auth.SignInActivity.Companion.CODE_NO_UUID
-import com.example.domain.entity.RequestServiceTokenModel
-import com.example.domain.entity.ServiceTokenModel
+import com.example.domain.entity.AuthTokenRequestModel
+import com.example.domain.entity.AuthTokenModel
 import com.example.domain.repository.AuthRepository
 import com.example.domain.repository.OnboardingRepository
 import com.example.domain.repository.ProfileRepository
@@ -32,8 +32,8 @@ class SignInViewModel @Inject constructor(
     private val profileRepository: ProfileRepository
 ) : ViewModel() {
 
-    private val _postChangeTokenState = MutableLiveData<UiState<ServiceTokenModel?>>()
-    val postChangeTokenState: LiveData<UiState<ServiceTokenModel?>> = _postChangeTokenState
+    private val _postChangeTokenState = MutableLiveData<UiState<AuthTokenModel?>>()
+    val postChangeTokenState: LiveData<UiState<AuthTokenModel?>> = _postChangeTokenState
 
     private val _getUserProfileState = MutableLiveData<UiState<Unit>>()
     val getUserProfileState: LiveData<UiState<Unit>> = _getUserProfileState
@@ -135,7 +135,7 @@ class SignInViewModel @Inject constructor(
         viewModelScope.launch {
             _postChangeTokenState.value = UiState.Loading
             onboardingRepository.postTokenToServiceToken(
-                RequestServiceTokenModel(accessToken, social, deviceToken),
+                AuthTokenRequestModel(accessToken, social, deviceToken),
             )
                 .onSuccess {
                     if (it == null) {

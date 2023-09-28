@@ -5,7 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import com.el.yello.databinding.ItemLookBinding
-import com.example.domain.entity.ResponseLookListModel.LookModel
+import com.example.domain.entity.LookListModel.LookModel
 import com.example.ui.view.ItemDiffCallback
 
 class LookAdapter :

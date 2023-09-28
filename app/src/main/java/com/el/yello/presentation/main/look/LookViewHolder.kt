@@ -5,7 +5,7 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.el.yello.R
 import com.el.yello.databinding.ItemLookBinding
-import com.example.domain.entity.ResponseLookListModel.LookModel
+import com.example.domain.entity.LookListModel.LookModel
 
 class LookViewHolder(
     val binding: ItemLookBinding

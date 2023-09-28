@@ -5,7 +5,6 @@ import android.view.View
 import android.view.WindowManager
 import android.view.animation.AnimationUtils
 import androidx.core.view.isVisible
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DefaultItemAnimator
@@ -14,7 +13,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.el.yello.R
 import com.el.yello.databinding.FragmentRecommendSchoolBinding
 import com.el.yello.presentation.main.dialog.InviteFriendDialog
-import com.el.yello.presentation.main.recommend.kakao.RecommendKakaoViewModel
 import com.el.yello.presentation.main.recommend.list.RecommendAdapter
 import com.el.yello.presentation.main.recommend.list.RecommendItemDecoration
 import com.el.yello.presentation.main.recommend.list.RecommendViewHolder
@@ -22,7 +20,7 @@ import com.el.yello.presentation.util.BaseLinearRcvItemDeco
 import com.el.yello.util.Utils.setPullToScrollColor
 import com.el.yello.util.amplitude.AmplitudeUtils
 import com.el.yello.util.context.yelloSnackbar
-import com.example.domain.entity.RecommendModel.RecommendFriend
+import com.example.domain.entity.RecommendListModel.RecommendFriend
 import com.example.ui.base.BindingFragment
 import com.example.ui.view.UiState
 import com.example.ui.view.setOnSingleClickListener

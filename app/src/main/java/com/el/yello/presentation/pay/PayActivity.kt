@@ -12,8 +12,6 @@ import com.android.billingclient.api.ProductDetails
 import com.android.billingclient.api.Purchase
 import com.el.yello.R
 import com.el.yello.databinding.ActivityPayBinding
-import com.el.yello.presentation.util.BillingCallback
-import com.el.yello.presentation.util.BillingManager
 import com.el.yello.util.amplitude.AmplitudeUtils
 import com.example.data.model.request.pay.toRequestPayModel
 import com.example.ui.base.BindingActivity
@@ -22,6 +20,7 @@ import com.example.ui.view.UiState
 import com.example.ui.view.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.json.JSONObject
 import timber.log.Timber
@@ -55,7 +54,7 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
         setBannerOnChangeListener()
         setBannerAutoScroll()
         setBillingManager()
-        observeIsPurchasedStarted()
+        observeIsPurchasing()
         observeCheckSubsState()
         observeCheckInAppState()
         observeCheckIsSubscribed()
@@ -200,9 +199,11 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
     }
 
     // 구매 완료 이후 검증 완료까지 로딩 로티 실행
-    private fun observeIsPurchasedStarted() {
-        manager.isPurchaseStarted.observe(this) { boolean ->
-            if (boolean == true) startLoadingScreen()
+    private fun observeIsPurchasing() {
+        lifecycleScope.launch {
+            manager.isPurchasing.collectLatest { isPurchasing ->
+                if (isPurchasing) startLoadingScreen()
+            }
         }
     }
 
@@ -292,7 +293,7 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
     }
 
     private fun stopLoadingScreen() {
-        manager.setIsPurchasingOff()
+        manager.setIsPurchaseStarted(false)
         binding.layoutPayCheckLoading.visibility = View.GONE
         window?.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
     }

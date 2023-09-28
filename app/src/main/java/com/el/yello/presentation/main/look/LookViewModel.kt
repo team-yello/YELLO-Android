@@ -1,9 +1,7 @@
 package com.el.yello.presentation.main.look
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
-import androidx.paging.cachedIn
 import com.example.domain.entity.ResponseLookListModel.LookModel
 import com.example.domain.repository.AuthRepository
 import com.example.domain.repository.LookRepository

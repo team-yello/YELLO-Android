@@ -20,8 +20,6 @@ class PayViewModel @Inject constructor(
     private val payRepository: PayRepository
 ) : ViewModel() {
 
-    var isFirstCreated: Boolean = true
-
     var currentInAppItem: String = ""
 
     private val _postSubsCheckState = MutableLiveData<UiState<ResponsePaySubsModel?>>()
@@ -45,7 +43,7 @@ class PayViewModel @Inject constructor(
                     _postSubsCheckState.value = UiState.Success(it)
                 }
                 .onFailure {
-                    _postSubsCheckState.value = UiState.Failure(it.message ?: "")
+                    _postSubsCheckState.value = UiState.Failure(it.message.toString())
                 }
         }
     }
@@ -59,7 +57,7 @@ class PayViewModel @Inject constructor(
                     _postInAppCheckState.value = UiState.Success(it)
                 }
                 .onFailure {
-                    _postInAppCheckState.value = UiState.Failure(it.message ?: "")
+                    _postInAppCheckState.value = UiState.Failure(it.message.toString())
                 }
         }
     }
@@ -72,7 +70,7 @@ class PayViewModel @Inject constructor(
                     _getSubsNeededState.value = UiState.Success(it)
                 }
                 .onFailure {
-                    _getSubsNeededState.value = UiState.Failure(it.message ?: "")
+                    _getSubsNeededState.value = UiState.Failure(it.message.toString())
                 }
         }
     }
@@ -85,7 +83,7 @@ class PayViewModel @Inject constructor(
                     _getPurchaseInfoState.value = UiState.Success(it)
                 }
                 .onFailure {
-                    _getPurchaseInfoState.value = UiState.Failure(it.message ?: "")
+                    _getPurchaseInfoState.value = UiState.Failure(it.message.toString())
                 }
         }
     }

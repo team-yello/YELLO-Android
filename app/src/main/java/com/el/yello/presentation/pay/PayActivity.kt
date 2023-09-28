@@ -43,9 +43,6 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
     private var paySubsDialog: PaySubsDialog? = null
     private var payInAppDialog: PayInAppDialog? = null
 
-    private var isSubscribed = false
-    private var ticketCount = 0
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -56,9 +53,9 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
         setBannerAutoScroll()
         setBillingManager()
         observeIsPurchasing()
+        observePurchaseInfoState()
         observeCheckSubsState()
         observeCheckInAppState()
-        observeCheckIsSubscribed()
     }
 
     override fun onDestroy() {
@@ -176,6 +173,25 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
         }
     }
 
+    // 구독 여부 확인해서 화면 표시 변경
+    private fun observePurchaseInfoState() {
+        viewModel.getPurchaseInfoState.observe(this) { state ->
+            when (state) {
+                is UiState.Success -> {
+                    binding.layoutShowSubs.visibility =
+                        if (state.data?.isSubscribe == true) View.VISIBLE else View.GONE
+                    viewModel.setTicketCount(state.data?.ticketCount ?: 0)
+                }
+
+                is UiState.Failure -> { binding.layoutShowSubs.visibility = View.GONE }
+
+                is UiState.Loading -> {}
+
+                is UiState.Empty -> {}
+            }
+        }
+    }
+
     // 구독 상품 검증 옵저버
     private fun observeCheckSubsState() {
         viewModel.postSubsCheckState.observe(this) { state ->
@@ -183,7 +199,6 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
             when (state) {
                 is UiState.Success -> {
                     setCompleteShopBuyAmplitude("subscribe", "3900")
-                    isSubscribed = true
                     paySubsDialog = PaySubsDialog()
                     paySubsDialog?.show(supportFragmentManager, DIALOG_SUBS)
                     AmplitudeUtils.setUserDataProperties("user_buy_date")
@@ -212,19 +227,19 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
                 is UiState.Success -> {
                     stopLoadingScreen()
                     when (state.data?.productId) {
-                        "yello_ticket_one" -> {
+                        YELLO_ONE -> {
                             setCompleteShopBuyAmplitude("ticket1", "1400")
-                            ticketCount += 1
+                            viewModel.addTicketCount(1)
                         }
 
-                        "yello_ticket_two" -> {
+                        YELLO_TWO -> {
                             setCompleteShopBuyAmplitude("ticket2", "2800")
-                            ticketCount += 2
+                            viewModel.addTicketCount(2)
                         }
 
-                        "yello_ticket_five" -> {
+                        YELLO_FIVE -> {
                             setCompleteShopBuyAmplitude("ticket5", "5900")
-                            ticketCount += 5
+                            viewModel.addTicketCount(5)
                         }
 
                         else -> {
@@ -275,32 +290,6 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
             .create().show()
     }
 
-    // 구독 여부 확인해서 화면 표시 변경
-    private fun observeCheckIsSubscribed() {
-        viewModel.getPurchaseInfoState.observe(this) { state ->
-            when (state) {
-                is UiState.Success -> {
-                    if (state.data?.isSubscribe == true) {
-                        binding.layoutShowSubs.visibility = View.VISIBLE
-                        isSubscribed = true
-                    } else {
-                        binding.layoutShowSubs.visibility = View.GONE
-                        isSubscribed = false
-                    }
-                    ticketCount = state.data?.ticketCount ?: 0
-                }
-
-                is UiState.Failure -> {
-                    binding.layoutShowSubs.visibility = View.GONE
-                }
-
-                is UiState.Loading -> {}
-
-                is UiState.Empty -> {}
-            }
-        }
-    }
-
     private fun setClickShopBuyAmplitude(buyType: String) {
         AmplitudeUtils.trackEventWithProperties(
             "click_shop_buy",
@@ -316,7 +305,7 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
     }
 
     override fun finish() {
-        intent.putExtra("ticketCount", ticketCount)
+        intent.putExtra("ticketCount", viewModel.ticketCount)
         setResult(RESULT_OK, intent)
         super.finish()
     }

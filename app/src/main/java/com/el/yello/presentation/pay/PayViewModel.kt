@@ -34,6 +34,16 @@ class PayViewModel @Inject constructor(
     private val _getPurchaseInfoState = MutableLiveData<UiState<ResponsePurchaseInfoModel?>>()
     val getPurchaseInfoState: LiveData<UiState<ResponsePurchaseInfoModel?>> = _getPurchaseInfoState
 
+   var ticketCount = 0
+
+    fun setTicketCount(count: Int) {
+        ticketCount = count
+    }
+
+    fun addTicketCount(count: Int) {
+        ticketCount += count
+    }
+
     // 서버 통신 - 구독 상품 검증
     fun checkSubsToServer(request: RequestPayModel) {
         viewModelScope.launch {

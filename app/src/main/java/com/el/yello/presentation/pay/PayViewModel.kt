@@ -1,13 +1,11 @@
 package com.el.yello.presentation.pay
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.domain.entity.PayRequestModel
 import com.example.domain.entity.PayInAppModel
-import com.example.domain.entity.PaySubsModel
 import com.example.domain.entity.PayInfoModel
+import com.example.domain.entity.PayRequestModel
+import com.example.domain.entity.PaySubsModel
 import com.example.domain.entity.PaySubsNeededModel
 import com.example.domain.repository.PayRepository
 import com.example.ui.view.UiState
@@ -25,14 +23,14 @@ class PayViewModel @Inject constructor(
 
     var currentInAppItem: String = ""
 
-    private val _postSubsCheckState = MutableLiveData<UiState<PaySubsModel?>>()
-    val postSubsCheckState: LiveData<UiState<PaySubsModel?>> = _postSubsCheckState
+    private val _postSubsCheckState = MutableStateFlow<UiState<PaySubsModel?>>(UiState.Empty)
+    val postSubsCheckState: StateFlow<UiState<PaySubsModel?>> = _postSubsCheckState.asStateFlow()
 
-    private val _postInAppCheckState = MutableLiveData<UiState<PayInAppModel?>>()
-    val postInAppCheckState: LiveData<UiState<PayInAppModel?>> = _postInAppCheckState
+    private val _postInAppCheckState = MutableStateFlow<UiState<PayInAppModel?>>(UiState.Empty)
+    val postInAppCheckState: StateFlow<UiState<PayInAppModel?>> = _postInAppCheckState.asStateFlow()
 
-    private val _getSubsNeededState = MutableLiveData<UiState<PaySubsNeededModel?>>()
-    val getSubsNeededState: LiveData<UiState<PaySubsNeededModel?>> = _getSubsNeededState
+    private val _getSubsNeededState = MutableStateFlow<UiState<PaySubsNeededModel?>>(UiState.Empty)
+    val getSubsNeededState: StateFlow<UiState<PaySubsNeededModel?>> = _getSubsNeededState.asStateFlow()
 
     private val _getPurchaseInfoState = MutableStateFlow<UiState<PayInfoModel?>>(UiState.Empty)
     val getPurchaseInfoState: StateFlow<UiState<PayInfoModel?>> = _getPurchaseInfoState.asStateFlow()
@@ -53,10 +51,10 @@ class PayViewModel @Inject constructor(
         viewModelScope.launch {
             _postSubsCheckState.value = UiState.Loading
             payRepository.postToCheckSubs(request).onSuccess {
-                    _postSubsCheckState.value = UiState.Success(it)
-                }.onFailure {
-                    _postSubsCheckState.value = UiState.Failure(it.message.toString())
-                }
+                _postSubsCheckState.value = UiState.Success(it)
+            }.onFailure {
+                _postSubsCheckState.value = UiState.Failure(it.message.toString())
+            }
         }
     }
 
@@ -65,10 +63,10 @@ class PayViewModel @Inject constructor(
         viewModelScope.launch {
             _postInAppCheckState.value = UiState.Loading
             payRepository.postToCheckInApp(request).onSuccess {
-                    _postInAppCheckState.value = UiState.Success(it)
-                }.onFailure {
-                    _postInAppCheckState.value = UiState.Failure(it.message.toString())
-                }
+                _postInAppCheckState.value = UiState.Success(it)
+            }.onFailure {
+                _postInAppCheckState.value = UiState.Failure(it.message.toString())
+            }
         }
     }
 
@@ -76,10 +74,10 @@ class PayViewModel @Inject constructor(
     fun getSubsNeededFromServer() {
         viewModelScope.launch {
             payRepository.getSubsNeeded().onSuccess {
-                    _getSubsNeededState.value = UiState.Success(it)
-                }.onFailure {
-                    _getSubsNeededState.value = UiState.Failure(it.message.toString())
-                }
+                _getSubsNeededState.value = UiState.Success(it)
+            }.onFailure {
+                _getSubsNeededState.value = UiState.Failure(it.message.toString())
+            }
         }
     }
 
@@ -87,10 +85,10 @@ class PayViewModel @Inject constructor(
     fun getPurchaseInfoFromServer() {
         viewModelScope.launch {
             payRepository.getPurchaseInfo().onSuccess {
-                    _getPurchaseInfoState.value = UiState.Success(it)
-                }.onFailure {
-                    _getPurchaseInfoState.value = UiState.Failure(it.message.toString())
-                }
+                _getPurchaseInfoState.value = UiState.Success(it)
+            }.onFailure {
+                _getPurchaseInfoState.value = UiState.Failure(it.message.toString())
+            }
         }
     }
 }

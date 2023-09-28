@@ -175,95 +175,103 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
 
     // 구독 여부 확인해서 화면 표시 변경
     private fun observePurchaseInfoState() {
-        viewModel.getPurchaseInfoState.observe(this) { state ->
-            when (state) {
-                is UiState.Success -> {
-                    binding.layoutShowSubs.visibility =
-                        if (state.data?.isSubscribe == true) View.VISIBLE else View.GONE
-                    viewModel.setTicketCount(state.data?.ticketCount ?: 0)
+        lifecycleScope.launch {
+            viewModel.getPurchaseInfoState.collectLatest { state ->
+                when (state) {
+                    is UiState.Success -> {
+                        binding.layoutShowSubs.visibility =
+                            if (state.data?.isSubscribe == true) View.VISIBLE else View.GONE
+                        viewModel.setTicketCount(state.data?.ticketCount ?: 0)
+                    }
+
+                    is UiState.Failure -> {
+                        binding.layoutShowSubs.visibility = View.GONE
+                    }
+
+                    is UiState.Loading -> {}
+
+                    is UiState.Empty -> {}
                 }
-
-                is UiState.Failure -> { binding.layoutShowSubs.visibility = View.GONE }
-
-                is UiState.Loading -> {}
-
-                is UiState.Empty -> {}
             }
         }
     }
 
     // 구독 상품 검증 옵저버
     private fun observeCheckSubsState() {
-        viewModel.postSubsCheckState.observe(this) { state ->
-            stopLoadingScreen()
-            when (state) {
-                is UiState.Success -> {
-                    setCompleteShopBuyAmplitude("subscribe", "3900")
-                    paySubsDialog = PaySubsDialog()
-                    paySubsDialog?.show(supportFragmentManager, DIALOG_SUBS)
-                    AmplitudeUtils.setUserDataProperties("user_buy_date")
-                }
-
-                is UiState.Failure -> {
-                    stopLoadingScreen()
-                    if (state.msg == SERVER_ERROR) {
-                        showErrorDialog()
-                    } else {
-                        toast(getString(R.string.pay_check_error))
+        lifecycleScope.launch {
+            viewModel.postSubsCheckState.collectLatest { state ->
+                stopLoadingScreen()
+                when (state) {
+                    is UiState.Success -> {
+                        setCompleteShopBuyAmplitude("subscribe", "3900")
+                        paySubsDialog = PaySubsDialog()
+                        paySubsDialog?.show(supportFragmentManager, DIALOG_SUBS)
+                        AmplitudeUtils.setUserDataProperties("user_buy_date")
                     }
+
+                    is UiState.Failure -> {
+                        stopLoadingScreen()
+                        if (state.msg == SERVER_ERROR) {
+                            showErrorDialog()
+                        } else {
+                            toast(getString(R.string.pay_check_error))
+                        }
+                    }
+
+                    is UiState.Loading -> {}
+
+                    is UiState.Empty -> {}
                 }
-
-                is UiState.Loading -> {}
-
-                is UiState.Empty -> {}
             }
         }
     }
 
     // 인앱(소비성) 상품 검증 옵저버
     private fun observeCheckInAppState() {
-        viewModel.postInAppCheckState.observe(this) { state ->
-            when (state) {
-                is UiState.Success -> {
-                    stopLoadingScreen()
-                    when (state.data?.productId) {
-                        YELLO_ONE -> {
-                            setCompleteShopBuyAmplitude("ticket1", "1400")
-                            viewModel.addTicketCount(1)
-                        }
+        lifecycleScope.launch {
+            viewModel.postInAppCheckState.collectLatest { state ->
+                when (state) {
+                    is UiState.Success -> {
+                        stopLoadingScreen()
+                        when (state.data?.productId) {
+                            YELLO_ONE -> {
+                                setCompleteShopBuyAmplitude("ticket1", "1400")
+                                viewModel.addTicketCount(1)
+                            }
 
-                        YELLO_TWO -> {
-                            setCompleteShopBuyAmplitude("ticket2", "2800")
-                            viewModel.addTicketCount(2)
-                        }
+                            YELLO_TWO -> {
+                                setCompleteShopBuyAmplitude("ticket2", "2800")
+                                viewModel.addTicketCount(2)
+                            }
 
-                        YELLO_FIVE -> {
-                            setCompleteShopBuyAmplitude("ticket5", "5900")
-                            viewModel.addTicketCount(5)
-                        }
+                            YELLO_FIVE -> {
+                                setCompleteShopBuyAmplitude("ticket5", "5900")
+                                viewModel.addTicketCount(5)
+                            }
 
-                        else -> {
-                            return@observe
+                            else -> {
+                                return@collectLatest
+                            }
+                        }
+                        viewModel.currentInAppItem = state.data?.productId ?: ""
+                        payInAppDialog = PayInAppDialog()
+                        payInAppDialog?.show(supportFragmentManager, DIALOG_IN_APP)
+                        AmplitudeUtils.setUserDataProperties("user_buy_date")
+                    }
+
+                    is UiState.Failure -> {
+                        stopLoadingScreen()
+                        if (state.msg == SERVER_ERROR) {
+                            showErrorDialog()
+                        } else {
+                            toast(getString(R.string.pay_check_error))
                         }
                     }
-                    viewModel.currentInAppItem = state.data?.productId ?: ""
-                    payInAppDialog = PayInAppDialog()
-                    payInAppDialog?.show(supportFragmentManager, DIALOG_IN_APP)
-                    AmplitudeUtils.setUserDataProperties("user_buy_date")
+
+                    is UiState.Loading -> {}
+
+                    is UiState.Empty -> {}
                 }
-
-                is UiState.Failure -> {
-                    stopLoadingScreen()
-                    if (state.msg == SERVER_ERROR) {
-                        showErrorDialog()
-                    } else {
-                        toast(getString(R.string.pay_check_error))
-                    }
-                }
-
-                is UiState.Loading -> {}
-
-                is UiState.Empty -> {}
             }
         }
     }

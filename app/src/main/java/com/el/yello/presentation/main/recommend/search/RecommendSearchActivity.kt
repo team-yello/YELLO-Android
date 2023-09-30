@@ -24,6 +24,7 @@ import com.example.ui.view.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -174,27 +175,29 @@ class RecommendSearchActivity :
 
     // 친구 추가 서버 통신 성공 시 표시 변경
     private fun observeAddFriendState() {
-        viewModel.addFriendState.observe(this) { state ->
-            when (state) {
-                is UiState.Success -> {
-                    val position = viewModel.itemPosition
-                    val holder = viewModel.itemHolder
-                    if (position != null && holder != null) {
-                        holder.binding.btnRecommendItemAdd.visibility = View.GONE
-                        holder.binding.btnRecommendItemMyFriend.visibility = View.VISIBLE
+        lifecycleScope.launch {
+            viewModel.addFriendState.collectLatest { state ->
+                when (state) {
+                    is UiState.Success -> {
+                        val position = viewModel.itemPosition
+                        val holder = viewModel.itemHolder
+                        if (position != null && holder != null) {
+                            holder.binding.btnRecommendItemAdd.visibility = View.GONE
+                            holder.binding.btnRecommendItemMyFriend.visibility = View.VISIBLE
+                        }
                     }
+
+                    is UiState.Failure -> {
+                        yelloSnackbar(
+                            binding.root.rootView,
+                            getString(R.string.recommend_error_add_friend_connection),
+                        )
+                    }
+
+                    is UiState.Loading -> {}
+
+                    is UiState.Empty -> {}
                 }
-
-                is UiState.Failure -> {
-                    yelloSnackbar(
-                        binding.root.rootView,
-                        getString(R.string.recommend_error_add_friend_connection),
-                    )
-                }
-
-                is UiState.Loading -> {}
-
-                is UiState.Empty -> {}
             }
         }
     }

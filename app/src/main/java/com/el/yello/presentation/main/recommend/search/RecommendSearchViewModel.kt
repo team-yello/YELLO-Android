@@ -8,6 +8,9 @@ import com.example.domain.entity.RecommendSearchModel
 import com.example.domain.repository.RecommendRepository
 import com.example.ui.view.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import kotlin.math.ceil
@@ -20,8 +23,8 @@ class RecommendSearchViewModel @Inject constructor(
     private val _postFriendsListState = MutableLiveData<UiState<RecommendSearchModel?>>()
     val postFriendsListState: LiveData<UiState<RecommendSearchModel?>> = _postFriendsListState
 
-    private val _addFriendState = MutableLiveData<UiState<Unit>>()
-    val addFriendState: LiveData<UiState<Unit>> = _addFriendState
+    private val _addFriendState = MutableStateFlow<UiState<Unit>>(UiState.Empty)
+    val addFriendState: StateFlow<UiState<Unit>> = _addFriendState.asStateFlow()
 
     var itemPosition: Int? = null
     var itemHolder: RecommendSearchViewHolder? = null

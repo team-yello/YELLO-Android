@@ -207,7 +207,6 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
         const val EXTRA_PROFILE_IMAGE = "PROFILE_IMAGE"
         const val EXTRA_NAME = "NAME"
         const val EXTRA_GENDER = "GENDER"
-
         const val CODE_NOT_SIGNED_IN = "403"
         const val CODE_NO_UUID = "404"
     }

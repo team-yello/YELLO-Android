@@ -8,12 +8,11 @@ import com.el.yello.databinding.ItemLookBinding
 import com.example.domain.entity.LookListModel.LookModel
 import com.example.ui.view.ItemDiffCallback
 
-class LookAdapter :
-    PagingDataAdapter<LookModel, LookViewHolder>(diffUtil) {
+class LookAdapter : PagingDataAdapter<LookModel, LookViewHolder>(diffUtil) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LookViewHolder {
-        val binding: ItemLookBinding =
-            ItemLookBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val inflater by lazy { LayoutInflater.from(parent.context) }
+        val binding: ItemLookBinding = ItemLookBinding.inflate(inflater, parent, false)
         return LookViewHolder(binding)
     }
 

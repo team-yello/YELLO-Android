@@ -79,9 +79,7 @@ class RecommendSearchActivity :
     }
 
     private fun initBackBtnListener() {
-        binding.btnRecommendSearchBack.setOnSingleClickListener {
-            finish()
-        }
+        binding.btnRecommendSearchBack.setOnSingleClickListener { finish() }
     }
 
     private fun initPullToScrollListener() {

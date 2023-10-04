@@ -1,4 +1,4 @@
-package com.el.yello.presentation.main.recommend.search
+package com.el.yello.presentation.search
 
 import android.content.Context
 import android.os.Bundle
@@ -13,7 +13,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.el.yello.R
-import com.el.yello.databinding.ActivityRecommendSearchBinding
+import com.el.yello.databinding.ActivitySearchBinding
 import com.el.yello.util.Utils.setPullToScrollColor
 import com.el.yello.util.amplitude.AmplitudeUtils
 import com.el.yello.util.context.yelloSnackbar
@@ -28,14 +28,14 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class RecommendSearchActivity :
-    BindingActivity<ActivityRecommendSearchBinding>(R.layout.activity_recommend_search) {
+class SearchActivity :
+    BindingActivity<ActivitySearchBinding>(R.layout.activity_search) {
 
-    private var _adapter: RecommendSearchAdapter? = null
+    private var _adapter: SearchPageAdapter? = null
     private val adapter
         get() = requireNotNull(_adapter) { getString(R.string.adapter_not_initialized_error_msg) }
 
-    private val viewModel by viewModels<RecommendSearchViewModel>()
+    private val viewModel by viewModels<SearchViewModel>()
 
     private val debounceTime = 500L
     private var searchJob: Job? = null
@@ -57,14 +57,14 @@ class RecommendSearchActivity :
     }
 
     private fun initAdapterWithDivider() {
-        _adapter = RecommendSearchAdapter { searchFriendModel, position, holder ->
+        _adapter = SearchPageAdapter { searchFriendModel, position, holder ->
             viewModel.setPositionAndHolder(position, holder)
             viewModel.addFriendToServer(searchFriendModel.id.toLong())
             AmplitudeUtils.trackEventWithProperties("click_search_addfriend")
         }
         binding.rvRecommendSearch.adapter = adapter
         binding.rvRecommendSearch.addItemDecoration(
-            RecommendSearchItemDecoration(this)
+            SearchItemDecoration(this)
         )
     }
 

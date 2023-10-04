@@ -1,4 +1,4 @@
-package com.el.yello.presentation.main.recommend.search
+package com.el.yello.presentation.search
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -16,7 +16,7 @@ import javax.inject.Inject
 import kotlin.math.ceil
 
 @HiltViewModel
-class RecommendSearchViewModel @Inject constructor(
+class SearchViewModel @Inject constructor(
     private val recommendRepository: RecommendRepository
 ) : ViewModel() {
 
@@ -27,13 +27,13 @@ class RecommendSearchViewModel @Inject constructor(
     val addFriendState: StateFlow<UiState<Unit>> = _addFriendState.asStateFlow()
 
     var itemPosition: Int? = null
-    var itemHolder: RecommendSearchViewHolder? = null
+    var itemHolder: SearchViewHolder? = null
 
     private var currentPage = -1
     private var isPagingFinish = false
     private var totalPage = Int.MAX_VALUE
 
-    fun setPositionAndHolder(position: Int, holder: RecommendSearchViewHolder) {
+    fun setPositionAndHolder(position: Int, holder: SearchViewHolder) {
         itemPosition = position
         itemHolder = holder
     }

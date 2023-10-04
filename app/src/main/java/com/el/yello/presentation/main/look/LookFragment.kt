@@ -30,7 +30,7 @@ import org.json.JSONObject
 @AndroidEntryPoint
 class LookFragment : BindingFragment<FragmentLookBinding>(R.layout.fragment_look) {
 
-    private var _adapter: LookAdapter? = null
+    private var _adapter: LookPageAdapter? = null
     private val adapter
         get() = requireNotNull(_adapter) { getString(R.string.adapter_not_initialized_error_msg) }
 
@@ -56,7 +56,7 @@ class LookFragment : BindingFragment<FragmentLookBinding>(R.layout.fragment_look
 
     private fun initAdapter() {
         viewModel.setFirstLoading(true)
-        _adapter = LookAdapter()
+        _adapter = LookPageAdapter()
         binding.rvLook.adapter = adapter
         binding.lifecycleOwner = this
 

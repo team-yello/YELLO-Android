@@ -1,4 +1,4 @@
-package com.el.yello.presentation.main.recommend.search
+package com.el.yello.presentation.search
 
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
@@ -10,9 +10,9 @@ import com.el.yello.presentation.main.profile.ProfileViewModel
 import com.example.domain.entity.RecommendSearchModel.SearchFriendModel
 import com.example.ui.view.setOnSingleClickListener
 
-class RecommendSearchViewHolder(
+class SearchViewHolder(
     val binding: ItemRecommendSearchBinding,
-    private val itemClick: (SearchFriendModel, Int, RecommendSearchViewHolder) -> Unit,
+    private val itemClick: (SearchFriendModel, Int, SearchViewHolder) -> Unit,
 ) :
     RecyclerView.ViewHolder(binding.root) {
 

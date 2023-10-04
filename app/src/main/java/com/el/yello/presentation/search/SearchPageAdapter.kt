@@ -1,4 +1,4 @@
-package com.el.yello.presentation.main.recommend.search
+package com.el.yello.presentation.search
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -7,19 +7,19 @@ import com.el.yello.databinding.ItemRecommendSearchBinding
 import com.example.domain.entity.RecommendSearchModel.SearchFriendModel
 import com.example.ui.view.ItemDiffCallback
 
-class RecommendSearchAdapter(
-    private val itemClick: (SearchFriendModel, Int, RecommendSearchViewHolder) -> Unit
+class SearchPageAdapter(
+    private val itemClick: (SearchFriendModel, Int, SearchViewHolder) -> Unit
 ) :
-    PagingDataAdapter<SearchFriendModel, RecommendSearchViewHolder>(diffUtil) {
+    PagingDataAdapter<SearchFriendModel, SearchViewHolder>(diffUtil) {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecommendSearchViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchViewHolder {
         val inflater by lazy { LayoutInflater.from(parent.context) }
         val binding: ItemRecommendSearchBinding =
             ItemRecommendSearchBinding.inflate(inflater, parent, false)
-        return RecommendSearchViewHolder(binding, itemClick)
+        return SearchViewHolder(binding, itemClick)
     }
 
-    override fun onBindViewHolder(holder: RecommendSearchViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: SearchViewHolder, position: Int) {
         val item = getItem(position) ?: return
         holder.onBind(item, position)
     }

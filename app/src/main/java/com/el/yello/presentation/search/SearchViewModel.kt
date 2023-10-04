@@ -4,8 +4,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.domain.entity.RecommendSearchModel
+import com.example.domain.entity.SearchListModel
 import com.example.domain.repository.RecommendRepository
+import com.example.domain.repository.SearchRepository
 import com.example.ui.view.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -17,11 +18,12 @@ import kotlin.math.ceil
 
 @HiltViewModel
 class SearchViewModel @Inject constructor(
-    private val recommendRepository: RecommendRepository
+    private val recommendRepository: RecommendRepository,
+    private val searchRepository: SearchRepository,
 ) : ViewModel() {
 
-    private val _postFriendsListState = MutableLiveData<UiState<RecommendSearchModel?>>()
-    val postFriendsListState: LiveData<UiState<RecommendSearchModel?>> = _postFriendsListState
+    private val _postFriendsListState = MutableLiveData<UiState<SearchListModel?>>()
+    val postFriendsListState: LiveData<UiState<SearchListModel?>> = _postFriendsListState
 
     private val _addFriendState = MutableStateFlow<UiState<Unit>>(UiState.Empty)
     val addFriendState: StateFlow<UiState<Unit>> = _addFriendState.asStateFlow()
@@ -48,7 +50,7 @@ class SearchViewModel @Inject constructor(
     fun setListFromServer(keyword: String) {
         if (isPagingFinish) return
         viewModelScope.launch {
-            recommendRepository.getSearchList(
+            searchRepository.getSearchList(
                 ++currentPage,
                 keyword
             )

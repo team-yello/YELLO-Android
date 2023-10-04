@@ -19,9 +19,4 @@ interface RecommendDataSource {
         friendId: Long
     ): BaseResponse<Unit>
 
-    suspend fun getSearchListData(
-        page: Int,
-        keyword: String
-    ): BaseResponse<ResponseRecommendSearchDto>
-
 }

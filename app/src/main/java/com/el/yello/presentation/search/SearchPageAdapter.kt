@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import com.el.yello.databinding.ItemRecommendSearchBinding
-import com.example.domain.entity.RecommendSearchModel.SearchFriendModel
+import com.example.domain.entity.SearchListModel.SearchFriendModel
 import com.example.ui.view.ItemDiffCallback
 
 class SearchPageAdapter(

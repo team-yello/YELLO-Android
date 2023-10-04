@@ -86,7 +86,7 @@ class SearchActivity :
         binding.layoutSearchSwipe.apply {
             setOnRefreshListener {
                 lifecycleScope.launch {
-                    adapter.submitList(listOf())
+                    // adapter.submitList(listOf())
                     viewModel.setNewPage()
                     viewModel.setListFromServer(searchText)
                     delay(200)
@@ -101,7 +101,7 @@ class SearchActivity :
     private fun setLoadingScreen() {
         binding.etRecommendSearchBox.doOnTextChanged { _, _, _, _ ->
             showLoadingScreen()
-            adapter.submitList(listOf())
+            // adapter.submitList(listOf())
             adapter.notifyDataSetChanged()
             viewModel.setNewPage()
         }
@@ -135,7 +135,7 @@ class SearchActivity :
                     if (state.data?.friendList?.size == 0) {
                         showNoFriendScreen()
                     } else {
-                        adapter.addList(state.data?.friendList ?: listOf())
+                        // adapter.addList(state.data?.friendList ?: listOf())
                         showFriendListScreen()
                     }
                 }

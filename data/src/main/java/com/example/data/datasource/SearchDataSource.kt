@@ -1,4 +1,13 @@
 package com.example.data.datasource
 
-class SearchDataSource {
+import com.example.data.model.response.BaseResponse
+import com.example.data.model.response.recommend.ResponseRecommendSearchDto
+
+interface SearchDataSource {
+
+    suspend fun getSearchListData(
+        page: Int,
+        keyword: String
+    ): BaseResponse<ResponseRecommendSearchDto>
+
 }

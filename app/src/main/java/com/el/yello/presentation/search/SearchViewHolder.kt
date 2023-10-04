@@ -7,7 +7,7 @@ import coil.transform.CircleCropTransformation
 import com.el.yello.R
 import com.el.yello.databinding.ItemRecommendSearchBinding
 import com.el.yello.presentation.main.profile.ProfileViewModel
-import com.example.domain.entity.RecommendSearchModel.SearchFriendModel
+import com.example.domain.entity.SearchListModel.SearchFriendModel
 import com.example.ui.view.setOnSingleClickListener
 
 class SearchViewHolder(

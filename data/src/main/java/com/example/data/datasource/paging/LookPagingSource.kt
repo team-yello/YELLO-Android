@@ -10,7 +10,6 @@ class LookPagingSource @Inject constructor(
     private val lookService: LookService
 ) : PagingSource<Int, LookModel>() {
 
-    // 리사이클러뷰의 스크롤 위치와 가장 가까운 페이지 찾아 이전 / 다음 페이지 결정
     override fun getRefreshKey(state: PagingState<Int, LookModel>): Int? {
         return state.anchorPosition?.let { anchorPosition ->
             val anchorPage = state.closestPageToPosition(anchorPosition)
@@ -18,7 +17,6 @@ class LookPagingSource @Inject constructor(
         }
     }
 
-    // 현재 페이지의 정보 로드
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, LookModel> {
         val currentPosition = params.key ?: 0
         val currentPage = currentPosition.times(LOOK_POSITION_TO_PAGE).toInt()
@@ -29,8 +27,7 @@ class LookPagingSource @Inject constructor(
         }
         val nextPosition =
             if (response.data?.friendVotes.isNullOrEmpty()) null else currentPosition + LOOK_PAGE_SIZE
-        val previousPosition =
-            if (currentPosition == 0) null else currentPosition - LOOK_PAGE_SIZE
+        val previousPosition = if (currentPosition == 0) null else currentPosition - LOOK_PAGE_SIZE
         return runCatching {
             LoadResult.Page(
                 data = response.data?.toLookListModel()?.friendVotes ?: listOf(),

@@ -9,8 +9,7 @@ import com.example.ui.view.ItemDiffCallback
 
 class SearchPageAdapter(
     private val itemClick: (SearchFriendModel, Int, SearchViewHolder) -> Unit
-) :
-    PagingDataAdapter<SearchFriendModel, SearchViewHolder>(diffUtil) {
+) : PagingDataAdapter<SearchFriendModel, SearchViewHolder>(diffUtil) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchViewHolder {
         val inflater by lazy { LayoutInflater.from(parent.context) }

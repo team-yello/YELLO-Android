@@ -9,8 +9,7 @@ import com.example.domain.entity.RecommendListModel.RecommendFriend
 
 class RecommendAdapter(
     private val itemClick: (RecommendFriend, Int, RecommendViewHolder) -> (Unit),
-) :
-    RecyclerView.Adapter<RecommendViewHolder>() {
+) : RecyclerView.Adapter<RecommendViewHolder>() {
 
     private var itemList = mutableListOf<RecommendFriend>()
 

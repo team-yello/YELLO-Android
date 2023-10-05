@@ -6,10 +6,16 @@ import android.view.View
 import android.view.animation.AnimationUtils
 import android.view.inputmethod.InputMethodManager
 import androidx.activity.viewModels
+import androidx.core.view.isGone
+import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
 import androidx.core.widget.doOnTextChanged
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.lifecycle.viewModelScope
+import androidx.paging.LoadState
+import androidx.paging.PagingData
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.el.yello.R
@@ -25,11 +31,11 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.distinctUntilChangedBy
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class SearchActivity :
-    BindingActivity<ActivitySearchBinding>(R.layout.activity_search) {
+class SearchActivity : BindingActivity<ActivitySearchBinding>(R.layout.activity_search) {
 
     private var _adapter: SearchPageAdapter? = null
     private val adapter
@@ -42,30 +48,40 @@ class SearchActivity :
 
     private var searchText: String = ""
 
+    private var isNoFriend: Boolean = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        initAdapter()
         initFocusToEditText()
-        initAdapterWithDivider()
         initBackBtnListener()
-        initPullToScrollListener()
-        observeSearchListState()
-        observeAddFriendState()
-        setDebounceSearch()
+        setPullToScrollListener()
         setLoadingScreen()
+        setDebounceSearch()
+        observeSearchPagingList(searchText)
+        observePagingLoadingState()
+        observeAddFriendState()
         setListWithInfinityScroll()
+        AmplitudeUtils.trackEventWithProperties("click_search_addfriend")
     }
 
-    private fun initAdapterWithDivider() {
+    private fun initAdapter() {
         _adapter = SearchPageAdapter { searchFriendModel, position, holder ->
             viewModel.setPositionAndHolder(position, holder)
             viewModel.addFriendToServer(searchFriendModel.id.toLong())
-            AmplitudeUtils.trackEventWithProperties("click_search_addfriend")
         }
         binding.rvRecommendSearch.adapter = adapter
-        binding.rvRecommendSearch.addItemDecoration(
-            SearchItemDecoration(this)
-        )
+        binding.lifecycleOwner = this
+        binding.rvRecommendSearch.addItemDecoration(SearchItemDecoration(this))
+
+        adapter.addLoadStateListener { combinedLoadStates ->
+            if (combinedLoadStates.prepend.endOfPaginationReached) {
+                binding.layoutRecommendNoSearch.isVisible = adapter.itemCount < 1
+                binding.rvRecommendSearch.isGone = adapter.itemCount < 1
+                isNoFriend = adapter.itemCount < 1
+            }
+        }
     }
 
     // 처음 들어왔을 때 키보드 올라오도록 설정 (개인정보보호옵션 켜진 경우 불가능)
@@ -82,28 +98,31 @@ class SearchActivity :
         binding.btnRecommendSearchBack.setOnSingleClickListener { finish() }
     }
 
-    private fun initPullToScrollListener() {
+    private fun setPullToScrollListener() {
         binding.layoutSearchSwipe.apply {
             setOnRefreshListener {
-                lifecycleScope.launch {
-                    // adapter.submitList(listOf())
-                    viewModel.setNewPage()
-                    viewModel.setListFromServer(searchText)
+                adapter.refresh()
+                viewModel.setFirstLoading(true)
+            }
+            setPullToScrollColor(R.color.grayscales_500, R.color.grayscales_700)
+        }
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.CREATED) {
+                adapter.loadStateFlow.distinctUntilChangedBy { it.refresh }.collect {
                     delay(200)
                     binding.layoutSearchSwipe.isRefreshing = false
                 }
             }
-            setPullToScrollColor(R.color.grayscales_500, R.color.grayscales_700)
         }
     }
 
     // 텍스트 변경 감지 시 로딩 화면 출력
     private fun setLoadingScreen() {
         binding.etRecommendSearchBox.doOnTextChanged { _, _, _, _ ->
-            showLoadingScreen()
-            // adapter.submitList(listOf())
-            adapter.notifyDataSetChanged()
-            viewModel.setNewPage()
+            lifecycleScope.launch {
+                showLoadingScreen()
+                adapter.submitData(PagingData.empty())
+            }
         }
     }
 
@@ -126,28 +145,38 @@ class SearchActivity :
         }
     }
 
+    private fun observeSearchPagingList(keyword: String) {
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.setListFromServer(keyword).collectLatest { adapter.submitData(it) }
+            }
+        }
+    }
+
     // 검색 리스트 추가 서버 통신 성공 시 어댑터에 리스트 추가
-    private fun observeSearchListState() {
-        viewModel.postFriendsListState.observe(this) { state ->
-            when (state) {
-                is UiState.Success -> {
-                    startFadeIn()
-                    if (state.data?.friendList?.size == 0) {
+    private fun observePagingLoadingState() {
+        lifecycleScope.launch {
+            adapter.loadStateFlow.collectLatest { loadStates ->
+                when (loadStates.refresh) {
+                    is LoadState.Loading -> {
+                        if (!isNoFriend) showLoadingScreen()
+                    }
+
+                    is LoadState.NotLoading -> {
+                        if (viewModel.isFirstLoading.value) {
+                            startFadeIn()
+                            viewModel.setFirstLoading(false)
+                            showFriendListScreen()
+                        } else {
+                            showFriendListScreen()
+                        }
+                    }
+
+                    is LoadState.Error -> {
                         showNoFriendScreen()
-                    } else {
-                        // adapter.addList(state.data?.friendList ?: listOf())
-                        showFriendListScreen()
+                        toast(getString(R.string.recommend_search_error))
                     }
                 }
-
-                is UiState.Failure -> {
-                    toast(getString(R.string.recommend_search_error))
-                    showFriendListScreen()
-                }
-
-                is UiState.Loading -> {}
-
-                is UiState.Empty -> {}
             }
         }
     }
@@ -159,10 +188,7 @@ class SearchActivity :
                 super.onScrolled(recyclerView, dx, dy)
                 if (dy > 0) {
                     recyclerView.layoutManager?.let { layoutManager ->
-                        if (!binding.rvRecommendSearch.canScrollVertically(1)
-                            && layoutManager is LinearLayoutManager
-                            && layoutManager.findLastVisibleItemPosition() == adapter.itemCount - 1
-                        ) {
+                        if (!binding.rvRecommendSearch.canScrollVertically(1) && layoutManager is LinearLayoutManager && layoutManager.findLastVisibleItemPosition() == adapter.itemCount - 1) {
                             viewModel.setListFromServer(searchText)
                         }
                     }

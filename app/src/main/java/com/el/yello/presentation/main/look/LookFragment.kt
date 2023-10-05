@@ -47,7 +47,7 @@ class LookFragment : BindingFragment<FragmentLookBinding>(R.layout.fragment_look
         initAdapter()
         initInviteBtnListener()
         setListBottomPadding()
-        setTimelinePagingList()
+        observeTimelinePagingList()
         setPullToScrollListener()
         observePagingLoadingState()
         catchScrollForAmplitude()
@@ -86,14 +86,6 @@ class LookFragment : BindingFragment<FragmentLookBinding>(R.layout.fragment_look
         )
     }
 
-    private fun setTimelinePagingList() {
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.getLookListWithPaging().collectLatest { adapter.submitData(it) }
-            }
-        }
-    }
-
     private fun setPullToScrollListener() {
         binding.layoutLookSwipe.apply {
             setOnRefreshListener {
@@ -111,6 +103,15 @@ class LookFragment : BindingFragment<FragmentLookBinding>(R.layout.fragment_look
             }
         }
     }
+
+    private fun observeTimelinePagingList() {
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.getLookListWithPaging().collectLatest { adapter.submitData(it) }
+            }
+        }
+    }
+
 
     private fun observePagingLoadingState() {
         lifecycleScope.launch {

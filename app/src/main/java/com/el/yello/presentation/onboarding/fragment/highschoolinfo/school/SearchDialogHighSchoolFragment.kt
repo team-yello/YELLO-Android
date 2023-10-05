@@ -9,6 +9,7 @@ import android.view.View
 import android.view.WindowManager
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -76,19 +77,19 @@ class SearchDialogHighSchoolFragment :
     }
 
     private fun setupHighSchoolData() {
-        viewModel.highSchoolState.observe(viewLifecycleOwner) { state ->
-            when (state) {
-                is UiState.Success -> {
-                    adapter?.submitList(state.data.groupNameList)
+        lifecycleScope.launch {
+            viewModel.highSchoolState.collect { state ->
+                when (state) {
+                    is UiState.Success -> {
+                        adapter?.submitList(state.data.groupNameList)
+                    }
+                    is UiState.Failure -> {
+                        yelloSnackbar(binding.root, getString(R.string.msg_error))
+                    }
+                    is UiState.Loading -> {}
+                    is UiState.Empty -> {}
+                    else -> {}
                 }
-
-                is UiState.Failure -> {
-                    yelloSnackbar(binding.root, getString(R.string.msg_error))
-                }
-
-                is UiState.Loading -> {}
-                is UiState.Empty -> {}
-                else -> {}
             }
         }
     }

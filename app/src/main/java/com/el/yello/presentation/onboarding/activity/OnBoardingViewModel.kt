@@ -19,6 +19,8 @@ import com.example.domain.repository.OnboardingRepository
 import com.example.ui.view.UiState
 import com.kakao.sdk.talk.TalkApiClient
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import timber.log.Timber
@@ -64,11 +66,11 @@ class OnBoardingViewModel @Inject constructor(
     val isValidId: LiveData<Boolean> = idText.map { id -> checkId(id) }
     val codeText = MutableLiveData("")
 
-    private val _universityState = MutableLiveData<UiState<SchoolList>>()
-    val universityState: MutableLiveData<UiState<SchoolList>> = _universityState
+    private val _universityState = MutableStateFlow<UiState<SchoolList>>(UiState.Empty)
+    val universityState: StateFlow<UiState<SchoolList>> = _universityState
 
-    private val _highSchoolState = MutableLiveData<UiState<HighSchoolList>>()
-    val highSchoolState: MutableLiveData<UiState<HighSchoolList>> = _highSchoolState
+    private val _highSchoolState = MutableStateFlow<UiState<HighSchoolList>>(UiState.Empty)
+    val highSchoolState: StateFlow<UiState<HighSchoolList>> = _highSchoolState
 
     private val _departmentState = MutableLiveData<UiState<GroupList>>()
     val departmentState: MutableLiveData<UiState<GroupList>> = _departmentState

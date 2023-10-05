@@ -21,7 +21,6 @@ class SelectStudentFragment :
         binding.vm = viewModel
         binding.highschool = StudentTypeEnum.H.toString()
         binding.university = StudentTypeEnum.U.toString()
-
         setupStudentType()
     }
 
@@ -30,8 +29,8 @@ class SelectStudentFragment :
         (activity as? OnBoardingActivity)?.hideBackBtn()
     }
     private fun setupStudentType() {
-        viewModel.studentType.observe(viewLifecycleOwner) { studentyType ->
-            when (studentyType) {
+        viewModel.studentType.observe(viewLifecycleOwner) { studentType ->
+            when (studentType) {
                 StudentTypeEnum.H.toString() -> {
                     binding.btnSchoolHighschool.setBackgroundResource(R.drawable.shape_black_fill_yello_main_500_line_8_rect)
                     binding.btnSchoolUniversity.setBackgroundResource(R.drawable.shape_black_fill_grayscales700_line_8_rect)

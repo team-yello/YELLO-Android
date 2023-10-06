@@ -69,8 +69,8 @@ class GetAlarmActivity :
         }
     }
 
-    override fun onResume() {
-        super.onResume()
+    override fun onPause() {
+        super.onPause()
         overridePendingTransition(0, 0)
     }
 

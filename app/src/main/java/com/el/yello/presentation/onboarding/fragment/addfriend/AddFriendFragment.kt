@@ -3,6 +3,7 @@ package com.el.yello.presentation.onboarding.fragment.addfriend
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -17,6 +18,7 @@ import com.example.ui.fragment.toast
 import com.example.ui.view.UiState
 import com.example.ui.view.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import org.json.JSONObject
 
 @AndroidEntryPoint
@@ -98,26 +100,26 @@ class AddFriendFragment : BindingFragment<FragmentAddFriendBinding>(R.layout.fra
 
     // 리스트 추가 서버 통신 성공 시 어댑터에 리스트 추가
     private fun observeAddListState() {
-        viewModel.friendListState.observe(viewLifecycleOwner) { state ->
-            when (state) {
-                is UiState.Success -> {
-                    stopShimmerView()
-                    friendsList = state.data
-                    adapter.submitList(friendsList)
-                    selectedItemIdList.addAll(friendsList.map { friend -> friend.id })
-                    viewModel.selectedFriendCount.value = friendsList.size
-                }
+        lifecycleScope.launch {
+            viewModel.friendListState.collect { state ->
+                when (state) {
+                    is UiState.Success -> {
+                        stopShimmerView()
+                        friendsList = state.data
+                        adapter.submitList(friendsList)
+                        selectedItemIdList.addAll(friendsList.map { friend -> friend.id })
+                        viewModel.selectedFriendCount.value = friendsList.size
+                    }
+                    is UiState.Failure -> {
+                        stopShimmerView()
+                        toast(getString(R.string.onboarding_add_friend_error))
+                    }
+                    is UiState.Loading -> {
+                        startShimmerView()
+                    }
 
-                is UiState.Failure -> {
-                    stopShimmerView()
-                    toast(getString(R.string.onboarding_add_friend_error))
+                    is UiState.Empty -> {}
                 }
-
-                is UiState.Loading -> {
-                    startShimmerView()
-                }
-
-                is UiState.Empty -> {}
             }
         }
     }

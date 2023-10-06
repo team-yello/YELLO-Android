@@ -1,6 +1,7 @@
 package com.el.yello.presentation.onboarding.activity
 
 import android.Manifest
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
@@ -71,5 +72,14 @@ class GetAlarmActivity :
     override fun onResume() {
         super.onResume()
         overridePendingTransition(0, 0)
+    }
+
+    companion object {
+        @JvmStatic
+        fun newIntent(context: Context, isFromOnBoarding: Boolean) =
+            Intent(context, GetAlarmActivity::class.java).apply {
+                putExtra("isFromOnBoarding", isFromOnBoarding)
+            }
+        const val EXTRA_FROM_ONBOARDING = "isFromOnBoarding"
     }
 }

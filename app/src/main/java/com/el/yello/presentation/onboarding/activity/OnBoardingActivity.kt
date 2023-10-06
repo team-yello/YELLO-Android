@@ -39,7 +39,6 @@ class OnBoardingActivity :
                         finish()
                     }
                 }
-
                 R.id.codeFragment -> {
                     if (System.currentTimeMillis() - backPressedTime >= BACK_PRESSED_INTERVAL) {
                         backPressedTime = System.currentTimeMillis()
@@ -48,7 +47,6 @@ class OnBoardingActivity :
                         finish()
                     }
                 }
-
                 else -> {
                     navController.popBackStack()
                     progressBarMinus()
@@ -59,7 +57,6 @@ class OnBoardingActivity :
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         getIntentExtraData()
         this.onBackPressedDispatcher.addCallback(this, onBackPressedCallback)
     }
@@ -84,6 +81,13 @@ class OnBoardingActivity :
             viewModel.name = getStringExtra(EXTRA_NAME) ?: ""
             viewModel.gender = getStringExtra(EXTRA_GENDER) ?: ""
         }
+    }
+
+    fun endTutorialActivity() {
+        val intent = TutorialAActivity.newIntent(this, true)
+        intent.putExtra(EXTRA_CODE_TEXT_EMPTY, viewModel.isCodeTextEmpty())
+        startActivity(intent)
+        finish()
     }
 
     fun progressBarPlus() {
@@ -111,25 +115,12 @@ class OnBoardingActivity :
         animator.interpolator = LinearInterpolator()
         animator.start()
     }
-
-    fun hideViews() {
-        binding.backBtn.visibility = View.INVISIBLE
-        binding.onboardingProgressbar.visibility = View.INVISIBLE
-    }
-
     fun hideBackBtn() {
         binding.backBtn.visibility = View.INVISIBLE
     }
 
     fun showBackBtn() {
         binding.backBtn.visibility = View.VISIBLE
-    }
-
-    fun endTutorialActivity() {
-        val intent = TutorialAActivity.newIntent(this, true)
-        intent.putExtra(EXTRA_CODE_TEXT_EMPTY, viewModel.isCodeTextEmpty())
-        startActivity(intent)
-        finish()
     }
 
     override fun onPause() {
@@ -139,7 +130,6 @@ class OnBoardingActivity :
 
     companion object {
         private const val BACK_PRESSED_INTERVAL = 2000
-
         const val EXTRA_CODE_TEXT_EMPTY = "codeTextEmpty"
     }
 }

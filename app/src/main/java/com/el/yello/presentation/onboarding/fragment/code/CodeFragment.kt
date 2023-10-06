@@ -1,12 +1,13 @@
 package com.el.yello.presentation.onboarding.fragment.code
 
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.activityViewModels
-import androidx.navigation.fragment.findNavController
 import com.el.yello.R
 import com.el.yello.databinding.FragmentCodeBinding
+import com.el.yello.presentation.onboarding.activity.GetAlarmActivity
 import com.el.yello.presentation.onboarding.activity.OnBoardingActivity
 import com.el.yello.presentation.onboarding.activity.OnBoardingViewModel
 import com.el.yello.util.amplitude.AmplitudeUtils
@@ -40,7 +41,6 @@ class CodeFragment : BindingFragment<FragmentCodeBinding>(R.layout.fragment_code
             viewModel.postSignup()
             amplitudeCodeSkipInfo()
         }
-
         binding.btnCodeNext.setOnSingleClickListener {
             viewModel.getValidYelloId(viewModel.codeText.value.toString())
             amplitudeCodeNextInfo()
@@ -52,7 +52,9 @@ class CodeFragment : BindingFragment<FragmentCodeBinding>(R.layout.fragment_code
             when (state) {
                 is UiState.Success -> {
                     AmplitudeUtils.setUserDataProperties("user_signup_date")
-                    findNavController().navigate(R.id.action_codeFragment_to_startAppFragment)
+                    val intent = Intent(activity, GetAlarmActivity::class.java)
+                    startActivity(intent)
+                    (activity as? OnBoardingActivity)?.endTutorialActivity()
                 }
 
                 is UiState.Failure -> {

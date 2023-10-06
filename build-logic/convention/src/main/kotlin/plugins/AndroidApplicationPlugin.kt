@@ -1,0 +1,4 @@
+package plugins
+
+class AndroidApplicationPlugin {
+}

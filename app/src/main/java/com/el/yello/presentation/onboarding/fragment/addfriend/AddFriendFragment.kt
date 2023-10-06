@@ -12,6 +12,7 @@ import com.el.yello.databinding.FragmentAddFriendBinding
 import com.el.yello.presentation.onboarding.activity.OnBoardingActivity
 import com.el.yello.presentation.onboarding.activity.OnBoardingViewModel
 import com.el.yello.util.amplitude.AmplitudeUtils
+import com.el.yello.util.context.yelloSnackbar
 import com.example.domain.entity.onboarding.AddFriendListModel.FriendModel
 import com.example.ui.base.BindingFragment
 import com.example.ui.fragment.toast
@@ -112,7 +113,7 @@ class AddFriendFragment : BindingFragment<FragmentAddFriendBinding>(R.layout.fra
                     }
                     is UiState.Failure -> {
                         stopShimmerView()
-                        toast(getString(R.string.onboarding_add_friend_error))
+                        yelloSnackbar(binding.root,getString(R.string.onboarding_add_friend_error))
                     }
                     is UiState.Loading -> {
                         startShimmerView()

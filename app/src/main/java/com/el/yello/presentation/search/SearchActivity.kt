@@ -71,10 +71,6 @@ class SearchActivity : BindingActivity<ActivitySearchBinding>(R.layout.activity_
             viewModel.setPositionAndHolder(position, holder)
             viewModel.addFriendToServer(searchFriendModel.id.toLong())
         }
-        binding.rvRecommendSearch.adapter = adapter
-        binding.lifecycleOwner = this
-        binding.rvRecommendSearch.addItemDecoration(SearchItemDecoration(this))
-
         adapter.addLoadStateListener { combinedLoadStates ->
             if (combinedLoadStates.prepend.endOfPaginationReached) {
                 binding.layoutRecommendNoSearch.isVisible = adapter.itemCount < 1
@@ -82,6 +78,9 @@ class SearchActivity : BindingActivity<ActivitySearchBinding>(R.layout.activity_
                 isNoFriend = adapter.itemCount < 1
             }
         }
+        binding.rvRecommendSearch.adapter = adapter
+        binding.lifecycleOwner = this
+        binding.rvRecommendSearch.addItemDecoration(SearchItemDecoration(this))
     }
 
     // 처음 들어왔을 때 키보드 올라오도록 설정 (개인정보보호옵션 켜진 경우 불가능)

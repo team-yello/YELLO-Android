@@ -139,16 +139,21 @@ class SearchDialogUniversityFragment :
             )
         }
     }
-
     private fun recyclerviewScroll() {
-        binding.rvSchoolList.setOnTouchListener { view, motionEvent ->
-            when (motionEvent.action) {
-                MotionEvent.ACTION_MOVE -> {
-                    binding.layoutSchoolDialog.requestDisallowInterceptTouchEvent(true)
+        binding.rvSchoolList.addOnItemTouchListener(object : RecyclerView.OnItemTouchListener {
+            override fun onInterceptTouchEvent(rv: RecyclerView, e: MotionEvent): Boolean {
+                when (e.action) {
+                    MotionEvent.ACTION_MOVE -> {
+                        binding.layoutSchoolDialog.requestDisallowInterceptTouchEvent(true)
+                    }
                 }
+                return false
             }
-            return@setOnTouchListener false
-        }
+            override fun onTouchEvent(rv: RecyclerView, e: MotionEvent) {
+            }
+            override fun onRequestDisallowInterceptTouchEvent(disallowIntercept: Boolean) {
+            }
+        })
     }
     override fun onDestroyView() {
         super.onDestroyView()

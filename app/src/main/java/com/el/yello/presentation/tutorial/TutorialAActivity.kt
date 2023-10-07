@@ -49,7 +49,6 @@ class TutorialAActivity : BindingActivity<ActivityTutorialABinding>(R.layout.act
             Intent(context, TutorialAActivity::class.java).apply {
                 putExtra("isFromOnBoarding", isFromOnBoarding)
             }
-
         const val EXTRA_FROM_ONBOARDING = "isFromOnBoarding"
     }
 }

@@ -15,7 +15,6 @@ import com.el.yello.util.amplitude.AmplitudeUtils
 import com.el.yello.util.context.yelloSnackbar
 import com.example.domain.entity.onboarding.AddFriendListModel.FriendModel
 import com.example.ui.base.BindingFragment
-import com.example.ui.fragment.toast
 import com.example.ui.view.UiState
 import com.example.ui.view.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
@@ -25,7 +24,6 @@ import org.json.JSONObject
 @AndroidEntryPoint
 class AddFriendFragment : BindingFragment<FragmentAddFriendBinding>(R.layout.fragment_add_friend) {
     private val viewModel by activityViewModels<OnBoardingViewModel>()
-
     private var _adapter: AddFriendAdapter? = null
     private val adapter
         get() = requireNotNull(_adapter) { getString(R.string.adapter_not_initialized_error_msg) }
@@ -79,8 +77,6 @@ class AddFriendFragment : BindingFragment<FragmentAddFriendBinding>(R.layout.fra
         viewModel.initFriendPagingVariable()
         viewModel.addListWithKakaoIdList()
     }
-
-    // 무한 스크롤 구현
     private fun setInfinityScroll() {
         binding.rvFriendList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {

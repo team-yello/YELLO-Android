@@ -150,10 +150,8 @@ class SearchDialogHighSchoolFragment :
                 }
                 return false
             }
-            override fun onTouchEvent(rv: RecyclerView, e: MotionEvent) {
-            }
-            override fun onRequestDisallowInterceptTouchEvent(disallowIntercept: Boolean) {
-            }
+            override fun onTouchEvent(rv: RecyclerView, e: MotionEvent) {}
+            override fun onRequestDisallowInterceptTouchEvent(disallowIntercept: Boolean) {}
         })
     }
     override fun onDestroyView() {

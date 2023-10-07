@@ -65,6 +65,7 @@ class OnBoardingViewModel @Inject constructor(
     val id: String get() = idText.value?.trim() ?: ""
     val isValidId: LiveData<Boolean> = idText.map { id -> checkId(id) }
     val codeText = MutableLiveData("")
+    val isValidCode: LiveData<Boolean> = codeText.map { id -> checkId(id) }
 
     private val _universityState = MutableStateFlow<UiState<SchoolList>>(UiState.Empty)
     val universityState: StateFlow<UiState<SchoolList>> = _universityState
@@ -248,7 +249,7 @@ class OnBoardingViewModel @Inject constructor(
             }
         }
     }
-    fun getHighSchoolGroupId(group: String) {
+    private fun getHighSchoolGroupId(group: String) {
         viewModelScope.launch {
             onboardingRepository.getGroupHighSchool(
                 highSchool,

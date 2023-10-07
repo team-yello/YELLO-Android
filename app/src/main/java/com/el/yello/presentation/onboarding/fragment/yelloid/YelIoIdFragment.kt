@@ -24,7 +24,7 @@ class YelIoIdFragment : BindingFragment<FragmentYelloIdBinding>(R.layout.fragmen
         binding.vm = viewModel
         setDeleteBtnClickListener()
         setYelloIdBtnClickListener()
-        setupGetValidYelloId()
+        observeGetValidYelloIdState()
     }
 
     private fun setYelloIdBtnClickListener() {
@@ -40,7 +40,7 @@ class YelIoIdFragment : BindingFragment<FragmentYelloIdBinding>(R.layout.fragmen
         }
     }
 
-    private fun setupGetValidYelloId() {
+    private fun observeGetValidYelloIdState() {
         viewModel.getValidYelloIdState.observe(viewLifecycleOwner) { state ->
             when (state) {
                 is UiState.Success -> {

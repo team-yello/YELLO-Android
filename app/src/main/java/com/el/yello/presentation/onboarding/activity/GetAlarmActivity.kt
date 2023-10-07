@@ -80,6 +80,5 @@ class GetAlarmActivity :
             Intent(context, GetAlarmActivity::class.java).apply {
                 putExtra("isFromOnBoarding", isFromOnBoarding)
             }
-        const val EXTRA_FROM_ONBOARDING = "isFromOnBoarding"
     }
 }

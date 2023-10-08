@@ -18,6 +18,7 @@ import com.example.ui.base.BindingFragment
 import com.example.ui.view.UiState
 import com.example.ui.view.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.json.JSONObject
 
@@ -98,7 +99,7 @@ class AddFriendFragment : BindingFragment<FragmentAddFriendBinding>(R.layout.fra
     // 리스트 추가 서버 통신 성공 시 어댑터에 리스트 추가
     private fun observeAddListState() {
         lifecycleScope.launch {
-            viewModel.friendListState.collect { state ->
+            viewModel.friendListState.collectLatest { state ->
                 when (state) {
                     is UiState.Success -> {
                         stopShimmerView()
@@ -109,7 +110,7 @@ class AddFriendFragment : BindingFragment<FragmentAddFriendBinding>(R.layout.fra
                     }
                     is UiState.Failure -> {
                         stopShimmerView()
-                        yelloSnackbar(binding.root,getString(R.string.onboarding_add_friend_error))
+                        yelloSnackbar(binding.root, getString(R.string.onboarding_add_friend_error))
                     }
                     is UiState.Loading -> {
                         startShimmerView()

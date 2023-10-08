@@ -25,6 +25,7 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 class SearchDialogHighSchoolFragment :
@@ -78,7 +79,7 @@ class SearchDialogHighSchoolFragment :
 
     private fun setupHighSchoolData() {
         lifecycleScope.launch {
-            viewModel.highSchoolState.collect { state ->
+            viewModel.highSchoolState.collectLatest { state ->
                 when (state) {
                     is UiState.Success -> {
                         adapter?.submitList(state.data.groupNameList)

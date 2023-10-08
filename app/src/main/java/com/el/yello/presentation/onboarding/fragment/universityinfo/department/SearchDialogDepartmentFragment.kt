@@ -25,6 +25,7 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
@@ -80,7 +81,7 @@ class SearchDialogDepartmentFragment :
 
     private fun setupDepartmentData() {
         lifecycleScope.launch {
-            viewModel.departmentState.collect { state ->
+            viewModel.departmentState.collectLatest { state ->
                 Timber.d("GET GROUP LIST OBSERVE : $state")
                 when (state) {
                     is UiState.Success -> {

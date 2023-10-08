@@ -64,11 +64,11 @@ class RecommendSchoolFragment :
 
     override fun onResume() {
         super.onResume()
-        if (viewModel.isSearchViewShowed.value == true) {
+        if (viewModel.isSearchViewShowed) {
             adapter.clearList()
             viewModel.setFirstPageLoading()
             viewModel.addListFromServer()
-            viewModel.updateIsSearchViewShowed(false)
+            viewModel.isSearchViewShowed = false
         }
     }
 
@@ -102,7 +102,7 @@ class RecommendSchoolFragment :
 
     private fun initViewModel() {
         viewModel = ViewModelProvider(requireActivity())[RecommendSchoolViewModel::class.java]
-        viewModel.updateIsSearchViewShowed(false)
+        viewModel.isSearchViewShowed = false
     }
 
     private fun initFirstList() {

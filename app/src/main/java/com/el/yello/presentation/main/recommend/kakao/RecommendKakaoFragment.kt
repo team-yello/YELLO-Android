@@ -62,10 +62,10 @@ class RecommendKakaoFragment :
 
     override fun onResume() {
         super.onResume()
-        if (viewModel.isSearchViewShowed.value == true) {
+        if (viewModel.isSearchViewShowed) {
             adapter.clearList()
             setKakaoRecommendList()
-            viewModel.updateIsSearchViewShowed(false)
+            viewModel.isSearchViewShowed = false
         }
     }
 
@@ -77,7 +77,7 @@ class RecommendKakaoFragment :
 
     private fun initViewModel() {
         viewModel = ViewModelProvider(requireActivity())[RecommendKakaoViewModel::class.java]
-        viewModel.updateIsSearchViewShowed(false)
+        viewModel.isSearchViewShowed = false
     }
 
     // 서버 통신 성공 시 카카오 추천 친구 추가

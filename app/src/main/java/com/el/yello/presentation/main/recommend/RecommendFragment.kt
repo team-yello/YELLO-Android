@@ -35,8 +35,8 @@ class RecommendFragment : BindingFragment<FragmentRecommendBinding>(R.layout.fra
     private fun initSearchBtnListener() {
         binding.btnRecommendSearch.setOnSingleClickListener {
             AmplitudeUtils.trackEventWithProperties("click_search_button")
-            kakaoViewModel.updateIsSearchViewShowed(true)
-            schoolViewModel.updateIsSearchViewShowed(true)
+            kakaoViewModel.isSearchViewShowed = true
+            schoolViewModel.isSearchViewShowed = true
             Intent(activity, SearchActivity::class.java).apply {
                 addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                 startActivity(this)

@@ -50,12 +50,8 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
 
         initProfileSetting()
         initPullToScrollListener()
-        setItemDivider()
         setInfinityScroll()
         setDeleteAnimation()
-        viewModel.getUserDataFromServer()
-        viewModel.getFriendsListFromServer()
-        viewModel.getPurchaseInfoFromServer()
         observeUserDataState()
         observeFriendsDataState()
         observeFriendDeleteState()
@@ -69,7 +65,11 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
         initProfileManageBtnListener()
         initUpwardBtnListener()
         initUpwardBtnVisibility()
-        initAdapterWithClickListener()
+        initAdapter()
+        setItemDivider()
+        viewModel.getUserDataFromServer()
+        viewModel.getFriendsListFromServer()
+        viewModel.getPurchaseInfoFromServer()
     }
 
     private fun setItemDivider() {
@@ -103,7 +103,7 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
     }
 
     // 어댑터 시작
-    private fun initAdapterWithClickListener() {
+    private fun initAdapter() {
         _adapter = ProfileFriendAdapter((viewModel), { profileUserModel, position ->
 
             // 리스트 아이템 클릭 리스너 설정 - 클릭된 아이템 값 저장 뷰모델 이후 바텀 시트 출력

@@ -30,10 +30,12 @@ class PayViewModel @Inject constructor(
     val postInAppCheckState: StateFlow<UiState<PayInAppModel?>> = _postInAppCheckState.asStateFlow()
 
     private val _getSubsNeededState = MutableStateFlow<UiState<PaySubsNeededModel?>>(UiState.Empty)
-    val getSubsNeededState: StateFlow<UiState<PaySubsNeededModel?>> = _getSubsNeededState.asStateFlow()
+    val getSubsNeededState: StateFlow<UiState<PaySubsNeededModel?>> =
+        _getSubsNeededState.asStateFlow()
 
     private val _getPurchaseInfoState = MutableStateFlow<UiState<PayInfoModel?>>(UiState.Empty)
-    val getPurchaseInfoState: StateFlow<UiState<PayInfoModel?>> = _getPurchaseInfoState.asStateFlow()
+    val getPurchaseInfoState: StateFlow<UiState<PayInfoModel?>> =
+        _getPurchaseInfoState.asStateFlow()
 
     var ticketCount = 0
         private set
@@ -50,11 +52,13 @@ class PayViewModel @Inject constructor(
     fun checkSubsToServer(request: PayRequestModel) {
         viewModelScope.launch {
             _postSubsCheckState.value = UiState.Loading
-            payRepository.postToCheckSubs(request).onSuccess {
-                _postSubsCheckState.value = UiState.Success(it)
-            }.onFailure {
-                _postSubsCheckState.value = UiState.Failure(it.message.toString())
-            }
+            payRepository.postToCheckSubs(request)
+                .onSuccess {
+                    _postSubsCheckState.value = UiState.Success(it)
+                }
+                .onFailure {
+                    _postSubsCheckState.value = UiState.Failure(it.message.toString())
+                }
         }
     }
 
@@ -62,33 +66,41 @@ class PayViewModel @Inject constructor(
     fun checkInAppToServer(request: PayRequestModel) {
         viewModelScope.launch {
             _postInAppCheckState.value = UiState.Loading
-            payRepository.postToCheckInApp(request).onSuccess {
-                _postInAppCheckState.value = UiState.Success(it)
-            }.onFailure {
-                _postInAppCheckState.value = UiState.Failure(it.message.toString())
-            }
+            payRepository.postToCheckInApp(request)
+                .onSuccess {
+                    _postInAppCheckState.value = UiState.Success(it)
+                }
+                .onFailure {
+                    _postInAppCheckState.value = UiState.Failure(it.message.toString())
+                }
         }
     }
 
     // 서버 통신 - (아직 사용 X) 구독 재촉 알림 필요 여부 확인
     fun getSubsNeededFromServer() {
         viewModelScope.launch {
-            payRepository.getSubsNeeded().onSuccess {
-                _getSubsNeededState.value = UiState.Success(it)
-            }.onFailure {
-                _getSubsNeededState.value = UiState.Failure(it.message.toString())
-            }
+            payRepository.getSubsNeeded()
+                .onSuccess {
+                    it ?: return@launch
+                    _getSubsNeededState.value = UiState.Success(it)
+                }
+                .onFailure {
+                    _getSubsNeededState.value = UiState.Failure(it.message.toString())
+                }
         }
     }
 
     // 서버 통신 - 구독 여부 & 열람권 개수 받아오기
     fun getPurchaseInfoFromServer() {
         viewModelScope.launch {
-            payRepository.getPurchaseInfo().onSuccess {
-                _getPurchaseInfoState.value = UiState.Success(it)
-            }.onFailure {
-                _getPurchaseInfoState.value = UiState.Failure(it.message.toString())
-            }
+            payRepository.getPurchaseInfo()
+                .onSuccess {
+                    it ?: return@launch
+                    _getPurchaseInfoState.value = UiState.Success(it)
+                }
+                .onFailure {
+                    _getPurchaseInfoState.value = UiState.Failure(it.message.toString())
+                }
         }
     }
 }

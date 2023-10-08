@@ -35,11 +35,11 @@ class ProfileViewModel @Inject constructor(
     private val payRepository: PayRepository
 ) : ViewModel() {
 
-    private val _getState = MutableLiveData<UiState<ProfileUserModel>>()
-    val getState: LiveData<UiState<ProfileUserModel>> = _getState
+    private val _getUserDataState = MutableLiveData<UiState<ProfileUserModel>>(UiState.Empty)
+    val getUserDataState: LiveData<UiState<ProfileUserModel>> = _getUserDataState
 
-    private val _getListState = MutableLiveData<UiState<ProfileFriendsListModel?>>(UiState.Loading)
-    val getListState: LiveData<UiState<ProfileFriendsListModel?>> = _getListState
+    private val _getFriendListState = MutableLiveData<UiState<ProfileFriendsListModel?>>(UiState.Empty)
+    val getFriendListState: LiveData<UiState<ProfileFriendsListModel?>> = _getFriendListState
 
     private val _deleteUserState = MutableLiveData<UiState<Unit>>()
     val deleteUserState: LiveData<UiState<Unit>> = _deleteUserState
@@ -53,8 +53,8 @@ class ProfileViewModel @Inject constructor(
     private val _kakaoQuitState = MutableLiveData<UiState<Unit>>()
     val kakaoQuitState: LiveData<UiState<Unit>> = _kakaoQuitState
 
-    private val _getPurchaseInfoState = MutableLiveData<UiState<PayInfoModel?>>()
-    val getPurchaseInfoState: LiveData<UiState<PayInfoModel?>> = _getPurchaseInfoState
+    private val _getPurchaseInfoState = MutableStateFlow<UiState<PayInfoModel?>>(UiState.Empty)
+    val getPurchaseInfoState: StateFlow<UiState<PayInfoModel?>> = _getPurchaseInfoState.asStateFlow()
 
     var isSubscribed: Boolean = false
 
@@ -108,18 +108,18 @@ class ProfileViewModel @Inject constructor(
     // 서버 통신 - 유저 정보 받아오기
     fun getUserDataFromServer() {
         viewModelScope.launch {
-            _getState.value = UiState.Loading
+            _getUserDataState.value = UiState.Loading
             profileRepository.getUserData()
                 .onSuccess { profile ->
                     if (profile == null) {
-                        _getState.value = UiState.Empty
+                        _getUserDataState.value = UiState.Empty
                         return@launch
                     }
-                    _getState.value = UiState.Success(profile)
+                    _getUserDataState.value = UiState.Success(profile)
                 }
                 .onFailure { t ->
                     if (t is HttpException) {
-                        _getState.value = UiState.Failure(t.message.toString())
+                        _getUserDataState.value = UiState.Failure(t.message.toString())
                     }
                 }
         }
@@ -129,7 +129,7 @@ class ProfileViewModel @Inject constructor(
     fun getFriendsListFromServer() {
         if (isPagingFinish) return
         if (isFirstScroll) {
-            _getListState.value = UiState.Loading
+            _getFriendListState.value = UiState.Loading
             isFirstScroll = false
         }
         viewModelScope.launch {
@@ -140,11 +140,11 @@ class ProfileViewModel @Inject constructor(
                     it ?: return@launch
                     totalPage = ceil((it.totalCount * 0.1)).toInt() - 1
                     if (totalPage == currentPage) isPagingFinish = true
-                    _getListState.value = UiState.Success(it)
+                    _getFriendListState.value = UiState.Success(it)
                     AmplitudeUtils.updateUserIntProperties("user_friends", it.totalCount)
                 }
                 .onFailure {
-                    _getListState.value = UiState.Failure(it.message.toString())
+                    _getFriendListState.value = UiState.Failure(it.message.toString())
                 }
         }
     }
@@ -187,7 +187,7 @@ class ProfileViewModel @Inject constructor(
                 _kakaoLogoutState.value = UiState.Success(Unit)
                 clearLocalInfo()
             } else {
-                _kakaoLogoutState.value = UiState.Failure(error.message ?: "")
+                _kakaoLogoutState.value = UiState.Failure(error.message.toString())
             }
         }
     }
@@ -199,7 +199,7 @@ class ProfileViewModel @Inject constructor(
             if (error == null) {
                 _kakaoQuitState.value = UiState.Success(Unit)
             } else {
-                _kakaoQuitState.value = UiState.Failure(error.message ?: "")
+                _kakaoQuitState.value = UiState.Failure(error.message.toString())
             }
         }
     }
@@ -216,7 +216,7 @@ class ProfileViewModel @Inject constructor(
                     _getPurchaseInfoState.value = UiState.Success(it)
                 }
                 .onFailure {
-                    _getPurchaseInfoState.value = UiState.Failure(it.message ?: "")
+                    _getPurchaseInfoState.value = UiState.Failure(it.message.toString())
                 }
         }
 

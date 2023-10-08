@@ -26,6 +26,7 @@ import com.example.ui.view.UiState
 import com.example.ui.view.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.json.JSONObject
 
@@ -128,8 +129,7 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
         }, {
             // 헤더 상점 버튼 클릭 리스너 설정
             AmplitudeUtils.trackEventWithProperties(
-                "click_go_shop",
-                JSONObject().put("shop_button", "profile_shop")
+                "click_go_shop", JSONObject().put("shop_button", "profile_shop")
             )
             Intent(activity, PayActivity::class.java).apply {
                 addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
@@ -159,7 +159,7 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
 
     // 유저 정보 서버 통신 성공 시 어댑터 생성 후 리사이클러뷰에 부착
     private fun observeUserDataState() {
-        viewModel.getState.observe(viewLifecycleOwner) { state ->
+        viewModel.getUserDataState.observe(viewLifecycleOwner) { state ->
             when (state) {
                 is UiState.Success -> {
                     // 서버 통신으로 받은 유저 정보 뷰모델에 저장
@@ -185,7 +185,7 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
 
     // 친구 목록 서버 통신 성공 시 어댑터에 리스트 추가
     private fun observeFriendsDataState() {
-        viewModel.getListState.observe(viewLifecycleOwner) { state ->
+        viewModel.getFriendListState.observe(viewLifecycleOwner) { state ->
             when (state) {
                 is UiState.Success -> {
                     binding.ivProfileLoading.visibility = View.GONE
@@ -213,10 +213,7 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
                 super.onScrolled(recyclerView, dx, dy)
                 if (dy > 0) {
                     recyclerView.layoutManager?.let { layoutManager ->
-                        if (!binding.rvProfileFriendsList.canScrollVertically(1)
-                            && layoutManager is LinearLayoutManager
-                            && layoutManager.findLastVisibleItemPosition() == adapter.itemCount - 1
-                        ) {
+                        if (!binding.rvProfileFriendsList.canScrollVertically(1) && layoutManager is LinearLayoutManager && layoutManager.findLastVisibleItemPosition() == adapter.itemCount - 1) {
                             viewModel.getFriendsListFromServer()
                         }
                     }
@@ -269,21 +266,23 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
 
     // 구독 여부 확인
     private fun observeCheckIsSubscribed() {
-        viewModel.getPurchaseInfoState.observe(viewLifecycleOwner) { state ->
-            when (state) {
-                is UiState.Success -> {
-                    viewModel.isSubscribed = state.data?.isSubscribe == true
+        lifecycleScope.launch {
+            viewModel.getPurchaseInfoState.collectLatest { state ->
+                when (state) {
+                    is UiState.Success -> {
+                        viewModel.isSubscribed = state.data?.isSubscribe == true
+                    }
+
+                    is UiState.Failure -> {
+                        viewModel.isSubscribed = false
+                    }
+
+                    is UiState.Loading -> {}
+
+                    is UiState.Empty -> {}
                 }
-
-                is UiState.Failure -> {
-                    viewModel.isSubscribed = false
-                }
-
-                is UiState.Loading -> {}
-
-                is UiState.Empty -> {}
+                adapter.notifyDataSetChanged()
             }
-            adapter.notifyDataSetChanged()
         }
     }
 

@@ -4,7 +4,6 @@ import android.content.Intent
 import android.os.Bundle
 import com.el.yello.R
 import com.el.yello.databinding.ActivityTutorialBBinding
-import com.el.yello.presentation.onboarding.activity.OnBoardingActivity
 import com.el.yello.presentation.onboarding.activity.OnBoardingActivity.Companion.EXTRA_CODE_TEXT_EMPTY
 import com.el.yello.presentation.tutorial.TutorialAActivity.Companion.EXTRA_FROM_ONBOARDING
 import com.el.yello.util.amplitude.AmplitudeUtils

@@ -1,6 +1,5 @@
 package com.el.yello.presentation.search
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.domain.entity.SearchListModel
@@ -51,10 +50,8 @@ class SearchViewModel @Inject constructor(
 
     // 서버 통신 - 추천 친구 리스트 추가
     fun setListFromServer(keyword: String) {
-        Log.d("okhttp", "@@ ${isPagingFinish}")
         if (isPagingFinish) return
         viewModelScope.launch {
-            Log.d("okhttp", "@@ ${currentPage}")
             searchRepository.getSearchList(
                 ++currentPage,
                 keyword

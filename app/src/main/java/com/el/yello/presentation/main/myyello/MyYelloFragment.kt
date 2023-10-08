@@ -89,28 +89,29 @@ class MyYelloFragment : BindingFragment<FragmentMyYelloBinding>(R.layout.fragmen
     }
 
     private fun observe() {
-        viewModel.myYelloData.observe(viewLifecycleOwner) {
-            binding.uiState = it.getUiStateModel()
-            when (it) {
+        viewModel.myYelloData.observe(viewLifecycleOwner) { state ->
+            binding.uiState = state.getUiStateModel()
+            when (state) {
                 is UiState.Success -> {
                     binding.shimmerMyYelloReceive.stopShimmer()
-                    startFadeIn()
-                    binding.clSendOpen.isVisible = it.data.ticketCount != 0
-                    binding.btnSendCheck.isVisible = it.data.ticketCount == 0
-                    binding.tvKeyNumber.text = it.data.ticketCount.toString()
-                    adapter?.addItem(it.data.yello)
+                    if (viewModel.isFirstLoading) {
+                        startFadeIn()
+                        viewModel.isFirstLoading = false
+                    }
+                    binding.clSendOpen.isVisible = state.data.ticketCount != 0
+                    binding.btnSendCheck.isVisible = state.data.ticketCount == 0
+                    binding.tvKeyNumber.text = state.data.ticketCount.toString()
+                    adapter?.addItem(state.data.yello)
                 }
 
                 is UiState.Failure -> {
                     binding.shimmerMyYelloReceive.stopShimmer()
-                    yelloSnackbar(requireView(), it.msg)
+                    yelloSnackbar(requireView(), state.msg)
                 }
 
                 is UiState.Empty -> binding.shimmerMyYelloReceive.stopShimmer()
 
                 is UiState.Loading -> binding.shimmerMyYelloReceive.startShimmer()
-
-                else -> {}
             }
         }
 

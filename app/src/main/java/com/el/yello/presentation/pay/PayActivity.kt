@@ -58,15 +58,6 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
         observeCheckInAppState()
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        _adapter = null
-        _manager?.billingClient?.endConnection()
-        _manager = null
-        payInAppDialog?.dismiss()
-        paySubsDialog?.dismiss()
-    }
-
     private fun initView() {
         _adapter = PayAdapter()
         binding.vpBanner.adapter = adapter
@@ -316,6 +307,15 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
         intent.putExtra("ticketCount", viewModel.ticketCount)
         setResult(RESULT_OK, intent)
         super.finish()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _adapter = null
+        _manager?.billingClient?.endConnection()
+        _manager = null
+        payInAppDialog?.dismiss()
+        paySubsDialog?.dismiss()
     }
 
     companion object {

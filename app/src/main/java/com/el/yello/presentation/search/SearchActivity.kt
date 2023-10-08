@@ -223,5 +223,6 @@ class SearchActivity : BindingActivity<ActivitySearchBinding>(R.layout.activity_
     override fun onDestroy() {
         super.onDestroy()
         _adapter = null
+        searchJob?.cancel()
     }
 }

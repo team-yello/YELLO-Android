@@ -58,7 +58,6 @@ class LookFragment : BindingFragment<FragmentLookBinding>(R.layout.fragment_look
         viewModel.setFirstLoading(true)
         _adapter = LookPageAdapter()
         binding.rvLook.adapter = adapter
-        binding.lifecycleOwner = this
 
         adapter.addLoadStateListener { combinedLoadStates ->
             if (combinedLoadStates.prepend.endOfPaginationReached) {

@@ -1,25 +1,23 @@
 package com.example.data.repository
 
-import androidx.paging.Pager
-import androidx.paging.PagingConfig
-import androidx.paging.PagingData
-import com.example.data.datasource.paging.SearchPagingSource
-import com.example.data.datasource.paging.SearchPagingSource.Companion.SEARCH_PAGE_SIZE
-import com.example.data.remote.service.SearchService
-import com.example.domain.entity.SearchListModel.SearchFriendModel
+import com.example.data.datasource.SearchDataSource
+import com.example.domain.entity.SearchListModel
 import com.example.domain.repository.SearchRepository
-import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class SearchRepositoryImpl @Inject constructor(
-    private val searchService: SearchService
+    private val searchDataSource: SearchDataSource,
 ) : SearchRepository {
 
-    override fun getSearchList(keyword: String): Flow<PagingData<SearchFriendModel>> {
-        return Pager(
-            config = PagingConfig(SEARCH_PAGE_SIZE),
-            pagingSourceFactory = { SearchPagingSource(searchService, keyword) }
-        ).flow
+    override suspend fun getSearchList(
+        page: Int, keyword: String
+    ): Result<SearchListModel?> {
+        return runCatching {
+            searchDataSource.getSearchListData(
+                page,
+                keyword,
+            ).data?.toSearchListModel()
+        }
     }
 
 }

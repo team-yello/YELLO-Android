@@ -1,13 +1,12 @@
 package com.example.domain.repository
 
-import androidx.paging.PagingData
-import com.example.domain.entity.SearchListModel.SearchFriendModel
-import kotlinx.coroutines.flow.Flow
+import com.example.domain.entity.SearchListModel
 
 interface SearchRepository {
 
-    fun getSearchList(
+    suspend fun getSearchList(
+        page: Int,
         keyword: String
-    ): Flow<PagingData<SearchFriendModel>>
+    ): Result<SearchListModel?>
 
 }

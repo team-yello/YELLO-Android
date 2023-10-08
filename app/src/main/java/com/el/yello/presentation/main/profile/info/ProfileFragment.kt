@@ -108,13 +108,7 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
 
             // 리스트 아이템 클릭 리스너 설정 - 클릭된 아이템 값 저장 뷰모델 이후 바텀 시트 출력
             viewModel.setItemPosition(position)
-            viewModel.clickedItemId.value = profileUserModel.userId
-            viewModel.clickedItemName.value = profileUserModel.name
-            viewModel.clickedItemYelloId.value = "@" + profileUserModel.yelloId
-            viewModel.clickedItemSchool.value = profileUserModel.group
-            viewModel.clickedItemThumbnail.value = profileUserModel.profileImageUrl
-            viewModel.clickedItemTotalMsg.value = profileUserModel.yelloCount.toString()
-            viewModel.clickedItemTotalFriends.value = profileUserModel.friendCount.toString()
+            viewModel.clickedUserData = profileUserModel
 
             if (!viewModel.isItemBottomSheetRunning) {
                 AmplitudeUtils.trackEventWithProperties("click_profile_friend")
@@ -162,7 +156,6 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
         viewModel.getUserDataState.observe(viewLifecycleOwner) { state ->
             when (state) {
                 is UiState.Success -> {
-                    // 서버 통신으로 받은 유저 정보 뷰모델에 저장
                     viewModel.myUserData = state.data
                     viewModel.myFriendCount = state.data.friendCount
                 }
@@ -232,9 +225,7 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
                 is UiState.Success -> {
                     lifecycleScope.launch {
                         viewModel.clickedItemPosition?.let { position ->
-                            adapter.removeItem(
-                                position
-                            )
+                            adapter.removeItem(position)
                         }
                         binding.rvProfileFriendsList.removeItemDecoration(itemDivider)
                         delay(450)

@@ -34,10 +34,10 @@ class ProfileFriendDeleteBottomSheet :
     }
 
     private fun setItemImage() {
-        if (viewModel.clickedItemThumbnail.value == ProfileViewModel.BASIC_THUMBNAIL) {
+        if (viewModel.clickedUserData.profileImageUrl == ProfileViewModel.BASIC_THUMBNAIL) {
             binding.ivProfileFriendDeleteThumbnail.load(R.drawable.img_yello_basic)
         } else {
-            binding.ivProfileFriendDeleteThumbnail.load(viewModel.clickedItemThumbnail.value) {
+            binding.ivProfileFriendDeleteThumbnail.load(viewModel.clickedUserData.profileImageUrl) {
                 transformations(CircleCropTransformation())
             }
         }
@@ -51,7 +51,7 @@ class ProfileFriendDeleteBottomSheet :
 
     private fun initDeleteBtnListener() {
         binding.btnProfileFriendDeleteResume.setOnSingleClickListener {
-            viewModel.clickedItemId.value?.let { friendId ->
+            viewModel.clickedUserData.userId.let { friendId ->
                 viewModel.deleteFriendDataToServer(friendId)
             }
         }
@@ -65,7 +65,7 @@ class ProfileFriendDeleteBottomSheet :
                     toast(
                         getString(
                             R.string.profile_delete_bottom_sheet_toast,
-                            viewModel.clickedItemName.value.toString()
+                            viewModel.clickedUserData.name
                         )
                     )
                     viewModel.setDeleteFriendStateEmpty()

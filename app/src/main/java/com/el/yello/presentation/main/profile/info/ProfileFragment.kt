@@ -163,13 +163,8 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
             when (state) {
                 is UiState.Success -> {
                     // 서버 통신으로 받은 유저 정보 뷰모델에 저장
-                    viewModel.myName.value = state.data.name
-                    viewModel.myId.value = "@" + state.data.yelloId
-                    viewModel.mySchool.value = state.data.group
-                    viewModel.myThumbnail.value = state.data.profileImageUrl
-                    viewModel.myTotalMsg.value = state.data.yelloCount.toString()
-                    viewModel.myTotalFriends.value = state.data.friendCount.toString()
-                    viewModel.myTotalPoints.value = state.data.point.toString()
+                    viewModel.myUserData = state.data
+                    viewModel.myFriendCount = state.data.friendCount
                 }
 
                 is UiState.Failure -> {
@@ -244,11 +239,8 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
                         binding.rvProfileFriendsList.removeItemDecoration(itemDivider)
                         delay(450)
                         binding.rvProfileFriendsList.addItemDecoration(itemDivider)
-                        if (viewModel.myTotalFriends.value != "") {
-                            viewModel.myTotalFriends.value =
-                                viewModel.myTotalFriends.value?.toInt()?.minus(1).toString()
-                            adapter.notifyDataSetChanged()
-                        }
+                        viewModel.myFriendCount -= 1
+                        adapter.notifyDataSetChanged()
                     }
                     AmplitudeUtils.trackEventWithProperties("complete_profile_delete_friend")
                 }

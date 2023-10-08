@@ -69,13 +69,8 @@ class ProfileViewModel @Inject constructor(
     private var isPagingFinish = false
     private var totalPage = Int.MAX_VALUE
 
-    val myName: MutableLiveData<String> = MutableLiveData("")
-    val myId: MutableLiveData<String> = MutableLiveData("")
-    val mySchool: MutableLiveData<String> = MutableLiveData("")
-    val myThumbnail: MutableLiveData<String> = MutableLiveData("")
-    val myTotalMsg: MutableLiveData<String> = MutableLiveData("")
-    val myTotalFriends: MutableLiveData<String> = MutableLiveData("")
-    val myTotalPoints: MutableLiveData<String> = MutableLiveData("")
+    var myUserData = ProfileUserModel(0,"", "","","",0,0,0)
+    var myFriendCount = 0
 
     val clickedItemId: MutableLiveData<Int> = MutableLiveData()
     val clickedItemName: MutableLiveData<String> = MutableLiveData("")

@@ -71,7 +71,7 @@ class GetAlarmActivity :
 
     override fun onPause() {
         super.onPause()
-        overridePendingTransition(0, 0)
+        overridePendingTransition(NONE_ANIMATION, NONE_ANIMATION)
     }
 
     companion object {
@@ -80,5 +80,6 @@ class GetAlarmActivity :
             Intent(context, GetAlarmActivity::class.java).apply {
                 putExtra("isFromOnBoarding", isFromOnBoarding)
             }
+        private const val NONE_ANIMATION = 0
     }
 }

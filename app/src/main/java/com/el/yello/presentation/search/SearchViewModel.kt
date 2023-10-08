@@ -1,5 +1,6 @@
 package com.el.yello.presentation.search
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.domain.entity.SearchListModel
@@ -30,6 +31,7 @@ class SearchViewModel @Inject constructor(
     private var isPagingFinish = false
     private var totalPage = Int.MAX_VALUE
 
+    var isFirstLoading = true
 
     var itemPosition: Int? = null
     var itemHolder: SearchViewHolder? = null
@@ -43,12 +45,16 @@ class SearchViewModel @Inject constructor(
         currentPage = -1
         isPagingFinish = false
         totalPage = Int.MAX_VALUE
+        isFirstLoading = true
+        _postFriendsListState.value = UiState.Empty
     }
 
     // 서버 통신 - 추천 친구 리스트 추가
     fun setListFromServer(keyword: String) {
+        Log.d("okhttp", "@@ ${isPagingFinish}")
         if (isPagingFinish) return
         viewModelScope.launch {
+            Log.d("okhttp", "@@ ${currentPage}")
             searchRepository.getSearchList(
                 ++currentPage,
                 keyword

@@ -7,7 +7,7 @@ import com.el.yello.databinding.ItemRecommendSearchBinding
 import com.example.domain.entity.SearchListModel.SearchFriendModel
 import com.example.ui.view.ItemDiffCallback
 
-class SearchPageAdapter(
+class SearchAdapter(
     private val itemClick: (SearchFriendModel, Int, SearchViewHolder) -> Unit
 ) : ListAdapter<SearchFriendModel, SearchViewHolder>(diffUtil) {
 

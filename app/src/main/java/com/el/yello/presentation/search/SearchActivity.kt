@@ -16,7 +16,6 @@ import com.el.yello.R
 import com.el.yello.databinding.ActivitySearchBinding
 import com.el.yello.util.Utils.setPullToScrollColor
 import com.el.yello.util.amplitude.AmplitudeUtils
-import com.el.yello.util.context.yelloSnackbar
 import com.example.ui.base.BindingActivity
 import com.example.ui.context.toast
 import com.example.ui.view.UiState
@@ -30,7 +29,7 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class SearchActivity : BindingActivity<ActivitySearchBinding>(R.layout.activity_search) {
 
-    private var _adapter: SearchPageAdapter? = null
+    private var _adapter: SearchAdapter? = null
     private val adapter
         get() = requireNotNull(_adapter) { getString(R.string.adapter_not_initialized_error_msg) }
 
@@ -56,7 +55,7 @@ class SearchActivity : BindingActivity<ActivitySearchBinding>(R.layout.activity_
     }
 
     private fun initAdapter() {
-        _adapter = SearchPageAdapter { searchFriendModel, position, holder ->
+        _adapter = SearchAdapter { searchFriendModel, position, holder ->
             viewModel.setPositionAndHolder(position, holder)
             viewModel.addFriendToServer(searchFriendModel.id.toLong())
             AmplitudeUtils.trackEventWithProperties("click_search_addfriend")
@@ -83,10 +82,10 @@ class SearchActivity : BindingActivity<ActivitySearchBinding>(R.layout.activity_
         binding.layoutSearchSwipe.apply {
             setOnRefreshListener {
                 lifecycleScope.launch {
-                    adapter.submitList(listOf())
-                    viewModel.setNewPage()
+                    showLoadingScreen()
                     viewModel.setListFromServer(searchText)
-                    delay(200)
+                    delay(300)
+                    showFriendListScreen()
                     binding.layoutSearchSwipe.isRefreshing = false
                 }
             }
@@ -97,10 +96,12 @@ class SearchActivity : BindingActivity<ActivitySearchBinding>(R.layout.activity_
     // 텍스트 변경 감지 시 로딩 화면 출력
     private fun setLoadingScreen() {
         binding.etRecommendSearchBox.doOnTextChanged { _, _, _, _ ->
-            showLoadingScreen()
-            adapter.submitList(listOf())
-            adapter.notifyDataSetChanged()
-            viewModel.setNewPage()
+            lifecycleScope.launch {
+                showLoadingScreen()
+                viewModel.setNewPage()
+                adapter.submitList(listOf())
+                adapter.notifyDataSetChanged()
+            }
         }
     }
 
@@ -126,10 +127,13 @@ class SearchActivity : BindingActivity<ActivitySearchBinding>(R.layout.activity_
     // 검색 리스트 추가 서버 통신 성공 시 어댑터에 리스트 추가
     private fun observeSearchListState() {
         lifecycleScope.launch {
-            viewModel.postFriendsListState.collectLatest { state ->
+            viewModel.postFriendsListState.collect { state ->
                 when (state) {
                     is UiState.Success -> {
-                        startFadeIn()
+                        if (viewModel.isFirstLoading) {
+                            startFadeIn()
+                            viewModel.isFirstLoading = false
+                        }
                         if (state.data?.friendList?.size == 0) {
                             showNoFriendScreen()
                         } else {
@@ -158,10 +162,7 @@ class SearchActivity : BindingActivity<ActivitySearchBinding>(R.layout.activity_
                 super.onScrolled(recyclerView, dx, dy)
                 if (dy > 0) {
                     recyclerView.layoutManager?.let { layoutManager ->
-                        if (!binding.rvRecommendSearch.canScrollVertically(1)
-                            && layoutManager is LinearLayoutManager
-                            && layoutManager.findLastVisibleItemPosition() == adapter.itemCount - 1
-                        ) {
+                        if (!binding.rvRecommendSearch.canScrollVertically(1) && layoutManager is LinearLayoutManager && layoutManager.findLastVisibleItemPosition() == adapter.itemCount - 1) {
                             viewModel.setListFromServer(searchText)
                         }
                     }
@@ -185,10 +186,7 @@ class SearchActivity : BindingActivity<ActivitySearchBinding>(R.layout.activity_
                     }
 
                     is UiState.Failure -> {
-                        yelloSnackbar(
-                            binding.root.rootView,
-                            getString(R.string.recommend_error_add_friend_connection),
-                        )
+                        toast(getString(R.string.recommend_error_add_friend_connection))
                     }
 
                     is UiState.Loading -> {}

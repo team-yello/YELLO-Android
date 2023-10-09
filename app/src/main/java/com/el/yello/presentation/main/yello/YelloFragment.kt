@@ -14,7 +14,7 @@ import com.el.yello.R
 import com.el.yello.databinding.FragmentYelloBinding
 import com.el.yello.presentation.main.yello.lock.YelloLockFragment
 import com.el.yello.presentation.main.yello.vote.VoteActivity
-import com.el.yello.presentation.main.yello.vote.note.start.YelloStartFragment
+import com.el.yello.presentation.main.yello.start.YelloStartFragment
 import com.el.yello.presentation.main.yello.wait.YelloWaitFragment
 import com.el.yello.util.context.yelloSnackbar
 import com.example.domain.entity.type.YelloState.Lock

@@ -16,7 +16,6 @@ import com.example.ui.view.UiState
 import com.example.ui.view.UiState.Empty
 import com.example.ui.view.UiState.Success
 import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -27,6 +26,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import timber.log.Timber
+import javax.inject.Inject
 
 @HiltViewModel
 class VoteViewModel @Inject constructor(
@@ -218,6 +218,7 @@ class VoteViewModel @Inject constructor(
                 .onFailure { t ->
                     if (t is HttpException) {
                         Timber.e("POST VOTE FAILURE : $t")
+                        voteRepository.clearStoredVote()
                         _noteState.emit(NoteState.Failure)
                     }
                 }
@@ -265,19 +266,21 @@ class VoteViewModel @Inject constructor(
     }
 
     private fun getStoredVote() {
-        val vote = voteRepository.getStoredVote()
-        if (vote == null) {
-            getVoteQuestions()
-            return
-        }
-        totalListCount = vote.questionList.size - 1
-        _voteList.value = vote.questionList
-        _voteState.value = Success(vote.questionList)
-        _choiceList.value = vote.choiceList
-        _totalPoint.value = vote.totalPoint
-        initCurrentChoice()
         viewModelScope.launch {
-            delay(100L)
+            val vote = voteRepository.getStoredVote()
+            if (vote == null) {
+                getVoteQuestions()
+                return@launch
+            }
+
+            totalListCount = vote.questionList.size - 1
+            _voteList.value = vote.questionList
+            _voteState.value = Success(vote.questionList)
+            _choiceList.value = vote.choiceList
+            _totalPoint.value = vote.totalPoint
+            initCurrentChoice()
+            // TODO: delay 없이 해결 가능한 방법 찾아보기
+            delay(500L)
             _currentNoteIndex.value = vote.currentIndex
         }
     }

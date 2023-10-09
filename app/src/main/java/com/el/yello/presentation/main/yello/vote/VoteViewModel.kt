@@ -1,5 +1,6 @@
 package com.el.yello.presentation.main.yello.vote
 
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.el.yello.presentation.main.yello.vote.NoteState.InvalidCancel
@@ -17,8 +18,11 @@ import com.example.ui.view.UiState.Success
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
@@ -28,10 +32,9 @@ import timber.log.Timber
 class VoteViewModel @Inject constructor(
     private val voteRepository: VoteRepository,
 ) : ViewModel() {
-    // TODO : NoteState 상태 추가
-    private val _noteState = MutableStateFlow<NoteState>(NoteState.Success)
-    val noteState: StateFlow<NoteState>
-        get() = _noteState.asStateFlow()
+    private val _noteState = MutableSharedFlow<NoteState>()
+    val noteState: SharedFlow<NoteState>
+        get() = _noteState.asSharedFlow()
 
     private val _voteState = MutableStateFlow<UiState<List<Note>>>(UiState.Loading)
     val voteState: StateFlow<UiState<List<Note>>>
@@ -53,7 +56,7 @@ class VoteViewModel @Inject constructor(
     val currentNoteIndex: Int
         get() = _currentNoteIndex.value
 
-    val _currentChoice = MutableStateFlow<Choice?>(null)
+    val _currentChoice = MutableLiveData<Choice>()
     val currentChoice: Choice
         get() = requireNotNull(_currentChoice.value)
 
@@ -109,60 +112,64 @@ class VoteViewModel @Inject constructor(
     }
 
     fun selectName(nameIndex: Int) {
-        if (currentNoteIndex > totalListCount) return
-        if (currentChoice.friendId == voteList[currentNoteIndex].friendList[nameIndex].id) {
-            _noteState.value = InvalidCancel
-            return
-        }
-        if (currentChoice.friendId != null) return
-        with(voteList[currentNoteIndex].friendList[nameIndex]) {
-            _currentChoice.value?.friendId = id
-            _currentChoice.value?.friendName = name
-            _currentChoice.value = _currentChoice.value
-        }
-
-        currentChoice.keywordName ?: return
-        _choiceList.value?.add(currentChoice)
-        _votePointSum.value = votePointSum + voteList[currentNoteIndex].point
         viewModelScope.launch {
-            delay(DELAY_OPTION_SELECTION)
-            skipToNextVote()
+            if (currentNoteIndex > totalListCount) return@launch
+            if (currentChoice.friendId == voteList[currentNoteIndex].friendList[nameIndex].id) {
+                _noteState.emit(InvalidCancel)
+                return@launch
+            }
+            if (currentChoice.friendId != null) return@launch
+            with(voteList[currentNoteIndex].friendList[nameIndex]) {
+                _currentChoice.value?.friendId = id
+                _currentChoice.value?.friendName = name
+                _currentChoice.value = _currentChoice.value
+            }
+
+            currentChoice.keywordName ?: return@launch
+            _choiceList.value.add(currentChoice)
+            _votePointSum.value = votePointSum + voteList[currentNoteIndex].point
+            viewModelScope.launch {
+                delay(DELAY_OPTION_SELECTION)
+                skipToNextVote()
+            }
         }
     }
 
     fun selectKeyword(keywordIndex: Int) {
-        if (currentNoteIndex > totalListCount) return
-        if (currentChoice.keywordName == voteList[currentNoteIndex].keywordList[keywordIndex]) {
-            _noteState.value = InvalidCancel
-            return
-        }
-        if (currentChoice.keywordName != null) return
-        _currentChoice.value?.keywordName = voteList[currentNoteIndex].keywordList[keywordIndex]
-        _currentChoice.value = _currentChoice.value
-
-        currentChoice.friendId ?: return
-        _choiceList.value?.add(currentChoice)
-        _votePointSum.value = votePointSum + voteList[currentNoteIndex].point
         viewModelScope.launch {
-            delay(DELAY_OPTION_SELECTION)
-            skipToNextVote()
+            if (currentNoteIndex > totalListCount) return@launch
+            if (currentChoice.keywordName == voteList[currentNoteIndex].keywordList[keywordIndex]) {
+                _noteState.emit(InvalidCancel)
+                return@launch
+            }
+            if (currentChoice.keywordName != null) return@launch
+            _currentChoice.value?.keywordName = voteList[currentNoteIndex].keywordList[keywordIndex]
+            _currentChoice.value = _currentChoice.value
+
+            currentChoice.friendId ?: return@launch
+            _choiceList.value.add(currentChoice)
+            _votePointSum.value = votePointSum + voteList[currentNoteIndex].point
+            viewModelScope.launch {
+                delay(DELAY_OPTION_SELECTION)
+                skipToNextVote()
+            }
         }
     }
 
     fun shuffle() {
-        shuffleCount.value?.let { count ->
-            if (currentChoice.friendId != null) {
-                _noteState.value = InvalidShuffle
-                return
-            }
-            if (count < 1) return
+        viewModelScope.launch {
+            shuffleCount.value.let { count ->
+                if (currentChoice.friendId != null) {
+                    _noteState.emit(InvalidShuffle)
+                    return@launch
+                }
+                if (count < 1) return@launch
 
-            viewModelScope.launch {
                 voteRepository.getFriendShuffle()
                     .onSuccess { friends ->
                         Timber.d("GET FRIEND SHUFFLE SUCCESS : $friends")
                         if (friends == null) {
-                            _noteState.value = NoteState.Failure
+                            _noteState.emit(NoteState.Failure)
                             return@launch
                         }
                         _shuffleCount.value = count - 1
@@ -172,7 +179,7 @@ class VoteViewModel @Inject constructor(
                     .onFailure { t ->
                         if (t is HttpException) {
                             Timber.e("GET FRIEND SHUFFLE FAILURE : $t")
-                            _noteState.value = NoteState.Failure
+                            _noteState.emit(NoteState.Failure)
                             return@launch
                         }
                     }
@@ -181,14 +188,16 @@ class VoteViewModel @Inject constructor(
     }
 
     fun skip() {
-        if (isOptionSelected()) {
-            _noteState.value = InvalidSkip
-            return
+        viewModelScope.launch {
+            if (isOptionSelected()) {
+                _noteState.emit(InvalidSkip)
+                return@launch
+            }
+
+            if (isTransitioning) return@launch
+
+            skipToNextVote()
         }
-
-        if (isTransitioning) return
-
-        skipToNextVote()
     }
 
     private fun postVote() {
@@ -209,7 +218,7 @@ class VoteViewModel @Inject constructor(
                 .onFailure { t ->
                     if (t is HttpException) {
                         Timber.e("POST VOTE FAILURE : $t")
-                        _noteState.value = NoteState.Failure
+                        _noteState.emit(NoteState.Failure)
                     }
                 }
         }
@@ -230,26 +239,28 @@ class VoteViewModel @Inject constructor(
     }
 
     private fun skipToNextVote() {
-        if (currentNoteIndex == totalListCount) {
-            postVote()
-            return
-        }
-        isTransitioning = true
-        _noteState.value = NoteState.Success
-        _shuffleCount.value = MAX_COUNT_SHUFFLE
-        _currentNoteIndex.value = currentNoteIndex + 1
-        voteRepository.setStoredVote(
-            StoredVote(
-                currentIndex = currentNoteIndex,
-                choiceList = choiceList,
-                totalPoint = totalPoint,
-                questionList = voteList,
-            ),
-        )
-        initCurrentChoice()
         viewModelScope.launch {
-            delay(500L)
-            isTransitioning = false
+            if (currentNoteIndex == totalListCount) {
+                postVote()
+                return@launch
+            }
+            isTransitioning = true
+            _noteState.emit(NoteState.Success)
+            _shuffleCount.value = MAX_COUNT_SHUFFLE
+            _currentNoteIndex.value = currentNoteIndex + 1
+            voteRepository.setStoredVote(
+                StoredVote(
+                    currentIndex = currentNoteIndex,
+                    choiceList = choiceList,
+                    totalPoint = totalPoint,
+                    questionList = voteList,
+                ),
+            )
+            initCurrentChoice()
+            viewModelScope.launch {
+                delay(500L)
+                isTransitioning = false
+            }
         }
     }
 

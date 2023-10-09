@@ -84,7 +84,7 @@ class RecommendKakaoFragment :
     // 서버 통신 성공 시 카카오 추천 친구 추가
     private fun setKakaoRecommendList() {
         viewModel.setFirstPageLoading()
-        viewModel.initPagingVariable()
+        viewModel.initViewModelVariable()
         viewModel.addListWithKakaoIdList()
     }
 

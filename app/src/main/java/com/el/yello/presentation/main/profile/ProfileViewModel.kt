@@ -1,7 +1,5 @@
 package com.el.yello.presentation.main.profile
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.el.yello.util.amplitude.AmplitudeUtils
@@ -35,24 +33,25 @@ class ProfileViewModel @Inject constructor(
     private val payRepository: PayRepository
 ) : ViewModel() {
 
-    private val _getUserDataState = MutableLiveData<UiState<ProfileUserModel>>(UiState.Empty)
-    val getUserDataState: LiveData<UiState<ProfileUserModel>> = _getUserDataState
+    private val _getUserDataState = MutableStateFlow<UiState<ProfileUserModel>>(UiState.Empty)
+    val getUserDataState: StateFlow<UiState<ProfileUserModel>> = _getUserDataState.asStateFlow()
 
     private val _getFriendListState =
-        MutableLiveData<UiState<ProfileFriendsListModel?>>(UiState.Empty)
-    val getFriendListState: LiveData<UiState<ProfileFriendsListModel?>> = _getFriendListState
+        MutableStateFlow<UiState<ProfileFriendsListModel?>>(UiState.Empty)
+    val getFriendListState: StateFlow<UiState<ProfileFriendsListModel?>> =
+        _getFriendListState.asStateFlow()
 
-    private val _deleteUserState = MutableLiveData<UiState<Unit>>()
-    val deleteUserState: LiveData<UiState<Unit>> = _deleteUserState
+    private val _deleteUserState = MutableStateFlow<UiState<Unit>>(UiState.Empty)
+    val deleteUserState: StateFlow<UiState<Unit>> = _deleteUserState.asStateFlow()
 
-    private val _deleteFriendState = MutableLiveData<UiState<Unit>>()
-    val deleteFriendState: LiveData<UiState<Unit>> = _deleteFriendState
+    private val _deleteFriendState = MutableStateFlow<UiState<Unit>>(UiState.Empty)
+    val deleteFriendState: StateFlow<UiState<Unit>> = _deleteFriendState.asStateFlow()
 
-    private val _kakaoLogoutState = MutableLiveData<UiState<Unit>>()
-    val kakaoLogoutState: LiveData<UiState<Unit>> = _kakaoLogoutState
+    private val _kakaoLogoutState = MutableStateFlow<UiState<Unit>>(UiState.Empty)
+    val kakaoLogoutState: StateFlow<UiState<Unit>> = _kakaoLogoutState.asStateFlow()
 
-    private val _kakaoQuitState = MutableLiveData<UiState<Unit>>()
-    val kakaoQuitState: LiveData<UiState<Unit>> = _kakaoQuitState
+    private val _kakaoQuitState = MutableStateFlow<UiState<Unit>>(UiState.Empty)
+    val kakaoQuitState: StateFlow<UiState<Unit>> = _kakaoQuitState.asStateFlow()
 
     private val _getPurchaseInfoState = MutableStateFlow<UiState<PayInfoModel?>>(UiState.Empty)
     val getPurchaseInfoState: StateFlow<UiState<PayInfoModel?>> =
@@ -85,10 +84,17 @@ class ProfileViewModel @Inject constructor(
         _deleteFriendState.value = UiState.Empty
     }
 
-    fun initPagingVariable() {
+    fun initViewModelVariable() {
         currentPage = -1
         isPagingFinish = false
         totalPage = Int.MAX_VALUE
+        _deleteFriendState.value = UiState.Empty
+        _deleteUserState.value = UiState.Empty
+        _kakaoLogoutState.value = UiState.Empty
+        _kakaoQuitState.value = UiState.Empty
+        _getFriendListState.value = UiState.Empty
+        _getUserDataState.value = UiState.Empty
+        _getPurchaseInfoState.value = UiState.Empty
     }
 
     fun setIsFirstLoginData() {
@@ -99,17 +105,19 @@ class ProfileViewModel @Inject constructor(
     fun getUserDataFromServer() {
         viewModelScope.launch {
             _getUserDataState.value = UiState.Loading
-            profileRepository.getUserData().onSuccess { profile ->
-                if (profile == null) {
-                    _getUserDataState.value = UiState.Empty
-                    return@launch
+            profileRepository.getUserData()
+                .onSuccess { profile ->
+                    if (profile == null) {
+                        _getUserDataState.value = UiState.Empty
+                        return@launch
+                    }
+                    _getUserDataState.value = UiState.Success(profile)
                 }
-                _getUserDataState.value = UiState.Success(profile)
-            }.onFailure { t ->
-                if (t is HttpException) {
-                    _getUserDataState.value = UiState.Failure(t.message.toString())
+                .onFailure { t ->
+                    if (t is HttpException) {
+                        _getUserDataState.value = UiState.Failure(t.message.toString())
+                    }
                 }
-            }
         }
     }
 
@@ -123,15 +131,17 @@ class ProfileViewModel @Inject constructor(
         viewModelScope.launch {
             profileRepository.getFriendsData(
                 ++currentPage,
-            ).onSuccess {
-                it ?: return@launch
-                totalPage = ceil((it.totalCount * 0.1)).toInt() - 1
-                if (totalPage == currentPage) isPagingFinish = true
-                _getFriendListState.value = UiState.Success(it)
-                AmplitudeUtils.updateUserIntProperties("user_friends", it.totalCount)
-            }.onFailure {
-                _getFriendListState.value = UiState.Failure(it.message.toString())
-            }
+            )
+                .onSuccess {
+                    it ?: return@launch
+                    totalPage = ceil((it.totalCount * 0.1)).toInt() - 1
+                    if (totalPage == currentPage) isPagingFinish = true
+                    _getFriendListState.value = UiState.Success(it)
+                    AmplitudeUtils.updateUserIntProperties("user_friends", it.totalCount)
+                }
+                .onFailure {
+                    _getFriendListState.value = UiState.Failure(it.message.toString())
+                }
         }
     }
 
@@ -139,13 +149,15 @@ class ProfileViewModel @Inject constructor(
     fun deleteUserDataToServer() {
         viewModelScope.launch {
             _deleteUserState.value = UiState.Loading
-            profileRepository.deleteUserData().onSuccess {
-                clearLocalInfo()
-                delay(300)
-                _deleteUserState.value = UiState.Success(it)
-            }.onFailure {
-                _deleteUserState.value = UiState.Failure(it.message.toString())
-            }
+            profileRepository.deleteUserData()
+                .onSuccess {
+                    clearLocalInfo()
+                    delay(300)
+                    _deleteUserState.value = UiState.Success(it)
+                }
+                .onFailure {
+                    _deleteUserState.value = UiState.Failure(it.message.toString())
+                }
         }
     }
 
@@ -153,11 +165,13 @@ class ProfileViewModel @Inject constructor(
     fun deleteFriendDataToServer(friendId: Int) {
         viewModelScope.launch {
             _deleteFriendState.value = UiState.Loading
-            profileRepository.deleteFriendData(friendId).onSuccess {
-                _deleteFriendState.value = UiState.Success(it)
-            }.onFailure {
-                _deleteFriendState.value = UiState.Failure(it.message.toString())
-            }
+            profileRepository.deleteFriendData(friendId)
+                .onSuccess {
+                    _deleteFriendState.value = UiState.Success(it)
+                }
+                .onFailure {
+                    _deleteFriendState.value = UiState.Failure(it.message.toString())
+                }
         }
     }
 
@@ -189,28 +203,30 @@ class ProfileViewModel @Inject constructor(
     // 서버 통신 - 구독 여부 & 열람권 개수 받아오기
     fun getPurchaseInfoFromServer() {
         viewModelScope.launch {
-            payRepository.getPurchaseInfo().onSuccess {
-                it ?: return@launch
-                val subStatus: String = if (it.isSubscribe) "yes" else "no"
-                AmplitudeUtils.updateUserProperties("user_subscription", subStatus)
-                AmplitudeUtils.updateUserIntProperties("user_ticket", it.ticketCount)
-                _getPurchaseInfoState.value = UiState.Success(it)
-            }.onFailure {
-                _getPurchaseInfoState.value = UiState.Failure(it.message.toString())
-            }
+            payRepository.getPurchaseInfo()
+                .onSuccess {
+                    it ?: return@launch
+                    val subStatus: String = if (it.isSubscribe) "yes" else "no"
+                    AmplitudeUtils.updateUserProperties("user_subscription", subStatus)
+                    AmplitudeUtils.updateUserIntProperties("user_ticket", it.ticketCount)
+                    _getPurchaseInfoState.value = UiState.Success(it)
+                }
+                .onFailure {
+                    _getPurchaseInfoState.value = UiState.Failure(it.message.toString())
+                }
         }
 
     }
 
     fun getVoteCount() {
         viewModelScope.launch {
-            yelloRepository.voteCount().onSuccess {
-                if (it != null) {
-                    _voteCount.value = UiState.Success(it)
+            yelloRepository.voteCount()
+                .onSuccess {
+                    if (it != null) { _voteCount.value = UiState.Success(it) }
                 }
-            }.onFailure {
-                _voteCount.value = UiState.Failure(it.message.toString())
-            }
+                .onFailure {
+                    _voteCount.value = UiState.Failure(it.message.toString())
+                }
         }
     }
 

@@ -60,7 +60,7 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
     }
 
     private fun initProfileSetting() {
-        viewModel.initPagingVariable()
+        viewModel.initViewModelVariable()
         viewModel.isFirstScroll = true
         initProfileManageBtnListener()
         initUpwardBtnListener()
@@ -139,7 +139,7 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
             setOnRefreshListener {
                 lifecycleScope.launch {
                     adapter.setItemList(listOf())
-                    viewModel.initPagingVariable()
+                    viewModel.initViewModelVariable()
                     viewModel.getPurchaseInfoFromServer()
                     viewModel.getUserDataFromServer()
                     viewModel.getFriendsListFromServer()
@@ -153,43 +153,47 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
 
     // 유저 정보 서버 통신 성공 시 어댑터 생성 후 리사이클러뷰에 부착
     private fun observeUserDataState() {
-        viewModel.getUserDataState.observe(viewLifecycleOwner) { state ->
-            when (state) {
-                is UiState.Success -> {
-                    viewModel.myUserData = state.data
-                    viewModel.myFriendCount = state.data.friendCount
+        lifecycleScope.launch {
+            viewModel.getUserDataState.collectLatest { state ->
+                when (state) {
+                    is UiState.Success -> {
+                        viewModel.myUserData = state.data
+                        viewModel.myFriendCount = state.data.friendCount
+                    }
+
+                    is UiState.Failure -> {
+                        yelloSnackbar(requireView(), getString(R.string.profile_error_user_data))
+                    }
+
+                    is UiState.Empty -> {}
+
+                    is UiState.Loading -> {}
                 }
-
-                is UiState.Failure -> {
-                    yelloSnackbar(requireView(), getString(R.string.profile_error_user_data))
-                }
-
-                is UiState.Empty -> {}
-
-                is UiState.Loading -> {}
             }
         }
     }
 
     // 친구 목록 서버 통신 성공 시 어댑터에 리스트 추가
     private fun observeFriendsDataState() {
-        viewModel.getFriendListState.observe(viewLifecycleOwner) { state ->
-            when (state) {
-                is UiState.Success -> {
-                    binding.ivProfileLoading.visibility = View.GONE
-                    friendsList = state.data?.friends ?: listOf()
-                    adapter.addItemList(friendsList)
-                }
+        lifecycleScope.launch {
+            viewModel.getFriendListState.collectLatest { state ->
+                when (state) {
+                    is UiState.Success -> {
+                        binding.ivProfileLoading.visibility = View.GONE
+                        friendsList = state.data?.friends ?: listOf()
+                        adapter.addItemList(friendsList)
+                    }
 
-                is UiState.Failure -> {
-                    yelloSnackbar(requireView(), getString(R.string.profile_error_friend_list))
-                }
+                    is UiState.Failure -> {
+                        yelloSnackbar(requireView(), getString(R.string.profile_error_friend_list))
+                    }
 
-                is UiState.Loading -> {
-                    binding.ivProfileLoading.visibility = View.VISIBLE
-                }
+                    is UiState.Loading -> {
+                        binding.ivProfileLoading.visibility = View.VISIBLE
+                    }
 
-                is UiState.Empty -> {}
+                    is UiState.Empty -> {}
+                }
             }
         }
     }
@@ -220,29 +224,31 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
 
     // 친구 삭제 서버 통신 성공 시 리스트에서 아이템 삭제
     private fun observeFriendDeleteState() {
-        viewModel.deleteFriendState.observe(viewLifecycleOwner) { state ->
-            when (state) {
-                is UiState.Success -> {
-                    lifecycleScope.launch {
-                        viewModel.clickedItemPosition?.let { position ->
-                            adapter.removeItem(position)
+        lifecycleScope.launch {
+            viewModel.deleteFriendState.collectLatest { state ->
+                when (state) {
+                    is UiState.Success -> {
+                        lifecycleScope.launch {
+                            viewModel.clickedItemPosition?.let { position ->
+                                adapter.removeItem(position)
+                            }
+                            binding.rvProfileFriendsList.removeItemDecoration(itemDivider)
+                            delay(450)
+                            binding.rvProfileFriendsList.addItemDecoration(itemDivider)
+                            viewModel.myFriendCount -= 1
+                            adapter.notifyDataSetChanged()
                         }
-                        binding.rvProfileFriendsList.removeItemDecoration(itemDivider)
-                        delay(450)
-                        binding.rvProfileFriendsList.addItemDecoration(itemDivider)
-                        viewModel.myFriendCount -= 1
-                        adapter.notifyDataSetChanged()
+                        AmplitudeUtils.trackEventWithProperties("complete_profile_delete_friend")
                     }
-                    AmplitudeUtils.trackEventWithProperties("complete_profile_delete_friend")
+
+                    is UiState.Failure -> {
+                        toast(getString(R.string.profile_error_delete_friend))
+                    }
+
+                    is UiState.Loading -> {}
+
+                    is UiState.Empty -> {}
                 }
-
-                is UiState.Failure -> {
-                    toast(getString(R.string.profile_error_delete_friend))
-                }
-
-                is UiState.Loading -> {}
-
-                is UiState.Empty -> {}
             }
         }
     }

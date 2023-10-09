@@ -53,7 +53,7 @@ class RecommendKakaoViewModel @Inject constructor(
         itemHolder = holder
     }
 
-    fun initPagingVariable() {
+    fun initViewModelVariable() {
         currentOffset = -100
         currentPage = -1
         isPagingFinish = false

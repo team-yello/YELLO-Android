@@ -8,6 +8,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
+import androidx.lifecycle.flowWithLifecycle
+import androidx.lifecycle.lifecycleScope
 import com.el.yello.R
 import com.el.yello.databinding.FragmentYelloBinding
 import com.el.yello.presentation.main.yello.lock.YelloLockFragment
@@ -25,6 +27,8 @@ import com.example.ui.view.UiState.Failure
 import com.example.ui.view.UiState.Loading
 import com.example.ui.view.UiState.Success
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 
 @AndroidEntryPoint
 class YelloFragment : BindingFragment<FragmentYelloBinding>(R.layout.fragment_yello) {
@@ -38,30 +42,31 @@ class YelloFragment : BindingFragment<FragmentYelloBinding>(R.layout.fragment_ye
     }
 
     private fun setupYelloState() {
-        viewModel.yelloState.observe(viewLifecycleOwner) { state ->
-            when (state) {
-                is Loading -> {}
-                is Success -> {
-                    when (state.data) {
-                        is Lock -> navigateTo<YelloLockFragment>()
-                        is Valid -> navigateTo<YelloStartFragment>()
-                        is Wait -> navigateTo<YelloWaitFragment>()
+        viewModel.yelloState.flowWithLifecycle(viewLifecycleOwner.lifecycle)
+            .onEach { state ->
+                when (state) {
+                    is Loading -> {}
+                    is Success -> {
+                        when (state.data) {
+                            is Lock -> navigateTo<YelloLockFragment>()
+                            is Valid -> navigateTo<YelloStartFragment>()
+                            is Wait -> navigateTo<YelloWaitFragment>()
+                        }
+                    }
+
+                    is Empty -> {
+                        yelloSnackbar(
+                            binding.root,
+                            getString(R.string.msg_failure),
+                        )
+                    }
+
+                    is Failure -> {
+                        toast(getString(R.string.msg_auto_login_error))
+                        restartApp(requireContext())
                     }
                 }
-
-                is Empty -> {
-                    yelloSnackbar(
-                        binding.root,
-                        getString(R.string.msg_failure),
-                    )
-                }
-
-                is Failure -> {
-                    toast(getString(R.string.msg_auto_login_error))
-                    restartApp(requireContext())
-                }
-            }
-        }
+            }.launchIn(viewLifecycleOwner.lifecycleScope)
     }
 
     private inline fun <reified T : Fragment> navigateTo() {

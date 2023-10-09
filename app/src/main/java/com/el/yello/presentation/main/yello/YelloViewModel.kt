@@ -1,7 +1,5 @@
 package com.el.yello.presentation.main.yello
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.domain.entity.ResponsePurchaseInfoModel
@@ -17,11 +15,14 @@ import com.example.ui.view.UiState.Empty
 import com.example.ui.view.UiState.Failure
 import com.example.ui.view.UiState.Success
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import timber.log.Timber
-import javax.inject.Inject
 
 @HiltViewModel
 class YelloViewModel @Inject constructor(
@@ -29,24 +30,26 @@ class YelloViewModel @Inject constructor(
     private val authRepository: AuthRepository,
     private val payRepository: PayRepository,
 ) : ViewModel() {
-    private val _yelloState = MutableLiveData<UiState<YelloState>>()
-    val yelloState: LiveData<UiState<YelloState>>
-        get() = _yelloState
+    private val _yelloState = MutableStateFlow<UiState<YelloState>>(UiState.Loading)
+    val yelloState: StateFlow<UiState<YelloState>>
+        get() = _yelloState.asStateFlow()
 
-    private val _leftTime = MutableLiveData<Long>()
-    val leftTime: LiveData<Long>
-        get() = _leftTime
+    private val _leftTime = MutableStateFlow<Long>(0)
+    val leftTime: StateFlow<Long>
+        get() = _leftTime.asStateFlow()
 
-    private val _point = MutableLiveData(0)
-    val point: LiveData<Int>
-        get() = _point
+    private val _point = MutableStateFlow(0)
+    val point: StateFlow<Int>
+        get() = _point.asStateFlow()
 
-    private val _isDecreasing = MutableLiveData(false)
+    private val _isDecreasing = MutableStateFlow(false)
     private val isDecreasing: Boolean
-        get() = _isDecreasing.value ?: false
+        get() = _isDecreasing.value
 
-    private val _getPurchaseInfoState = MutableLiveData<UiState<ResponsePurchaseInfoModel?>>()
-    val getPurchaseInfoState: LiveData<UiState<ResponsePurchaseInfoModel?>> = _getPurchaseInfoState
+    private val _getPurchaseInfoState =
+        MutableStateFlow<UiState<ResponsePurchaseInfoModel?>>(UiState.Loading)
+    val getPurchaseInfoState: StateFlow<UiState<ResponsePurchaseInfoModel?>> =
+        _getPurchaseInfoState.asStateFlow()
 
     init {
         getVoteState()
@@ -60,7 +63,7 @@ class YelloViewModel @Inject constructor(
             while (requireNotNull(leftTime.value) > 0) {
                 delay(1000L)
                 if (requireNotNull(leftTime.value) <= 0) return@launch
-                _leftTime.value = leftTime.value?.minus(1)
+                _leftTime.value = leftTime.value - 1
             }
 
             getVoteState()

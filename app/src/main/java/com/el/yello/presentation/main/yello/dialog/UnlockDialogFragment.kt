@@ -12,9 +12,7 @@ import com.el.yello.BuildConfig
 import com.el.yello.R
 import com.el.yello.databinding.FragmentUnlockDialogBinding
 import com.el.yello.presentation.main.recommend.RecommendInviteDialog
-import com.el.yello.presentation.main.yello.wait.YelloWaitFragment
 import com.el.yello.util.amplitude.AmplitudeUtils
-import com.el.yello.util.context.yelloSnackbar
 import com.example.ui.base.BindingDialogFragment
 import com.example.ui.view.setOnSingleClickListener
 import com.kakao.sdk.common.util.KakaoCustomTabsClient
@@ -85,7 +83,7 @@ class UnlockDialogFragment :
         binding.btnUnlockInviteKakao.setOnSingleClickListener {
             AmplitudeUtils.trackEventWithProperties(
                 "click_invite_kakao",
-                JSONObject().put("invite_view", previousScreen)
+                JSONObject().put("invite_view", previousScreen),
             )
             startKakaoInvite(requireContext())
         }
@@ -95,7 +93,7 @@ class UnlockDialogFragment :
         binding.btnUnlockInviteLink.setOnSingleClickListener {
             AmplitudeUtils.trackEventWithProperties(
                 "click_invite_link",
-                JSONObject().put("invite_view", previousScreen)
+                JSONObject().put("invite_view", previousScreen),
             )
             val clipboardManager =
                 requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
@@ -154,7 +152,8 @@ class UnlockDialogFragment :
         @JvmStatic
         fun newInstance(yelloId: String, previousScreen: String) = UnlockDialogFragment().apply {
             val args = bundleOf(
-                ARGS_YELLO_ID to yelloId, ARGS_PREVIOUS_SCREEN to previousScreen
+                ARGS_YELLO_ID to yelloId,
+                ARGS_PREVIOUS_SCREEN to previousScreen,
             )
             arguments = args
         }

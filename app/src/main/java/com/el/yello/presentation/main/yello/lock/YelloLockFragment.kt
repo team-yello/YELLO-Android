@@ -27,7 +27,7 @@ class YelloLockFragment : BindingFragment<FragmentYelloLockBinding>(R.layout.fra
         binding.btnLockVote.setOnSingleClickListener {
             AmplitudeUtils.trackEventWithProperties(
                 "click_invite",
-                JSONObject().put("invite_view", VOTE_4_DOWN)
+                JSONObject().put("invite_view", VOTE_4_DOWN),
             )
             UnlockDialogFragment.newInstance(viewModel.getYelloId(), VOTE_4_DOWN)
                 .show(parentFragmentManager, TAG_UNLOCK_DIALOG)

@@ -9,5 +9,6 @@ interface AuthRepository {
     fun getIsFirstLoginData(): Boolean
     fun setDeviceToken(deviceToken: String)
     fun getDeviceToken(): String
+    suspend fun putDeviceToken(token: String): Boolean
     fun clearLocalPref()
 }

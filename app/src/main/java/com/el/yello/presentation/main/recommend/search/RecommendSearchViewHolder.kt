@@ -4,7 +4,9 @@ import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import coil.transform.CircleCropTransformation
+import com.el.yello.R
 import com.el.yello.databinding.ItemRecommendSearchBinding
+import com.el.yello.presentation.main.profile.ProfileViewModel
 import com.el.yello.presentation.main.recommend.list.RecommendViewHolder
 import com.example.domain.entity.RecommendModel
 import com.example.domain.entity.RecommendSearchModel.SearchFriendModel
@@ -18,11 +20,16 @@ class RecommendSearchViewHolder(
 
     fun onBind(item: SearchFriendModel, position: Int) {
         binding.tvRecommendItemName.text = item.name
-        binding.tvRecommendItemId.text = item.yelloId
+        binding.tvRecommendItemId.text = String.format("@%s", item.yelloId)
         binding.tvRecommendItemSchool.text = item.group
-        item.profileImage.let { profileImage ->
-            binding.ivRecommendItemThumbnail.load(profileImage) {
-                transformations(CircleCropTransformation())
+
+        item.profileImage.let { thumbnail ->
+            if (thumbnail == ProfileViewModel.BASIC_THUMBNAIL) {
+                binding.ivRecommendItemThumbnail.load(R.drawable.img_yello_basic)
+            } else {
+                binding.ivRecommendItemThumbnail.load(thumbnail) {
+                    transformations(CircleCropTransformation())
+                }
             }
         }
 

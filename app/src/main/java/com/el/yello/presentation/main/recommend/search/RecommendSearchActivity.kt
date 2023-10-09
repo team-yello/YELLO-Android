@@ -3,15 +3,18 @@ package com.el.yello.presentation.main.recommend.search
 import android.content.Context
 import android.os.Bundle
 import android.view.View
+import android.view.animation.AnimationUtils
 import android.view.inputmethod.InputMethodManager
 import androidx.activity.viewModels
 import androidx.core.widget.doAfterTextChanged
 import androidx.core.widget.doOnTextChanged
+import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.el.yello.R
 import com.el.yello.databinding.ActivityRecommendSearchBinding
+import com.el.yello.util.Utils.setPullToScrollColor
 import com.el.yello.util.amplitude.AmplitudeUtils
 import com.el.yello.util.context.yelloSnackbar
 import com.example.ui.base.BindingActivity
@@ -44,16 +47,12 @@ class RecommendSearchActivity :
         initFocusToEditText()
         initAdapterWithDivider()
         initBackBtnListener()
+        initPullToScrollListener()
         observeSearchListState()
         observeAddFriendState()
         setDebounceSearch()
         setLoadingScreen()
         setListWithInfinityScroll()
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        _adapter = null
     }
 
     private fun initAdapterWithDivider() {
@@ -68,13 +67,13 @@ class RecommendSearchActivity :
         )
     }
 
+    // 처음 들어왔을 때 키보드 올라오도록 설정 (개인정보보호옵션 켜진 경우 불가능)
     private fun initFocusToEditText() {
-        binding.etRecommendSearchBox.requestFocus()
         val inputMethodManager =
             getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        binding.etRecommendSearchBox.requestFocus()
         inputMethodManager.showSoftInput(
-            binding.etRecommendSearchBox,
-            InputMethodManager.SHOW_IMPLICIT
+            binding.etRecommendSearchBox, InputMethodManager.SHOW_IMPLICIT
         )
     }
 
@@ -84,21 +83,39 @@ class RecommendSearchActivity :
         }
     }
 
+    private fun initPullToScrollListener() {
+        binding.layoutSearchSwipe.apply {
+            setOnRefreshListener {
+                lifecycleScope.launch {
+                    adapter.submitList(listOf())
+                    viewModel.setNewPage()
+                    viewModel.setListFromServer(searchText)
+                    delay(200)
+                    binding.layoutSearchSwipe.isRefreshing = false
+                }
+            }
+            setPullToScrollColor(R.color.grayscales_500, R.color.grayscales_700)
+        }
+    }
+
+    // 텍스트 변경 감지 시 로딩 화면 출력
     private fun setLoadingScreen() {
         binding.etRecommendSearchBox.doOnTextChanged { _, _, _, _ ->
             showLoadingScreen()
             adapter.submitList(listOf())
+            adapter.notifyDataSetChanged()
             viewModel.setNewPage()
         }
     }
 
+    // 0.5초 뒤 검색 서버통신 진행
     private fun setDebounceSearch() {
         binding.etRecommendSearchBox.doAfterTextChanged { text ->
+            searchJob?.cancel()
             if (text.isNullOrBlank()) {
                 showNoFriendScreen()
                 binding.layoutRecommendNoSearch.visibility = View.GONE
             } else {
-                searchJob?.cancel()
                 searchJob = viewModel.viewModelScope.launch {
                     delay(debounceTime)
                     text.toString().let { text ->
@@ -115,6 +132,7 @@ class RecommendSearchActivity :
         viewModel.postFriendsListState.observe(this) { state ->
             when (state) {
                 is UiState.Success -> {
+                    startFadeIn()
                     if (state.data?.friendList?.size == 0) {
                         showNoFriendScreen()
                     } else {
@@ -128,13 +146,9 @@ class RecommendSearchActivity :
                     showFriendListScreen()
                 }
 
-                is UiState.Loading -> {
-                    showLoadingScreen()
-                }
+                is UiState.Loading -> {}
 
-                is UiState.Empty -> {
-                    showFriendListScreen()
-                }
+                is UiState.Empty -> {}
             }
         }
     }
@@ -185,21 +199,31 @@ class RecommendSearchActivity :
         }
     }
 
+    private fun startFadeIn() {
+        val animation = AnimationUtils.loadAnimation(this, R.anim.fade_in)
+        binding.rvRecommendSearch.startAnimation(animation)
+    }
+
     private fun showFriendListScreen() {
-        binding.rvRecommendSearch.visibility = View.VISIBLE
+        binding.layoutSearchSwipe.visibility = View.VISIBLE
         binding.layoutRecommendSearchLoading.visibility = View.GONE
         binding.layoutRecommendNoSearch.visibility = View.GONE
     }
 
     private fun showLoadingScreen() {
-        binding.rvRecommendSearch.visibility = View.GONE
+        binding.layoutSearchSwipe.visibility = View.GONE
         binding.layoutRecommendSearchLoading.visibility = View.VISIBLE
         binding.layoutRecommendNoSearch.visibility = View.GONE
     }
 
     private fun showNoFriendScreen() {
-        binding.rvRecommendSearch.visibility = View.GONE
+        binding.layoutSearchSwipe.visibility = View.GONE
         binding.layoutRecommendSearchLoading.visibility = View.GONE
         binding.layoutRecommendNoSearch.visibility = View.VISIBLE
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _adapter = null
     }
 }

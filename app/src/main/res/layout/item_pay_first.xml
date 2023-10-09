@@ -19,9 +19,9 @@
         android:id="@+id/tv_pay_under_first"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="-26dp"
+        android:layout_marginTop="10dp"
         android:src="@drawable/ic_pay_under_first"
-        app:layout_constraintBottom_toBottomOf="@id/iv_pay_head_first"
+        app:layout_constraintTop_toBottomOf="@id/iv_pay_head_first"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -32,7 +32,7 @@
         android:layout_marginBottom="7dp"
         android:fontFamily="@font/pretendard_bold"
         android:lineHeight="22dp"
-        android:text="이름 열람권 매주 3회"
+        android:text="@string/pay_banner_item_1"
         android:textColor="@color/white"
         android:textSize="15sp"
         app:layout_constraintBottom_toBottomOf="parent"

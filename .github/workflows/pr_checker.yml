@@ -2,7 +2,7 @@ name: YELLO PR Checker
 
 on:
   pull_request:
-    branches: [ develop, main ]
+    branches: [ develop, production ]
 
 defaults:
   run:

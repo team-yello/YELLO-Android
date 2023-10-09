@@ -44,21 +44,20 @@ class RecommendSearchViewModel @Inject constructor(
     // 서버 통신 - 추천 친구 리스트 추가
     fun setListFromServer(keyword: String) {
         if (isPagingFinish) return
-        _postFriendsListState.value = UiState.Loading
         viewModelScope.launch {
-            runCatching {
-                recommendRepository.getSearchList(
-                    page = ++currentPage,
-                    keyword = keyword
-                )
-            }.onSuccess {
-                it ?: return@launch
-                totalPage = ceil((it.totalCount * 0.1)).toInt() - 1
-                if (totalPage == currentPage) isPagingFinish = true
-                _postFriendsListState.value = UiState.Success(it)
-            }.onFailure {
-                _postFriendsListState.value = UiState.Failure(it.message ?: "")
-            }
+            recommendRepository.getSearchList(
+                ++currentPage,
+                keyword
+            )
+                .onSuccess {
+                    it ?: return@launch
+                    totalPage = ceil((it.totalCount * 0.1)).toInt() - 1
+                    if (totalPage == currentPage) isPagingFinish = true
+                    _postFriendsListState.value = UiState.Success(it)
+                }
+                .onFailure {
+                    _postFriendsListState.value = UiState.Failure(it.message.toString())
+                }
         }
     }
 
@@ -66,15 +65,13 @@ class RecommendSearchViewModel @Inject constructor(
     fun addFriendToServer(friendId: Long) {
         viewModelScope.launch {
             _addFriendState.value = UiState.Loading
-            runCatching {
-                recommendRepository.postFriendAdd(
-                    friendId,
-                )
-            }.onSuccess {
-                _addFriendState.value = UiState.Success(it)
-            }.onFailure {
-                _addFriendState.value = UiState.Failure(it.message ?: "")
-            }
+            recommendRepository.postFriendAdd(friendId)
+                .onSuccess {
+                    _addFriendState.value = UiState.Success(it)
+                }
+                .onFailure {
+                    _addFriendState.value = UiState.Failure(it.message.toString())
+                }
         }
     }
 }

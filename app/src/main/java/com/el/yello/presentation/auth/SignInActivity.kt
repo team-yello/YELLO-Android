@@ -5,8 +5,10 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import com.el.yello.R
 import com.el.yello.databinding.ActivitySignInBinding
+import com.el.yello.presentation.auth.SignInViewModel.Companion.FRIEND_LIST
 import com.el.yello.presentation.main.MainActivity
-import com.el.yello.presentation.onboarding.StartAppActivity
+import com.el.yello.presentation.onboarding.GetAlarmActivity
+import com.el.yello.presentation.onboarding.activity.OnBoardingActivity
 import com.el.yello.presentation.tutorial.TutorialAActivity
 import com.el.yello.util.amplitude.AmplitudeUtils
 import com.el.yello.util.context.yelloSnackbar
@@ -14,113 +16,51 @@ import com.example.ui.base.BindingActivity
 import com.example.ui.context.toast
 import com.example.ui.view.UiState
 import com.example.ui.view.setOnSingleClickListener
-import com.kakao.sdk.auth.model.OAuthToken
-import com.kakao.sdk.common.model.ClientError
-import com.kakao.sdk.common.model.ClientErrorCause
-import com.kakao.sdk.user.UserApiClient
-import com.kakao.sdk.user.model.User
 import dagger.hilt.android.AndroidEntryPoint
-import org.json.JSONObject
-import timber.log.Timber
 
 @AndroidEntryPoint
 class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_sign_in) {
 
-    private lateinit var appLoginCallback: (OAuthToken?, Throwable?) -> Unit
-    private lateinit var webLoginCallback: (OAuthToken?, Throwable?) -> Unit
-    private lateinit var kakaoAccessToken: String
-    private lateinit var deviceToken: String
-
     private val viewModel by viewModels<SignInViewModel>()
+
+    private var userKakaoId: Long = 0
+    private var userName: String = ""
+    private var userGender: String = ""
+    private var userEmail: String = ""
+    private var userImage: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        initSignInButtonListener()
+        initSignInBtnListener()
+        viewModel.initLoginState()
         viewModel.getDeviceToken()
-        observeDeviceTokenState()
-        observeKakaoUserDataState()
+        observeDeviceTokenError()
+        observeAppLoginError()
+        observeKakaoUserInfoState()
+        observeFriendsListValidState()
         observeChangeTokenState()
-        observeUserDataExists()
-    }
-
-    private fun initSignInButtonListener() {
-        binding.btnSignIn.setOnSingleClickListener {
-            AmplitudeUtils.trackEventWithProperties("click_onboarding_kakao")
-            setWebLoginCallback()
-            setAppLoginCallback()
-            startKakaoLogin()
-        }
-    }
-
-    // 웹에서 계정 로그인 callback 구성
-    private fun setWebLoginCallback() {
-        webLoginCallback = { token, error ->
-            if (error != null) {
-                Timber.tag(TAG_AUTH).e(error, getString(R.string.sign_in_error_kakao_account_login))
-            } else if (token != null) {
-                // 로그인 성공 시 토큰 저장 & 토큰 교체 서버통신 진행
-                setKakaoAccessToken(token)
-                viewModel.changeTokenFromServer(
-                    accessToken = kakaoAccessToken,
-                    deviceToken = deviceToken,
-                )
-            } else {
-                Timber.tag(TAG_AUTH).d(getString(R.string.sign_in_error_empty_kakao_token))
-            }
-        }
-    }
-
-    // 카카오톡 앱 로그인 callback 구성
-    private fun setAppLoginCallback() {
-        appLoginCallback = { token, error ->
-            if (error != null) {
-                Timber.tag(TAG_AUTH).e(error, getString(R.string.sign_in_error_kakao_app_login))
-
-                // 뒤로가기 경우 예외 처리
-                if (error is ClientError && error.reason == ClientErrorCause.Cancelled) {
-                    Timber.tag(TAG_AUTH).e(error, getString(R.string.sign_in_error_cancelled))
-                } else {
-                    viewModel.loginWithWebCallback(this, webLoginCallback)
-                }
-            } else if (token != null) {
-                // 로그인 성공 시 토큰 저장 & 토큰 교체 서버통신 진행
-                setKakaoAccessToken(token)
-                viewModel.changeTokenFromServer(
-                    accessToken = kakaoAccessToken,
-                    deviceToken = deviceToken,
-                )
-            } else {
-                Timber.tag(TAG_AUTH).d(getString(R.string.sign_in_error_empty_kakao_token))
-            }
-        }
+        observeUserDataState()
     }
 
     // 카카오톡 앱 설치 유무에 따라 로그인 진행
-    private fun startKakaoLogin() {
-        if (UserApiClient.instance.isKakaoTalkLoginAvailable(this)) {
-            viewModel.loginWithAppCallback(this, appLoginCallback)
-        } else {
-            viewModel.loginWithWebCallback(this, webLoginCallback)
+    private fun initSignInBtnListener() {
+        binding.btnSignIn.setOnSingleClickListener {
+            AmplitudeUtils.trackEventWithProperties("click_onboarding_kakao")
+            viewModel.startKakaoLogIn(this)
         }
     }
 
-    // Firebase에서 디바이스 토큰 받아와 저장
-    private fun observeDeviceTokenState() {
-        viewModel.getDeviceTokenState.observe(this) { state ->
-            when (state) {
-                is UiState.Success -> {
-                    deviceToken = state.data
-                }
+    private fun observeDeviceTokenError() {
+        viewModel.getDeviceTokenError.observe(this) {
+            toast(getString(R.string.sign_in_error_connection))
+        }
+    }
 
-                is UiState.Failure -> {
-                    toast(getString(R.string.sign_in_error_connection))
-                }
-
-                is UiState.Loading -> {}
-
-                is UiState.Empty -> {}
-            }
+    // 카카오통 앱 로그인에 실패한 경우 웹 로그인 시도
+    private fun observeAppLoginError() {
+        viewModel.isAppLoginAvailable.observe(this) { available ->
+            if (!available) viewModel.startKakaoLogIn(this)
         }
     }
 
@@ -130,8 +70,9 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
             when (state) {
                 is UiState.Success -> {
                     // 200(가입된 아이디): 온보딩 뷰 생략하고 바로 메인 화면으로 이동 위해 유저 정보 받기
-                    viewModel.getUserData()
+                    viewModel.getUserDataFromServer()
                 }
+
                 is UiState.Failure -> {
                     if (state.msg == CODE_NOT_SIGNED_IN || state.msg == CODE_NO_UUID) {
                         // 403, 404 : 온보딩 뷰로 이동 위해 카카오 유저 정보 얻기
@@ -149,21 +90,17 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
         }
     }
 
-    // 카카오 로그인으로 받은 토큰 전역변수로 저장
-    private fun setKakaoAccessToken(token: OAuthToken?) {
-        if (token != null) {
-            kakaoAccessToken = token.accessToken
-            return
-        }
-        yelloSnackbar(binding.root, getString(R.string.msg_error))
-    }
-
-    // 카카오에 등록된 유저 정보 받아온 후 친구목록 동의 화면으로 이동
-    private fun observeKakaoUserDataState() {
-        viewModel.getKakaoDataState.observe(this) { state ->
+    // Failure -> 카카오에 등록된 유저 정보 받아온 후 친구목록 동의 화면으로 이동
+    private fun observeKakaoUserInfoState() {
+        viewModel.getKakaoInfoState.observe(this) { state ->
             when (state) {
                 is UiState.Success -> {
-                    startSocialSyncActivity(state.data)
+                    userKakaoId = state.data?.id ?: 0
+                    userName = state.data?.kakaoAccount?.name.toString()
+                    userGender = state.data?.kakaoAccount?.gender.toString()
+                    userEmail = state.data?.kakaoAccount?.email.toString()
+                    userImage = state.data?.kakaoAccount?.profile?.profileImageUrl.toString()
+                    viewModel.checkFriendsListValid()
                 }
 
                 is UiState.Failure -> {
@@ -177,21 +114,42 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
         }
     }
 
-    // 서버에 등록된 유저 정보가 있는지 확인 후 메인 액티비티로 이동
-    private fun observeUserDataExists() {
+    private fun observeFriendsListValidState() {
+        viewModel.getKakaoValidState.observe(this) { state ->
+            when (state) {
+                is UiState.Success -> {
+                    val friendScope = state.data.find { it.id == FRIEND_LIST }
+                    if (friendScope?.agreed == true) {
+                        startOnBoardingActivity()
+                    } else {
+                        startSocialSyncActivity()
+                    }
+                }
+
+                is UiState.Failure -> {
+                    yelloSnackbar(binding.root, getString(R.string.msg_error))
+                }
+
+                is UiState.Empty -> {}
+
+                is UiState.Loading -> {}
+            }
+        }
+    }
+
+    // Success -> 서버에 등록된 유저 정보가 있는지 확인 후 메인 액티비티로 이동
+    private fun observeUserDataState() {
         viewModel.getUserProfileState.observe(this) { state ->
             when (state) {
                 is UiState.Success -> {
                     if (viewModel.getIsFirstLoginData()) {
                         if (viewModel.isResigned) {
-                            val intent = TutorialAActivity.newIntent(this, false)
-                            startActivity(intent)
+                            startActivity(TutorialAActivity.newIntent(this, false))
                         } else {
                             startMainActivity()
                         }
                     } else {
-                        val intent = Intent(this, StartAppActivity::class.java)
-                        startActivity(intent)
+                        startActivity(Intent(this, GetAlarmActivity::class.java))
                     }
                 }
 
@@ -208,17 +166,31 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
         }
     }
 
-    private fun startSocialSyncActivity(data: User?) {
+    private fun startSocialSyncActivity() {
         Intent(this, SocialSyncActivity::class.java).apply {
-            putExtra(EXTRA_KAKAO_ID, data?.id)
-            putExtra(EXTRA_NAME, data?.kakaoAccount?.name)
-            putExtra(EXTRA_GENDER, data?.kakaoAccount?.gender.toString())
-            putExtra(EXTRA_EMAIL, data?.kakaoAccount?.email)
-            putExtra(EXTRA_PROFILE_IMAGE, data?.kakaoAccount?.profile?.profileImageUrl)
+            addPutExtra()
             addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
             startActivity(this)
         }
         finish()
+    }
+
+    private fun startOnBoardingActivity() {
+        Intent(this, OnBoardingActivity::class.java).apply {
+            addPutExtra()
+            addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            startActivity(this)
+        }
+        finish()
+    }
+
+    private fun Intent.addPutExtra() {
+        putExtra(EXTRA_KAKAO_ID, userKakaoId)
+        putExtra(EXTRA_NAME, userName)
+        putExtra(EXTRA_GENDER, userGender)
+        putExtra(EXTRA_EMAIL, userEmail)
+        putExtra(EXTRA_PROFILE_IMAGE, userImage)
+        addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
     }
 
     private fun startMainActivity() {
@@ -238,7 +210,5 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
 
         const val CODE_NOT_SIGNED_IN = "403"
         const val CODE_NO_UUID = "404"
-
-        const val TAG_AUTH = "authSignIn"
     }
 }

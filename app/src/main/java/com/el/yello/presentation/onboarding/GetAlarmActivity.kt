@@ -8,14 +8,14 @@ import android.os.Bundle
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import com.el.yello.R
-import com.el.yello.databinding.ActivityStartAppBinding
+import com.el.yello.databinding.ActivityGetAlarmBinding
 import com.el.yello.presentation.tutorial.TutorialAActivity
 import com.el.yello.util.amplitude.AmplitudeUtils
 import com.example.ui.base.BindingActivity
 import com.example.ui.view.setOnSingleClickListener
 
-class StartAppActivity :
-    BindingActivity<ActivityStartAppBinding>(R.layout.activity_start_app) {
+class GetAlarmActivity :
+    BindingActivity<ActivityGetAlarmBinding>(R.layout.activity_get_alarm) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,7 +40,6 @@ class StartAppActivity :
         startActivity(intent)
         finish()
     }
-
     private fun askNotificationPermission() {
         binding.btnStartYello.setOnSingleClickListener {
             AmplitudeUtils.trackEventWithProperties("click_onboarding_notification")
@@ -56,6 +55,8 @@ class StartAppActivity :
                 } else {
                     requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
                 }
+            } else {
+                startTutorialActivity()
             }
         }
     }

@@ -14,6 +14,7 @@ import com.example.domain.repository.PayRepository
 import com.example.domain.repository.ProfileRepository
 import com.example.domain.repository.YelloRepository
 import com.example.ui.view.UiState
+import com.google.firebase.messaging.FirebaseMessaging
 import com.kakao.sdk.user.UserApiClient
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
@@ -22,6 +23,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
+import timber.log.Timber
 import javax.inject.Inject
 import kotlin.math.ceil
 
@@ -30,7 +32,7 @@ class ProfileViewModel @Inject constructor(
     private val profileRepository: ProfileRepository,
     private val authRepository: AuthRepository,
     private val yelloRepository: YelloRepository,
-    private val payRepository: PayRepository,
+    private val payRepository: PayRepository
 ) : ViewModel() {
 
     private val _getState = MutableLiveData<UiState<ProfileUserModel>>()
@@ -107,19 +109,19 @@ class ProfileViewModel @Inject constructor(
     fun getUserDataFromServer() {
         viewModelScope.launch {
             _getState.value = UiState.Loading
-            runCatching {
-                profileRepository.getUserData()
-            }.onSuccess { profile ->
-                if (profile == null) {
-                    _getState.value = UiState.Empty
-                    return@launch
+            profileRepository.getUserData()
+                .onSuccess { profile ->
+                    if (profile == null) {
+                        _getState.value = UiState.Empty
+                        return@launch
+                    }
+                    _getState.value = UiState.Success(profile)
                 }
-                _getState.value = UiState.Success(profile)
-            }.onFailure { t ->
-                if (t is HttpException) {
-                    _getState.value = UiState.Failure(t.message.toString())
+                .onFailure { t ->
+                    if (t is HttpException) {
+                        _getState.value = UiState.Failure(t.message.toString())
+                    }
                 }
-            }
         }
     }
 
@@ -131,19 +133,19 @@ class ProfileViewModel @Inject constructor(
             isFirstScroll = false
         }
         viewModelScope.launch {
-            runCatching {
-                profileRepository.getFriendsData(
-                    ++currentPage,
-                )
-            }.onSuccess {
-                it ?: return@launch
-                totalPage = ceil((it.totalCount * 0.1)).toInt() - 1
-                if (totalPage == currentPage) isPagingFinish = true
-                _getListState.value = UiState.Success(it)
-                AmplitudeUtils.updateUserIntProperties("user_friends", it.totalCount)
-            }.onFailure {
-                _getListState.value = UiState.Failure(it.message.toString())
-            }
+            profileRepository.getFriendsData(
+                ++currentPage,
+            )
+                .onSuccess {
+                    it ?: return@launch
+                    totalPage = ceil((it.totalCount * 0.1)).toInt() - 1
+                    if (totalPage == currentPage) isPagingFinish = true
+                    _getListState.value = UiState.Success(it)
+                    AmplitudeUtils.updateUserIntProperties("user_friends", it.totalCount)
+                }
+                .onFailure {
+                    _getListState.value = UiState.Failure(it.message.toString())
+                }
         }
     }
 
@@ -151,15 +153,15 @@ class ProfileViewModel @Inject constructor(
     fun deleteUserDataToServer() {
         viewModelScope.launch {
             _deleteUserState.value = UiState.Loading
-            runCatching {
-                profileRepository.deleteUserData()
-                clearLocalInfo()
-                delay(500)
-            }.onSuccess {
-                _deleteUserState.value = UiState.Success(it)
-            }.onFailure {
-                _deleteUserState.value = UiState.Failure(it.message.toString())
-            }
+            profileRepository.deleteUserData()
+                .onSuccess {
+                    clearLocalInfo()
+                    delay(300)
+                    _deleteUserState.value = UiState.Success(it)
+                }
+                .onFailure {
+                    _deleteUserState.value = UiState.Failure(it.message.toString())
+                }
         }
     }
 
@@ -167,15 +169,13 @@ class ProfileViewModel @Inject constructor(
     fun deleteFriendDataToServer(friendId: Int) {
         viewModelScope.launch {
             _deleteFriendState.value = UiState.Loading
-            runCatching {
-                profileRepository.deleteFriendData(
-                    friendId,
-                )
-            }.onSuccess {
-                _deleteFriendState.value = UiState.Success(it)
-            }.onFailure {
-                _deleteFriendState.value = UiState.Failure(it.message.toString())
-            }
+            profileRepository.deleteFriendData(friendId)
+                .onSuccess {
+                    _deleteFriendState.value = UiState.Success(it)
+                }
+                .onFailure {
+                    _deleteFriendState.value = UiState.Failure(it.message.toString())
+                }
         }
     }
 
@@ -207,20 +207,17 @@ class ProfileViewModel @Inject constructor(
     // 서버 통신 - 구독 여부 & 열람권 개수 받아오기
     fun getPurchaseInfoFromServer() {
         viewModelScope.launch {
-            runCatching {
-                payRepository.getPurchaseInfo()
-            }.onSuccess {
-                it ?: return@launch
-                _getPurchaseInfoState.value = UiState.Success(it)
-                AmplitudeUtils.updateUserIntProperties("user_ticket",it.ticketCount )
-                if (!it.isSubscribe) {
-                    AmplitudeUtils.updateUserProperties("user_subscription", "yes")
-                } else {
-                    AmplitudeUtils.updateUserProperties("user_subscription", "no")
+            payRepository.getPurchaseInfo()
+                .onSuccess {
+                    it ?: return@launch
+                    val subStatus: String = if (it.isSubscribe) "yes" else "no"
+                    AmplitudeUtils.updateUserProperties("user_subscription", subStatus)
+                    AmplitudeUtils.updateUserIntProperties("user_ticket", it.ticketCount)
+                    _getPurchaseInfoState.value = UiState.Success(it)
                 }
-            }.onFailure {
-                _getPurchaseInfoState.value = UiState.Failure(it.message ?: "")
-            }
+                .onFailure {
+                    _getPurchaseInfoState.value = UiState.Failure(it.message ?: "")
+                }
         }
 
     }
@@ -232,13 +229,38 @@ class ProfileViewModel @Inject constructor(
                     if (it != null) {
                         _voteCount.value = UiState.Success(it)
                     }
-                }.onFailure {
+                }
+                .onFailure {
                     _voteCount.value = UiState.Failure(it.message.toString())
                 }
         }
     }
 
-    fun clearLocalInfo() {
+    private fun clearLocalInfo() {
         authRepository.clearLocalPref()
+    }
+
+    fun putDeviceToken() {
+        FirebaseMessaging.getInstance().token.addOnCompleteListener { addTask ->
+            runCatching {
+                addTask.result
+            }.onSuccess { token ->
+                if (authRepository.getDeviceToken() != token) resetDeviceToken(token)
+            }
+        }
+    }
+
+    private fun resetDeviceToken(token: String) {
+        authRepository.setDeviceToken(token)
+        viewModelScope.launch {
+            runCatching {
+                authRepository.putDeviceToken(token)
+            }.onFailure(Timber::e)
+        }
+    }
+
+    companion object {
+        const val BASIC_THUMBNAIL =
+            "https://k.kakaocdn.net/dn/dpk9l1/btqmGhA2lKL/Oz0wDuJn1YV2DIn92f6DVK/img_640x640.jpg"
     }
 }

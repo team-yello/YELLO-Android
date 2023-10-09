@@ -16,30 +16,36 @@ class PayRepositoryImpl @Inject constructor(
 
     override suspend fun postToCheckSubs(
         request: RequestPayModel
-    ): ResponsePaySubsModel? {
-        return payDataSource.postToCheckSubsData(
-            request.toRequestDto()
-        ).data?.toResponsePaySubsModel()
+    ): Result<ResponsePaySubsModel?> {
+        return runCatching {
+            payDataSource.postToCheckSubsData(
+                request.toRequestDto()
+            ).data?.toResponsePaySubsModel()
+        }
     }
 
     override suspend fun postToCheckInApp(
         request: RequestPayModel
-    ): ResponsePayInAppModel? {
-        return payDataSource.postToCheckInAppData(
-            request.toRequestDto()
-        ).data?.toResponsePayInAppModel()
+    ): Result<ResponsePayInAppModel?> {
+        return runCatching {
+            payDataSource.postToCheckInAppData(
+                request.toRequestDto()
+            ).data?.toResponsePayInAppModel()
+        }
     }
 
     override suspend fun getSubsNeeded(
-    ): ResponseSubsNeededModel? {
-        return payDataSource.getSubsNeededData(
-        ).data?.toResponseSubsNeededModel()
+    ): Result<ResponseSubsNeededModel?> {
+        return runCatching {
+            payDataSource.getSubsNeededData().data?.toResponseSubsNeededModel()
+        }
     }
 
     override suspend fun getPurchaseInfo(
-    ): ResponsePurchaseInfoModel? {
-        return payDataSource.getPurchaseInfoData(
-        ).data?.toResponsePurchaseInfoModel()
+    ): Result<ResponsePurchaseInfoModel?> {
+        return runCatching {
+            payDataSource.getPurchaseInfoData().data?.toResponsePurchaseInfoModel()
+        }
     }
 
 }

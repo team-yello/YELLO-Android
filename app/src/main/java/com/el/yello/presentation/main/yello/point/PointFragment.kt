@@ -42,6 +42,8 @@ class PointFragment : BindingFragment<FragmentPointBinding>(R.layout.fragment_po
                     is UiState.Success -> {
                         if (state.data?.isSubscribe == true) {
                             binding.tvPointPlusLabel.visibility = View.VISIBLE
+                            binding.tvPointVotePoint.text =
+                                voteViewModel.votePointSum.times(2).toString()
                         } else {
                             binding.tvPointPlusLabel.visibility = View.GONE
                         }
@@ -49,12 +51,16 @@ class PointFragment : BindingFragment<FragmentPointBinding>(R.layout.fragment_po
 
                     is UiState.Failure -> {
                         binding.tvPointPlusLabel.visibility = View.GONE
+                        binding.tvPointVotePoint.text = voteViewModel.votePointSum.toString()
                     }
 
                     is UiState.Loading -> {}
 
                     is UiState.Empty -> {}
                 }
+                binding.tvPointVotePoint.visibility = View.VISIBLE
+                binding.tvPointVotePointPlus.visibility = View.VISIBLE
+                binding.tvPointVotePointLabel.visibility = View.VISIBLE
             }.launchIn(viewLifecycleOwner.lifecycleScope)
     }
 

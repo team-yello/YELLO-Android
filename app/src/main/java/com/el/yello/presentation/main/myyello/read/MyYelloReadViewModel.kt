@@ -134,7 +134,6 @@ class MyYelloReadViewModel @Inject constructor(
                             minusPoint()
                         }
                         _nameData.value = UiState.Success(it)
-
                     }
                 }.onFailure {
                     _nameData.value = UiState.Failure("이름 확인 서버 통신 실패")

@@ -89,18 +89,25 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_recommend_school"
+            <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+                android:id="@+id/layout_recommend_school_swipe"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:paddingBottom="15dp"
-                android:overScrollMode="never"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/layout_invite_friend"
-                tools:listitem="@layout/item_recommend_list" />
+                app:layout_constraintTop_toBottomOf="@id/layout_invite_friend">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_recommend_school"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:overScrollMode="never"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:listitem="@layout/item_recommend_list" />
+
+            </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
             <com.facebook.shimmer.ShimmerFrameLayout
                 android:id="@+id/shimmer_friend_list"
@@ -187,6 +194,7 @@
                 android:id="@+id/btn_recommend_no_friend"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginHorizontal="40dp"
                 android:layout_marginTop="30dp"
                 android:layout_marginBottom="60dp"
                 android:background="@drawable/shape_grayscales_800_fill_100_rect"
@@ -197,7 +205,6 @@
                 android:textAppearance="?textAppearanceButton"
                 android:textColor="@color/yello_main_500"
                 android:textSize="15sp"
-                android:layout_marginHorizontal="40dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

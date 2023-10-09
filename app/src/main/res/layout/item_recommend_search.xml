@@ -40,6 +40,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="12dp"
+        android:layout_marginEnd="100dp"
         android:ellipsize="end"
         android:maxLines="1"
         android:paddingVertical="2dp"
@@ -47,7 +48,6 @@
         android:textColor="@color/yello_main_500"
         app:layout_constraintBottom_toTopOf="@id/tv_recommend_item_school"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginEnd="100dp"
         app:layout_constraintStart_toEndOf="@id/iv_recommend_item_thumbnail"
         app:layout_constraintTop_toBottomOf="@id/tv_recommend_item_name"
         app:layout_constraintVertical_chainStyle="packed"
@@ -58,6 +58,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="12dp"
+        android:layout_marginEnd="100dp"
         android:layout_marginBottom="16dp"
         android:ellipsize="end"
         android:maxLines="2"
@@ -66,7 +67,6 @@
         android:textColor="@color/grayscales_600"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginEnd="100dp"
         app:layout_constraintStart_toEndOf="@id/iv_recommend_item_thumbnail"
         app:layout_constraintTop_toBottomOf="@id/tv_recommend_item_id"
         app:layout_constraintVertical_chainStyle="packed"
@@ -98,13 +98,13 @@
         android:id="@+id/btn_recommend_item_my_friend"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="내 친구"
+        android:layout_marginEnd="26dp"
+        android:text="@string/recommend_search_friend"
         android:textAppearance="@style/TextAppearance.Yello.Button"
         android:textColor="@color/white"
         android:visibility="gone"
-        android:layout_marginEnd="26dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

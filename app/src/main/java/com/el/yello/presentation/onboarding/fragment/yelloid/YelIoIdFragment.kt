@@ -1,4 +1,4 @@
-package com.el.yello.presentation.onboarding.fragment.nameid
+package com.el.yello.presentation.onboarding.fragment.yelloid
 
 import android.os.Bundle
 import android.view.View
@@ -23,21 +23,14 @@ class YelIoIdFragment : BindingFragment<FragmentYelloIdBinding>(R.layout.fragmen
         super.onViewCreated(view, savedInstanceState)
         binding.vm = viewModel
         setDeleteBtnClickListener()
-        setConfirmBtnClickListener()
+        setYelloIdBtnClickListener()
         setupGetValidYelloId()
     }
 
-    private fun setConfirmBtnClickListener() {
+    private fun setYelloIdBtnClickListener() {
         binding.btnYelloIdNext.setOnSingleClickListener {
-            AmplitudeUtils.trackEventWithProperties(
-                "click_onboarding_next",
-                JSONObject().put("onboard_view", "id"),
-            )
-            AmplitudeUtils.updateUserProperties("user_id", viewModel.id)
+            amplitudeYelloIdInfo()
             viewModel.getValidYelloId(viewModel.id)
-            findNavController().navigate(R.id.action_yelIoIdFragment_to_addFriendFragment)
-            val activity = requireActivity() as OnBoardingActivity
-            activity.progressBarPlus()
         }
     }
 
@@ -48,14 +41,17 @@ class YelIoIdFragment : BindingFragment<FragmentYelloIdBinding>(R.layout.fragmen
     }
 
     private fun setupGetValidYelloId() {
-        viewModel.getValidYelloId.observe(viewLifecycleOwner) { state ->
+        viewModel.getValidYelloIdState.observe(viewLifecycleOwner) { state ->
             when (state) {
                 is UiState.Success -> {
                     if (state.data) {
                         initIdEditTextViewError()
                         return@observe
                     }
+                    viewModel.resetGetValidYelloId()
                     findNavController().navigate(R.id.action_yelIoIdFragment_to_addFriendFragment)
+                    val activity = requireActivity() as OnBoardingActivity
+                    activity.progressBarPlus()
                 }
 
                 is UiState.Failure -> {
@@ -83,5 +79,13 @@ class YelIoIdFragment : BindingFragment<FragmentYelloIdBinding>(R.layout.fragmen
         )
         binding.tvIdErrorSecond.visibility = View.INVISIBLE
         binding.tvIdErrorThird.visibility = View.INVISIBLE
+    }
+
+    private fun amplitudeYelloIdInfo() {
+        AmplitudeUtils.trackEventWithProperties(
+            "click_onboarding_next",
+            JSONObject().put("onboard_view", "id"),
+        )
+        AmplitudeUtils.updateUserProperties("user_id", viewModel.id)
     }
 }

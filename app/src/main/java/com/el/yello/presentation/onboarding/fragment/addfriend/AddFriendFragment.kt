@@ -35,12 +35,13 @@ class AddFriendFragment : BindingFragment<FragmentAddFriendBinding>(R.layout.fra
         super.onViewCreated(view, savedInstanceState)
 
         binding.vm = viewModel
-
         initFriendAdapter()
         setConfirmBtnClickListener()
         setKakaoRecommendList()
         observeAddListState()
+        (activity as? OnBoardingActivity)?.showBackBtn()
     }
+
     private fun initFriendAdapter() {
         _adapter = AddFriendAdapter { friend, position ->
             friend.isSelected = !friend.isSelected
@@ -71,13 +72,13 @@ class AddFriendFragment : BindingFragment<FragmentAddFriendBinding>(R.layout.fra
 
     // 서버 통신 성공 시 카카오 추천 친구 추가
     private fun setKakaoRecommendList() {
-        setListWithInfinityScroll()
+        setInfinityScroll()
         viewModel.initFriendPagingVariable()
         viewModel.addListWithKakaoIdList()
     }
 
     // 무한 스크롤 구현
-    private fun setListWithInfinityScroll() {
+    private fun setInfinityScroll() {
         binding.rvFriendList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
@@ -101,12 +102,10 @@ class AddFriendFragment : BindingFragment<FragmentAddFriendBinding>(R.layout.fra
             when (state) {
                 is UiState.Success -> {
                     stopShimmerView()
-                    friendsList = state.data.friendList
+                    friendsList = state.data
                     adapter.submitList(friendsList)
                     selectedItemIdList.addAll(friendsList.map { friend -> friend.id })
-                    viewModel.selectedFriendCount.value =
-                        viewModel.selectedFriendCount.value?.plus(friendsList.size)
-                    adapter.notifyDataSetChanged()
+                    viewModel.selectedFriendCount.value = friendsList.size
                 }
 
                 is UiState.Failure -> {
@@ -118,9 +117,7 @@ class AddFriendFragment : BindingFragment<FragmentAddFriendBinding>(R.layout.fra
                     startShimmerView()
                 }
 
-                is UiState.Empty -> {
-                    stopShimmerView()
-                }
+                is UiState.Empty -> {}
             }
         }
     }
@@ -142,7 +139,7 @@ class AddFriendFragment : BindingFragment<FragmentAddFriendBinding>(R.layout.fra
     }
 
     override fun onDestroyView() {
-        _adapter = null
         super.onDestroyView()
+        _adapter = null
     }
 }

@@ -5,6 +5,7 @@ import android.net.Uri
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
+import com.el.yello.BuildConfig
 import com.el.yello.R
 import com.el.yello.databinding.ActivityProfileManageBinding
 import com.el.yello.presentation.main.profile.ProfileViewModel
@@ -34,6 +35,7 @@ class ProfileManageActivity :
         initPrivacyBtnListener()
         initServiceBtnListener()
         initLogoutBtnListener()
+        setVersionCode()
         observeKakaoLogoutState()
     }
 
@@ -88,6 +90,11 @@ class ProfileManageActivity :
         }
     }
 
+    private fun setVersionCode() {
+        binding.tvProfileManageVersion.text =
+            getString(R.string.profile_manage_tv_version, BuildConfig.VERSION_NAME)
+    }
+
     private fun observeKakaoLogoutState() {
         viewModel.kakaoLogoutState.observe(this) { state ->
             when (state) {
@@ -119,7 +126,7 @@ class ProfileManageActivity :
 
     companion object {
         const val CUSTOMER_CENTER_URL =
-            "https://yell0.notion.site/YELLO-34028220a873416b91d5d2f1cd827432?pvs=4"
+            "http://pf.kakao.com/_pcFzG/chat"
         const val PRIVACY_URL =
             "https://yell0.notion.site/97f57eaed6c749bbb134c7e8dc81ab3f"
         const val SERVICE_URL =

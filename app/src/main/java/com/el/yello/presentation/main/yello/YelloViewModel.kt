@@ -51,10 +51,6 @@ class YelloViewModel @Inject constructor(
     val getPurchaseInfoState: StateFlow<UiState<ResponsePurchaseInfoModel?>> =
         _getPurchaseInfoState.asStateFlow()
 
-    init {
-        getVoteState()
-    }
-
     private fun decreaseTime() {
         leftTime.value ?: return
         if (isDecreasing) return
@@ -72,10 +68,11 @@ class YelloViewModel @Inject constructor(
     }
 
     fun getVoteState() {
+        Timber.d("QATEST get vote state")
         viewModelScope.launch {
             voteRepository.getVoteAvailable()
                 .onSuccess { voteState ->
-                    Timber.d("GET VOTE STATE SUCCESS : $voteState")
+                    Timber.d("QATEST GET VOTE STATE SUCCESS : $voteState")
                     if (voteState == null) {
                         _yelloState.value = Empty
                         return@launch
@@ -83,7 +80,12 @@ class YelloViewModel @Inject constructor(
 
                     _point.value = voteState.point
                     if (voteState.isStart || voteState.leftTime !in 1..SEC_MAX_LOCK_TIME) {
-                        _yelloState.value = Success(Valid(voteState.point))
+                        val currentState = yelloState.value
+                        if (currentState is Success) {
+                            if (currentState.data is Valid) return@onSuccess
+                        }
+                        _yelloState.value =
+                            Success(Valid(voteState.point, voteState.hasFourFriends))
                         return@launch
                     }
 
@@ -110,13 +112,13 @@ class YelloViewModel @Inject constructor(
 
     fun getPurchaseInfoFromServer() {
         viewModelScope.launch {
-            runCatching {
-                payRepository.getPurchaseInfo()
-            }.onSuccess {
-                _getPurchaseInfoState.value = Success(it)
-            }.onFailure {
-                _getPurchaseInfoState.value = Failure(it.message ?: "")
-            }
+            payRepository.getPurchaseInfo()
+                .onSuccess {
+                    _getPurchaseInfoState.value = Success(it)
+                }
+                .onFailure {
+                    _getPurchaseInfoState.value = Failure(it.message ?: "")
+                }
         }
     }
 

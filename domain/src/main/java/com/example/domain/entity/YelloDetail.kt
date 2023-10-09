@@ -9,5 +9,5 @@ data class YelloDetail(
     val senderName: String,
     val ticketCount: Int,
     val isSubscribe: Boolean,
-    val vote: Vote
+    val vote: Vote,
 )

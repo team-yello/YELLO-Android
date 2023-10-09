@@ -39,11 +39,27 @@ class SearchDialogDepartmentFragment :
         super.onViewCreated(view, savedInstanceState)
         binding.vm = viewModel
 
-        initDepartmentAdapter()
+        initDepartmentDialogView()
         setupDepartmentData()
         recyclerviewScroll()
         setClickToDepartmentForm()
         setListWithInfinityScroll()
+    }
+
+    private fun initDepartmentDialogView() {
+        setHideKeyboard()
+        binding.etDepartmentSearch.doAfterTextChanged { it ->
+            searchJob?.cancel()
+            searchJob = viewModel.viewModelScope.launch {
+                delay(debounceTime)
+                it?.toString()?.let { viewModel.getUniversityGroupId(it) }
+            }
+        }
+        adapter = DepartmentAdapter(storeDepartment = ::storeUniversityGroup)
+        binding.rvDepartmentList.adapter = adapter
+        binding.btnBackDialog.setOnSingleClickListener {
+            dismiss()
+        }
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -61,38 +77,8 @@ class SearchDialogDepartmentFragment :
         return dialog
     }
 
-    private fun setupFullHeight(bottomSheet: View) {
-        val layoutParams = bottomSheet.layoutParams
-        layoutParams.height = WindowManager.LayoutParams.MATCH_PARENT
-        bottomSheet.layoutParams = layoutParams
-    }
-
-    private fun initDepartmentAdapter() {
-        setHideKeyboard()
-        binding.etDepartmentSearch.doAfterTextChanged { it ->
-            searchJob?.cancel()
-            searchJob = viewModel.viewModelScope.launch {
-                delay(debounceTime)
-                it?.toString()?.let { viewModel.getGroupList(it) }
-            }
-        }
-        adapter = DepartmentAdapter(storeDepartment = ::storeGroup)
-        binding.rvDepartmentList.adapter = adapter
-        binding.btnBackDialog.setOnSingleClickListener {
-            dismiss()
-        }
-    }
-
-    private fun setHideKeyboard() {
-        binding.layoutDepartmentDialog.setOnSingleClickListener {
-            requireContext().hideKeyboard(
-                requireView(),
-            )
-        }
-    }
-
     private fun setupDepartmentData() {
-        viewModel.departmentData.observe(viewLifecycleOwner) { state ->
+        viewModel.departmentState.observe(viewLifecycleOwner) { state ->
             Timber.d("GET GROUP LIST OBSERVE : $state")
             when (state) {
                 is UiState.Success -> {
@@ -103,24 +89,29 @@ class SearchDialogDepartmentFragment :
                 }
                 is UiState.Loading -> {}
                 is UiState.Empty -> {}
+                else -> {}
             }
         }
     }
 
-    private fun storeGroup(department: String, groupId: Long) {
-        viewModel.setGroupInfo(department, groupId)
+    private fun storeUniversityGroup(department: String, groupId: Long) {
+        viewModel.setGroupUniversityInfo(department, groupId)
         viewModel.clearDepartmentData()
         dismiss()
     }
-    private fun recyclerviewScroll() {
-        binding.rvDepartmentList.setOnTouchListener { view, motionEvent ->
-            when (motionEvent.action) {
-                MotionEvent.ACTION_MOVE -> {
-                    binding.layoutDepartmentDialog.requestDisallowInterceptTouchEvent(true)
-                }
+
+    private fun setClickToDepartmentForm() {
+        binding.tvDepartmentAdd.setOnClickListener {
+            Intent(Intent.ACTION_VIEW, Uri.parse(DEPARTMENT_FORM_URL)).apply {
+                startActivity(this)
             }
-            return@setOnTouchListener false
         }
+    }
+
+    private fun setupFullHeight(bottomSheet: View) {
+        val layoutParams = bottomSheet.layoutParams
+        layoutParams.height = WindowManager.LayoutParams.MATCH_PARENT
+        bottomSheet.layoutParams = layoutParams
     }
 
     private fun setListWithInfinityScroll() {
@@ -133,7 +124,7 @@ class SearchDialogDepartmentFragment :
                             layoutManager is LinearLayoutManager &&
                             layoutManager.findLastVisibleItemPosition() == adapter!!.itemCount - 1
                         ) {
-                            viewModel.getGroupList(inputText)
+                            viewModel.getUniversityGroupId(inputText)
                         }
                     }
                 }
@@ -141,11 +132,22 @@ class SearchDialogDepartmentFragment :
         })
     }
 
-    private fun setClickToDepartmentForm() {
-        binding.tvDepartmentAdd.setOnClickListener {
-            Intent(Intent.ACTION_VIEW, Uri.parse(DEPARTMENT_FORM_URL)).apply {
-                startActivity(this)
+    private fun setHideKeyboard() {
+        binding.layoutDepartmentDialog.setOnSingleClickListener {
+            requireContext().hideKeyboard(
+                requireView(),
+            )
+        }
+    }
+
+    private fun recyclerviewScroll() {
+        binding.rvDepartmentList.setOnTouchListener { view, motionEvent ->
+            when (motionEvent.action) {
+                MotionEvent.ACTION_MOVE -> {
+                    binding.layoutDepartmentDialog.requestDisallowInterceptTouchEvent(true)
+                }
             }
+            return@setOnTouchListener false
         }
     }
 

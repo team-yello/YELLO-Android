@@ -7,7 +7,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
-import com.example.data.datasource.remote.LookPagingSource
+import com.example.data.datasource.paging.LookPagingSource
 import com.example.data.remote.service.LookService
 import com.example.domain.repository.AuthRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -27,7 +27,7 @@ class LookViewModel @Inject constructor(
     private val _getErrorResult = MutableLiveData<String>()
     val getErrorResult: LiveData<String> = _getErrorResult
 
-    fun setFirstPageLoading() {
+    fun setNotLoading() {
         _isLoading.value = false
     }
 
@@ -35,22 +35,25 @@ class LookViewModel @Inject constructor(
     fun getLookListWithPaging() = Pager(
         config = PagingConfig(10),
         pagingSourceFactory = { LookPagingSource(lookService) }
-    ).flow.cachedIn(viewModelScope).onStart {
-        _isLoading.value = true
-        checkLookConnection()
-    }
+    ).flow
+        .cachedIn(viewModelScope).onStart {
+            _isLoading.value = true
+            checkLookConnection()
+        }
 
     // 서버 통신 확인
     private fun checkLookConnection() {
         viewModelScope.launch {
             runCatching {
                 lookService.getLookList(0)
-            }.onSuccess {
-                _isLoading.value = false
-            }.onFailure { exception ->
-                _isLoading.value = false
-                _getErrorResult.value = exception.message
             }
+                .onSuccess {
+                    _isLoading.value = false
+                }
+                .onFailure { exception ->
+                    _isLoading.value = false
+                    _getErrorResult.value = exception.message
+                }
         }
     }
 

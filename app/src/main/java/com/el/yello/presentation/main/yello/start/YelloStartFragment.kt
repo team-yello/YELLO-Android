@@ -2,6 +2,7 @@ package com.el.yello.presentation.main.yello.start
 
 import android.content.Intent
 import android.graphics.Point
+import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup.MarginLayoutParams
@@ -13,6 +14,7 @@ import com.el.yello.databinding.FragmentYelloStartBinding
 import com.el.yello.presentation.main.yello.YelloViewModel
 import com.el.yello.presentation.main.yello.vote.VoteActivity
 import com.el.yello.util.amplitude.AmplitudeUtils
+import com.example.domain.entity.type.YelloState
 import com.example.ui.base.BindingFragment
 import com.example.ui.view.UiState
 import com.example.ui.view.setOnSingleClickListener
@@ -23,13 +25,13 @@ import kotlinx.coroutines.flow.onEach
 @AndroidEntryPoint
 class YelloStartFragment :
     BindingFragment<FragmentYelloStartBinding>(R.layout.fragment_yello_start) {
-
     private val viewModel by activityViewModels<YelloViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.vm = viewModel
 
+        setBalloonVisibility()
         initEntranceLottie()
         initShadowView()
         initVoteBtnClickListener()
@@ -37,10 +39,27 @@ class YelloStartFragment :
         viewModel.getPurchaseInfoFromServer()
     }
 
+    private fun setBalloonVisibility() {
+        // TODO: 삭제 이후 바로 반영되도록 로직 보완
+        val yelloState = viewModel.yelloState.value
+        if (yelloState is UiState.Success) {
+            if (yelloState.data is YelloState.Valid) {
+                binding.layoutStartBalloon.visibility =
+                    if ((yelloState.data as YelloState.Valid).hasFourFriends) View.GONE else View.VISIBLE
+            }
+        }
+    }
+
     private fun initEntranceLottie() {
         with(binding.lottieStartEntrance) {
             val size = Point()
-            display.getRealSize(size)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                val windowMetrics = requireActivity().windowManager.currentWindowMetrics
+                size.x = windowMetrics.bounds.width()
+                size.y = windowMetrics.bounds.height()
+            } else {
+                display.getRealSize(size)
+            }
             val displayWidth = size.x
             val displayHeight = size.y
 

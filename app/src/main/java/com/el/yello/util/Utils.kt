@@ -1,5 +1,8 @@
 package com.el.yello.util
 
+import androidx.core.content.ContextCompat
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+
 object Utils {
     fun setChosungText(name: String, number: Int): String {
         val firstChosung = name[number]
@@ -15,4 +18,10 @@ object Utils {
             ""
         }
     }
+
+    fun SwipeRefreshLayout.setPullToScrollColor(arrowColor: Int, bgColor: Int) {
+        setColorSchemeColors(ContextCompat.getColor(context, arrowColor))
+        setProgressBackgroundColorSchemeColor(ContextCompat.getColor(context, bgColor))
+    }
+
 }

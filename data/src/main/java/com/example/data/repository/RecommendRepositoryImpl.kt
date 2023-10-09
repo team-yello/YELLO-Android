@@ -15,31 +15,42 @@ class RecommendRepositoryImpl @Inject constructor(
     override suspend fun postToGetKakaoFriendList(
         page: Int,
         request: RequestRecommendKakaoModel,
-    ): RecommendModel? {
-        return recommendDataSource.postToGetKakaoListData(
-            page,
-            request.toRequestDto(),
-        ).data?.toRecommendModel()
+    ): Result<RecommendModel?> {
+        return runCatching {
+            recommendDataSource.postToGetKakaoListData(
+                page,
+                request.toRequestDto(),
+            ).data?.toRecommendModel()
+        }
     }
 
-    override suspend fun getSchoolFriendList(page: Int): RecommendModel? {
-        return recommendDataSource.getSchoolListData(
-            page,
-        ).data?.toRecommendModel()
+    override suspend fun getSchoolFriendList(
+        page: Int
+    ): Result<RecommendModel?> {
+        return runCatching {
+            recommendDataSource.getSchoolListData(
+                page,
+            ).data?.toRecommendModel()
+        }
     }
 
-    override suspend fun postFriendAdd(friendId: Long): Unit {
-        return recommendDataSource.postFriendAdd(friendId).data ?: Unit
+    override suspend fun postFriendAdd(
+        friendId: Long
+    ): Result<Unit> {
+        return runCatching {
+            recommendDataSource.postFriendAdd(friendId).data
+        }
     }
 
     override suspend fun getSearchList(
-        page: Int,
-        keyword: String
-    ): RecommendSearchModel? {
-        return recommendDataSource.getSearchListData(
-            page,
-            keyword
-        ).data?.toRecommendSearchModel()
+        page: Int, keyword: String
+    ): Result<RecommendSearchModel?> {
+        return runCatching {
+            recommendDataSource.getSearchListData(
+                page,
+                keyword,
+            ).data?.toRecommendSearchModel()
+        }
     }
 
 }

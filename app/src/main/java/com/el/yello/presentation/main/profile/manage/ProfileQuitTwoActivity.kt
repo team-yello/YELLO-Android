@@ -18,7 +18,6 @@ class ProfileQuitTwoActivity :
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        profileQuitDialog = ProfileQuitDialog()
         initBackBtnListener()
         initInviteDialogBtnListener()
     }
@@ -37,9 +36,9 @@ class ProfileQuitTwoActivity :
     private fun initInviteDialogBtnListener() {
         binding.btnProfileQuitForSure.setOnSingleClickListener {
             AmplitudeUtils.trackEventWithProperties(
-                "click_profile_withdrawal",
-                JSONObject().put("withdrawal_button", "withdrawal3")
+                "click_profile_withdrawal", JSONObject().put("withdrawal_button", "withdrawal3")
             )
+            profileQuitDialog = ProfileQuitDialog()
             profileQuitDialog?.show(supportFragmentManager, QUIT_DIALOG)
         }
     }

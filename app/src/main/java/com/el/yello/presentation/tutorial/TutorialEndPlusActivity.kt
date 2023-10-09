@@ -8,7 +8,6 @@ import com.el.yello.presentation.main.MainActivity
 import com.el.yello.util.amplitude.AmplitudeUtils
 import com.example.ui.base.BindingActivity
 import com.example.ui.view.setOnSingleClickListener
-import org.json.JSONObject
 
 class TutorialEndPlusActivity :
     BindingActivity<ActivityTutorialEndPluspointBinding>(R.layout.activity_tutorial_end_pluspoint) {
@@ -20,5 +19,9 @@ class TutorialEndPlusActivity :
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
         }
+    }
+    override fun onPause() {
+        super.onPause()
+        overridePendingTransition(0, 0)
     }
 }

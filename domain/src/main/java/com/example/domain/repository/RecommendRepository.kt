@@ -9,19 +9,19 @@ interface RecommendRepository {
     suspend fun postToGetKakaoFriendList(
         page: Int,
         request: RequestRecommendKakaoModel,
-    ): RecommendModel?
+    ): Result<RecommendModel?>
 
     suspend fun getSchoolFriendList(
         page: Int,
-    ): RecommendModel?
+    ): Result<RecommendModel?>
 
     suspend fun postFriendAdd(
         friendId: Long,
-    )
+    ): Result<Unit>
 
     suspend fun getSearchList(
         page: Int,
         keyword: String
-    ): RecommendSearchModel?
+    ): Result<RecommendSearchModel?>
 
 }

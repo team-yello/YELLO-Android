@@ -16,7 +16,6 @@ class ProfileFriendAdapter(
     private val itemClick: (ProfileUserModel, Int) -> (Unit),
     private val buttonClick: (ProfileViewModel) -> (Unit),
     private val shopClick: (ProfileViewModel) -> (Unit)
-
 ) : ListAdapter<ProfileUserModel, RecyclerView.ViewHolder>(diffUtil) {
 
     private var itemList = mutableListOf<ProfileUserModel>()
@@ -53,13 +52,19 @@ class ProfileFriendAdapter(
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        if (holder is ProfileUserInfoViewHolder) {
-            holder.onBind(viewModel)
+        when (holder) {
+            is ProfileUserInfoViewHolder -> {
+                holder.onBind(viewModel)
+            }
+
+            is ProfileFriendsListViewHolder -> {
+                val itemPosition = position - HEADER_COUNT
+                holder.onBind(itemList[itemPosition], itemPosition)
+            }
         }
-        if (holder is ProfileFriendsListViewHolder) {
-            val itemPosition = position - HEADER_COUNT
-            holder.onBind(itemList[itemPosition], itemPosition)
-        }
+        val layoutParams = holder.itemView.layoutParams as RecyclerView.LayoutParams
+        layoutParams.bottomMargin = if (position == itemList.size) 24 else 0
+        holder.itemView.layoutParams = layoutParams
     }
 
     override fun getItemCount(): Int {

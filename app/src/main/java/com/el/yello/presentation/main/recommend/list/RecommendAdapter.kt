@@ -8,7 +8,7 @@ import com.el.yello.databinding.ItemRecommendListBinding
 import com.example.domain.entity.RecommendModel.RecommendFriend
 
 class RecommendAdapter(
-    private val itemClick: (RecommendFriend, Int, RecommendViewHolder) -> (Unit)
+    private val itemClick: (RecommendFriend, Int, RecommendViewHolder) -> (Unit),
 ) :
     RecyclerView.Adapter<RecommendViewHolder>() {
 

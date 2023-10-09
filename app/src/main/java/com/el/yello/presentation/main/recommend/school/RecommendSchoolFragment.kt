@@ -6,19 +6,23 @@ import android.view.WindowManager
 import android.view.animation.AnimationUtils
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.el.yello.R
 import com.el.yello.databinding.FragmentRecommendSchoolBinding
-import com.el.yello.presentation.main.recommend.RecommendInviteDialog
+import com.el.yello.presentation.main.dialog.InviteFriendDialog
+import com.el.yello.presentation.main.recommend.kakao.RecommendKakaoViewModel
 import com.el.yello.presentation.main.recommend.list.RecommendAdapter
 import com.el.yello.presentation.main.recommend.list.RecommendItemDecoration
 import com.el.yello.presentation.main.recommend.list.RecommendViewHolder
+import com.el.yello.presentation.util.BaseLinearRcvItemDeco
+import com.el.yello.util.Utils.setPullToScrollColor
 import com.el.yello.util.amplitude.AmplitudeUtils
 import com.el.yello.util.context.yelloSnackbar
-import com.example.domain.entity.RecommendModel
+import com.example.domain.entity.RecommendModel.RecommendFriend
 import com.example.ui.base.BindingFragment
 import com.example.ui.view.UiState
 import com.example.ui.view.setOnSingleClickListener
@@ -35,21 +39,23 @@ class RecommendSchoolFragment :
     private val adapter
         get() = requireNotNull(_adapter) { getString(R.string.adapter_not_initialized_error_msg) }
 
-    private val viewModel by viewModels<RecommendSchoolViewModel>()
+    private lateinit var viewModel: RecommendSchoolViewModel
 
-    private var recommendInviteYesFriendDialog: RecommendInviteDialog? = null
-    private var recommendInviteNoFriendDialog: RecommendInviteDialog? = null
+    private var inviteYesFriendDialog: InviteFriendDialog? = null
+    private var inviteNoFriendDialog: InviteFriendDialog? = null
 
-    private lateinit var friendsList: List<RecommendModel.RecommendFriend>
+    private lateinit var friendsList: List<RecommendFriend>
 
     private lateinit var itemDivider: RecommendItemDecoration
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        initViewModel()
         initFirstList()
         initInviteBtnListener()
-        setItemDivider()
+        initPullToScrollListener()
+        setItemDecoration()
         setAdapterWithClickListener()
         setListWithInfinityScroll()
         observeAddListState()
@@ -60,12 +66,12 @@ class RecommendSchoolFragment :
 
     override fun onResume() {
         super.onResume()
-        if (!viewModel.isFirstResume) {
+        if (viewModel.isSearchViewShowed.value == true) {
             adapter.clearList()
             viewModel.setFirstPageLoading()
             viewModel.addListFromServer()
+            viewModel.updateIsSearchViewShowed(false)
         }
-        viewModel.isFirstResume = false
     }
 
     override fun onDestroyView() {
@@ -76,35 +82,57 @@ class RecommendSchoolFragment :
 
     private fun initInviteBtnListener() {
         binding.layoutInviteFriend.setOnSingleClickListener {
-            recommendInviteYesFriendDialog =
-                RecommendInviteDialog.newInstance(viewModel.getYelloId(), SCHOOL_YES_FRIEND)
+            inviteYesFriendDialog =
+                InviteFriendDialog.newInstance(viewModel.getYelloId(), SCHOOL_YES_FRIEND)
             AmplitudeUtils.trackEventWithProperties(
                 "click_invite",
                 JSONObject().put("invite_view", SCHOOL_YES_FRIEND)
             )
-            recommendInviteYesFriendDialog?.show(parentFragmentManager, INVITE_DIALOG)
+            inviteYesFriendDialog?.show(parentFragmentManager, INVITE_DIALOG)
         }
 
         binding.btnRecommendNoFriend.setOnSingleClickListener {
-            recommendInviteYesFriendDialog =
-                RecommendInviteDialog.newInstance(viewModel.getYelloId(), SCHOOL_NO_FRIEND)
+            inviteNoFriendDialog =
+                InviteFriendDialog.newInstance(viewModel.getYelloId(), SCHOOL_NO_FRIEND)
             AmplitudeUtils.trackEventWithProperties(
                 "click_invite",
                 JSONObject().put("invite_view", SCHOOL_NO_FRIEND)
             )
-            recommendInviteNoFriendDialog?.show(parentFragmentManager, INVITE_DIALOG)
+            inviteNoFriendDialog?.show(parentFragmentManager, INVITE_DIALOG)
         }
     }
 
+    private fun initViewModel() {
+        viewModel = ViewModelProvider(requireActivity())[RecommendSchoolViewModel::class.java]
+        viewModel.updateIsSearchViewShowed(false)
+    }
+
     private fun initFirstList() {
-        viewModel.isFirstResume = true
         viewModel.setFirstPageLoading()
         viewModel.addListFromServer()
     }
 
-    private fun setItemDivider() {
+    private fun initPullToScrollListener() {
+        binding.layoutRecommendSchoolSwipe.apply {
+            setOnRefreshListener {
+                lifecycleScope.launch {
+                    adapter.clearList()
+                    viewModel.setFirstPageLoading()
+                    viewModel.addListFromServer()
+                    delay(200)
+                    binding.layoutRecommendSchoolSwipe.isRefreshing = false
+                }
+            }
+            setPullToScrollColor(R.color.grayscales_500, R.color.grayscales_700)
+        }
+    }
+
+    private fun setItemDecoration() {
         itemDivider = RecommendItemDecoration(requireContext())
         binding.rvRecommendSchool.addItemDecoration(itemDivider)
+        binding.rvRecommendSchool.addItemDecoration(
+            BaseLinearRcvItemDeco(0, 0, 0, 0, 0, RecyclerView.VERTICAL, 12)
+        )
     }
 
     // 처음 리스트 설정 및 어댑터 클릭 리스너 설정
@@ -140,6 +168,7 @@ class RecommendSchoolFragment :
         viewModel.postFriendsListState.observe(viewLifecycleOwner) { state ->
             when (state) {
                 is UiState.Success -> {
+                    startFadeIn()
                     if (state.data?.friends?.isEmpty() == true && adapter.itemCount == 0) {
                         showNoFriendScreen()
                     } else {
@@ -195,9 +224,7 @@ class RecommendSchoolFragment :
                     )
                 }
 
-                is UiState.Empty -> {
-                    activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
-                }
+                is UiState.Empty -> {}
             }
         }
     }
@@ -213,8 +240,8 @@ class RecommendSchoolFragment :
     }
 
     private fun dismissDialog() {
-        if (recommendInviteYesFriendDialog?.isAdded == true) recommendInviteYesFriendDialog?.dismiss()
-        if (recommendInviteNoFriendDialog?.isAdded == true) recommendInviteNoFriendDialog?.dismiss()
+        if (inviteYesFriendDialog?.isAdded == true) inviteYesFriendDialog?.dismiss()
+        if (inviteNoFriendDialog?.isAdded == true) inviteNoFriendDialog?.dismiss()
     }
 
     // 삭제 시 체크 버튼으로 전환 후 0.3초 뒤 애니메이션 적용
@@ -224,8 +251,8 @@ class RecommendSchoolFragment :
             delay(300)
             binding.rvRecommendSchool.removeItemDecoration(itemDivider)
             adapter.removeItem(position)
-            activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
             delay(500)
+            activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
             binding.rvRecommendSchool.addItemDecoration(itemDivider)
             if (adapter.itemCount == 0) {
                 showNoFriendScreen()
@@ -234,8 +261,13 @@ class RecommendSchoolFragment :
     }
 
     private fun changeToCheckIcon(holder: RecommendViewHolder) {
-        holder.binding.btnRecommendItemAdd.visibility = View.GONE
+        holder.binding.btnRecommendItemAdd.visibility = View.INVISIBLE
         holder.binding.btnRecommendItemAddPressed.visibility = View.VISIBLE
+    }
+
+    private fun startFadeIn() {
+        val animation = AnimationUtils.loadAnimation(requireContext(), R.anim.fade_in)
+        binding.rvRecommendSchool.startAnimation(animation)
     }
 
     private fun showShimmerScreen() {

@@ -1,4 +1,4 @@
-package com.el.yello.presentation.onboarding.fragment.universityinfo.school
+package com.el.yello.presentation.onboarding.fragment.universityinfo.university
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -8,9 +8,9 @@ import com.el.yello.databinding.ItemUniversityListBinding
 import com.example.ui.view.ItemDiffCallback
 import com.example.ui.view.setOnSingleClickListener
 
-class SchoolAdapter(
-    private val storeSchool: (String) -> Unit,
-) : ListAdapter<String, SchoolAdapter.SchoolViewHolder>(diffUtil) {
+class UniversityAdapter(
+    private val storeUniversity: (String) -> Unit,
+) : ListAdapter<String, UniversityAdapter.SchoolViewHolder>(diffUtil) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SchoolViewHolder {
         return SchoolViewHolder(
             ItemUniversityListBinding.inflate(
@@ -18,12 +18,12 @@ class SchoolAdapter(
                 parent,
                 false,
             ),
-            storeSchool,
+            storeUniversity,
         )
     }
 
     override fun onBindViewHolder(holder: SchoolViewHolder, position: Int) {
-        holder.setSchool(getItem(position))
+        holder.setUniversity(getItem(position))
     }
 
     class SchoolViewHolder(
@@ -31,13 +31,13 @@ class SchoolAdapter(
         private val storeSchool: (String) -> Unit,
     ) :
         RecyclerView.ViewHolder(binding.root) {
-        fun setSchool(school: String) {
-            binding.data = school
+        fun setUniversity(university: String) {
+            binding.data = university
             binding.root.setOnSingleClickListener {
-                storeSchool(school)
+                storeSchool(university)
             }
             binding.tvSchoolName.setOnSingleClickListener {
-                storeSchool(school)
+                storeSchool(university)
             }
         }
     }

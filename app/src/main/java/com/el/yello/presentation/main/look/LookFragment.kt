@@ -2,6 +2,7 @@ package com.el.yello.presentation.main.look
 
 import android.os.Bundle
 import android.view.View
+import android.view.animation.AnimationUtils
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
@@ -10,13 +11,15 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import com.el.yello.R
 import com.el.yello.databinding.FragmentLookBinding
-import com.el.yello.presentation.main.recommend.RecommendInviteDialog
-import com.el.yello.presentation.main.recommend.school.RecommendSchoolFragment
+import com.el.yello.presentation.main.dialog.InviteFriendDialog
+import com.el.yello.presentation.util.BaseLinearRcvItemDeco
+import com.el.yello.util.Utils.setPullToScrollColor
 import com.el.yello.util.amplitude.AmplitudeUtils
 import com.el.yello.util.context.yelloSnackbar
 import com.example.ui.base.BindingFragment
 import com.example.ui.view.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.json.JSONObject
@@ -30,55 +33,70 @@ class LookFragment : BindingFragment<FragmentLookBinding>(R.layout.fragment_look
 
     private val viewModel by viewModels<LookViewModel>()
 
-    private var inviteFriendDialog: RecommendInviteDialog? = null
+    private var inviteFriendDialog: InviteFriendDialog? = null
 
     private var isScrolled: Boolean = false
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        initAdapterWithFirstList()
-        initNoFriendScreenInviteBtnListener()
-        getSearchPagingList()
+        initAdapter()
+        initInviteBtnListener()
+        initPullToScrollListener()
+        setItemDecoration()
+        getTimelinePagingList()
         observeIsLoading()
         observeErrorResult()
         catchScrollForAmplitude()
         AmplitudeUtils.trackEventWithProperties("view_timeline")
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _adapter = null
-    }
-
-    private fun initAdapterWithFirstList() {
-        viewModel.setFirstPageLoading()
+    private fun initAdapter() {
+        viewModel.setNotLoading()
         _adapter = LookAdapter()
         binding.rvLook.adapter = adapter
 
         adapter.addLoadStateListener { combinedLoadStates ->
-            if(combinedLoadStates.prepend.endOfPaginationReached) {
+            if (combinedLoadStates.prepend.endOfPaginationReached && viewModel.isLoading.value == false) {
                 binding.layoutLookNoFriendsList.isVisible = adapter.itemCount < 1
                 binding.rvLook.isGone = adapter.itemCount < 1
             }
         }
     }
 
-    private fun initNoFriendScreenInviteBtnListener() {
+    private fun initInviteBtnListener() {
         binding.btnLookNoFriend.setOnSingleClickListener {
-            inviteFriendDialog = RecommendInviteDialog.newInstance(viewModel.getYelloId(), TIMELINE_NO_FRIEND)
+            inviteFriendDialog =
+                InviteFriendDialog.newInstance(viewModel.getYelloId(), TIMELINE_NO_FRIEND)
             AmplitudeUtils.trackEventWithProperties(
-                "click_invite",
-                JSONObject().put("invite_view", TIMELINE_NO_FRIEND)
+                "click_invite", JSONObject().put("invite_view", TIMELINE_NO_FRIEND)
             )
             inviteFriendDialog?.show(parentFragmentManager, INVITE_DIALOG)
         }
     }
 
-    private fun getSearchPagingList() {
+    private fun initPullToScrollListener() {
+        binding.layoutLookSwipe.apply {
+            setOnRefreshListener {
+                lifecycleScope.launch {
+                    getTimelinePagingList()
+                    delay(200)
+                    binding.layoutLookSwipe.isRefreshing = false
+                }
+            }
+            setPullToScrollColor(R.color.grayscales_500, R.color.grayscales_700)
+        }
+    }
+
+    private fun setItemDecoration() {
+        binding.rvLook.addItemDecoration(
+            BaseLinearRcvItemDeco(8, 8, 16, 16, 0, RecyclerView.VERTICAL, 20)
+        )
+    }
+
+    private fun getTimelinePagingList() {
         lifecycleScope.launch {
-            viewModel.getLookListWithPaging()
-                .flowWithLifecycle(lifecycle)
+            viewModel.getLookListWithPaging().flowWithLifecycle(lifecycle)
                 .collectLatest { pagingData ->
                     adapter.submitData(pagingData)
                 }
@@ -105,13 +123,19 @@ class LookFragment : BindingFragment<FragmentLookBinding>(R.layout.fragment_look
     }
 
     private fun observeIsLoading() {
-        viewModel.isLoading.observe(viewLifecycleOwner) { state ->
-            if (state) {
+        viewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
+            if (isLoading) {
                 startShimmerView()
             } else {
                 stopShimmerView()
+                startFadeIn()
             }
         }
+    }
+
+    private fun startFadeIn() {
+        val animation = AnimationUtils.loadAnimation(requireContext(), R.anim.fade_in)
+        binding.rvLook.startAnimation(animation)
     }
 
     private fun startShimmerView() {
@@ -128,6 +152,11 @@ class LookFragment : BindingFragment<FragmentLookBinding>(R.layout.fragment_look
 
     fun scrollToTop() {
         binding.rvLook.smoothScrollToPosition(0)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _adapter = null
     }
 
     companion object {

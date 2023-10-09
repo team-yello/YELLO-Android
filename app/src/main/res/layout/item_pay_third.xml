@@ -22,7 +22,7 @@
         android:layout_marginBottom="7dp"
         android:fontFamily="@font/pretendard_bold"
         android:lineHeight="22dp"
-        android:text="포인트 2배"
+        android:text="@string/pay_banner_item_3"
         android:textColor="@color/white"
         android:textSize="15sp"
         app:layout_constraintBottom_toBottomOf="parent"

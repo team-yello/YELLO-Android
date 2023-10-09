@@ -1,11 +1,13 @@
 package com.example.data.repository
 
+import com.example.data.datasource.AuthDataSource
 import com.example.domain.YelloDataStore
 import com.example.domain.repository.AuthRepository
 import javax.inject.Inject
 
 class AuthRepositoryImpl @Inject constructor(
     private val yelloDataStore: YelloDataStore,
+    private val authDataSource: AuthDataSource
 ) : AuthRepository {
     override fun setAutoLogin(userToken: String, refreshToken: String) {
         yelloDataStore.isLogin = true
@@ -34,6 +36,10 @@ class AuthRepositoryImpl @Inject constructor(
     }
 
     override fun getDeviceToken(): String = yelloDataStore.deviceToken
+
+    override suspend fun putDeviceToken(token: String): Boolean {
+        return authDataSource.putDeviceToken(token)
+    }
 
     override fun clearLocalPref() = yelloDataStore.clearLocalPref()
 }

@@ -32,7 +32,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
             android:text="@string/onboarding_select_student_Type_title"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="20dp"
             android:textAppearance="?textAppearanceHeadline2"
             android:textColor="@color/white"
             app:layout_constraintTop_toTopOf="parent"

@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.view.animation.AnimationUtils
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
@@ -17,27 +18,34 @@ import com.el.yello.presentation.main.MainActivity
 import com.el.yello.presentation.main.myyello.read.MyYelloReadActivity
 import com.el.yello.presentation.pay.PayActivity
 import com.el.yello.presentation.util.BaseLinearRcvItemDeco
+import com.el.yello.util.Utils.setPullToScrollColor
 import com.el.yello.util.amplitude.AmplitudeUtils
 import com.el.yello.util.context.yelloSnackbar
 import com.example.ui.base.BindingFragment
 import com.example.ui.view.UiState
 import com.example.ui.view.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 import org.json.JSONObject
 
 @AndroidEntryPoint
 class MyYelloFragment : BindingFragment<FragmentMyYelloBinding>(R.layout.fragment_my_yello) {
+
     private val viewModel by viewModels<MyYelloViewModel>()
     private var adapter: MyYelloAdapter? = null
     private var isScrolled: Boolean = false
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         AmplitudeUtils.trackEventWithProperties("view_all_messages")
         initView()
         initEvent()
         observe()
+        initPullToScrollListener()
     }
 
     private fun initView() {
@@ -54,15 +62,7 @@ class MyYelloFragment : BindingFragment<FragmentMyYelloBinding>(R.layout.fragmen
             )
         }
         binding.rvMyYelloReceive.addItemDecoration(
-            BaseLinearRcvItemDeco(
-                8,
-                8,
-                0,
-                0,
-                5,
-                RecyclerView.VERTICAL,
-                94,
-            ),
+            BaseLinearRcvItemDeco(8, 8, 0, 0, 5, RecyclerView.VERTICAL, 110)
         )
         adapter?.setHasStableIds(true)
         binding.rvMyYelloReceive.adapter = adapter
@@ -72,9 +72,12 @@ class MyYelloFragment : BindingFragment<FragmentMyYelloBinding>(R.layout.fragmen
 
     private fun initEvent() {
         binding.btnSendCheck.setOnSingleClickListener {
-            AmplitudeUtils.trackEventWithProperties("click_go_shop", JSONObject().put("shop_button","cta_main"))
+            AmplitudeUtils.trackEventWithProperties(
+                "click_go_shop",
+                JSONObject().put("shop_button", "cta_main"),
+            )
             Intent(requireContext(), PayActivity::class.java).apply {
-                startActivity(this)
+                payActivityLauncher.launch(this)
             }
         }
 
@@ -83,7 +86,10 @@ class MyYelloFragment : BindingFragment<FragmentMyYelloBinding>(R.layout.fragmen
         }
 
         binding.btnShop.setOnSingleClickListener {
-            AmplitudeUtils.trackEventWithProperties("click_go_shop", JSONObject().put("shop_button","message_shop"))
+            AmplitudeUtils.trackEventWithProperties(
+                "click_go_shop",
+                JSONObject().put("shop_button", "message_shop"),
+            )
             goToPayActivity()
         }
     }
@@ -94,6 +100,7 @@ class MyYelloFragment : BindingFragment<FragmentMyYelloBinding>(R.layout.fragmen
             when (it) {
                 is UiState.Success -> {
                     binding.shimmerMyYelloReceive.stopShimmer()
+                    startFadeIn()
                     binding.clSendOpen.isVisible = it.data.ticketCount != 0
                     binding.btnSendCheck.isVisible = it.data.ticketCount == 0
                     binding.tvKeyNumber.text = it.data.ticketCount.toString()
@@ -105,52 +112,38 @@ class MyYelloFragment : BindingFragment<FragmentMyYelloBinding>(R.layout.fragmen
                     yelloSnackbar(requireView(), it.msg)
                 }
 
-                is UiState.Empty -> {
-                    binding.shimmerMyYelloReceive.stopShimmer()
-                }
+                is UiState.Empty -> binding.shimmerMyYelloReceive.stopShimmer()
 
-                is UiState.Loading -> {
-                    binding.shimmerMyYelloReceive.startShimmer()
-                }
+                is UiState.Loading -> binding.shimmerMyYelloReceive.startShimmer()
 
                 else -> {}
             }
         }
 
-        viewModel.totalCount.flowWithLifecycle(viewLifecycleOwner.lifecycle)
-            .onEach {
-                binding.tvCount.text = it.toString()
-            }.launchIn(viewLifecycleOwner.lifecycleScope)
+        viewModel.totalCount.flowWithLifecycle(viewLifecycleOwner.lifecycle).onEach {
+            binding.tvCount.text = it.toString()
+        }.launchIn(viewLifecycleOwner.lifecycleScope)
 
-        viewModel.voteCount.flowWithLifecycle(viewLifecycleOwner.lifecycle)
-            .onEach {
-                when (it) {
-                    is UiState.Success -> {
-                        (activity as? MainActivity)?.setBadgeCount(it.data.totalCount)
-                    }
+        viewModel.voteCount.flowWithLifecycle(viewLifecycleOwner.lifecycle).onEach {
+            when (it) {
+                is UiState.Success -> (activity as? MainActivity)?.setBadgeCount(it.data.totalCount)
 
-                    is UiState.Failure -> {
-                        yelloSnackbar(binding.root, it.msg)
-                    }
+                is UiState.Failure -> yelloSnackbar(binding.root, it.msg)
 
-                    else -> {}
-                }
-            }.launchIn(viewLifecycleOwner.lifecycleScope)
+                else -> {}
+            }
+        }.launchIn(viewLifecycleOwner.lifecycleScope)
     }
 
-    // 페이지네이션
     private fun infinityScroll() {
         binding.rvMyYelloReceive.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
-                if (dy > 0) {
-                    if (!binding.rvMyYelloReceive.canScrollVertically(1) &&
-                        (recyclerView.layoutManager as LinearLayoutManager).findLastVisibleItemPosition() == adapter!!.itemCount - 1
-                    ) {
-                        viewModel.getMyYelloList()
-                    }
+                if (dy > 0 && !binding.rvMyYelloReceive.canScrollVertically(1) && (recyclerView.layoutManager as LinearLayoutManager).findLastVisibleItemPosition() == adapter!!.itemCount - 1) {
+                    viewModel.getMyYelloList()
                 }
             }
+
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
                 if (newState == RecyclerView.SCROLL_STATE_IDLE && !isScrolled) {
@@ -163,7 +156,7 @@ class MyYelloFragment : BindingFragment<FragmentMyYelloBinding>(R.layout.fragmen
 
     private fun goToPayActivity() {
         Intent(requireContext(), PayActivity::class.java).apply {
-            startActivity(this)
+            payActivityLauncher.launch(this)
         }
     }
 
@@ -174,6 +167,7 @@ class MyYelloFragment : BindingFragment<FragmentMyYelloBinding>(R.layout.fragmen
             it.data?.let { intent ->
                 val isHintUsed = intent.getBooleanExtra("isHintUsed", false)
                 val nameIndex = intent.getIntExtra("nameIndex", -1)
+                val ticketCount = intent.getIntExtra("ticketCount", -1)
                 val list = adapter?.currentList()
                 val selectItem = list?.get(viewModel.position)
                 selectItem?.apply {
@@ -184,9 +178,50 @@ class MyYelloFragment : BindingFragment<FragmentMyYelloBinding>(R.layout.fragmen
                 selectItem?.let {
                     adapter?.changeItem(viewModel.position, selectItem)
                 }
+                if (ticketCount != -1) {
+                    binding.tvKeyNumber.text = ticketCount.toString()
+                }
+                binding.clSendOpen.isVisible = ticketCount != 0
+                binding.btnSendCheck.isVisible = ticketCount == 0
+
                 viewModel.getVoteCount()
             }
         }
+    }
+
+    private val payActivityLauncher = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult(),
+    ) {
+        if (it.resultCode == Activity.RESULT_OK) {
+            it.data?.let { intent ->
+                val ticketCount = intent.getIntExtra("ticketCount", -1)
+                if (ticketCount != -1) {
+                    binding.tvKeyNumber.text = ticketCount.toString()
+                }
+                binding.clSendOpen.isVisible = ticketCount != 0
+                binding.btnSendCheck.isVisible = ticketCount == 0
+            }
+        }
+    }
+
+    private fun initPullToScrollListener() {
+        binding.layoutMyYelloSwipe.apply {
+            setOnRefreshListener {
+                lifecycleScope.launch {
+                    adapter?.clearList()
+                    viewModel.setToFirstPage()
+                    viewModel.getMyYelloList()
+                    delay(200)
+                    binding.layoutMyYelloSwipe.isRefreshing = false
+                }
+            }
+            setPullToScrollColor(R.color.grayscales_500, R.color.grayscales_700)
+        }
+    }
+
+    private fun startFadeIn() {
+        val animation = AnimationUtils.loadAnimation(requireContext(), R.anim.fade_in)
+        binding.rvMyYelloReceive.startAnimation(animation)
     }
 
     fun scrollToTop() {

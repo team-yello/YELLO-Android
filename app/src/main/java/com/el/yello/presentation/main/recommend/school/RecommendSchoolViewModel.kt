@@ -26,6 +26,9 @@ class RecommendSchoolViewModel @Inject constructor(
     private val _addFriendState = MutableLiveData<UiState<Unit>>()
     val addFriendState: LiveData<UiState<Unit>> = _addFriendState
 
+    private val _isSearchViewShowed = MutableLiveData(false)
+    val isSearchViewShowed: LiveData<Boolean> = _isSearchViewShowed
+
     var itemPosition: Int? = null
     var itemHolder: RecommendViewHolder? = null
 
@@ -34,7 +37,6 @@ class RecommendSchoolViewModel @Inject constructor(
     private var totalPage = Int.MAX_VALUE
 
     private var isFirstFriendsListPage: Boolean = true
-    var isFirstResume: Boolean = true
 
     fun setFirstPageLoading() {
         isFirstFriendsListPage = true
@@ -48,6 +50,11 @@ class RecommendSchoolViewModel @Inject constructor(
         itemHolder = holder
     }
 
+    fun updateIsSearchViewShowed(newValue: Boolean) {
+        _isSearchViewShowed.value = newValue
+    }
+
+
     // 서버 통신 - 추천 친구 리스트 추가
     fun addListFromServer() {
         viewModelScope.launch {
@@ -56,18 +63,18 @@ class RecommendSchoolViewModel @Inject constructor(
                 _postFriendsListState.value = UiState.Loading
                 isFirstFriendsListPage = false
             }
-            runCatching {
-                recommendRepository.getSchoolFriendList(
-                    ++currentPage,
-                )
-            }.onSuccess {
-                it ?: return@launch
-                totalPage = ceil((it.totalCount * 0.01)).toInt() - 1
-                if (totalPage == currentPage) isPagingFinish = true
-                _postFriendsListState.value = UiState.Success(it)
-            }.onFailure {
-                _postFriendsListState.value = UiState.Failure(it.message ?: "")
-            }
+            recommendRepository.getSchoolFriendList(
+                ++currentPage,
+            )
+                .onSuccess {
+                    it ?: return@launch
+                    totalPage = ceil((it.totalCount * 0.01)).toInt() - 1
+                    if (totalPage == currentPage) isPagingFinish = true
+                    _postFriendsListState.value = UiState.Success(it)
+                }
+                .onFailure {
+                    _postFriendsListState.value = UiState.Failure(it.message.toString())
+                }
         }
     }
 
@@ -75,15 +82,13 @@ class RecommendSchoolViewModel @Inject constructor(
     fun addFriendToServer(friendId: Long) {
         viewModelScope.launch {
             _addFriendState.value = UiState.Loading
-            runCatching {
-                recommendRepository.postFriendAdd(
-                    friendId,
-                )
-            }.onSuccess {
-                _addFriendState.value = UiState.Success(it)
-            }.onFailure {
-                _addFriendState.value = UiState.Failure(it.message ?: "")
-            }
+            recommendRepository.postFriendAdd(friendId)
+                .onSuccess {
+                    _addFriendState.value = UiState.Success(it)
+                }
+                .onFailure {
+                    _addFriendState.value = UiState.Failure(it.message.toString())
+                }
         }
     }
 

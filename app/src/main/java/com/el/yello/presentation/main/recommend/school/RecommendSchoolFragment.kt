@@ -26,6 +26,7 @@ import com.example.ui.view.UiState
 import com.example.ui.view.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.json.JSONObject
 
@@ -83,8 +84,7 @@ class RecommendSchoolFragment :
             inviteYesFriendDialog =
                 InviteFriendDialog.newInstance(viewModel.getYelloId(), SCHOOL_YES_FRIEND)
             AmplitudeUtils.trackEventWithProperties(
-                "click_invite",
-                JSONObject().put("invite_view", SCHOOL_YES_FRIEND)
+                "click_invite", JSONObject().put("invite_view", SCHOOL_YES_FRIEND)
             )
             inviteYesFriendDialog?.show(parentFragmentManager, INVITE_DIALOG)
         }
@@ -93,8 +93,7 @@ class RecommendSchoolFragment :
             inviteNoFriendDialog =
                 InviteFriendDialog.newInstance(viewModel.getYelloId(), SCHOOL_NO_FRIEND)
             AmplitudeUtils.trackEventWithProperties(
-                "click_invite",
-                JSONObject().put("invite_view", SCHOOL_NO_FRIEND)
+                "click_invite", JSONObject().put("invite_view", SCHOOL_NO_FRIEND)
             )
             inviteNoFriendDialog?.show(parentFragmentManager, INVITE_DIALOG)
         }
@@ -149,10 +148,7 @@ class RecommendSchoolFragment :
                 super.onScrolled(recyclerView, dx, dy)
                 if (dy > 0) {
                     recyclerView.layoutManager?.let { layoutManager ->
-                        if (!binding.rvRecommendSchool.canScrollVertically(1) &&
-                            layoutManager is LinearLayoutManager &&
-                            layoutManager.findLastVisibleItemPosition() == adapter.itemCount - 1
-                        ) {
+                        if (!binding.rvRecommendSchool.canScrollVertically(1) && layoutManager is LinearLayoutManager && layoutManager.findLastVisibleItemPosition() == adapter.itemCount - 1) {
                             viewModel.addListFromServer()
                         }
                     }
@@ -163,66 +159,70 @@ class RecommendSchoolFragment :
 
     // 추천친구 리스트 추가 서버 통신 성공 시 어댑터에 리스트 추가
     private fun observeAddListState() {
-        viewModel.postFriendsListState.observe(viewLifecycleOwner) { state ->
-            when (state) {
-                is UiState.Success -> {
-                    startFadeIn()
-                    if (state.data?.friends?.isEmpty() == true && adapter.itemCount == 0) {
-                        showNoFriendScreen()
-                    } else {
-                        showFriendListScreen()
-                        friendsList = state.data?.friends ?: listOf()
-                        adapter.addItemList(friendsList)
+        lifecycleScope.launch {
+            viewModel.postFriendsListState.collectLatest { state ->
+                when (state) {
+                    is UiState.Success -> {
+                        startFadeIn()
+                        if (state.data.friends.isEmpty() && adapter.itemCount == 0) {
+                            showNoFriendScreen()
+                        } else {
+                            showFriendListScreen()
+                            friendsList = state.data.friends
+                            adapter.addItemList(friendsList)
+                        }
                     }
-                }
 
-                is UiState.Failure -> {
-                    showShimmerScreen()
-                    yelloSnackbar(
-                        requireView(),
-                        getString(R.string.recommend_error_school_friend_connection),
-                    )
-                }
+                    is UiState.Failure -> {
+                        showShimmerScreen()
+                        yelloSnackbar(
+                            requireView(),
+                            getString(R.string.recommend_error_school_friend_connection),
+                        )
+                    }
 
-                is UiState.Loading -> {
-                    showShimmerScreen()
-                }
+                    is UiState.Loading -> {
+                        showShimmerScreen()
+                    }
 
-                is UiState.Empty -> {}
+                    is UiState.Empty -> {}
+                }
             }
         }
     }
 
     // 친구 추가 서버 통신 성공 시 리스트에서 아이템 삭제 & 서버 통신 중 액티비티 클릭 방지
     private fun observeAddFriendState() {
-        viewModel.addFriendState.observe(viewLifecycleOwner) { state ->
-            when (state) {
-                is UiState.Success -> {
-                    val position = viewModel.itemPosition
-                    val holder = viewModel.itemHolder
-                    if (position != null && holder != null) {
-                        removeItemWithAnimation(holder, position)
-                    } else {
+        lifecycleScope.launch {
+            viewModel.addFriendState.collectLatest { state ->
+                when (state) {
+                    is UiState.Success -> {
+                        val position = viewModel.itemPosition
+                        val holder = viewModel.itemHolder
+                        if (position != null && holder != null) {
+                            removeItemWithAnimation(holder, position)
+                        } else {
+                            activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
+                        }
+                    }
+
+                    is UiState.Failure -> {
+                        yelloSnackbar(
+                            requireView(),
+                            getString(R.string.recommend_error_add_friend_connection),
+                        )
                         activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
                     }
-                }
 
-                is UiState.Failure -> {
-                    yelloSnackbar(
-                        requireView(),
-                        getString(R.string.recommend_error_add_friend_connection),
-                    )
-                    activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
-                }
+                    is UiState.Loading -> {
+                        activity?.window?.setFlags(
+                            WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                            WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                        )
+                    }
 
-                is UiState.Loading -> {
-                    activity?.window?.setFlags(
-                        WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
-                        WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
-                    )
+                    is UiState.Empty -> {}
                 }
-
-                is UiState.Empty -> {}
             }
         }
     }

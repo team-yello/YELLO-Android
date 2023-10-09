@@ -1,7 +1,5 @@
 package com.el.yello.presentation.main.recommend.school
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.el.yello.presentation.main.recommend.list.RecommendViewHolder
@@ -10,6 +8,9 @@ import com.example.domain.repository.AuthRepository
 import com.example.domain.repository.RecommendRepository
 import com.example.ui.view.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import kotlin.math.ceil
@@ -20,13 +21,13 @@ class RecommendSchoolViewModel @Inject constructor(
     private val authRepository: AuthRepository,
 ) : ViewModel() {
 
-    private val _postFriendsListState = MutableLiveData<UiState<RecommendListModel?>>()
-    val postFriendsListState: LiveData<UiState<RecommendListModel?>> = _postFriendsListState
+    private val _postFriendsListState = MutableStateFlow<UiState<RecommendListModel>>(UiState.Empty)
+    val postFriendsListState: StateFlow<UiState<RecommendListModel>> = _postFriendsListState.asStateFlow()
 
-    private val _addFriendState = MutableLiveData<UiState<Unit>>()
-    val addFriendState: LiveData<UiState<Unit>> = _addFriendState
+    private val _addFriendState = MutableStateFlow<UiState<Unit>>(UiState.Empty)
+    val addFriendState: StateFlow<UiState<Unit>> = _addFriendState.asStateFlow()
 
-    var isSearchViewShowed=false
+    var isSearchViewShowed = false
 
     var itemPosition: Int? = null
     var itemHolder: RecommendViewHolder? = null
@@ -42,6 +43,8 @@ class RecommendSchoolViewModel @Inject constructor(
         currentPage = -1
         isPagingFinish = false
         totalPage = Int.MAX_VALUE
+        _postFriendsListState.value = UiState.Empty
+        _addFriendState.value = UiState.Empty
     }
 
     fun setPositionAndHolder(position: Int, holder: RecommendViewHolder) {

@@ -79,13 +79,10 @@ class CodeFragment : BindingFragment<FragmentCodeBinding>(R.layout.fragment_code
                     startActivity(intent)
                     (activity as? OnBoardingActivity)?.endTutorialActivity()
                 }
-
                 is UiState.Failure -> {
                     yelloSnackbar(binding.root, getString(R.string.msg_error))
                 }
-
                 is UiState.Loading -> {}
-
                 is UiState.Empty -> {}
             }
         }

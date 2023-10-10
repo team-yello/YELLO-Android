@@ -115,7 +115,6 @@ class AddFriendFragment : BindingFragment<FragmentAddFriendBinding>(R.layout.fra
                     is UiState.Loading -> {
                         startShimmerView()
                     }
-
                     is UiState.Empty -> {}
                 }
             }

@@ -25,7 +25,7 @@ class TutorialDActivity : BindingActivity<ActivityTutorialDBinding>(R.layout.act
 
     override fun onPause() {
         super.onPause()
-        overridePendingTransition(0, 0)
+        overridePendingTransition(NONE_ANIMATION, NONE_ANIMATION)
     }
 
     private fun setClickListener() {
@@ -48,5 +48,9 @@ class TutorialDActivity : BindingActivity<ActivityTutorialDBinding>(R.layout.act
             }
             finish()
         }
+    }
+
+    companion object {
+        private const val NONE_ANIMATION = 0
     }
 }

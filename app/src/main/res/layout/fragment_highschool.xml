@@ -154,7 +154,7 @@
             app:layout_constraintTop_toBottomOf="@+id/tv_grade_second"
             tools:background="shape_black_fill_grayscales600_line_8_rect" />
 
-        <androidx.appcompat.widget.AppCompatButton
+        <TextView
             android:id="@+id/btn_highschoolinfo_next_btn"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -164,6 +164,8 @@
             android:clickable="@{!vm.highSchoolText.isEmpty() &amp; vm.highSchoolGroupText != null &amp; vm.studentIdText != null }"
             android:paddingVertical="16dp"
             android:text="@string/onboarding_btn_next"
+            android:textAlignment="center"
+            tools:background="@drawable/shape_yello_main_500_fill_100_rect"
             android:textAppearance="?textAppearanceBodyMedium"
             android:textColor="@{ vm.highSchoolText.isEmpty() || vm.highSchoolGroupText == null || vm.studentIdText == null ? @color/grayscales_700 : @color/black}"
             app:layout_constraintBottom_toBottomOf="parent"

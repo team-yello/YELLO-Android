@@ -105,12 +105,14 @@
             app:layout_constraintTop_toBottomOf="@+id/tv_department_search"
             tools:background="shape_black_fill_grayscales600_line_8_rect" />
 
-        <androidx.appcompat.widget.AppCompatButton
+        <TextView
             android:id="@+id/btn_university_info_next"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
             android:layout_marginBottom="32dp"
+            android:textAlignment="center"
+            tools:background="@drawable/shape_yello_main_500_fill_100_rect"
             android:background="@{vm.universityText.isEmpty() || vm.departmentText.isEmpty() || vm.studentIdText == null ? @drawable/shape_grayscales_800_fill_100_rect : @drawable/shape_yello_main_500_fill_100_rect}"
             android:clickable="@{!vm.universityText.isEmpty() &amp; !vm.departmentText.isEmpty() &amp; vm.studentIdText != null }"
             android:paddingVertical="16dp"

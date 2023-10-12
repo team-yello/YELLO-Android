@@ -135,13 +135,15 @@
                 app:layout_constraintTop_toBottomOf="@id/iv_student_university" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <android.widget.Button
+        <TextView
             android:id="@+id/btn_select_type_next"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
             android:layout_marginBottom="34dp"
             android:paddingVertical="16dp"
+            android:textAlignment="center"
+            tools:background="@drawable/shape_yello_main_500_fill_100_rect"
             android:background="@{vm.studentType.isEmpty() ? @drawable/shape_grayscales_800_fill_100_rect : @drawable/shape_yello_main_500_fill_100_rect}"
             android:text="@string/onboarding_btn_gender_done"
             android:clickable="@{!vm.studentType.isEmpty()}"

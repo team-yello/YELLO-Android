@@ -28,7 +28,7 @@ class TutorialAActivity : BindingActivity<ActivityTutorialABinding>(R.layout.act
 
     override fun onPause() {
         super.onPause()
-        overridePendingTransition(0, 0)
+        overridePendingTransition(NONE_ANIMATION, NONE_ANIMATION)
     }
 
     private fun setClickListener() {
@@ -49,7 +49,7 @@ class TutorialAActivity : BindingActivity<ActivityTutorialABinding>(R.layout.act
             Intent(context, TutorialAActivity::class.java).apply {
                 putExtra("isFromOnBoarding", isFromOnBoarding)
             }
-
         const val EXTRA_FROM_ONBOARDING = "isFromOnBoarding"
+        private const val NONE_ANIMATION = 0
     }
 }

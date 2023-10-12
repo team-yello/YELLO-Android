@@ -107,8 +107,8 @@ materialDesign = { group = "com.google.android.material", name = "material", ver
 
 hilt = { group = "com.google.dagger", name = "hilt-android", version.ref = "hiltVersion" }
 hilt-workmanager = { group = "androidx.hilt", name = "hilt-work", version.ref = "hiltVersion" }
-hilt-androidcompiler = { group = "com.google.dagger", name = "hilt-compiler", version.ref = "hiltVersion" }
-hilt-workmanager-compiler = { group = "androidx.hilt", name = "hilt-compiler", version.ref = "hiltWorkManagerVersion" }
+hiltAndroidCompiler = { group = "com.google.dagger", name = "hilt-compiler", version.ref = "hiltVersion" }
+hiltWorkManagerCompiler = { group = "androidx.hilt", name = "hilt-compiler", version.ref = "hiltWorkManagerVersion" }
 
 coil = { group = "io.coil-kt", name = "coil", version.ref = "coilVersion" }
 retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofitVersion" }
@@ -206,9 +206,25 @@ compose = [
     "compose-coil",
     "compose-lottie"
 ]
+
+kakao = [
+    "kakaoLogin", "kakaoAuth", "kakaoTalk", "kakaoShare"
+]
+
+appModuleLibraryEtc = [
+    "coil",
+    "timber",
+    "progressView",
+    "balloon",
+    "lottie",
+    "circular-progressBar",
+    "circleIndicator",
+    "shimmer",
+    "amplitude"
+]
 okhttp = ["okhttp", "okhttp-logging-interceptor"]
-firebase = ["firebase-analytics", "firebase-crashlytics", "firebase-messaging", "firebase-remoteConfig"]
-flipper = ["flipper", "soloader", "flipper-network", "flipper-leakcanary", "leakCanary"]
+firebase = ["firebase-bom", "firebase-analytics", "firebase-crashlytics", "firebase-messaging", "firebase-remoteConfig"]
+flipper = ["flipper", "soloader", "flipper-network", "flipper-leakcanary"]
 retrofit = ["retrofit", "retrofit-json-converter"]
 
 

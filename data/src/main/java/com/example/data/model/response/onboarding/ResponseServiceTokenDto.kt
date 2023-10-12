@@ -1,6 +1,6 @@
 package com.example.data.model.response.onboarding
 
-import com.example.domain.entity.ServiceTokenModel
+import com.example.domain.entity.AuthTokenModel
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -14,7 +14,7 @@ data class ResponseServiceTokenDto(
     val refreshToken: String,
 ) {
 
-    fun toServiceTokenModel(): ServiceTokenModel {
-        return ServiceTokenModel(isResigned, accessToken, refreshToken)
+    fun toServiceTokenModel(): AuthTokenModel {
+        return AuthTokenModel(isResigned, accessToken, refreshToken)
     }
 }

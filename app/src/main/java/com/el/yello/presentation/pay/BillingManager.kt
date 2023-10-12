@@ -1,8 +1,6 @@
-package com.el.yello.presentation.util
+package com.el.yello.presentation.pay
 
 import android.app.Activity
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import com.android.billingclient.api.AcknowledgePurchaseParams
 import com.android.billingclient.api.BillingClient
 import com.android.billingclient.api.BillingClient.ProductType
@@ -23,20 +21,22 @@ import com.el.yello.presentation.pay.PayActivity.Companion.YELLO_PLUS
 import com.el.yello.presentation.pay.PayActivity.Companion.YELLO_TWO
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 
 class BillingManager(private val activity: Activity, private val callback: BillingCallback) {
 
-    private val _isPurchaseStarted = MutableLiveData<Boolean>()
-    val isPurchaseStarted: LiveData<Boolean> = _isPurchaseStarted
+    private val _isPurchasing = MutableStateFlow(false)
+    val isPurchasing: StateFlow<Boolean> = _isPurchasing
 
     // 결제 시 작동하는 리스너
     private val purchasesUpdatedListener =
         PurchasesUpdatedListener { billingResult, purchases ->
             if (billingResult.responseCode == BillingClient.BillingResponseCode.OK && purchases != null) {
-                _isPurchaseStarted.value = true
+                setIsPurchaseStarted(true)
                 for (purchase in purchases) {
                     confirmPurchase(purchase)
                 }
@@ -69,8 +69,8 @@ class BillingManager(private val activity: Activity, private val callback: Billi
     }
 
     // 로딩 로티뷰 돌리기 위한 상태값 저장 초기화
-    fun setIsPurchasingOff() {
-        _isPurchaseStarted.value = false
+    fun setIsPurchaseStarted(boolean: Boolean) {
+        _isPurchasing.value = boolean
     }
 
     // 결과로 받을 상품 정보 받아오기

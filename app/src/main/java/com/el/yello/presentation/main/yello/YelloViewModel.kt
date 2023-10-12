@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.domain.entity.ResponsePurchaseInfoModel
+import com.example.domain.entity.PayInfoModel
 import com.example.domain.entity.type.YelloState
 import com.example.domain.entity.type.YelloState.Lock
 import com.example.domain.entity.type.YelloState.Valid
@@ -45,8 +45,8 @@ class YelloViewModel @Inject constructor(
     private val isDecreasing: Boolean
         get() = _isDecreasing.value ?: false
 
-    private val _getPurchaseInfoState = MutableLiveData<UiState<ResponsePurchaseInfoModel?>>()
-    val getPurchaseInfoState: LiveData<UiState<ResponsePurchaseInfoModel?>> = _getPurchaseInfoState
+    private val _getPurchaseInfoState = MutableLiveData<UiState<PayInfoModel?>>()
+    val getPurchaseInfoState: LiveData<UiState<PayInfoModel?>> = _getPurchaseInfoState
 
     private fun decreaseTime() {
         leftTime.value ?: return

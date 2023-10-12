@@ -6,6 +6,7 @@ import com.example.data.remote.service.OnboardingService
 import com.example.data.remote.service.PayService
 import com.example.data.remote.service.ProfileService
 import com.example.data.remote.service.RecommendService
+import com.example.data.remote.service.SearchService
 import com.example.data.remote.service.VoteService
 import com.example.data.remote.service.YelloService
 import dagger.Module
@@ -42,6 +43,11 @@ object ServiceModule {
     @Singleton
     fun provideRecommendService(retrofit: Retrofit): RecommendService =
         retrofit.create(RecommendService::class.java)
+
+    @Provides
+    @Singleton
+    fun provideSearchService(retrofit: Retrofit): SearchService =
+        retrofit.create(SearchService::class.java)
 
     @Provides
     @Singleton

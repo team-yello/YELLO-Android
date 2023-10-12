@@ -1,6 +1,6 @@
 package com.example.domain.entity
 
-data class RecommendSearchModel(
+data class SearchListModel(
     val totalCount: Int,
     val friendList: List<SearchFriendModel>
 ) {

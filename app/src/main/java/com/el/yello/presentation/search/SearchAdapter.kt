@@ -1,26 +1,26 @@
-package com.el.yello.presentation.main.recommend.search
+package com.el.yello.presentation.search
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import com.el.yello.databinding.ItemRecommendSearchBinding
-import com.example.domain.entity.RecommendSearchModel.SearchFriendModel
+import com.example.domain.entity.SearchListModel.SearchFriendModel
 import com.example.ui.view.ItemDiffCallback
 
-class RecommendSearchAdapter(
-    private val itemClick: (SearchFriendModel, Int, RecommendSearchViewHolder) -> Unit
-) :
-    ListAdapter<SearchFriendModel, RecommendSearchViewHolder>(diffUtil) {
+class SearchAdapter(
+    private val itemClick: (SearchFriendModel, Int, SearchViewHolder) -> Unit
+) : ListAdapter<SearchFriendModel, SearchViewHolder>(diffUtil) {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecommendSearchViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchViewHolder {
         val inflater by lazy { LayoutInflater.from(parent.context) }
         val binding: ItemRecommendSearchBinding =
             ItemRecommendSearchBinding.inflate(inflater, parent, false)
-        return RecommendSearchViewHolder(binding, itemClick)
+        return SearchViewHolder(binding, itemClick)
     }
 
-    override fun onBindViewHolder(holder: RecommendSearchViewHolder, position: Int) {
-        holder.onBind(getItem(position), position)
+    override fun onBindViewHolder(holder: SearchViewHolder, position: Int) {
+        val item = getItem(position) ?: return
+        holder.onBind(item, position)
     }
 
     fun addList(newItems: List<SearchFriendModel>) {

@@ -1,6 +1,6 @@
 package com.example.domain.entity
 
-data class ResponsePaySubsModel(
+data class PaySubsModel(
     val productId : String,
     val expiredAt: String
 )

@@ -1,7 +1,7 @@
 package com.example.domain.repository
 
-import com.example.domain.entity.RequestServiceTokenModel
-import com.example.domain.entity.ServiceTokenModel
+import com.example.domain.entity.AuthTokenRequestModel
+import com.example.domain.entity.AuthTokenModel
 import com.example.domain.entity.onboarding.AddFriendListModel
 import com.example.domain.entity.onboarding.GroupHighSchool
 import com.example.domain.entity.onboarding.GroupList
@@ -13,8 +13,8 @@ import com.example.domain.entity.onboarding.UserInfo
 
 interface OnboardingRepository {
     suspend fun postTokenToServiceToken(
-        requestServiceTokenModel: RequestServiceTokenModel,
-    ): Result<ServiceTokenModel?>
+        authTokenRequestModel: AuthTokenRequestModel,
+    ): Result<AuthTokenModel?>
 
     suspend fun getSchoolList(
         keyword: String,

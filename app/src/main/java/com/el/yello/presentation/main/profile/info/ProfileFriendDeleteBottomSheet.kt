@@ -3,6 +3,7 @@ package com.el.yello.presentation.main.profile.info
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import coil.load
 import coil.transform.CircleCropTransformation
 import com.el.yello.R
@@ -12,6 +13,8 @@ import com.example.ui.base.BindingBottomSheetDialog
 import com.example.ui.fragment.toast
 import com.example.ui.view.UiState
 import com.example.ui.view.setOnSingleClickListener
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 class ProfileFriendDeleteBottomSheet :
     BindingBottomSheetDialog<FragmentProfileDeleteBottomSheetBinding>(R.layout.fragment_profile_delete_bottom_sheet) {
@@ -34,10 +37,10 @@ class ProfileFriendDeleteBottomSheet :
     }
 
     private fun setItemImage() {
-        if (viewModel.clickedItemThumbnail.value == ProfileViewModel.BASIC_THUMBNAIL) {
+        if (viewModel.clickedUserData.profileImageUrl == ProfileViewModel.BASIC_THUMBNAIL) {
             binding.ivProfileFriendDeleteThumbnail.load(R.drawable.img_yello_basic)
         } else {
-            binding.ivProfileFriendDeleteThumbnail.load(viewModel.clickedItemThumbnail.value) {
+            binding.ivProfileFriendDeleteThumbnail.load(viewModel.clickedUserData.profileImageUrl) {
                 transformations(CircleCropTransformation())
             }
         }
@@ -51,7 +54,7 @@ class ProfileFriendDeleteBottomSheet :
 
     private fun initDeleteBtnListener() {
         binding.btnProfileFriendDeleteResume.setOnSingleClickListener {
-            viewModel.clickedItemId.value?.let { friendId ->
+            viewModel.clickedUserData.userId.let { friendId ->
                 viewModel.deleteFriendDataToServer(friendId)
             }
         }
@@ -59,26 +62,28 @@ class ProfileFriendDeleteBottomSheet :
 
     // 친구 삭제 서버 통신 성공 시 토스트 띄우고 바텀시트 종료
     private fun observeFriendDeleteState() {
-        viewModel.deleteFriendState.observe(viewLifecycleOwner) { state ->
-            when (state) {
-                is UiState.Success -> {
-                    toast(
-                        getString(
-                            R.string.profile_delete_bottom_sheet_toast,
-                            viewModel.clickedItemName.value.toString()
+        lifecycleScope.launch {
+            viewModel.deleteFriendState.collectLatest { state ->
+                when (state) {
+                    is UiState.Success -> {
+                        toast(
+                            getString(
+                                R.string.profile_delete_bottom_sheet_toast,
+                                viewModel.clickedUserData.name
+                            )
                         )
-                    )
-                    viewModel.setDeleteFriendStateEmpty()
-                    this@ProfileFriendDeleteBottomSheet.dismiss()
+                        viewModel.setDeleteFriendStateEmpty()
+                        this@ProfileFriendDeleteBottomSheet.dismiss()
+                    }
+
+                    is UiState.Failure -> {
+                        toast(getString(R.string.profile_error_delete_friend))
+                    }
+
+                    is UiState.Loading -> {}
+
+                    is UiState.Empty -> {}
                 }
-
-                is UiState.Failure -> {
-                    toast(getString(R.string.profile_error_delete_friend))
-                }
-
-                is UiState.Loading -> {}
-
-                is UiState.Empty -> {}
             }
         }
     }

@@ -12,8 +12,6 @@ import com.android.billingclient.api.ProductDetails
 import com.android.billingclient.api.Purchase
 import com.el.yello.R
 import com.el.yello.databinding.ActivityPayBinding
-import com.el.yello.presentation.util.BillingCallback
-import com.el.yello.presentation.util.BillingManager
 import com.el.yello.util.amplitude.AmplitudeUtils
 import com.example.data.model.request.pay.toRequestPayModel
 import com.example.ui.base.BindingActivity
@@ -22,6 +20,7 @@ import com.example.ui.view.UiState
 import com.example.ui.view.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.json.JSONObject
 import timber.log.Timber
@@ -44,30 +43,19 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
     private var paySubsDialog: PaySubsDialog? = null
     private var payInAppDialog: PayInAppDialog? = null
 
-    private var isSubscribed = false
-    private var ticketCount = 0
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         initView()
-        initEvent()
-        setBannerOnChangeListener()
+        initPurchaseBtnListener()
+        initBannerOnChangeListener()
+        viewModel.getPurchaseInfoFromServer()
         setBannerAutoScroll()
         setBillingManager()
-        observeIsPurchasedStarted()
+        observeIsPurchasing()
+        observePurchaseInfoState()
         observeCheckSubsState()
         observeCheckInAppState()
-        observeCheckIsSubscribed()
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        _adapter = null
-        _manager?.billingClient?.endConnection()
-        _manager = null
-        payInAppDialog?.dismiss()
-        paySubsDialog?.dismiss()
     }
 
     private fun initView() {
@@ -76,8 +64,24 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
         binding.dotIndicator.setViewPager(binding.vpBanner)
         binding.tvOriginalPrice.paintFlags =
             binding.tvOriginalPrice.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
-        viewModel.isFirstCreated = true
-        viewModel.getPurchaseInfoFromServer()
+    }
+
+    private fun initPurchaseBtnListener() {
+        binding.clSubscribe.setOnSingleClickListener { startPurchase("subscribe", YELLO_PLUS) }
+        binding.clNameCheckOne.setOnSingleClickListener { startPurchase("ticket1", YELLO_ONE) }
+        binding.clNameCheckTwo.setOnSingleClickListener { startPurchase("ticket2", YELLO_TWO) }
+        binding.clNameCheckFive.setOnSingleClickListener { startPurchase("ticket5", YELLO_FIVE) }
+        binding.ivBack.setOnSingleClickListener { finish() }
+    }
+
+    private fun startPurchase(amplitude: String, productId: String) {
+        setClickShopBuyAmplitude(amplitude)
+        productDetailsList.withIndex().find { it.value.productId == productId }
+            ?.let { productDetails ->
+                manager.purchaseProduct(productDetails.index, productDetails.value)
+            } ?: also {
+            toast(getString(R.string.pay_error_no_item))
+        }
     }
 
     // BillingManager 설정 시 BillingClient 연결 & 콜백 응답 설정 -> 검증 진행
@@ -92,7 +96,7 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
                 }
 
                 override fun onSuccess(purchase: Purchase) {
-                    if (purchase.products[0] == "yello_plus_subscribe") {
+                    if (purchase.products[0] == YELLO_PLUS) {
                         viewModel.checkSubsToServer(purchase.toRequestPayModel())
                     } else {
                         viewModel.checkInAppToServer(purchase.toRequestPayModel())
@@ -118,7 +122,7 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
         }
     }
 
-    private fun setBannerOnChangeListener() {
+    private fun initBannerOnChangeListener() {
         binding.vpBanner.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             private var currentPosition = 0
             private var currentState = 0
@@ -142,10 +146,8 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
 
             private fun setNextPage() {
                 val lastPosition = 2
-                // 첫번째 화면이면 마지막 화면으로 이동
                 if (currentPosition == 0) {
                     binding.vpBanner.currentItem = lastPosition
-                    // 마지막 화면이면 첫번째 화면으로 이동
                 } else if (currentPosition == lastPosition) {
                     binding.vpBanner.currentItem = 0
                 }
@@ -153,132 +155,114 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
         })
     }
 
-    private fun initEvent() {
-        binding.clSubscribe.setOnSingleClickListener {
-            setClickShopBuyAmplitude("subscribe")
-            productDetailsList.withIndex().find { it.value.productId == YELLO_PLUS }
-                ?.let { productDetails ->
-                    manager.purchaseProduct(productDetails.index, productDetails.value)
-                } ?: also {
-                toast(getString(R.string.pay_error_no_item))
+    // 구매 완료 이후 검증 완료까지 로딩 로티 실행
+    private fun observeIsPurchasing() {
+        lifecycleScope.launch {
+            manager.isPurchasing.collectLatest { isPurchasing ->
+                if (isPurchasing) startLoadingScreen()
             }
-        }
-
-        binding.clNameCheckOne.setOnSingleClickListener {
-            setClickShopBuyAmplitude("ticket1")
-            productDetailsList.withIndex().find { it.value.productId == YELLO_ONE }
-                ?.let { productDetails ->
-                    manager.purchaseProduct(productDetails.index, productDetails.value)
-                } ?: also {
-                toast(getString(R.string.pay_error_no_item))
-            }
-        }
-
-        binding.clNameCheckTwo.setOnSingleClickListener {
-            setClickShopBuyAmplitude("ticket2")
-            productDetailsList.withIndex().find { it.value.productId == YELLO_TWO }
-                ?.let { productDetails ->
-                    manager.purchaseProduct(productDetails.index, productDetails.value)
-                } ?: also {
-                toast(getString(R.string.pay_error_no_item))
-            }
-        }
-
-        binding.clNameCheckFive.setOnSingleClickListener {
-            setClickShopBuyAmplitude("ticket5")
-            productDetailsList.withIndex().find { it.value.productId == YELLO_FIVE }
-                ?.let { productDetails ->
-                    manager.purchaseProduct(productDetails.index, productDetails.value)
-                } ?: also {
-                toast(getString(R.string.pay_error_no_item))
-            }
-        }
-
-        binding.ivBack.setOnSingleClickListener {
-            finish()
         }
     }
 
-    // 구매 완료 이후 검증 완료까지 로딩 로티 실행
-    private fun observeIsPurchasedStarted() {
-        manager.isPurchaseStarted.observe(this) { boolean ->
-            if (boolean == true) startLoadingScreen()
+    // 구독 여부 확인해서 화면 표시 변경
+    private fun observePurchaseInfoState() {
+        lifecycleScope.launch {
+            viewModel.getPurchaseInfoState.collectLatest { state ->
+                when (state) {
+                    is UiState.Success -> {
+                        binding.layoutShowSubs.visibility =
+                            if (state.data?.isSubscribe == true) View.VISIBLE else View.GONE
+                        viewModel.setTicketCount(state.data?.ticketCount ?: 0)
+                    }
+
+                    is UiState.Failure -> {
+                        binding.layoutShowSubs.visibility = View.GONE
+                    }
+
+                    is UiState.Loading -> {}
+
+                    is UiState.Empty -> {}
+                }
+            }
         }
     }
 
     // 구독 상품 검증 옵저버
     private fun observeCheckSubsState() {
-        viewModel.postSubsCheckState.observe(this) { state ->
-            stopLoadingScreen()
-            when (state) {
-                is UiState.Success -> {
-                    setCompleteShopBuyAmplitude("subscribe", "3900")
-                    AmplitudeUtils.setUserDataProperties("user_buy_date")
-                    isSubscribed = true
-                    paySubsDialog = PaySubsDialog()
-                    paySubsDialog?.show(supportFragmentManager, DIALOG_SUBS)
-                }
-
-                is UiState.Failure -> {
-                    stopLoadingScreen()
-                    if (state.msg == SERVER_ERROR) {
-                        showErrorDialog()
-                    } else {
-                        toast(getString(R.string.pay_check_error))
+        lifecycleScope.launch {
+            viewModel.postSubsCheckState.collectLatest { state ->
+                stopLoadingScreen()
+                when (state) {
+                    is UiState.Success -> {
+                        setCompleteShopBuyAmplitude("subscribe", "3900")
+                        paySubsDialog = PaySubsDialog()
+                        paySubsDialog?.show(supportFragmentManager, DIALOG_SUBS)
+                        AmplitudeUtils.setUserDataProperties("user_buy_date")
                     }
+
+                    is UiState.Failure -> {
+                        stopLoadingScreen()
+                        if (state.msg == SERVER_ERROR) {
+                            showErrorDialog()
+                        } else {
+                            toast(getString(R.string.pay_check_error))
+                        }
+                    }
+
+                    is UiState.Loading -> {}
+
+                    is UiState.Empty -> {}
                 }
-
-                is UiState.Loading -> {}
-
-                is UiState.Empty -> {}
             }
         }
     }
 
     // 인앱(소비성) 상품 검증 옵저버
     private fun observeCheckInAppState() {
-        viewModel.postInAppCheckState.observe(this) { state ->
-            when (state) {
-                is UiState.Success -> {
-                    stopLoadingScreen()
-                    when (state.data?.productId) {
-                        "yello_ticket_one" -> {
-                            setCompleteShopBuyAmplitude("ticket1", "1400")
-                            ticketCount += 1
-                        }
+        lifecycleScope.launch {
+            viewModel.postInAppCheckState.collectLatest { state ->
+                when (state) {
+                    is UiState.Success -> {
+                        stopLoadingScreen()
+                        when (state.data?.productId) {
+                            YELLO_ONE -> {
+                                setCompleteShopBuyAmplitude("ticket1", "1400")
+                                viewModel.addTicketCount(1)
+                            }
 
-                        "yello_ticket_two" -> {
-                            setCompleteShopBuyAmplitude("ticket2", "2800")
-                            ticketCount += 2
-                        }
+                            YELLO_TWO -> {
+                                setCompleteShopBuyAmplitude("ticket2", "2800")
+                                viewModel.addTicketCount(2)
+                            }
 
-                        "yello_ticket_five" -> {
-                            setCompleteShopBuyAmplitude("ticket5", "5900")
-                            ticketCount += 5
-                        }
+                            YELLO_FIVE -> {
+                                setCompleteShopBuyAmplitude("ticket5", "5900")
+                                viewModel.addTicketCount(5)
+                            }
 
-                        else -> {
-                            return@observe
+                            else -> {
+                                return@collectLatest
+                            }
+                        }
+                        viewModel.currentInAppItem = state.data?.productId ?: ""
+                        payInAppDialog = PayInAppDialog()
+                        payInAppDialog?.show(supportFragmentManager, DIALOG_IN_APP)
+                        AmplitudeUtils.setUserDataProperties("user_buy_date")
+                    }
+
+                    is UiState.Failure -> {
+                        stopLoadingScreen()
+                        if (state.msg == SERVER_ERROR) {
+                            showErrorDialog()
+                        } else {
+                            toast(getString(R.string.pay_check_error))
                         }
                     }
-                    AmplitudeUtils.setUserDataProperties("user_buy_date")
-                    viewModel.currentInAppItem = state.data?.productId ?: ""
-                    payInAppDialog = PayInAppDialog()
-                    payInAppDialog?.show(supportFragmentManager, DIALOG_IN_APP)
+
+                    is UiState.Loading -> {}
+
+                    is UiState.Empty -> {}
                 }
-
-                is UiState.Failure -> {
-                    stopLoadingScreen()
-                    if (state.msg == SERVER_ERROR) {
-                        showErrorDialog()
-                    } else {
-                        toast(getString(R.string.pay_check_error))
-                    }
-                }
-
-                is UiState.Loading -> {}
-
-                is UiState.Empty -> {}
             }
         }
     }
@@ -292,7 +276,7 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
     }
 
     private fun stopLoadingScreen() {
-        manager.setIsPurchasingOff()
+        manager.setIsPurchaseStarted(false)
         binding.layoutPayCheckLoading.visibility = View.GONE
         window?.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
     }
@@ -303,32 +287,6 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
             .setMessage(getString(R.string.pay_error_dialog_msg))
             .setPositiveButton(getString(R.string.pay_error_dialog_btn)) { dialog, _ -> dialog.dismiss() }
             .create().show()
-    }
-
-    // 구독 여부 확인해서 화면 표시 변경
-    private fun observeCheckIsSubscribed() {
-        viewModel.getPurchaseInfoState.observe(this) { state ->
-            when (state) {
-                is UiState.Success -> {
-                    if (state.data?.isSubscribe == true) {
-                        binding.layoutShowSubs.visibility = View.VISIBLE
-                        isSubscribed = true
-                    } else {
-                        binding.layoutShowSubs.visibility = View.GONE
-                        isSubscribed = false
-                    }
-                    ticketCount = state.data?.ticketCount ?: 0
-                }
-
-                is UiState.Failure -> {
-                    binding.layoutShowSubs.visibility = View.GONE
-                }
-
-                is UiState.Loading -> {}
-
-                is UiState.Empty -> {}
-            }
-        }
     }
 
     private fun setClickShopBuyAmplitude(buyType: String) {
@@ -346,9 +304,18 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
     }
 
     override fun finish() {
-        intent.putExtra("ticketCount", ticketCount)
+        intent.putExtra("ticketCount", viewModel.ticketCount)
         setResult(RESULT_OK, intent)
         super.finish()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _adapter = null
+        _manager?.billingClient?.endConnection()
+        _manager = null
+        payInAppDialog?.dismiss()
+        paySubsDialog?.dismiss()
     }
 
     companion object {

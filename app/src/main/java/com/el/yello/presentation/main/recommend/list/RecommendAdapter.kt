@@ -5,12 +5,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.el.yello.databinding.ItemRecommendListBinding
-import com.example.domain.entity.RecommendModel.RecommendFriend
+import com.example.domain.entity.RecommendListModel.RecommendFriend
 
 class RecommendAdapter(
     private val itemClick: (RecommendFriend, Int, RecommendViewHolder) -> (Unit),
-) :
-    RecyclerView.Adapter<RecommendViewHolder>() {
+) : RecyclerView.Adapter<RecommendViewHolder>() {
 
     private var itemList = mutableListOf<RecommendFriend>()
 

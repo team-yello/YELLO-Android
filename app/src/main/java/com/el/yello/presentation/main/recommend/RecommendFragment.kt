@@ -10,7 +10,7 @@ import com.el.yello.presentation.main.recommend.kakao.RecommendKakaoFragment
 import com.el.yello.presentation.main.recommend.kakao.RecommendKakaoViewModel
 import com.el.yello.presentation.main.recommend.school.RecommendSchoolFragment
 import com.el.yello.presentation.main.recommend.school.RecommendSchoolViewModel
-import com.el.yello.presentation.main.recommend.search.RecommendSearchActivity
+import com.el.yello.presentation.search.SearchActivity
 import com.el.yello.util.amplitude.AmplitudeUtils
 import com.example.ui.base.BindingFragment
 import com.example.ui.view.setOnSingleClickListener
@@ -35,9 +35,9 @@ class RecommendFragment : BindingFragment<FragmentRecommendBinding>(R.layout.fra
     private fun initSearchBtnListener() {
         binding.btnRecommendSearch.setOnSingleClickListener {
             AmplitudeUtils.trackEventWithProperties("click_search_button")
-            kakaoViewModel.updateIsSearchViewShowed(true)
-            schoolViewModel.updateIsSearchViewShowed(true)
-            Intent(activity, RecommendSearchActivity::class.java).apply {
+            kakaoViewModel.isSearchViewShowed = true
+            schoolViewModel.isSearchViewShowed = true
+            Intent(activity, SearchActivity::class.java).apply {
                 addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                 startActivity(this)
             }

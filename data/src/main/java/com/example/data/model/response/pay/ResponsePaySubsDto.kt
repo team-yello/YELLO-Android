@@ -1,6 +1,6 @@
 package com.example.data.model.response.pay
 
-import com.example.domain.entity.ResponsePaySubsModel
+import com.example.domain.entity.PaySubsModel
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -11,8 +11,8 @@ data class ResponsePaySubsDto(
     @SerialName("expiredAt")
     val expiredAt: String
 ) {
-    fun toResponsePaySubsModel(): ResponsePaySubsModel {
-        return ResponsePaySubsModel(
+    fun toResponsePaySubsModel(): PaySubsModel {
+        return PaySubsModel(
             productId, expiredAt
         )
     }

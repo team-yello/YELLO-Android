@@ -11,6 +11,7 @@ import ext.getVersionCatalog
 import ext.implementation
 import ext.kapt
 import ext.testImplementation
+import org.gradle.api.JavaVersion
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
@@ -102,8 +103,8 @@ class AndroidApplicationPlugin : Plugin<Project> {
                 }
 
                 compileOptions {
-                    sourceCompatibility = Constants.javaVersion
-                    targetCompatibility = Constants.javaVersion
+                    sourceCompatibility = JavaVersion.VERSION_17
+                    targetCompatibility = JavaVersion.VERSION_17
                 }
             }
 
@@ -113,6 +114,7 @@ class AndroidApplicationPlugin : Plugin<Project> {
                 implementation(libs.getBundle("androidx"))
 
                 // firebase
+                implementation(platform(libs.getLibrary("firebase-bom")))
                 implementation(libs.getBundle("firebase"))
 
                 // flipper
@@ -146,5 +148,4 @@ class AndroidApplicationPlugin : Plugin<Project> {
                 implementation(libs.getBundle("appModuleLibraryEtc"))
             }
         }
-
 }

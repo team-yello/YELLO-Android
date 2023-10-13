@@ -18,8 +18,12 @@ gradlePlugin {
             id = "yello.android.application"
             implementationClass = "plugins.AndroidApplicationPlugin"
         }
+        register("androidLibrary") {
+            id = "yello.android.library"
+            implementationClass = "plugins.AndroidLibraryPlugin"
+        }
         register("androidHilt") {
-            id = "yello.android.hilt"
+            id = "yello.android.androidHilt"
             implementationClass = "plugins.AndroidHiltPlugin"
         }
         register("androidKotlin") {

@@ -10,10 +10,12 @@ import com.el.yello.presentation.onboarding.activity.OnBoardingActivity
 import com.el.yello.presentation.onboarding.activity.OnBoardingViewModel
 import com.el.yello.presentation.onboarding.fragment.highschoolinfo.group.GroupDialogFragment
 import com.el.yello.presentation.onboarding.fragment.highschoolinfo.school.SearchDialogHighSchoolFragment
+import com.el.yello.util.amplitude.AmplitudeUtils
 import com.el.yello.util.context.yelloSnackbar
 import com.example.domain.enum.GradeEnum
 import com.example.ui.base.BindingFragment
 import com.example.ui.view.setOnSingleClickListener
+import org.json.JSONObject
 
 class HighSchoolInfoFragment :
     BindingFragment<FragmentHighschoolBinding>(R.layout.fragment_highschool) {
@@ -98,8 +100,16 @@ class HighSchoolInfoFragment :
     private fun setConfirmBtnClickListener() {
         binding.btnHighschoolinfoNextBtn.setOnSingleClickListener {
             findNavController().navigate(R.id.action_highschoolInfoFragment_to_yelIoIdFragment)
+            amplitudeHighSchoolInfo()
             val activity = requireActivity() as OnBoardingActivity
             activity.progressBarPlus()
         }
+    }
+
+    private fun amplitudeHighSchoolInfo() {
+        AmplitudeUtils.trackEventWithProperties(
+            "click_onboarding_next",
+            JSONObject().put("onboard_view", "school"),
+        )
     }
 }

@@ -42,6 +42,8 @@ class SelectStudentFragment :
                     binding.tvStudentUniversity.setTextColor(resources.getColor(R.color.grayscales_700))
                     binding.btnSelectTypeNext.setOnSingleClickListener {
                         findNavController().navigate(R.id.action_selectStudentFragment_to_highschoolInfoFragment)
+                        amplitudeSelectStudent()
+                        AmplitudeUtils.updateUserProperties("user_student_type", "highschool")
                         val activity = requireActivity() as OnBoardingActivity
                         activity.progressBarPlus()
                     }
@@ -56,6 +58,7 @@ class SelectStudentFragment :
                     binding.btnSelectTypeNext.setOnSingleClickListener {
                         findNavController().navigate(R.id.action_selectStudentFragment_to_universityInfoFragment)
                         amplitudeSelectStudent()
+                        AmplitudeUtils.updateUserProperties("user_student_type", "university")
                         val activity = requireActivity() as OnBoardingActivity
                         activity.progressBarPlus()
                     }

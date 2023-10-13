@@ -111,5 +111,8 @@ class HighSchoolInfoFragment :
             "click_onboarding_next",
             JSONObject().put("onboard_view", "school"),
         )
+        AmplitudeUtils.updateUserProperties("user_school", viewModel.highSchool)
+        AmplitudeUtils.updateUserProperties("user_department", viewModel.highSchoolGroupState.toString())
+        AmplitudeUtils.updateUserIntProperties("user_grade", viewModel.studentId)
     }
 }

@@ -166,6 +166,12 @@ jUnit = { group = "junit", name = "junit", version.ref = "junitVersion" }
 androidTest = { group = "androidx.test.ext", name = "junit", version.ref = "androidTestVersion" }
 espresso = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoVersion" }
 
+# 사용될 플러그인
+[plugins]
+androidApplication = { id = "com.android.application", version.ref = "gradlePlugin" }
+androidLibrary = { id = "com.android.library", version.ref = "gradlePlugin" }
+androidKotlin = { id = "org.jetbrains.kotlin.android", version.ref = "kotlinVersion" }
+androidHilt = { id = "com.google.dagger.hilt.android", version.ref = "hiltVersion" }
 
 [bundles]
 kotlin = ["kotlin", "kotlin-coroutines", "kotlin-serialization-json", "kotlin-datetime"]
@@ -223,9 +229,6 @@ appModuleLibraryEtc = [
     "amplitude"
 ]
 okhttp = ["okhttp", "okhttp-logging-interceptor"]
-firebase = ["firebase-bom", "firebase-analytics", "firebase-crashlytics", "firebase-messaging", "firebase-remoteConfig"]
+firebase = ["firebase-analytics", "firebase-crashlytics", "firebase-messaging", "firebase-remoteConfig"]
 flipper = ["flipper", "soloader", "flipper-network", "flipper-leakcanary"]
 retrofit = ["retrofit", "retrofit-json-converter"]
-
-
-

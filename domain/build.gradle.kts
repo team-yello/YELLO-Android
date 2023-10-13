@@ -10,17 +10,7 @@ java {
 }
 
 dependencies {
-    KotlinDependencies.run {
-        implementation(kotlin)
-        implementation(coroutines)
-        implementation(dateTime)
-    }
-
-    ThirdPartyDependencies.run {
-        implementation(hiltCore)
-    }
-
-    KaptDependencies.run {
-        kapt(hiltCompiler)
-    }
+    implementation(libs.bundles.kotlin)
+    implementation(libs.hiltCore)
+    kapt(libs.hiltAndroidCompiler)
 }

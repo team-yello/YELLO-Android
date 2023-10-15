@@ -18,7 +18,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import timber.log.Timber
@@ -34,33 +33,30 @@ class ProfileViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val _getUserDataState = MutableStateFlow<UiState<ProfileUserModel>>(UiState.Empty)
-    val getUserDataState: StateFlow<UiState<ProfileUserModel>> = _getUserDataState.asStateFlow()
+    val getUserDataState: StateFlow<UiState<ProfileUserModel>> = _getUserDataState
 
-    private val _getFriendListState =
-        MutableStateFlow<UiState<ProfileFriendsListModel?>>(UiState.Empty)
-    val getFriendListState: StateFlow<UiState<ProfileFriendsListModel?>> =
-        _getFriendListState.asStateFlow()
+    private val _getFriendListState = MutableStateFlow<UiState<ProfileFriendsListModel>>(UiState.Empty)
+    val getFriendListState: StateFlow<UiState<ProfileFriendsListModel?>> = _getFriendListState
 
     private val _deleteUserState = MutableStateFlow<UiState<Unit>>(UiState.Empty)
-    val deleteUserState: StateFlow<UiState<Unit>> = _deleteUserState.asStateFlow()
+    val deleteUserState: StateFlow<UiState<Unit>> = _deleteUserState
 
     private val _deleteFriendState = MutableStateFlow<UiState<Unit>>(UiState.Empty)
-    val deleteFriendState: StateFlow<UiState<Unit>> = _deleteFriendState.asStateFlow()
+    val deleteFriendState: StateFlow<UiState<Unit>> = _deleteFriendState
 
     private val _kakaoLogoutState = MutableStateFlow<UiState<Unit>>(UiState.Empty)
-    val kakaoLogoutState: StateFlow<UiState<Unit>> = _kakaoLogoutState.asStateFlow()
+    val kakaoLogoutState: StateFlow<UiState<Unit>> = _kakaoLogoutState
 
     private val _kakaoQuitState = MutableStateFlow<UiState<Unit>>(UiState.Empty)
-    val kakaoQuitState: StateFlow<UiState<Unit>> = _kakaoQuitState.asStateFlow()
+    val kakaoQuitState: StateFlow<UiState<Unit>> = _kakaoQuitState
 
-    private val _getPurchaseInfoState = MutableStateFlow<UiState<PayInfoModel?>>(UiState.Empty)
-    val getPurchaseInfoState: StateFlow<UiState<PayInfoModel?>> =
-        _getPurchaseInfoState.asStateFlow()
+    private val _getPurchaseInfoState = MutableStateFlow<UiState<PayInfoModel>>(UiState.Empty)
+    val getPurchaseInfoState: StateFlow<UiState<PayInfoModel?>> = _getPurchaseInfoState
 
     var isSubscribed: Boolean = false
 
     private val _voteCount = MutableStateFlow<UiState<VoteCount>>(UiState.Loading)
-    val voteCount: StateFlow<UiState<VoteCount>> = _voteCount.asStateFlow()
+    val voteCount: StateFlow<UiState<VoteCount>> = _voteCount
 
     var isItemBottomSheetRunning: Boolean = false
 

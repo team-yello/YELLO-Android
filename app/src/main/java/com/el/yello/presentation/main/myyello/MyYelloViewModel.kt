@@ -55,7 +55,8 @@ class MyYelloViewModel @Inject constructor(
     fun getMyYelloList() {
         if (isPagingFinish) return
         viewModelScope.launch {
-            repository.getMyYelloList(++currentPage).onSuccess {
+            repository.getMyYelloList(++currentPage)
+                .onSuccess {
                     if (it == null) {
                         _myYelloData.value = UiState.Empty
                         return@launch
@@ -68,7 +69,8 @@ class MyYelloViewModel @Inject constructor(
                     }
                     _totalCount.value = it.totalCount
                     setAmplitude(it)
-                }.onFailure {
+                }
+                .onFailure {
                     _myYelloData.value = UiState.Failure("내 쪽지 목록 서버 통신 실패")
                 }
         }
@@ -76,9 +78,11 @@ class MyYelloViewModel @Inject constructor(
 
     fun getVoteCount() {
         viewModelScope.launch {
-            repository.voteCount().onSuccess {
+            repository.voteCount()
+                .onSuccess {
                     if (it != null) _voteCount.value = UiState.Success(it)
-                }.onFailure {
+                }
+                .onFailure {
                     _voteCount.value = UiState.Failure(it.message.toString())
                 }
         }

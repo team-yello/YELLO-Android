@@ -6,6 +6,7 @@ import android.view.View
 import android.view.WindowManager
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
+import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.widget.ViewPager2
 import com.android.billingclient.api.ProductDetails
@@ -20,7 +21,8 @@ import com.example.ui.view.UiState
 import com.example.ui.view.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import org.json.JSONObject
 import timber.log.Timber
@@ -157,17 +159,16 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
 
     // 구매 완료 이후 검증 완료까지 로딩 로티 실행
     private fun observeIsPurchasing() {
-        lifecycleScope.launch {
-            manager.isPurchasing.collectLatest { isPurchasing ->
+        manager.isPurchasing.flowWithLifecycle(lifecycle)
+            .onEach { isPurchasing ->
                 if (isPurchasing) startLoadingScreen()
-            }
-        }
+            }.launchIn(lifecycleScope)
     }
 
     // 구독 여부 확인해서 화면 표시 변경
     private fun observePurchaseInfoState() {
-        lifecycleScope.launch {
-            viewModel.getPurchaseInfoState.collectLatest { state ->
+        viewModel.getPurchaseInfoState.flowWithLifecycle(lifecycle)
+            .onEach { state ->
                 when (state) {
                     is UiState.Success -> {
                         binding.layoutShowSubs.visibility =
@@ -179,18 +180,17 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
                         binding.layoutShowSubs.visibility = View.GONE
                     }
 
-                    is UiState.Loading -> {}
+                    is UiState.Loading -> return@onEach
 
-                    is UiState.Empty -> {}
+                    is UiState.Empty -> return@onEach
                 }
-            }
-        }
+            }.launchIn(lifecycleScope)
     }
 
     // 구독 상품 검증 옵저버
     private fun observeCheckSubsState() {
-        lifecycleScope.launch {
-            viewModel.postSubsCheckState.collectLatest { state ->
+        viewModel.postSubsCheckState.flowWithLifecycle(lifecycle)
+            .onEach { state ->
                 stopLoadingScreen()
                 when (state) {
                     is UiState.Success -> {
@@ -209,18 +209,17 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
                         }
                     }
 
-                    is UiState.Loading -> {}
+                    is UiState.Loading -> return@onEach
 
-                    is UiState.Empty -> {}
+                    is UiState.Empty -> return@onEach
                 }
             }
-        }
     }
 
     // 인앱(소비성) 상품 검증 옵저버
     private fun observeCheckInAppState() {
-        lifecycleScope.launch {
-            viewModel.postInAppCheckState.collectLatest { state ->
+        viewModel.postInAppCheckState.flowWithLifecycle(lifecycle)
+            .onEach { state ->
                 when (state) {
                     is UiState.Success -> {
                         stopLoadingScreen()
@@ -240,9 +239,7 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
                                 viewModel.addTicketCount(5)
                             }
 
-                            else -> {
-                                return@collectLatest
-                            }
+                            else -> return@onEach
                         }
                         viewModel.currentInAppItem = state.data?.productId ?: ""
                         payInAppDialog = PayInAppDialog()
@@ -259,12 +256,11 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
                         }
                     }
 
-                    is UiState.Loading -> {}
+                    is UiState.Loading -> return@onEach
 
-                    is UiState.Empty -> {}
+                    is UiState.Empty -> return@onEach
                 }
-            }
-        }
+            }.launchIn(lifecycleScope)
     }
 
     private fun startLoadingScreen() {

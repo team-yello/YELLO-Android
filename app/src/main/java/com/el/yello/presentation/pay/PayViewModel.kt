@@ -12,7 +12,6 @@ import com.example.ui.view.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -24,18 +23,16 @@ class PayViewModel @Inject constructor(
     var currentInAppItem: String = ""
 
     private val _postSubsCheckState = MutableStateFlow<UiState<PaySubsModel?>>(UiState.Empty)
-    val postSubsCheckState: StateFlow<UiState<PaySubsModel?>> = _postSubsCheckState.asStateFlow()
+    val postSubsCheckState: StateFlow<UiState<PaySubsModel?>> = _postSubsCheckState
 
     private val _postInAppCheckState = MutableStateFlow<UiState<PayInAppModel?>>(UiState.Empty)
-    val postInAppCheckState: StateFlow<UiState<PayInAppModel?>> = _postInAppCheckState.asStateFlow()
+    val postInAppCheckState: StateFlow<UiState<PayInAppModel?>> = _postInAppCheckState
 
     private val _getSubsNeededState = MutableStateFlow<UiState<PaySubsNeededModel?>>(UiState.Empty)
-    val getSubsNeededState: StateFlow<UiState<PaySubsNeededModel?>> =
-        _getSubsNeededState.asStateFlow()
+    val getSubsNeededState: StateFlow<UiState<PaySubsNeededModel?>> = _getSubsNeededState
 
     private val _getPurchaseInfoState = MutableStateFlow<UiState<PayInfoModel?>>(UiState.Empty)
-    val getPurchaseInfoState: StateFlow<UiState<PayInfoModel?>> =
-        _getPurchaseInfoState.asStateFlow()
+    val getPurchaseInfoState: StateFlow<UiState<PayInfoModel?>> = _getPurchaseInfoState
 
     var ticketCount = 0
         private set

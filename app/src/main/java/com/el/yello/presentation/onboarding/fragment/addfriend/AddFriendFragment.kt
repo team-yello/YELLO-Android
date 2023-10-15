@@ -3,6 +3,8 @@ package com.el.yello.presentation.onboarding.fragment.addfriend
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.flowWithLifecycle
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -17,6 +19,8 @@ import com.example.ui.fragment.toast
 import com.example.ui.view.UiState
 import com.example.ui.view.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import org.json.JSONObject
 
 @AndroidEntryPoint
@@ -63,8 +67,7 @@ class AddFriendFragment : BindingFragment<FragmentAddFriendBinding>(R.layout.fra
                 "click_onboarding_next",
                 JSONObject().put("onboard_view", "friends"),
             )
-            val activity = requireActivity() as OnBoardingActivity
-            activity.progressBarPlus()
+            (activity as? OnBoardingActivity)?.progressBarPlus()
             viewModel.selectedFriendIdList = selectedItemIdList
             findNavController().navigate(R.id.action_addFriendFragment_to_codeFragment)
         }
@@ -84,10 +87,7 @@ class AddFriendFragment : BindingFragment<FragmentAddFriendBinding>(R.layout.fra
                 super.onScrolled(recyclerView, dx, dy)
                 if (dy > 0) {
                     recyclerView.layoutManager?.let { layoutManager ->
-                        if (!binding.rvFriendList.canScrollVertically(1) &&
-                            layoutManager is LinearLayoutManager &&
-                            layoutManager.findLastVisibleItemPosition() == adapter.itemCount - 1
-                        ) {
+                        if (!binding.rvFriendList.canScrollVertically(1) && layoutManager is LinearLayoutManager && layoutManager.findLastVisibleItemPosition() == adapter.itemCount - 1) {
                             viewModel.addListWithKakaoIdList()
                         }
                     }
@@ -98,28 +98,26 @@ class AddFriendFragment : BindingFragment<FragmentAddFriendBinding>(R.layout.fra
 
     // 리스트 추가 서버 통신 성공 시 어댑터에 리스트 추가
     private fun observeAddListState() {
-        viewModel.friendListState.observe(viewLifecycleOwner) { state ->
-            when (state) {
-                is UiState.Success -> {
-                    stopShimmerView()
-                    friendsList = state.data
-                    adapter.submitList(friendsList)
-                    selectedItemIdList.addAll(friendsList.map { friend -> friend.id })
-                    viewModel.selectedFriendCount.value = friendsList.size
-                }
+        viewModel.friendListState.flowWithLifecycle(viewLifecycleOwner.lifecycle).onEach { state ->
+                when (state) {
+                    is UiState.Success -> {
+                        stopShimmerView()
+                        friendsList = state.data
+                        adapter.submitList(friendsList)
+                        selectedItemIdList.addAll(friendsList.map { friend -> friend.id })
+                        viewModel.selectedFriendCount.value = friendsList.size
+                    }
 
-                is UiState.Failure -> {
-                    stopShimmerView()
-                    toast(getString(R.string.onboarding_add_friend_error))
-                }
+                    is UiState.Failure -> {
+                        stopShimmerView()
+                        toast(getString(R.string.onboarding_add_friend_error))
+                    }
 
-                is UiState.Loading -> {
-                    startShimmerView()
-                }
+                    is UiState.Loading -> startShimmerView()
 
-                is UiState.Empty -> {}
-            }
-        }
+                    is UiState.Empty -> return@onEach
+                }
+            }.launchIn(viewLifecycleOwner.lifecycleScope)
     }
 
     private fun startShimmerView() {

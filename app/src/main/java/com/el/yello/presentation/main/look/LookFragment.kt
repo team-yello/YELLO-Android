@@ -7,6 +7,7 @@ import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.paging.LoadState
@@ -105,9 +106,9 @@ class LookFragment : BindingFragment<FragmentLookBinding>(R.layout.fragment_look
 
     private fun observeTimelinePagingList() {
         lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.getLookListWithPaging().collectLatest { adapter.submitData(it) }
-            }
+            viewModel.getLookListWithPaging()
+                .flowWithLifecycle(lifecycle)
+                .collectLatest { adapter.submitData(lifecycle, it) }
         }
     }
 

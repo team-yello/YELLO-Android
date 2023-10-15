@@ -1,10 +1,15 @@
 package com.el.yello.presentation.main.look
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
 import androidx.paging.PagingData
+import androidx.paging.cachedIn
+import com.example.data.datasource.paging.LookPagingSource
+import com.example.data.remote.service.LookService
 import com.example.domain.entity.LookListModel.LookModel
 import com.example.domain.repository.AuthRepository
-import com.example.domain.repository.LookRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -14,7 +19,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LookViewModel @Inject constructor(
-    private val lookRepository: LookRepository,
+    private val lookService: LookService,
     private val authRepository: AuthRepository
 ) : ViewModel() {
 
@@ -26,7 +31,10 @@ class LookViewModel @Inject constructor(
     }
 
     fun getLookListWithPaging(): Flow<PagingData<LookModel>> {
-        return lookRepository.getLookList()
+        return Pager(
+            config = PagingConfig(LookPagingSource.LOOK_PAGE_SIZE),
+            pagingSourceFactory = { LookPagingSource(lookService) }
+        ).flow.cachedIn(viewModelScope)
     }
 
     fun getYelloId() = authRepository.getYelloId()

@@ -272,7 +272,7 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
     }
 
     private fun stopLoadingScreen() {
-        manager.setIsPurchaseStarted(false)
+        manager.setIsPurchasing(false)
         binding.layoutPayCheckLoading.visibility = View.GONE
         window?.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
     }

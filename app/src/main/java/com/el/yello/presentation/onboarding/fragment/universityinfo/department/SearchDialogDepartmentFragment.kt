@@ -144,14 +144,18 @@ class SearchDialogDepartmentFragment :
     }
 
     private fun recyclerviewScroll() {
-        binding.rvDepartmentList.setOnTouchListener { view, motionEvent ->
-            when (motionEvent.action) {
-                MotionEvent.ACTION_MOVE -> {
-                    binding.layoutDepartmentDialog.requestDisallowInterceptTouchEvent(true)
+        binding.rvDepartmentList.addOnItemTouchListener(object : RecyclerView.OnItemTouchListener {
+            override fun onInterceptTouchEvent(rv: RecyclerView, e: MotionEvent): Boolean {
+                when (e.action) {
+                    MotionEvent.ACTION_MOVE -> {
+                        binding.layoutDepartmentDialog.requestDisallowInterceptTouchEvent(true)
+                    }
                 }
+                return false
             }
-            return@setOnTouchListener false
-        }
+            override fun onTouchEvent(rv: RecyclerView, e: MotionEvent) {}
+            override fun onRequestDisallowInterceptTouchEvent(disallowIntercept: Boolean) {}
+        })
     }
 
     override fun onDestroyView() {

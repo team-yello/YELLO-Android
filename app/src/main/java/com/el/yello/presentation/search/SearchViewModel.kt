@@ -24,7 +24,7 @@ class SearchViewModel @Inject constructor(
     val postFriendsListState: StateFlow<UiState<SearchListModel?>> = _postFriendsListState
 
     private val _addFriendState = MutableStateFlow<UiState<Unit>>(UiState.Empty)
-    val addFriendState: StateFlow<UiState<Unit>> = _addFriendState.asStateFlow()
+    val addFriendState: StateFlow<UiState<Unit>> = _addFriendState
 
     private var currentPage = -1
     private var isPagingFinish = false

@@ -8,6 +8,7 @@ import android.view.inputmethod.InputMethodManager
 import androidx.activity.viewModels
 import androidx.core.widget.doAfterTextChanged
 import androidx.core.widget.doOnTextChanged
+import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -23,7 +24,8 @@ import com.example.ui.view.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -126,8 +128,8 @@ class SearchActivity : BindingActivity<ActivitySearchBinding>(R.layout.activity_
 
     // 검색 리스트 추가 서버 통신 성공 시 어댑터에 리스트 추가
     private fun observeSearchListState() {
-        lifecycleScope.launch {
-            viewModel.postFriendsListState.collect { state ->
+        viewModel.postFriendsListState.flowWithLifecycle(lifecycle)
+            .onEach { state ->
                 when (state) {
                     is UiState.Success -> {
                         if (viewModel.isFirstLoading) {
@@ -147,12 +149,11 @@ class SearchActivity : BindingActivity<ActivitySearchBinding>(R.layout.activity_
                         showFriendListScreen()
                     }
 
-                    is UiState.Loading -> {}
+                    is UiState.Loading -> return@onEach
 
-                    is UiState.Empty -> {}
+                    is UiState.Empty -> return@onEach
                 }
-            }
-        }
+            }.launchIn(lifecycleScope)
     }
 
     // 무한 스크롤 구현
@@ -173,28 +174,24 @@ class SearchActivity : BindingActivity<ActivitySearchBinding>(R.layout.activity_
 
     // 친구 추가 서버 통신 성공 시 표시 변경
     private fun observeAddFriendState() {
-        lifecycleScope.launch {
-            viewModel.addFriendState.collectLatest { state ->
-                when (state) {
-                    is UiState.Success -> {
-                        val position = viewModel.itemPosition
-                        val holder = viewModel.itemHolder
-                        if (position != null && holder != null) {
-                            holder.binding.btnRecommendItemAdd.visibility = View.GONE
-                            holder.binding.btnRecommendItemMyFriend.visibility = View.VISIBLE
-                        }
+        viewModel.addFriendState.flowWithLifecycle(lifecycle).onEach { state ->
+            when (state) {
+                is UiState.Success -> {
+                    val position = viewModel.itemPosition
+                    val holder = viewModel.itemHolder
+                    if (position != null && holder != null) {
+                        holder.binding.btnRecommendItemAdd.visibility = View.GONE
+                        holder.binding.btnRecommendItemMyFriend.visibility = View.VISIBLE
                     }
-
-                    is UiState.Failure -> {
-                        toast(getString(R.string.recommend_error_add_friend_connection))
-                    }
-
-                    is UiState.Loading -> {}
-
-                    is UiState.Empty -> {}
                 }
+
+                is UiState.Failure -> toast(getString(R.string.recommend_error_add_friend_connection))
+
+                is UiState.Loading -> return@onEach
+
+                is UiState.Empty -> return@onEach
             }
-        }
+        }.launchIn(lifecycleScope)
     }
 
     private fun startFadeIn() {

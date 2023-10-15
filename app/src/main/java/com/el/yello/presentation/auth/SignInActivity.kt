@@ -3,6 +3,8 @@ package com.el.yello.presentation.auth
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
+import androidx.lifecycle.flowWithLifecycle
+import androidx.lifecycle.lifecycleScope
 import com.el.yello.R
 import com.el.yello.databinding.ActivitySignInBinding
 import com.el.yello.presentation.auth.SignInViewModel.Companion.FRIEND_LIST
@@ -17,6 +19,8 @@ import com.example.ui.context.toast
 import com.example.ui.view.UiState
 import com.example.ui.view.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 
 @AndroidEntryPoint
 class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_sign_in) {
@@ -52,21 +56,21 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
     }
 
     private fun observeDeviceTokenError() {
-        viewModel.getDeviceTokenError.observe(this) {
+        viewModel.getDeviceTokenError.flowWithLifecycle(lifecycle).onEach {
             toast(getString(R.string.sign_in_error_connection))
-        }
+        }.launchIn(lifecycleScope)
     }
 
     // 카카오통 앱 로그인에 실패한 경우 웹 로그인 시도
     private fun observeAppLoginError() {
-        viewModel.isAppLoginAvailable.observe(this) { available ->
+        viewModel.isAppLoginAvailable.flowWithLifecycle(lifecycle).onEach { available ->
             if (!available) viewModel.startKakaoLogIn(this)
-        }
+        }.launchIn(lifecycleScope)
     }
 
     // 서비스 토큰 교체 서버 통신 결과에 따라서 분기 처리 진행
     private fun observeChangeTokenState() {
-        viewModel.postChangeTokenState.observe(this) { state ->
+        viewModel.postChangeTokenState.flowWithLifecycle(lifecycle).onEach { state ->
             when (state) {
                 is UiState.Success -> {
                     // 200(가입된 아이디): 온보딩 뷰 생략하고 바로 메인 화면으로 이동 위해 유저 정보 받기
@@ -83,16 +87,16 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
                     }
                 }
 
-                is UiState.Loading -> {}
+                is UiState.Loading -> return@onEach
 
-                is UiState.Empty -> {}
+                is UiState.Empty -> return@onEach
             }
-        }
+        }.launchIn(lifecycleScope)
     }
 
     // Failure -> 카카오에 등록된 유저 정보 받아온 후 친구목록 동의 화면으로 이동
     private fun observeKakaoUserInfoState() {
-        viewModel.getKakaoInfoState.observe(this) { state ->
+        viewModel.getKakaoInfoState.flowWithLifecycle(lifecycle).onEach { state ->
             when (state) {
                 is UiState.Success -> {
                     userKakaoId = state.data?.id ?: 0
@@ -107,15 +111,15 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
                     yelloSnackbar(binding.root, getString(R.string.msg_error))
                 }
 
-                is UiState.Empty -> {}
+                is UiState.Empty -> return@onEach
 
-                is UiState.Loading -> {}
+                is UiState.Loading -> return@onEach
             }
-        }
+        }.launchIn(lifecycleScope)
     }
 
     private fun observeFriendsListValidState() {
-        viewModel.getKakaoValidState.observe(this) { state ->
+        viewModel.getKakaoValidState.flowWithLifecycle(lifecycle).onEach { state ->
             when (state) {
                 is UiState.Success -> {
                     val friendScope = state.data.find { it.id == FRIEND_LIST }
@@ -130,16 +134,16 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
                     yelloSnackbar(binding.root, getString(R.string.msg_error))
                 }
 
-                is UiState.Empty -> {}
+                is UiState.Empty -> return@onEach
 
-                is UiState.Loading -> {}
+                is UiState.Loading -> return@onEach
             }
-        }
+        }.launchIn(lifecycleScope)
     }
 
     // Success -> 서버에 등록된 유저 정보가 있는지 확인 후 메인 액티비티로 이동
     private fun observeUserDataState() {
-        viewModel.getUserProfileState.observe(this) { state ->
+        viewModel.getUserProfileState.flowWithLifecycle(lifecycle).onEach { state ->
             when (state) {
                 is UiState.Success -> {
                     if (viewModel.getIsFirstLoginData()) {
@@ -161,9 +165,17 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
                     yelloSnackbar(binding.root, getString(R.string.msg_error))
                 }
 
-                is UiState.Loading -> {}
+                is UiState.Loading -> return@onEach
             }
         }
+    }
+
+    private fun startMainActivity() {
+        Intent(this, MainActivity::class.java).apply {
+            addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            startActivity(this)
+        }
+        finish()
     }
 
     private fun startSocialSyncActivity() {
@@ -191,14 +203,6 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
         putExtra(EXTRA_EMAIL, userEmail)
         putExtra(EXTRA_PROFILE_IMAGE, userImage)
         addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-    }
-
-    private fun startMainActivity() {
-        Intent(this, MainActivity::class.java).apply {
-            addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-            startActivity(this)
-        }
-        finish()
     }
 
     companion object {

@@ -1,14 +1,12 @@
 package com.el.yello.presentation.auth
 
 import android.content.Context
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.el.yello.presentation.auth.SignInActivity.Companion.CODE_NOT_SIGNED_IN
 import com.el.yello.presentation.auth.SignInActivity.Companion.CODE_NO_UUID
-import com.example.domain.entity.AuthTokenRequestModel
 import com.example.domain.entity.AuthTokenModel
+import com.example.domain.entity.AuthTokenRequestModel
 import com.example.domain.repository.AuthRepository
 import com.example.domain.repository.OnboardingRepository
 import com.example.domain.repository.ProfileRepository
@@ -21,6 +19,8 @@ import com.kakao.sdk.user.UserApiClient
 import com.kakao.sdk.user.model.Scope
 import com.kakao.sdk.user.model.User
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import javax.inject.Inject
@@ -32,27 +32,27 @@ class SignInViewModel @Inject constructor(
     private val profileRepository: ProfileRepository
 ) : ViewModel() {
 
-    private val _postChangeTokenState = MutableLiveData<UiState<AuthTokenModel?>>()
-    val postChangeTokenState: LiveData<UiState<AuthTokenModel?>> = _postChangeTokenState
+    private val _postChangeTokenState = MutableStateFlow<UiState<AuthTokenModel?>>(UiState.Empty)
+    val postChangeTokenState: StateFlow<UiState<AuthTokenModel?>> = _postChangeTokenState
 
-    private val _getUserProfileState = MutableLiveData<UiState<Unit>>()
-    val getUserProfileState: LiveData<UiState<Unit>> = _getUserProfileState
+    private val _getUserProfileState = MutableStateFlow<UiState<Unit>>(UiState.Loading)
+    val getUserProfileState: StateFlow<UiState<Unit>> = _getUserProfileState
 
-    private val _getKakaoInfoState = MutableLiveData<UiState<User?>>()
-    val getKakaoInfoState: LiveData<UiState<User?>> = _getKakaoInfoState
+    private val _getKakaoInfoState = MutableStateFlow<UiState<User?>>(UiState.Empty)
+    val getKakaoInfoState: StateFlow<UiState<User?>> = _getKakaoInfoState
 
-    private val _getKakaoValidState = MutableLiveData<UiState<List<Scope>>>()
-    val getKakaoValidState: LiveData<UiState<List<Scope>>> = _getKakaoValidState
+    private val _getKakaoValidState = MutableStateFlow<UiState<List<Scope>>>(UiState.Empty)
+    val getKakaoValidState: StateFlow<UiState<List<Scope>>> = _getKakaoValidState
 
     private val serviceTermsList = listOf(THUMBNAIL, EMAIL, FRIEND_LIST, NAME, GENDER)
 
     private var deviceToken = String()
 
-    private val _getDeviceTokenError = MutableLiveData<String>()
-    val getDeviceTokenError: LiveData<String> = _getDeviceTokenError
+    private val _getDeviceTokenError = MutableStateFlow("")
+    val getDeviceTokenError: StateFlow<String> = _getDeviceTokenError
 
-    private val _isAppLoginAvailable = MutableLiveData<Boolean>()
-    val isAppLoginAvailable: LiveData<Boolean> = _isAppLoginAvailable
+    private val _isAppLoginAvailable = MutableStateFlow(true)
+    val isAppLoginAvailable: StateFlow<Boolean> = _isAppLoginAvailable
 
     var isResigned = false
         private set
@@ -85,7 +85,7 @@ class SignInViewModel @Inject constructor(
     }
 
     fun startKakaoLogIn(context: Context) {
-        if (UserApiClient.instance.isKakaoTalkLoginAvailable(context) && isAppLoginAvailable.value == true) {
+        if (UserApiClient.instance.isKakaoTalkLoginAvailable(context) && isAppLoginAvailable.value) {
             UserApiClient.instance.loginWithKakaoTalk(
                 context = context,
                 callback = appLoginCallback,
@@ -117,11 +117,13 @@ class SignInViewModel @Inject constructor(
 
     fun checkFriendsListValid() {
         val scopes = mutableListOf(FRIEND_LIST)
-        UserApiClient.instance.scopes(scopes) { scopeInfo, error->
+        UserApiClient.instance.scopes(scopes) { scopeInfo, error ->
             if (error != null) {
                 _getKakaoValidState.value = UiState.Failure(error.message.toString())
             } else if (scopeInfo != null) {
                 _getKakaoValidState.value = UiState.Success(scopeInfo.scopes ?: listOf())
+            } else {
+                _getKakaoValidState.value = UiState.Failure(ERROR)
             }
         }
     }

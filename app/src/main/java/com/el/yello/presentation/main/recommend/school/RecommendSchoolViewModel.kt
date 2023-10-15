@@ -22,10 +22,10 @@ class RecommendSchoolViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val _postFriendsListState = MutableStateFlow<UiState<RecommendListModel>>(UiState.Empty)
-    val postFriendsListState: StateFlow<UiState<RecommendListModel>> = _postFriendsListState.asStateFlow()
+    val postFriendsListState: StateFlow<UiState<RecommendListModel>> = _postFriendsListState
 
     private val _addFriendState = MutableStateFlow<UiState<Unit>>(UiState.Empty)
-    val addFriendState: StateFlow<UiState<Unit>> = _addFriendState.asStateFlow()
+    val addFriendState: StateFlow<UiState<Unit>> = _addFriendState
 
     var isSearchViewShowed = false
 

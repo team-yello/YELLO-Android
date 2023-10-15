@@ -12,7 +12,6 @@ import com.kakao.sdk.talk.TalkApiClient
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import kotlin.math.ceil
@@ -23,14 +22,14 @@ class RecommendKakaoViewModel @Inject constructor(
     private val authRepository: AuthRepository,
 ) : ViewModel() {
 
-    private val _getKakaoErrorResult = MutableStateFlow<Boolean>(false)
+    private val _getKakaoErrorResult = MutableStateFlow(false)
     val getKakaoErrorResult: StateFlow<Boolean> = _getKakaoErrorResult
 
     private val _postFriendsListState = MutableStateFlow<UiState<RecommendListModel>>(UiState.Empty)
-    val postFriendsListState: StateFlow<UiState<RecommendListModel>> = _postFriendsListState.asStateFlow()
+    val postFriendsListState: StateFlow<UiState<RecommendListModel>> = _postFriendsListState
 
     private val _addFriendState = MutableStateFlow<UiState<Unit>>(UiState.Empty)
-    val addFriendState: StateFlow<UiState<Unit>> = _addFriendState.asStateFlow()
+    val addFriendState: StateFlow<UiState<Unit>> = _addFriendState
 
     var isSearchViewShowed = false
 

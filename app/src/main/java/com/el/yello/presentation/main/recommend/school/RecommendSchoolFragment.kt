@@ -6,6 +6,7 @@ import android.view.WindowManager
 import android.view.animation.AnimationUtils
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -26,7 +27,8 @@ import com.example.ui.view.UiState
 import com.example.ui.view.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import org.json.JSONObject
 
@@ -71,12 +73,6 @@ class RecommendSchoolFragment :
             viewModel.addListFromServer()
             viewModel.isSearchViewShowed = false
         }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _adapter = null
-        dismissDialog()
     }
 
     private fun initInviteBtnListener() {
@@ -159,8 +155,8 @@ class RecommendSchoolFragment :
 
     // 추천친구 리스트 추가 서버 통신 성공 시 어댑터에 리스트 추가
     private fun observeAddListState() {
-        lifecycleScope.launch {
-            viewModel.postFriendsListState.collectLatest { state ->
+        viewModel.postFriendsListState.flowWithLifecycle(viewLifecycleOwner.lifecycle)
+            .onEach { state ->
                 when (state) {
                     is UiState.Success -> {
                         startFadeIn()
@@ -181,20 +177,17 @@ class RecommendSchoolFragment :
                         )
                     }
 
-                    is UiState.Loading -> {
-                        showShimmerScreen()
-                    }
+                    is UiState.Loading -> showShimmerScreen()
 
-                    is UiState.Empty -> {}
+                    is UiState.Empty -> return@onEach
                 }
-            }
-        }
+            }.launchIn(viewLifecycleOwner.lifecycleScope)
     }
 
     // 친구 추가 서버 통신 성공 시 리스트에서 아이템 삭제 & 서버 통신 중 액티비티 클릭 방지
     private fun observeAddFriendState() {
-        lifecycleScope.launch {
-            viewModel.addFriendState.collectLatest { state ->
+        viewModel.addFriendState.flowWithLifecycle(viewLifecycleOwner.lifecycle)
+            .onEach { state ->
                 when (state) {
                     is UiState.Success -> {
                         val position = viewModel.itemPosition
@@ -221,10 +214,9 @@ class RecommendSchoolFragment :
                         )
                     }
 
-                    is UiState.Empty -> {}
+                    is UiState.Empty -> return@onEach
                 }
-            }
-        }
+            }.launchIn(viewLifecycleOwner.lifecycleScope)
     }
 
     private fun setDeleteAnimation() {
@@ -292,6 +284,12 @@ class RecommendSchoolFragment :
 
     fun scrollToTop() {
         binding.rvRecommendSchool.smoothScrollToPosition(0)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _adapter = null
+        dismissDialog()
     }
 
     private companion object {

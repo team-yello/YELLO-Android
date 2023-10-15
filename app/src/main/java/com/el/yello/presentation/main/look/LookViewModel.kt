@@ -24,7 +24,7 @@ class LookViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val _isFirstLoading = MutableStateFlow(false)
-    val isFirstLoading: StateFlow<Boolean> = _isFirstLoading.asStateFlow()
+    val isFirstLoading: StateFlow<Boolean> = _isFirstLoading
 
     fun setFirstLoading(boolean: Boolean) {
         _isFirstLoading.value = boolean

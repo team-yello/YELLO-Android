@@ -24,7 +24,7 @@ class YelIoIdFragment : BindingFragment<FragmentYelloIdBinding>(R.layout.fragmen
         binding.vm = viewModel
         setDeleteBtnClickListener()
         setYelloIdBtnClickListener()
-        setupGetValidYelloId()
+        observeGetValidYelloIdState()
     }
 
     private fun setYelloIdBtnClickListener() {
@@ -40,7 +40,7 @@ class YelIoIdFragment : BindingFragment<FragmentYelloIdBinding>(R.layout.fragmen
         }
     }
 
-    private fun setupGetValidYelloId() {
+    private fun observeGetValidYelloIdState() {
         viewModel.getValidYelloIdState.observe(viewLifecycleOwner) { state ->
             when (state) {
                 is UiState.Success -> {
@@ -53,13 +53,10 @@ class YelIoIdFragment : BindingFragment<FragmentYelloIdBinding>(R.layout.fragmen
                     val activity = requireActivity() as OnBoardingActivity
                     activity.progressBarPlus()
                 }
-
                 is UiState.Failure -> {
                     yelloSnackbar(binding.root, getString(R.string.msg_error))
                 }
-
                 is UiState.Loading -> {}
-
                 is UiState.Empty -> {
                     yelloSnackbar(binding.root, getString(R.string.msg_error))
                 }

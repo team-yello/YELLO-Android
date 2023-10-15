@@ -70,7 +70,7 @@ class UniversityInfoFragment :
 
     private fun setupStudentId() {
         viewModel.studentIdText.observe(viewLifecycleOwner) { studentId ->
-            if (studentId in 1..3) {
+            if (studentId in OVERLAP_MIN_ID..OVERLAP_MAX_ID) {
                 binding.tvStudentidSearch.text = ""
             } else {
                 binding.tvStudentidSearch.text = getString(R.string.onboarding_student_id, studentId)
@@ -95,5 +95,9 @@ class UniversityInfoFragment :
         AmplitudeUtils.updateUserProperties("user_school", viewModel.university)
         AmplitudeUtils.updateUserProperties("user_department", viewModel.departmentState.toString())
         AmplitudeUtils.updateUserIntProperties("user_grade", viewModel.studentId)
+    }
+    companion object {
+        const val OVERLAP_MIN_ID = 1
+        const val OVERLAP_MAX_ID = 3
     }
 }

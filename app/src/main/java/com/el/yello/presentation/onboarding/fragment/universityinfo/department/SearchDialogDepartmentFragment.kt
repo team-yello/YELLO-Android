@@ -9,6 +9,7 @@ import android.view.View
 import android.view.WindowManager
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -24,6 +25,7 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
@@ -78,18 +80,19 @@ class SearchDialogDepartmentFragment :
     }
 
     private fun setupDepartmentData() {
-        viewModel.departmentState.observe(viewLifecycleOwner) { state ->
-            Timber.d("GET GROUP LIST OBSERVE : $state")
-            when (state) {
-                is UiState.Success -> {
-                    adapter?.submitList(state.data.groupList)
+        lifecycleScope.launch {
+            viewModel.departmentState.collectLatest { state ->
+                Timber.d("GET GROUP LIST OBSERVE : $state")
+                when (state) {
+                    is UiState.Success -> {
+                        adapter?.submitList(state.data.groupList)
+                    }
+                    is UiState.Failure -> {
+                        yelloSnackbar(binding.root, getString(R.string.msg_error))
+                    }
+                    is UiState.Loading -> {}
+                    is UiState.Empty -> {}
                 }
-                is UiState.Failure -> {
-                    yelloSnackbar(binding.root, getString(R.string.msg_error))
-                }
-                is UiState.Loading -> {}
-                is UiState.Empty -> {}
-                else -> {}
             }
         }
     }

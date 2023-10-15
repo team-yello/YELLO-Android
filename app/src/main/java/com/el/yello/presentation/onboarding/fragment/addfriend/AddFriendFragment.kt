@@ -26,7 +26,6 @@ import org.json.JSONObject
 @AndroidEntryPoint
 class AddFriendFragment : BindingFragment<FragmentAddFriendBinding>(R.layout.fragment_add_friend) {
     private val viewModel by activityViewModels<OnBoardingViewModel>()
-
     private var _adapter: AddFriendAdapter? = null
     private val adapter
         get() = requireNotNull(_adapter) { getString(R.string.adapter_not_initialized_error_msg) }
@@ -80,7 +79,6 @@ class AddFriendFragment : BindingFragment<FragmentAddFriendBinding>(R.layout.fra
         viewModel.addListWithKakaoIdList()
     }
 
-    // 무한 스크롤 구현
     private fun setInfinityScroll() {
         binding.rvFriendList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
@@ -99,25 +97,25 @@ class AddFriendFragment : BindingFragment<FragmentAddFriendBinding>(R.layout.fra
     // 리스트 추가 서버 통신 성공 시 어댑터에 리스트 추가
     private fun observeAddListState() {
         viewModel.friendListState.flowWithLifecycle(viewLifecycleOwner.lifecycle).onEach { state ->
-                when (state) {
-                    is UiState.Success -> {
-                        stopShimmerView()
-                        friendsList = state.data
-                        adapter.submitList(friendsList)
-                        selectedItemIdList.addAll(friendsList.map { friend -> friend.id })
-                        viewModel.selectedFriendCount.value = friendsList.size
-                    }
-
-                    is UiState.Failure -> {
-                        stopShimmerView()
-                        toast(getString(R.string.onboarding_add_friend_error))
-                    }
-
-                    is UiState.Loading -> startShimmerView()
-
-                    is UiState.Empty -> return@onEach
+            when (state) {
+                is UiState.Success -> {
+                    stopShimmerView()
+                    friendsList = state.data
+                    adapter.submitList(friendsList)
+                    selectedItemIdList.addAll(friendsList.map { friend -> friend.id })
+                    viewModel.selectedFriendCount.value = friendsList.size
                 }
-            }.launchIn(viewLifecycleOwner.lifecycleScope)
+
+                is UiState.Failure -> {
+                    stopShimmerView()
+                    toast(getString(R.string.onboarding_add_friend_error))
+                }
+
+                is UiState.Loading -> startShimmerView()
+
+                is UiState.Empty -> return@onEach
+            }
+        }.launchIn(viewLifecycleOwner.lifecycleScope)
     }
 
     private fun startShimmerView() {

@@ -112,7 +112,7 @@ class HighSchoolInfoFragment :
             JSONObject().put("onboard_view", "school"),
         )
         AmplitudeUtils.updateUserProperties("user_school", viewModel.highSchool)
-        AmplitudeUtils.updateUserProperties("user_department", viewModel.highSchoolGroupState.toString())
+        AmplitudeUtils.updateUserProperties("user_department", viewModel.highSchoolGroupText.value.toString())
         AmplitudeUtils.updateUserIntProperties("user_grade", viewModel.studentId)
     }
 }

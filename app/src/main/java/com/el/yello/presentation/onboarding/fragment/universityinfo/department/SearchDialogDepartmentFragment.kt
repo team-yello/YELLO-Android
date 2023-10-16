@@ -4,12 +4,12 @@ import android.app.Dialog
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.view.WindowManager
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -26,7 +26,8 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
@@ -81,20 +82,23 @@ class SearchDialogDepartmentFragment :
     }
 
     private fun setupDepartmentData() {
-        lifecycleScope.launch {
-            viewModel.departmentState.collectLatest { state ->
-                Timber.d("GET GROUP LIST OBSERVE : $state")
-                when (state) {
-                    is UiState.Success -> {
-                        adapter?.submitList(state.data.groupList)
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.departmentState.flowWithLifecycle(viewLifecycleOwner.lifecycle)
+                .onEach { state ->
+                    Timber.d("GET GROUP LIST OBSERVE : $state")
+                    when (state) {
+                        is UiState.Success -> {
+                            adapter?.submitList(state.data.groupList)
+                        }
+
+                        is UiState.Failure -> {
+                            yelloSnackbar(binding.root, getString(R.string.msg_error))
+                        }
+
+                        is UiState.Loading -> return@onEach
+                        is UiState.Empty -> return@onEach
                     }
-                    is UiState.Failure -> {
-                        yelloSnackbar(binding.root, getString(R.string.msg_error))
-                    }
-                    is UiState.Loading -> {}
-                    is UiState.Empty -> {}
-                }
-            }
+                }.launchIn(viewLifecycleOwner.lifecycleScope)
         }
     }
 

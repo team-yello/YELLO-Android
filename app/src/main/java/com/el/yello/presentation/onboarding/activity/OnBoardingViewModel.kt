@@ -77,7 +77,6 @@ class OnBoardingViewModel @Inject constructor(
     val departmentState: StateFlow<UiState<GroupList>> = _departmentState
 
     private val _highSchoolGroupState = MutableLiveData<UiState<GroupHighSchool?>>()
-    val highSchoolGroupState: LiveData<UiState<GroupHighSchool?>> = _highSchoolGroupState
 
     private val _highSchoolGroupList: MutableLiveData<List<String>> = MutableLiveData()
     val highSchoolGroupList: LiveData<List<String>> = _highSchoolGroupList

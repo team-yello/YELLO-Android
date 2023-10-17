@@ -93,7 +93,7 @@ class UniversityInfoFragment :
             JSONObject().put("onboard_view", "school"),
         )
         AmplitudeUtils.updateUserProperties("user_school", viewModel.university)
-        AmplitudeUtils.updateUserProperties("user_department", viewModel.departmentState.toString())
+        AmplitudeUtils.updateUserProperties("user_department", viewModel.departmentText.value.toString())
         AmplitudeUtils.updateUserIntProperties("user_grade", viewModel.studentId)
     }
     companion object {

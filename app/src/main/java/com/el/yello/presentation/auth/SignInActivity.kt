@@ -28,10 +28,10 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
     private val viewModel by viewModels<SignInViewModel>()
 
     private var userKakaoId: Long = 0
-    private var userName: String = ""
-    private var userGender: String = ""
-    private var userEmail: String = ""
-    private var userImage: String = ""
+    private var userName: String = String()
+    private var userGender: String = String()
+    private var userEmail: String = String()
+    private var userImage: String = String()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,8 +56,8 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
     }
 
     private fun observeDeviceTokenError() {
-        viewModel.getDeviceTokenError.flowWithLifecycle(lifecycle).onEach {
-            toast(getString(R.string.sign_in_error_connection))
+        viewModel.getDeviceTokenError.flowWithLifecycle(lifecycle).onEach { error ->
+            if (error) toast(getString(R.string.sign_in_error_connection))
         }.launchIn(lifecycleScope)
     }
 
@@ -82,7 +82,7 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
                         // 403, 404 : 온보딩 뷰로 이동 위해 카카오 유저 정보 얻기
                         viewModel.getKakaoInfo()
                     } else {
-                        // 401 : 에러 발생
+                        // 나머지 : 에러 발생
                         toast(getString(R.string.sign_in_error_connection))
                     }
                 }
@@ -107,9 +107,7 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
                     viewModel.checkFriendsListValid()
                 }
 
-                is UiState.Failure -> {
-                    yelloSnackbar(binding.root, getString(R.string.msg_error))
-                }
+                is UiState.Failure -> yelloSnackbar(binding.root, getString(R.string.msg_error))
 
                 is UiState.Empty -> return@onEach
 
@@ -130,9 +128,7 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
                     }
                 }
 
-                is UiState.Failure -> {
-                    yelloSnackbar(binding.root, getString(R.string.msg_error))
-                }
+                is UiState.Failure -> yelloSnackbar(binding.root, getString(R.string.msg_error))
 
                 is UiState.Empty -> return@onEach
 
@@ -157,17 +153,13 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
                     }
                 }
 
-                is UiState.Failure -> {
-                    yelloSnackbar(binding.root, getString(R.string.msg_error))
-                }
+                is UiState.Failure -> yelloSnackbar(binding.root, getString(R.string.msg_error))
 
-                is UiState.Empty -> {
-                    yelloSnackbar(binding.root, getString(R.string.msg_error))
-                }
+                is UiState.Empty -> return@onEach
 
                 is UiState.Loading -> return@onEach
             }
-        }
+        }.launchIn(lifecycleScope)
     }
 
     private fun startMainActivity() {

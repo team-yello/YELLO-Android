@@ -7,6 +7,7 @@ import com.el.yello.presentation.auth.SignInActivity.Companion.CODE_NOT_SIGNED_I
 import com.el.yello.presentation.auth.SignInActivity.Companion.CODE_NO_UUID
 import com.example.domain.entity.AuthTokenModel
 import com.example.domain.entity.AuthTokenRequestModel
+import com.example.domain.entity.ProfileUserModel
 import com.example.domain.repository.AuthRepository
 import com.example.domain.repository.OnboardingRepository
 import com.example.domain.repository.ProfileRepository
@@ -32,13 +33,13 @@ class SignInViewModel @Inject constructor(
     private val profileRepository: ProfileRepository
 ) : ViewModel() {
 
-    private val _postChangeTokenState = MutableStateFlow<UiState<AuthTokenModel?>>(UiState.Empty)
+    private val _postChangeTokenState = MutableStateFlow<UiState<AuthTokenModel>>(UiState.Empty)
     val postChangeTokenState: StateFlow<UiState<AuthTokenModel?>> = _postChangeTokenState
 
-    private val _getUserProfileState = MutableStateFlow<UiState<Unit>>(UiState.Loading)
-    val getUserProfileState: StateFlow<UiState<Unit>> = _getUserProfileState
+    private val _getUserProfileState = MutableStateFlow<UiState<ProfileUserModel>>(UiState.Empty)
+    val getUserProfileState: StateFlow<UiState<ProfileUserModel>> = _getUserProfileState
 
-    private val _getKakaoInfoState = MutableStateFlow<UiState<User?>>(UiState.Empty)
+    private val _getKakaoInfoState = MutableStateFlow<UiState<User>>(UiState.Empty)
     val getKakaoInfoState: StateFlow<UiState<User?>> = _getKakaoInfoState
 
     private val _getKakaoValidState = MutableStateFlow<UiState<List<Scope>>>(UiState.Empty)
@@ -48,8 +49,8 @@ class SignInViewModel @Inject constructor(
 
     private var deviceToken = String()
 
-    private val _getDeviceTokenError = MutableStateFlow("")
-    val getDeviceTokenError: StateFlow<String> = _getDeviceTokenError
+    private val _getDeviceTokenError = MutableStateFlow(false)
+    val getDeviceTokenError: StateFlow<Boolean> = _getDeviceTokenError
 
     private val _isAppLoginAvailable = MutableStateFlow(true)
     val isAppLoginAvailable: StateFlow<Boolean> = _isAppLoginAvailable
@@ -82,6 +83,7 @@ class SignInViewModel @Inject constructor(
 
     fun initLoginState() {
         _isAppLoginAvailable.value = true
+        _getDeviceTokenError.value = false
     }
 
     fun startKakaoLogIn(context: Context) {
@@ -117,6 +119,7 @@ class SignInViewModel @Inject constructor(
 
     fun checkFriendsListValid() {
         val scopes = mutableListOf(FRIEND_LIST)
+        _getKakaoValidState.value = UiState.Loading
         UserApiClient.instance.scopes(scopes) { scopeInfo, error ->
             if (error != null) {
                 _getKakaoValidState.value = UiState.Failure(error.message.toString())
@@ -134,8 +137,8 @@ class SignInViewModel @Inject constructor(
         social: String = KAKAO,
         deviceToken: String
     ) {
+        _postChangeTokenState.value = UiState.Loading
         viewModelScope.launch {
-            _postChangeTokenState.value = UiState.Loading
             onboardingRepository.postTokenToServiceToken(
                 AuthTokenRequestModel(accessToken, social, deviceToken),
             )
@@ -161,15 +164,14 @@ class SignInViewModel @Inject constructor(
 
     // 서버통신 - (가입되어 있는) 유저 정보 가져오기
     fun getUserDataFromServer() {
+        _getUserProfileState.value = UiState.Loading
         viewModelScope.launch {
             profileRepository.getUserData()
                 .onSuccess { profile ->
-                    if (profile == null) {
-                        _getUserProfileState.value = UiState.Empty
-                        return@launch
+                    if (profile != null) {
+                        _getUserProfileState.value = UiState.Success(profile)
+                        authRepository.setYelloId(profile.yelloId)
                     }
-                    _getUserProfileState.value = UiState.Success(Unit)
-                    authRepository.setYelloId(profile.yelloId)
                 }
                 .onFailure { t ->
                     if (t is HttpException) {
@@ -186,14 +188,12 @@ class SignInViewModel @Inject constructor(
                 deviceToken = task.result
                 authRepository.setDeviceToken(deviceToken)
             } else {
-                _getDeviceTokenError.value = task.result
+                _getDeviceTokenError.value = true
             }
         }
     }
 
-    fun getIsFirstLoginData(): Boolean {
-        return authRepository.getIsFirstLoginData()
-    }
+    fun getIsFirstLoginData() = authRepository.getIsFirstLoginData()
 
     companion object {
         const val KAKAO = "KAKAO"

@@ -9,7 +9,6 @@ import com.example.ui.view.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import kotlin.math.ceil
@@ -20,8 +19,8 @@ class SearchViewModel @Inject constructor(
     private val searchRepository: SearchRepository,
 ) : ViewModel() {
 
-    private val _postFriendsListState = MutableStateFlow<UiState<SearchListModel?>>(UiState.Empty)
-    val postFriendsListState: StateFlow<UiState<SearchListModel?>> = _postFriendsListState
+    private val _postFriendsListState = MutableStateFlow<UiState<SearchListModel>>(UiState.Empty)
+    val postFriendsListState: StateFlow<UiState<SearchListModel>> = _postFriendsListState
 
     private val _addFriendState = MutableStateFlow<UiState<Unit>>(UiState.Empty)
     val addFriendState: StateFlow<UiState<Unit>> = _addFriendState
@@ -62,22 +61,22 @@ class SearchViewModel @Inject constructor(
                     if (totalPage == currentPage) isPagingFinish = true
                     _postFriendsListState.value = UiState.Success(it)
                 }
-                .onFailure {
-                    _postFriendsListState.value = UiState.Failure(it.message.toString())
+                .onFailure { t ->
+                    _postFriendsListState.value = UiState.Failure(t.message.toString())
                 }
         }
     }
 
     // 서버 통신 - 친구 추가
     fun addFriendToServer(friendId: Long) {
+        _addFriendState.value = UiState.Loading
         viewModelScope.launch {
-            _addFriendState.value = UiState.Loading
             recommendRepository.postFriendAdd(friendId)
                 .onSuccess {
                     _addFriendState.value = UiState.Success(it)
                 }
-                .onFailure {
-                    _addFriendState.value = UiState.Failure(it.message.toString())
+                .onFailure { t ->
+                    _addFriendState.value = UiState.Failure(t.message.toString())
                 }
         }
     }

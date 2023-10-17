@@ -6,6 +6,7 @@ import android.view.View
 import android.view.animation.AnimationUtils
 import android.view.inputmethod.InputMethodManager
 import androidx.activity.viewModels
+import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
 import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.flowWithLifecycle
@@ -136,10 +137,10 @@ class SearchActivity : BindingActivity<ActivitySearchBinding>(R.layout.activity_
                             startFadeIn()
                             viewModel.isFirstLoading = false
                         }
-                        if (state.data?.friendList?.size == 0) {
+                        if (state.data.friendList.isEmpty()) {
                             showNoFriendScreen()
                         } else {
-                            adapter.addList(state.data?.friendList ?: listOf())
+                            adapter.addList(state.data.friendList)
                             showFriendListScreen()
                         }
                     }
@@ -200,21 +201,27 @@ class SearchActivity : BindingActivity<ActivitySearchBinding>(R.layout.activity_
     }
 
     private fun showFriendListScreen() {
-        binding.layoutSearchSwipe.visibility = View.VISIBLE
-        binding.layoutRecommendSearchLoading.visibility = View.GONE
-        binding.layoutRecommendNoSearch.visibility = View.GONE
+        with(binding) {
+            layoutSearchSwipe.isVisible = true
+            layoutRecommendSearchLoading.isVisible = false
+            layoutRecommendNoSearch.isVisible = false
+        }
     }
 
     private fun showLoadingScreen() {
-        binding.layoutSearchSwipe.visibility = View.GONE
-        binding.layoutRecommendSearchLoading.visibility = View.VISIBLE
-        binding.layoutRecommendNoSearch.visibility = View.GONE
+        with(binding) {
+            layoutSearchSwipe.isVisible = false
+            layoutRecommendSearchLoading.isVisible = true
+            layoutRecommendNoSearch.isVisible = false
+        }
     }
 
     private fun showNoFriendScreen() {
-        binding.layoutSearchSwipe.visibility = View.GONE
-        binding.layoutRecommendSearchLoading.visibility = View.GONE
-        binding.layoutRecommendNoSearch.visibility = View.VISIBLE
+        with(binding) {
+            layoutSearchSwipe.isVisible = false
+            layoutRecommendSearchLoading.isVisible = false
+            layoutRecommendNoSearch.isVisible = true
+        }
     }
 
     override fun onDestroy() {

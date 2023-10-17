@@ -110,7 +110,9 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
 
             // 리스트 아이템 클릭 리스너 설정 - 클릭된 아이템 값 저장 뷰모델 이후 바텀 시트 출력
             viewModel.setItemPosition(position)
-            viewModel.clickedUserData = profileUserModel
+            viewModel.clickedUserData = profileUserModel.apply {
+                if (!this.yelloId.startsWith("@")) this.yelloId = "@" + this.yelloId
+            }
 
             if (!viewModel.isItemBottomSheetRunning) {
                 AmplitudeUtils.trackEventWithProperties("click_profile_friend")
@@ -159,7 +161,9 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
         viewModel.getUserDataState.flowWithLifecycle(viewLifecycleOwner.lifecycle).onEach { state ->
             when (state) {
                 is UiState.Success -> {
-                    viewModel.myUserData = state.data
+                    viewModel.myUserData = state.data.apply {
+                        if (!this.yelloId.startsWith("@")) this.yelloId = "@" + this.yelloId
+                    }
                     viewModel.myFriendCount = state.data.friendCount
                 }
 

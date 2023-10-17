@@ -61,7 +61,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
             android:layout_marginTop="16dp"
-            android:text="@{@string/profile_yello_id(vm.clickedUserData.yelloId)}"
+            android:text="@{vm.clickedUserData.yelloId}"
             android:textAppearance="?textAppearanceLabelLarge"
             android:textColor="@color/yello_main_500"
             app:layout_constraintBaseline_toBaselineOf="@id/tv_profile_friend_name"

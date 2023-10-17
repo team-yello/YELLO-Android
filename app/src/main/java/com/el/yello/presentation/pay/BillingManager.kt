@@ -4,6 +4,8 @@ import android.app.Activity
 import com.android.billingclient.api.AcknowledgePurchaseParams
 import com.android.billingclient.api.BillingClient
 import com.android.billingclient.api.BillingClient.ProductType
+import com.android.billingclient.api.BillingClient.ProductType.INAPP
+import com.android.billingclient.api.BillingClient.ProductType.SUBS
 import com.android.billingclient.api.BillingClientStateListener
 import com.android.billingclient.api.BillingFlowParams
 import com.android.billingclient.api.BillingResult
@@ -24,6 +26,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 
@@ -44,10 +47,8 @@ class BillingManager(private val activity: Activity, private val callback: Billi
 
     // 결제 라이브러리 통신 위한 BillingClient 초기화
     val billingClient =
-        BillingClient.newBuilder(activity.applicationContext)
-            .setListener(purchasesUpdatedListener)
-            .enablePendingPurchases()
-            .build()
+        BillingClient.newBuilder(activity.applicationContext).setListener(purchasesUpdatedListener)
+            .enablePendingPurchases().build()
 
     // BillingClient을 결제 라이브러리에 연결
     init {
@@ -73,44 +74,41 @@ class BillingManager(private val activity: Activity, private val callback: Billi
 
     // 결과로 받을 상품 정보 받아오기
     suspend fun getProductDetails(resultBlock: (List<ProductDetails>) -> Unit = {}) {
-        val productDetails = mutableListOf<ProductDetails>()
-        val subsProductDetails = getSubsProductDetails()
-        productDetails.addAll(subsProductDetails)
-        val inAppProductDetails = getInAppProductDetails()
-        productDetails.addAll(inAppProductDetails)
-        resultBlock(productDetails)
+        runBlocking {
+            val subsProducts = withContext(Dispatchers.IO) { getSubsProductDetails() }
+            val inAppProducts = withContext(Dispatchers.IO) { getInAppProductDetails() }
+            resultBlock(subsProducts + inAppProducts)
+        }
     }
 
     private suspend fun getSubsProductDetails(): List<ProductDetails> {
         val subsProductList = ArrayList<Product>().apply {
             add(
-                Product.newBuilder().setProductId(YELLO_PLUS).setProductType(ProductType.SUBS)
-                    .build()
+                Product.newBuilder().setProductId(YELLO_PLUS).setProductType(SUBS).build()
             )
         }
-        val subsList = withContext(Dispatchers.Main) {
+        val subsProductDetailList = withContext(Dispatchers.IO) {
             billingClient.queryProductDetails(
                 QueryProductDetailsParams.newBuilder().setProductList(subsProductList).build()
             ).productDetailsList
         } ?: listOf()
-        return subsList
+        return subsProductDetailList
     }
 
     private suspend fun getInAppProductDetails(): List<ProductDetails> {
         val inAppProductList = ArrayList<Product>().apply {
             listOf(YELLO_ONE, YELLO_TWO, YELLO_FIVE).forEach { productId ->
                 add(
-                    Product.newBuilder().setProductId(productId).setProductType(ProductType.INAPP)
-                        .build()
+                    Product.newBuilder().setProductId(productId).setProductType(INAPP).build()
                 )
             }
         }
-        val inAppList = withContext(Dispatchers.Main) {
+        val inAppProductDetailList = withContext(Dispatchers.IO) {
             billingClient.queryProductDetails(
                 QueryProductDetailsParams.newBuilder().setProductList(inAppProductList).build()
             ).productDetailsList
         } ?: listOf()
-        return inAppList
+        return inAppProductDetailList
     }
 
     // 구매 진행
@@ -120,7 +118,7 @@ class BillingManager(private val activity: Activity, private val callback: Billi
 
         val productDetailsParamsList = listOf(
             BillingFlowParams.ProductDetailsParams.newBuilder().setProductDetails(productDetails)
-                .setOfferToken(offerToken.toString()).build()
+                .setOfferToken(offerToken ?: "").build()
         )
         val billingFlowParams =
             BillingFlowParams.newBuilder().setProductDetailsParamsList(productDetailsParamsList)

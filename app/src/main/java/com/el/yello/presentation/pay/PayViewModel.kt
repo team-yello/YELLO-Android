@@ -20,7 +20,7 @@ class PayViewModel @Inject constructor(
     private val payRepository: PayRepository
 ) : ViewModel() {
 
-    var currentInAppItem: String = ""
+    var currentInAppItem = String()
 
     private val _postSubsCheckState = MutableStateFlow<UiState<PaySubsModel?>>(UiState.Empty)
     val postSubsCheckState: StateFlow<UiState<PaySubsModel?>> = _postSubsCheckState

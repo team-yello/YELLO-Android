@@ -36,7 +36,7 @@ class ProfileViewModel @Inject constructor(
     val getUserDataState: StateFlow<UiState<ProfileUserModel>> = _getUserDataState
 
     private val _getFriendListState = MutableStateFlow<UiState<ProfileFriendsListModel>>(UiState.Empty)
-    val getFriendListState: StateFlow<UiState<ProfileFriendsListModel?>> = _getFriendListState
+    val getFriendListState: StateFlow<UiState<ProfileFriendsListModel>> = _getFriendListState
 
     private val _deleteUserState = MutableStateFlow<UiState<Unit>>(UiState.Empty)
     val deleteUserState: StateFlow<UiState<Unit>> = _deleteUserState
@@ -51,7 +51,7 @@ class ProfileViewModel @Inject constructor(
     val kakaoQuitState: StateFlow<UiState<Unit>> = _kakaoQuitState
 
     private val _getPurchaseInfoState = MutableStateFlow<UiState<PayInfoModel>>(UiState.Empty)
-    val getPurchaseInfoState: StateFlow<UiState<PayInfoModel?>> = _getPurchaseInfoState
+    val getPurchaseInfoState: StateFlow<UiState<PayInfoModel>> = _getPurchaseInfoState
 
     var isSubscribed: Boolean = false
 

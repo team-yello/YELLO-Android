@@ -4,6 +4,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import androidx.activity.viewModels
+import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import com.el.yello.BuildConfig
 import com.el.yello.R
@@ -16,10 +17,10 @@ import com.example.ui.view.UiState
 import com.example.ui.view.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import org.json.JSONObject
-import timber.log.Timber
 
 @AndroidEntryPoint
 class ProfileManageActivity :
@@ -72,16 +73,13 @@ class ProfileManageActivity :
     }
 
     private fun initBackBtnListener() {
-        binding.btnProfileManageBack.setOnSingleClickListener {
-            finish()
-        }
+        binding.btnProfileManageBack.setOnSingleClickListener { finish() }
     }
 
     private fun initQuitBtnListener() {
         binding.btnProfileManageQuit.setOnSingleClickListener {
             AmplitudeUtils.trackEventWithProperties(
-                "click_profile_withdrawal",
-                JSONObject().put("withdrawal_button", "withdrawal1")
+                "click_profile_withdrawal", JSONObject().put("withdrawal_button", "withdrawal1")
             )
             Intent(this, ProfileQuitOneActivity::class.java).apply {
                 addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
@@ -97,28 +95,23 @@ class ProfileManageActivity :
     }
 
     private fun observeKakaoLogoutState() {
-        lifecycleScope.launch {
-            viewModel.kakaoLogoutState.collectLatest { state ->
-                when (state) {
-                    is UiState.Success -> {
-                        AmplitudeUtils.trackEventWithProperties("complete_profile_logout")
-                        lifecycleScope.launch {
-                            delay(500)
-                            restartApp()
-                        }
+        viewModel.kakaoLogoutState.flowWithLifecycle(lifecycle).onEach { state ->
+            when (state) {
+                is UiState.Success -> {
+                    AmplitudeUtils.trackEventWithProperties("complete_profile_logout")
+                    lifecycleScope.launch {
+                        delay(500)
+                        restartApp()
                     }
-
-                    is UiState.Failure -> {
-                        yelloSnackbar(binding.root, getString(R.string.msg_error))
-                        Timber.d(getString(R.string.profile_error_logout, state.msg))
-                    }
-
-                    is UiState.Empty -> {}
-
-                    is UiState.Loading -> {}
                 }
+
+                is UiState.Failure -> yelloSnackbar(binding.root, getString(R.string.msg_error))
+
+                is UiState.Empty -> return@onEach
+
+                is UiState.Loading -> return@onEach
             }
-        }
+        }.launchIn(lifecycleScope)
     }
 
     private fun restartApp() {
@@ -128,11 +121,8 @@ class ProfileManageActivity :
     }
 
     companion object {
-        const val CUSTOMER_CENTER_URL =
-            "http://pf.kakao.com/_pcFzG/chat"
-        const val PRIVACY_URL =
-            "https://yell0.notion.site/97f57eaed6c749bbb134c7e8dc81ab3f"
-        const val SERVICE_URL =
-            "https://yell0.notion.site/2afc2a1e60774dfdb47c4d459f01b1d9"
+        const val CUSTOMER_CENTER_URL = "http://pf.kakao.com/_pcFzG/chat"
+        const val PRIVACY_URL = "https://yell0.notion.site/97f57eaed6c749bbb134c7e8dc81ab3f"
+        const val SERVICE_URL = "https://yell0.notion.site/2afc2a1e60774dfdb47c4d459f01b1d9"
     }
 }

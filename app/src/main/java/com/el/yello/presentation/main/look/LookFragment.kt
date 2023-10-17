@@ -78,9 +78,7 @@ class LookFragment : BindingFragment<FragmentLookBinding>(R.layout.fragment_look
     }
 
     private fun setListBottomPadding() {
-        binding.rvLook.addItemDecoration(
-            BaseLinearRcvItemDeco(bottomPadding = 14)
-        )
+        binding.rvLook.addItemDecoration(BaseLinearRcvItemDeco(bottomPadding = 14))
     }
 
     private fun setPullToScrollListener() {
@@ -92,8 +90,7 @@ class LookFragment : BindingFragment<FragmentLookBinding>(R.layout.fragment_look
             setPullToScrollColor(R.color.grayscales_500, R.color.grayscales_700)
         }
         adapter.loadStateFlow.flowWithLifecycle(viewLifecycleOwner.lifecycle)
-            .distinctUntilChangedBy { it.refresh }
-            .onEach {
+            .distinctUntilChangedBy { it.refresh }.onEach {
                 delay(200)
                 binding.layoutLookSwipe.isRefreshing = false
             }.launchIn(viewLifecycleOwner.lifecycleScope)
@@ -149,15 +146,19 @@ class LookFragment : BindingFragment<FragmentLookBinding>(R.layout.fragment_look
     }
 
     private fun startShimmerView() {
-        binding.shimmerLookList.startShimmer()
-        binding.shimmerLookList.visibility = View.VISIBLE
-        binding.rvLook.visibility = View.GONE
+        with(binding) {
+            shimmerLookList.startShimmer()
+            shimmerLookList.isVisible = true
+            rvLook.isVisible = false
+        }
     }
 
     private fun stopShimmerView() {
-        binding.shimmerLookList.stopShimmer()
-        binding.shimmerLookList.visibility = View.GONE
-        binding.rvLook.visibility = View.VISIBLE
+        with(binding) {
+            shimmerLookList.stopShimmer()
+            shimmerLookList.isVisible = false
+            rvLook.isVisible = true
+        }
     }
 
     fun scrollToTop() {
@@ -170,11 +171,7 @@ class LookFragment : BindingFragment<FragmentLookBinding>(R.layout.fragment_look
     }
 
     companion object {
-
         const val INVITE_DIALOG = "inviteDialog"
         const val TIMELINE_NO_FRIEND = "timeline_0friend"
-
-        @JvmStatic
-        fun newInstance() = LookFragment()
     }
 }

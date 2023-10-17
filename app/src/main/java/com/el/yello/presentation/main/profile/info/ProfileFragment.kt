@@ -132,7 +132,6 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
                 startActivity(this)
             }
         })
-        adapter.setItemList(listOf())
         binding.rvProfileFriendsList.adapter = adapter
     }
 
@@ -141,10 +140,12 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
             setOnRefreshListener {
                 lifecycleScope.launch {
                     adapter.setItemList(listOf())
-                    viewModel.initViewModelVariable()
-                    viewModel.getPurchaseInfoFromServer()
-                    viewModel.getUserDataFromServer()
-                    viewModel.getFriendsListFromServer()
+                    viewModel.run {
+                        initViewModelVariable()
+                        getPurchaseInfoFromServer()
+                        getUserDataFromServer()
+                        getFriendsListFromServer()
+                    }
                     delay(200)
                     binding.layoutProfileSwipe.isRefreshing = false
                 }
@@ -179,8 +180,8 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
             .onEach { state ->
                 when (state) {
                     is UiState.Success -> {
-                        binding.ivProfileLoading.visibility = View.GONE
-                        friendsList = state.data?.friends ?: listOf()
+                        binding.ivProfileLoading.isVisible = false
+                        friendsList = state.data.friends
                         adapter.addItemList(friendsList)
                     }
 
@@ -189,7 +190,7 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
                     }
 
                     is UiState.Loading -> {
-                        binding.ivProfileLoading.visibility = View.VISIBLE
+                        binding.ivProfileLoading.isVisible = true
                     }
 
                     is UiState.Empty -> return@onEach
@@ -254,13 +255,9 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
         viewModel.getPurchaseInfoState.flowWithLifecycle(viewLifecycleOwner.lifecycle)
             .onEach { state ->
                 when (state) {
-                    is UiState.Success -> {
-                        viewModel.isSubscribed = state.data?.isSubscribe == true
-                    }
+                    is UiState.Success -> viewModel.isSubscribed = state.data.isSubscribe == true
 
-                    is UiState.Failure -> {
-                        viewModel.isSubscribed = false
-                    }
+                    is UiState.Failure -> viewModel.isSubscribed = false
 
                     is UiState.Loading -> return@onEach
 

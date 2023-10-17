@@ -14,7 +14,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import javax.inject.Inject
 
 @HiltViewModel
@@ -23,7 +22,7 @@ class LookViewModel @Inject constructor(
     private val authRepository: AuthRepository
 ) : ViewModel() {
 
-    private val _isFirstLoading = MutableStateFlow(false)
+    private val _isFirstLoading = MutableStateFlow(true)
     val isFirstLoading: StateFlow<Boolean> = _isFirstLoading
 
     fun setFirstLoading(boolean: Boolean) {

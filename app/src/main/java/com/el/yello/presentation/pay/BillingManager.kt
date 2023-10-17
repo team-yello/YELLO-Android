@@ -44,8 +44,10 @@ class BillingManager(private val activity: Activity, private val callback: Billi
 
     // 결제 라이브러리 통신 위한 BillingClient 초기화
     val billingClient =
-        BillingClient.newBuilder(activity.applicationContext).setListener(purchasesUpdatedListener)
-            .enablePendingPurchases().build()
+        BillingClient.newBuilder(activity.applicationContext)
+            .setListener(purchasesUpdatedListener)
+            .enablePendingPurchases()
+            .build()
 
     // BillingClient을 결제 라이브러리에 연결
     init {
@@ -71,10 +73,12 @@ class BillingManager(private val activity: Activity, private val callback: Billi
 
     // 결과로 받을 상품 정보 받아오기
     suspend fun getProductDetails(resultBlock: (List<ProductDetails>) -> Unit = {}) {
-        resultBlock(mutableListOf<ProductDetails>().apply {
-            addAll(getSubsProductDetails())
-            addAll(getInAppProductDetails())
-        })
+        val productDetails = mutableListOf<ProductDetails>()
+        val subsProductDetails = getSubsProductDetails()
+        productDetails.addAll(subsProductDetails)
+        val inAppProductDetails = getInAppProductDetails()
+        productDetails.addAll(inAppProductDetails)
+        resultBlock(productDetails)
     }
 
     private suspend fun getSubsProductDetails(): List<ProductDetails> {

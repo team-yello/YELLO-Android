@@ -213,7 +213,7 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
 
                     is UiState.Empty -> return@onEach
                 }
-            }
+            }.launchIn(lifecycleScope)
     }
 
     // 인앱(소비성) 상품 검증 옵저버

@@ -2,6 +2,7 @@ package com.el.yello.presentation.onboarding.fragment.addfriend
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
@@ -25,7 +26,9 @@ import org.json.JSONObject
 
 @AndroidEntryPoint
 class AddFriendFragment : BindingFragment<FragmentAddFriendBinding>(R.layout.fragment_add_friend) {
+
     private val viewModel by activityViewModels<OnBoardingViewModel>()
+
     private var _adapter: AddFriendAdapter? = null
     private val adapter
         get() = requireNotNull(_adapter) { getString(R.string.adapter_not_initialized_error_msg) }
@@ -96,42 +99,47 @@ class AddFriendFragment : BindingFragment<FragmentAddFriendBinding>(R.layout.fra
 
     // 리스트 추가 서버 통신 성공 시 어댑터에 리스트 추가
     private fun observeAddListState() {
-        viewModel.friendListState.flowWithLifecycle(viewLifecycleOwner.lifecycle).onEach { state ->
-            when (state) {
-                is UiState.Success -> {
-                    stopShimmerView()
-                    friendsList = state.data
-                    adapter.submitList(friendsList)
-                    selectedItemIdList.addAll(friendsList.map { friend -> friend.id })
-                    viewModel.selectedFriendCount.value = friendsList.size
+        viewModel.friendListState.flowWithLifecycle(viewLifecycleOwner.lifecycle)
+            .onEach { state ->
+                when (state) {
+                    is UiState.Success -> {
+                        stopShimmerView()
+                        friendsList = state.data
+                        adapter.submitList(friendsList)
+                        selectedItemIdList.addAll(friendsList.map { friend -> friend.id })
+                        viewModel.selectedFriendCount.value = friendsList.size
+                    }
+
+                    is UiState.Failure -> {
+                        stopShimmerView()
+                        toast(getString(R.string.onboarding_add_friend_error))
+                    }
+
+                    is UiState.Loading -> startShimmerView()
+
+                    is UiState.Empty -> return@onEach
                 }
-
-                is UiState.Failure -> {
-                    stopShimmerView()
-                    toast(getString(R.string.onboarding_add_friend_error))
-                }
-
-                is UiState.Loading -> startShimmerView()
-
-                is UiState.Empty -> return@onEach
-            }
-        }.launchIn(viewLifecycleOwner.lifecycleScope)
+            }.launchIn(viewLifecycleOwner.lifecycleScope)
     }
 
     private fun startShimmerView() {
-        binding.shimmerFriendList.startShimmer()
-        binding.shimmerFriendList.visibility = View.VISIBLE
-        binding.rvFriendList.visibility = View.GONE
-        binding.shimmerTotalFriend.visibility = View.VISIBLE
-        binding.btnAddFriendNext.isClickable = false
+        with(binding) {
+            shimmerFriendList.startShimmer()
+            shimmerFriendList.isVisible = true
+            rvFriendList.isVisible = false
+            shimmerTotalFriend.isVisible = true
+            btnAddFriendNext.isClickable = false
+        }
     }
 
     private fun stopShimmerView() {
-        binding.shimmerFriendList.stopShimmer()
-        binding.shimmerFriendList.visibility = View.GONE
-        binding.rvFriendList.visibility = View.VISIBLE
-        binding.shimmerTotalFriend.visibility = View.GONE
-        binding.btnAddFriendNext.isClickable = true
+        with(binding) {
+            shimmerFriendList.stopShimmer()
+            shimmerFriendList.isVisible = false
+            rvFriendList.isVisible = true
+            shimmerTotalFriend.isVisible = false
+            btnAddFriendNext.isClickable = true
+        }
     }
 
     override fun onDestroyView() {

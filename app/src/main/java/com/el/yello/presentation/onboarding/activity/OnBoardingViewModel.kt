@@ -90,7 +90,7 @@ class OnBoardingViewModel @Inject constructor(
     private val _studentIdResult: MutableLiveData<List<Int>> = MutableLiveData()
     val studentIdResult: LiveData<List<Int>> = _studentIdResult
 
-    private val _friendListState = MutableStateFlow<UiState<List<FriendModel>>>(UiState.Loading)
+    private val _friendListState = MutableStateFlow<UiState<List<FriendModel>>>(UiState.Empty)
     val friendListState: StateFlow<UiState<List<FriendModel>>> = _friendListState
 
     var selectedFriendIdList: List<Long> = listOf()

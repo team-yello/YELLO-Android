@@ -123,9 +123,7 @@ class RecommendSchoolFragment :
     private fun setItemDecoration() {
         itemDivider = RecommendItemDecoration(requireContext())
         binding.rvRecommendSchool.addItemDecoration(itemDivider)
-        binding.rvRecommendSchool.addItemDecoration(
-            BaseLinearRcvItemDeco(0, 0, 0, 0, 0, RecyclerView.VERTICAL, 12)
-        )
+        binding.rvRecommendSchool.addItemDecoration(BaseLinearRcvItemDeco(bottomPadding = 12))
     }
 
     // 처음 리스트 설정 및 어댑터 클릭 리스너 설정
@@ -251,8 +249,10 @@ class RecommendSchoolFragment :
     }
 
     private fun changeToCheckIcon(holder: RecommendViewHolder) {
-        holder.binding.btnRecommendItemAdd.visibility = View.INVISIBLE
-        holder.binding.btnRecommendItemAddPressed.visibility = View.VISIBLE
+        with(holder.binding) {
+            btnRecommendItemAdd.isVisible = false
+            btnRecommendItemAddPressed.isVisible = true
+        }
     }
 
     private fun startFadeIn() {
@@ -261,25 +261,31 @@ class RecommendSchoolFragment :
     }
 
     private fun showShimmerScreen() {
-        binding.layoutRecommendFriendsList.isVisible = true
-        binding.layoutRecommendNoFriendsList.isVisible = false
-        binding.shimmerFriendList.startShimmer()
-        binding.shimmerFriendList.visibility = View.VISIBLE
-        binding.rvRecommendSchool.visibility = View.GONE
+        with(binding) {
+            layoutRecommendFriendsList.isVisible = true
+            layoutRecommendNoFriendsList.isVisible = false
+            shimmerFriendList.startShimmer()
+            shimmerFriendList.isVisible = true
+            rvRecommendSchool.isVisible = false
+        }
     }
 
     private fun showFriendListScreen() {
-        binding.layoutRecommendFriendsList.isVisible = true
-        binding.layoutRecommendNoFriendsList.isVisible = false
-        binding.shimmerFriendList.stopShimmer()
-        binding.shimmerFriendList.visibility = View.GONE
-        binding.rvRecommendSchool.visibility = View.VISIBLE
+        with(binding) {
+            layoutRecommendFriendsList.isVisible = true
+            layoutRecommendNoFriendsList.isVisible = false
+            shimmerFriendList.startShimmer()
+            shimmerFriendList.isVisible = false
+            rvRecommendSchool.isVisible = true
+        }
     }
 
     private fun showNoFriendScreen() {
-        binding.layoutRecommendFriendsList.isVisible = false
-        binding.layoutRecommendNoFriendsList.isVisible = true
-        binding.shimmerFriendList.stopShimmer()
+        with(binding) {
+            layoutRecommendFriendsList.isVisible = false
+            layoutRecommendNoFriendsList.isVisible = true
+            shimmerFriendList.stopShimmer()
+        }
     }
 
     fun scrollToTop() {

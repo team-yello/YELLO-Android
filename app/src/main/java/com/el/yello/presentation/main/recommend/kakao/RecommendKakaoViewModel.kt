@@ -103,8 +103,8 @@ class RecommendKakaoViewModel @Inject constructor(
 
     // 서버 통신 - 친구 추가
     fun addFriendToServer(friendId: Long) {
+        _addFriendState.value = UiState.Loading
         viewModelScope.launch {
-            _addFriendState.value = UiState.Loading
             recommendRepository.postFriendAdd(friendId)
                 .onSuccess {
                     _addFriendState.value = UiState.Success(it)

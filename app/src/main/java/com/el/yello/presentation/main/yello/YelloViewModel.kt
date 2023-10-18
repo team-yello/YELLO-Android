@@ -47,8 +47,8 @@ class YelloViewModel @Inject constructor(
         get() = _isDecreasing.value
 
     private val _getPurchaseInfoState =
-        MutableStateFlow<UiState<ResponsePurchaseInfoModel?>>(UiState.Loading)
-    val getPurchaseInfoState: StateFlow<UiState<ResponsePurchaseInfoModel?>> =
+        MutableStateFlow<UiState<ResponsePurchaseInfoModel>>(UiState.Loading)
+    val getPurchaseInfoState: StateFlow<UiState<ResponsePurchaseInfoModel>> =
         _getPurchaseInfoState.asStateFlow()
 
     private fun decreaseTime() {
@@ -110,11 +110,17 @@ class YelloViewModel @Inject constructor(
     fun getPurchaseInfoFromServer() {
         viewModelScope.launch {
             payRepository.getPurchaseInfo()
-                .onSuccess {
-                    _getPurchaseInfoState.value = Success(it)
+                .onSuccess { purchaseInfo ->
+                    if (purchaseInfo == null) {
+                        _getPurchaseInfoState.value = Empty
+                        return@onSuccess
+                    }
+                    _getPurchaseInfoState.value = Success(purchaseInfo)
                 }
-                .onFailure {
-                    _getPurchaseInfoState.value = Failure(it.message ?: "")
+                .onFailure { t ->
+                    if (t is HttpException) {
+                        _getPurchaseInfoState.value = Failure(t.code().toString())
+                    }
                 }
         }
     }

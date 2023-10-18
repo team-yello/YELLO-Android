@@ -2,6 +2,7 @@ package com.el.yello.presentation.main.yello.point
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
@@ -40,12 +41,10 @@ class PointFragment : BindingFragment<FragmentPointBinding>(R.layout.fragment_po
             .onEach { state ->
                 when (state) {
                     is UiState.Success -> {
-                        if (state.data?.isSubscribe == true) {
-                            binding.tvPointPlusLabel.visibility = View.VISIBLE
+                        binding.tvPointPlusLabel.isVisible = state.data.isSubscribe
+                        if (state.data.isSubscribe) {
                             binding.tvPointVotePoint.text =
                                 voteViewModel.votePointSum.times(2).toString()
-                        } else {
-                            binding.tvPointPlusLabel.visibility = View.GONE
                         }
                     }
 

@@ -53,7 +53,7 @@ class YelloStartFragment :
     private fun initEntranceLottie() {
         with(binding.lottieStartEntrance) {
             val size = Point()
-            // TODO: 확장함수로 추출
+            // TODO: getCompatibleRealSize 확장함수로 추출
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
                 val windowMetrics = requireActivity().windowManager.currentWindowMetrics
                 size.x = windowMetrics.bounds.width()

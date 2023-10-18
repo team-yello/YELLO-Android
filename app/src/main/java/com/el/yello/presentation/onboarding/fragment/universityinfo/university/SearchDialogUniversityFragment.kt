@@ -26,7 +26,6 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -81,9 +80,8 @@ class SearchDialogUniversityFragment :
     }
 
     private fun setupUniversityData() {
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.universityState.flowWithLifecycle(viewLifecycleOwner.lifecycle)
-                .onEach { state ->
+        viewModel.universityState.flowWithLifecycle(viewLifecycleOwner.lifecycle)
+            .onEach { state ->
                 when (state) {
                     is UiState.Success -> {
                         adapter?.submitList(state.data.schoolList)
@@ -95,7 +93,6 @@ class SearchDialogUniversityFragment :
                     is UiState.Empty -> return@onEach
                 }
             }.launchIn(viewLifecycleOwner.lifecycleScope)
-        }
     }
 
     private fun storeUniversity(school: String) {

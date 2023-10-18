@@ -82,24 +82,22 @@ class SearchDialogDepartmentFragment :
     }
 
     private fun setupDepartmentData() {
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.departmentState.flowWithLifecycle(viewLifecycleOwner.lifecycle)
-                .onEach { state ->
-                    Timber.d("GET GROUP LIST OBSERVE : $state")
-                    when (state) {
-                        is UiState.Success -> {
-                            adapter?.submitList(state.data.groupList)
-                        }
-
-                        is UiState.Failure -> {
-                            yelloSnackbar(binding.root, getString(R.string.msg_error))
-                        }
-
-                        is UiState.Loading -> return@onEach
-                        is UiState.Empty -> return@onEach
+        viewModel.departmentState.flowWithLifecycle(viewLifecycleOwner.lifecycle)
+            .onEach { state ->
+                Timber.d("GET GROUP LIST OBSERVE : $state")
+                when (state) {
+                    is UiState.Success -> {
+                        adapter?.submitList(state.data.groupList)
                     }
-                }.launchIn(viewLifecycleOwner.lifecycleScope)
-        }
+
+                    is UiState.Failure -> {
+                        yelloSnackbar(binding.root, getString(R.string.msg_error))
+                    }
+
+                    is UiState.Loading -> return@onEach
+                    is UiState.Empty -> return@onEach
+                }
+            }.launchIn(viewLifecycleOwner.lifecycleScope)
     }
 
     private fun storeUniversityGroup(department: String, groupId: Long) {

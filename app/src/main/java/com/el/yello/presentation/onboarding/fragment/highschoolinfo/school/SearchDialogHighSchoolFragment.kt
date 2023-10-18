@@ -80,23 +80,21 @@ class SearchDialogHighSchoolFragment :
     }
 
     private fun setupHighSchoolData() {
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.highSchoolState.flowWithLifecycle(viewLifecycleOwner.lifecycle)
-                .onEach { state ->
-                    when (state) {
-                        is UiState.Success -> {
-                            adapter?.submitList(state.data.groupNameList)
-                        }
-
-                        is UiState.Failure -> {
-                            yelloSnackbar(binding.root, getString(R.string.msg_error))
-                        }
-
-                        is UiState.Loading -> return@onEach
-                        is UiState.Empty -> return@onEach
+        viewModel.highSchoolState.flowWithLifecycle(viewLifecycleOwner.lifecycle)
+            .onEach { state ->
+                when (state) {
+                    is UiState.Success -> {
+                        adapter?.submitList(state.data.groupNameList)
                     }
-                }.launchIn(viewLifecycleOwner.lifecycleScope)
-        }
+
+                    is UiState.Failure -> {
+                        yelloSnackbar(binding.root, getString(R.string.msg_error))
+                    }
+
+                    is UiState.Loading -> return@onEach
+                    is UiState.Empty -> return@onEach
+                }
+            }.launchIn(viewLifecycleOwner.lifecycleScope)
     }
 
     private fun storeHighSchool(school: String) {

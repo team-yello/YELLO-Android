@@ -89,15 +89,21 @@ class UniversityInfoFragment :
 
     private fun amplitudeUniversityInfo() {
         AmplitudeUtils.trackEventWithProperties(
-            "click_onboarding_next",
-            JSONObject().put("onboard_view", "school"),
+            EVENT_CLICK_ONBOARDING_NEXT,
+            JSONObject().put(NAME_ONBOARD_VIEW, VALUE_SCHOOL),
         )
-        AmplitudeUtils.updateUserProperties("user_school", viewModel.university)
-        AmplitudeUtils.updateUserProperties("user_department", viewModel.departmentState.toString())
-        AmplitudeUtils.updateUserIntProperties("user_grade", viewModel.studentId)
+        AmplitudeUtils.updateUserProperties(PROPERTY_USER_SCHOOL, viewModel.university)
+        AmplitudeUtils.updateUserProperties(PROPERTY_USER_DEPARTMENT, viewModel.departmentText.value.toString())
+        AmplitudeUtils.updateUserIntProperties(PROPERTY_USER_GRADE, viewModel.studentId)
     }
     companion object {
-        const val OVERLAP_MIN_ID = 1
-        const val OVERLAP_MAX_ID = 3
+        private const val OVERLAP_MIN_ID = 1
+        private const val OVERLAP_MAX_ID = 3
+        private const val EVENT_CLICK_ONBOARDING_NEXT = "click_onboarding_next"
+        private const val NAME_ONBOARD_VIEW = "onboard_view"
+        private const val VALUE_SCHOOL = "school"
+        private const val PROPERTY_USER_SCHOOL = "user_school"
+        private const val PROPERTY_USER_DEPARTMENT = "user_department"
+        private const val PROPERTY_USER_GRADE = "user_grade"
     }
 }

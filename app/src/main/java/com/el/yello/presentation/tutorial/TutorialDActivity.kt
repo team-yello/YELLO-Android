@@ -17,8 +17,8 @@ class TutorialDActivity : BindingActivity<ActivityTutorialDBinding>(R.layout.act
         super.onCreate(savedInstanceState)
 
         AmplitudeUtils.trackEventWithProperties(
-            "view_onboarding_tutorial",
-            JSONObject().put("tutorial_step", "4"),
+            EVENT_VIEW_ONBOARDING_TUTORIAL,
+            JSONObject().put(NAME_TUTORIAL_STEP, VALUE_TUTORIAL_FOUR),
         )
         setClickListener()
     }
@@ -52,5 +52,8 @@ class TutorialDActivity : BindingActivity<ActivityTutorialDBinding>(R.layout.act
 
     companion object {
         private const val NONE_ANIMATION = 0
+        private const val EVENT_VIEW_ONBOARDING_TUTORIAL = "view_onboarding_tutorial"
+        private const val NAME_TUTORIAL_STEP = "tutorial_step"
+        private const val VALUE_TUTORIAL_FOUR = "4"
     }
 }

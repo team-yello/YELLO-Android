@@ -9,6 +9,7 @@ import android.view.View
 import android.view.WindowManager
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -25,7 +26,8 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
 class SearchDialogUniversityFragment :
@@ -78,8 +80,8 @@ class SearchDialogUniversityFragment :
     }
 
     private fun setupUniversityData() {
-        lifecycleScope.launch {
-            viewModel.universityState.collectLatest { state ->
+        viewModel.universityState.flowWithLifecycle(viewLifecycleOwner.lifecycle)
+            .onEach { state ->
                 when (state) {
                     is UiState.Success -> {
                         adapter?.submitList(state.data.schoolList)
@@ -87,11 +89,10 @@ class SearchDialogUniversityFragment :
                     is UiState.Failure -> {
                         yelloSnackbar(binding.root, getString(R.string.msg_error))
                     }
-                    is UiState.Loading -> {}
-                    is UiState.Empty -> {}
+                    is UiState.Loading -> return@onEach
+                    is UiState.Empty -> return@onEach
                 }
-            }
-        }
+            }.launchIn(viewLifecycleOwner.lifecycleScope)
     }
 
     private fun storeUniversity(school: String) {

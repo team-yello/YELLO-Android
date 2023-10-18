@@ -108,11 +108,23 @@ class HighSchoolInfoFragment :
 
     private fun amplitudeHighSchoolInfo() {
         AmplitudeUtils.trackEventWithProperties(
-            "click_onboarding_next",
-            JSONObject().put("onboard_view", "school"),
+            EVENT_CLICK_ONBOARDING_NEXT,
+            JSONObject().put(NAME_ONBOARD_VIEW, VALUE_SCHOOL),
         )
-        AmplitudeUtils.updateUserProperties("user_school", viewModel.highSchool)
-        AmplitudeUtils.updateUserProperties("user_department", viewModel.highSchoolGroupText.value.toString())
-        AmplitudeUtils.updateUserIntProperties("user_grade", viewModel.studentId)
+        AmplitudeUtils.updateUserProperties(PROPERTY_USER_SCHOOL, viewModel.highSchool)
+        AmplitudeUtils.updateUserProperties(
+            PROPERTY_USER_DEPARTMENT,
+            viewModel.highSchoolGroupText.value.toString(),
+        )
+        AmplitudeUtils.updateUserIntProperties(PROPERTY_USER_GRADE, viewModel.studentId)
+    }
+
+    companion object {
+        private const val EVENT_CLICK_ONBOARDING_NEXT = "click_onboarding_next"
+        private const val NAME_ONBOARD_VIEW = "onboard_view"
+        private const val VALUE_SCHOOL = "school"
+        private const val PROPERTY_USER_SCHOOL = "user_school"
+        private const val PROPERTY_USER_DEPARTMENT = "user_department"
+        private const val PROPERTY_USER_GRADE = "user_grade"
     }
 }

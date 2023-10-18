@@ -43,7 +43,7 @@ class SelectStudentFragment :
                     binding.btnSelectTypeNext.setOnSingleClickListener {
                         findNavController().navigate(R.id.action_selectStudentFragment_to_highschoolInfoFragment)
                         amplitudeSelectStudent()
-                        AmplitudeUtils.updateUserProperties("user_student_type", "highschool")
+                        AmplitudeUtils.updateUserProperties(EVENT_STUDENT_TYPE, VALUE_HIGH_SCHOOL)
                         val activity = requireActivity() as OnBoardingActivity
                         activity.progressBarPlus()
                     }
@@ -58,7 +58,7 @@ class SelectStudentFragment :
                     binding.btnSelectTypeNext.setOnSingleClickListener {
                         findNavController().navigate(R.id.action_selectStudentFragment_to_universityInfoFragment)
                         amplitudeSelectStudent()
-                        AmplitudeUtils.updateUserProperties("user_student_type", "university")
+                        AmplitudeUtils.updateUserProperties(EVENT_STUDENT_TYPE, VALUE_UNIVERSITY)
                         val activity = requireActivity() as OnBoardingActivity
                         activity.progressBarPlus()
                     }
@@ -66,10 +66,17 @@ class SelectStudentFragment :
             }
         }
     }
+
     private fun amplitudeSelectStudent() {
         AmplitudeUtils.trackEventWithProperties(
             "click_onboarding_next",
             JSONObject().put("onboard_view", "student_type"),
         )
+    }
+
+    companion object {
+        private const val EVENT_STUDENT_TYPE = "user_student_type"
+        private const val VALUE_HIGH_SCHOOL = "highschool"
+        private const val VALUE_UNIVERSITY = "university"
     }
 }

@@ -74,7 +74,7 @@ class CodeFragment : BindingFragment<FragmentCodeBinding>(R.layout.fragment_code
         viewModel.postSignupState.observe(viewLifecycleOwner) { state ->
             when (state) {
                 is UiState.Success -> {
-                    AmplitudeUtils.setUserDataProperties("user_signup_date")
+                    AmplitudeUtils.setUserDataProperties(PROPERTY_USER_SIGHUP_DATE)
                     val intent = Intent(activity, GetAlarmActivity::class.java)
                     startActivity(intent)
                     (activity as? OnBoardingActivity)?.endTutorialActivity()
@@ -107,24 +107,39 @@ class CodeFragment : BindingFragment<FragmentCodeBinding>(R.layout.fragment_code
     }
 
     private fun amplitudeCodeSkipInfo() {
-        AmplitudeUtils.trackEventWithProperties("complete_onboarding_finish")
+        AmplitudeUtils.trackEventWithProperties(EVENT_COMPLETE_ONBOARDING_FINISH)
         AmplitudeUtils.trackEventWithProperties(
-            "click_onboarding_recommend",
-            JSONObject().put("rec_exist", "pass"),
+            EVENT_CLICK_ONBOARDING_RECOMMEND,
+            JSONObject().put(NAME_REC_EXIST, VALUE_PASS),
         )
-        AmplitudeUtils.updateUserProperties("user_recommend", "no")
-        AmplitudeUtils.updateUserProperties("user_name", viewModel.name)
-        AmplitudeUtils.updateUserProperties("user_sex", viewModel.gender)
+        AmplitudeUtils.updateUserProperties(PROPERTY_USER_RECOMMEND, VALUE_NO)
+        AmplitudeUtils.updateUserProperties(PROPERTY_USER_NAME, viewModel.name)
+        AmplitudeUtils.updateUserProperties(PROPERTY_USER_SEX, viewModel.gender)
     }
 
     private fun amplitudeCodeNextInfo() {
-        AmplitudeUtils.trackEventWithProperties("complete_onboarding_finish")
+        AmplitudeUtils.trackEventWithProperties(EVENT_COMPLETE_ONBOARDING_FINISH)
         AmplitudeUtils.trackEventWithProperties(
-            "click_onboarding_recommend",
-            JSONObject().put("rec_exist", "next"),
+            EVENT_CLICK_ONBOARDING_RECOMMEND,
+            JSONObject().put(NAME_REC_EXIST,VALUE_NEXT),
         )
-        AmplitudeUtils.updateUserProperties("user_recommend", "yes")
-        AmplitudeUtils.updateUserProperties("user_sex", viewModel.gender)
-        AmplitudeUtils.updateUserProperties("user_name", viewModel.name)
+        AmplitudeUtils.updateUserProperties(PROPERTY_USER_RECOMMEND, VALUE_YES)
+        AmplitudeUtils.updateUserProperties(PROPERTY_USER_NAME, viewModel.name)
+        AmplitudeUtils.updateUserProperties(PROPERTY_USER_SEX, viewModel.gender)
+    }
+
+    companion object {
+        private const val PROPERTY_USER_SIGHUP_DATE = "user_signup_date"
+        private const val EVENT_COMPLETE_ONBOARDING_FINISH = "complete_onboarding_finish"
+        private const val EVENT_CLICK_ONBOARDING_RECOMMEND = "click_onboarding_recommend"
+        private const val NAME_REC_EXIST = "rec_exist"
+        private const val VALUE_PASS = "pass"
+        private const val VALUE_NEXT = "next"
+        private const val PROPERTY_USER_RECOMMEND = "user_recommend"
+        private const val VALUE_NO = "no"
+        private const val VALUE_YES = "yes"
+        private const val PROPERTY_USER_NAME = "user_name"
+        private const val PROPERTY_USER_SEX = "user_sex"
+
     }
 }

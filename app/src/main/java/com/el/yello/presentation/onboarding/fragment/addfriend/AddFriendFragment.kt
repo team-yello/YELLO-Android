@@ -62,8 +62,8 @@ class AddFriendFragment : BindingFragment<FragmentAddFriendBinding>(R.layout.fra
     private fun setConfirmBtnClickListener() {
         binding.btnAddFriendNext.setOnSingleClickListener {
             AmplitudeUtils.trackEventWithProperties(
-                "click_onboarding_next",
-                JSONObject().put("onboard_view", "friends"),
+                EVENT_CLICK_ONBOARDING_NEXT,
+                JSONObject().put(NAME_ONBOARD_VIEW, VALUE_FRIENDS),
             )
             val activity = requireActivity() as OnBoardingActivity
             activity.progressBarPlus()
@@ -78,6 +78,7 @@ class AddFriendFragment : BindingFragment<FragmentAddFriendBinding>(R.layout.fra
         viewModel.initFriendPagingVariable()
         viewModel.addListWithKakaoIdList()
     }
+
     private fun setInfinityScroll() {
         binding.rvFriendList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
@@ -108,13 +109,16 @@ class AddFriendFragment : BindingFragment<FragmentAddFriendBinding>(R.layout.fra
                         selectedItemIdList.addAll(friendsList.map { friend -> friend.id })
                         viewModel.selectedFriendCount.value = friendsList.size
                     }
+
                     is UiState.Failure -> {
                         stopShimmerView()
                         yelloSnackbar(binding.root, getString(R.string.onboarding_add_friend_error))
                     }
+
                     is UiState.Loading -> {
                         startShimmerView()
                     }
+
                     is UiState.Empty -> {}
                 }
             }
@@ -140,5 +144,11 @@ class AddFriendFragment : BindingFragment<FragmentAddFriendBinding>(R.layout.fra
     override fun onDestroyView() {
         super.onDestroyView()
         _adapter = null
+    }
+
+    companion object {
+        private const val EVENT_CLICK_ONBOARDING_NEXT = "click_onboarding_next"
+        private const val NAME_ONBOARD_VIEW = "onboard_view"
+        private const val VALUE_FRIENDS = "friends"
     }
 }

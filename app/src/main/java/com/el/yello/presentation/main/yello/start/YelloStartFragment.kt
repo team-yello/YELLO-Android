@@ -53,6 +53,7 @@ class YelloStartFragment :
     private fun initEntranceLottie() {
         with(binding.lottieStartEntrance) {
             val size = Point()
+            // TODO: 확장함수로 추출
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
                 val windowMetrics = requireActivity().windowManager.currentWindowMetrics
                 size.x = windowMetrics.bounds.width()
@@ -64,7 +65,7 @@ class YelloStartFragment :
             val displayHeight = size.y
 
             layoutParams.width = (2.22 * displayWidth).toInt()
-            setMargins(this, 0, 0, 0, (-0.435 * displayHeight).toInt())
+            setMargins(this, (-0.435 * displayHeight).toInt())
         }
     }
 
@@ -72,10 +73,10 @@ class YelloStartFragment :
         binding.shadowStart.setLayerType(View.LAYER_TYPE_SOFTWARE, null)
     }
 
-    private fun setMargins(v: View, l: Int, t: Int, r: Int, b: Int) {
+    private fun setMargins(v: View, b: Int) {
         if (v.layoutParams is MarginLayoutParams) {
             val p = v.layoutParams as MarginLayoutParams
-            p.setMargins(l, t, r, b)
+            p.setMargins(0, 0, 0, b)
             v.requestLayout()
         }
     }

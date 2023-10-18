@@ -52,7 +52,6 @@ class YelloViewModel @Inject constructor(
         _getPurchaseInfoState.asStateFlow()
 
     private fun decreaseTime() {
-        leftTime.value ?: return
         if (isDecreasing) return
         viewModelScope.launch {
             _isDecreasing.value = true
@@ -68,11 +67,9 @@ class YelloViewModel @Inject constructor(
     }
 
     fun getVoteState() {
-        Timber.d("QATEST get vote state")
         viewModelScope.launch {
             voteRepository.getVoteAvailable()
                 .onSuccess { voteState ->
-                    Timber.d("QATEST GET VOTE STATE SUCCESS : $voteState")
                     if (voteState == null) {
                         _yelloState.value = Empty
                         return@launch

@@ -25,6 +25,7 @@ import com.example.ui.view.UiState
 import com.example.ui.view.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.json.JSONObject
 
@@ -62,10 +63,10 @@ class RecommendKakaoFragment :
 
     override fun onResume() {
         super.onResume()
-        if (viewModel.isSearchViewShowed.value == true) {
+        if (viewModel.isSearchViewShowed) {
             adapter.clearList()
             setKakaoRecommendList()
-            viewModel.updateIsSearchViewShowed(false)
+            viewModel.isSearchViewShowed = false
         }
     }
 
@@ -77,13 +78,13 @@ class RecommendKakaoFragment :
 
     private fun initViewModel() {
         viewModel = ViewModelProvider(requireActivity())[RecommendKakaoViewModel::class.java]
-        viewModel.updateIsSearchViewShowed(false)
+        viewModel.isSearchViewShowed = false
     }
 
     // 서버 통신 성공 시 카카오 추천 친구 추가
     private fun setKakaoRecommendList() {
         viewModel.setFirstPageLoading()
-        viewModel.initPagingVariable()
+        viewModel.initViewModelVariable()
         viewModel.addListWithKakaoIdList()
     }
 
@@ -94,10 +95,7 @@ class RecommendKakaoFragment :
                 super.onScrolled(recyclerView, dx, dy)
                 if (dy > 0) {
                     recyclerView.layoutManager?.let { layoutManager ->
-                        if (!binding.rvRecommendKakao.canScrollVertically(1) &&
-                            layoutManager is LinearLayoutManager &&
-                            layoutManager.findLastVisibleItemPosition() == adapter.itemCount - 1
-                        ) {
+                        if (!binding.rvRecommendKakao.canScrollVertically(1) && layoutManager is LinearLayoutManager && layoutManager.findLastVisibleItemPosition() == adapter.itemCount - 1) {
                             viewModel.addListWithKakaoIdList()
                         }
                     }
@@ -160,73 +158,81 @@ class RecommendKakaoFragment :
     }
 
     private fun observeKakaoError() {
-        viewModel.getKakaoErrorResult.observe(viewLifecycleOwner) {
-            yelloSnackbar(requireView(), getString(R.string.recommend_error_friends_list))
-            showShimmerScreen()
+        lifecycleScope.launch {
+            viewModel.getKakaoErrorResult.collectLatest { result ->
+                if (result) {
+                    yelloSnackbar(requireView(), getString(R.string.recommend_error_friends_list))
+                    showShimmerScreen()
+                }
+            }
         }
     }
 
     // 추천친구 리스트 추가 서버 통신 성공 시 어댑터에 리스트 추가
     private fun observeAddListState() {
-        viewModel.postFriendsListState.observe(viewLifecycleOwner) { state ->
-            when (state) {
-                is UiState.Success -> {
-                    startFadeIn()
-                    if (state.data?.friends?.isEmpty() == true && adapter.itemCount == 0) {
-                        showNoFriendScreen()
-                    } else {
-                        showFriendListScreen()
-                        adapter.addItemList(state.data?.friends ?: listOf())
+        lifecycleScope.launch {
+            viewModel.postFriendsListState.collectLatest { state ->
+                when (state) {
+                    is UiState.Success -> {
+                        startFadeIn()
+                        if (state.data?.friends?.isEmpty() == true && adapter.itemCount == 0) {
+                            showNoFriendScreen()
+                        } else {
+                            showFriendListScreen()
+                            adapter.addItemList(state.data?.friends ?: listOf())
+                        }
                     }
-                }
 
-                is UiState.Failure -> {
-                    showShimmerScreen()
-                    yelloSnackbar(
-                        requireView(),
-                        getString(R.string.recommend_error_friend_connection),
-                    )
-                }
+                    is UiState.Failure -> {
+                        showShimmerScreen()
+                        yelloSnackbar(
+                            requireView(),
+                            getString(R.string.recommend_error_friend_connection),
+                        )
+                    }
 
-                is UiState.Loading -> {
-                    showShimmerScreen()
-                }
+                    is UiState.Loading -> {
+                        showShimmerScreen()
+                    }
 
-                is UiState.Empty -> {}
+                    is UiState.Empty -> {}
+                }
             }
         }
     }
 
     // 친구 추가 서버 통신 성공 시 리스트에서 아이템 삭제 & 서버 통신 중 액티비티 클릭 방지
     private fun observeAddFriendState() {
-        viewModel.addFriendState.observe(viewLifecycleOwner) { state ->
-            when (state) {
-                is UiState.Success -> {
-                    val position = viewModel.itemPosition
-                    val holder = viewModel.itemHolder
-                    if (position != null && holder != null) {
-                        removeItemWithAnimation(holder, position)
-                    } else {
+        lifecycleScope.launch {
+            viewModel.addFriendState.collectLatest { state ->
+                when (state) {
+                    is UiState.Success -> {
+                        val position = viewModel.itemPosition
+                        val holder = viewModel.itemHolder
+                        if (position != null && holder != null) {
+                            removeItemWithAnimation(holder, position)
+                        } else {
+                            activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
+                        }
+                    }
+
+                    is UiState.Failure -> {
+                        yelloSnackbar(
+                            requireView(),
+                            getString(R.string.recommend_error_add_friend_connection),
+                        )
                         activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
                     }
-                }
 
-                is UiState.Failure -> {
-                    yelloSnackbar(
-                        requireView(),
-                        getString(R.string.recommend_error_add_friend_connection),
-                    )
-                    activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
-                }
+                    is UiState.Loading -> {
+                        activity?.window?.setFlags(
+                            WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                            WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                        )
+                    }
 
-                is UiState.Loading -> {
-                    activity?.window?.setFlags(
-                        WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
-                        WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
-                    )
+                    is UiState.Empty -> {}
                 }
-
-                is UiState.Empty -> {}
             }
         }
     }

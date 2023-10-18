@@ -19,6 +19,8 @@ import com.example.domain.repository.OnboardingRepository
 import com.example.ui.view.UiState
 import com.kakao.sdk.talk.TalkApiClient
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import timber.log.Timber
@@ -63,15 +65,16 @@ class OnBoardingViewModel @Inject constructor(
     val id: String get() = idText.value?.trim() ?: ""
     val isValidId: LiveData<Boolean> = idText.map { id -> checkId(id) }
     val codeText = MutableLiveData("")
+    val isValidCode: LiveData<Boolean> = codeText.map { id -> checkId(id) }
 
-    private val _universityState = MutableLiveData<UiState<SchoolList>>()
-    val universityState: MutableLiveData<UiState<SchoolList>> = _universityState
+    private val _universityState = MutableStateFlow<UiState<SchoolList>>(UiState.Empty)
+    val universityState: StateFlow<UiState<SchoolList>> = _universityState
 
-    private val _highSchoolState = MutableLiveData<UiState<HighSchoolList>>()
-    val highSchoolState: MutableLiveData<UiState<HighSchoolList>> = _highSchoolState
+    private val _highSchoolState = MutableStateFlow<UiState<HighSchoolList>>(UiState.Empty)
+    val highSchoolState: StateFlow<UiState<HighSchoolList>> = _highSchoolState
 
-    private val _departmentState = MutableLiveData<UiState<GroupList>>()
-    val departmentState: MutableLiveData<UiState<GroupList>> = _departmentState
+    private val _departmentState = MutableStateFlow<UiState<GroupList>>(UiState.Empty)
+    val departmentState: StateFlow<UiState<GroupList>> = _departmentState
 
     private val _highSchoolGroupState = MutableLiveData<UiState<GroupHighSchool?>>()
 
@@ -88,8 +91,8 @@ class OnBoardingViewModel @Inject constructor(
     val studentIdResult: LiveData<List<Int>> = _studentIdResult
 
     private val _friendListState =
-        MutableLiveData<UiState<List<AddFriendListModel.FriendModel>>>(UiState.Loading)
-    val friendListState: LiveData<UiState<List<AddFriendListModel.FriendModel>>> = _friendListState
+        MutableStateFlow<UiState<List<AddFriendListModel.FriendModel>>>(UiState.Loading)
+    val friendListState: StateFlow<UiState<List<AddFriendListModel.FriendModel>>> = _friendListState
 
     var selectedFriendIdList: List<Long> = listOf()
     var selectedFriendCount: MutableLiveData<Int> = MutableLiveData(0)
@@ -246,7 +249,7 @@ class OnBoardingViewModel @Inject constructor(
             }
         }
     }
-    fun getHighSchoolGroupId(group: String) {
+    private fun getHighSchoolGroupId(group: String) {
         viewModelScope.launch {
             onboardingRepository.getGroupHighSchool(
                 highSchool,

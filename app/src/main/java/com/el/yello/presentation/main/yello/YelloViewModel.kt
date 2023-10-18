@@ -2,7 +2,7 @@ package com.el.yello.presentation.main.yello
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.domain.entity.ResponsePurchaseInfoModel
+import com.example.domain.entity.PayInfoModel
 import com.example.domain.entity.type.YelloState
 import com.example.domain.entity.type.YelloState.Lock
 import com.example.domain.entity.type.YelloState.Valid
@@ -47,8 +47,8 @@ class YelloViewModel @Inject constructor(
         get() = _isDecreasing.value
 
     private val _getPurchaseInfoState =
-        MutableStateFlow<UiState<ResponsePurchaseInfoModel>>(UiState.Loading)
-    val getPurchaseInfoState: StateFlow<UiState<ResponsePurchaseInfoModel>> =
+        MutableStateFlow<UiState<PayInfoModel>>(UiState.Loading)
+    val getPurchaseInfoState: StateFlow<UiState<PayInfoModel>> =
         _getPurchaseInfoState.asStateFlow()
 
     private fun decreaseTime() {

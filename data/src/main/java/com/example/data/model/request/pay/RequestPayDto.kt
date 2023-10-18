@@ -1,7 +1,7 @@
 package com.example.data.model.request.pay
 
 import com.android.billingclient.api.Purchase
-import com.example.domain.entity.RequestPayModel
+import com.example.domain.entity.PayRequestModel
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -27,7 +27,7 @@ data class RequestPayDto(
     val acknowledged: Boolean,
 )
 
-fun RequestPayModel.toRequestDto() = RequestPayDto(
+fun PayRequestModel.toRequestDto() = RequestPayDto(
     orderId = orderId,
     packageName = packageName,
     productId = productId,
@@ -39,7 +39,7 @@ fun RequestPayModel.toRequestDto() = RequestPayDto(
     acknowledged = acknowledged
 )
 
-fun Purchase.toRequestPayModel() = RequestPayModel(
+fun Purchase.toRequestPayModel() = PayRequestModel(
     orderId = orderId,
     packageName = packageName,
     productId = products[0],

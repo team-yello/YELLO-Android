@@ -5,7 +5,7 @@
     <data>
 
         <variable
-            name="data"
+            name="universityList"
             type="String" />
     </data>
 
@@ -35,7 +35,7 @@
             android:ellipsize="end"
             android:fontFamily="@font/font_pretendard_medium"
             android:maxLines="1"
-            android:text="@{data}"
+            android:text="@{universityList}"
             android:textColor="@color/white"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"

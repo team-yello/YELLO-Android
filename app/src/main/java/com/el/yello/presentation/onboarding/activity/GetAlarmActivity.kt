@@ -1,6 +1,7 @@
-package com.el.yello.presentation.onboarding
+package com.el.yello.presentation.onboarding.activity
 
 import android.Manifest
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
@@ -12,11 +13,13 @@ import com.el.yello.databinding.ActivityGetAlarmBinding
 import com.el.yello.presentation.tutorial.TutorialAActivity
 import com.el.yello.util.amplitude.AmplitudeUtils
 import com.example.ui.base.BindingActivity
+import com.example.ui.intent.boolExtra
 import com.example.ui.view.setOnSingleClickListener
 
 class GetAlarmActivity :
     BindingActivity<ActivityGetAlarmBinding>(R.layout.activity_get_alarm) {
 
+    private val isFromOnBoarding by boolExtra()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         askNotificationPermission()
@@ -34,12 +37,17 @@ class GetAlarmActivity :
         }
 
     private fun startTutorialActivity() {
+        val isCodeTextEmpty =
+            intent.getBooleanExtra(OnBoardingActivity.EXTRA_CODE_TEXT_EMPTY, false)
         val intent = TutorialAActivity.newIntent(this, false).apply {
             addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            putExtra(OnBoardingActivity.EXTRA_CODE_TEXT_EMPTY, isCodeTextEmpty)
+            putExtra(TutorialAActivity.EXTRA_FROM_ONBOARDING, isFromOnBoarding)
         }
         startActivity(intent)
         finish()
     }
+
     private fun askNotificationPermission() {
         binding.btnStartYello.setOnSingleClickListener {
             AmplitudeUtils.trackEventWithProperties("click_onboarding_notification")
@@ -59,5 +67,19 @@ class GetAlarmActivity :
                 startTutorialActivity()
             }
         }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        overridePendingTransition(NONE_ANIMATION, NONE_ANIMATION)
+    }
+
+    companion object {
+        @JvmStatic
+        fun newIntent(context: Context, isFromOnBoarding: Boolean) =
+            Intent(context, GetAlarmActivity::class.java).apply {
+                putExtra("isFromOnBoarding", isFromOnBoarding)
+            }
+        private const val NONE_ANIMATION = 0
     }
 }

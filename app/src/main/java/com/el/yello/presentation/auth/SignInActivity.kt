@@ -7,7 +7,7 @@ import com.el.yello.R
 import com.el.yello.databinding.ActivitySignInBinding
 import com.el.yello.presentation.auth.SignInViewModel.Companion.FRIEND_LIST
 import com.el.yello.presentation.main.MainActivity
-import com.el.yello.presentation.onboarding.GetAlarmActivity
+import com.el.yello.presentation.onboarding.activity.GetAlarmActivity
 import com.el.yello.presentation.onboarding.activity.OnBoardingActivity
 import com.el.yello.presentation.tutorial.TutorialAActivity
 import com.el.yello.util.amplitude.AmplitudeUtils
@@ -129,9 +129,7 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
                 is UiState.Failure -> {
                     yelloSnackbar(binding.root, getString(R.string.msg_error))
                 }
-
                 is UiState.Empty -> {}
-
                 is UiState.Loading -> {}
             }
         }
@@ -207,7 +205,6 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
         const val EXTRA_PROFILE_IMAGE = "PROFILE_IMAGE"
         const val EXTRA_NAME = "NAME"
         const val EXTRA_GENDER = "GENDER"
-
         const val CODE_NOT_SIGNED_IN = "403"
         const val CODE_NO_UUID = "404"
     }

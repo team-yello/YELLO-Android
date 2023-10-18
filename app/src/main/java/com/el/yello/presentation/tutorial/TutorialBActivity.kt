@@ -1,10 +1,10 @@
 package com.el.yello.presentation.tutorial
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import com.el.yello.R
 import com.el.yello.databinding.ActivityTutorialBBinding
-import com.el.yello.presentation.onboarding.activity.OnBoardingActivity
 import com.el.yello.presentation.onboarding.activity.OnBoardingActivity.Companion.EXTRA_CODE_TEXT_EMPTY
 import com.el.yello.presentation.tutorial.TutorialAActivity.Companion.EXTRA_FROM_ONBOARDING
 import com.el.yello.util.amplitude.AmplitudeUtils
@@ -25,7 +25,7 @@ class TutorialBActivity : BindingActivity<ActivityTutorialBBinding>(R.layout.act
 
     override fun onPause() {
         super.onPause()
-        overridePendingTransition(0, 0)
+        overridePendingTransition(NONE_ANIMATION, NONE_ANIMATION)
     }
 
     private fun setClickListener() {
@@ -40,5 +40,9 @@ class TutorialBActivity : BindingActivity<ActivityTutorialBBinding>(R.layout.act
             startActivity(intent)
             finish()
         }
+    }
+
+    companion object {
+        private const val NONE_ANIMATION = 0
     }
 }

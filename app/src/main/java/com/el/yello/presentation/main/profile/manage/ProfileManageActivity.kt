@@ -16,6 +16,7 @@ import com.example.ui.view.UiState
 import com.example.ui.view.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.json.JSONObject
 import timber.log.Timber
@@ -96,24 +97,26 @@ class ProfileManageActivity :
     }
 
     private fun observeKakaoLogoutState() {
-        viewModel.kakaoLogoutState.observe(this) { state ->
-            when (state) {
-                is UiState.Success -> {
-                    AmplitudeUtils.trackEventWithProperties("complete_profile_logout")
-                    lifecycleScope.launch {
-                        delay(500)
-                        restartApp()
+        lifecycleScope.launch {
+            viewModel.kakaoLogoutState.collectLatest { state ->
+                when (state) {
+                    is UiState.Success -> {
+                        AmplitudeUtils.trackEventWithProperties("complete_profile_logout")
+                        lifecycleScope.launch {
+                            delay(500)
+                            restartApp()
+                        }
                     }
+
+                    is UiState.Failure -> {
+                        yelloSnackbar(binding.root, getString(R.string.msg_error))
+                        Timber.d(getString(R.string.profile_error_logout, state.msg))
+                    }
+
+                    is UiState.Empty -> {}
+
+                    is UiState.Loading -> {}
                 }
-
-                is UiState.Failure -> {
-                    yelloSnackbar(binding.root, getString(R.string.msg_error))
-                    Timber.d(getString(R.string.profile_error_logout, state.msg))
-                }
-
-                is UiState.Empty -> {}
-
-                is UiState.Loading -> {}
             }
         }
     }

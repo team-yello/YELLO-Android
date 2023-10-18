@@ -1,12 +1,13 @@
 package com.el.yello.presentation.onboarding.fragment.code
 
-import android.graphics.Color
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
-import androidx.navigation.fragment.findNavController
 import com.el.yello.R
 import com.el.yello.databinding.FragmentCodeBinding
+import com.el.yello.presentation.onboarding.activity.GetAlarmActivity
 import com.el.yello.presentation.onboarding.activity.OnBoardingActivity
 import com.el.yello.presentation.onboarding.activity.OnBoardingViewModel
 import com.el.yello.util.amplitude.AmplitudeUtils
@@ -27,7 +28,6 @@ class CodeFragment : BindingFragment<FragmentCodeBinding>(R.layout.fragment_code
         observeGetValidYelloIdState()
         setCodeBtnCLickListener()
         setDeleteCodeBtnClickListener()
-        viewModel.validYelloIdLoading()
     }
 
     override fun onResume() {
@@ -40,29 +40,9 @@ class CodeFragment : BindingFragment<FragmentCodeBinding>(R.layout.fragment_code
             viewModel.postSignup()
             amplitudeCodeSkipInfo()
         }
-
         binding.btnCodeNext.setOnSingleClickListener {
             viewModel.getValidYelloId(viewModel.codeText.value.toString())
             amplitudeCodeNextInfo()
-        }
-    }
-
-    private fun observePostSignupState() {
-        viewModel.postSignupState.observe(viewLifecycleOwner) { state ->
-            when (state) {
-                is UiState.Success -> {
-                    AmplitudeUtils.setUserDataProperties("user_signup_date")
-                    findNavController().navigate(R.id.action_codeFragment_to_startAppFragment)
-                }
-
-                is UiState.Failure -> {
-                    yelloSnackbar(binding.root, getString(R.string.msg_error))
-                }
-
-                is UiState.Loading -> {}
-
-                is UiState.Empty -> {}
-            }
         }
     }
 
@@ -90,9 +70,27 @@ class CodeFragment : BindingFragment<FragmentCodeBinding>(R.layout.fragment_code
         }
     }
 
+    private fun observePostSignupState() {
+        viewModel.postSignupState.observe(viewLifecycleOwner) { state ->
+            when (state) {
+                is UiState.Success -> {
+                    AmplitudeUtils.setUserDataProperties("user_signup_date")
+                    val intent = Intent(activity, GetAlarmActivity::class.java)
+                    startActivity(intent)
+                    (activity as? OnBoardingActivity)?.endTutorialActivity()
+                }
+                is UiState.Failure -> {
+                    yelloSnackbar(binding.root, getString(R.string.msg_error))
+                }
+                is UiState.Loading -> {}
+                is UiState.Empty -> {}
+            }
+        }
+    }
+
     private fun setDeleteCodeBtnClickListener() {
         binding.ivCodeDelete.setOnClickListener {
-            binding.etCode.setText("")
+            binding.etCode.text.clear()
         }
     }
 
@@ -100,7 +98,12 @@ class CodeFragment : BindingFragment<FragmentCodeBinding>(R.layout.fragment_code
         binding.etCode.setBackgroundResource(R.drawable.shape_fill_red20_line_semantic_status_red500_rect_8)
         binding.ivCodeDelete.setBackgroundResource(R.drawable.ic_onboarding_delete_red)
         binding.tvCodeWarning.text = getString(R.string.onboarding_code_duplicate_msg)
-        binding.tvCodeWarning.setTextColor(Color.parseColor("#F04646"))
+        binding.tvCodeWarning.setTextColor(
+            ContextCompat.getColor(
+                requireContext(),
+                R.color.semantic_red_500,
+            ),
+        )
     }
 
     private fun amplitudeCodeSkipInfo() {

@@ -31,11 +31,4 @@ class RecommendDataSourceImpl @Inject constructor(
         return recommendService.postFriendAdd(friendId)
     }
 
-    override suspend fun getSearchListData(
-        page: Int,
-        keyword: String
-    ): BaseResponse<ResponseRecommendSearchDto> {
-        return recommendService.getSearchList(page, keyword)
-    }
-
 }

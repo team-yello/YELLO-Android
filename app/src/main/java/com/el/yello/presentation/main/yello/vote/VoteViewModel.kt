@@ -99,7 +99,7 @@ class VoteViewModel @Inject constructor(
                         val newFriendList = mutableListOf<Note.Friend>()
                         for (friendIndex in 0..3) {
                             if (notes[noteIndex].friendList.size < friendIndex + 1) {
-                                newFriendList.add(Note.Friend(-1, "", ""))
+                                newFriendList.add(Note.Friend(ID_EMPTY_USER, "", ""))
                                 continue
                             }
                             newFriendList.add(notes[noteIndex].friendList[friendIndex])
@@ -128,7 +128,7 @@ class VoteViewModel @Inject constructor(
     fun selectName(nameIndex: Int) {
         viewModelScope.launch {
             if (currentNoteIndex > totalListCount) return@launch
-            if (voteList[currentNoteIndex].friendList[nameIndex].id == -1) {
+            if (voteList[currentNoteIndex].friendList[nameIndex].id == ID_EMPTY_USER) {
                 _noteState.emit(InvalidName)
                 return@launch
             }
@@ -193,7 +193,7 @@ class VoteViewModel @Inject constructor(
                         val newFriendList = mutableListOf<Note.Friend>()
                         for (i in 0..3) {
                             if (friends.size < i + 1) {
-                                newFriendList.add(Note.Friend(-1, "", ""))
+                                newFriendList.add(Note.Friend(ID_EMPTY_USER, "", ""))
                                 continue
                             }
                             newFriendList.add(friends[i])
@@ -317,5 +317,6 @@ class VoteViewModel @Inject constructor(
     companion object {
         private const val MAX_COUNT_SHUFFLE = 3
         private const val DELAY_OPTION_SELECTION = 1000L
+        private const val ID_EMPTY_USER = -1
     }
 }

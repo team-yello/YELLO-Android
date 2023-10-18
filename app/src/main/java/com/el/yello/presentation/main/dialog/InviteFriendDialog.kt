@@ -81,7 +81,7 @@ class InviteFriendDialog :
         binding.btnInviteKakao.setOnSingleClickListener {
             AmplitudeUtils.trackEventWithProperties(
                 "click_invite_kakao",
-                JSONObject().put("invite_view", previousScreen)
+                JSONObject().put("invite_view", previousScreen),
             )
             startKakaoInvite(requireContext())
         }
@@ -91,7 +91,7 @@ class InviteFriendDialog :
         binding.btnInviteLink.setOnSingleClickListener {
             AmplitudeUtils.trackEventWithProperties(
                 "click_invite_link",
-                JSONObject().put("invite_view", previousScreen)
+                JSONObject().put("invite_view", previousScreen),
             )
             val clipboardManager =
                 requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
@@ -148,9 +148,9 @@ class InviteFriendDialog :
         const val TEST_TEMPLATE_ID = 96906
 
         const val LINK_TEXT = "추천인코드: %s\n" +
-                "우리 같이 YELL:O 해요!\n" +
-                "Android: https://play.google.com/store/apps/details?id=com.el.yello&hl=ko&gl=KR\n" +
-                "iOS: https://apps.apple.com/app/id6451451050"
+            "우리 같이 YELL:O 해요!\n" +
+            "Android: https://play.google.com/store/apps/details?id=com.el.yello&hl=ko&gl=KR\n" +
+            "iOS: https://apps.apple.com/app/id6451451050"
 
         const val CLIP_LABEL = "RECOMMEND_LINK"
         private const val KEY_YELLO_ID = "KEY"
@@ -159,7 +159,7 @@ class InviteFriendDialog :
         fun newInstance(yelloId: String, previousScreen: String) = InviteFriendDialog().apply {
             val args = bundleOf(
                 ARGS_YELLO_ID to yelloId,
-                ARGS_PREVIOUS_SCREEN to previousScreen
+                ARGS_PREVIOUS_SCREEN to previousScreen,
             )
             arguments = args
         }

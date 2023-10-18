@@ -7,6 +7,8 @@ import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup.MarginLayoutParams
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.flowWithLifecycle
+import androidx.lifecycle.lifecycleScope
 import com.el.yello.R
 import com.el.yello.databinding.FragmentYelloStartBinding
 import com.el.yello.presentation.main.yello.YelloViewModel
@@ -17,6 +19,8 @@ import com.example.ui.base.BindingFragment
 import com.example.ui.view.UiState
 import com.example.ui.view.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 
 @AndroidEntryPoint
 class YelloStartFragment :
@@ -49,6 +53,7 @@ class YelloStartFragment :
     private fun initEntranceLottie() {
         with(binding.lottieStartEntrance) {
             val size = Point()
+            // TODO: getCompatibleRealSize 확장함수로 추출
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
                 val windowMetrics = requireActivity().windowManager.currentWindowMetrics
                 size.x = windowMetrics.bounds.width()
@@ -60,7 +65,7 @@ class YelloStartFragment :
             val displayHeight = size.y
 
             layoutParams.width = (2.22 * displayWidth).toInt()
-            setMargins(this, 0, 0, 0, (-0.435 * displayHeight).toInt())
+            setMargins(this, (-0.435 * displayHeight).toInt())
         }
     }
 
@@ -68,10 +73,10 @@ class YelloStartFragment :
         binding.shadowStart.setLayerType(View.LAYER_TYPE_SOFTWARE, null)
     }
 
-    private fun setMargins(v: View, l: Int, t: Int, r: Int, b: Int) {
+    private fun setMargins(v: View, b: Int) {
         if (v.layoutParams is MarginLayoutParams) {
             val p = v.layoutParams as MarginLayoutParams
-            p.setMargins(l, t, r, b)
+            p.setMargins(0, 0, 0, b)
             v.requestLayout()
         }
     }
@@ -90,25 +95,26 @@ class YelloStartFragment :
     }
 
     private fun observeCheckIsSubscribed() {
-        viewModel.getPurchaseInfoState.observe(viewLifecycleOwner) { state ->
-            when (state) {
-                is UiState.Success -> {
-                    if (state.data?.isSubscribe == true) {
-                        binding.layoutSubsDouble.visibility = View.VISIBLE
-                    } else {
+        viewModel.getPurchaseInfoState.flowWithLifecycle(viewLifecycleOwner.lifecycle)
+            .onEach { state ->
+                when (state) {
+                    is UiState.Success -> {
+                        if (state.data?.isSubscribe == true) {
+                            binding.layoutSubsDouble.visibility = View.VISIBLE
+                        } else {
+                            binding.layoutSubsDouble.visibility = View.GONE
+                        }
+                    }
+
+                    is UiState.Failure -> {
                         binding.layoutSubsDouble.visibility = View.GONE
                     }
+
+                    is UiState.Loading -> {}
+
+                    is UiState.Empty -> {}
                 }
-
-                is UiState.Failure -> {
-                    binding.layoutSubsDouble.visibility = View.GONE
-                }
-
-                is UiState.Loading -> {}
-
-                is UiState.Empty -> {}
-            }
-        }
+            }.launchIn(viewLifecycleOwner.lifecycleScope)
     }
 
     companion object {

@@ -30,18 +30,8 @@ class ProfileFriendItemBottomSheet :
 
         binding.vm = viewModel
         viewModel.isItemBottomSheetRunning = true
-        initDeleteBtnListener()
         setItemImage()
-    }
-
-    override fun onDismiss(dialog: DialogInterface) {
-        super.onDismiss(dialog)
-        viewModel.isItemBottomSheetRunning = false
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        deleteBottomSheet = null
+        initDeleteBtnListener()
     }
 
     private fun setItemImage() {
@@ -60,6 +50,16 @@ class ProfileFriendItemBottomSheet :
             deleteBottomSheet?.show(parentFragmentManager, DELETE_BOTTOM_SHEET)
             dismiss()
         }
+    }
+
+    override fun onDismiss(dialog: DialogInterface) {
+        super.onDismiss(dialog)
+        viewModel.isItemBottomSheetRunning = false
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        deleteBottomSheet = null
     }
 
     private companion object {

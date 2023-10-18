@@ -6,9 +6,8 @@ import android.view.animation.AnimationUtils
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.RecyclerView
 import com.el.yello.R
@@ -22,9 +21,9 @@ import com.example.ui.base.BindingFragment
 import com.example.ui.view.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.distinctUntilChangedBy
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import org.json.JSONObject
 
 @AndroidEntryPoint
@@ -57,8 +56,6 @@ class LookFragment : BindingFragment<FragmentLookBinding>(R.layout.fragment_look
     private fun initAdapter() {
         viewModel.setFirstLoading(true)
         _adapter = LookPageAdapter()
-        binding.rvLook.adapter = adapter
-
         adapter.addLoadStateListener { combinedLoadStates ->
             if (combinedLoadStates.prepend.endOfPaginationReached) {
                 binding.layoutLookNoFriendsList.isVisible = adapter.itemCount < 1
@@ -66,6 +63,7 @@ class LookFragment : BindingFragment<FragmentLookBinding>(R.layout.fragment_look
                 isNoFriend = adapter.itemCount < 1
             }
         }
+        binding.rvLook.adapter = adapter
     }
 
     private fun initInviteBtnListener() {
@@ -80,9 +78,7 @@ class LookFragment : BindingFragment<FragmentLookBinding>(R.layout.fragment_look
     }
 
     private fun setListBottomPadding() {
-        binding.rvLook.addItemDecoration(
-            BaseLinearRcvItemDeco(bottomPadding = 14)
-        )
+        binding.rvLook.addItemDecoration(BaseLinearRcvItemDeco(bottomPadding = 14))
     }
 
     private fun setPullToScrollListener() {
@@ -93,28 +89,24 @@ class LookFragment : BindingFragment<FragmentLookBinding>(R.layout.fragment_look
             }
             setPullToScrollColor(R.color.grayscales_500, R.color.grayscales_700)
         }
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.CREATED) {
-                adapter.loadStateFlow.distinctUntilChangedBy { it.refresh }.collect {
-                    delay(200)
-                    binding.layoutLookSwipe.isRefreshing = false
-                }
-            }
-        }
+        adapter.loadStateFlow.flowWithLifecycle(viewLifecycleOwner.lifecycle)
+            .distinctUntilChangedBy { it.refresh }.onEach {
+                delay(200)
+                binding.layoutLookSwipe.isRefreshing = false
+            }.launchIn(viewLifecycleOwner.lifecycleScope)
     }
 
     private fun observeTimelinePagingList() {
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.getLookListWithPaging().collectLatest { adapter.submitData(it) }
-            }
-        }
+        viewModel.getLookListWithPaging().flowWithLifecycle(viewLifecycleOwner.lifecycle)
+            .onEach { pagingData ->
+                adapter.submitData(lifecycle, pagingData)
+            }.launchIn(viewLifecycleOwner.lifecycleScope)
     }
 
 
     private fun observePagingLoadingState() {
-        lifecycleScope.launch {
-            adapter.loadStateFlow.collectLatest { loadStates ->
+        adapter.loadStateFlow.flowWithLifecycle(viewLifecycleOwner.lifecycle)
+            .onEach { loadStates ->
                 when (loadStates.refresh) {
                     is LoadState.Loading -> {
                         if (!isNoFriend) startShimmerView()
@@ -133,8 +125,7 @@ class LookFragment : BindingFragment<FragmentLookBinding>(R.layout.fragment_look
                         yelloSnackbar(requireView(), getString(R.string.look_error_friend_list))
                     }
                 }
-            }
-        }
+            }.launchIn(viewLifecycleOwner.lifecycleScope)
     }
 
     private fun catchScrollForAmplitude() {
@@ -155,15 +146,19 @@ class LookFragment : BindingFragment<FragmentLookBinding>(R.layout.fragment_look
     }
 
     private fun startShimmerView() {
-        binding.shimmerLookList.startShimmer()
-        binding.shimmerLookList.visibility = View.VISIBLE
-        binding.rvLook.visibility = View.GONE
+        with(binding) {
+            shimmerLookList.startShimmer()
+            shimmerLookList.isVisible = true
+            rvLook.isVisible = false
+        }
     }
 
     private fun stopShimmerView() {
-        binding.shimmerLookList.stopShimmer()
-        binding.shimmerLookList.visibility = View.GONE
-        binding.rvLook.visibility = View.VISIBLE
+        with(binding) {
+            shimmerLookList.stopShimmer()
+            shimmerLookList.isVisible = false
+            rvLook.isVisible = true
+        }
     }
 
     fun scrollToTop() {
@@ -176,11 +171,7 @@ class LookFragment : BindingFragment<FragmentLookBinding>(R.layout.fragment_look
     }
 
     companion object {
-
         const val INVITE_DIALOG = "inviteDialog"
         const val TIMELINE_NO_FRIEND = "timeline_0friend"
-
-        @JvmStatic
-        fun newInstance() = LookFragment()
     }
 }

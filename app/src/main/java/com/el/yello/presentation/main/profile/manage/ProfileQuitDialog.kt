@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import com.el.yello.R
 import com.el.yello.databinding.FragmentProfileQuitDialogBinding
@@ -17,10 +18,9 @@ import com.example.ui.fragment.toast
 import com.example.ui.view.UiState
 import com.example.ui.view.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import org.json.JSONObject
-import timber.log.Timber
 
 @AndroidEntryPoint
 class ProfileQuitDialog :
@@ -58,16 +58,13 @@ class ProfileQuitDialog :
     }
 
     private fun initRejectBtnListener() {
-        binding.btnProfileDialogReject.setOnSingleClickListener {
-            dismiss()
-        }
+        binding.btnProfileDialogReject.setOnSingleClickListener { dismiss() }
     }
 
     private fun initQuitBtnListener() {
         binding.btnProfileDialogQuit.setOnSingleClickListener {
             AmplitudeUtils.trackEventWithProperties(
-                "click_profile_withdrawal",
-                JSONObject().put("withdrawal_button", "withdrawal4")
+                "click_profile_withdrawal", JSONObject().put("withdrawal_button", "withdrawal4")
             )
             viewModel.deleteUserDataToServer()
         }
@@ -75,45 +72,34 @@ class ProfileQuitDialog :
 
     // 유저 탈퇴 서버 통신 성공 시 카카오 연결 해제 진행
     private fun observeUserDeleteState() {
-        lifecycleScope.launch {
-            viewModel.deleteUserState.collectLatest { state ->
-                when (state) {
-                    is UiState.Success -> {
-                        viewModel.quitKakaoAccount()
-                    }
+        viewModel.deleteUserState.flowWithLifecycle(lifecycle).onEach { state ->
+            when (state) {
+                is UiState.Success -> viewModel.quitKakaoAccount()
 
-                    is UiState.Failure -> {
-                        toast(getString(R.string.profile_error_unlink))
-                    }
+                is UiState.Failure -> toast(getString(R.string.profile_error_unlink))
 
-                    is UiState.Loading -> {}
+                is UiState.Loading -> return@onEach
 
-                    is UiState.Empty -> {}
-                }
+                is UiState.Empty -> return@onEach
             }
-        }
+        }.launchIn(lifecycleScope)
     }
 
     private fun observeKakaoQuitState() {
-        lifecycleScope.launch {
-            viewModel.kakaoQuitState.collectLatest { state ->
-                when (state) {
-                    is UiState.Success -> {
-                        AmplitudeUtils.trackEventWithProperties("complete_withdrawal")
-                        restartApp(requireContext())
-                    }
-
-                    is UiState.Failure -> {
-                        toast(getString(R.string.profile_error_unlink_kakao))
-                        Timber.d(getString(R.string.profile_error_unlink_kakao) + ": ${state.msg}")
-                    }
-
-                    is UiState.Empty -> {}
-
-                    is UiState.Loading -> {}
+        viewModel.kakaoQuitState.flowWithLifecycle(lifecycle).onEach { state ->
+            when (state) {
+                is UiState.Success -> {
+                    AmplitudeUtils.trackEventWithProperties("complete_withdrawal")
+                    restartApp(requireContext())
                 }
+
+                is UiState.Failure -> toast(getString(R.string.profile_error_unlink_kakao))
+
+                is UiState.Empty -> return@onEach
+
+                is UiState.Loading -> return@onEach
             }
-        }
+        }.launchIn(lifecycleScope)
     }
 
     private fun restartApp(context: Context) {

@@ -5,7 +5,7 @@ data class ProfileUserModel(
     val name: String,
     val profileImageUrl: String,
     val group: String,
-    val yelloId: String,
+    var yelloId: String,
     val yelloCount: Int,
     val friendCount: Int,
     val point: Int = 0

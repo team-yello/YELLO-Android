@@ -3,6 +3,7 @@ package com.el.yello.presentation.main.profile.info
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import coil.load
 import coil.transform.CircleCropTransformation
@@ -13,8 +14,8 @@ import com.example.ui.base.BindingBottomSheetDialog
 import com.example.ui.fragment.toast
 import com.example.ui.view.UiState
 import com.example.ui.view.setOnSingleClickListener
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 
 class ProfileFriendDeleteBottomSheet :
     BindingBottomSheetDialog<FragmentProfileDeleteBottomSheetBinding>(R.layout.fragment_profile_delete_bottom_sheet) {
@@ -62,8 +63,8 @@ class ProfileFriendDeleteBottomSheet :
 
     // 친구 삭제 서버 통신 성공 시 토스트 띄우고 바텀시트 종료
     private fun observeFriendDeleteState() {
-        lifecycleScope.launch {
-            viewModel.deleteFriendState.collectLatest { state ->
+        viewModel.deleteFriendState.flowWithLifecycle(viewLifecycleOwner.lifecycle)
+            .onEach { state ->
                 when (state) {
                     is UiState.Success -> {
                         toast(
@@ -76,15 +77,12 @@ class ProfileFriendDeleteBottomSheet :
                         this@ProfileFriendDeleteBottomSheet.dismiss()
                     }
 
-                    is UiState.Failure -> {
-                        toast(getString(R.string.profile_error_delete_friend))
-                    }
+                    is UiState.Failure -> toast(getString(R.string.profile_error_delete_friend))
 
-                    is UiState.Loading -> {}
+                    is UiState.Loading -> return@onEach
 
-                    is UiState.Empty -> {}
+                    is UiState.Empty -> return@onEach
                 }
-            }
-        }
+            }.launchIn(viewLifecycleOwner.lifecycleScope)
     }
 }

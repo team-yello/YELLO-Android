@@ -216,7 +216,6 @@
     <string name="profile_user_info_friends_list_title">내 친구들</string>
     <string name="profile_user_info_friends_list_subtitle_2">명</string>
     <string name="profile_user_info_friends_list_subtitle_1">친구 수</string>
-    <string name="profile_yello_id">\@%s</string>
 
     <string name="recommend_tv_title">추천친구</string>
     <string name="recommend_dialog_tv_title">친구 초대하기</string>

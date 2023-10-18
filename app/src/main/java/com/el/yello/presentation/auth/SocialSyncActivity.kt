@@ -3,6 +3,8 @@ package com.el.yello.presentation.auth
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
+import androidx.lifecycle.flowWithLifecycle
+import androidx.lifecycle.lifecycleScope
 import com.el.yello.R
 import com.el.yello.databinding.ActivitySocialSyncBinding
 import com.el.yello.presentation.auth.SignInActivity.Companion.EXTRA_EMAIL
@@ -17,6 +19,8 @@ import com.example.ui.base.BindingActivity
 import com.example.ui.view.UiState
 import com.example.ui.view.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 
 @AndroidEntryPoint
 class SocialSyncActivity :
@@ -38,43 +42,39 @@ class SocialSyncActivity :
         }
     }
 
-    // 친구목록 동의만 받고 온보딩 뷰로 이동 (친구 목록은 이후에 추가)
+    // 친구목록 동의만 받고 온보딩 뷰로 이동
     private fun observeFriendsAccessState() {
-        viewModel.getFriendListState.observe(this) { state ->
+        viewModel.getFriendListState.flowWithLifecycle(lifecycle).onEach { state ->
             when (state) {
-                is UiState.Success -> {
-                    startOnBoardingActivity()
-                }
+                is UiState.Success -> startOnBoardingActivity()
 
-                is UiState.Failure -> {
-                    yelloSnackbar(binding.root, getString(R.string.msg_error))
-                }
+                is UiState.Failure -> yelloSnackbar(binding.root, getString(R.string.msg_error))
 
-                is UiState.Empty -> {}
+                is UiState.Empty -> return@onEach
 
-                is UiState.Loading -> {}
+                is UiState.Loading -> return@onEach
             }
-        }
+        }.launchIn(lifecycleScope)
     }
 
     private fun startOnBoardingActivity() {
-            intent.apply {
-                val kakaoId = getLongExtra(EXTRA_KAKAO_ID, -1)
-                val email = getStringExtra(EXTRA_EMAIL)
-                val profileImage = getStringExtra(EXTRA_PROFILE_IMAGE)
-                val name = getStringExtra(EXTRA_NAME)
-                val gender = getStringExtra(EXTRA_GENDER)
+        intent.apply {
+            val kakaoId = getLongExtra(EXTRA_KAKAO_ID, -1)
+            val email = getStringExtra(EXTRA_EMAIL)
+            val profileImage = getStringExtra(EXTRA_PROFILE_IMAGE)
+            val name = getStringExtra(EXTRA_NAME)
+            val gender = getStringExtra(EXTRA_GENDER)
 
-                Intent(this@SocialSyncActivity, OnBoardingActivity::class.java).apply {
-                    putExtra(EXTRA_KAKAO_ID, kakaoId)
-                    putExtra(EXTRA_EMAIL, email)
-                    putExtra(EXTRA_PROFILE_IMAGE, profileImage)
-                    putExtra(EXTRA_NAME, name)
-                    putExtra(EXTRA_GENDER, gender)
-                    addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                    startActivity(this)
-                }
-                finish()
+            Intent(this@SocialSyncActivity, OnBoardingActivity::class.java).apply {
+                putExtra(EXTRA_KAKAO_ID, kakaoId)
+                putExtra(EXTRA_EMAIL, email)
+                putExtra(EXTRA_PROFILE_IMAGE, profileImage)
+                putExtra(EXTRA_NAME, name)
+                putExtra(EXTRA_GENDER, gender)
+                addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                startActivity(this)
             }
+            finish()
+        }
     }
 }

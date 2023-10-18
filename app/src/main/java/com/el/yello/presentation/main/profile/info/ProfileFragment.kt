@@ -7,6 +7,7 @@ import android.view.View
 import android.view.animation.AnimationUtils
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -26,7 +27,8 @@ import com.example.ui.view.UiState
 import com.example.ui.view.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import org.json.JSONObject
 
@@ -108,7 +110,9 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
 
             // 리스트 아이템 클릭 리스너 설정 - 클릭된 아이템 값 저장 뷰모델 이후 바텀 시트 출력
             viewModel.setItemPosition(position)
-            viewModel.clickedUserData = profileUserModel
+            viewModel.clickedUserData = profileUserModel.apply {
+                if (!this.yelloId.startsWith("@")) this.yelloId = "@" + this.yelloId
+            }
 
             if (!viewModel.isItemBottomSheetRunning) {
                 AmplitudeUtils.trackEventWithProperties("click_profile_friend")
@@ -130,7 +134,6 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
                 startActivity(this)
             }
         })
-        adapter.setItemList(listOf())
         binding.rvProfileFriendsList.adapter = adapter
     }
 
@@ -139,10 +142,12 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
             setOnRefreshListener {
                 lifecycleScope.launch {
                     adapter.setItemList(listOf())
-                    viewModel.initViewModelVariable()
-                    viewModel.getPurchaseInfoFromServer()
-                    viewModel.getUserDataFromServer()
-                    viewModel.getFriendsListFromServer()
+                    viewModel.run {
+                        initViewModelVariable()
+                        getPurchaseInfoFromServer()
+                        getUserDataFromServer()
+                        getFriendsListFromServer()
+                    }
                     delay(200)
                     binding.layoutProfileSwipe.isRefreshing = false
                 }
@@ -153,34 +158,34 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
 
     // 유저 정보 서버 통신 성공 시 어댑터 생성 후 리사이클러뷰에 부착
     private fun observeUserDataState() {
-        lifecycleScope.launch {
-            viewModel.getUserDataState.collectLatest { state ->
-                when (state) {
-                    is UiState.Success -> {
-                        viewModel.myUserData = state.data
-                        viewModel.myFriendCount = state.data.friendCount
+        viewModel.getUserDataState.flowWithLifecycle(viewLifecycleOwner.lifecycle).onEach { state ->
+            when (state) {
+                is UiState.Success -> {
+                    viewModel.myUserData = state.data.apply {
+                        if (!this.yelloId.startsWith("@")) this.yelloId = "@" + this.yelloId
                     }
-
-                    is UiState.Failure -> {
-                        yelloSnackbar(requireView(), getString(R.string.profile_error_user_data))
-                    }
-
-                    is UiState.Empty -> {}
-
-                    is UiState.Loading -> {}
+                    viewModel.myFriendCount = state.data.friendCount
                 }
+
+                is UiState.Failure -> {
+                    yelloSnackbar(requireView(), getString(R.string.profile_error_user_data))
+                }
+
+                is UiState.Empty -> return@onEach
+
+                is UiState.Loading -> return@onEach
             }
-        }
+        }.launchIn(viewLifecycleOwner.lifecycleScope)
     }
 
     // 친구 목록 서버 통신 성공 시 어댑터에 리스트 추가
     private fun observeFriendsDataState() {
-        lifecycleScope.launch {
-            viewModel.getFriendListState.collectLatest { state ->
+        viewModel.getFriendListState.flowWithLifecycle(viewLifecycleOwner.lifecycle)
+            .onEach { state ->
                 when (state) {
                     is UiState.Success -> {
-                        binding.ivProfileLoading.visibility = View.GONE
-                        friendsList = state.data?.friends ?: listOf()
+                        binding.ivProfileLoading.isVisible = false
+                        friendsList = state.data.friends
                         adapter.addItemList(friendsList)
                     }
 
@@ -189,13 +194,12 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
                     }
 
                     is UiState.Loading -> {
-                        binding.ivProfileLoading.visibility = View.VISIBLE
+                        binding.ivProfileLoading.isVisible = true
                     }
 
-                    is UiState.Empty -> {}
+                    is UiState.Empty -> return@onEach
                 }
-            }
-        }
+            }.launchIn(viewLifecycleOwner.lifecycleScope)
     }
 
     // 무한 스크롤 구현
@@ -224,8 +228,8 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
 
     // 친구 삭제 서버 통신 성공 시 리스트에서 아이템 삭제
     private fun observeFriendDeleteState() {
-        lifecycleScope.launch {
-            viewModel.deleteFriendState.collectLatest { state ->
+        viewModel.deleteFriendState.flowWithLifecycle(viewLifecycleOwner.lifecycle)
+            .onEach { state ->
                 when (state) {
                     is UiState.Success -> {
                         lifecycleScope.launch {
@@ -241,38 +245,30 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
                         AmplitudeUtils.trackEventWithProperties("complete_profile_delete_friend")
                     }
 
-                    is UiState.Failure -> {
-                        toast(getString(R.string.profile_error_delete_friend))
-                    }
+                    is UiState.Failure -> toast(getString(R.string.profile_error_delete_friend))
 
-                    is UiState.Loading -> {}
+                    is UiState.Loading -> return@onEach
 
-                    is UiState.Empty -> {}
+                    is UiState.Empty -> return@onEach
                 }
-            }
-        }
+            }.launchIn(viewLifecycleOwner.lifecycleScope)
     }
 
     // 구독 여부 확인
     private fun observeCheckIsSubscribed() {
-        lifecycleScope.launch {
-            viewModel.getPurchaseInfoState.collectLatest { state ->
+        viewModel.getPurchaseInfoState.flowWithLifecycle(viewLifecycleOwner.lifecycle)
+            .onEach { state ->
                 when (state) {
-                    is UiState.Success -> {
-                        viewModel.isSubscribed = state.data?.isSubscribe == true
-                    }
+                    is UiState.Success -> viewModel.isSubscribed = state.data.isSubscribe == true
 
-                    is UiState.Failure -> {
-                        viewModel.isSubscribed = false
-                    }
+                    is UiState.Failure -> viewModel.isSubscribed = false
 
-                    is UiState.Loading -> {}
+                    is UiState.Loading -> return@onEach
 
-                    is UiState.Empty -> {}
+                    is UiState.Empty -> return@onEach
                 }
                 adapter.notifyDataSetChanged()
-            }
-        }
+            }.launchIn(viewLifecycleOwner.lifecycleScope)
     }
 
     // 친구 삭제 시 오른쪽으로 스와이프 되는 애니메이션 추가

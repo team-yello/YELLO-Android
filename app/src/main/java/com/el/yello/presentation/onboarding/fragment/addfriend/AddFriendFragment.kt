@@ -66,8 +66,8 @@ class AddFriendFragment : BindingFragment<FragmentAddFriendBinding>(R.layout.fra
     private fun setConfirmBtnClickListener() {
         binding.btnAddFriendNext.setOnSingleClickListener {
             AmplitudeUtils.trackEventWithProperties(
-                "click_onboarding_next",
-                JSONObject().put("onboard_view", "friends"),
+                EVENT_CLICK_ONBOARDING_NEXT,
+                JSONObject().put(NAME_ONBOARD_VIEW, VALUE_FRIENDS),
             )
             (activity as? OnBoardingActivity)?.progressBarPlus()
             viewModel.selectedFriendIdList = selectedItemIdList
@@ -145,5 +145,11 @@ class AddFriendFragment : BindingFragment<FragmentAddFriendBinding>(R.layout.fra
     override fun onDestroyView() {
         super.onDestroyView()
         _adapter = null
+    }
+
+    companion object {
+        private const val EVENT_CLICK_ONBOARDING_NEXT = "click_onboarding_next"
+        private const val NAME_ONBOARD_VIEW = "onboard_view"
+        private const val VALUE_FRIENDS = "friends"
     }
 }

@@ -15,7 +15,7 @@ class TutorialEndPlusActivity :
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding.btnEndTutorial.setOnSingleClickListener {
-            AmplitudeUtils.trackEventWithProperties("click_onboarding_yellostart")
+            AmplitudeUtils.trackEventWithProperties(EVENT_CLICK_ONBOARDING_YELLO_START)
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
         }
@@ -27,5 +27,6 @@ class TutorialEndPlusActivity :
 
     companion object {
         private const val NONE_ANIMATION = 0
+        private const val EVENT_CLICK_ONBOARDING_YELLO_START = "click_onboarding_yellostart"
     }
 }

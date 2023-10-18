@@ -50,7 +50,7 @@ class OnBoardingViewModel @Inject constructor(
     val studentType = MutableLiveData("")
     val university: String get() = universityText.value?.trim() ?: ""
     val universityText = MutableLiveData("")
-    private val highSchool: String get() = highSchoolText.value?.trim() ?: ""
+    val highSchool: String get() = highSchoolText.value?.trim() ?: ""
     val highSchoolText = MutableLiveData("")
 
     val departmentText = MutableLiveData("")

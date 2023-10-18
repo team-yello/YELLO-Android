@@ -80,9 +80,16 @@ class YelIoIdFragment : BindingFragment<FragmentYelloIdBinding>(R.layout.fragmen
 
     private fun amplitudeYelloIdInfo() {
         AmplitudeUtils.trackEventWithProperties(
-            "click_onboarding_next",
-            JSONObject().put("onboard_view", "id"),
+            EVENT_CLICK_ONBOARDING_NEXT,
+            JSONObject().put(NAME_ONBOARD_VIEW, VALUE_ID),
         )
-        AmplitudeUtils.updateUserProperties("user_id", viewModel.id)
+        AmplitudeUtils.updateUserProperties(PROPERTY_USER_ID, viewModel.id)
+    }
+
+    companion object {
+        private const val EVENT_CLICK_ONBOARDING_NEXT = "click_onboarding_next"
+        private const val NAME_ONBOARD_VIEW = "onboard_view"
+        private const val VALUE_ID = "id"
+        private const val PROPERTY_USER_ID = "user_id"
     }
 }

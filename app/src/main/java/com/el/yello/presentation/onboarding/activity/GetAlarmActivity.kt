@@ -28,10 +28,10 @@ class GetAlarmActivity :
     private val requestPermissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
             if (isGranted) {
-                AmplitudeUtils.updateUserProperties("user_pushnotification", "enabled")
+                AmplitudeUtils.updateUserProperties(EVENT_PUSH_NOTIFICATION, VALUE_ENABLED)
                 startTutorialActivity()
             } else {
-                AmplitudeUtils.updateUserProperties("user_pushnotification", "disabled")
+                AmplitudeUtils.updateUserProperties(EVENT_PUSH_NOTIFICATION, VALUE_DISABLED)
                 startTutorialActivity()
             }
         }
@@ -50,7 +50,7 @@ class GetAlarmActivity :
 
     private fun askNotificationPermission() {
         binding.btnStartYello.setOnSingleClickListener {
-            AmplitudeUtils.trackEventWithProperties("click_onboarding_notification")
+            AmplitudeUtils.trackEventWithProperties(EVENT_CLICK_ONBOARDING_NOTIFICATION)
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                 if (ContextCompat.checkSelfPermission(
                         this,
@@ -81,5 +81,9 @@ class GetAlarmActivity :
                 putExtra("isFromOnBoarding", isFromOnBoarding)
             }
         private const val NONE_ANIMATION = 0
+        private const val EVENT_PUSH_NOTIFICATION = "user_pushnotification"
+        private const val VALUE_ENABLED = "enabled"
+        private const val VALUE_DISABLED = "disabled"
+        private const val EVENT_CLICK_ONBOARDING_NOTIFICATION = "click_onboarding_notification"
     }
 }

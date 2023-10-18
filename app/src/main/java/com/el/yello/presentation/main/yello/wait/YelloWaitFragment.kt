@@ -3,6 +3,8 @@ package com.el.yello.presentation.main.yello.wait
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.flowWithLifecycle
+import androidx.lifecycle.lifecycleScope
 import com.el.yello.R
 import com.el.yello.databinding.FragmentYelloWaitBinding
 import com.el.yello.presentation.main.dialog.InviteFriendDialog
@@ -14,6 +16,8 @@ import com.el.yello.util.amplitude.AmplitudeUtils
 import com.example.ui.base.BindingFragment
 import com.example.ui.view.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import org.json.JSONObject
 
 @AndroidEntryPoint
@@ -29,10 +33,11 @@ class YelloWaitFragment : BindingFragment<FragmentYelloWaitBinding>(R.layout.fra
     }
 
     private fun initCircularProgressBar() {
-        binding.cpbWaitTimer.progress = viewModel.leftTime.value?.toFloat() ?: 0f
-        viewModel.leftTime.observe(viewLifecycleOwner) { time ->
-            binding.cpbWaitTimer.progress = time.toFloat()
-        }
+        binding.cpbWaitTimer.progress = viewModel.leftTime.value.toFloat()
+        viewModel.leftTime.flowWithLifecycle(viewLifecycleOwner.lifecycle)
+            .onEach { time ->
+                binding.cpbWaitTimer.progress = time.toFloat()
+            }.launchIn(viewLifecycleOwner.lifecycleScope)
     }
 
     private fun initInviteBtnClickListener() {

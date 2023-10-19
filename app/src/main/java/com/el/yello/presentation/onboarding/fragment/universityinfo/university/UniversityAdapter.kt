@@ -10,9 +10,9 @@ import com.example.ui.view.setOnSingleClickListener
 
 class UniversityAdapter(
     private val storeUniversity: (String) -> Unit,
-) : ListAdapter<String, UniversityAdapter.SchoolViewHolder>(diffUtil) {
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SchoolViewHolder {
-        return SchoolViewHolder(
+) : ListAdapter<String, UniversityAdapter.UniversityViewHolder>(diffUtil) {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UniversityViewHolder {
+        return UniversityViewHolder(
             ItemUniversityListBinding.inflate(
                 LayoutInflater.from(parent.context),
                 parent,
@@ -22,22 +22,22 @@ class UniversityAdapter(
         )
     }
 
-    override fun onBindViewHolder(holder: SchoolViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: UniversityViewHolder, position: Int) {
         holder.setUniversity(getItem(position))
     }
 
-    class SchoolViewHolder(
+    class UniversityViewHolder(
         private val binding: ItemUniversityListBinding,
-        private val storeSchool: (String) -> Unit,
+        private val storeUniversity: (String) -> Unit,
     ) :
         RecyclerView.ViewHolder(binding.root) {
         fun setUniversity(university: String) {
-            binding.data = university
+            binding.universityList = university
             binding.root.setOnSingleClickListener {
-                storeSchool(university)
+                storeUniversity(university)
             }
             binding.tvSchoolName.setOnSingleClickListener {
-                storeSchool(university)
+                storeUniversity(university)
             }
         }
     }

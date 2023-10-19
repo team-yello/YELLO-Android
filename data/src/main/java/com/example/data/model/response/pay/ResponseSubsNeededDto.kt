@@ -1,6 +1,6 @@
 package com.example.data.model.response.pay
 
-import com.example.domain.entity.ResponseSubsNeededModel
+import com.example.domain.entity.PaySubsNeededModel
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -11,8 +11,8 @@ data class ResponseSubsNeededDto(
     @SerialName("isSubscribeNeeded")
     val isSubscribeNeeded: Boolean
 ) {
-    fun toResponseSubsNeededModel(): ResponseSubsNeededModel {
-        return ResponseSubsNeededModel(
+    fun toResponseSubsNeededModel(): PaySubsNeededModel {
+        return PaySubsNeededModel(
             subscribe, isSubscribeNeeded
         )
     }

@@ -9,6 +9,8 @@ import android.view.View
 import android.view.WindowManager
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.flowWithLifecycle
+import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -24,6 +26,8 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
@@ -78,20 +82,22 @@ class SearchDialogDepartmentFragment :
     }
 
     private fun setupDepartmentData() {
-        viewModel.departmentState.observe(viewLifecycleOwner) { state ->
-            Timber.d("GET GROUP LIST OBSERVE : $state")
-            when (state) {
-                is UiState.Success -> {
-                    adapter?.submitList(state.data.groupList)
+        viewModel.departmentState.flowWithLifecycle(viewLifecycleOwner.lifecycle)
+            .onEach { state ->
+                Timber.d("GET GROUP LIST OBSERVE : $state")
+                when (state) {
+                    is UiState.Success -> {
+                        adapter?.submitList(state.data.groupList)
+                    }
+
+                    is UiState.Failure -> {
+                        yelloSnackbar(binding.root, getString(R.string.msg_error))
+                    }
+
+                    is UiState.Loading -> return@onEach
+                    is UiState.Empty -> return@onEach
                 }
-                is UiState.Failure -> {
-                    yelloSnackbar(binding.root, getString(R.string.msg_error))
-                }
-                is UiState.Loading -> {}
-                is UiState.Empty -> {}
-                else -> {}
-            }
-        }
+            }.launchIn(viewLifecycleOwner.lifecycleScope)
     }
 
     private fun storeUniversityGroup(department: String, groupId: Long) {
@@ -141,14 +147,18 @@ class SearchDialogDepartmentFragment :
     }
 
     private fun recyclerviewScroll() {
-        binding.rvDepartmentList.setOnTouchListener { view, motionEvent ->
-            when (motionEvent.action) {
-                MotionEvent.ACTION_MOVE -> {
-                    binding.layoutDepartmentDialog.requestDisallowInterceptTouchEvent(true)
+        binding.rvDepartmentList.addOnItemTouchListener(object : RecyclerView.OnItemTouchListener {
+            override fun onInterceptTouchEvent(rv: RecyclerView, e: MotionEvent): Boolean {
+                when (e.action) {
+                    MotionEvent.ACTION_MOVE -> {
+                        binding.layoutDepartmentDialog.requestDisallowInterceptTouchEvent(true)
+                    }
                 }
+                return false
             }
-            return@setOnTouchListener false
-        }
+            override fun onTouchEvent(rv: RecyclerView, e: MotionEvent) {}
+            override fun onRequestDisallowInterceptTouchEvent(disallowIntercept: Boolean) {}
+        })
     }
 
     override fun onDestroyView() {

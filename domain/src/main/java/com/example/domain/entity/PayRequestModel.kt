@@ -1,6 +1,6 @@
 package com.example.domain.entity
 
-data class RequestPayModel(
+data class PayRequestModel(
     val orderId: String?,
     val packageName: String,
     val productId: String,

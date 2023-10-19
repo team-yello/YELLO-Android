@@ -1,4 +1,4 @@
-package com.el.yello.presentation.main.recommend.search
+package com.el.yello.presentation.search
 
 import android.content.Context
 import android.graphics.Canvas
@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.el.yello.R
 import com.example.ui.intent.dpToPx
 
-class RecommendSearchItemDecoration(context: Context) : RecyclerView.ItemDecoration() {
+class SearchItemDecoration(context: Context) : RecyclerView.ItemDecoration() {
     private val dividerHeight = dpToPx(context, 1)
     private val dividerMargin = dpToPx(context, 8)
     private val dividerColor = ContextCompat.getColor(context, R.color.grayscales_800)

@@ -16,7 +16,8 @@ import com.example.ui.view.setOnSingleClickListener
 class ProfileFriendItemBottomSheet :
     BindingBottomSheetDialog<FragmentProfileItemBottomSheetBinding>(R.layout.fragment_profile_item_bottom_sheet) {
 
-    private var deleteBottomSheet: ProfileFriendDeleteBottomSheet? = ProfileFriendDeleteBottomSheet()
+    private var deleteBottomSheet: ProfileFriendDeleteBottomSheet? =
+        ProfileFriendDeleteBottomSheet()
     private val viewModel by activityViewModels<ProfileViewModel>()
 
     override fun onStart() {
@@ -29,25 +30,15 @@ class ProfileFriendItemBottomSheet :
 
         binding.vm = viewModel
         viewModel.isItemBottomSheetRunning = true
-        initDeleteBtnListener()
         setItemImage()
-    }
-
-    override fun onDismiss(dialog: DialogInterface) {
-        super.onDismiss(dialog)
-        viewModel.isItemBottomSheetRunning = false
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        deleteBottomSheet = null
+        initDeleteBtnListener()
     }
 
     private fun setItemImage() {
-        if (viewModel.clickedItemThumbnail.value == BASIC_THUMBNAIL) {
+        if (viewModel.clickedUserData.profileImageUrl == BASIC_THUMBNAIL) {
             binding.ivProfileFriendThumbnail.load(R.drawable.img_yello_basic)
         } else {
-            binding.ivProfileFriendThumbnail.load(viewModel.clickedItemThumbnail.value) {
+            binding.ivProfileFriendThumbnail.load(viewModel.clickedUserData.profileImageUrl) {
                 transformations(CircleCropTransformation())
             }
         }
@@ -59,6 +50,16 @@ class ProfileFriendItemBottomSheet :
             deleteBottomSheet?.show(parentFragmentManager, DELETE_BOTTOM_SHEET)
             dismiss()
         }
+    }
+
+    override fun onDismiss(dialog: DialogInterface) {
+        super.onDismiss(dialog)
+        viewModel.isItemBottomSheetRunning = false
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        deleteBottomSheet = null
     }
 
     private companion object {

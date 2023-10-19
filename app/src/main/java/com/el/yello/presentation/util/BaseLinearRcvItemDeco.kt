@@ -5,13 +5,13 @@ import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 
 class BaseLinearRcvItemDeco(
-    private val top: Int,
-    private val bottom: Int,
-    private val right: Int,
-    private val left: Int,
-    private val startPadding: Int,
+    private val top: Int = 0,
+    private val bottom: Int = 0,
+    private val right: Int = 0,
+    private val left: Int = 0,
+    private val startPadding: Int = 0,
     private val orientation: Int = RecyclerView.VERTICAL,
-    private val bottomPadding: Int = -1,
+    private val bottomPadding: Int = 0,
 ) : RecyclerView.ItemDecoration() {
 
     constructor(

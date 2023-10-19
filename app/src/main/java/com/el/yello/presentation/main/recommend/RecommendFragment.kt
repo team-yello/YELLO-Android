@@ -10,7 +10,7 @@ import com.el.yello.presentation.main.recommend.kakao.RecommendKakaoFragment
 import com.el.yello.presentation.main.recommend.kakao.RecommendKakaoViewModel
 import com.el.yello.presentation.main.recommend.school.RecommendSchoolFragment
 import com.el.yello.presentation.main.recommend.school.RecommendSchoolViewModel
-import com.el.yello.presentation.main.recommend.search.RecommendSearchActivity
+import com.el.yello.presentation.search.SearchActivity
 import com.el.yello.util.amplitude.AmplitudeUtils
 import com.example.ui.base.BindingFragment
 import com.example.ui.view.setOnSingleClickListener
@@ -23,21 +23,27 @@ class RecommendFragment : BindingFragment<FragmentRecommendBinding>(R.layout.fra
     private lateinit var kakaoViewModel: RecommendKakaoViewModel
     private lateinit var schoolViewModel: RecommendSchoolViewModel
 
+    private val tabTextList = listOf(TAB_KAKAO, TAB_SCHOOL)
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        kakaoViewModel = ViewModelProvider(requireActivity())[RecommendKakaoViewModel::class.java]
-        schoolViewModel = ViewModelProvider(requireActivity())[RecommendSchoolViewModel::class.java]
+        initViewModelProvider()
         initSearchBtnListener()
         setTabLayout()
+    }
+
+    private fun initViewModelProvider() {
+        kakaoViewModel = ViewModelProvider(requireActivity())[RecommendKakaoViewModel::class.java]
+        schoolViewModel = ViewModelProvider(requireActivity())[RecommendSchoolViewModel::class.java]
     }
 
     private fun initSearchBtnListener() {
         binding.btnRecommendSearch.setOnSingleClickListener {
             AmplitudeUtils.trackEventWithProperties("click_search_button")
-            kakaoViewModel.updateIsSearchViewShowed(true)
-            schoolViewModel.updateIsSearchViewShowed(true)
-            Intent(activity, RecommendSearchActivity::class.java).apply {
+            kakaoViewModel.isSearchViewShowed = true
+            schoolViewModel.isSearchViewShowed = true
+            Intent(activity, SearchActivity::class.java).apply {
                 addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                 startActivity(this)
             }
@@ -46,8 +52,6 @@ class RecommendFragment : BindingFragment<FragmentRecommendBinding>(R.layout.fra
 
     private fun setTabLayout() {
         binding.vpRecommend.adapter = RecommendViewPagerAdapter(this)
-        val tabTextList = listOf(TAB_KAKAO, TAB_SCHOOL)
-
         TabLayoutMediator(binding.tabRecommend, binding.vpRecommend) { tab, pos ->
             tab.text = tabTextList[pos]
         }.attach()

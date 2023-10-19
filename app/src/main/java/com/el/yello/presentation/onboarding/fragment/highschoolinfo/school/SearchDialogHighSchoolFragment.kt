@@ -9,6 +9,8 @@ import android.view.View
 import android.view.WindowManager
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.flowWithLifecycle
+import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -24,6 +26,8 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
 class SearchDialogHighSchoolFragment :
@@ -76,21 +80,21 @@ class SearchDialogHighSchoolFragment :
     }
 
     private fun setupHighSchoolData() {
-        viewModel.highSchoolState.observe(viewLifecycleOwner) { state ->
-            when (state) {
-                is UiState.Success -> {
-                    adapter?.submitList(state.data.groupNameList)
-                }
+        viewModel.highSchoolState.flowWithLifecycle(viewLifecycleOwner.lifecycle)
+            .onEach { state ->
+                when (state) {
+                    is UiState.Success -> {
+                        adapter?.submitList(state.data.groupNameList)
+                    }
 
-                is UiState.Failure -> {
-                    yelloSnackbar(binding.root, getString(R.string.msg_error))
-                }
+                    is UiState.Failure -> {
+                        yelloSnackbar(binding.root, getString(R.string.msg_error))
+                    }
 
-                is UiState.Loading -> {}
-                is UiState.Empty -> {}
-                else -> {}
-            }
-        }
+                    is UiState.Loading -> return@onEach
+                    is UiState.Empty -> return@onEach
+                }
+            }.launchIn(viewLifecycleOwner.lifecycleScope)
     }
 
     private fun storeHighSchool(school: String) {
@@ -140,14 +144,18 @@ class SearchDialogHighSchoolFragment :
     }
 
     private fun recyclerviewScroll() {
-        binding.rvHighschoolList.setOnTouchListener { view, motionEvent ->
-            when (motionEvent.action) {
-                MotionEvent.ACTION_MOVE -> {
-                    binding.layoutHighschoolDialog.requestDisallowInterceptTouchEvent(true)
+        binding.rvHighschoolList.addOnItemTouchListener(object : RecyclerView.OnItemTouchListener {
+            override fun onInterceptTouchEvent(rv: RecyclerView, e: MotionEvent): Boolean {
+                when (e.action) {
+                    MotionEvent.ACTION_MOVE -> {
+                        binding.layoutHighschoolDialog.requestDisallowInterceptTouchEvent(true)
+                    }
                 }
+                return false
             }
-            return@setOnTouchListener false
-        }
+            override fun onTouchEvent(rv: RecyclerView, e: MotionEvent) {}
+            override fun onRequestDisallowInterceptTouchEvent(disallowIntercept: Boolean) {}
+        })
     }
     override fun onDestroyView() {
         super.onDestroyView()

@@ -15,15 +15,15 @@ class TutorialCActivity : BindingActivity<ActivityTutorialCBinding>(R.layout.act
         super.onCreate(savedInstanceState)
 
         AmplitudeUtils.trackEventWithProperties(
-            "view_onboarding_tutorial",
-            JSONObject().put("tutorial_step", "3"),
+            EVENT_VIEW_ONBOARDING_TUTORIAL,
+            JSONObject().put(NAME_TUTORIAL_STEP, VALUE_TUTORIAL_THREE),
         )
         setClickListener()
     }
 
     override fun onPause() {
         super.onPause()
-        overridePendingTransition(0, 0)
+        overridePendingTransition(NONE_ANIMATION, NONE_ANIMATION)
     }
 
     private fun setClickListener() {
@@ -38,5 +38,12 @@ class TutorialCActivity : BindingActivity<ActivityTutorialCBinding>(R.layout.act
             startActivity(intent)
             finish()
         }
+    }
+
+    companion object {
+        private const val NONE_ANIMATION = 0
+        private const val EVENT_VIEW_ONBOARDING_TUTORIAL = "view_onboarding_tutorial"
+        private const val NAME_TUTORIAL_STEP = "tutorial_step"
+        private const val VALUE_TUTORIAL_THREE = "3"
     }
 }

@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
 import com.el.yello.util.amplitude.AmplitudeUtils
-import com.example.domain.entity.onboarding.AddFriendListModel
+import com.example.domain.entity.onboarding.AddFriendListModel.FriendModel
 import com.example.domain.entity.onboarding.GroupHighSchool
 import com.example.domain.entity.onboarding.GroupList
 import com.example.domain.entity.onboarding.HighSchoolList
@@ -19,6 +19,8 @@ import com.example.domain.repository.OnboardingRepository
 import com.example.ui.view.UiState
 import com.kakao.sdk.talk.TalkApiClient
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import timber.log.Timber
@@ -48,7 +50,7 @@ class OnBoardingViewModel @Inject constructor(
     val studentType = MutableLiveData("")
     val university: String get() = universityText.value?.trim() ?: ""
     val universityText = MutableLiveData("")
-    private val highSchool: String get() = highSchoolText.value?.trim() ?: ""
+    val highSchool: String get() = highSchoolText.value?.trim() ?: ""
     val highSchoolText = MutableLiveData("")
 
     val departmentText = MutableLiveData("")
@@ -63,15 +65,16 @@ class OnBoardingViewModel @Inject constructor(
     val id: String get() = idText.value?.trim() ?: ""
     val isValidId: LiveData<Boolean> = idText.map { id -> checkId(id) }
     val codeText = MutableLiveData("")
+    val isValidCode: LiveData<Boolean> = codeText.map { id -> checkId(id) }
 
-    private val _universityState = MutableLiveData<UiState<SchoolList>>()
-    val universityState: MutableLiveData<UiState<SchoolList>> = _universityState
+    private val _universityState = MutableStateFlow<UiState<SchoolList>>(UiState.Empty)
+    val universityState: StateFlow<UiState<SchoolList>> = _universityState
 
-    private val _highSchoolState = MutableLiveData<UiState<HighSchoolList>>()
-    val highSchoolState: MutableLiveData<UiState<HighSchoolList>> = _highSchoolState
+    private val _highSchoolState = MutableStateFlow<UiState<HighSchoolList>>(UiState.Empty)
+    val highSchoolState: StateFlow<UiState<HighSchoolList>> = _highSchoolState
 
-    private val _departmentState = MutableLiveData<UiState<GroupList>>()
-    val departmentState: MutableLiveData<UiState<GroupList>> = _departmentState
+    private val _departmentState = MutableStateFlow<UiState<GroupList>>(UiState.Empty)
+    val departmentState: StateFlow<UiState<GroupList>> = _departmentState
 
     private val _highSchoolGroupState = MutableLiveData<UiState<GroupHighSchool?>>()
 
@@ -87,13 +90,12 @@ class OnBoardingViewModel @Inject constructor(
     private val _studentIdResult: MutableLiveData<List<Int>> = MutableLiveData()
     val studentIdResult: LiveData<List<Int>> = _studentIdResult
 
-    private val _friendListState =
-        MutableLiveData<UiState<List<AddFriendListModel.FriendModel>>>(UiState.Loading)
-    val friendListState: LiveData<UiState<List<AddFriendListModel.FriendModel>>> = _friendListState
+    private val _friendListState = MutableStateFlow<UiState<List<FriendModel>>>(UiState.Empty)
+    val friendListState: StateFlow<UiState<List<FriendModel>>> = _friendListState
 
     var selectedFriendIdList: List<Long> = listOf()
     var selectedFriendCount: MutableLiveData<Int> = MutableLiveData(0)
-    private val totalFriendList = mutableListOf<AddFriendListModel.FriendModel>()
+    private val totalFriendList = mutableListOf<FriendModel>()
 
     private val _getValidYelloIdState = MutableLiveData<UiState<Boolean>>()
     val getValidYelloIdState: LiveData<UiState<Boolean>> get() = _getValidYelloIdState
@@ -149,9 +151,8 @@ class OnBoardingViewModel @Inject constructor(
     }
 
     private fun checkId(id: String) = Pattern.matches(REGEX_ID_PATTERN, id)
-    fun isCodeTextEmpty(): Boolean {
-        return codeText.value.isNullOrEmpty()
-    }
+
+    fun isCodeTextEmpty() = codeText.value.isNullOrEmpty()
 
     private var currentFriendOffset = -100
     private var currentFriendPage = -1
@@ -179,48 +180,54 @@ class OnBoardingViewModel @Inject constructor(
             onboardingRepository.getSchoolList(
                 search,
                 0,
-            ).onSuccess { schoolList ->
-                Timber.d("GET SCHOOL LIST SUCCESS : $schoolList")
-                if (schoolList == null) {
-                    _universityState.value = UiState.Empty
-                    return@launch
+            )
+                .onSuccess { schoolList ->
+                    Timber.d("GET SCHOOL LIST SUCCESS : $schoolList")
+                    if (schoolList == null) {
+                        _universityState.value = UiState.Empty
+                        return@launch
+                    }
+                    _universityState.value = when {
+                        schoolList.schoolList.isEmpty() -> UiState.Empty
+                        else -> UiState.Success(schoolList)
+                    }
                 }
-                _universityState.value = when {
-                    schoolList.schoolList.isEmpty() -> UiState.Empty
-                    else -> UiState.Success(schoolList)
+                .onFailure { t ->
+                    if (t is HttpException) {
+                        Timber.e("GET SCHOOL LIST FAILURE : $t")
+                        _universityState.value = UiState.Failure(t.code().toString())
+                    }
                 }
-            }.onFailure { t ->
-                if (t is HttpException) {
-                    Timber.e("GET SCHOOL LIST FAILURE : $t")
-                    _universityState.value = UiState.Failure(t.code().toString())
-                }
-            }
         }
     }
+
     fun getHighSchoolList(search: String) {
         viewModelScope.launch {
             _highSchoolState.value = UiState.Loading
             onboardingRepository.getHighSchoolList(
                 search,
                 0,
-            ).onSuccess { highSchoolList ->
-                Timber.d("GET SCHOOL LIST SUCCESS : $highSchoolList")
-                if (highSchoolList == null) {
-                    _highSchoolState.value = UiState.Empty
-                    return@launch
+            )
+                .onSuccess { highSchoolList ->
+                    Timber.d("GET SCHOOL LIST SUCCESS : $highSchoolList")
+                    if (highSchoolList == null) {
+                        _highSchoolState.value = UiState.Empty
+                        return@launch
+                    }
+                    _highSchoolState.value = when {
+                        highSchoolList.groupNameList.isEmpty() -> UiState.Empty
+                        else -> UiState.Success(highSchoolList)
+                    }
                 }
-                _highSchoolState.value = when {
-                    highSchoolList.groupNameList.isEmpty() -> UiState.Empty
-                    else -> UiState.Success(highSchoolList)
+                .onFailure { t ->
+                    if (t is HttpException) {
+                        Timber.e("GET SCHOOL LIST FAILURE : $t")
+                        _highSchoolState.value = UiState.Failure(t.code().toString())
+                    }
                 }
-            }.onFailure { t ->
-                if (t is HttpException) {
-                    Timber.e("GET SCHOOL LIST FAILURE : $t")
-                    _highSchoolState.value = UiState.Failure(t.code().toString())
-                }
-            }
         }
     }
+
     fun getUniversityGroupId(search: String) {
         viewModelScope.launch {
             _departmentState.value = UiState.Loading
@@ -228,39 +235,44 @@ class OnBoardingViewModel @Inject constructor(
                 0,
                 university,
                 search,
-            ).onSuccess { groupList ->
-                if (groupList == null) {
-                    _departmentState.value = UiState.Empty
-                    return@launch
+            )
+                .onSuccess { groupList ->
+                    if (groupList == null) {
+                        _departmentState.value = UiState.Empty
+                        return@launch
+                    }
+                    _departmentState.value = when {
+                        groupList.groupList.isEmpty() -> UiState.Empty
+                        else -> UiState.Success(groupList)
+                    }
                 }
-                _departmentState.value = when {
-                    groupList.groupList.isEmpty() -> UiState.Empty
-                    else -> UiState.Success(groupList)
+                .onFailure { t ->
+                    if (t is HttpException) {
+                        Timber.e("GET GROUP LIST FAILURE : $t")
+                        _departmentState.value = UiState.Failure(t.code().toString())
+                    }
+                    Timber.e("GET GROUP LIST ERROR : $t")
                 }
-            }.onFailure { t ->
-                if (t is HttpException) {
-                    Timber.e("GET GROUP LIST FAILURE : $t")
-                    _departmentState.value = UiState.Failure(t.code().toString())
-                }
-                Timber.e("GET GROUP LIST ERROR : $t")
-            }
         }
     }
-    fun getHighSchoolGroupId(group: String) {
+
+    private fun getHighSchoolGroupId(group: String) {
         viewModelScope.launch {
             onboardingRepository.getGroupHighSchool(
                 highSchool,
                 group,
-            ).onSuccess {
-                if (it == null) {
-                    _highSchoolGroupState.value = UiState.Empty
-                    return@onSuccess
+            )
+                .onSuccess {
+                    if (it == null) {
+                        _highSchoolGroupState.value = UiState.Empty
+                        return@onSuccess
+                    }
+                    _highSchoolGroupState.value = UiState.Success(it)
+                    _groupId.value = it.groupId
                 }
-                _highSchoolGroupState.value = UiState.Success(it)
-                _groupId.value = it.groupId
-            }.onFailure {
-                _highSchoolGroupState.value = UiState.Failure(it.message.toString())
-            }
+                .onFailure {
+                    _highSchoolGroupState.value = UiState.Failure(it.message.toString())
+                }
         }
     }
 
@@ -308,6 +320,7 @@ class OnBoardingViewModel @Inject constructor(
                 }
         }
     }
+
     fun getValidYelloId(unknownId: String) {
         viewModelScope.launch {
             onboardingRepository.getValidYelloId(
@@ -379,6 +392,7 @@ class OnBoardingViewModel @Inject constructor(
         AmplitudeUtils.updateUserProperties("user_sex", gender)
         AmplitudeUtils.updateUserProperties("user_name", name)
     }
+
     companion object {
         private const val REGEX_ID_PATTERN = "^([A-Za-z0-9_.]*)\$"
     }

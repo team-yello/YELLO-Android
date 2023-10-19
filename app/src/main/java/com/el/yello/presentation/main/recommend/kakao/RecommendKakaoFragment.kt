@@ -6,6 +6,7 @@ import android.view.WindowManager
 import android.view.animation.AnimationUtils
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -25,6 +26,8 @@ import com.example.ui.view.UiState
 import com.example.ui.view.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import org.json.JSONObject
 
@@ -62,29 +65,25 @@ class RecommendKakaoFragment :
 
     override fun onResume() {
         super.onResume()
-        if (viewModel.isSearchViewShowed.value == true) {
+        if (viewModel.isSearchViewShowed) {
             adapter.clearList()
             setKakaoRecommendList()
-            viewModel.updateIsSearchViewShowed(false)
+            viewModel.isSearchViewShowed = false
         }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _adapter = null
-        dismissDialog()
     }
 
     private fun initViewModel() {
         viewModel = ViewModelProvider(requireActivity())[RecommendKakaoViewModel::class.java]
-        viewModel.updateIsSearchViewShowed(false)
+        viewModel.isSearchViewShowed = false
     }
 
     // 서버 통신 성공 시 카카오 추천 친구 추가
     private fun setKakaoRecommendList() {
-        viewModel.setFirstPageLoading()
-        viewModel.initPagingVariable()
-        viewModel.addListWithKakaoIdList()
+        with(viewModel) {
+            setFirstPageLoading()
+            initViewModelVariable()
+            addListWithKakaoIdList()
+        }
     }
 
     // 무한 스크롤 구현
@@ -94,10 +93,7 @@ class RecommendKakaoFragment :
                 super.onScrolled(recyclerView, dx, dy)
                 if (dy > 0) {
                     recyclerView.layoutManager?.let { layoutManager ->
-                        if (!binding.rvRecommendKakao.canScrollVertically(1) &&
-                            layoutManager is LinearLayoutManager &&
-                            layoutManager.findLastVisibleItemPosition() == adapter.itemCount - 1
-                        ) {
+                        if (!binding.rvRecommendKakao.canScrollVertically(1) && layoutManager is LinearLayoutManager && layoutManager.findLastVisibleItemPosition() == adapter.itemCount - 1) {
                             viewModel.addListWithKakaoIdList()
                         }
                     }
@@ -145,9 +141,7 @@ class RecommendKakaoFragment :
     private fun setItemDecoration() {
         itemDivider = RecommendItemDecoration(requireContext())
         binding.rvRecommendKakao.addItemDecoration(itemDivider)
-        binding.rvRecommendKakao.addItemDecoration(
-            BaseLinearRcvItemDeco(0, 0, 0, 0, 0, RecyclerView.VERTICAL, 12),
-        )
+        binding.rvRecommendKakao.addItemDecoration(BaseLinearRcvItemDeco(bottomPadding = 12))
     }
 
     // 어댑터 클릭 리스너 설정
@@ -160,46 +154,48 @@ class RecommendKakaoFragment :
     }
 
     private fun observeKakaoError() {
-        viewModel.getKakaoErrorResult.observe(viewLifecycleOwner) {
-            yelloSnackbar(requireView(), getString(R.string.recommend_error_friends_list))
-            showShimmerScreen()
-        }
+        viewModel.getKakaoErrorResult.flowWithLifecycle(viewLifecycleOwner.lifecycle)
+            .onEach { result ->
+                if (result) {
+                    yelloSnackbar(requireView(), getString(R.string.recommend_error_friends_list))
+                    showShimmerScreen()
+                }
+            }.launchIn(viewLifecycleOwner.lifecycleScope)
     }
 
     // 추천친구 리스트 추가 서버 통신 성공 시 어댑터에 리스트 추가
     private fun observeAddListState() {
-        viewModel.postFriendsListState.observe(viewLifecycleOwner) { state ->
-            when (state) {
-                is UiState.Success -> {
-                    startFadeIn()
-                    if (state.data?.friends?.isEmpty() == true && adapter.itemCount == 0) {
-                        showNoFriendScreen()
-                    } else {
-                        showFriendListScreen()
-                        adapter.addItemList(state.data?.friends ?: listOf())
+        viewModel.postFriendsListState.flowWithLifecycle(viewLifecycleOwner.lifecycle)
+            .onEach { state ->
+                when (state) {
+                    is UiState.Success -> {
+                        startFadeIn()
+                        if (state.data.friends.isEmpty() && adapter.itemCount == 0) {
+                            showNoFriendScreen()
+                        } else {
+                            showFriendListScreen()
+                            adapter.addItemList(state.data.friends)
+                        }
                     }
-                }
 
-                is UiState.Failure -> {
-                    showShimmerScreen()
-                    yelloSnackbar(
-                        requireView(),
-                        getString(R.string.recommend_error_friend_connection),
-                    )
-                }
+                    is UiState.Failure -> {
+                        showShimmerScreen()
+                        yelloSnackbar(
+                            requireView(),
+                            getString(R.string.recommend_error_friend_connection),
+                        )
+                    }
 
-                is UiState.Loading -> {
-                    showShimmerScreen()
-                }
+                    is UiState.Loading -> showShimmerScreen()
 
-                is UiState.Empty -> {}
-            }
-        }
+                    is UiState.Empty -> return@onEach
+                }
+            }.launchIn(viewLifecycleOwner.lifecycleScope)
     }
 
     // 친구 추가 서버 통신 성공 시 리스트에서 아이템 삭제 & 서버 통신 중 액티비티 클릭 방지
     private fun observeAddFriendState() {
-        viewModel.addFriendState.observe(viewLifecycleOwner) { state ->
+        viewModel.addFriendState.flowWithLifecycle(viewLifecycleOwner.lifecycle).onEach { state ->
             when (state) {
                 is UiState.Success -> {
                     val position = viewModel.itemPosition
@@ -226,9 +222,9 @@ class RecommendKakaoFragment :
                     )
                 }
 
-                is UiState.Empty -> {}
+                is UiState.Empty -> return@onEach
             }
-        }
+        }.launchIn(viewLifecycleOwner.lifecycleScope)
     }
 
     private fun setDeleteAnimation() {
@@ -263,8 +259,10 @@ class RecommendKakaoFragment :
     }
 
     private fun changeToCheckIcon(holder: RecommendViewHolder) {
-        holder.binding.btnRecommendItemAdd.visibility = View.INVISIBLE
-        holder.binding.btnRecommendItemAddPressed.visibility = View.VISIBLE
+        with(holder.binding) {
+            btnRecommendItemAdd.isVisible = false
+            btnRecommendItemAddPressed.isVisible = true
+        }
     }
 
     private fun startFadeIn() {
@@ -273,29 +271,41 @@ class RecommendKakaoFragment :
     }
 
     private fun showShimmerScreen() {
-        binding.layoutRecommendFriendsList.isVisible = true
-        binding.layoutRecommendNoFriendsList.isVisible = false
-        binding.shimmerFriendList.startShimmer()
-        binding.shimmerFriendList.visibility = View.VISIBLE
-        binding.rvRecommendKakao.visibility = View.GONE
+        with(binding) {
+            layoutRecommendFriendsList.isVisible = true
+            layoutRecommendNoFriendsList.isVisible = false
+            shimmerFriendList.startShimmer()
+            shimmerFriendList.isVisible = true
+            rvRecommendKakao.isVisible = false
+        }
     }
 
     private fun showFriendListScreen() {
-        binding.layoutRecommendFriendsList.isVisible = true
-        binding.layoutRecommendNoFriendsList.isVisible = false
-        binding.shimmerFriendList.stopShimmer()
-        binding.shimmerFriendList.visibility = View.GONE
-        binding.rvRecommendKakao.visibility = View.VISIBLE
+        with(binding) {
+            layoutRecommendFriendsList.isVisible = true
+            layoutRecommendNoFriendsList.isVisible = false
+            shimmerFriendList.startShimmer()
+            shimmerFriendList.isVisible = false
+            rvRecommendKakao.isVisible = true
+        }
     }
 
     private fun showNoFriendScreen() {
-        binding.layoutRecommendFriendsList.isVisible = false
-        binding.layoutRecommendNoFriendsList.isVisible = true
-        binding.shimmerFriendList.stopShimmer()
+        with(binding) {
+            layoutRecommendFriendsList.isVisible = false
+            layoutRecommendNoFriendsList.isVisible = true
+            shimmerFriendList.stopShimmer()
+        }
     }
 
     fun scrollToTop() {
         binding.rvRecommendKakao.smoothScrollToPosition(0)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _adapter = null
+        dismissDialog()
     }
 
     private companion object {

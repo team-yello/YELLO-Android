@@ -10,10 +10,12 @@ import com.el.yello.presentation.onboarding.activity.OnBoardingActivity
 import com.el.yello.presentation.onboarding.activity.OnBoardingViewModel
 import com.el.yello.presentation.onboarding.fragment.highschoolinfo.group.GroupDialogFragment
 import com.el.yello.presentation.onboarding.fragment.highschoolinfo.school.SearchDialogHighSchoolFragment
+import com.el.yello.util.amplitude.AmplitudeUtils
 import com.el.yello.util.context.yelloSnackbar
 import com.example.domain.enum.GradeEnum
 import com.example.ui.base.BindingFragment
 import com.example.ui.view.setOnSingleClickListener
+import org.json.JSONObject
 
 class HighSchoolInfoFragment :
     BindingFragment<FragmentHighschoolBinding>(R.layout.fragment_highschool) {
@@ -98,8 +100,31 @@ class HighSchoolInfoFragment :
     private fun setConfirmBtnClickListener() {
         binding.btnHighschoolinfoNextBtn.setOnSingleClickListener {
             findNavController().navigate(R.id.action_highschoolInfoFragment_to_yelIoIdFragment)
+            amplitudeHighSchoolInfo()
             val activity = requireActivity() as OnBoardingActivity
             activity.progressBarPlus()
         }
+    }
+
+    private fun amplitudeHighSchoolInfo() {
+        AmplitudeUtils.trackEventWithProperties(
+            EVENT_CLICK_ONBOARDING_NEXT,
+            JSONObject().put(NAME_ONBOARD_VIEW, VALUE_SCHOOL),
+        )
+        AmplitudeUtils.updateUserProperties(PROPERTY_USER_SCHOOL, viewModel.highSchool)
+        AmplitudeUtils.updateUserProperties(
+            PROPERTY_USER_DEPARTMENT,
+            viewModel.highSchoolGroupText.value.toString(),
+        )
+        AmplitudeUtils.updateUserIntProperties(PROPERTY_USER_GRADE, viewModel.studentId)
+    }
+
+    companion object {
+        private const val EVENT_CLICK_ONBOARDING_NEXT = "click_onboarding_next"
+        private const val NAME_ONBOARD_VIEW = "onboard_view"
+        private const val VALUE_SCHOOL = "school"
+        private const val PROPERTY_USER_SCHOOL = "user_school"
+        private const val PROPERTY_USER_DEPARTMENT = "user_department"
+        private const val PROPERTY_USER_GRADE = "user_grade"
     }
 }

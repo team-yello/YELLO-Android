@@ -30,17 +30,7 @@
     <fragment
         android:id="@+id/codeFragment"
         android:name="com.el.yello.presentation.onboarding.fragment.code.CodeFragment"
-        android:label="CodeFragment" >
-        <action
-            android:id="@+id/action_codeFragment_to_startAppFragment"
-            app:destination="@id/getAlarmFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/getAlarmFragment"
-        android:name="com.el.yello.presentation.onboarding.fragment.getAlarm.GetAlarmFragment"
-        android:label="StartAppFragment"
-        app:popUpTo="@id/codeFragment"
-        app:popUpToInclusive="true" />
+        android:label="CodeFragment" />
     <fragment
         android:id="@+id/selectStudentFragment"
         android:name="com.el.yello.presentation.onboarding.fragment.studenttype.SelectStudentFragment"

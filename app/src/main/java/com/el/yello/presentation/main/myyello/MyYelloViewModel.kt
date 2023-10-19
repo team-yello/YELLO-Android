@@ -32,6 +32,8 @@ class MyYelloViewModel @Inject constructor(
     private val _voteCount = MutableStateFlow<UiState<VoteCount>>(UiState.Loading)
     val voteCount: StateFlow<UiState<VoteCount>> = _voteCount.asStateFlow()
 
+    var isFirstLoading = true
+
     var position: Int = -1
         private set
 
@@ -47,6 +49,7 @@ class MyYelloViewModel @Inject constructor(
         currentPage = -1
         isPagingFinish = false
         totalPage = Int.MAX_VALUE
+        isFirstLoading = true
     }
 
     fun getMyYelloList() {

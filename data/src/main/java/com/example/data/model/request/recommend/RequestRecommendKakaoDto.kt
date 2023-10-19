@@ -1,6 +1,6 @@
 package com.example.data.model.request.recommend
 
-import com.example.domain.entity.RequestRecommendKakaoModel
+import com.example.domain.entity.RecommendRequestModel
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -10,6 +10,6 @@ data class RequestRecommendKakaoDto(
     val friendKakaoId: List<String>
 )
 
-fun RequestRecommendKakaoModel.toRequestDto(): RequestRecommendKakaoDto {
+fun RecommendRequestModel.toRequestDto(): RequestRecommendKakaoDto {
     return RequestRecommendKakaoDto(friendKakaoId)
 }

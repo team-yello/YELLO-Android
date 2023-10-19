@@ -1,6 +1,6 @@
 package com.example.domain.entity
 
-class ResponsePayInAppModel (
+class PayInAppModel (
     val productId: String,
     val ticketCount: Int
 )

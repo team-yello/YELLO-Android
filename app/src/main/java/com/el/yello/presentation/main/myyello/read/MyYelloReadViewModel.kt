@@ -66,17 +66,12 @@ class MyYelloReadViewModel @Inject constructor(
         isTwoButton = isButton
     }
 
-    fun setMyPoint(point: Int) {
-        myPoint = point
-    }
-
     private fun minusPoint(): Int {
-        myPoint -= if (pointType == PointEnum.KEYWORD.ordinal) {
+        return if (pointType == PointEnum.KEYWORD.ordinal) {
             100
         } else {
             300
         }
-        return myPoint
     }
 
     private fun minusTicket() {

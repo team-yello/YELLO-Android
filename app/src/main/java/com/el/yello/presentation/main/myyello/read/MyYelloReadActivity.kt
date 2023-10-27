@@ -226,8 +226,10 @@ class MyYelloReadActivity :
         viewModel.isFinishCheck.flowWithLifecycle(lifecycle)
             .onEach {
                 lifecycleScope.launch {
+                    if (!it) return@launch
                     delay(300)
-                    if (it) viewModel.getYelloDetail(id)
+                    viewModel.getYelloDetail(id)
+                    viewModel.setIsFinishCheck(false)
                 }
             }.launchIn(lifecycleScope)
     }

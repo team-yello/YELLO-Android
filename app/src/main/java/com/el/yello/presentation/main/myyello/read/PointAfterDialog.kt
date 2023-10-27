@@ -34,7 +34,6 @@ class PointAfterDialog :
     private fun initView() {
         if (viewModel.pointType == PointEnum.KEYWORD.ordinal) {
             viewModel.checkKeyword()
-
         } else {
             viewModel.checkInitial()
         }
@@ -65,7 +64,6 @@ class PointAfterDialog :
 
                     else -> {}
                 }
-
             }.launchIn(viewLifecycleOwner.lifecycleScope)
 
         viewModel.nameData.flowWithLifecycle(viewLifecycleOwner.lifecycle)
@@ -84,7 +82,6 @@ class PointAfterDialog :
 
                     else -> {}
                 }
-
             }.launchIn(viewLifecycleOwner.lifecycleScope)
     }
 
@@ -101,7 +98,7 @@ class PointAfterDialog :
         dialog?.window?.apply {
             setLayout(
                 (deviceWidth - dialogHorizontalMargin * 2).toInt(),
-                WindowManager.LayoutParams.WRAP_CONTENT
+                WindowManager.LayoutParams.WRAP_CONTENT,
             )
             setBackgroundDrawableResource(R.drawable.shape_fill_gray900_12dp)
         }

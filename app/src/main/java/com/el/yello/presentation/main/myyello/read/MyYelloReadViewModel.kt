@@ -30,9 +30,6 @@ class MyYelloReadViewModel @Inject constructor(
     private val _nameData = MutableStateFlow<UiState<CheckName>>(UiState.Loading)
     val nameData: StateFlow<UiState<CheckName>> = _nameData.asStateFlow()
 
-    private val _isFinishCheck = MutableStateFlow(false)
-    val isFinishCheck: StateFlow<Boolean> = _isFinishCheck.asStateFlow()
-
     private val _fullNameData = MutableStateFlow<UiState<FullName>>(UiState.Loading)
     val fullNameData: StateFlow<UiState<FullName>> = _fullNameData.asStateFlow()
 
@@ -78,11 +75,7 @@ class MyYelloReadViewModel @Inject constructor(
         myReadingTicketCount -= 1
     }
 
-    fun setIsFinishCheck(isFinish: Boolean) {
-        _isFinishCheck.value = isFinish
-    }
-
-    fun getYelloDetail(id: Long) {
+    fun getYelloDetail(id: Long = voteId) {
         voteId = id
         viewModelScope.launch {
             repository.getYelloDetail(id)

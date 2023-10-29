@@ -40,7 +40,7 @@ class ReadingTicketAfterDialog :
                     is UiState.Success -> {
                         binding.tvKey.text = viewModel.myReadingTicketCount.toString()
                         binding.tvName.text = it.data.name
-                        viewModel.setIsFinishCheck(true)
+                        viewModel.getYelloDetail()
                         viewModel.setNameIndex(-2)
                     }
 

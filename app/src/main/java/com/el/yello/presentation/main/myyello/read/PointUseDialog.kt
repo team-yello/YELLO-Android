@@ -14,7 +14,6 @@ import com.el.yello.util.amplitude.AmplitudeUtils
 import com.example.domain.enum.PointEnum
 import com.example.ui.base.BindingDialogFragment
 import com.example.ui.view.setOnSingleClickListener
-import org.json.JSONObject
 
 class PointUseDialog : BindingDialogFragment<DialogPointUseBinding>(R.layout.dialog_point_use) {
     private val viewModel by activityViewModels<MyYelloReadViewModel>()

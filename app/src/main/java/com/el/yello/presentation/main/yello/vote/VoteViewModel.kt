@@ -65,7 +65,7 @@ class VoteViewModel @Inject constructor(
     val choiceList: MutableList<Choice>
         get() = requireNotNull(_choiceList.value)
 
-    val _voteList = MutableStateFlow<List<Note>?>(null)
+    val _voteList = MutableLiveData<List<Note>>()
     val voteList: List<Note>
         get() = requireNotNull(_voteList.value)
 

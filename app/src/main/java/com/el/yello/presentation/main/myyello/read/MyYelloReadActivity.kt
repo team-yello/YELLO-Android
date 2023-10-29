@@ -97,7 +97,6 @@ class MyYelloReadActivity :
     private fun initClick() {
         binding.tvInitialCheck.setOnSingleClickListener {
             AmplitudeUtils.trackEventWithProperties("click_open_keyword")
-            viewModel.setIsFinishCheck(false)
             PointUseDialog.newInstance(
                 if (binding.tvInitialCheck.text.toString()
                         .contains("300")
@@ -153,7 +152,6 @@ class MyYelloReadActivity :
             } else {
                 AmplitudeUtils.trackEventWithProperties("click_open_fullname")
             }
-            viewModel.setIsFinishCheck(false)
             ReadingTicketUseDialog.newInstance(binding.tvKeywordNotYet.isGone)
                 .show(supportFragmentManager, "reading_ticket_dialog")
         }
@@ -220,14 +218,6 @@ class MyYelloReadActivity :
                     }
 
                     else -> {}
-                }
-            }.launchIn(lifecycleScope)
-
-        viewModel.isFinishCheck.flowWithLifecycle(lifecycle)
-            .onEach {
-                lifecycleScope.launch {
-                    delay(300)
-                    if (it) viewModel.getYelloDetail(id)
                 }
             }.launchIn(lifecycleScope)
     }

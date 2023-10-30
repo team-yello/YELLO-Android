@@ -38,9 +38,11 @@ class RecommendAdapter(
     }
 
     fun removeItem(position: Int) {
-        itemList.removeAt(position)
-        notifyItemRemoved(position)
-        notifyItemRangeChanged(position, itemCount)
+        if (this.itemList.isNotEmpty()) {
+            this.itemList.removeAt(position)
+            notifyItemRemoved(position)
+            notifyItemRangeChanged(position, itemCount)
+        }
     }
 
     // 초기 아이템 텍스트 버튼으로 설정

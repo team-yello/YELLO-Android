@@ -1,6 +1,6 @@
 package com.example.data.model.response.pay
 
-import com.example.domain.entity.ResponsePurchaseInfoModel
+import com.example.domain.entity.PayInfoModel
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -13,8 +13,8 @@ class ResponsePurchaseInfoDto(
     @SerialName("ticketCount")
     val ticketCount: Int
 ) {
-    fun toResponsePurchaseInfoModel(): ResponsePurchaseInfoModel {
-        return ResponsePurchaseInfoModel(
+    fun toResponsePurchaseInfoModel(): PayInfoModel {
+        return PayInfoModel(
             subscribeState, isSubscribe, ticketCount
         )
     }

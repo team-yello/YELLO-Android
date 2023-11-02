@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="com.google.android.gms.permission.AD_ID" />
     <uses-permission android:name="com.google.android.play.billingclient.version" />
@@ -86,7 +87,7 @@
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".presentation.onboarding.StartAppActivity"
+            android:name=".presentation.onboarding.activity.GetAlarmActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
@@ -142,7 +143,7 @@
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".presentation.main.recommend.search.RecommendSearchActivity"
+            android:name=".presentation.search.SearchActivity"
             android:exported="false"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustNothing" />

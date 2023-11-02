@@ -1,15 +1,15 @@
 package com.el.yello.presentation.main.recommend.school
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.el.yello.presentation.main.recommend.list.RecommendViewHolder
-import com.example.domain.entity.RecommendModel
+import com.example.domain.entity.RecommendListModel
 import com.example.domain.repository.AuthRepository
 import com.example.domain.repository.RecommendRepository
 import com.example.ui.view.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import kotlin.math.ceil
@@ -20,11 +20,13 @@ class RecommendSchoolViewModel @Inject constructor(
     private val authRepository: AuthRepository,
 ) : ViewModel() {
 
-    private val _postFriendsListState = MutableLiveData<UiState<RecommendModel?>>()
-    val postFriendsListState: LiveData<UiState<RecommendModel?>> = _postFriendsListState
+    private val _postFriendsListState = MutableStateFlow<UiState<RecommendListModel>>(UiState.Empty)
+    val postFriendsListState: StateFlow<UiState<RecommendListModel>> = _postFriendsListState
 
-    private val _addFriendState = MutableLiveData<UiState<Unit>>()
-    val addFriendState: LiveData<UiState<Unit>> = _addFriendState
+    private val _addFriendState = MutableStateFlow<UiState<Unit>>(UiState.Empty)
+    val addFriendState: StateFlow<UiState<Unit>> = _addFriendState
+
+    var isSearchViewShowed = false
 
     var itemPosition: Int? = null
     var itemHolder: RecommendViewHolder? = null
@@ -34,13 +36,14 @@ class RecommendSchoolViewModel @Inject constructor(
     private var totalPage = Int.MAX_VALUE
 
     private var isFirstFriendsListPage: Boolean = true
-    var isFirstResume: Boolean = true
 
     fun setFirstPageLoading() {
         isFirstFriendsListPage = true
         currentPage = -1
         isPagingFinish = false
         totalPage = Int.MAX_VALUE
+        _postFriendsListState.value = UiState.Empty
+        _addFriendState.value = UiState.Empty
     }
 
     fun setPositionAndHolder(position: Int, holder: RecommendViewHolder) {
@@ -56,18 +59,18 @@ class RecommendSchoolViewModel @Inject constructor(
                 _postFriendsListState.value = UiState.Loading
                 isFirstFriendsListPage = false
             }
-            runCatching {
-                recommendRepository.getSchoolFriendList(
-                    ++currentPage,
-                )
-            }.onSuccess {
-                it ?: return@launch
-                totalPage = ceil((it.totalCount * 0.01)).toInt() - 1
-                if (totalPage == currentPage) isPagingFinish = true
-                _postFriendsListState.value = UiState.Success(it)
-            }.onFailure {
-                _postFriendsListState.value = UiState.Failure(it.message ?: "")
-            }
+            recommendRepository.getSchoolFriendList(
+                ++currentPage,
+            )
+                .onSuccess {
+                    it ?: return@launch
+                    totalPage = ceil((it.totalCount * 0.01)).toInt() - 1
+                    if (totalPage == currentPage) isPagingFinish = true
+                    _postFriendsListState.value = UiState.Success(it)
+                }
+                .onFailure {
+                    _postFriendsListState.value = UiState.Failure(it.message.toString())
+                }
         }
     }
 
@@ -75,15 +78,13 @@ class RecommendSchoolViewModel @Inject constructor(
     fun addFriendToServer(friendId: Long) {
         viewModelScope.launch {
             _addFriendState.value = UiState.Loading
-            runCatching {
-                recommendRepository.postFriendAdd(
-                    friendId,
-                )
-            }.onSuccess {
-                _addFriendState.value = UiState.Success(it)
-            }.onFailure {
-                _addFriendState.value = UiState.Failure(it.message ?: "")
-            }
+            recommendRepository.postFriendAdd(friendId)
+                .onSuccess {
+                    _addFriendState.value = UiState.Success(it)
+                }
+                .onFailure {
+                    _addFriendState.value = UiState.Failure(it.message.toString())
+                }
         }
     }
 

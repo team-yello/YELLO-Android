@@ -1,6 +1,6 @@
 package com.example.data.model.request.onboarding
 
-import com.example.domain.entity.RequestServiceTokenModel
+import com.example.domain.entity.AuthTokenRequestModel
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -14,6 +14,6 @@ data class RequestServiceTokenDto(
     val deviceToken: String
 )
 
-fun RequestServiceTokenModel.toRequestDto(): RequestServiceTokenDto {
+fun AuthTokenRequestModel.toRequestDto(): RequestServiceTokenDto {
     return RequestServiceTokenDto(accessToken, social, deviceToken)
 }

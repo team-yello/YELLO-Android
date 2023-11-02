@@ -2,7 +2,7 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/activity_navigate"
-    app:startDestination="@id/universityInfoFragment">
+    app:startDestination="@id/selectStudentFragment">
     <fragment
         android:id="@+id/universityInfoFragment"
         android:name="com.el.yello.presentation.onboarding.fragment.universityinfo.UniversityInfoFragment"
@@ -13,7 +13,7 @@
     </fragment>
     <fragment
         android:id="@+id/yelIoIdFragment"
-        android:name="com.el.yello.presentation.onboarding.fragment.nameid.YelIoIdFragment"
+        android:name="com.el.yello.presentation.onboarding.fragment.yelloid.YelIoIdFragment"
         android:label="YelIoIdFragment" >
         <action
             android:id="@+id/action_yelIoIdFragment_to_addFriendFragment"
@@ -30,15 +30,24 @@
     <fragment
         android:id="@+id/codeFragment"
         android:name="com.el.yello.presentation.onboarding.fragment.code.CodeFragment"
-        android:label="CodeFragment" >
+        android:label="CodeFragment" />
+    <fragment
+        android:id="@+id/selectStudentFragment"
+        android:name="com.el.yello.presentation.onboarding.fragment.studenttype.SelectStudentFragment"
+        android:label="SelectStudentFragment">
         <action
-            android:id="@+id/action_codeFragment_to_startAppFragment"
-            app:destination="@id/startAppFragment" />
+            android:id="@+id/action_selectStudentFragment_to_universityInfoFragment"
+            app:destination="@id/universityInfoFragment" />
+        <action
+            android:id="@+id/action_selectStudentFragment_to_highschoolInfoFragment"
+            app:destination="@id/highschoolInfoFragment" />
     </fragment>
     <fragment
-        android:id="@+id/startAppFragment"
-        android:name="com.el.yello.presentation.onboarding.fragment.startapp.StartAppFragment"
-        android:label="StartAppFragment"
-        app:popUpTo="@id/codeFragment"
-        app:popUpToInclusive="true" />
+        android:id="@+id/highschoolInfoFragment"
+        android:name="com.el.yello.presentation.onboarding.fragment.highschoolinfo.HighSchoolInfoFragment"
+        android:label="HighschoolInfoFragment">
+        <action
+            android:id="@+id/action_highschoolInfoFragment_to_yelIoIdFragment"
+            app:destination="@id/yelIoIdFragment" />
+    </fragment>
 </navigation>

@@ -6,7 +6,7 @@ import coil.transform.CircleCropTransformation
 import com.el.yello.R
 import com.el.yello.databinding.ItemRecommendListBinding
 import com.el.yello.presentation.main.profile.ProfileViewModel.Companion.BASIC_THUMBNAIL
-import com.example.domain.entity.RecommendModel.RecommendFriend
+import com.example.domain.entity.RecommendListModel.RecommendFriend
 import com.example.ui.view.setOnSingleClickListener
 
 class RecommendViewHolder(

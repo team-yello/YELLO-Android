@@ -11,7 +11,7 @@ import com.example.ui.base.BindingBottomSheetDialog
 class GroupDialogFragment :
     BindingBottomSheetDialog<FragmentDialogGroupBinding>(R.layout.fragment_dialog_group) {
 
-    private lateinit var groupList: List<Int>
+    private lateinit var groupList: List<String>
 
     private val viewModel by activityViewModels<OnBoardingViewModel>()
 
@@ -22,15 +22,15 @@ class GroupDialogFragment :
     }
 
     private fun initGroupAdapter() {
-        viewModel.addGroup()
-        groupList = viewModel.groupResult.value ?: emptyList()
-        val adapter = GroupDialogAdapter(storeGroup = ::storeGroup)
+        viewModel.addHighSchoolGroup()
+        groupList = viewModel.highSchoolGroupList.value ?: emptyList()
+        val adapter = GroupDialogAdapter(storeHighSchoolGroup = ::storeHighSchoolGroup)
         binding.rvGroup.adapter = adapter
         adapter.submitList(groupList)
     }
 
-    fun storeGroup(group: Int) {
-        viewModel.setGroup(group)
+    private fun storeHighSchoolGroup(group: String) {
+        viewModel.setGroupHighSchoolInfo(group)
         dismiss()
     }
 

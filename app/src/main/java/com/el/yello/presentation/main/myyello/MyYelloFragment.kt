@@ -4,8 +4,8 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.view.animation.AnimationUtils
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.flowWithLifecycle
@@ -18,6 +18,7 @@ import com.el.yello.presentation.main.MainActivity
 import com.el.yello.presentation.main.myyello.read.MyYelloReadActivity
 import com.el.yello.presentation.pay.PayActivity
 import com.el.yello.presentation.util.BaseLinearRcvItemDeco
+import com.el.yello.util.Utils.setPullToScrollColor
 import com.el.yello.util.amplitude.AmplitudeUtils
 import com.el.yello.util.context.yelloSnackbar
 import com.example.ui.base.BindingFragment
@@ -39,6 +40,7 @@ class MyYelloFragment : BindingFragment<FragmentMyYelloBinding>(R.layout.fragmen
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         AmplitudeUtils.trackEventWithProperties("view_all_messages")
         initView()
         initEvent()
@@ -60,15 +62,7 @@ class MyYelloFragment : BindingFragment<FragmentMyYelloBinding>(R.layout.fragmen
             )
         }
         binding.rvMyYelloReceive.addItemDecoration(
-            BaseLinearRcvItemDeco(
-                8,
-                8,
-                0,
-                0,
-                5,
-                RecyclerView.VERTICAL,
-                110,
-            ),
+            BaseLinearRcvItemDeco(8, 8, 0, 0, 5, RecyclerView.VERTICAL, 110)
         )
         adapter?.setHasStableIds(true)
         binding.rvMyYelloReceive.adapter = adapter
@@ -78,10 +72,7 @@ class MyYelloFragment : BindingFragment<FragmentMyYelloBinding>(R.layout.fragmen
 
     private fun initEvent() {
         binding.btnSendCheck.setOnSingleClickListener {
-            AmplitudeUtils.trackEventWithProperties(
-                "click_go_shop",
-                JSONObject().put("shop_button", "cta_main")
-            )
+            setClickGoShopAmplitude("cta_main")
             Intent(requireContext(), PayActivity::class.java).apply {
                 payActivityLauncher.launch(this)
             }
@@ -92,75 +83,59 @@ class MyYelloFragment : BindingFragment<FragmentMyYelloBinding>(R.layout.fragmen
         }
 
         binding.btnShop.setOnSingleClickListener {
-            AmplitudeUtils.trackEventWithProperties(
-                "click_go_shop",
-                JSONObject().put("shop_button", "message_shop")
-            )
+            setClickGoShopAmplitude("message_shop")
             goToPayActivity()
         }
     }
 
     private fun observe() {
-        viewModel.myYelloData.observe(viewLifecycleOwner) {
-            binding.uiState = it.getUiStateModel()
-            when (it) {
+        viewModel.myYelloData.observe(viewLifecycleOwner) { state ->
+            binding.uiState = state.getUiStateModel()
+            when (state) {
                 is UiState.Success -> {
                     binding.shimmerMyYelloReceive.stopShimmer()
-                    binding.clSendOpen.isVisible = it.data.ticketCount != 0
-                    binding.btnSendCheck.isVisible = it.data.ticketCount == 0
-                    binding.tvKeyNumber.text = it.data.ticketCount.toString()
-                    adapter?.addItem(it.data.yello)
+                    if (viewModel.isFirstLoading) {
+                        startFadeIn()
+                        viewModel.isFirstLoading = false
+                    }
+                    binding.clSendOpen.isVisible = state.data.ticketCount != 0
+                    binding.btnSendCheck.isVisible = state.data.ticketCount == 0
+                    binding.tvKeyNumber.text = state.data.ticketCount.toString()
+                    adapter?.addItem(state.data.yello)
                 }
 
                 is UiState.Failure -> {
                     binding.shimmerMyYelloReceive.stopShimmer()
-                    yelloSnackbar(requireView(), it.msg)
+                    yelloSnackbar(requireView(), state.msg)
                 }
 
-                is UiState.Empty -> {
-                    binding.shimmerMyYelloReceive.stopShimmer()
-                }
+                is UiState.Empty -> binding.shimmerMyYelloReceive.stopShimmer()
 
-                is UiState.Loading -> {
-                    binding.shimmerMyYelloReceive.startShimmer()
-                }
-
-                else -> {}
+                is UiState.Loading -> binding.shimmerMyYelloReceive.startShimmer()
             }
         }
 
-        viewModel.totalCount.flowWithLifecycle(viewLifecycleOwner.lifecycle)
-            .onEach {
-                binding.tvCount.text = it.toString()
-            }.launchIn(viewLifecycleOwner.lifecycleScope)
+        viewModel.totalCount.flowWithLifecycle(viewLifecycleOwner.lifecycle).onEach {
+            binding.tvCount.text = it.toString()
+        }.launchIn(viewLifecycleOwner.lifecycleScope)
 
-        viewModel.voteCount.flowWithLifecycle(viewLifecycleOwner.lifecycle)
-            .onEach {
-                when (it) {
-                    is UiState.Success -> {
-                        (activity as? MainActivity)?.setBadgeCount(it.data.totalCount)
-                    }
+        viewModel.voteCount.flowWithLifecycle(viewLifecycleOwner.lifecycle).onEach {
+            when (it) {
+                is UiState.Success -> (activity as? MainActivity)?.setBadgeCount(it.data.totalCount)
 
-                    is UiState.Failure -> {
-                        yelloSnackbar(binding.root, it.msg)
-                    }
+                is UiState.Failure -> yelloSnackbar(binding.root, it.msg)
 
-                    else -> {}
-                }
-            }.launchIn(viewLifecycleOwner.lifecycleScope)
+                else -> {}
+            }
+        }.launchIn(viewLifecycleOwner.lifecycleScope)
     }
 
-    // 페이지네이션
     private fun infinityScroll() {
         binding.rvMyYelloReceive.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
-                if (dy > 0) {
-                    if (!binding.rvMyYelloReceive.canScrollVertically(1) &&
-                        (recyclerView.layoutManager as LinearLayoutManager).findLastVisibleItemPosition() == adapter!!.itemCount - 1
-                    ) {
-                        viewModel.getMyYelloList()
-                    }
+                if (dy > 0 && !binding.rvMyYelloReceive.canScrollVertically(1) && (recyclerView.layoutManager as LinearLayoutManager).findLastVisibleItemPosition() == adapter!!.itemCount - 1) {
+                    viewModel.getMyYelloList()
                 }
             }
 
@@ -218,6 +193,8 @@ class MyYelloFragment : BindingFragment<FragmentMyYelloBinding>(R.layout.fragmen
                 if (ticketCount != -1) {
                     binding.tvKeyNumber.text = ticketCount.toString()
                 }
+                binding.clSendOpen.isVisible = ticketCount != 0
+                binding.btnSendCheck.isVisible = ticketCount == 0
             }
         }
     }
@@ -233,13 +210,24 @@ class MyYelloFragment : BindingFragment<FragmentMyYelloBinding>(R.layout.fragmen
                     binding.layoutMyYelloSwipe.isRefreshing = false
                 }
             }
-            setProgressBackgroundColorSchemeColor(ContextCompat.getColor(context, R.color.grayscales_700))
-            setColorSchemeColors(ContextCompat.getColor(context, R.color.grayscales_500))
+            setPullToScrollColor(R.color.grayscales_500, R.color.grayscales_700)
         }
+    }
+
+    private fun startFadeIn() {
+        val animation = AnimationUtils.loadAnimation(requireContext(), R.anim.fade_in)
+        binding.rvMyYelloReceive.startAnimation(animation)
     }
 
     fun scrollToTop() {
         binding.rvMyYelloReceive.smoothScrollToPosition(0)
+    }
+
+    private fun setClickGoShopAmplitude(value: String) {
+        AmplitudeUtils.trackEventWithProperties(
+            "click_go_shop",
+            JSONObject().put("shop_button", value),
+        )
     }
 
     override fun onDestroyView() {

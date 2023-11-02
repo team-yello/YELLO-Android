@@ -3,10 +3,12 @@ package com.example.data.repository
 import com.example.data.datasource.OnboardingDataSource
 import com.example.data.model.request.onboarding.toRequestDto
 import com.example.data.model.request.onboarding.toRequestPostSignupDto
-import com.example.domain.entity.RequestServiceTokenModel
-import com.example.domain.entity.ServiceTokenModel
+import com.example.domain.entity.AuthTokenRequestModel
+import com.example.domain.entity.AuthTokenModel
 import com.example.domain.entity.onboarding.AddFriendListModel
+import com.example.domain.entity.onboarding.GroupHighSchool
 import com.example.domain.entity.onboarding.GroupList
+import com.example.domain.entity.onboarding.HighSchoolList
 import com.example.domain.entity.onboarding.RequestAddFriendModel
 import com.example.domain.entity.onboarding.SchoolList
 import com.example.domain.entity.onboarding.SignupInfo
@@ -18,18 +20,35 @@ class OnboardingRepositoryImpl @Inject constructor(
     private val onboardingDataSource: OnboardingDataSource,
 ) : OnboardingRepository {
 
-    override suspend fun postTokenToServiceToken(requestServiceTokenModel: RequestServiceTokenModel): ServiceTokenModel? {
-        return onboardingDataSource.postTokenToServiceTokenData(
-            requestServiceTokenModel.toRequestDto(),
-        ).data?.toServiceTokenModel()
+    override suspend fun postTokenToServiceToken(
+        authTokenRequestModel: AuthTokenRequestModel,
+    ): Result<AuthTokenModel?> {
+        return runCatching {
+            onboardingDataSource.postTokenToServiceTokenData(
+                authTokenRequestModel.toRequestDto(),
+            ).data?.toServiceTokenModel()
+        }
     }
 
-    override suspend fun getSchoolList(page: Int, search: String): Result<SchoolList?> {
+    override suspend fun getSchoolList(
+        keyword: String,
+        page: Long,
+
+    ): Result<SchoolList?> {
         return runCatching {
             onboardingDataSource.getSchoolNameData(
+                keyword,
                 page,
-                search,
             ).data?.toMySchool()
+        }
+    }
+
+    override suspend fun getHighSchoolList(keyword: String, page: Long): Result<HighSchoolList?> {
+        return runCatching {
+            onboardingDataSource.getHighSchoolNameData(
+                keyword,
+                page,
+            ).data?.toMyHighSchool()
         }
     }
 
@@ -47,7 +66,21 @@ class OnboardingRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getValidYelloId(yelloId: String): Result<Boolean?> {
+    override suspend fun getGroupHighSchool(
+        name: String,
+        keyword: String,
+    ): Result<GroupHighSchool?> {
+        return runCatching {
+            onboardingDataSource.getClassNameData(
+                name,
+                keyword,
+            ).data?.toGroupHighSchool()
+        }
+    }
+
+    override suspend fun getValidYelloId(
+        yelloId: String,
+    ): Result<Boolean?> {
         return runCatching {
             onboardingDataSource.getValidYelloId(
                 yelloId,
@@ -58,11 +91,13 @@ class OnboardingRepositoryImpl @Inject constructor(
     override suspend fun postToGetFriendList(
         request: RequestAddFriendModel,
         page: Int,
-    ): AddFriendListModel? {
-        return onboardingDataSource.postToGetFriendsListData(
-            request.toRequestDto(),
-            page,
-        ).data?.toFriendListModel()
+    ): Result<AddFriendListModel?> {
+        return runCatching {
+            onboardingDataSource.postToGetFriendsListData(
+                request.toRequestDto(),
+                page,
+            ).data?.toFriendListModel()
+        }
     }
 
     override suspend fun postSignup(signupInfo: SignupInfo): Result<UserInfo?> = runCatching {

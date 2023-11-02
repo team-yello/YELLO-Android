@@ -57,7 +57,9 @@
     <string name="onboarding_tv_code">추천인 코드</string>
     <string name="onboarding_tv_code_hint">yelloworld</string>
     <string name="onboarding_tv_code_skip">추천인이 없다면 건너뛰어도 돼요.</string>
-    <string name="onboarding_tv_code_error">추천인의 아이디를 입력하면</string>
+    <string name="onboarding_tv_code_subtitle_1">추천인의 아이디를 입력하면</string>
+    <string name="onboarding_tv_code_subtitle_2">+100</string>
+    <string name="onboarding_tv_code_subtitle_3">point!</string>
     <string name="onboarding_btn_code_skip"><u>건너뛰기</u></string>
     <string name="onboarding_tv_startapp_title">띵동! 쪽지 도착 </string>
     <string name="onboarding_tv_startapp_subtitle">친구들이 비밀 쪽지를 보내면\n 알림을 드릴게요. </string>
@@ -72,7 +74,7 @@
     <string name="onboarding_tv_freind_end">명</string>
     <string name="onboarding_tv_hint_fix">\@</string>
     <string name="onboarding_student_id">%d학번</string>
-    <string name="onboarding_group">%d반</string>
+    <string name="onboarding_group">%s반</string>
     <string name="onboarding_code_complete">완료</string>
     <string name="onboarding_name_id_name_hint">ex.김옐로</string>
     <string name="onboarding_name_id_hangul_error">자음과 모음 조합의 한글만 입력 가능해요.</string>
@@ -100,19 +102,8 @@
     <string name="yello_start_double">x2</string>
 
     <string name="yello_lock_description">옐로를 시작하고 싶다면?</string>
-    <string name="yello_lock_invite">친구 초대하기</string>
-    <string name="yello_lock_sub_description">친구가 4명 이상 모이면 투표할 수 있어요.\n친구들을 초대해볼까요?</string>
-
-    <string name="unlock_invite_and_unlock">친구 초대하고 기다리지 않기</string>
-    <string name="unlock_description1">친구가 내 추천인 코드로 가입하면</string>
-    <string name="unlock_description2_1">기다리지 않고</string>
-    <string name="unlock_description2_2_bold">&#160;바로 투표</string>
-    <string name="unlock_description2_3">할 수 있어요!</string>
-    <string name="unlock_my_yello_id_label">내 추천인 코드</string>
-    <string name="unlock_close">닫기</string>
-    <string name="unlock_my_yello_id">\@%s</string>
-    <string name="unlock_link_text">추천인 코드: %s\n우리 같이 YELL:O 해요!\nhttps://play.google.com/store/apps/details?id=com.el.yello&amp;hl=en-KR</string>
-    <string name="unlock_browser_error_msg">사용 가능한 브러우저가 없습니다.</string>
+    <string name="yello_lock_invite">친구 초대하고 100포인트 받기</string>
+    <string name="yello_lock_sub_description">친구가 1명 이상 모이면 투표할 수 있어요.\n친구들을 초대해볼까요?</string>
 
     <string name="note_index_of_vote">&#160;of %s</string>
     <string name="note_friend_shuffle">친구 셔플</string>
@@ -298,6 +289,10 @@
     <string name="pay_is_subs">옐로플러스 구독중</string>
     <string name="pay_subtitle">쪽지 보낸 사람을 알고 싶다면?</string>
 
+    <string name="pay_banner_item_1">이름 열람권 매주 3회</string>
+    <string name="pay_banner_item_2">초성 힌트 무제한 제공</string>
+    <string name="pay_banner_item_3">포인트 2배</string>
+
     <string name="pay_subs_title">옐로플러스 구독하기</string>
     <string name="pay_subs_subtitle">(50%할인)</string>
     <string name="pay_subs_original_price">7900원</string>
@@ -325,5 +320,8 @@
     <string name="splash_update_error">업데이트가 취소되었습니다.</string>
 
     <string name="invite_clipboard_msg">클립보드에 복사되었어요.</string>
+    <string name="start_balloon_tooltip">💛4명 이상의 친구💛를 가지면 옐로가 더 재밌어요!</string>
+    <string name="note_friend_null">친구를 추가해주세요!</string>
+    <string name="note_msg_invalid_name">4명 이상의 친구를 가지면 선택지가 채워져요.</string>
 
 </resources>

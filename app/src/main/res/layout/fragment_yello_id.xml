@@ -25,15 +25,15 @@
             android:layout_marginTop="20dp"
             android:src="@drawable/ic_onboarding_yelloid_bubble"
             app:layout_constraintStart_toStartOf="parent"
-           app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/tv_id"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
-            android:text="@string/onboarding_tv_id"
             android:gravity="center"
+            android:text="@string/onboarding_tv_id"
             android:textAppearance="?textAppearanceHeadline1"
             android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
@@ -118,8 +118,8 @@
             android:textAppearance="?textAppearanceLabelLarge"
             android:textColor="@color/grayscales_500"
             android:visibility="@{vm.isValidId() ? View.VISIBLE : View.INVISIBLE}"
-            app:layout_constraintTop_toBottomOf="@id/et_id"
-            app:layout_constraintStart_toEndOf="@id/tv_id_error_first" />
+            app:layout_constraintStart_toEndOf="@id/tv_id_error_first"
+            app:layout_constraintTop_toBottomOf="@id/et_id" />
 
         <TextView
             android:id="@+id/tv_id_error_third"
@@ -135,15 +135,17 @@
             app:layout_constraintStart_toStartOf="@+id/tv_id_error_first"
             app:layout_constraintTop_toBottomOf="@+id/tv_id_error_first" />
 
-        <android.widget.Button
+        <TextView
             android:id="@+id/btn_yello_id_next"
             android:layout_width="0dp"
+            android:textAlignment="center"
+            tools:background="@drawable/shape_yello_main_500_fill_100_rect"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
             android:layout_marginBottom="32dp"
             android:background="@{ vm.isValidId() &amp; !vm.idText.isEmpty() ? @drawable/shape_yello_main_500_fill_100_rect : @drawable/shape_grayscales_800_fill_100_rect}"
             android:clickable="@{ vm.isValidId() &amp; !vm.idText.isEmpty()}"
-            android:paddingVertical="12dp"
+            android:paddingVertical="16dp"
             android:text="@string/onboarding_btn_next"
             android:textAppearance="?textAppearanceBodyMedium"
             android:textColor="@{vm.isValidId() &amp; !vm.idText.isEmpty() ? @color/black : @color/grayscales_700}"

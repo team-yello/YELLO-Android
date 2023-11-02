@@ -5,12 +5,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.el.yello.databinding.ItemRecommendListBinding
-import com.example.domain.entity.RecommendModel.RecommendFriend
+import com.example.domain.entity.RecommendListModel.RecommendFriend
 
 class RecommendAdapter(
-    private val itemClick: (RecommendFriend, Int, RecommendViewHolder) -> (Unit)
-) :
-    RecyclerView.Adapter<RecommendViewHolder>() {
+    private val itemClick: (RecommendFriend, Int, RecommendViewHolder) -> (Unit),
+) : RecyclerView.Adapter<RecommendViewHolder>() {
 
     private var itemList = mutableListOf<RecommendFriend>()
 
@@ -39,9 +38,11 @@ class RecommendAdapter(
     }
 
     fun removeItem(position: Int) {
-        itemList.removeAt(position)
-        notifyItemRemoved(position)
-        notifyItemRangeChanged(position, itemCount)
+        if (this.itemList.isNotEmpty()) {
+            this.itemList.removeAt(position)
+            notifyItemRemoved(position)
+            notifyItemRangeChanged(position, itemCount)
+        }
     }
 
     // 초기 아이템 텍스트 버튼으로 설정

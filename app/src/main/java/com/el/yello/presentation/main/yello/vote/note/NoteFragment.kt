@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.os.bundleOf
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.flowWithLifecycle
+import androidx.lifecycle.lifecycleScope
 import com.el.yello.R
 import com.el.yello.databinding.FragmentNoteBinding
 import com.el.yello.presentation.main.yello.vote.NoteState
@@ -13,6 +15,8 @@ import com.el.yello.util.context.yelloSnackbar
 import com.example.ui.base.BindingFragment
 import com.example.ui.view.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import org.json.JSONObject
 
 @AndroidEntryPoint
@@ -58,12 +62,7 @@ class NoteFragment : BindingFragment<FragmentNoteBinding>(R.layout.fragment_note
             )
             binding.layoutNoteProgressBefore.getChildAt(i).rotation = progressDegree[i]
         }
-
         for (i in noteIndex + 1 until voteListSize) {
-            if (voteListSize in 1..8 && noteIndex in 1..8) {
-                val properties = JSONObject().put("vote_step", noteIndex)
-                AmplitudeUtils.trackEventWithProperties("view_vote_question", properties)
-            }
             layoutInflater.inflate(
                 R.layout.layout_vote_progress_bar,
                 binding.layoutNoteProgressAfter,
@@ -77,8 +76,8 @@ class NoteFragment : BindingFragment<FragmentNoteBinding>(R.layout.fragment_note
         binding.btnNoteShuffle.setOnSingleClickListener {
             viewModel.shuffle()
             if (noteIndex in 1..8) {
-                val properties = JSONObject().put("question_id", noteIndex + 1)
-                AmplitudeUtils.trackEventWithProperties("click_vote_shuffle", properties)
+                val properties = JSONObject().put(JSON_QUESTION_ID, noteIndex + 1)
+                AmplitudeUtils.trackEventWithProperties(EVENT_CLICK_VOTE_SHUFFLE, properties)
             }
         }
     }
@@ -87,8 +86,8 @@ class NoteFragment : BindingFragment<FragmentNoteBinding>(R.layout.fragment_note
         binding.btnNoteSkip.setOnSingleClickListener {
             viewModel.skip()
             if (noteIndex in 1..8) {
-                val properties = JSONObject().put("question_id", noteIndex + 1)
-                AmplitudeUtils.trackEventWithProperties("click_vote_skip", properties)
+                val properties = JSONObject().put(JSON_QUESTION_ID, noteIndex + 1)
+                AmplitudeUtils.trackEventWithProperties(EVENT_CLICK_VOTE_SKIP, properties)
             }
         }
     }
@@ -100,36 +99,47 @@ class NoteFragment : BindingFragment<FragmentNoteBinding>(R.layout.fragment_note
     }
 
     private fun setupVoteState() {
-        viewModel.noteState.observe(viewLifecycleOwner) { state ->
-            when (state) {
-                NoteState.Success -> return@observe
-                NoteState.InvalidSkip -> yelloSnackbar(
-                    binding.root,
-                    getString(R.string.note_msg_invalid_skip),
-                )
+        viewModel.noteState.flowWithLifecycle(viewLifecycleOwner.lifecycle)
+            .onEach { state ->
+                when (state) {
+                    NoteState.Success -> return@onEach
+                    NoteState.InvalidSkip -> yelloSnackbar(
+                        binding.root,
+                        getString(R.string.note_msg_invalid_skip),
+                    )
 
-                NoteState.InvalidCancel -> yelloSnackbar(
-                    binding.root,
-                    getString(R.string.note_msg_invalid_cancel),
-                )
+                    NoteState.InvalidCancel -> yelloSnackbar(
+                        binding.root,
+                        getString(R.string.note_msg_invalid_cancel),
+                    )
 
-                NoteState.InvalidShuffle -> yelloSnackbar(
-                    binding.root,
-                    getString(R.string.note_msg_invalid_shuffle),
-                )
+                    NoteState.InvalidShuffle -> yelloSnackbar(
+                        binding.root,
+                        getString(R.string.note_msg_invalid_shuffle),
+                    )
 
-                NoteState.Failure -> yelloSnackbar(
-                    binding.root,
-                    getString(R.string.msg_error),
-                )
-            }
-        }
+                    NoteState.InvalidName -> yelloSnackbar(
+                        binding.root,
+                        getString(R.string.note_msg_invalid_name),
+                    )
+
+                    NoteState.Failure -> yelloSnackbar(
+                        binding.root,
+                        getString(R.string.msg_error),
+                    )
+                }
+            }.launchIn(viewLifecycleOwner.lifecycleScope)
     }
 
     companion object {
         private const val ARGS_NOTE_INDEX = "NOTE_INDEX"
         private const val ARGS_BACKGROUND_INDEX = "BACKGROUND_INDEX"
         private const val ARGS_VOTE_LIST_SIZE = "VOTE_LIST_SIZE"
+
+        private const val JSON_QUESTION_ID = "question_id"
+
+        private const val EVENT_CLICK_VOTE_SHUFFLE = "click_vote_shuffle"
+        private const val EVENT_CLICK_VOTE_SKIP = "click_vote_skip"
 
         private val progressDegree =
             listOf(165f, -30f, -120f, -165f, -60f, -20f, -117f, 24f, -45f, 12f)

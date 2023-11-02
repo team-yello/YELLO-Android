@@ -9,8 +9,6 @@ import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import com.el.yello.R
 import com.el.yello.databinding.DialogReadingTicketAfterBinding
-import com.el.yello.util.Utils
-import com.example.domain.enum.PointEnum
 import com.example.ui.base.BindingDialogFragment
 import com.example.ui.fragment.toast
 import com.example.ui.view.UiState
@@ -35,7 +33,6 @@ class ReadingTicketAfterDialog :
         viewModel.postFullName()
     }
 
-
     private fun observe() {
         viewModel.fullNameData.flowWithLifecycle(viewLifecycleOwner.lifecycle)
             .onEach {
@@ -43,7 +40,7 @@ class ReadingTicketAfterDialog :
                     is UiState.Success -> {
                         binding.tvKey.text = viewModel.myReadingTicketCount.toString()
                         binding.tvName.text = it.data.name
-                        viewModel.setIsFinishCheck(true)
+                        viewModel.getYelloDetail()
                         viewModel.setNameIndex(-2)
                     }
 
@@ -69,7 +66,7 @@ class ReadingTicketAfterDialog :
         dialog?.window?.apply {
             setLayout(
                 (deviceWidth - dialogHorizontalMargin * 2).toInt(),
-                WindowManager.LayoutParams.WRAP_CONTENT
+                WindowManager.LayoutParams.WRAP_CONTENT,
             )
             setBackgroundDrawableResource(R.drawable.shape_fill_gray900_12dp)
         }

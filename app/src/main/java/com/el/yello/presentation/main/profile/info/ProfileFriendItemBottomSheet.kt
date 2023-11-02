@@ -16,7 +16,7 @@ import com.example.ui.view.setOnSingleClickListener
 class ProfileFriendItemBottomSheet :
     BindingBottomSheetDialog<FragmentProfileItemBottomSheetBinding>(R.layout.fragment_profile_item_bottom_sheet) {
 
-    private var profileFriendDeleteBottomSheet: ProfileFriendDeleteBottomSheet? =
+    private var deleteBottomSheet: ProfileFriendDeleteBottomSheet? =
         ProfileFriendDeleteBottomSheet()
     private val viewModel by activityViewModels<ProfileViewModel>()
 
@@ -30,8 +30,26 @@ class ProfileFriendItemBottomSheet :
 
         binding.vm = viewModel
         viewModel.isItemBottomSheetRunning = true
-        initDeleteBtnListener()
         setItemImage()
+        initDeleteBtnListener()
+    }
+
+    private fun setItemImage() {
+        if (viewModel.clickedUserData.profileImageUrl == BASIC_THUMBNAIL) {
+            binding.ivProfileFriendThumbnail.load(R.drawable.img_yello_basic)
+        } else {
+            binding.ivProfileFriendThumbnail.load(viewModel.clickedUserData.profileImageUrl) {
+                transformations(CircleCropTransformation())
+            }
+        }
+    }
+
+    // 다음 바텀시트 출력
+    private fun initDeleteBtnListener() {
+        binding.btnProfileFriendDelete.setOnSingleClickListener {
+            deleteBottomSheet?.show(parentFragmentManager, DELETE_BOTTOM_SHEET)
+            dismiss()
+        }
     }
 
     override fun onDismiss(dialog: DialogInterface) {
@@ -41,25 +59,7 @@ class ProfileFriendItemBottomSheet :
 
     override fun onDestroyView() {
         super.onDestroyView()
-        profileFriendDeleteBottomSheet = null
-    }
-
-    private fun setItemImage() {
-        if (viewModel.clickedItemThumbnail.value == BASIC_THUMBNAIL) {
-            binding.ivProfileFriendThumbnail.load(R.drawable.img_yello_basic)
-        } else {
-            binding.ivProfileFriendThumbnail.load(viewModel.clickedItemThumbnail.value) {
-                transformations(CircleCropTransformation())
-            }
-        }
-    }
-
-    // 다음 바텀시트 출력
-    private fun initDeleteBtnListener() {
-        binding.btnProfileFriendDelete.setOnSingleClickListener {
-            profileFriendDeleteBottomSheet?.show(parentFragmentManager, DELETE_BOTTOM_SHEET)
-            dismiss()
-        }
+        deleteBottomSheet = null
     }
 
     private companion object {

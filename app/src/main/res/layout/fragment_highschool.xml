@@ -11,15 +11,15 @@
 
         <variable
             name="first"
-            type="String" />
+            type="Integer" />
 
         <variable
             name="second"
-            type="String" />
+            type="Integer" />
 
         <variable
             name="third"
-            type="String" />
+            type="Integer" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -29,47 +29,24 @@
         android:background="@color/black">
 
         <ImageView
-            android:id="@+id/btn_highschoolinfo_back_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            android:background="@null"
-            android:padding="12dp"
-            android:src="@drawable/ic_onboarding_btn_back"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <ProgressBar
-            android:id="@+id/highschool_progressbar"
-            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="4dp"
-            android:max="100"
-            android:progress="20"
-            android:progressDrawable="@drawable/layerlist_onboarding_progressbar"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btn_highschoolinfo_back_btn"
-            app:layout_constraintWidth_percent="1" />
-
-        <ImageView
             android:id="@+id/iv_yello_bubble"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:src="@drawable/ic_onboarding_school_yello_bubble"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/highschool_progressbar" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/tv_highschool_where"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="24dp"
+            android:gravity="center"
+            android:paddingVertical="5dp"
             android:text="@string/onboarding_tv_what_school"
             android:textAppearance="?textAppearanceHeadline1"
             android:textColor="@color/white"
-            android:gravity="center"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/iv_yello_bubble" />
@@ -99,62 +76,60 @@
 
         <TextView
             android:id="@+id/tv_grade_first"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="16dp"
             android:layout_marginStart="24dp"
+            android:layout_marginTop="16dp"
             android:background="@drawable/shape_grayscales900_fill_grayscales700_line_8_leftrect"
             android:clickable="true"
-            android:layout_marginTop="16dp"
-            android:gravity="center_vertical"
+            android:gravity="center"
             android:onClick="@{()->vm.selectGrade(first)}"
             android:paddingVertical="16dp"
-            android:paddingStart="43dp"
-            android:paddingEnd="42dp"
             android:text="@string/onboarding_highschool_firstgrade"
             android:textAppearance="?textAppearanceBodyLarge"
             android:textColor="@color/grayscales_500"
+            app:layout_constraintEnd_toStartOf="@id/tv_grade_second"
+            app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_highschool_search" />
 
         <TextView
             android:id="@+id/tv_grade_second"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:background="@drawable/shape_grayscales900_fill_grayscales700_line_8_square"
             android:layout_marginTop="16dp"
-            android:gravity="center_vertical"
+            android:background="@drawable/shape_grayscales900_fill_grayscales700_line_8_square"
             android:clickable="true"
+            android:gravity="center"
             android:onClick="@{()->vm.selectGrade(second)}"
             android:paddingVertical="16dp"
-            android:paddingStart="43dp"
-            android:paddingEnd="42dp"
             android:text="@string/onboarding_highschool_secondgrade"
             android:textAppearance="?textAppearanceBodyLarge"
             android:textColor="@color/grayscales_500"
             android:textSize="16sp"
+            app:layout_constraintEnd_toStartOf="@id/tv_grade_third"
+            app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintStart_toEndOf="@+id/tv_grade_first"
             app:layout_constraintTop_toBottomOf="@+id/tv_highschool_search" />
 
         <TextView
             android:id="@+id/tv_grade_third"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="16dp"
             android:layout_marginEnd="24dp"
             android:background="@drawable/shape_grayscales900_fill_grayscales700_line_8_rightrect"
-            android:layout_marginTop="16dp"
-            android:gravity="center_vertical"
             android:clickable="true"
-            android:paddingVertical="16dp"
-            android:paddingStart="43dp"
+            android:gravity="center"
             android:onClick="@{()->vm.selectGrade(third)}"
-            android:paddingEnd="42dp"
+            android:paddingVertical="16dp"
             android:text="@string/onboarding_highschool_thirdgrade"
             android:textAppearance="?textAppearanceBodyLarge"
             android:textColor="@color/grayscales_500"
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toEndOf="@id/tv_grade_second"
             app:layout_constraintTop_toBottomOf="@+id/tv_highschool_search" />
 
         <TextView
@@ -162,12 +137,12 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="24dp"
-            android:background="@{vm.gradeText == null ? @drawable/shape_grayscales800_fill_8_rect : @drawable/shape_grayscales800_fill_grayscales700_line_8_rect}"
+            android:layout_marginTop="16dp"
+            android:background="@{vm.highSchoolGroupText == null ? @drawable/shape_grayscales800_fill_8_rect : @drawable/shape_grayscales800_fill_grayscales700_line_8_rect}"
             android:fontFamily="@font/font_pretendard_medium"
             android:gravity="center_vertical"
             android:hint="@string/onboarding_group_hint"
             android:paddingVertical="16dp"
-            android:layout_marginTop="16dp"
             android:paddingStart="20dp"
             android:paddingEnd="12dp"
             android:textColor="@color/white"
@@ -179,19 +154,24 @@
             app:layout_constraintTop_toBottomOf="@+id/tv_grade_second"
             tools:background="shape_black_fill_grayscales600_line_8_rect" />
 
-        <androidx.appcompat.widget.AppCompatButton
+        <TextView
             android:id="@+id/btn_highschoolinfo_next_btn"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
             android:layout_marginBottom="32dp"
-            android:background="@{ vm.gradeText == null ? @drawable/shape_grayscales_800_fill_100_rect : @drawable/shape_yello_main_500_fill_100_rect}"
-            android:paddingVertical="12dp"
+            android:background="@{vm.highSchoolText.isEmpty() || vm.highSchoolGroupText == null || vm.studentIdText == null ? @drawable/shape_grayscales_800_fill_100_rect : @drawable/shape_yello_main_500_fill_100_rect}"
+            android:clickable="@{!vm.highSchoolText.isEmpty() &amp; vm.highSchoolGroupText != null &amp; vm.studentIdText != null }"
+            android:paddingVertical="16dp"
             android:text="@string/onboarding_btn_next"
+            android:textAlignment="center"
+            tools:background="@drawable/shape_yello_main_500_fill_100_rect"
             android:textAppearance="?textAppearanceBodyMedium"
-            android:textColor="@{vm.gradeText.isEmpty()|| vm.gradeText == null? @color/grayscales_700 : @color/black}"
+            android:textColor="@{ vm.highSchoolText.isEmpty() || vm.highSchoolGroupText == null || vm.studentIdText == null ? @color/grayscales_700 : @color/black}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </layout>

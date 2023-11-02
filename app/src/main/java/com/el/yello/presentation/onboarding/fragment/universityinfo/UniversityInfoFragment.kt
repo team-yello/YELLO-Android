@@ -10,8 +10,8 @@ import com.el.yello.databinding.FragmentUniversityBinding
 import com.el.yello.presentation.onboarding.activity.OnBoardingActivity
 import com.el.yello.presentation.onboarding.activity.OnBoardingViewModel
 import com.el.yello.presentation.onboarding.fragment.universityinfo.department.SearchDialogDepartmentFragment
-import com.el.yello.presentation.onboarding.fragment.universityinfo.school.SearchDialogSchoolFragment
 import com.el.yello.presentation.onboarding.fragment.universityinfo.studentid.StudentIdDialogFragment
+import com.el.yello.presentation.onboarding.fragment.universityinfo.university.SearchDialogUniversityFragment
 import com.el.yello.util.amplitude.AmplitudeUtils
 import com.el.yello.util.context.yelloSnackbar
 import com.example.ui.base.BindingFragment
@@ -24,18 +24,22 @@ class UniversityInfoFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         binding.vm = viewModel
-        viewModel.isFirstUser = true
         initSearchInfoBtnClickListener()
         setConfirmBtnClickListener()
-        setupSchool()
+        setupUniversity()
         setupDepartment()
         setupStudentId()
+    }
+    override fun onResume() {
+        super.onResume()
+        (activity as? OnBoardingActivity)?.showBackBtn()
     }
 
     private fun initSearchInfoBtnClickListener() {
         binding.tvUniversitySearch.setOnSingleClickListener {
-            SearchDialogSchoolFragment().show(parentFragmentManager, this.tag)
+            SearchDialogUniversityFragment().show(parentFragmentManager, this.tag)
         }
         binding.tvDepartmentSearch.setOnSingleClickListener {
             if (binding.tvUniversitySearch.text.isNotBlank()) {
@@ -49,8 +53,8 @@ class UniversityInfoFragment :
         }
     }
 
-    private fun setupSchool() {
-        viewModel.schoolText.observe(viewLifecycleOwner) { school ->
+    private fun setupUniversity() {
+        viewModel.universityText.observe(viewLifecycleOwner) { school ->
             binding.tvUniversitySearch.text = school
         }
     }
@@ -66,23 +70,40 @@ class UniversityInfoFragment :
 
     private fun setupStudentId() {
         viewModel.studentIdText.observe(viewLifecycleOwner) { studentId ->
-            binding.tvStudentidSearch.text = getString(R.string.onboarding_student_id, studentId)
+            if (studentId in OVERLAP_MIN_ID..OVERLAP_MAX_ID) {
+                binding.tvStudentidSearch.text = ""
+            } else {
+                binding.tvStudentidSearch.text = getString(R.string.onboarding_student_id, studentId)
+            }
         }
     }
 
     private fun setConfirmBtnClickListener() {
         binding.btnUniversityInfoNext.setOnSingleClickListener {
-            AmplitudeUtils.trackEventWithProperties(
-                "click_onboarding_next",
-                JSONObject().put("onboard_view", "school"),
-            )
-            AmplitudeUtils.updateUserProperties("user_school", viewModel.school)
-            AmplitudeUtils.updateUserProperties("user_department", viewModel.departmentData.toString())
-            AmplitudeUtils.updateUserIntProperties("user_grade", viewModel.studentId)
-
+            amplitudeUniversityInfo()
             findNavController().navigate(R.id.action_universityInfoFragment_to_yelIoIdFragment)
             val activity = requireActivity() as OnBoardingActivity
             activity.progressBarPlus()
         }
+    }
+
+    private fun amplitudeUniversityInfo() {
+        AmplitudeUtils.trackEventWithProperties(
+            EVENT_CLICK_ONBOARDING_NEXT,
+            JSONObject().put(NAME_ONBOARD_VIEW, VALUE_SCHOOL),
+        )
+        AmplitudeUtils.updateUserProperties(PROPERTY_USER_SCHOOL, viewModel.university)
+        AmplitudeUtils.updateUserProperties(PROPERTY_USER_DEPARTMENT, viewModel.departmentText.value.toString())
+        AmplitudeUtils.updateUserIntProperties(PROPERTY_USER_GRADE, viewModel.studentId)
+    }
+    companion object {
+        private const val OVERLAP_MIN_ID = 1
+        private const val OVERLAP_MAX_ID = 3
+        private const val EVENT_CLICK_ONBOARDING_NEXT = "click_onboarding_next"
+        private const val NAME_ONBOARD_VIEW = "onboard_view"
+        private const val VALUE_SCHOOL = "school"
+        private const val PROPERTY_USER_SCHOOL = "user_school"
+        private const val PROPERTY_USER_DEPARTMENT = "user_department"
+        private const val PROPERTY_USER_GRADE = "user_grade"
     }
 }

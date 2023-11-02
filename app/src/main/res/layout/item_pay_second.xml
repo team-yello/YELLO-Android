@@ -32,7 +32,7 @@
         android:layout_marginBottom="7dp"
         android:fontFamily="@font/pretendard_bold"
         android:lineHeight="22dp"
-        android:text="초성 힌트 무제한 제공"
+        android:text="@string/pay_banner_item_2"
         android:textColor="@color/white"
         android:textSize="15sp"
         app:layout_constraintBottom_toBottomOf="parent"

@@ -1,6 +1,6 @@
 package com.example.data.model.response.recommend
 
-import com.example.domain.entity.RecommendSearchModel
+import com.example.domain.entity.SearchListModel
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -19,9 +19,9 @@ data class ResponseRecommendSearchDto(
         @SerialName("isFriend") val isFriend: Boolean
     )
 
-    fun toRecommendSearchModel(): RecommendSearchModel {
-        return RecommendSearchModel(totalCount, friendList.map {
-            RecommendSearchModel.SearchFriendModel(
+    fun toSearchListModel(): SearchListModel {
+        return SearchListModel(totalCount, friendList.map {
+            SearchListModel.SearchFriendModel(
                 it.id, it.name, it.group, it.profileImage, it.yelloId, it.isFriend
             )
         })

@@ -12,7 +12,6 @@ import com.el.yello.presentation.main.MainActivity
 import com.example.data.model.request.auth.toDeviceToken
 import com.example.data.remote.service.AuthService
 import com.example.domain.YelloDataStore
-import com.google.firebase.messaging.FirebaseMessaging
 import com.google.firebase.messaging.FirebaseMessagingService
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.GlobalScope
@@ -52,7 +51,9 @@ class YelloMessagingService : FirebaseMessagingService() {
             responseMessage.path = intent.getStringExtra("path")
             responseMessage.badge = intent.getStringExtra("badge")?.toInt()
 
-            sendNotificationAlarm(responseMessage)
+            if (responseMessage.title != EMPTY) {
+                sendNotificationAlarm(responseMessage)
+            }
         }
     }
 
@@ -97,4 +98,8 @@ class YelloMessagingService : FirebaseMessagingService() {
         var path: String? = null,
         var badge: Int? = null
     )
+
+    companion object {
+        const val EMPTY = "null"
+    }
 }

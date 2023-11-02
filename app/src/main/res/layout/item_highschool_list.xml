@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
         <variable
             name="data"
             type="String" />
@@ -13,9 +13,9 @@
         android:id="@+id/layout_onboarding_highschool_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/grayscales_900"
         android:paddingHorizontal="24dp"
-        android:paddingVertical="11dp"
-        android:background="@color/grayscales_900">
+        android:paddingVertical="11dp">
 
         <ImageView
             android:id="@+id/iv_search_highschool_profile"
@@ -31,10 +31,10 @@
             android:id="@+id/tv_highschool_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/font_pretendard_medium"
-            android:inputType="text"
-            android:maxLines="1"
             android:layout_marginStart="8dp"
+            android:ellipsize="end"
+            android:fontFamily="@font/font_pretendard_medium"
+            android:maxLines="1"
             android:text="@{data}"
             android:textColor="@color/white"
             android:textSize="16sp"

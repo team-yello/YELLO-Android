@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -33,10 +34,24 @@ import kotlinx.coroutines.flow.onEach
 
 @AndroidEntryPoint
 class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main) {
+
     val viewModel by viewModels<ProfileViewModel>()
+
     val path by stringExtra()
     val type by stringExtra()
+
     private var backPressedTime: Long = 0
+
+    private val onBackPressedCallback = object : OnBackPressedCallback(true) {
+        override fun handleOnBackPressed() {
+            if (System.currentTimeMillis() - backPressedTime >= BACK_PRESSED_INTERVAL) {
+                backPressedTime = System.currentTimeMillis()
+                toast(getString(R.string.main_toast_back_pressed))
+            } else {
+                finish()
+            }
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,15 +64,7 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
         viewModel.getVoteCount()
         viewModel.setIsFirstLoginData()
         observe()
-    }
-
-    override fun onBackPressed() {
-        if (System.currentTimeMillis() - backPressedTime >= 2000) {
-            backPressedTime = System.currentTimeMillis()
-            toast(getString(R.string.main_toast_back_pressed))
-        } else {
-            finish()
-        }
+        this.onBackPressedDispatcher.addCallback(this, onBackPressedCallback)
     }
 
     private fun initBnvItemIconTintList() {
@@ -71,15 +78,17 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
         binding.bnvMain.setOnItemSelectedListener { menu ->
             when (menu.itemId) {
                 R.id.menu_recommend -> {
-                    AmplitudeUtils.trackEventWithProperties("click_recommend_navigation")
+                    AmplitudeUtils.trackEventWithProperties(EVENT_CLICK_RECOMMEND_NAVIGATION)
                     navigateTo<RecommendFragment>()
                 }
+
                 R.id.menu_look -> navigateTo<LookFragment>()
                 R.id.menu_yello -> {
                     navigateTo<YelloFragment>()
                     binding.btnMainYelloActive.visibility = View.VISIBLE
                     return@setOnItemSelectedListener true
                 }
+
                 R.id.menu_my_yello -> navigateTo<MyYelloFragment>()
                 R.id.menu_profile -> navigateTo<ProfileFragment>()
             }
@@ -125,15 +134,9 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
 
     private fun initBadge(voteCount: Int) {
         val badgeDrawable = binding.bnvMain.getOrCreateBadge(R.id.menu_my_yello)
-        // 수직 위치 변경 (입력값이 클수록 뱃지가 아래로 이동)
         badgeDrawable.verticalOffset = 12.dp
-        // 수평 위치 변경 (입력값이 클수록 뱃지가 왼쪽으로 이동)
         badgeDrawable.horizontalOffset = 10.dp
-
-        // 뱃지에 들어갈 숫자 입력
         badgeDrawable.number = voteCount
-
-        // 뱃지의 색깔 설정
         badgeDrawable.backgroundColor = ContextCompat.getColor(
             this,
             R.color.semantic_red_500,
@@ -206,6 +209,10 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
         const val NEW_FRIEND = "NEW_FRIEND"
         const val VOTE_AVAILABLE = "VOTE_AVAILABLE"
         const val RECOMMEND = "RECOMMEND"
+
+        const val BACK_PRESSED_INTERVAL = 2000
+
+        private const val EVENT_CLICK_RECOMMEND_NAVIGATION = "click_recommend_navigation"
 
         fun getIntent(context: Context, type: String? = null, path: String? = null) =
             Intent(context, MainActivity::class.java).apply {

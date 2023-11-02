@@ -29,8 +29,9 @@
             android:id="@+id/tv_highschool_dialog"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="28dp"
+            android:layout_marginTop="29dp"
             android:fontFamily="@font/font_pretendard_bold"
+            android:paddingVertical="3dp"
             android:text="@string/onboarding_tv_search_school"
             android:textColor="@color/white"
             android:textSize="16sp"
@@ -58,7 +59,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="20dp"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="15dp"
             android:background="@drawable/shape_grayscales800_fill_grayscales700_line_8_rect"
             android:drawableEnd="@drawable/ic_onboarding_search"
             android:drawablePadding="24dp"
@@ -79,7 +80,7 @@
             android:id="@+id/tv_highschool_add"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="1dp"
+            android:layout_marginTop="8dp"
             android:background="@null"
             android:fontFamily="@font/font_pretendard_medium"
             android:padding="12dp"
@@ -103,5 +104,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_highschool_add"
             tools:listitem="@layout/item_highschool_list" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </layout>

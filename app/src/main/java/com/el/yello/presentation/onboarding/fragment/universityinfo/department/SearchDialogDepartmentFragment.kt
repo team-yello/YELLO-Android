@@ -9,6 +9,8 @@ import android.view.View
 import android.view.WindowManager
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.flowWithLifecycle
+import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -24,6 +26,8 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
@@ -39,11 +43,27 @@ class SearchDialogDepartmentFragment :
         super.onViewCreated(view, savedInstanceState)
         binding.vm = viewModel
 
-        initDepartmentAdapter()
+        initDepartmentDialogView()
         setupDepartmentData()
         recyclerviewScroll()
         setClickToDepartmentForm()
         setListWithInfinityScroll()
+    }
+
+    private fun initDepartmentDialogView() {
+        setHideKeyboard()
+        binding.etDepartmentSearch.doAfterTextChanged { it ->
+            searchJob?.cancel()
+            searchJob = viewModel.viewModelScope.launch {
+                delay(debounceTime)
+                it?.toString()?.let { viewModel.getUniversityGroupId(it) }
+            }
+        }
+        adapter = DepartmentAdapter(storeDepartment = ::storeUniversityGroup)
+        binding.rvDepartmentList.adapter = adapter
+        binding.btnBackDialog.setOnSingleClickListener {
+            dismiss()
+        }
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -61,66 +81,43 @@ class SearchDialogDepartmentFragment :
         return dialog
     }
 
+    private fun setupDepartmentData() {
+        viewModel.departmentState.flowWithLifecycle(viewLifecycleOwner.lifecycle)
+            .onEach { state ->
+                Timber.d("GET GROUP LIST OBSERVE : $state")
+                when (state) {
+                    is UiState.Success -> {
+                        adapter?.submitList(state.data.groupList)
+                    }
+
+                    is UiState.Failure -> {
+                        yelloSnackbar(binding.root, getString(R.string.msg_error))
+                    }
+
+                    is UiState.Loading -> return@onEach
+                    is UiState.Empty -> return@onEach
+                }
+            }.launchIn(viewLifecycleOwner.lifecycleScope)
+    }
+
+    private fun storeUniversityGroup(department: String, groupId: Long) {
+        viewModel.setGroupUniversityInfo(department, groupId)
+        viewModel.clearDepartmentData()
+        dismiss()
+    }
+
+    private fun setClickToDepartmentForm() {
+        binding.tvDepartmentAdd.setOnClickListener {
+            Intent(Intent.ACTION_VIEW, Uri.parse(DEPARTMENT_FORM_URL)).apply {
+                startActivity(this)
+            }
+        }
+    }
+
     private fun setupFullHeight(bottomSheet: View) {
         val layoutParams = bottomSheet.layoutParams
         layoutParams.height = WindowManager.LayoutParams.MATCH_PARENT
         bottomSheet.layoutParams = layoutParams
-    }
-
-    private fun initDepartmentAdapter() {
-        setHideKeyboard()
-        binding.etDepartmentSearch.doAfterTextChanged { it ->
-            searchJob?.cancel()
-            searchJob = viewModel.viewModelScope.launch {
-                delay(debounceTime)
-                it?.toString()?.let { viewModel.getGroupList(it) }
-            }
-        }
-        adapter = DepartmentAdapter(storeDepartment = ::storeGroup)
-        binding.rvDepartmentList.adapter = adapter
-        binding.btnBackDialog.setOnSingleClickListener {
-            dismiss()
-        }
-    }
-
-    private fun setHideKeyboard() {
-        binding.layoutDepartmentDialog.setOnSingleClickListener {
-            requireContext().hideKeyboard(
-                requireView(),
-            )
-        }
-    }
-
-    private fun setupDepartmentData() {
-        viewModel.departmentData.observe(viewLifecycleOwner) { state ->
-            Timber.d("GET GROUP LIST OBSERVE : $state")
-            when (state) {
-                is UiState.Success -> {
-                    adapter?.submitList(state.data.groupList)
-                }
-                is UiState.Failure -> {
-                    yelloSnackbar(binding.root, getString(R.string.msg_error))
-                }
-                is UiState.Loading -> {}
-                is UiState.Empty -> {}
-            }
-        }
-    }
-
-    private fun storeGroup(department: String, groupId: Long) {
-        viewModel.setGroupInfo(department, groupId)
-        viewModel.clearDepartmentData()
-        dismiss()
-    }
-    private fun recyclerviewScroll() {
-        binding.rvDepartmentList.setOnTouchListener { view, motionEvent ->
-            when (motionEvent.action) {
-                MotionEvent.ACTION_MOVE -> {
-                    binding.layoutDepartmentDialog.requestDisallowInterceptTouchEvent(true)
-                }
-            }
-            return@setOnTouchListener false
-        }
     }
 
     private fun setListWithInfinityScroll() {
@@ -133,7 +130,7 @@ class SearchDialogDepartmentFragment :
                             layoutManager is LinearLayoutManager &&
                             layoutManager.findLastVisibleItemPosition() == adapter!!.itemCount - 1
                         ) {
-                            viewModel.getGroupList(inputText)
+                            viewModel.getUniversityGroupId(inputText)
                         }
                     }
                 }
@@ -141,12 +138,27 @@ class SearchDialogDepartmentFragment :
         })
     }
 
-    private fun setClickToDepartmentForm() {
-        binding.tvDepartmentAdd.setOnClickListener {
-            Intent(Intent.ACTION_VIEW, Uri.parse(DEPARTMENT_FORM_URL)).apply {
-                startActivity(this)
-            }
+    private fun setHideKeyboard() {
+        binding.layoutDepartmentDialog.setOnSingleClickListener {
+            requireContext().hideKeyboard(
+                requireView(),
+            )
         }
+    }
+
+    private fun recyclerviewScroll() {
+        binding.rvDepartmentList.addOnItemTouchListener(object : RecyclerView.OnItemTouchListener {
+            override fun onInterceptTouchEvent(rv: RecyclerView, e: MotionEvent): Boolean {
+                when (e.action) {
+                    MotionEvent.ACTION_MOVE -> {
+                        binding.layoutDepartmentDialog.requestDisallowInterceptTouchEvent(true)
+                    }
+                }
+                return false
+            }
+            override fun onTouchEvent(rv: RecyclerView, e: MotionEvent) {}
+            override fun onRequestDisallowInterceptTouchEvent(disallowIntercept: Boolean) {}
+        })
     }
 
     override fun onDestroyView() {

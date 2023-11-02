@@ -1,10 +1,8 @@
 package com.el.yello.presentation.main.yello
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.domain.entity.ResponsePurchaseInfoModel
+import com.example.domain.entity.PayInfoModel
 import com.example.domain.entity.type.YelloState
 import com.example.domain.entity.type.YelloState.Lock
 import com.example.domain.entity.type.YelloState.Valid
@@ -18,6 +16,9 @@ import com.example.ui.view.UiState.Failure
 import com.example.ui.view.UiState.Success
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import timber.log.Timber
@@ -29,34 +30,35 @@ class YelloViewModel @Inject constructor(
     private val authRepository: AuthRepository,
     private val payRepository: PayRepository,
 ) : ViewModel() {
-    private val _yelloState = MutableLiveData<UiState<YelloState>>()
-    val yelloState: LiveData<UiState<YelloState>>
-        get() = _yelloState
+    private val _yelloState = MutableStateFlow<UiState<YelloState>>(UiState.Loading)
+    val yelloState: StateFlow<UiState<YelloState>>
+        get() = _yelloState.asStateFlow()
 
-    private val _leftTime = MutableLiveData<Long>()
-    val leftTime: LiveData<Long>
-        get() = _leftTime
+    private val _leftTime = MutableStateFlow<Long>(0)
+    val leftTime: StateFlow<Long>
+        get() = _leftTime.asStateFlow()
 
-    private val _point = MutableLiveData(0)
-    val point: LiveData<Int>
-        get() = _point
+    private val _point = MutableStateFlow(0)
+    val point: StateFlow<Int>
+        get() = _point.asStateFlow()
 
-    private val _isDecreasing = MutableLiveData(false)
+    private val _isDecreasing = MutableStateFlow(false)
     private val isDecreasing: Boolean
-        get() = _isDecreasing.value ?: false
+        get() = _isDecreasing.value
 
-    private val _getPurchaseInfoState = MutableLiveData<UiState<ResponsePurchaseInfoModel?>>()
-    val getPurchaseInfoState: LiveData<UiState<ResponsePurchaseInfoModel?>> = _getPurchaseInfoState
+    private val _getPurchaseInfoState =
+        MutableStateFlow<UiState<PayInfoModel>>(UiState.Loading)
+    val getPurchaseInfoState: StateFlow<UiState<PayInfoModel>> =
+        _getPurchaseInfoState.asStateFlow()
 
     private fun decreaseTime() {
-        leftTime.value ?: return
         if (isDecreasing) return
         viewModelScope.launch {
             _isDecreasing.value = true
             while (requireNotNull(leftTime.value) > 0) {
                 delay(1000L)
                 if (requireNotNull(leftTime.value) <= 0) return@launch
-                _leftTime.value = leftTime.value?.minus(1)
+                _leftTime.value = leftTime.value - 1
             }
 
             getVoteState()
@@ -68,7 +70,6 @@ class YelloViewModel @Inject constructor(
         viewModelScope.launch {
             voteRepository.getVoteAvailable()
                 .onSuccess { voteState ->
-                    Timber.d("GET VOTE STATE SUCCESS : $voteState")
                     if (voteState == null) {
                         _yelloState.value = Empty
                         return@launch
@@ -80,7 +81,8 @@ class YelloViewModel @Inject constructor(
                         if (currentState is Success) {
                             if (currentState.data is Valid) return@onSuccess
                         }
-                        _yelloState.value = Success(Valid(voteState.point))
+                        _yelloState.value =
+                            Success(Valid(voteState.point, voteState.hasFourFriends))
                         return@launch
                     }
 
@@ -105,16 +107,21 @@ class YelloViewModel @Inject constructor(
         }
     }
 
-    // 서버 통신 - 구독 여부 & 열람권 개수 받아오기
     fun getPurchaseInfoFromServer() {
         viewModelScope.launch {
-            runCatching {
-                payRepository.getPurchaseInfo()
-            }.onSuccess {
-                _getPurchaseInfoState.value = Success(it)
-            }.onFailure {
-                _getPurchaseInfoState.value = Failure(it.message ?: "")
-            }
+            payRepository.getPurchaseInfo()
+                .onSuccess { purchaseInfo ->
+                    if (purchaseInfo == null) {
+                        _getPurchaseInfoState.value = Empty
+                        return@onSuccess
+                    }
+                    _getPurchaseInfoState.value = Success(purchaseInfo)
+                }
+                .onFailure { t ->
+                    if (t is HttpException) {
+                        _getPurchaseInfoState.value = Failure(t.code().toString())
+                    }
+                }
         }
     }
 

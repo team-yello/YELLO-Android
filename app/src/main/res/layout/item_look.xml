@@ -9,6 +9,8 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/card_my_yello"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginVertical="4dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:cardBackgroundColor="@color/grayscales_900"
@@ -82,7 +84,8 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/layout_look_body"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
+                app:layout_constraintEnd_toEndOf="parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp"
                 android:layout_marginBottom="23dp"
@@ -115,11 +118,15 @@
 
                 <TextView
                     android:id="@+id/tv_name_foot"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:paddingVertical="4dp"
                     android:textAppearance="@style/TextAppearance.Yello.BodyLarge"
                     android:textColor="@color/white"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginEnd="16dp"
+                    android:maxLines="1"
+                    android:ellipsize="end"
                     app:layout_constraintStart_toEndOf="@id/tv_name_middle"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_goneMarginTop="0dp"
@@ -152,9 +159,13 @@
 
                 <TextView
                     android:id="@+id/tv_keyword_foot"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="6dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginEnd="16dp"
+                    android:maxLines="1"
+                    android:ellipsize="end"
                     android:paddingVertical="2dp"
                     android:textAppearance="@style/TextAppearance.Yello.BodyLarge"
                     android:textColor="@color/white"

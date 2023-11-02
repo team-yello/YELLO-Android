@@ -27,9 +27,8 @@ object AndroidXDependencies {
     const val ossLicense =
         "com.google.android.gms:play-services-oss-licenses:${Versions.ossVersion}"
     const val splashScreen = "androidx.core:core-splashscreen:${Versions.splashVersion}"
+    const val paging = "androidx.paging:paging-common-ktx:${Versions.pagingVersion}"
     const val pagingRuntime = "androidx.paging:paging-runtime:${Versions.pagingVersion}"
-    const val coroutines =
-        "org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.coroutinesAndroidVersion}"
     const val workManager = "androidx.work:work-runtime-ktx:${Versions.workManagerVersion}"
     const val hiltWorkManager = "androidx.hilt:hilt-work:1.0.0"
     const val billing = "com.android.billingclient:billing-ktx:${Versions.billingVersion}"

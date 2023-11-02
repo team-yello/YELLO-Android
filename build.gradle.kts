@@ -1,4 +1,11 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
+plugins {
+    alias(libs.plugins.androidApplication) apply false
+    alias(libs.plugins.androidLibrary) apply false
+    alias(libs.plugins.androidKotlin) apply false
+    alias(libs.plugins.androidHilt) apply false
+}
+
 buildscript {
     repositories {
         google()
@@ -6,14 +13,14 @@ buildscript {
     }
 
     dependencies {
-        classpath("com.android.tools.build:gradle:${Versions.gradleVersion}")
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.kotlinVersion}")
-        classpath("com.google.gms:google-services:4.3.15")
-        classpath("com.google.firebase:firebase-appdistribution-gradle:4.0.0")
-        classpath("com.google.firebase:firebase-crashlytics-gradle:2.9.7")
-        classpath("androidx.navigation:navigation-safe-args-gradle-plugin:2.6.0")
-        classpath(ClassPathPlugins.hilt)
-        classpath(ClassPathPlugins.oss)
+        classpath(libs.android.build)
+        classpath(libs.kotlin.gradle)
+        classpath(libs.google.services.plugin)
+        classpath(libs.google.appdistribution.gradle)
+        classpath(libs.google.crashlytics.gradle)
+        classpath(libs.navigation.plugin)
+        classpath(libs.hilt.gradle)
+        classpath(libs.google.oss.plugin)
     }
 }
 

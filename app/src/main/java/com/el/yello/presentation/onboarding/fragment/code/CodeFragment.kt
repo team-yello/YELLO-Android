@@ -2,7 +2,6 @@ package com.el.yello.presentation.onboarding.fragment.code
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
@@ -13,13 +12,10 @@ import com.el.yello.presentation.onboarding.activity.OnBoardingActivity
 import com.el.yello.presentation.onboarding.activity.OnBoardingViewModel
 import com.el.yello.util.amplitude.AmplitudeUtils
 import com.el.yello.util.context.yelloSnackbar
-import com.example.domain.entity.onboarding.SignupInfo
-import com.example.domain.repository.AuthRepository
 import com.example.ui.base.BindingFragment
 import com.example.ui.view.UiState
 import com.example.ui.view.setOnSingleClickListener
 import org.json.JSONObject
-import javax.inject.Inject
 
 class CodeFragment : BindingFragment<FragmentCodeBinding>(R.layout.fragment_code) {
     private val viewModel by activityViewModels<OnBoardingViewModel>()
@@ -84,8 +80,11 @@ class CodeFragment : BindingFragment<FragmentCodeBinding>(R.layout.fragment_code
                     (activity as? OnBoardingActivity)?.endTutorialActivity()
                 }
                 is UiState.Failure -> {
-                    val signupInfo = viewModel.signupRequestFromServer()
-                    throw RuntimeException("서버 통신 실패: $signupInfo")
+                    try {
+                        val signupInfo = viewModel.signupRequestFromServer()
+                        throw RuntimeException("서버 통신 실패: $signupInfo")
+                    } catch (e: Exception) {
+                    }
                 }
                 is UiState.Loading -> {}
                 is UiState.Empty -> {}

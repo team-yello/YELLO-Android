@@ -2,6 +2,7 @@ package com.el.yello.presentation.onboarding.fragment.code
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
@@ -12,10 +13,13 @@ import com.el.yello.presentation.onboarding.activity.OnBoardingActivity
 import com.el.yello.presentation.onboarding.activity.OnBoardingViewModel
 import com.el.yello.util.amplitude.AmplitudeUtils
 import com.el.yello.util.context.yelloSnackbar
+import com.example.domain.entity.onboarding.SignupInfo
+import com.example.domain.repository.AuthRepository
 import com.example.ui.base.BindingFragment
 import com.example.ui.view.UiState
 import com.example.ui.view.setOnSingleClickListener
 import org.json.JSONObject
+import javax.inject.Inject
 
 class CodeFragment : BindingFragment<FragmentCodeBinding>(R.layout.fragment_code) {
     private val viewModel by activityViewModels<OnBoardingViewModel>()
@@ -80,7 +84,8 @@ class CodeFragment : BindingFragment<FragmentCodeBinding>(R.layout.fragment_code
                     (activity as? OnBoardingActivity)?.endTutorialActivity()
                 }
                 is UiState.Failure -> {
-                    yelloSnackbar(binding.root, getString(R.string.msg_error))
+                    val signupInfo = viewModel.signupRequestFromServer()
+                    throw RuntimeException("서버 통신 실패: $signupInfo")
                 }
                 is UiState.Loading -> {}
                 is UiState.Empty -> {}
@@ -121,7 +126,7 @@ class CodeFragment : BindingFragment<FragmentCodeBinding>(R.layout.fragment_code
         AmplitudeUtils.trackEventWithProperties(EVENT_COMPLETE_ONBOARDING_FINISH)
         AmplitudeUtils.trackEventWithProperties(
             EVENT_CLICK_ONBOARDING_RECOMMEND,
-            JSONObject().put(NAME_REC_EXIST,VALUE_NEXT),
+            JSONObject().put(NAME_REC_EXIST, VALUE_NEXT),
         )
         AmplitudeUtils.updateUserProperties(PROPERTY_USER_RECOMMEND, VALUE_YES)
         AmplitudeUtils.updateUserProperties(PROPERTY_USER_NAME, viewModel.name)
@@ -140,6 +145,5 @@ class CodeFragment : BindingFragment<FragmentCodeBinding>(R.layout.fragment_code
         private const val VALUE_YES = "yes"
         private const val PROPERTY_USER_NAME = "user_name"
         private const val PROPERTY_USER_SEX = "user_sex"
-
     }
 }

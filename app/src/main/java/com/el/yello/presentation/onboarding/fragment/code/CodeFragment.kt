@@ -80,11 +80,7 @@ class CodeFragment : BindingFragment<FragmentCodeBinding>(R.layout.fragment_code
                     (activity as? OnBoardingActivity)?.endTutorialActivity()
                 }
                 is UiState.Failure -> {
-                    try {
-                        val signupInfo = viewModel.signupRequestFromServer()
-                        throw RuntimeException("서버 통신 실패: $signupInfo")
-                    } catch (e: Exception) {
-                    }
+                    yelloSnackbar(binding.root, getString(R.string.msg_error))
                 }
                 is UiState.Loading -> {}
                 is UiState.Empty -> {}

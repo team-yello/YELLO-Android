@@ -398,10 +398,13 @@ class OnBoardingViewModel @Inject constructor(
                     _postSignupState.value = UiState.Success(userInfo)
                 }
                 .onFailure { t ->
-                    if (t is HttpException) {
-                        Timber.e("POST SIGN UP FAILURE : $t")
-                        _postSignupState.value = UiState.Failure(t.code().toString())
-                        return@launch
+                    try {
+                        if (t is HttpException) {
+                            Timber.e("POST SIGN UP FAILURE : $t")
+                            _postSignupState.value = UiState.Failure(t.code().toString())
+                            return@launch
+                        }
+                    } catch (t: Exception) {
                     }
                     Timber.e("POST SIGN UP ERROR : $t")
                 }

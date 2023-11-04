@@ -1,5 +1,6 @@
 package com.el.yello.presentation.onboarding.activity
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -404,7 +405,8 @@ class OnBoardingViewModel @Inject constructor(
                             _postSignupState.value = UiState.Failure(t.code().toString())
                             return@launch
                         }
-                    } catch (t: Exception) {
+                        Log.d("POST SIGN UP SERVER ERROR", "POST SIGN UP SERVER ERROR : $t")
+                    } catch (e: RuntimeException) {
                     }
                     Timber.e("POST SIGN UP ERROR : $t")
                 }

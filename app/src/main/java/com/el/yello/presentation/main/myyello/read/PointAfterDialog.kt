@@ -4,6 +4,7 @@ import android.content.res.Resources
 import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
+import android.view.animation.AnimationUtils
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.flowWithLifecycle
@@ -48,12 +49,11 @@ class PointAfterDialog :
     }
 
     private fun observe() {
-        viewModel.keywordData.flowWithLifecycle(viewLifecycleOwner.lifecycle)
-            .onEach {
+        viewModel.keywordData.flowWithLifecycle(viewLifecycleOwner.lifecycle).onEach {
                 when (it) {
                     is UiState.Success -> {
                         binding.tvPoint.text = viewModel.myPoint.toString()
-                        binding.tvInitial.text = it.data.answer
+                        setAnswerWithFadeIn(it.data.answer)
                         viewModel.getYelloDetail()
                         viewModel.setHintUsed(true)
                     }
@@ -62,12 +62,11 @@ class PointAfterDialog :
                         toast(it.msg)
                     }
 
-                    else -> {}
+                    else -> return@onEach
                 }
             }.launchIn(viewLifecycleOwner.lifecycleScope)
 
-        viewModel.nameData.flowWithLifecycle(viewLifecycleOwner.lifecycle)
-            .onEach {
+        viewModel.nameData.flowWithLifecycle(viewLifecycleOwner.lifecycle).onEach {
                 when (it) {
                     is UiState.Success -> {
                         binding.tvPoint.text = viewModel.myPoint.toString()
@@ -80,9 +79,16 @@ class PointAfterDialog :
                         toast(it.msg)
                     }
 
-                    else -> {}
+                    else -> return@onEach
                 }
             }.launchIn(viewLifecycleOwner.lifecycleScope)
+    }
+
+    private fun setAnswerWithFadeIn(text: String) {
+        val animation = AnimationUtils.loadAnimation(requireContext(), R.anim.fade_in)
+        binding.tvInitial.startAnimation(animation)
+        binding.tvInitial.text = text
+        binding.tvInitial.isVisible = true
     }
 
     private fun initEvent() {
@@ -107,7 +113,6 @@ class PointAfterDialog :
 
     companion object {
         @JvmStatic
-        fun newInstance() =
-            PointAfterDialog()
+        fun newInstance() = PointAfterDialog()
     }
 }

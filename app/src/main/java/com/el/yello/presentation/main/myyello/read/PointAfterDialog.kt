@@ -33,6 +33,7 @@ class PointAfterDialog :
     }
 
     private fun initView() {
+        binding.tvInitial.visibility = View.INVISIBLE
         if (viewModel.pointType == PointEnum.KEYWORD.ordinal) {
             viewModel.checkKeyword()
         } else {
@@ -50,38 +51,38 @@ class PointAfterDialog :
 
     private fun observe() {
         viewModel.keywordData.flowWithLifecycle(viewLifecycleOwner.lifecycle).onEach {
-                when (it) {
-                    is UiState.Success -> {
-                        binding.tvPoint.text = viewModel.myPoint.toString()
-                        setAnswerWithFadeIn(it.data.answer)
-                        viewModel.getYelloDetail()
-                        viewModel.setHintUsed(true)
-                    }
-
-                    is UiState.Failure -> {
-                        toast(it.msg)
-                    }
-
-                    else -> return@onEach
+            when (it) {
+                is UiState.Success -> {
+                    binding.tvPoint.text = viewModel.myPoint.toString()
+                    setAnswerWithFadeIn(it.data.answer)
+                    viewModel.getYelloDetail()
+                    viewModel.setHintUsed(true)
                 }
-            }.launchIn(viewLifecycleOwner.lifecycleScope)
+
+                is UiState.Failure -> {
+                    toast(it.msg)
+                }
+
+                else -> return@onEach
+            }
+        }.launchIn(viewLifecycleOwner.lifecycleScope)
 
         viewModel.nameData.flowWithLifecycle(viewLifecycleOwner.lifecycle).onEach {
-                when (it) {
-                    is UiState.Success -> {
-                        binding.tvPoint.text = viewModel.myPoint.toString()
-                        binding.tvInitial.text = Utils.setChosungText(it.data.name, 0)
-                        viewModel.getYelloDetail()
-                        viewModel.setNameIndex(it.data.index)
-                    }
-
-                    is UiState.Failure -> {
-                        toast(it.msg)
-                    }
-
-                    else -> return@onEach
+            when (it) {
+                is UiState.Success -> {
+                    binding.tvPoint.text = viewModel.myPoint.toString()
+                    binding.tvInitial.text = Utils.setChosungText(it.data.name, 0)
+                    viewModel.getYelloDetail()
+                    viewModel.setNameIndex(it.data.index)
                 }
-            }.launchIn(viewLifecycleOwner.lifecycleScope)
+
+                is UiState.Failure -> {
+                    toast(it.msg)
+                }
+
+                else -> return@onEach
+            }
+        }.launchIn(viewLifecycleOwner.lifecycleScope)
     }
 
     private fun setAnswerWithFadeIn(text: String) {

@@ -1,7 +1,3 @@
-import AndroidXDependencies.coreKtx
-import AndroidXDependencies.paging
-import AndroidXDependencies.pagingRuntime
-
 plugins {
     id("java-library")
     kotlin("jvm")
@@ -14,18 +10,7 @@ java {
 }
 
 dependencies {
-    KotlinDependencies.run {
-        implementation(kotlin)
-        implementation(coroutines)
-        implementation(dateTime)
-        implementation(paging)
-    }
-
-    ThirdPartyDependencies.run {
-        implementation(hiltCore)
-    }
-
-    KaptDependencies.run {
-        kapt(hiltCompiler)
-    }
+    implementation(libs.bundles.kotlin)
+    implementation(libs.hiltCore)
+    kapt(libs.hiltAndroidCompiler)
 }

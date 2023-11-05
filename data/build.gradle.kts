@@ -1,32 +1,10 @@
 import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
-
 plugins {
-    id("com.android.library")
-    kotlin("android")
-    kotlin("kapt")
-    kotlin("plugin.serialization") version Versions.kotlinVersion
+    id("yello.android.library")
+    kotlin("plugin.serialization") version libs.versions.kotlinVersion
 }
 
 android {
-    compileSdk = Constants.compileSdk
-
-    defaultConfig {
-        minSdk = Constants.minSdk
-        targetSdk = Constants.targetSdk
-
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        consumerProguardFiles("consumer-rules.pro")
-    }
-
-    compileOptions {
-        sourceCompatibility = Versions.javaVersion
-        targetCompatibility = Versions.javaVersion
-    }
-
-    kotlinOptions {
-        jvmTarget = Versions.jvmVersion
-    }
-
     buildTypes {
         debug {
             buildConfigField(
@@ -54,34 +32,15 @@ android {
 
 dependencies {
     implementation(project(":domain"))
-    AndroidXDependencies.run {
-        implementation(hilt)
-        implementation(coreKtx)
-        implementation(pagingRuntime)
-        implementation(billing)
-        implementation(security)
-    }
 
-    KotlinDependencies.run {
-        implementation(kotlin)
-        implementation(jsonSerialization)
-        implementation(coroutines)
-        implementation(dateTime)
-        implementation(gson)
-    }
+    implementation(libs.androidx.coreKtx)
+    implementation(libs.androidx.pagingRuntime)
+    implementation(libs.androidx.security)
+    implementation(libs.billing)
 
-    ThirdPartyDependencies.run {
-        implementation(retrofit)
-        implementation(okHttp)
-        implementation(okHttpBom)
-        implementation(okHttpLoggingInterceptor)
-        implementation(retrofitJsonConverter)
-        implementation(timber)
-    }
-
-    TestDependencies.run {
-        testImplementation(jUnit)
-        androidTestImplementation(androidTest)
-        androidTestImplementation(espresso)
-    }
+    implementation(libs.gson)
+    implementation(libs.okhttp.bom)
+    implementation(libs.bundles.okhttp)
+    implementation(libs.bundles.retrofit)
+    implementation(libs.timber)
 }

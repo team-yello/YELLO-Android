@@ -48,7 +48,7 @@ amplitudeVersion = "2.23.2"
 
 inAppUpdateVersion = "2.1.0"
 
-gradlePlugin = "8.1.0"
+gradlePlugin = "8.1.2"
 googleServicePlugin = "4.3.15"
 googleAppdistributionPlugin = "4.0.0"
 googleCrashlyticsPlguin = "2.9.7"

@@ -47,6 +47,23 @@ class OnBoardingViewModel @Inject constructor(
         _getValidYelloIdState.value = UiState.Loading
     }
 
+    fun signupRequestFromServer() {
+        val deviceToken = authRepository.getDeviceToken()
+        SignupInfo(
+            kakaoId = kakaoId,
+            email = email,
+            profileImg = profileImg,
+            groupId = groupId,
+            studentId = studentId,
+            name = name,
+            yelloId = id,
+            gender = gender,
+            friendList = selectedFriendIdList,
+            recommendId = codeText.value,
+            deviceToken = deviceToken,
+        )
+    }
+
     val studentType = MutableLiveData("")
     val university: String get() = universityText.value?.trim() ?: ""
     val universityText = MutableLiveData("")
@@ -56,7 +73,7 @@ class OnBoardingViewModel @Inject constructor(
     val departmentText = MutableLiveData("")
     val highSchoolGroupText = MutableLiveData<String>()
     private val _groupId = MutableLiveData<Long>()
-    private val groupId: Long get() = requireNotNull(_groupId.value)
+    val groupId: Long get() = requireNotNull(_groupId.value)
 
     val studentIdText = MutableLiveData<Int>()
     val studentId: Int get() = requireNotNull(studentIdText.value)
@@ -385,6 +402,8 @@ class OnBoardingViewModel @Inject constructor(
                         Timber.e("POST SIGN UP FAILURE : $t")
                         _postSignupState.value = UiState.Failure(t.code().toString())
                         return@launch
+                    } else {
+                        t.printStackTrace()
                     }
                     Timber.e("POST SIGN UP ERROR : $t")
                 }

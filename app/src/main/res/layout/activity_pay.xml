@@ -191,17 +191,29 @@
                     app:layout_constraintTop_toTopOf="@id/cl_subscribe" />
 
                 <TextView
+                    android:id="@+id/tv_yello_discount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="28dp"
+                    android:paddingVertical="3dp"
+                    android:text="@string/pay_discount"
+                    android:textAppearance="@style/TextAppearance.Yello.Headline03"
+                    android:textColor="@color/yello_main_500"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/cl_subscribe" />
+
+                <TextView
                     android:id="@+id/tv_yello_know"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    android:layout_marginTop="44dp"
                     android:paddingVertical="3dp"
                     android:text="@string/pay_subtitle"
-                    android:textAppearance="@style/TextAppearance.Yello.Subtitle02"
+                    android:textAppearance="@style/TextAppearance.Yello.Headline03"
                     android:textColor="@color/white"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/cl_subscribe" />
+                    app:layout_constraintTop_toBottomOf="@id/tv_yello_discount" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/cl_name_check_one"
@@ -237,18 +249,51 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
+                        android:id="@+id/tv_original_price_one"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:layout_marginEnd="7dp"
+                        android:ellipsize="end"
+                        android:gravity="end"
+                        android:maxLines="1"
+                        android:paddingVertical="3dp"
+                        android:text="@string/pay_in_app_one_original_price"
+                        android:textAppearance="@style/TextAppearance.Yello.Body02"
+                        android:textColor="@color/grayscales_600"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/tv_price_one"
+                        app:layout_constraintStart_toEndOf="@id/iv_check_one"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
                         android:id="@+id/tv_price_one"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="12dp"
                         android:background="@drawable/shape_purple_gradient_30dp"
-                        android:paddingHorizontal="13dp"
+                        android:paddingHorizontal="18dp"
                         android:paddingVertical="7dp"
                         android:text="@string/pay_in_app_one_price"
                         android:textAppearance="?textAppearanceBodyLarge"
                         android:textColor="@color/white"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tv_discount_one"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/shape_purple_fill_10_left_top_right_bot"
+                        android:paddingStart="7dp"
+                        android:paddingTop="3dp"
+                        android:paddingEnd="5dp"
+                        android:paddingBottom="3dp"
+                        android:text="@string/pay_in_app_discount"
+                        android:textAppearance="?textAppearanceLabelMedium"
+                        android:textColor="@color/white"
+                        app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -287,18 +332,51 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
+                        android:id="@+id/tv_original_price_two"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:layout_marginEnd="7dp"
+                        android:ellipsize="end"
+                        android:gravity="end"
+                        android:maxLines="1"
+                        android:paddingVertical="3dp"
+                        android:text="@string/pay_in_app_two_original_price"
+                        android:textAppearance="@style/TextAppearance.Yello.Body02"
+                        android:textColor="@color/grayscales_600"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/tv_price_two"
+                        app:layout_constraintStart_toEndOf="@id/iv_check_two"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
                         android:id="@+id/tv_price_two"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="12dp"
                         android:background="@drawable/shape_purple_gradient_30dp"
-                        android:paddingHorizontal="13dp"
+                        android:paddingHorizontal="14dp"
                         android:paddingVertical="7dp"
                         android:text="@string/pay_in_app_two_price"
                         android:textAppearance="?textAppearanceBodyLarge"
                         android:textColor="@color/white"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tv_discount_two"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/shape_purple_fill_10_left_top_right_bot"
+                        android:paddingStart="7dp"
+                        android:paddingTop="3dp"
+                        android:paddingEnd="5dp"
+                        android:paddingBottom="3dp"
+                        android:text="@string/pay_in_app_discount"
+                        android:textAppearance="?textAppearanceLabelMedium"
+                        android:textColor="@color/white"
+                        app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -370,6 +448,7 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
+                        android:id="@+id/tv_discount_five"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:background="@drawable/shape_purple_fill_10_left_top_right_bot"
@@ -377,7 +456,7 @@
                         android:paddingTop="3dp"
                         android:paddingEnd="5dp"
                         android:paddingBottom="3dp"
-                        android:text="@string/pay_in_app_five_discount"
+                        android:text="@string/pay_in_app_discount"
                         android:textAppearance="?textAppearanceLabelMedium"
                         android:textColor="@color/white"
                         app:layout_constraintStart_toStartOf="parent"

@@ -8,6 +8,9 @@ import androidx.fragment.app.activityViewModels
 import coil.load
 import com.el.yello.R
 import com.el.yello.databinding.FragmentPayInAppDialogBinding
+import com.el.yello.presentation.pay.PayActivity.Companion.YELLO_FIVE
+import com.el.yello.presentation.pay.PayActivity.Companion.YELLO_ONE
+import com.el.yello.presentation.pay.PayActivity.Companion.YELLO_TWO
 import com.example.ui.base.BindingDialogFragment
 import com.example.ui.view.setOnSingleClickListener
 
@@ -52,17 +55,17 @@ class PayInAppDialog :
 
     private fun setDialogByItem() {
         when (viewModel.currentInAppItem) {
-            "yello_ticket_one" -> {
+           YELLO_ONE -> {
                 binding.tvPayDialogSubtitle1.text = getString(R.string.pay_dialog_in_app_title_1)
                 binding.ivPayInApp.load(R.drawable.ic_pay_in_app_1)
             }
 
-            "yello_ticket_two" -> {
+            YELLO_TWO -> {
                 binding.tvPayDialogSubtitle1.text = getString(R.string.pay_dialog_in_app_title_2)
                 binding.ivPayInApp.load(R.drawable.ic_pay_in_app_2)
             }
 
-            "yello_ticket_five" -> {
+            YELLO_FIVE -> {
                 binding.tvPayDialogSubtitle1.text = getString(R.string.pay_dialog_in_app_title_5)
                 binding.ivPayInApp.load(R.drawable.ic_pay_in_app_5)
             }

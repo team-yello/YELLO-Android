@@ -19,6 +19,8 @@ data class ResponseLookListDto(
         val receiverName: String,
         @SerialName("senderGender")
         val senderGender: String,
+        @SerialName("receiverProfileImage")
+        val receiverProfileImage: String,
         @SerialName("vote")
         val vote: LookVoteDto,
         @SerialName("isHintUsed")
@@ -48,6 +50,7 @@ data class ResponseLookListDto(
                     it.id,
                     it.receiverName,
                     it.senderGender,
+                    it.receiverProfileImage,
                     LookListModel.LookModel.LookVoteModel(
                         it.vote.nameHead,
                         it.vote.nameFoot,

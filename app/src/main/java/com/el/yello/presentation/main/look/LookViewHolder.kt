@@ -5,8 +5,10 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
+import coil.transform.CircleCropTransformation
 import com.el.yello.R
 import com.el.yello.databinding.ItemLookBinding
+import com.el.yello.presentation.main.profile.ProfileViewModel.Companion.BASIC_THUMBNAIL
 import com.example.domain.entity.LookListModel.LookModel
 
 class LookViewHolder(
@@ -28,15 +30,24 @@ class LookViewHolder(
             tvKeywordHead.visibility =
                 if (item.vote.keywordHead.isNullOrEmpty()) View.GONE else View.VISIBLE
 
-            ivLookThumbnail.load(R.drawable.img_yello_basic)
+        }
+
+        item.receiverProfileImage.let { thumbnail ->
+            if (thumbnail == BASIC_THUMBNAIL) {
+                binding.ivLookThumbnail.load(R.drawable.img_yello_basic)
+            } else {
+                binding.ivLookThumbnail.load(thumbnail) {
+                    transformations(CircleCropTransformation())
+                }
+            }
         }
 
         if (item.senderGender == MALE) {
             setItemViewTextColor(binding.tvLookSendGender, R.color.semantic_gender_m_500)
-            binding.tvLookSendGender.text = "남학생에게 받음"
+            binding.tvLookSendGender.text = FROM_MALE
         } else {
             setItemViewTextColor(binding.tvLookSendGender, R.color.semantic_gender_f_500)
-            binding.tvLookSendGender.text = "여학생에게 받음"
+            binding.tvLookSendGender.text = FROM_FEMALE
         }
 
         if (item.isHintUsed) {
@@ -64,5 +75,7 @@ class LookViewHolder(
 
     private companion object {
         const val MALE = "MALE"
+        const val FROM_MALE = "남학생에게 받음"
+        const val FROM_FEMALE = "여학생에게 받음"
     }
 }

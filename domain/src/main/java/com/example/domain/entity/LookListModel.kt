@@ -8,6 +8,7 @@ data class LookListModel(
         val id: Int,
         val receiverName: String,
         val senderGender: String,
+        val receiverProfileImage: String,
         val vote: LookVoteModel,
         val isHintUsed: Boolean,
         val createdAt: String

@@ -121,7 +121,7 @@ class CodeFragment : BindingFragment<FragmentCodeBinding>(R.layout.fragment_code
         AmplitudeUtils.trackEventWithProperties(EVENT_COMPLETE_ONBOARDING_FINISH)
         AmplitudeUtils.trackEventWithProperties(
             EVENT_CLICK_ONBOARDING_RECOMMEND,
-            JSONObject().put(NAME_REC_EXIST,VALUE_NEXT),
+            JSONObject().put(NAME_REC_EXIST, VALUE_NEXT),
         )
         AmplitudeUtils.updateUserProperties(PROPERTY_USER_RECOMMEND, VALUE_YES)
         AmplitudeUtils.updateUserProperties(PROPERTY_USER_NAME, viewModel.name)
@@ -140,6 +140,5 @@ class CodeFragment : BindingFragment<FragmentCodeBinding>(R.layout.fragment_code
         private const val VALUE_YES = "yes"
         private const val PROPERTY_USER_NAME = "user_name"
         private const val PROPERTY_USER_SEX = "user_sex"
-
     }
 }

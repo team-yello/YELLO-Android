@@ -8,11 +8,11 @@ import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.el.yello.R
-import com.example.ui.intent.dpToPx
+import com.example.ui.number.dpToPx
 
 class SearchItemDecoration(context: Context) : RecyclerView.ItemDecoration() {
-    private val dividerHeight = dpToPx(context, 1)
-    private val dividerMargin = dpToPx(context, 8)
+    private val dividerHeight = 1.dpToPx(context)
+    private val dividerMargin = 8.dpToPx(context)
     private val dividerColor = ContextCompat.getColor(context, R.color.grayscales_800)
     private val dividerPaint = Paint()
 

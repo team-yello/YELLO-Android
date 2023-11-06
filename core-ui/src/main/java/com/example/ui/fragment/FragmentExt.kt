@@ -1,5 +1,7 @@
 package com.example.ui.fragment
 
+import android.graphics.Point
+import android.os.Build
 import android.view.View
 import android.widget.Toast
 import androidx.annotation.ColorRes
@@ -34,3 +36,14 @@ val Fragment.viewLifeCycle
 
 val Fragment.viewLifeCycleScope
     get() = viewLifecycleOwner.lifecycleScope
+
+fun Fragment.getCompatibleRealSize(screenRealSize: Point) {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+        val windowMetrics = requireActivity().windowManager.currentWindowMetrics
+        screenRealSize.x = windowMetrics.bounds.width()
+        screenRealSize.y = windowMetrics.bounds.height()
+        return
+    }
+
+    requireActivity().windowManager.defaultDisplay.getRealSize(screenRealSize)
+}

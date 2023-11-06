@@ -1,6 +1,9 @@
 package com.example.ui.view
 
+import android.app.Activity
 import android.content.Context
+import android.graphics.Point
+import android.os.Build
 import android.util.TypedValue
 import android.view.View
 import androidx.recyclerview.widget.DiffUtil

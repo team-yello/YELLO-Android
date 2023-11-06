@@ -69,10 +69,10 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
     }
 
     private fun initPurchaseBtnListener() {
-        binding.clSubscribe.setOnSingleClickListener { startPurchase("subscribe", YELLO_PLUS) }
-        binding.clNameCheckOne.setOnSingleClickListener { startPurchase("ticket1", YELLO_ONE) }
-        binding.clNameCheckTwo.setOnSingleClickListener { startPurchase("ticket2", YELLO_TWO) }
-        binding.clNameCheckFive.setOnSingleClickListener { startPurchase("ticket5", YELLO_FIVE) }
+        binding.clSubscribe.setOnSingleClickListener { startPurchase(TYPE_PLUS, YELLO_PLUS) }
+        binding.clNameCheckOne.setOnSingleClickListener { startPurchase(TYPE_ONE, YELLO_ONE) }
+        binding.clNameCheckTwo.setOnSingleClickListener { startPurchase(TYPE_TWO, YELLO_TWO) }
+        binding.clNameCheckFive.setOnSingleClickListener { startPurchase(TYPE_FIVE, YELLO_FIVE) }
         binding.ivBack.setOnSingleClickListener { finish() }
     }
 
@@ -190,10 +190,10 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
                 stopLoadingScreen()
                 when (state) {
                     is UiState.Success -> {
-                        setCompleteShopBuyAmplitude("subscribe", "3900")
+                        setCompleteShopBuyAmplitude(TYPE_PLUS, PRICE_PLUS)
+                        updateBuyDateAmplitude()
                         paySubsDialog = PaySubsDialog()
                         paySubsDialog?.show(supportFragmentManager, DIALOG_SUBS)
-                        AmplitudeUtils.setUserDataProperties("user_buy_date")
                     }
 
                     is UiState.Failure -> {
@@ -220,26 +220,26 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
                     stopLoadingScreen()
                     when (state.data?.productId) {
                         YELLO_ONE -> {
-                            setCompleteShopBuyAmplitude("ticket1", "1400")
+                            setCompleteShopBuyAmplitude(TYPE_ONE, PRICE_ONE)
                             viewModel.addTicketCount(1)
                         }
 
                         YELLO_TWO -> {
-                            setCompleteShopBuyAmplitude("ticket2", "2800")
+                            setCompleteShopBuyAmplitude(TYPE_TWO, PRICE_TWO)
                             viewModel.addTicketCount(2)
                         }
 
                         YELLO_FIVE -> {
-                            setCompleteShopBuyAmplitude("ticket5", "5900")
+                            setCompleteShopBuyAmplitude(TYPE_FIVE, PRICE_FIVE)
                             viewModel.addTicketCount(5)
                         }
 
                         else -> return@onEach
                     }
+                    updateBuyDateAmplitude()
                     viewModel.currentInAppItem = state.data?.productId.toString()
                     payInAppDialog = PayInAppDialog()
                     payInAppDialog?.show(supportFragmentManager, DIALOG_IN_APP)
-                    AmplitudeUtils.setUserDataProperties("user_buy_date")
                 }
 
                 is UiState.Failure -> {
@@ -294,6 +294,10 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
         )
     }
 
+    private fun updateBuyDateAmplitude() {
+        AmplitudeUtils.setUserDataProperties("user_buy_date")
+    }
+
     override fun finish() {
         intent.putExtra("ticketCount", viewModel.ticketCount)
         setResult(RESULT_OK, intent)
@@ -314,6 +318,16 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
         const val YELLO_ONE = "yello_ticket_one"
         const val YELLO_TWO = "yello_ticket_two"
         const val YELLO_FIVE = "yello_ticket_five"
+
+        const val TYPE_PLUS = "subscribe"
+        const val TYPE_ONE = "ticket1"
+        const val TYPE_TWO = "ticket2"
+        const val TYPE_FIVE = "ticket5"
+
+        const val PRICE_PLUS = "2800"
+        const val PRICE_ONE = "990"
+        const val PRICE_TWO = "1900"
+        const val PRICE_FIVE = "3900"
 
         const val DIALOG_SUBS = "subsDialog"
         const val DIALOG_IN_APP = "inAppDialog"

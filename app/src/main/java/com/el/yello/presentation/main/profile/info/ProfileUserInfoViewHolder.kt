@@ -22,6 +22,7 @@ class ProfileUserInfoViewHolder(
         binding.ivSubsLine.isVisible = viewModel.isSubscribed
         binding.btnProfileAddGroup.setOnSingleClickListener { buttonClick(viewModel) }
         binding.btnProfileShop.setOnSingleClickListener { shopClick(viewModel) }
+        binding.btnProfileShopSale.setOnSingleClickListener { shopClick(viewModel) }
 
         if (viewModel.myUserData.profileImageUrl == BASIC_THUMBNAIL) {
             binding.ivProfileInfoThumbnail.load(R.drawable.img_yello_basic)

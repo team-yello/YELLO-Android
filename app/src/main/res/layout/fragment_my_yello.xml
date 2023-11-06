@@ -48,6 +48,31 @@
             app:layout_constraintTop_toTopOf="@id/tv_my_yello_title" />
 
         <TextView
+            android:id="@+id/tv_shop_discount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="-2dp"
+            android:background="@drawable/shape_purple_sub500_fill_4_rect"
+            android:paddingHorizontal="8dp"
+            android:paddingVertical="3dp"
+            android:text="@string/profile_btn_shop_sale"
+            android:textAppearance="@style/TextAppearance.Yello.BodyMedium"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="@id/btn_shop"
+            app:layout_constraintEnd_toStartOf="@id/iv_shop_discount"
+            app:layout_constraintTop_toTopOf="@id/btn_shop" />
+
+        <ImageView
+            android:id="@+id/iv_shop_discount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="6dp"
+            android:src="@drawable/ic_shop_polygon"
+            app:layout_constraintBottom_toBottomOf="@id/btn_shop"
+            app:layout_constraintEnd_toStartOf="@id/btn_shop"
+            app:layout_constraintTop_toTopOf="@id/btn_shop" />
+
+        <TextView
             android:id="@+id/tv_my_yello_receive"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

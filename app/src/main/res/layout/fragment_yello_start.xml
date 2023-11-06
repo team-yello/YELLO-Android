@@ -218,10 +218,10 @@
 
         <TextView
             android:id="@+id/btn_start_vote"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="22dp"
-            android:layout_marginBottom="23dp"
+            android:layout_marginBottom="40dp"
             android:background="@drawable/shape_yello500_fill_500_rect"
             android:fontFamily="@font/pretendard_bold"
             android:paddingVertical="22dp"

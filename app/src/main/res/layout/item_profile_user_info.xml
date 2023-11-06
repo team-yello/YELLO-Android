@@ -288,6 +288,22 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+        <TextView
+            android:id="@+id/btn_profile_shop_sale"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="-4dp"
+            android:layout_marginEnd="6dp"
+            android:background="@drawable/shape_purple_sub500_fill_4_rect"
+            android:elevation="2dp"
+            android:paddingHorizontal="6dp"
+            android:paddingVertical="3dp"
+            android:text="@string/profile_btn_shop_sale"
+            android:textAppearance="@style/TextAppearance.Yello.BodyMedium"
+            android:textColor="@color/white"
+            app:layout_constraintEnd_toEndOf="@id/btn_profile_shop"
+            app:layout_constraintTop_toTopOf="@id/btn_profile_shop" />
+
         <com.el.yello.presentation.util.GradientStrokeButton
             android:id="@+id/btn_profile_shop"
             android:layout_width="200dp"
@@ -305,7 +321,6 @@
             android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/layout_profile_info" />
-
 
         <TextView
             android:id="@+id/tv_profile_friend_list_title"

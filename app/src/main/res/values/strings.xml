@@ -272,6 +272,7 @@
     <string name="tutorial_title_C"> 지급</string>
 
     <string name="profile_btn_shop">상점</string>
+    <string name="profile_btn_shop_sale">SALE</string>
     <string name="recommend_search_no_result">찾는 친구의 결과가 없어요</string>
 
     <string name="pay_error_during">구매 도중 오류가 발생하였습니다.</string>

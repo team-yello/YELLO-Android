@@ -160,7 +160,7 @@ class MyYelloReadActivity :
             finish()
         }
 
-        binding.ivInstagram.setOnSingleClickListener {
+        binding.btnInstagram.setOnSingleClickListener {
             if (binding.tvNameNotYet.isVisible && binding.tvKeywordNotYet.isVisible) {
                 AmplitudeUtils.trackEventWithProperties(
                     "click_instagram",
@@ -217,7 +217,7 @@ class MyYelloReadActivity :
                         toast(it.msg)
                     }
 
-                    else -> {}
+                    else -> return@onEach
                 }
             }.launchIn(lifecycleScope)
     }

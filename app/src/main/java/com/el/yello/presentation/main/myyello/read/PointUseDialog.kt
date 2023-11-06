@@ -40,15 +40,19 @@ class PointUseDialog : BindingDialogFragment<DialogPointUseBinding>(R.layout.dia
         if (!viewModel.isTwoButton) {
             binding.tvOk.text = getString(R.string.dialog_vote_get_point)
         } else {
-            if (viewModel.pointType == PointEnum.INITIAL.ordinal) {
-                binding.tvTitle.text = getString(R.string.dialog_get_initial_question)
-                binding.tvOk.text = getString(R.string.dialog_get_initial)
-            } else if (viewModel.pointType == PointEnum.KEYWORD.ordinal) {
-                binding.tvTitle.text = getString(R.string.dialog_get_keyword_question)
-                binding.tvOk.text = getString(R.string.dialog_get_keyword)
-            } else {
-                binding.tvTitle.text = getString(R.string.dialog_get_initial_free_question)
-                binding.tvOk.text = getString(R.string.dialog_get_initial)
+            when (viewModel.pointType) {
+                PointEnum.INITIAL.ordinal -> {
+                    binding.tvTitle.text = getString(R.string.dialog_get_initial_question)
+                    binding.tvOk.text = getString(R.string.dialog_get_initial)
+                }
+                PointEnum.KEYWORD.ordinal -> {
+                    binding.tvTitle.text = getString(R.string.dialog_get_keyword_question)
+                    binding.tvOk.text = getString(R.string.dialog_get_keyword)
+                }
+                else -> {
+                    binding.tvTitle.text = getString(R.string.dialog_get_initial_free_question)
+                    binding.tvOk.text = getString(R.string.dialog_get_initial)
+                }
             }
         }
     }
@@ -64,12 +68,16 @@ class PointUseDialog : BindingDialogFragment<DialogPointUseBinding>(R.layout.dia
                 requireActivity().finish()
             } else {
                 dismiss()
-                if (viewModel.pointType == PointEnum.INITIAL.ordinal) {
-                    AmplitudeUtils.trackEventWithProperties("click_modal_firstletter_yes")
-                } else if (viewModel.pointType == PointEnum.SUBSCRIBE.ordinal) {
-                    AmplitudeUtils.trackEventWithProperties("click_modal_firstletter_yes")
-                } else if (viewModel.pointType == PointEnum.KEYWORD.ordinal) {
-                    AmplitudeUtils.trackEventWithProperties("click_modal_keyword_yes")
+                when (viewModel.pointType) {
+                    PointEnum.INITIAL.ordinal -> {
+                        AmplitudeUtils.trackEventWithProperties("click_modal_firstletter_yes")
+                    }
+                    PointEnum.SUBSCRIBE.ordinal -> {
+                        AmplitudeUtils.trackEventWithProperties("click_modal_firstletter_yes")
+                    }
+                    PointEnum.KEYWORD.ordinal -> {
+                        AmplitudeUtils.trackEventWithProperties("click_modal_keyword_yes")
+                    }
                 }
                 PointAfterDialog.newInstance().show(parentFragmentManager, "dialog")
             }

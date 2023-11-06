@@ -4,6 +4,8 @@ import android.content.res.Resources
 import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
+import android.view.animation.AnimationUtils
+import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
@@ -31,6 +33,7 @@ class ReadingTicketAfterDialog :
 
     private fun initView() {
         viewModel.postFullName()
+        binding.tvName.visibility =View.INVISIBLE
     }
 
     private fun observe() {
@@ -39,7 +42,7 @@ class ReadingTicketAfterDialog :
                 when (it) {
                     is UiState.Success -> {
                         binding.tvKey.text = viewModel.myReadingTicketCount.toString()
-                        binding.tvName.text = it.data.name
+                        setAnswerWithFadeIn(it.data.name)
                         viewModel.getYelloDetail()
                         viewModel.setNameIndex(-2)
                     }
@@ -48,9 +51,16 @@ class ReadingTicketAfterDialog :
                         toast(it.msg)
                     }
 
-                    else -> {}
+                    else -> return@onEach
                 }
             }.launchIn(viewLifecycleOwner.lifecycleScope)
+    }
+
+    private fun setAnswerWithFadeIn(text: String) {
+        val animation = AnimationUtils.loadAnimation(requireContext(), R.anim.fade_in)
+        binding.tvName.startAnimation(animation)
+        binding.tvName.text = text
+        binding.tvName.isVisible = true
     }
 
     private fun initEvent() {

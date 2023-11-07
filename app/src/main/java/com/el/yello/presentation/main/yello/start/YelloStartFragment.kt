@@ -2,10 +2,8 @@ package com.el.yello.presentation.main.yello.start
 
 import android.content.Intent
 import android.graphics.Point
-import android.os.Build
 import android.os.Bundle
 import android.view.View
-import android.view.ViewGroup.MarginLayoutParams
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
@@ -16,7 +14,10 @@ import com.el.yello.presentation.main.yello.vote.VoteActivity
 import com.el.yello.util.amplitude.AmplitudeUtils
 import com.example.domain.entity.type.YelloState
 import com.example.ui.base.BindingFragment
+import com.example.ui.context.setMargins
+import com.example.ui.fragment.getCompatibleRealSize
 import com.example.ui.view.UiState
+import com.example.ui.view.dpToPx
 import com.example.ui.view.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
@@ -53,32 +54,27 @@ class YelloStartFragment :
     private fun initEntranceLottie() {
         with(binding.lottieStartEntrance) {
             val size = Point()
-            // TODO: getCompatibleRealSize 확장함수로 추출
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                val windowMetrics = requireActivity().windowManager.currentWindowMetrics
-                size.x = windowMetrics.bounds.width()
-                size.y = windowMetrics.bounds.height()
-            } else {
-                display.getRealSize(size)
-            }
+            getCompatibleRealSize(size)
             val displayWidth = size.x
             val displayHeight = size.y
 
             layoutParams.width = (2.22 * displayWidth).toInt()
-            setMargins(this, (-0.435 * displayHeight).toInt())
+            setMargins(this, 0, 0, 0, (-0.435 * displayHeight).toInt())
         }
     }
 
     private fun initShadowView() {
         binding.shadowStart.setLayerType(View.LAYER_TYPE_SOFTWARE, null)
-    }
-
-    private fun setMargins(v: View, b: Int) {
-        if (v.layoutParams is MarginLayoutParams) {
-            val p = v.layoutParams as MarginLayoutParams
-            p.setMargins(0, 0, 0, b)
-            v.requestLayout()
-        }
+        val size = Point()
+        getCompatibleRealSize(size)
+        val displayWidth = size.x
+        setMargins(
+            binding.layoutSubsDouble,
+            0,
+            displayWidth + MARGIN_SUBSCRIBE_LAYOUT.dpToPx(requireContext()),
+            0,
+            0,
+        )
     }
 
     private fun initVoteBtnClickListener() {
@@ -99,11 +95,11 @@ class YelloStartFragment :
             .onEach { state ->
                 when (state) {
                     is UiState.Success -> {
-                        if (state.data?.isSubscribe == true) {
+                        if (state.data.isSubscribe) {
                             binding.layoutSubsDouble.visibility = View.VISIBLE
-                        } else {
-                            binding.layoutSubsDouble.visibility = View.GONE
+                            return@onEach
                         }
+                        binding.layoutSubsDouble.visibility = View.GONE
                     }
 
                     is UiState.Failure -> {
@@ -119,6 +115,8 @@ class YelloStartFragment :
 
     companion object {
         private const val EVENT_CLICK_VOTE_START = "click_vote_start"
+
+        private const val MARGIN_SUBSCRIBE_LAYOUT = 16
 
         @JvmStatic
         fun newInstance() = YelloStartFragment()

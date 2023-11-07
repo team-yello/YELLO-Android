@@ -3,6 +3,7 @@ package com.example.ui.context
 import android.app.Activity
 import android.content.Context
 import android.view.View
+import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.annotation.ColorRes
@@ -32,4 +33,12 @@ fun Context.drawableOf(@DrawableRes resId: Int) = ContextCompat.getDrawable(this
 fun Context.hideKeyboard(view: View) {
     val inputMethodManager = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
     inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
+}
+
+fun setMargins(view: View, left: Int, top: Int, right: Int, bottom: Int) {
+    if (view.layoutParams is ViewGroup.MarginLayoutParams) {
+        val p = view.layoutParams as ViewGroup.MarginLayoutParams
+        p.setMargins(left, top, right, bottom)
+        view.requestLayout()
+    }
 }

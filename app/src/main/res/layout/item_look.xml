@@ -72,13 +72,13 @@
                 android:id="@+id/tv_look_send_gender"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="18dp"
                 android:layout_marginEnd="16dp"
                 android:paddingVertical="2dp"
                 android:textAppearance="@style/TextAppearance.Yello.LabelLarge"
                 android:textColor="@color/semantic_gender_m_500"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintTop_toTopOf="@id/tv_look_name"
+                app:layout_constraintBottom_toBottomOf="@id/tv_look_name"
                 tools:text="남학생에게 받음" />
 
             <androidx.constraintlayout.widget.ConstraintLayout

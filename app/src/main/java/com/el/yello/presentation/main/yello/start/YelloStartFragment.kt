@@ -95,25 +95,25 @@ class YelloStartFragment :
             when (event.actionMasked) {
                 ACTION_DOWN -> {
                     with(binding.btnStartVote) {
+                        background = ContextCompat.getDrawable(context, R.drawable.shape_yello_main_500_fill_100_rect)
                         setPadding(
                             0,
                             PADDING_HORIZONTAL_VOTE_BTN_PRESSED.dpToPx(requireContext()),
                             0,
                             PADDING_HORIZONTAL_VOTE_BTN_PRESSED.dpToPx(requireContext()),
                         )
-                        background = ContextCompat.getDrawable(context, R.drawable.shape_yello_main_500_fill_100_rect)
                     }
                 }
 
                 ACTION_UP -> {
                     with(binding.btnStartVote) {
+                        background = ContextCompat.getDrawable(context, R.drawable.shape_yello_main_500_fill_500_botshadow_rect)
                         setPadding(
                             0,
                             PADDING_TOP_VOTE_BTN.dpToPx(requireContext()),
                             0,
                             PADDING_BOTTOM_VOTE_BTN.dpToPx(requireContext()),
                         )
-                        background = ContextCompat.getDrawable(context, R.drawable.shape_yello_main_500_fill_500_botshadow_rect)
                     }
                 }
 

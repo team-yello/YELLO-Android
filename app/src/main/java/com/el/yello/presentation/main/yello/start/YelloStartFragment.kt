@@ -101,7 +101,7 @@ class YelloStartFragment :
                             0,
                             PADDING_HORIZONTAL_VOTE_BTN_PRESSED.dpToPx(requireContext()),
                         )
-                        background = ContextCompat.getDrawable(context, R.drawable.shape_yello_main_500_fill_100) // TODO: _rect 추가
+                        background = ContextCompat.getDrawable(context, R.drawable.shape_yello_main_500_fill_100_rect)
                     }
                 }
 
@@ -113,7 +113,7 @@ class YelloStartFragment :
                             0,
                             PADDING_BOTTOM_VOTE_BTN.dpToPx(requireContext()),
                         )
-                        background = ContextCompat.getDrawable(context, R.drawable.shape_yello_main_500_fill_500_botshadow) // TODO: _rect 추가
+                        background = ContextCompat.getDrawable(context, R.drawable.shape_yello_main_500_fill_500_botshadow_rect)
                     }
                 }
 

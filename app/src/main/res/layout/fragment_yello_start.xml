@@ -223,7 +223,7 @@
             android:layout_marginHorizontal="22dp"
             android:layout_marginBottom="50dp"
             android:gravity="center"
-            android:background="@drawable/shape_yello500_fill_500_rect"
+            android:background="@drawable/shape_yello_main_500_fill_500_botshadow_rect"
             android:fontFamily="@font/unbounded_bold"
             android:paddingVertical="21dp"
             android:text="@string/yello_start_vote"
@@ -273,9 +273,6 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/tv_start_plus_point"
                 app:layout_constraintTop_toTopOf="parent" />
-
         </androidx.constraintlayout.widget.ConstraintLayout>
-
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 </layout>

@@ -116,10 +116,8 @@ class YelloStartFragment :
                         )
                     }
                 }
-
-                else -> return@setOnTouchListener false
             }
-            true
+            false
         }
     }
 

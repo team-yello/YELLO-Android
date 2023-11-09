@@ -1,10 +1,14 @@
 package com.el.yello.presentation.main.look
 
 import android.view.View
+import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
+import coil.transform.CircleCropTransformation
 import com.el.yello.R
 import com.el.yello.databinding.ItemLookBinding
+import com.el.yello.presentation.main.profile.ProfileViewModel.Companion.BASIC_THUMBNAIL
 import com.example.domain.entity.LookListModel.LookModel
 
 class LookViewHolder(
@@ -12,67 +16,66 @@ class LookViewHolder(
 ) : RecyclerView.ViewHolder(binding.root) {
 
     fun onBind(item: LookModel) {
-        binding.tvLookName.text = item.receiverName
-        binding.tvLookTime.text = item.createdAt
-        binding.tvNameHead.text = item.vote.nameHead
-        binding.tvNameFoot.text = item.vote.nameFoot
-        binding.tvKeywordHead.text = item.vote.keywordHead
-        binding.tvKeyword.text = item.vote.keyword
-        binding.tvKeywordFoot.text = item.vote.keywordFoot
+        with(binding) {
+            tvLookName.text = item.receiverName
+            tvLookTime.text = item.createdAt
+            tvNameHead.text = item.vote.nameHead
+            tvNameFoot.text = item.vote.nameFoot
+            tvKeywordHead.text = item.vote.keywordHead
+            tvKeyword.text = item.vote.keyword
+            tvKeywordFoot.text = item.vote.keywordFoot
 
-        if (item.vote.nameHead == null) {
-            binding.tvNameHead.visibility = View.GONE
+            tvNameHead.visibility =
+                if (item.vote.nameHead.isNullOrEmpty()) View.GONE else View.VISIBLE
+            tvKeywordHead.visibility =
+                if (item.vote.keywordHead.isNullOrEmpty()) View.GONE else View.VISIBLE
+
         }
 
-        if (item.vote.keywordHead == null) {
-            binding.tvKeywordHead.visibility = View.GONE
+        item.receiverProfileImage.let { thumbnail ->
+            if (thumbnail == BASIC_THUMBNAIL) {
+                binding.ivLookThumbnail.load(R.drawable.img_yello_basic)
+            } else {
+                binding.ivLookThumbnail.load(thumbnail) {
+                    transformations(CircleCropTransformation())
+                }
+            }
         }
 
-        if (item.senderGender == "MALE") {
-            binding.tvLookGender.text = MALE
-            binding.ivLookGender.setImageDrawable(
-                ContextCompat.getDrawable(
-                    itemView.context, R.drawable.ic_yello_blue
-                )
-            )
+        if (item.senderGender == MALE) {
+            setItemViewTextColor(binding.tvLookSendGender, R.color.semantic_gender_m_500)
+            binding.tvLookSendGender.text = FROM_MALE
         } else {
-            binding.tvLookGender.text = FEMALE
-            binding.ivLookGender.setImageDrawable(
-                ContextCompat.getDrawable(
-                    itemView.context, R.drawable.ic_yello_pink
-                )
-            )
+            setItemViewTextColor(binding.tvLookSendGender, R.color.semantic_gender_f_500)
+            binding.tvLookSendGender.text = FROM_FEMALE
         }
 
         if (item.isHintUsed) {
             binding.tvKeyword.background = null
-            if (item.senderGender == "MALE") {
-                binding.tvKeyword.setTextColor(
-                    ContextCompat.getColor(
-                        itemView.context, R.color.semantic_gender_m_300
-                    )
-                )
+            if (item.senderGender == MALE) {
+                setItemViewTextColor(binding.tvKeyword, R.color.semantic_gender_m_300)
             } else {
-                binding.tvKeyword.setTextColor(
-                    ContextCompat.getColor(
-                        itemView.context, R.color.semantic_gender_f_300
-                    )
-                )
+                setItemViewTextColor(binding.tvKeyword, R.color.semantic_gender_f_300)
             }
         } else {
             binding.tvKeyword.background = ContextCompat.getDrawable(
                 itemView.context, R.drawable.shape_grayscales800_fill_grayscales700_dashline_4_rect
             )
-            binding.tvKeyword.setTextColor(
-                ContextCompat.getColor(
-                    itemView.context, R.color.grayscales_800
-                )
-            )
+            setItemViewTextColor(binding.tvKeyword, R.color.grayscales_800)
         }
     }
 
+    private fun setItemViewTextColor(textView: TextView, resourceId: Int) {
+        textView.setTextColor(
+            ContextCompat.getColor(
+                itemView.context, resourceId
+            )
+        )
+    }
+
     private companion object {
-        const val MALE = "남학생"
-        const val FEMALE = "여학생"
+        const val MALE = "MALE"
+        const val FROM_MALE = "남학생에게 받음"
+        const val FROM_FEMALE = "여학생에게 받음"
     }
 }

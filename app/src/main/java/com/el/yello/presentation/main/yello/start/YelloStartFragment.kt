@@ -1,9 +1,13 @@
 package com.el.yello.presentation.main.yello.start
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.Point
 import android.os.Bundle
+import android.view.MotionEvent.ACTION_DOWN
+import android.view.MotionEvent.ACTION_UP
 import android.view.View
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
@@ -36,6 +40,7 @@ class YelloStartFragment :
         initEntranceLottie()
         initShadowView()
         initVoteBtnClickListener()
+        initVoteBtnTouchListener()
         observeCheckIsSubscribed()
         viewModel.getPurchaseInfoFromServer()
     }
@@ -71,7 +76,7 @@ class YelloStartFragment :
         setMargins(
             binding.layoutSubsDouble,
             0,
-            displayWidth + MARGIN_SUBSCRIBE_LAYOUT.dpToPx(requireContext()),
+            displayWidth + MARGIN_TOP_SUBSCRIBE_LAYOUT.dpToPx(requireContext()),
             0,
             0,
         )
@@ -81,6 +86,38 @@ class YelloStartFragment :
         binding.btnStartVote.setOnSingleClickListener {
             AmplitudeUtils.trackEventWithProperties(EVENT_CLICK_VOTE_START)
             intentToVoteScreen()
+        }
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    private fun initVoteBtnTouchListener() {
+        binding.btnStartVote.setOnTouchListener { view, event ->
+            when (event.actionMasked) {
+                ACTION_DOWN -> {
+                    with(binding.btnStartVote) {
+                        background = ContextCompat.getDrawable(context, R.drawable.shape_yello_main_500_fill_100_rect)
+                        setPadding(
+                            0,
+                            PADDING_HORIZONTAL_VOTE_BTN_PRESSED.dpToPx(requireContext()),
+                            0,
+                            PADDING_HORIZONTAL_VOTE_BTN_PRESSED.dpToPx(requireContext()),
+                        )
+                    }
+                }
+
+                ACTION_UP -> {
+                    with(binding.btnStartVote) {
+                        background = ContextCompat.getDrawable(context, R.drawable.shape_yello_main_500_fill_500_botshadow_rect)
+                        setPadding(
+                            0,
+                            PADDING_TOP_VOTE_BTN.dpToPx(requireContext()),
+                            0,
+                            PADDING_BOTTOM_VOTE_BTN.dpToPx(requireContext()),
+                        )
+                    }
+                }
+            }
+            false
         }
     }
 
@@ -116,7 +153,10 @@ class YelloStartFragment :
     companion object {
         private const val EVENT_CLICK_VOTE_START = "click_vote_start"
 
-        private const val MARGIN_SUBSCRIBE_LAYOUT = 16
+        private const val MARGIN_TOP_SUBSCRIBE_LAYOUT = 16
+        private const val PADDING_HORIZONTAL_VOTE_BTN_PRESSED = 21
+        private const val PADDING_TOP_VOTE_BTN = 19
+        private const val PADDING_BOTTOM_VOTE_BTN = 23
 
         @JvmStatic
         fun newInstance() = YelloStartFragment()

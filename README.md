@@ -1,5 +1,7 @@
+<p align="left"><img src="https://github.com/team-yello/YELLO-Android/assets/70993562/96e4be19-e35f-479d-8354-8ef83f005b76" height=110></p>
+
 # YELL:O
-<p align="center"><img src="https://github.com/team-yello/YELLO-Android/assets/70993562/96e4be19-e35f-479d-8354-8ef83f005b76" height=280></p>
+<p align="center"><img src="https://github.com/team-yello/YELLO-Android/assets/97405341/d16561b2-b287-4ea2-9394-38402a379342"></p>
 
 ```
 투표로 관계의 재미를 찾아가는 서비스, YELL:O

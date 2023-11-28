@@ -321,6 +321,12 @@
     <string name="pay_error_dialog_msg">오류로 인해 상품이 지급되지 않았어요. 옐로 공식 카카오 채널로 문의주시면 해결을 도와드리겠습니다.</string>
     <string name="pay_error_dialog_btn">확인</string>
 
+    <string name="pay_tv_guide_title">옐로플러스 구독 안내</string>
+    <string name="pay_tv_guide_body_1">- 결제를 진행하시면 관련 약관에 동의하는 것으로 간주됩니다.</string>
+    <string name="pay_tv_guide_body_2">- 구독은 매주 자동으로 갱신되며, Google Playstore를 통해 해지하실 수 있습니다.</string>
+    <string name="pay_btn_guide_service">서비스 이용약관</string>
+    <string name="pay_btn_guide_privacy">개인정보처리방침</string>
+
     <string name="splash_update_error">업데이트가 취소되었습니다.</string>
 
     <string name="invite_clipboard_msg">클립보드에 복사되었어요.</string>

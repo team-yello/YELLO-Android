@@ -1,6 +1,8 @@
 package com.el.yello.presentation.pay
 
+import android.content.Intent
 import android.graphics.Paint
+import android.net.Uri
 import android.os.Bundle
 import android.view.WindowManager
 import androidx.activity.viewModels
@@ -13,6 +15,7 @@ import com.android.billingclient.api.ProductDetails
 import com.android.billingclient.api.Purchase
 import com.el.yello.R
 import com.el.yello.databinding.ActivityPayBinding
+import com.el.yello.presentation.main.profile.manage.ProfileManageActivity
 import com.el.yello.util.amplitude.AmplitudeUtils
 import com.example.data.model.request.pay.toRequestPayModel
 import com.example.ui.base.BindingActivity
@@ -58,6 +61,8 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
         observePurchaseInfoState()
         observeCheckSubsState()
         observeCheckInAppState()
+        initPrivacyBtnListener()
+        initServiceBtnListener()
     }
 
     private fun initView() {
@@ -187,29 +192,29 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
     // 구독 상품 검증 옵저버
     private fun observeCheckSubsState() {
         viewModel.postSubsCheckState.flowWithLifecycle(lifecycle).onEach { state ->
-                stopLoadingScreen()
-                when (state) {
-                    is UiState.Success -> {
-                        setCompleteShopBuyAmplitude(TYPE_PLUS, PRICE_PLUS)
-                        updateBuyDateAmplitude()
-                        paySubsDialog = PaySubsDialog()
-                        paySubsDialog?.show(supportFragmentManager, DIALOG_SUBS)
-                    }
-
-                    is UiState.Failure -> {
-                        stopLoadingScreen()
-                        if (state.msg == SERVER_ERROR) {
-                            showErrorDialog()
-                        } else {
-                            toast(getString(R.string.pay_check_error))
-                        }
-                    }
-
-                    is UiState.Loading -> return@onEach
-
-                    is UiState.Empty -> return@onEach
+            stopLoadingScreen()
+            when (state) {
+                is UiState.Success -> {
+                    setCompleteShopBuyAmplitude(TYPE_PLUS, PRICE_PLUS)
+                    updateBuyDateAmplitude()
+                    paySubsDialog = PaySubsDialog()
+                    paySubsDialog?.show(supportFragmentManager, DIALOG_SUBS)
                 }
-            }.launchIn(lifecycleScope)
+
+                is UiState.Failure -> {
+                    stopLoadingScreen()
+                    if (state.msg == SERVER_ERROR) {
+                        showErrorDialog()
+                    } else {
+                        toast(getString(R.string.pay_check_error))
+                    }
+                }
+
+                is UiState.Loading -> return@onEach
+
+                is UiState.Empty -> return@onEach
+            }
+        }.launchIn(lifecycleScope)
     }
 
     // 인앱(소비성) 상품 검증 옵저버
@@ -256,6 +261,22 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
                 is UiState.Empty -> return@onEach
             }
         }.launchIn(lifecycleScope)
+    }
+
+    private fun initServiceBtnListener() {
+        binding.btnPayGuideService.setOnSingleClickListener {
+            startActivity(
+                Intent(Intent.ACTION_VIEW, Uri.parse(ProfileManageActivity.SERVICE_URL)),
+            )
+        }
+    }
+
+    private fun initPrivacyBtnListener() {
+        binding.btnPayGuidePrivacy.setOnSingleClickListener {
+            startActivity(
+                Intent(Intent.ACTION_VIEW, Uri.parse(ProfileManageActivity.PRIVACY_URL)),
+            )
+        }
     }
 
     private fun startLoadingScreen() {

@@ -235,7 +235,7 @@
     <string name="recommend_search_error">검색 결과 가져오기 실패</string>
     <string name="recommend_search_friend">내 친구</string>
 
-    <string name="onboarding_highschool_hint">ex. 옐로고등학교</string>
+    <string name="onboarding_highschool_hint">ex. 옐로중/고등학교</string>
     <string name="onboarding_grade_title">몇 학년인가요?</string>
     <string name="onboarding_group_title">몇 반인가요?</string>
     <string name="onboarding_group_hint">ex. 1반</string>

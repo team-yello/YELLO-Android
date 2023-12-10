@@ -80,7 +80,7 @@
     <string name="onboarding_group">%s반</string>
     <string name="onboarding_code_complete">완료</string>
     <string name="onboarding_name_id_name_hint">ex.김옐로</string>
-    <string name="onboarding_name_id_hangul_error">특수문자,한글 외 문자는 입력할 수 없어.</string>
+    <string name="onboarding_name_id_hangul_error">특수문자,한글 외 문자는 입력할 수 없어요.</string>
     <string name="onboarding_name_id_id_error">문자, 숫자, 밑줄, 마침표만 사용할 수 있어요.</string>
     <string name="onboarding_gender_female">여자</string>
     <string name="onboarding_gender_male">남자</string>

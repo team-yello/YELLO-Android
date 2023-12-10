@@ -64,6 +64,13 @@ class OnBoardingViewModel @Inject constructor(
         )
     }
 
+    // 이름 수정뷰 추가 데이터
+
+    val editNameText = MutableLiveData("")
+    val editName: String get() = editNameText.value?.trim() ?: ""
+    val isValidName: LiveData<Boolean> = editNameText.map { name -> checkName(name) }
+    private fun checkName(name: String) = Pattern.matches(REGEX_NAME_PATTERN, name)
+
     val studentType = MutableLiveData("")
     val university: String get() = universityText.value?.trim() ?: ""
     val universityText = MutableLiveData("")
@@ -414,5 +421,6 @@ class OnBoardingViewModel @Inject constructor(
 
     companion object {
         private const val REGEX_ID_PATTERN = "^([A-Za-z0-9_.]*)\$"
+        private const val REGEX_NAME_PATTERN = "^([가-힣]*)\$"
     }
 }

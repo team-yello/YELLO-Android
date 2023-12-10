@@ -93,6 +93,10 @@
     <string name="onboarding_school_hint">ex. 옐로대학교</string>
     <string name="onboarding_department_hint">ex. 노랑학과</string>
     <string name="onboarding_tv_hint_select_studentid">ex. 23학번</string>
+    <string name="onboarding_name_edit_dialog_btn_no">제 이름이 아니에요</string>
+    <string name="onboarding_name_edit_dialog_btn_yes">네,맞아요</string>
+    <string name="onboarding_name_edit_dialog_tv_title_quotes">"\""</string>
+    <string name="onboarding_name_edit_dialog_tv_title_end">"님이 맞으신가요?"</string>
 
     <string name="yello_start_my_point">내 포인트</string>
     <string name="yello_start_description">누구에게 어떤 메시지를 보낼까?</string>

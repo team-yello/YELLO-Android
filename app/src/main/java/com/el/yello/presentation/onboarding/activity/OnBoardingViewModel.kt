@@ -69,7 +69,12 @@ class OnBoardingViewModel @Inject constructor(
     val editNameText = MutableLiveData("")
     val editName: String get() = editNameText.value?.trim() ?: ""
     val isValidName: LiveData<Boolean> = editNameText.map { name -> checkName(name) }
+
     private fun checkName(name: String) = Pattern.matches(REGEX_NAME_PATTERN, name)
+
+    val checkNameLength: LiveData<Boolean> = editNameText.map { name ->
+        (name?.trim()?.length ?: 0) >= 2
+    }
 
     val studentType = MutableLiveData("")
     val university: String get() = universityText.value?.trim() ?: ""

@@ -1,18 +1,21 @@
 package com.el.yello.presentation.onboarding.activity
 
 import android.os.Bundle
-import android.view.View
-import androidx.fragment.app.activityViewModels
+import androidx.activity.viewModels
 import com.el.yello.R
 import com.el.yello.databinding.ActivityNameEditBinding
-import com.example.ui.base.BindingFragment
+import com.example.ui.base.BindingActivity
 import com.example.ui.view.setOnSingleClickListener
+import dagger.hilt.android.AndroidEntryPoint
 
-class EditNameActivity : BindingFragment<ActivityNameEditBinding>(R.layout.activity_name_edit) {
-    private val viewModel by activityViewModels<OnBoardingViewModel>()
+@AndroidEntryPoint
+class EditNameActivity :
+    BindingActivity<ActivityNameEditBinding>(R.layout.activity_name_edit) {
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    private val viewModel by viewModels<OnBoardingViewModel>()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         binding.vm = viewModel
 
         setConfirmBtnClickListener()

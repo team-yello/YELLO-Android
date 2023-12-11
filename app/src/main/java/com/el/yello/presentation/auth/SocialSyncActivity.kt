@@ -1,6 +1,7 @@
 package com.el.yello.presentation.auth
 
 import android.os.Bundle
+import android.view.View
 import androidx.activity.viewModels
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
@@ -69,6 +70,10 @@ class SocialSyncActivity :
                 putString("EXTRA_EMAIL", email)
                 putString("EXTRA_PROFILE_IMAGE", profileImage)
             }
+            binding.tvSocialSyncTitle.visibility=View.GONE
+            binding.tvSocialSyncSubtitle.visibility=View.GONE
+            binding.ivSocialSync.visibility=View.GONE
+            binding.btnSocialSync.visibility=View.GONE
             checkNameDialog?.arguments = bundle
             checkNameDialog?.show(supportFragmentManager, SignInActivity.CHECK_NAME_DIALOG)
         }

@@ -2,7 +2,6 @@ package com.el.yello.presentation.onboarding.activity
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.viewModels
 import com.el.yello.R
@@ -34,7 +33,6 @@ class EditNameActivity :
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding.vm = viewModel
-
         setConfirmBtnClickListener()
         setDeleteBtnClickListener()
         this.onBackPressedDispatcher.addCallback(this, onBackPressedCallback)
@@ -70,6 +68,10 @@ class EditNameActivity :
                 viewModel.email = bundle.getString("EXTRA_EMAIL", "")
                 viewModel.profileImg = bundle.getString("EXTRA_PROFILE_IMAGE", "")
             }
+        }
+        // 받아온 이름 값이 비었거나 null 이면 hint 보이도록
+        if (viewModel.nameText.value.isNullOrEmpty() || viewModel.nameText.value.isNullOrBlank()) {
+            binding.etName.text.clear()
         }
     }
 

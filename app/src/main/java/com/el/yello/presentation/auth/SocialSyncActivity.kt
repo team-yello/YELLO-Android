@@ -1,5 +1,6 @@
 package com.el.yello.presentation.auth
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.activity.viewModels
@@ -12,6 +13,7 @@ import com.el.yello.presentation.auth.SignInActivity.Companion.EXTRA_GENDER
 import com.el.yello.presentation.auth.SignInActivity.Companion.EXTRA_KAKAO_ID
 import com.el.yello.presentation.auth.SignInActivity.Companion.EXTRA_NAME
 import com.el.yello.presentation.auth.SignInActivity.Companion.EXTRA_PROFILE_IMAGE
+import com.el.yello.presentation.onboarding.activity.EditNameActivity
 import com.el.yello.presentation.onboarding.fragment.checkName.CheckNameDialog
 import com.el.yello.util.amplitude.AmplitudeUtils
 import com.el.yello.util.context.yelloSnackbar
@@ -69,6 +71,18 @@ class SocialSyncActivity :
                 putString("EXTRA_GENDER", gender)
                 putString("EXTRA_EMAIL", email)
                 putString("EXTRA_PROFILE_IMAGE", profileImage)
+            }
+            if (name.toString().isBlank() || name.toString().isEmpty() || name.toString().isNullOrEmpty() || name.toString().isNullOrBlank()) {
+                val bundle = Bundle().apply {
+                    putLong("EXTRA_KAKAO_ID", kakaoId)
+                    putString("EXTRA_NAME", name)
+                    putString("EXTRA_GENDER", gender)
+                    putString("EXTRA_EMAIL", email)
+                    putString("EXTRA_PROFILE_IMAGE", profileImage)
+                }
+                val intent = Intent(SocialSyncActivity(), EditNameActivity::class.java)
+                intent.putExtras(bundle)
+                startActivity(intent)
             }
             binding.tvSocialSyncTitle.visibility = View.GONE
             binding.tvSocialSyncSubtitle.visibility = View.GONE

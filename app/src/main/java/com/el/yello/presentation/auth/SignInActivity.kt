@@ -193,7 +193,15 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
             putString("EXTRA_PROFILE_IMAGE", userImage)
         }
         if (userName.isBlank() || userName.isEmpty() || userName.isNullOrEmpty() || userName.isNullOrBlank()) {
-            val intent = Intent(this, EditNameActivity::class.java)
+            val bundle = Bundle().apply {
+                putLong("EXTRA_KAKAO_ID", userKakaoId)
+                putString("EXTRA_NAME", userName)
+                putString("EXTRA_GENDER", userGender)
+                putString("EXTRA_EMAIL", userEmail)
+                putString("EXTRA_PROFILE_IMAGE", userImage)
+            }
+            val intent = Intent(SignInActivity(), EditNameActivity::class.java)
+            intent.putExtras(bundle)
             startActivity(intent)
         } else {
             binding.btnSignIn.visibility = View.GONE

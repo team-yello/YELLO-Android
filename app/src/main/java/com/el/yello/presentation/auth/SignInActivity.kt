@@ -9,6 +9,7 @@ import com.el.yello.R
 import com.el.yello.databinding.ActivitySignInBinding
 import com.el.yello.presentation.auth.SignInViewModel.Companion.FRIEND_LIST
 import com.el.yello.presentation.main.MainActivity
+import com.el.yello.presentation.onboarding.activity.EditNameActivity
 import com.el.yello.presentation.onboarding.activity.GetAlarmActivity
 import com.el.yello.presentation.onboarding.fragment.checkName.CheckNameDialog
 import com.el.yello.presentation.tutorial.TutorialAActivity
@@ -190,8 +191,13 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
             putString("EXTRA_EMAIL", userEmail)
             putString("EXTRA_PROFILE_IMAGE", userImage)
         }
-        checkNameDialog?.arguments = bundle
-        checkNameDialog?.show(supportFragmentManager, CHECK_NAME_DIALOG)
+        if (userName.isBlank() || userName.isEmpty() || userName.isNullOrEmpty() || userName.isNullOrBlank()) {
+            val intent = Intent(this, EditNameActivity::class.java)
+            startActivity(intent)
+        } else {
+            checkNameDialog?.arguments = bundle
+            checkNameDialog?.show(supportFragmentManager, CHECK_NAME_DIALOG)
+        }
     }
 
     private fun Intent.addPutExtra() {

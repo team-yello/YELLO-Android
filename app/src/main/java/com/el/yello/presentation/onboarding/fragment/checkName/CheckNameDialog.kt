@@ -8,16 +8,18 @@ import android.view.WindowManager
 import androidx.fragment.app.activityViewModels
 import com.el.yello.R
 import com.el.yello.databinding.FragmentDialogCheckNameBinding
-import com.el.yello.presentation.main.profile.ProfileViewModel
 import com.el.yello.presentation.onboarding.activity.EditNameActivity
 import com.el.yello.presentation.onboarding.activity.OnBoardingActivity
+import com.el.yello.presentation.onboarding.activity.OnBoardingViewModel
 import com.example.ui.base.BindingDialogFragment
 import com.example.ui.view.setOnSingleClickListener
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class CheckNameDialog :
     BindingDialogFragment<FragmentDialogCheckNameBinding>(R.layout.fragment_dialog_check_name) {
 
-    private val viewModel by activityViewModels<ProfileViewModel>()
+    private val viewModel by activityViewModels<OnBoardingViewModel>()
 
     override fun onStart() {
         super.onStart()
@@ -45,13 +47,43 @@ class CheckNameDialog :
     }
 
     private fun initEditBtnListener() {
-        binding.btnNameEditDialogYes.setOnSingleClickListener {
-            val intent = Intent(requireContext(), OnBoardingActivity::class.java)
-            startActivity(intent)
-        }
-        binding.btnNameEditDialogNo.setOnSingleClickListener {
-            val intent = Intent(requireContext(), EditNameActivity::class.java)
-            startActivity(intent)
+        val bundle = arguments
+        if (bundle != null) {
+            val userKakaoId = bundle.getLong("EXTRA_KAKAO_ID", 0)
+            val userName = bundle.getString("EXTRA_NAME", "")
+            val userGender = bundle.getString("EXTRA_GENDER", "")
+            val userEmail = bundle.getString("EXTRA_EMAIL", "")
+            val userImage = bundle.getString("EXTRA_PROFILE_IMAGE", "")
+
+            // 다이얼로그에 카카오 계정 이름 띄우기
+            binding.tvNameEditDialogTitleTwo.text = userName
+
+            // 이름 유지
+            binding.btnNameEditDialogYes.setOnSingleClickListener {
+                val bundle = Bundle().apply {
+                    putLong("EXTRA_KAKAO_ID", userKakaoId)
+                    putString("EXTRA_NAME", userName)
+                    putString("EXTRA_GENDER", userGender)
+                    putString("EXTRA_EMAIL", userEmail)
+                    putString("EXTRA_PROFILE_IMAGE", userImage)
+                }
+                val intent = Intent(requireContext(), OnBoardingActivity::class.java)
+                intent.putExtras(bundle)
+                startActivity(intent)
+            }
+            // 이름 수정
+            binding.btnNameEditDialogNo.setOnSingleClickListener {
+                val bundle = Bundle().apply {
+                    putLong("EXTRA_KAKAO_ID", userKakaoId)
+                    putString("EXTRA_NAME", userName)
+                    putString("EXTRA_GENDER", userGender)
+                    putString("EXTRA_EMAIL", userEmail)
+                    putString("EXTRA_PROFILE_IMAGE", userImage)
+                }
+                val intent = Intent(requireContext(), EditNameActivity::class.java)
+                intent.putExtras(bundle)
+                startActivity(intent)
+            }
         }
     }
 }

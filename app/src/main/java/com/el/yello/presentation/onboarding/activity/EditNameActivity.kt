@@ -1,5 +1,6 @@
 package com.el.yello.presentation.onboarding.activity
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
 import com.el.yello.R
@@ -23,14 +24,35 @@ class EditNameActivity :
     }
 
     private fun setConfirmBtnClickListener() {
+        getIntentExtraData()
         binding.btnNameNext.setOnSingleClickListener {
-            // TODO : onboardingactivity 이동
+            val intent = Intent(this, OnBoardingActivity::class.java).apply {
+                intent.putExtra("EXTRA_KAKAO_ID", viewModel.kakaoId.toLong())
+                intent.putExtra("EXTRA_NAME", viewModel.name)
+                intent.putExtra("EXTRA_GENDER", viewModel.gender)
+                intent.putExtra("EXTRA_EMAIL", viewModel.email)
+                intent.putExtra("EXTRA_PROFILE_IMAGE", viewModel.profileImg)
+            }
+            startActivity(intent)
         }
     }
 
     private fun setDeleteBtnClickListener() {
         binding.btnNameDelete.setOnSingleClickListener {
             binding.etName.text.clear()
+        }
+    }
+
+    private fun getIntentExtraData() {
+        val bundle: Bundle? = intent.extras
+        intent.apply {
+            if (bundle != null) {
+                viewModel.kakaoId = bundle.getLong("EXTRA_KAKAO_ID", 0).toString()
+                viewModel.name = bundle.getString("EXTRA_NAME", "")
+                viewModel.gender = bundle.getString("EXTRA_GENDER", "")
+                viewModel.email = bundle.getString("EXTRA_EMAIL", "")
+                viewModel.profileImg = bundle.getString("EXTRA_PROFILE_IMAGE", "")
+            }
         }
     }
 }

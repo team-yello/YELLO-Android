@@ -9,11 +9,7 @@ import androidx.activity.viewModels
 import androidx.navigation.findNavController
 import com.el.yello.R
 import com.el.yello.databinding.ActivityOnboardingBinding
-import com.el.yello.presentation.auth.SignInActivity.Companion.EXTRA_EMAIL
-import com.el.yello.presentation.auth.SignInActivity.Companion.EXTRA_GENDER
-import com.el.yello.presentation.auth.SignInActivity.Companion.EXTRA_KAKAO_ID
-import com.el.yello.presentation.auth.SignInActivity.Companion.EXTRA_NAME
-import com.el.yello.presentation.auth.SignInActivity.Companion.EXTRA_PROFILE_IMAGE
+import com.el.yello.presentation.auth.SignInActivity
 import com.example.ui.base.BindingActivity
 import com.example.ui.context.toast
 import dagger.hilt.android.AndroidEntryPoint
@@ -38,6 +34,7 @@ class OnBoardingActivity :
                         finish()
                     }
                 }
+
                 R.id.codeFragment -> {
                     if (System.currentTimeMillis() - backPressedTime >= BACK_PRESSED_INTERVAL) {
                         backPressedTime = System.currentTimeMillis()
@@ -46,6 +43,7 @@ class OnBoardingActivity :
                         finish()
                     }
                 }
+
                 else -> {
                     navController.popBackStack()
                     progressBarMinus()
@@ -65,6 +63,7 @@ class OnBoardingActivity :
         when (navController.currentDestination?.id) {
             R.id.selectStudentFragment -> {
             }
+
             else -> {
                 navController.popBackStack()
                 progressBarMinus()
@@ -74,14 +73,13 @@ class OnBoardingActivity :
 
     private fun getIntentExtraData() {
         intent.apply {
-            viewModel.kakaoId = getLongExtra(EXTRA_KAKAO_ID, -1).toString()
-            viewModel.email = getStringExtra(EXTRA_EMAIL) ?: ""
-            viewModel.profileImg = getStringExtra(EXTRA_PROFILE_IMAGE) ?: ""
-            viewModel.name = getStringExtra(EXTRA_NAME) ?: ""
-            viewModel.gender = getStringExtra(EXTRA_GENDER) ?: ""
+            viewModel.kakaoId = getLongExtra(SignInActivity.EXTRA_KAKAO_ID, -1).toString()
+            viewModel.email = getStringExtra(SignInActivity.EXTRA_EMAIL) ?: ""
+            viewModel.profileImg = getStringExtra(SignInActivity.EXTRA_PROFILE_IMAGE) ?: ""
+            viewModel.name = getStringExtra(SignInActivity.EXTRA_NAME) ?: ""
+            viewModel.gender = getStringExtra(SignInActivity.EXTRA_GENDER) ?: ""
         }
     }
-
     fun endTutorialActivity() {
         val intent = GetAlarmActivity.newIntent(this, true)
         intent.putExtra(EXTRA_CODE_TEXT_EMPTY, viewModel.isCodeTextEmpty())
@@ -114,6 +112,7 @@ class OnBoardingActivity :
         animator.interpolator = LinearInterpolator()
         animator.start()
     }
+
     fun hideBackBtn() {
         binding.backBtn.visibility = View.INVISIBLE
     }

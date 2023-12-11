@@ -10,7 +10,7 @@ import com.el.yello.databinding.ActivitySignInBinding
 import com.el.yello.presentation.auth.SignInViewModel.Companion.FRIEND_LIST
 import com.el.yello.presentation.main.MainActivity
 import com.el.yello.presentation.onboarding.activity.GetAlarmActivity
-import com.el.yello.presentation.onboarding.activity.OnBoardingActivity
+import com.el.yello.presentation.onboarding.fragment.checkName.CheckNameDialog
 import com.el.yello.presentation.tutorial.TutorialAActivity
 import com.el.yello.util.amplitude.AmplitudeUtils
 import com.el.yello.util.context.yelloSnackbar
@@ -26,6 +26,8 @@ import kotlinx.coroutines.flow.onEach
 class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_sign_in) {
 
     private val viewModel by viewModels<SignInViewModel>()
+
+    private var checkNameDialog: CheckNameDialog? = null
 
     private var userKakaoId: Long = 0
     private var userName: String = String()
@@ -122,7 +124,7 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
                 is UiState.Success -> {
                     val friendScope = state.data.find { it.id == FRIEND_LIST }
                     if (friendScope?.agreed == true) {
-                        startOnBoardingActivity()
+                        startCheckNameDialog()
                     } else {
                         startSocialSyncActivity()
                     }
@@ -179,13 +181,17 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
         finish()
     }
 
-    private fun startOnBoardingActivity() {
-        Intent(this, OnBoardingActivity::class.java).apply {
-            addPutExtra()
-            addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-            startActivity(this)
+    private fun startCheckNameDialog() {
+        checkNameDialog = CheckNameDialog()
+        val bundle = Bundle().apply {
+            putLong("EXTRA_KAKAO_ID", userKakaoId)
+            putString("EXTRA_NAME", userName)
+            putString("EXTRA_GENDER", userGender)
+            putString("EXTRA_EMAIL", userEmail)
+            putString("EXTRA_PROFILE_IMAGE", userImage)
         }
-        finish()
+        checkNameDialog?.arguments = bundle
+        checkNameDialog?.show(supportFragmentManager, CHECK_NAME_DIALOG)
     }
 
     private fun Intent.addPutExtra() {
@@ -205,5 +211,6 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
         const val EXTRA_GENDER = "GENDER"
         const val CODE_NOT_SIGNED_IN = "403"
         const val CODE_NO_UUID = "404"
+        const val CHECK_NAME_DIALOG = "CHECK_NAME_DIALOG"
     }
 }

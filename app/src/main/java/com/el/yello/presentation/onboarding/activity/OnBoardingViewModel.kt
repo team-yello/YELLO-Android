@@ -47,23 +47,6 @@ class OnBoardingViewModel @Inject constructor(
         _getValidYelloIdState.value = UiState.Loading
     }
 
-    fun signupRequestFromServer() {
-        val deviceToken = authRepository.getDeviceToken()
-        SignupInfo(
-            kakaoId = kakaoId,
-            email = email,
-            profileImg = profileImg,
-            groupId = groupId,
-            studentId = studentId,
-            name = name,
-            yelloId = id,
-            gender = gender,
-            friendList = selectedFriendIdList,
-            recommendId = codeText.value,
-            deviceToken = deviceToken,
-        )
-    }
-
     // 이름 수정뷰 추가 데이터
 
     val editNameText = MutableLiveData("")

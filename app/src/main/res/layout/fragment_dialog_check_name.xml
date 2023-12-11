@@ -5,7 +5,9 @@
     android:layout_gravity="center">
 
     <data>
-
+        <variable
+            name="vm"
+            type="com.el.yello.presentation.onboarding.activity.OnBoardingViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

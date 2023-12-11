@@ -10,12 +10,6 @@ import androidx.activity.viewModels
 import androidx.navigation.findNavController
 import com.el.yello.R
 import com.el.yello.databinding.ActivityOnboardingBinding
-import com.el.yello.presentation.auth.SignInActivity
-import com.el.yello.presentation.auth.SignInActivity.Companion.EXTRA_EMAIL
-import com.el.yello.presentation.auth.SignInActivity.Companion.EXTRA_GENDER
-import com.el.yello.presentation.auth.SignInActivity.Companion.EXTRA_KAKAO_ID
-import com.el.yello.presentation.auth.SignInActivity.Companion.EXTRA_NAME
-import com.el.yello.presentation.auth.SignInActivity.Companion.EXTRA_PROFILE_IMAGE
 import com.example.ui.base.BindingActivity
 import com.example.ui.context.toast
 import dagger.hilt.android.AndroidEntryPoint
@@ -78,13 +72,21 @@ class OnBoardingActivity :
     }
 
     private fun getIntentExtraData() {
+        val bundle: Bundle? = intent.extras
         intent.apply {
-            viewModel.kakaoId = getLongExtra(EXTRA_KAKAO_ID, -1).toString()
-            viewModel.email = getStringExtra(EXTRA_EMAIL) ?: ""
-            viewModel.profileImg = getStringExtra(EXTRA_PROFILE_IMAGE) ?: ""
-            viewModel.nameText.value = getStringExtra(EXTRA_NAME) ?: ""
-            viewModel.gender = getStringExtra(EXTRA_GENDER) ?: ""
+            if (bundle != null) {
+                viewModel.kakaoId = bundle.getLong("EXTRA_KAKAO_ID", 0).toString()
+                viewModel.nameText.value = bundle.getString("EXTRA_NAME", "")
+                viewModel.gender = bundle.getString("EXTRA_GENDER", "")
+                viewModel.email = bundle.getString("EXTRA_EMAIL", "")
+                viewModel.profileImg = bundle.getString("EXTRA_PROFILE_IMAGE", "")
+            }
         }
+        Log.d("pmj6", viewModel.kakaoId)
+        Log.d("pmj6", viewModel.nameText.value.toString())
+        Log.d("pmj6", viewModel.gender)
+        Log.d("pmj6", viewModel.email)
+        Log.d("pmj6", viewModel.profileImg)
     }
     fun endTutorialActivity() {
         val intent = GetAlarmActivity.newIntent(this, true)

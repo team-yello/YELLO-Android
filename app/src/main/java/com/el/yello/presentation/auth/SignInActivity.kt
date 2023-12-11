@@ -2,6 +2,7 @@ package com.el.yello.presentation.auth
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.viewModels
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
@@ -191,6 +192,11 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
             putString("EXTRA_EMAIL", userEmail)
             putString("EXTRA_PROFILE_IMAGE", userImage)
         }
+        Log.d("pmj1", userKakaoId.toString())
+        Log.d("pmj1", userName.toString())
+        Log.d("pmj1", userGender.toString())
+        Log.d("pmj1", userEmail.toString())
+        Log.d("pmj1", userImage.toString())
         if (userName.isBlank() || userName.isEmpty() || userName.isNullOrEmpty() || userName.isNullOrBlank()) {
             val intent = Intent(this, EditNameActivity::class.java)
             startActivity(intent)

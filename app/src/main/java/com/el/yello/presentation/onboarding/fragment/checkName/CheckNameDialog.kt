@@ -55,7 +55,11 @@ class CheckNameDialog :
             val userGender = bundle.getString("EXTRA_GENDER", "")
             val userEmail = bundle.getString("EXTRA_EMAIL", "")
             val userImage = bundle.getString("EXTRA_PROFILE_IMAGE", "")
-            Log.d("minju1", userGender.toString())
+            Log.d("pmj2", userKakaoId.toString())
+            Log.d("pmj2", userName.toString())
+            Log.d("pmj2", userGender.toString())
+            Log.d("pmj2", userEmail.toString())
+            Log.d("pmj2", userImage.toString())
 
             // 다이얼로그에 카카오 계정 이름 띄우기
             binding.tvNameEditDialogTitleTwo.text = userName
@@ -71,7 +75,11 @@ class CheckNameDialog :
                 }
                 val intent = Intent(requireContext(), OnBoardingActivity::class.java)
                 intent.putExtras(bundle)
-                Log.d("minju2", userGender.toString())
+                Log.d("pmj3", userKakaoId.toString())
+                Log.d("pmj3", userName.toString())
+                Log.d("pmj3", userGender.toString())
+                Log.d("pmj3", userEmail.toString())
+                Log.d("pmj3", userImage.toString())
                 startActivity(intent)
             }
             // 이름 수정

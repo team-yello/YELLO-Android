@@ -70,10 +70,10 @@ class SocialSyncActivity :
                 putString("EXTRA_EMAIL", email)
                 putString("EXTRA_PROFILE_IMAGE", profileImage)
             }
-            binding.tvSocialSyncTitle.visibility=View.GONE
-            binding.tvSocialSyncSubtitle.visibility=View.GONE
-            binding.ivSocialSync.visibility=View.GONE
-            binding.btnSocialSync.visibility=View.GONE
+            binding.tvSocialSyncTitle.visibility = View.GONE
+            binding.tvSocialSyncSubtitle.visibility = View.GONE
+            binding.ivSocialSync.visibility = View.GONE
+            binding.btnSocialSync.visibility = View.GONE
             checkNameDialog?.arguments = bundle
             checkNameDialog?.show(supportFragmentManager, SignInActivity.CHECK_NAME_DIALOG)
         }

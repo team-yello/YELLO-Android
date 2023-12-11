@@ -72,7 +72,7 @@ class EditNameActivity :
                 viewModel.profileImg = bundle.getString("EXTRA_PROFILE_IMAGE", "")
             }
         }
-        // 받아온 이름 값이 비었거나 null 이면 hint 보이도록
+        // 받아온 이름 값이 비었거나 null -> clear
         if (viewModel.nameText.value.isNullOrEmpty() || viewModel.nameText.value.isNullOrBlank()) {
             binding.etName.text.clear()
         }

@@ -19,8 +19,6 @@ import dagger.hilt.android.AndroidEntryPoint
 class CheckNameDialog :
     BindingDialogFragment<FragmentDialogCheckNameBinding>(R.layout.fragment_dialog_check_name) {
 
-    private val viewModel by activityViewModels<OnBoardingViewModel>()
-
     override fun onStart() {
         super.onStart()
         setDialogBackground()

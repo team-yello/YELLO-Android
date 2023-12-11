@@ -2,7 +2,6 @@ package com.el.yello.presentation.onboarding.activity
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.viewModels
 import com.el.yello.R
@@ -49,15 +48,9 @@ class EditNameActivity :
                 putString("EXTRA_EMAIL", viewModel.email)
                 putString("EXTRA_PROFILE_IMAGE", viewModel.profileImg)
             }
-
             val intent = Intent(this, OnBoardingActivity::class.java).apply {
                 putExtras(bundle)
             }
-            Log.d("pmj5", viewModel.kakaoId)
-            Log.d("pmj5", viewModel.nameText.value.toString())
-            Log.d("pmj5", viewModel.gender)
-            Log.d("pmj5", viewModel.email)
-            Log.d("pmj5", viewModel.profileImg)
             startActivity(intent)
         }
     }
@@ -78,11 +71,6 @@ class EditNameActivity :
                 viewModel.email = bundle.getString("EXTRA_EMAIL", "")
                 viewModel.profileImg = bundle.getString("EXTRA_PROFILE_IMAGE", "")
             }
-            Log.d("pmj4", viewModel.kakaoId)
-            Log.d("pmj4", viewModel.nameText.value.toString())
-            Log.d("pmj4", viewModel.gender)
-            Log.d("pmj4", viewModel.email)
-            Log.d("pmj4", viewModel.profileImg)
         }
         // 받아온 이름 값이 비었거나 null 이면 hint 보이도록
         if (viewModel.nameText.value.isNullOrEmpty() || viewModel.nameText.value.isNullOrBlank()) {

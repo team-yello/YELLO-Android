@@ -47,10 +47,8 @@ class OnBoardingViewModel @Inject constructor(
         _getValidYelloIdState.value = UiState.Loading
     }
 
-    // 이름 수정뷰 추가 데이터
-
+    // 이름 수정뷰 name -> livedata
     val nameText = MutableLiveData("")
-    val editName: String get() = nameText.value?.trim() ?: ""
     val isValidName: LiveData<Boolean> = nameText.map { name -> checkName(name) }
 
     private fun checkName(name: String) = Pattern.matches(REGEX_NAME_PATTERN, name)

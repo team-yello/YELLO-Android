@@ -2,7 +2,6 @@ package com.el.yello.presentation.onboarding.activity
 
 import android.animation.ObjectAnimator
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.view.animation.LinearInterpolator
 import androidx.activity.OnBackPressedCallback
@@ -82,11 +81,6 @@ class OnBoardingActivity :
                 viewModel.profileImg = bundle.getString("EXTRA_PROFILE_IMAGE", "")
             }
         }
-        Log.d("pmj6", viewModel.kakaoId)
-        Log.d("pmj6", viewModel.nameText.value.toString())
-        Log.d("pmj6", viewModel.gender)
-        Log.d("pmj6", viewModel.email)
-        Log.d("pmj6", viewModel.profileImg)
     }
     fun endTutorialActivity() {
         val intent = GetAlarmActivity.newIntent(this, true)

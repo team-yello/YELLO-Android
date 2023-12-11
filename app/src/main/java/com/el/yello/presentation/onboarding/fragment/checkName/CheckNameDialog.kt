@@ -3,7 +3,6 @@ package com.el.yello.presentation.onboarding.fragment.checkName
 import android.content.Intent
 import android.content.res.Resources
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import androidx.fragment.app.activityViewModels
@@ -55,16 +54,11 @@ class CheckNameDialog :
             val userGender = bundle.getString("EXTRA_GENDER", "")
             val userEmail = bundle.getString("EXTRA_EMAIL", "")
             val userImage = bundle.getString("EXTRA_PROFILE_IMAGE", "")
-            Log.d("pmj2", userKakaoId.toString())
-            Log.d("pmj2", userName.toString())
-            Log.d("pmj2", userGender.toString())
-            Log.d("pmj2", userEmail.toString())
-            Log.d("pmj2", userImage.toString())
 
             // 다이얼로그에 카카오 계정 이름 띄우기
             binding.tvNameEditDialogTitleTwo.text = userName
 
-            // 이름 유지
+            // 이름 유지 (Y)
             binding.btnNameEditDialogYes.setOnSingleClickListener {
                 val bundle = Bundle().apply {
                     putLong("EXTRA_KAKAO_ID", userKakaoId)
@@ -77,7 +71,7 @@ class CheckNameDialog :
                 intent.putExtras(bundle)
                 startActivity(intent)
             }
-            // 이름 수정
+            // 이름 수정 (N)
             binding.btnNameEditDialogNo.setOnSingleClickListener {
                 val bundle = Bundle().apply {
                     putLong("EXTRA_KAKAO_ID", userKakaoId)
@@ -86,11 +80,6 @@ class CheckNameDialog :
                     putString("EXTRA_EMAIL", userEmail)
                     putString("EXTRA_PROFILE_IMAGE", userImage)
                 }
-                Log.d("pmj3", userKakaoId.toString())
-                Log.d("pmj3", userName.toString())
-                Log.d("pmj3", userGender.toString())
-                Log.d("pmj3", userEmail.toString())
-                Log.d("pmj3", userImage.toString())
                 val intent = Intent(requireContext(), EditNameActivity::class.java)
                 intent.putExtras(bundle)
                 startActivity(intent)

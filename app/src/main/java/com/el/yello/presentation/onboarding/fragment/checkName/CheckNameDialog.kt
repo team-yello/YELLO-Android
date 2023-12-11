@@ -75,11 +75,6 @@ class CheckNameDialog :
                 }
                 val intent = Intent(requireContext(), OnBoardingActivity::class.java)
                 intent.putExtras(bundle)
-                Log.d("pmj3", userKakaoId.toString())
-                Log.d("pmj3", userName.toString())
-                Log.d("pmj3", userGender.toString())
-                Log.d("pmj3", userEmail.toString())
-                Log.d("pmj3", userImage.toString())
                 startActivity(intent)
             }
             // 이름 수정
@@ -91,9 +86,13 @@ class CheckNameDialog :
                     putString("EXTRA_EMAIL", userEmail)
                     putString("EXTRA_PROFILE_IMAGE", userImage)
                 }
+                Log.d("pmj3", userKakaoId.toString())
+                Log.d("pmj3", userName.toString())
+                Log.d("pmj3", userGender.toString())
+                Log.d("pmj3", userEmail.toString())
+                Log.d("pmj3", userImage.toString())
                 val intent = Intent(requireContext(), EditNameActivity::class.java)
                 intent.putExtras(bundle)
-                Log.d("minju3", userGender.toString())
                 startActivity(intent)
             }
         }

@@ -2,6 +2,7 @@ package com.el.yello.presentation.onboarding.activity
 
 import android.animation.ObjectAnimator
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.animation.LinearInterpolator
 import androidx.activity.OnBackPressedCallback
@@ -10,6 +11,11 @@ import androidx.navigation.findNavController
 import com.el.yello.R
 import com.el.yello.databinding.ActivityOnboardingBinding
 import com.el.yello.presentation.auth.SignInActivity
+import com.el.yello.presentation.auth.SignInActivity.Companion.EXTRA_EMAIL
+import com.el.yello.presentation.auth.SignInActivity.Companion.EXTRA_GENDER
+import com.el.yello.presentation.auth.SignInActivity.Companion.EXTRA_KAKAO_ID
+import com.el.yello.presentation.auth.SignInActivity.Companion.EXTRA_NAME
+import com.el.yello.presentation.auth.SignInActivity.Companion.EXTRA_PROFILE_IMAGE
 import com.example.ui.base.BindingActivity
 import com.example.ui.context.toast
 import dagger.hilt.android.AndroidEntryPoint
@@ -73,11 +79,11 @@ class OnBoardingActivity :
 
     private fun getIntentExtraData() {
         intent.apply {
-            viewModel.kakaoId = getLongExtra(SignInActivity.EXTRA_KAKAO_ID, -1).toString()
-            viewModel.email = getStringExtra(SignInActivity.EXTRA_EMAIL) ?: ""
-            viewModel.profileImg = getStringExtra(SignInActivity.EXTRA_PROFILE_IMAGE) ?: ""
-            viewModel.name = getStringExtra(SignInActivity.EXTRA_NAME) ?: ""
-            viewModel.gender = getStringExtra(SignInActivity.EXTRA_GENDER) ?: ""
+            viewModel.kakaoId = getLongExtra(EXTRA_KAKAO_ID, -1).toString()
+            viewModel.email = getStringExtra(EXTRA_EMAIL) ?: ""
+            viewModel.profileImg = getStringExtra(EXTRA_PROFILE_IMAGE) ?: ""
+            viewModel.nameText.value = getStringExtra(EXTRA_NAME) ?: ""
+            viewModel.gender = getStringExtra(EXTRA_GENDER) ?: ""
         }
     }
     fun endTutorialActivity() {

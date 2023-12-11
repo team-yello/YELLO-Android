@@ -49,13 +49,13 @@ class OnBoardingViewModel @Inject constructor(
 
     // 이름 수정뷰 추가 데이터
 
-    val editNameText = MutableLiveData("")
-    val editName: String get() = editNameText.value?.trim() ?: ""
-    val isValidName: LiveData<Boolean> = editNameText.map { name -> checkName(name) }
+    val nameText = MutableLiveData("")
+    val editName: String get() = nameText.value?.trim() ?: ""
+    val isValidName: LiveData<Boolean> = nameText.map { name -> checkName(name) }
 
     private fun checkName(name: String) = Pattern.matches(REGEX_NAME_PATTERN, name)
 
-    val checkNameLength: LiveData<Boolean> = editNameText.map { name ->
+    val checkNameLength: LiveData<Boolean> = nameText.map { name ->
         (name?.trim()?.length ?: 0) >= 2
     }
 
@@ -361,7 +361,6 @@ class OnBoardingViewModel @Inject constructor(
     var kakaoId: String = ""
     var email: String = ""
     var profileImg: String = ""
-    var name: String = ""
     var gender: String = ""
 
     fun postSignup() {
@@ -374,7 +373,7 @@ class OnBoardingViewModel @Inject constructor(
                     profileImg = profileImg,
                     groupId = groupId,
                     studentId = studentId,
-                    name = name,
+                    name = nameText.value.toString(),
                     yelloId = id,
                     gender = gender,
                     friendList = selectedFriendIdList,
@@ -404,7 +403,7 @@ class OnBoardingViewModel @Inject constructor(
                 }
         }
         AmplitudeUtils.updateUserProperties("user_sex", gender)
-        AmplitudeUtils.updateUserProperties("user_name", name)
+        AmplitudeUtils.updateUserProperties("user_name", nameText.value.toString())
     }
 
     companion object {

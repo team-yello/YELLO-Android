@@ -42,18 +42,16 @@ class EditNameActivity :
 
     private fun setConfirmBtnClickListener() {
         getIntentExtraData()
-        Log.d("mmm", viewModel.name)
         binding.btnNameNext.setOnSingleClickListener {
             val intent = Intent(this, OnBoardingActivity::class.java).apply {
                 intent.putExtra("EXTRA_KAKAO_ID", viewModel.kakaoId.toLong())
-                intent.putExtra("EXTRA_NAME", viewModel.name)
+                intent.putExtra("EXTRA_NAME", viewModel.nameText.value.toString())
                 intent.putExtra("EXTRA_GENDER", viewModel.gender)
                 intent.putExtra("EXTRA_EMAIL", viewModel.email)
                 intent.putExtra("EXTRA_PROFILE_IMAGE", viewModel.profileImg)
             }
             startActivity(intent)
         }
-        Log.d("mmm2", viewModel.name)
     }
 
     private fun setDeleteBtnClickListener() {
@@ -67,7 +65,7 @@ class EditNameActivity :
         intent.apply {
             if (bundle != null) {
                 viewModel.kakaoId = bundle.getLong("EXTRA_KAKAO_ID", 0).toString()
-                viewModel.name = bundle.getString("EXTRA_NAME", "")
+                viewModel.nameText.value = bundle.getString("EXTRA_NAME", "")
                 viewModel.gender = bundle.getString("EXTRA_GENDER", "")
                 viewModel.email = bundle.getString("EXTRA_EMAIL", "")
                 viewModel.profileImg = bundle.getString("EXTRA_PROFILE_IMAGE", "")

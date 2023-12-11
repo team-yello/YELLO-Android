@@ -2,9 +2,8 @@ package com.el.yello.presentation.onboarding.fragment.checkName
 
 import android.content.Intent
 import android.content.res.Resources
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import androidx.fragment.app.activityViewModels
@@ -56,6 +55,7 @@ class CheckNameDialog :
             val userGender = bundle.getString("EXTRA_GENDER", "")
             val userEmail = bundle.getString("EXTRA_EMAIL", "")
             val userImage = bundle.getString("EXTRA_PROFILE_IMAGE", "")
+            Log.d("minju1", userGender.toString())
 
             // 다이얼로그에 카카오 계정 이름 띄우기
             binding.tvNameEditDialogTitleTwo.text = userName
@@ -71,6 +71,7 @@ class CheckNameDialog :
                 }
                 val intent = Intent(requireContext(), OnBoardingActivity::class.java)
                 intent.putExtras(bundle)
+                Log.d("minju2", userGender.toString())
                 startActivity(intent)
             }
             // 이름 수정
@@ -84,6 +85,7 @@ class CheckNameDialog :
                 }
                 val intent = Intent(requireContext(), EditNameActivity::class.java)
                 intent.putExtras(bundle)
+                Log.d("minju3", userGender.toString())
                 startActivity(intent)
             }
         }

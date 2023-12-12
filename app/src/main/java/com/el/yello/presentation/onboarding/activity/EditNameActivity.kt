@@ -6,6 +6,11 @@ import androidx.activity.OnBackPressedCallback
 import androidx.activity.viewModels
 import com.el.yello.R
 import com.el.yello.databinding.ActivityNameEditBinding
+import com.el.yello.presentation.auth.SignInActivity.Companion.EXTRA_EMAIL
+import com.el.yello.presentation.auth.SignInActivity.Companion.EXTRA_GENDER
+import com.el.yello.presentation.auth.SignInActivity.Companion.EXTRA_KAKAO_ID
+import com.el.yello.presentation.auth.SignInActivity.Companion.EXTRA_NAME
+import com.el.yello.presentation.auth.SignInActivity.Companion.EXTRA_PROFILE_IMAGE
 import com.example.ui.base.BindingActivity
 import com.example.ui.context.toast
 import com.example.ui.view.setOnSingleClickListener
@@ -42,16 +47,18 @@ class EditNameActivity :
         getIntentExtraData()
         binding.btnNameNext.setOnSingleClickListener {
             val bundle = Bundle().apply {
-                putLong("EXTRA_KAKAO_ID", viewModel.kakaoId.toLong())
-                putString("EXTRA_NAME", viewModel.nameText.value.toString())
-                putString("EXTRA_GENDER", viewModel.gender)
-                putString("EXTRA_EMAIL", viewModel.email)
-                putString("EXTRA_PROFILE_IMAGE", viewModel.profileImg)
+                putLong(EXTRA_KAKAO_ID, viewModel.kakaoId.toLong())
+                putString(EXTRA_NAME, viewModel.nameText.value.toString())
+                putString(EXTRA_GENDER, viewModel.gender)
+                putString(EXTRA_EMAIL, viewModel.email)
+                putString(EXTRA_PROFILE_IMAGE, viewModel.profileImg)
             }
-            val intent = Intent(this, OnBoardingActivity::class.java).apply {
+            Intent(this, OnBoardingActivity::class.java).apply {
                 putExtras(bundle)
+                addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                startActivity(this)
             }
-            startActivity(intent)
+            finish()
         }
     }
 
@@ -65,11 +72,11 @@ class EditNameActivity :
         val bundle: Bundle? = intent.extras
         intent.apply {
             if (bundle != null) {
-                viewModel.kakaoId = bundle.getLong("EXTRA_KAKAO_ID", 0).toString()
-                viewModel.nameText.value = bundle.getString("EXTRA_NAME", "")
-                viewModel.gender = bundle.getString("EXTRA_GENDER", "")
-                viewModel.email = bundle.getString("EXTRA_EMAIL", "")
-                viewModel.profileImg = bundle.getString("EXTRA_PROFILE_IMAGE", "")
+                viewModel.kakaoId = bundle.getLong(EXTRA_KAKAO_ID, 0).toString()
+                viewModel.nameText.value = bundle.getString(EXTRA_NAME, "")
+                viewModel.gender = bundle.getString(EXTRA_GENDER, "")
+                viewModel.email = bundle.getString(EXTRA_EMAIL, "")
+                viewModel.profileImg = bundle.getString(EXTRA_PROFILE_IMAGE, "")
             }
         }
         // 받아온 이름 값이 비었거나 null -> clear

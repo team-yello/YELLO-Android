@@ -9,6 +9,11 @@ import androidx.activity.viewModels
 import androidx.navigation.findNavController
 import com.el.yello.R
 import com.el.yello.databinding.ActivityOnboardingBinding
+import com.el.yello.presentation.auth.SignInActivity.Companion.EXTRA_EMAIL
+import com.el.yello.presentation.auth.SignInActivity.Companion.EXTRA_GENDER
+import com.el.yello.presentation.auth.SignInActivity.Companion.EXTRA_KAKAO_ID
+import com.el.yello.presentation.auth.SignInActivity.Companion.EXTRA_NAME
+import com.el.yello.presentation.auth.SignInActivity.Companion.EXTRA_PROFILE_IMAGE
 import com.example.ui.base.BindingActivity
 import com.example.ui.context.toast
 import dagger.hilt.android.AndroidEntryPoint
@@ -74,14 +79,15 @@ class OnBoardingActivity :
         val bundle: Bundle? = intent.extras
         intent.apply {
             if (bundle != null) {
-                viewModel.kakaoId = bundle.getLong("EXTRA_KAKAO_ID", 0).toString()
-                viewModel.nameText.value = bundle.getString("EXTRA_NAME", "")
-                viewModel.gender = bundle.getString("EXTRA_GENDER", "")
-                viewModel.email = bundle.getString("EXTRA_EMAIL", "")
-                viewModel.profileImg = bundle.getString("EXTRA_PROFILE_IMAGE", "")
+                viewModel.kakaoId = bundle.getLong(EXTRA_KAKAO_ID, 0).toString()
+                viewModel.nameText.value = bundle.getString(EXTRA_NAME, "")
+                viewModel.gender = bundle.getString(EXTRA_GENDER, "")
+                viewModel.email = bundle.getString(EXTRA_EMAIL, "")
+                viewModel.profileImg = bundle.getString(EXTRA_PROFILE_IMAGE, "")
             }
         }
     }
+
     fun endTutorialActivity() {
         val intent = GetAlarmActivity.newIntent(this, true)
         intent.putExtra(EXTRA_CODE_TEXT_EMPTY, viewModel.isCodeTextEmpty())

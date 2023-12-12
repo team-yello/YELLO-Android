@@ -75,5 +75,4 @@ class CheckNameDialog :
             toast(getString(R.string.sign_in_error_connection))
         }
     }
-
 }

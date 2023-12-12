@@ -184,7 +184,6 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
     }
 
     private fun startCheckNameDialog() {
-        checkNameDialog = CheckNameDialog()
         val bundle = Bundle().apply { addPutExtra() }
         if (userName.isBlank() || userName.isEmpty()) {
             Intent(SignInActivity(), EditNameActivity::class.java).apply {
@@ -194,6 +193,7 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
             }
             finish()
         } else {
+            checkNameDialog = CheckNameDialog()
             binding.btnSignIn.visibility = View.GONE
             binding.ivSignIn.visibility = View.GONE
             binding.ivSignInKakao.visibility = View.GONE
@@ -220,6 +220,11 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
         putString(EXTRA_GENDER, userGender)
         putString(EXTRA_EMAIL, userEmail)
         putString(EXTRA_PROFILE_IMAGE, userImage)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        checkNameDialog?.dismiss()
     }
 
     companion object {

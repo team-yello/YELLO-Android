@@ -60,7 +60,6 @@ class SocialSyncActivity :
     }
 
     private fun startCheckNameDialog() {
-        checkNameDialog = CheckNameDialog()
         intent.apply {
             val userKakaoId = getLongExtra(EXTRA_KAKAO_ID, -1)
             val userEmail = getStringExtra(EXTRA_EMAIL)
@@ -82,6 +81,7 @@ class SocialSyncActivity :
                 }
                 finish()
             } else {
+                checkNameDialog = CheckNameDialog()
                 binding.tvSocialSyncTitle.visibility = View.GONE
                 binding.tvSocialSyncSubtitle.visibility = View.GONE
                 binding.ivSocialSync.visibility = View.GONE
@@ -90,5 +90,10 @@ class SocialSyncActivity :
                 checkNameDialog?.show(supportFragmentManager, CHECK_NAME_DIALOG)
             }
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        checkNameDialog?.dismiss()
     }
 }

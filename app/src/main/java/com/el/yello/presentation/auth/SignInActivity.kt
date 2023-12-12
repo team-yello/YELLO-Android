@@ -217,6 +217,7 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
         putString(EXTRA_EMAIL, userEmail)
         putString(EXTRA_PROFILE_IMAGE, userImage)
     }
+
     companion object {
         const val EXTRA_KAKAO_ID = "KAKAO_ID"
         const val EXTRA_EMAIL = "KAKAO_EMAIL"

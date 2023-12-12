@@ -5,13 +5,13 @@ import android.content.res.Resources
 import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
-import androidx.fragment.app.activityViewModels
 import com.el.yello.R
 import com.el.yello.databinding.FragmentDialogCheckNameBinding
+import com.el.yello.presentation.auth.SignInActivity.Companion.EXTRA_NAME
 import com.el.yello.presentation.onboarding.activity.EditNameActivity
 import com.el.yello.presentation.onboarding.activity.OnBoardingActivity
-import com.el.yello.presentation.onboarding.activity.OnBoardingViewModel
 import com.example.ui.base.BindingDialogFragment
+import com.example.ui.fragment.toast
 import com.example.ui.view.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -47,41 +47,29 @@ class CheckNameDialog :
     private fun initEditBtnListener() {
         val bundle = arguments
         if (bundle != null) {
-            val userKakaoId = bundle.getLong("EXTRA_KAKAO_ID", 0)
-            val userName = bundle.getString("EXTRA_NAME", "")
-            val userGender = bundle.getString("EXTRA_GENDER", "")
-            val userEmail = bundle.getString("EXTRA_EMAIL", "")
-            val userImage = bundle.getString("EXTRA_PROFILE_IMAGE", "")
-
             // 다이얼로그에 카카오 계정 이름 띄우기
-            binding.tvNameEditDialogTitleTwo.text = userName
+            binding.tvNameEditDialogTitleTwo.text = bundle.getString(EXTRA_NAME)
 
             // 이름 유지 (Y)
             binding.btnNameEditDialogYes.setOnSingleClickListener {
-                val bundle = Bundle().apply {
-                    putLong("EXTRA_KAKAO_ID", userKakaoId)
-                    putString("EXTRA_NAME", userName)
-                    putString("EXTRA_GENDER", userGender)
-                    putString("EXTRA_EMAIL", userEmail)
-                    putString("EXTRA_PROFILE_IMAGE", userImage)
+                Intent(requireContext(), OnBoardingActivity::class.java).apply {
+                    putExtras(bundle)
+                    startActivity(this)
                 }
-                val intent = Intent(requireContext(), OnBoardingActivity::class.java)
-                intent.putExtras(bundle)
-                startActivity(intent)
+                dismiss()
             }
             // 이름 수정 (N)
             binding.btnNameEditDialogNo.setOnSingleClickListener {
-                val bundle = Bundle().apply {
-                    putLong("EXTRA_KAKAO_ID", userKakaoId)
-                    putString("EXTRA_NAME", userName)
-                    putString("EXTRA_GENDER", userGender)
-                    putString("EXTRA_EMAIL", userEmail)
-                    putString("EXTRA_PROFILE_IMAGE", userImage)
+                Intent(requireContext(), EditNameActivity::class.java).apply {
+                    putExtras(bundle)
+                    startActivity(this)
                 }
-                val intent = Intent(requireContext(), EditNameActivity::class.java)
-                intent.putExtras(bundle)
-                startActivity(intent)
+                dismiss()
             }
+        } else {
+            toast(getString(R.string.sign_in_error_connection))
         }
     }
+
+
 }

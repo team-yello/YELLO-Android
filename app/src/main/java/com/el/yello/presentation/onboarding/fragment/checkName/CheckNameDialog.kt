@@ -36,11 +36,12 @@ class CheckNameDialog :
             setBackgroundDrawableResource(R.color.transparent)
         }
         dialog?.setCanceledOnTouchOutside(false)
-        dialog?.setCancelable(true)
+        dialog?.setCancelable(false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         initEditBtnListener()
     }
 
@@ -54,22 +55,25 @@ class CheckNameDialog :
             binding.btnNameEditDialogYes.setOnSingleClickListener {
                 Intent(requireContext(), OnBoardingActivity::class.java).apply {
                     putExtras(bundle)
+                    addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                     startActivity(this)
                 }
                 dismiss()
+                requireActivity().finish()
             }
             // 이름 수정 (N)
             binding.btnNameEditDialogNo.setOnSingleClickListener {
                 Intent(requireContext(), EditNameActivity::class.java).apply {
                     putExtras(bundle)
+                    addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                     startActivity(this)
                 }
                 dismiss()
+                requireActivity().finish()
             }
         } else {
             toast(getString(R.string.sign_in_error_connection))
         }
     }
-
 
 }

@@ -98,9 +98,10 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/btn_name_edit_dialog_yes요"
+                android:id="@+id/btn_name_edit_dialog_yes"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:paddingHorizontal="25dp"
                 android:paddingVertical="3dp"
                 android:text="@string/onboarding_name_edit_dialog_btn_yes"
                 android:textAppearance="?textAppearanceButton"

@@ -2,8 +2,8 @@ package com.el.yello.presentation.auth
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import androidx.activity.viewModels
-import androidx.core.view.isVisible
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import com.el.yello.R
@@ -194,7 +194,11 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
             }
             finish()
         } else {
-            binding.layoutSignIn.isVisible = false
+            binding.btnSignIn.visibility = View.GONE
+            binding.ivSignIn.visibility = View.GONE
+            binding.ivSignInKakao.visibility = View.GONE
+            binding.tvSignInTitle.visibility = View.GONE
+            binding.tvSignInSubtitle.visibility = View.GONE
             checkNameDialog?.arguments = bundle
             checkNameDialog?.show(supportFragmentManager, CHECK_NAME_DIALOG)
         }

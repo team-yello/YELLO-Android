@@ -2,8 +2,8 @@ package com.el.yello.presentation.auth
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import androidx.activity.viewModels
-import androidx.core.view.isVisible
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import com.el.yello.R
@@ -77,11 +77,15 @@ class SocialSyncActivity :
             if (userName?.isBlank() == true || userName?.isEmpty() == true) {
                 Intent(SocialSyncActivity(), EditNameActivity::class.java).apply {
                     putExtras(bundle)
+                    addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                     startActivity(this)
                 }
                 finish()
             } else {
-                binding.layoutSocialSync.isVisible = false
+                binding.tvSocialSyncTitle.visibility = View.GONE
+                binding.tvSocialSyncSubtitle.visibility = View.GONE
+                binding.ivSocialSync.visibility = View.GONE
+                binding.btnSocialSync.visibility = View.GONE
                 checkNameDialog?.arguments = bundle
                 checkNameDialog?.show(supportFragmentManager, CHECK_NAME_DIALOG)
             }

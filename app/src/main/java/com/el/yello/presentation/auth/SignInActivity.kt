@@ -2,8 +2,8 @@ package com.el.yello.presentation.auth
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
 import androidx.activity.viewModels
+import androidx.core.view.isVisible
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import com.el.yello.R
@@ -185,30 +185,16 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
 
     private fun startCheckNameDialog() {
         checkNameDialog = CheckNameDialog()
-        val bundle = Bundle().apply {
-            putLong("EXTRA_KAKAO_ID", userKakaoId)
-            putString("EXTRA_NAME", userName)
-            putString("EXTRA_GENDER", userGender)
-            putString("EXTRA_EMAIL", userEmail)
-            putString("EXTRA_PROFILE_IMAGE", userImage)
-        }
-        if (userName.isBlank() || userName.isEmpty() || userName.isNullOrEmpty() || userName.isNullOrBlank()) {
-            val bundle = Bundle().apply {
-                putLong("EXTRA_KAKAO_ID", userKakaoId)
-                putString("EXTRA_NAME", userName)
-                putString("EXTRA_GENDER", userGender)
-                putString("EXTRA_EMAIL", userEmail)
-                putString("EXTRA_PROFILE_IMAGE", userImage)
+        val bundle = Bundle().apply { addPutExtra() }
+        if (userName.isBlank() || userName.isEmpty() || userName.isEmpty() || userName.isBlank()) {
+            Intent(SignInActivity(), EditNameActivity::class.java).apply {
+                putExtras(bundle)
+                addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                startActivity(this)
             }
-            val intent = Intent(SignInActivity(), EditNameActivity::class.java)
-            intent.putExtras(bundle)
-            startActivity(intent)
+            finish()
         } else {
-            binding.btnSignIn.visibility = View.GONE
-            binding.ivSignIn.visibility = View.GONE
-            binding.ivSignInKakao.visibility = View.GONE
-            binding.tvSignInTitle.visibility = View.GONE
-            binding.tvSignInSubtitle.visibility = View.GONE
+            binding.layoutSignIn.isVisible = false
             checkNameDialog?.arguments = bundle
             checkNameDialog?.show(supportFragmentManager, CHECK_NAME_DIALOG)
         }
@@ -221,6 +207,14 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
         putExtra(EXTRA_EMAIL, userEmail)
         putExtra(EXTRA_PROFILE_IMAGE, userImage)
         addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+    }
+
+    private fun Bundle.addPutExtra() {
+        putLong(EXTRA_KAKAO_ID, userKakaoId)
+        putString(EXTRA_NAME, userName)
+        putString(EXTRA_GENDER, userGender)
+        putString(EXTRA_EMAIL, userEmail)
+        putString(EXTRA_PROFILE_IMAGE, userImage)
     }
 
     companion object {

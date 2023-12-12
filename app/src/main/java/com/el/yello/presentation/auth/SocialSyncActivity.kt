@@ -2,17 +2,20 @@ package com.el.yello.presentation.auth
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import androidx.activity.viewModels
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import com.el.yello.R
 import com.el.yello.databinding.ActivitySocialSyncBinding
+import com.el.yello.presentation.auth.SignInActivity.Companion.CHECK_NAME_DIALOG
 import com.el.yello.presentation.auth.SignInActivity.Companion.EXTRA_EMAIL
 import com.el.yello.presentation.auth.SignInActivity.Companion.EXTRA_GENDER
 import com.el.yello.presentation.auth.SignInActivity.Companion.EXTRA_KAKAO_ID
 import com.el.yello.presentation.auth.SignInActivity.Companion.EXTRA_NAME
 import com.el.yello.presentation.auth.SignInActivity.Companion.EXTRA_PROFILE_IMAGE
-import com.el.yello.presentation.onboarding.activity.OnBoardingActivity
+import com.el.yello.presentation.onboarding.activity.EditNameActivity
+import com.el.yello.presentation.onboarding.fragment.checkName.CheckNameDialog
 import com.el.yello.util.amplitude.AmplitudeUtils
 import com.el.yello.util.context.yelloSnackbar
 import com.example.ui.base.BindingActivity
@@ -27,6 +30,8 @@ class SocialSyncActivity :
     BindingActivity<ActivitySocialSyncBinding>(R.layout.activity_social_sync) {
 
     private val viewModel by viewModels<SocialSyncViewModel>()
+
+    private var checkNameDialog: CheckNameDialog? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,35 +51,49 @@ class SocialSyncActivity :
     private fun observeFriendsAccessState() {
         viewModel.getFriendListState.flowWithLifecycle(lifecycle).onEach { state ->
             when (state) {
-                is UiState.Success -> startOnBoardingActivity()
-
+                is UiState.Success -> startCheckNameDialog()
                 is UiState.Failure -> yelloSnackbar(binding.root, getString(R.string.msg_error))
-
                 is UiState.Empty -> return@onEach
-
                 is UiState.Loading -> return@onEach
             }
         }.launchIn(lifecycleScope)
     }
 
-    private fun startOnBoardingActivity() {
+    private fun startCheckNameDialog() {
         intent.apply {
-            val kakaoId = getLongExtra(EXTRA_KAKAO_ID, -1)
-            val email = getStringExtra(EXTRA_EMAIL)
-            val profileImage = getStringExtra(EXTRA_PROFILE_IMAGE)
-            val name = getStringExtra(EXTRA_NAME)
-            val gender = getStringExtra(EXTRA_GENDER)
-
-            Intent(this@SocialSyncActivity, OnBoardingActivity::class.java).apply {
-                putExtra(EXTRA_KAKAO_ID, kakaoId)
-                putExtra(EXTRA_EMAIL, email)
-                putExtra(EXTRA_PROFILE_IMAGE, profileImage)
-                putExtra(EXTRA_NAME, name)
-                putExtra(EXTRA_GENDER, gender)
-                addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                startActivity(this)
+            val userKakaoId = getLongExtra(EXTRA_KAKAO_ID, -1)
+            val userEmail = getStringExtra(EXTRA_EMAIL)
+            val userImage = getStringExtra(EXTRA_PROFILE_IMAGE)
+            val userName = getStringExtra(EXTRA_NAME)
+            val userGender = getStringExtra(EXTRA_GENDER)
+            val bundle = Bundle().apply {
+                putLong(EXTRA_KAKAO_ID, userKakaoId)
+                putString(EXTRA_NAME, userName)
+                putString(EXTRA_GENDER, userGender)
+                putString(EXTRA_EMAIL, userEmail)
+                putString(EXTRA_PROFILE_IMAGE, userImage)
             }
-            finish()
+            if (userName?.isBlank() == true || userName?.isEmpty() == true) {
+                Intent(SocialSyncActivity(), EditNameActivity::class.java).apply {
+                    putExtras(bundle)
+                    addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                    startActivity(this)
+                }
+                finish()
+            } else {
+                checkNameDialog = CheckNameDialog()
+                binding.tvSocialSyncTitle.visibility = View.GONE
+                binding.tvSocialSyncSubtitle.visibility = View.GONE
+                binding.ivSocialSync.visibility = View.GONE
+                binding.btnSocialSync.visibility = View.GONE
+                checkNameDialog?.arguments = bundle
+                checkNameDialog?.show(supportFragmentManager, CHECK_NAME_DIALOG)
+            }
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        checkNameDialog?.dismiss()
     }
 }

@@ -46,8 +46,11 @@
     <string name="onboarding_tv_what_school">학교가 어디인가요?</string>
     <string name="onboarding_tv_what_department">무슨 학과인가요?</string>
     <string name="onboarding_btn_next">다음</string>
+    <string name="onboarding_btn_edit_name_next">수정 완료</string>
     <string name="onboarding_tv_name">나의 이름은?</string>
-    <string name="onboarding_tv_name_description">이름은 가입 후 바꿀 수 없으니 정확히 적어주세요!</string>
+    <string name="onboarding_tv_name_description_first">이후에는 이름 수정이 어려우니</string>
+    <string name="onboarding_tv_name_description_second">실제 이름</string>
+    <string name="onboarding_tv_name_description_third">을 적어주세요.</string>
     <string name="onboarding_tv_id">내가 사용할 아이디는?</string>
     <string name="onboarding_yelloid_hint_start">인스타그램 아이디</string>
     <string name="onboarding_yelloid_hint_middle">로 하면 친구들이 찾기 쉬워요!</string>
@@ -77,7 +80,7 @@
     <string name="onboarding_group">%s반</string>
     <string name="onboarding_code_complete">완료</string>
     <string name="onboarding_name_id_name_hint">ex.김옐로</string>
-    <string name="onboarding_name_id_hangul_error">자음과 모음 조합의 한글만 입력 가능해요.</string>
+    <string name="onboarding_name_id_hangul_error">특수문자,한글 외 문자는 입력할 수 없어요.</string>
     <string name="onboarding_name_id_id_error">문자, 숫자, 밑줄, 마침표만 사용할 수 있어요.</string>
     <string name="onboarding_gender_female">여자</string>
     <string name="onboarding_gender_male">남자</string>
@@ -90,6 +93,10 @@
     <string name="onboarding_school_hint">ex. 옐로대학교</string>
     <string name="onboarding_department_hint">ex. 노랑학과</string>
     <string name="onboarding_tv_hint_select_studentid">ex. 23학번</string>
+    <string name="onboarding_name_edit_dialog_btn_no">제 이름이 아니에요</string>
+    <string name="onboarding_name_edit_dialog_btn_yes">네,맞아요</string>
+    <string name="onboarding_name_edit_dialog_tv_title_quotes">"\""</string>
+    <string name="onboarding_name_edit_dialog_tv_title_end">"님이 맞으신가요?"</string>
 
     <string name="yello_start_my_point">내 포인트</string>
     <string name="yello_start_description">누구에게 어떤 메시지를 보낼까?</string>

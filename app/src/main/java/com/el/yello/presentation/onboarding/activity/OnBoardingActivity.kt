@@ -38,6 +38,7 @@ class OnBoardingActivity :
                         finish()
                     }
                 }
+
                 R.id.codeFragment -> {
                     if (System.currentTimeMillis() - backPressedTime >= BACK_PRESSED_INTERVAL) {
                         backPressedTime = System.currentTimeMillis()
@@ -46,6 +47,7 @@ class OnBoardingActivity :
                         finish()
                     }
                 }
+
                 else -> {
                     navController.popBackStack()
                     progressBarMinus()
@@ -65,6 +67,7 @@ class OnBoardingActivity :
         when (navController.currentDestination?.id) {
             R.id.selectStudentFragment -> {
             }
+
             else -> {
                 navController.popBackStack()
                 progressBarMinus()
@@ -73,12 +76,15 @@ class OnBoardingActivity :
     }
 
     private fun getIntentExtraData() {
+        val bundle: Bundle? = intent.extras
         intent.apply {
-            viewModel.kakaoId = getLongExtra(EXTRA_KAKAO_ID, -1).toString()
-            viewModel.email = getStringExtra(EXTRA_EMAIL) ?: ""
-            viewModel.profileImg = getStringExtra(EXTRA_PROFILE_IMAGE) ?: ""
-            viewModel.name = getStringExtra(EXTRA_NAME) ?: ""
-            viewModel.gender = getStringExtra(EXTRA_GENDER) ?: ""
+            if (bundle != null) {
+                viewModel.kakaoId = bundle.getLong(EXTRA_KAKAO_ID, 0).toString()
+                viewModel.nameText.value = bundle.getString(EXTRA_NAME, "")
+                viewModel.gender = bundle.getString(EXTRA_GENDER, "")
+                viewModel.email = bundle.getString(EXTRA_EMAIL, "")
+                viewModel.profileImg = bundle.getString(EXTRA_PROFILE_IMAGE, "")
+            }
         }
     }
 
@@ -114,6 +120,7 @@ class OnBoardingActivity :
         animator.interpolator = LinearInterpolator()
         animator.start()
     }
+
     fun hideBackBtn() {
         binding.backBtn.visibility = View.INVISIBLE
     }

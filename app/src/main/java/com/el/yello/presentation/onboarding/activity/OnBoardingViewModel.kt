@@ -47,21 +47,14 @@ class OnBoardingViewModel @Inject constructor(
         _getValidYelloIdState.value = UiState.Loading
     }
 
-    fun signupRequestFromServer() {
-        val deviceToken = authRepository.getDeviceToken()
-        SignupInfo(
-            kakaoId = kakaoId,
-            email = email,
-            profileImg = profileImg,
-            groupId = groupId,
-            studentId = studentId,
-            name = name,
-            yelloId = id,
-            gender = gender,
-            friendList = selectedFriendIdList,
-            recommendId = codeText.value,
-            deviceToken = deviceToken,
-        )
+    // 이름 수정뷰 name
+    val nameText = MutableLiveData("")
+    val isValidName: LiveData<Boolean> = nameText.map { name -> checkName(name) }
+
+    private fun checkName(name: String) = Pattern.matches(REGEX_NAME_PATTERN, name)
+
+    val checkNameLength: LiveData<Boolean> = nameText.map { name ->
+        (name?.trim()?.length ?: 0) >= 2
     }
 
     val studentType = MutableLiveData("")
@@ -366,7 +359,6 @@ class OnBoardingViewModel @Inject constructor(
     var kakaoId: String = ""
     var email: String = ""
     var profileImg: String = ""
-    var name: String = ""
     var gender: String = ""
 
     fun postSignup() {
@@ -379,7 +371,7 @@ class OnBoardingViewModel @Inject constructor(
                     profileImg = profileImg,
                     groupId = groupId,
                     studentId = studentId,
-                    name = name,
+                    name = nameText.value.toString(),
                     yelloId = id,
                     gender = gender,
                     friendList = selectedFriendIdList,
@@ -409,10 +401,11 @@ class OnBoardingViewModel @Inject constructor(
                 }
         }
         AmplitudeUtils.updateUserProperties("user_sex", gender)
-        AmplitudeUtils.updateUserProperties("user_name", name)
+        AmplitudeUtils.updateUserProperties("user_name", nameText.value.toString())
     }
 
     companion object {
         private const val REGEX_ID_PATTERN = "^([A-Za-z0-9_.]*)\$"
+        private const val REGEX_NAME_PATTERN = "^([가-힣]*)\$"
     }
 }

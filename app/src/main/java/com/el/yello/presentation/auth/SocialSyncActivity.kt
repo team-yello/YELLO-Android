@@ -2,12 +2,13 @@ package com.el.yello.presentation.auth
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
 import androidx.activity.viewModels
+import androidx.core.view.isVisible
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import com.el.yello.R
 import com.el.yello.databinding.ActivitySocialSyncBinding
+import com.el.yello.presentation.auth.SignInActivity.Companion.CHECK_NAME_DIALOG
 import com.el.yello.presentation.auth.SignInActivity.Companion.EXTRA_EMAIL
 import com.el.yello.presentation.auth.SignInActivity.Companion.EXTRA_GENDER
 import com.el.yello.presentation.auth.SignInActivity.Companion.EXTRA_KAKAO_ID
@@ -59,37 +60,31 @@ class SocialSyncActivity :
     }
 
     private fun startCheckNameDialog() {
+        checkNameDialog = CheckNameDialog()
         intent.apply {
-            val kakaoId = getLongExtra(EXTRA_KAKAO_ID, -1)
-            val email = getStringExtra(EXTRA_EMAIL)
-            val profileImage = getStringExtra(EXTRA_PROFILE_IMAGE)
-            val name = getStringExtra(EXTRA_NAME)
-            val gender = getStringExtra(EXTRA_GENDER)
+            val userKakaoId = getLongExtra(EXTRA_KAKAO_ID, -1)
+            val userEmail = getStringExtra(EXTRA_EMAIL)
+            val userImage = getStringExtra(EXTRA_PROFILE_IMAGE)
+            val userName = getStringExtra(EXTRA_NAME)
+            val userGender = getStringExtra(EXTRA_GENDER)
             val bundle = Bundle().apply {
-                putLong("EXTRA_KAKAO_ID", kakaoId)
-                putString("EXTRA_NAME", name)
-                putString("EXTRA_GENDER", gender)
-                putString("EXTRA_EMAIL", email)
-                putString("EXTRA_PROFILE_IMAGE", profileImage)
+                putLong(EXTRA_KAKAO_ID, userKakaoId)
+                putString(EXTRA_NAME, userName)
+                putString(EXTRA_GENDER, userGender)
+                putString(EXTRA_EMAIL, userEmail)
+                putString(EXTRA_PROFILE_IMAGE, userImage)
             }
-            if (name.toString().isBlank() || name.toString().isEmpty() || name.toString().isNullOrEmpty() || name.toString().isNullOrBlank()) {
-                val bundle = Bundle().apply {
-                    putLong("EXTRA_KAKAO_ID", kakaoId)
-                    putString("EXTRA_NAME", name)
-                    putString("EXTRA_GENDER", gender)
-                    putString("EXTRA_EMAIL", email)
-                    putString("EXTRA_PROFILE_IMAGE", profileImage)
+            if (userName?.isBlank() == true || userName?.isEmpty() == true) {
+                Intent(SocialSyncActivity(), EditNameActivity::class.java).apply {
+                    putExtras(bundle)
+                    startActivity(this)
                 }
-                val intent = Intent(SocialSyncActivity(), EditNameActivity::class.java)
-                intent.putExtras(bundle)
-                startActivity(intent)
+                finish()
+            } else {
+                binding.layoutSocialSync.isVisible = false
+                checkNameDialog?.arguments = bundle
+                checkNameDialog?.show(supportFragmentManager, CHECK_NAME_DIALOG)
             }
-            binding.tvSocialSyncTitle.visibility = View.GONE
-            binding.tvSocialSyncSubtitle.visibility = View.GONE
-            binding.ivSocialSync.visibility = View.GONE
-            binding.btnSocialSync.visibility = View.GONE
-            checkNameDialog?.arguments = bundle
-            checkNameDialog?.show(supportFragmentManager, SignInActivity.CHECK_NAME_DIALOG)
         }
     }
 }

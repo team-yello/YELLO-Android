@@ -186,7 +186,7 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
     private fun startCheckNameDialog() {
         checkNameDialog = CheckNameDialog()
         val bundle = Bundle().apply { addPutExtra() }
-        if (userName.isBlank() || userName.isEmpty() || userName.isEmpty() || userName.isBlank()) {
+        if (userName.isBlank() || userName.isEmpty()) {
             Intent(SignInActivity(), EditNameActivity::class.java).apply {
                 putExtras(bundle)
                 addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
@@ -209,6 +209,7 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
         addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
     }
 
+
     private fun Bundle.addPutExtra() {
         putLong(EXTRA_KAKAO_ID, userKakaoId)
         putString(EXTRA_NAME, userName)
@@ -216,7 +217,6 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
         putString(EXTRA_EMAIL, userEmail)
         putString(EXTRA_PROFILE_IMAGE, userImage)
     }
-
     companion object {
         const val EXTRA_KAKAO_ID = "KAKAO_ID"
         const val EXTRA_EMAIL = "KAKAO_EMAIL"

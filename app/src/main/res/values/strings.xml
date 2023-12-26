@@ -63,7 +63,7 @@
     <string name="onboarding_tv_code_subtitle_1">추천인의 아이디를 입력하면</string>
     <string name="onboarding_tv_code_subtitle_2">+100</string>
     <string name="onboarding_tv_code_subtitle_3">point!</string>
-    <string name="onboarding_btn_code_skip"><u>건너뛰기</u></string>
+    <string name="onboarding_btn_code_skip">건너뛰기</string>
     <string name="onboarding_tv_startapp_title">띵동! 쪽지 도착 </string>
     <string name="onboarding_tv_startapp_subtitle">친구들이 비밀 쪽지를 보내면\n 알림을 드릴게요. </string>
     <string name="onboarding_tv_start_yello">쪽지 알림 받기</string>

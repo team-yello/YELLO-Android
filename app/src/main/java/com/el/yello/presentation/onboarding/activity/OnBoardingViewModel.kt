@@ -152,7 +152,7 @@ class OnBoardingViewModel @Inject constructor(
     }
 
     fun addUniversityStudentId() {
-        val studentIdList = listOf(15, 16, 17, 18, 19, 20, 21, 22, 23)
+        val studentIdList = listOf(15, 16, 17, 18, 19, 20, 21, 22, 23, 24)
         _studentIdResult.value = studentIdList
     }
 

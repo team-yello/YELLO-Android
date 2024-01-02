@@ -30,13 +30,13 @@ import javax.inject.Inject
 class SignInViewModel @Inject constructor(
     private val onboardingRepository: OnboardingRepository,
     private val authRepository: AuthRepository,
-    private val profileRepository: ProfileRepository
+    private val profileRepository: ProfileRepository,
 ) : ViewModel() {
 
     private val _postChangeTokenState = MutableStateFlow<UiState<AuthTokenModel>>(UiState.Empty)
     val postChangeTokenState: StateFlow<UiState<AuthTokenModel?>> = _postChangeTokenState
 
-    private val _getUserProfileState = MutableStateFlow<UiState<ProfileUserModel>>(UiState.Empty)
+    private val _getUserProfileState = MutableStateFlow<UiState<ProfileUserModel>>(UiState.Loading)
     val getUserProfileState: StateFlow<UiState<ProfileUserModel>> = _getUserProfileState
 
     private val _getKakaoInfoState = MutableStateFlow<UiState<User>>(UiState.Empty)
@@ -57,6 +57,11 @@ class SignInViewModel @Inject constructor(
 
     var isResigned = false
         private set
+
+    init {
+        initLoginState()
+        storeDeviceToken()
+    }
 
     private var webLoginCallback: (OAuthToken?, Throwable?) -> Unit = { token, error ->
         if (error == null && token != null) {
@@ -81,7 +86,7 @@ class SignInViewModel @Inject constructor(
         }
     }
 
-    fun initLoginState() {
+    private fun initLoginState() {
         _isAppLoginAvailable.value = true
         _getDeviceTokenError.value = false
     }
@@ -102,7 +107,6 @@ class SignInViewModel @Inject constructor(
         }
     }
 
-    // 카카오 통신 - 카카오 유저 정보 받아오기
     fun getKakaoInfo() {
         UserApiClient.instance.me { user, _ ->
             _getKakaoInfoState.value = UiState.Loading
@@ -131,43 +135,48 @@ class SignInViewModel @Inject constructor(
         }
     }
 
-    // 서버통신 - 카카오 토큰 보내서 서비스 토큰 받아오기
+    // 서버 통신 - 카카오 토큰 보내서 서비스 토큰 받아오기
     private fun changeTokenFromServer(
         accessToken: String,
         social: String = KAKAO,
-        deviceToken: String
+        deviceToken: String,
     ) {
         _postChangeTokenState.value = UiState.Loading
         viewModelScope.launch {
             onboardingRepository.postTokenToServiceToken(
                 AuthTokenRequestModel(accessToken, social, deviceToken),
             )
-                .onSuccess {
-                    if (it == null) {
+                .onSuccess { authToken ->
+                    if (authToken == null) {
                         _postChangeTokenState.value = UiState.Empty
                         return@launch
                     }
-                    authRepository.setAutoLogin(it.accessToken, it.refreshToken)
-                    isResigned = it.isResigned
-                    _postChangeTokenState.value = UiState.Success(it)
+                    authRepository.setAutoLogin(authToken.accessToken, authToken.refreshToken)
+                    isResigned = authToken.isResigned
+                    _postChangeTokenState.value = UiState.Success(authToken)
                 }
                 .onFailure {
-                    val errorMessage = when {
-                        it is HttpException && it.code() == 403 -> CODE_NOT_SIGNED_IN
-                        it is HttpException && it.code() == 404 -> CODE_NO_UUID
-                        else -> ERROR
+                    if (it is HttpException) {
+                        val errorMessage = when (it.code()) {
+                            403 -> CODE_NOT_SIGNED_IN
+                            404 -> CODE_NO_UUID
+                            else -> ERROR
+                        }
+                        _postChangeTokenState.value = UiState.Failure(errorMessage)
                     }
-                    _postChangeTokenState.value = UiState.Failure(errorMessage)
                 }
         }
     }
 
-    // 서버통신 - (가입되어 있는) 유저 정보 가져오기
     fun getUserDataFromServer() {
         _getUserProfileState.value = UiState.Loading
         viewModelScope.launch {
             profileRepository.getUserData()
                 .onSuccess { profile ->
+                    if (profile == null) {
+                        _getUserProfileState.value = UiState.Empty
+                    }
+
                     if (profile != null) {
                         _getUserProfileState.value = UiState.Success(profile)
                         authRepository.setYelloId(profile.yelloId)
@@ -181,8 +190,7 @@ class SignInViewModel @Inject constructor(
         }
     }
 
-    // 디바이스 토큰 FCM에서 받아 로컬에 저장
-    fun getDeviceToken() {
+    private fun storeDeviceToken() {
         FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
             if (task.isSuccessful && task.result.isNotEmpty()) {
                 deviceToken = task.result

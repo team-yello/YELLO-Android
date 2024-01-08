@@ -24,6 +24,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -64,11 +65,16 @@ class SignInViewModel @Inject constructor(
     }
 
     private var webLoginCallback: (OAuthToken?, Throwable?) -> Unit = { token, error ->
+        Timber.d("NONERESPONSETEST : web login callback called")
         if (error == null && token != null) {
+            Timber.d("NONRESPONSETEST : call change token from server")
             changeTokenFromServer(
                 accessToken = token.accessToken,
                 deviceToken = deviceToken,
             )
+        } else {
+            Timber.d("NONERESPONSETEST : error or token is null \n error : $error \n token : $token")
+            _getKakaoValidState.value = UiState.Failure(ERROR)
         }
     }
 
@@ -83,6 +89,8 @@ class SignInViewModel @Inject constructor(
                 accessToken = token.accessToken,
                 deviceToken = deviceToken,
             )
+        } else {
+            Timber.d("NONERESPONSETEST : error or token is null \n error : $error \n token : $token")
         }
     }
 
@@ -93,12 +101,14 @@ class SignInViewModel @Inject constructor(
 
     fun startKakaoLogIn(context: Context) {
         if (UserApiClient.instance.isKakaoTalkLoginAvailable(context) && isAppLoginAvailable.value) {
+            Timber.d("NONRESPONSETEST : Kakaotalk login available")
             UserApiClient.instance.loginWithKakaoTalk(
                 context = context,
                 callback = appLoginCallback,
                 serviceTerms = serviceTermsList,
             )
         } else {
+            Timber.d("NONRESPONSETEST : Kakaotalk login unavailable")
             UserApiClient.instance.loginWithKakaoAccount(
                 context = context,
                 callback = webLoginCallback,

@@ -71,7 +71,8 @@ class LookFragment : BindingFragment<FragmentLookBinding>(R.layout.fragment_look
             inviteFriendDialog =
                 InviteFriendDialog.newInstance(viewModel.getYelloId(), TIMELINE_NO_FRIEND)
             AmplitudeUtils.trackEventWithProperties(
-                "click_invite", JSONObject().put("invite_view", TIMELINE_NO_FRIEND)
+                "click_invite",
+                JSONObject().put("invite_view", TIMELINE_NO_FRIEND),
             )
             inviteFriendDialog?.show(parentFragmentManager, INVITE_DIALOG)
         }
@@ -102,7 +103,6 @@ class LookFragment : BindingFragment<FragmentLookBinding>(R.layout.fragment_look
                 adapter.submitData(lifecycle, pagingData)
             }.launchIn(viewLifecycleOwner.lifecycleScope)
     }
-
 
     private fun observePagingLoadingState() {
         adapter.loadStateFlow.flowWithLifecycle(viewLifecycleOwner.lifecycle)

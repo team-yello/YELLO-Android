@@ -12,7 +12,7 @@ import com.el.yello.presentation.main.profile.ProfileViewModel.Companion.BASIC_T
 import com.example.domain.entity.LookListModel.LookModel
 
 class LookViewHolder(
-    val binding: ItemLookBinding
+    val binding: ItemLookBinding,
 ) : RecyclerView.ViewHolder(binding.root) {
 
     fun onBind(item: LookModel) {
@@ -29,7 +29,6 @@ class LookViewHolder(
                 if (item.vote.nameHead.isNullOrEmpty()) View.GONE else View.VISIBLE
             tvKeywordHead.visibility =
                 if (item.vote.keywordHead.isNullOrEmpty()) View.GONE else View.VISIBLE
-
         }
 
         item.receiverProfileImage.let { thumbnail ->
@@ -59,7 +58,8 @@ class LookViewHolder(
             }
         } else {
             binding.tvKeyword.background = ContextCompat.getDrawable(
-                itemView.context, R.drawable.shape_grayscales800_fill_grayscales700_dashline_4_rect
+                itemView.context,
+                R.drawable.shape_grayscales800_fill_grayscales700_dashline_4_rect,
             )
             setItemViewTextColor(binding.tvKeyword, R.color.grayscales_800)
         }
@@ -68,8 +68,9 @@ class LookViewHolder(
     private fun setItemViewTextColor(textView: TextView, resourceId: Int) {
         textView.setTextColor(
             ContextCompat.getColor(
-                itemView.context, resourceId
-            )
+                itemView.context,
+                resourceId,
+            ),
         )
     }
 

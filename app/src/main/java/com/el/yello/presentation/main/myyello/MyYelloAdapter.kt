@@ -20,7 +20,7 @@ class MyYelloAdapter(private val itemClick: (Yello, Int) -> (Unit)) :
         val binding = ItemMyYelloBinding.inflate(
             LayoutInflater.from(parent.context),
             parent,
-            false
+            false,
         )
         return MyYelloViewHolder(binding, itemClick)
     }
@@ -56,42 +56,54 @@ class MyYelloAdapter(private val itemClick: (Yello, Int) -> (Unit)) :
 
     class MyYelloViewHolder(
         private val binding: ItemMyYelloBinding,
-        private val itemClick: (Yello, Int) -> Unit
+        private val itemClick: (Yello, Int) -> Unit,
     ) : RecyclerView.ViewHolder(binding.root) {
         fun onBind(item: Yello, position: Int) {
             binding.data = item
             binding.ivReadYelloPoint.isVisible = !item.isRead
             binding.tvTime.text = item.createdAt
             binding.clSendCheck.isVisible = (item.isHintUsed || item.nameHint != -1) && item.isRead
-            binding.clMiddle.isGone = !item.isHintUsed && (item.nameHint == -2 || item.nameHint == -3) && item.isRead
-            binding.clBottom.isGone = !item.isHintUsed && (item.nameHint == -2 || item.nameHint == -3) && item.isRead
+            binding.clMiddle.isGone =
+                !item.isHintUsed && (item.nameHint == -2 || item.nameHint == -3) && item.isRead
+            binding.clBottom.isGone =
+                !item.isHintUsed && (item.nameHint == -2 || item.nameHint == -3) && item.isRead
             binding.tvGender.isVisible = (!item.isHintUsed && item.nameHint == -1) || !item.isRead
             binding.cardMyYello.setCardBackgroundColor(
                 ContextCompat.getColor(
                     itemView.context,
-                    R.color.grayscales_900
-                )
+                    R.color.grayscales_900,
+                ),
             )
-            binding.tvTime.setTextColor(ContextCompat.getColor(itemView.context, R.color.grayscales_600))
+            binding.tvTime.setTextColor(
+                ContextCompat.getColor(
+                    itemView.context,
+                    R.color.grayscales_600,
+                ),
+            )
             if (item.gender == GenderEnum.M) {
                 if ((item.isHintUsed || item.nameHint != -1) && item.isRead) {
                     binding.cardMyYello.setCardBackgroundColor(
                         ContextCompat.getColor(
                             itemView.context,
-                            R.color.semantic_gender_m_700
-                        )
+                            R.color.semantic_gender_m_700,
+                        ),
                     )
                     ContextCompat.getColor(itemView.context, R.color.semantic_gender_m_300).apply {
                         binding.tvSendName.setTextColor(this)
                         binding.tvSendNameEnd.setTextColor(this)
                     }
-                    binding.tvTime.setTextColor(ContextCompat.getColor(itemView.context, R.color.semantic_gender_m_500))
+                    binding.tvTime.setTextColor(
+                        ContextCompat.getColor(
+                            itemView.context,
+                            R.color.semantic_gender_m_500,
+                        ),
+                    )
                 }
                 binding.ivYello.setImageDrawable(
                     ContextCompat.getDrawable(
                         itemView.context,
-                        R.drawable.ic_yello_blue
-                    )
+                        R.drawable.ic_yello_blue,
+                    ),
                 )
                 binding.tvGender.text = "남학생이 보냄"
             } else {
@@ -99,20 +111,25 @@ class MyYelloAdapter(private val itemClick: (Yello, Int) -> (Unit)) :
                     binding.cardMyYello.setCardBackgroundColor(
                         ContextCompat.getColor(
                             itemView.context,
-                            R.color.semantic_gender_f_700
-                        )
+                            R.color.semantic_gender_f_700,
+                        ),
                     )
                     ContextCompat.getColor(itemView.context, R.color.semantic_gender_f_300).apply {
                         binding.tvSendName.setTextColor(this)
                         binding.tvSendNameEnd.setTextColor(this)
                     }
-                    binding.tvTime.setTextColor(ContextCompat.getColor(itemView.context, R.color.semantic_gender_f_500))
+                    binding.tvTime.setTextColor(
+                        ContextCompat.getColor(
+                            itemView.context,
+                            R.color.semantic_gender_f_500,
+                        ),
+                    )
                 }
                 binding.ivYello.setImageDrawable(
                     ContextCompat.getDrawable(
                         itemView.context,
-                        R.drawable.ic_yello_pink
-                    )
+                        R.drawable.ic_yello_pink,
+                    ),
                 )
                 binding.tvGender.text = "여학생이 보냄"
             }
@@ -128,7 +145,7 @@ class MyYelloAdapter(private val itemClick: (Yello, Int) -> (Unit)) :
                 }
                 binding.clSendName.isVisible = item.nameHint != -1
             }
-            if(item.nameHint == -2 || item.nameHint == -3) {
+            if (item.nameHint == -2 || item.nameHint == -3) {
                 binding.tvSendName.text = item.senderName
             }
 
@@ -138,4 +155,3 @@ class MyYelloAdapter(private val itemClick: (Yello, Int) -> (Unit)) :
         }
     }
 }
-

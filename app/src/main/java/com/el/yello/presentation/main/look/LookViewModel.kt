@@ -19,7 +19,7 @@ import javax.inject.Inject
 @HiltViewModel
 class LookViewModel @Inject constructor(
     private val lookService: LookService,
-    private val authRepository: AuthRepository
+    private val authRepository: AuthRepository,
 ) : ViewModel() {
 
     private val _isFirstLoading = MutableStateFlow(true)
@@ -32,7 +32,7 @@ class LookViewModel @Inject constructor(
     fun getLookListWithPaging(): Flow<PagingData<LookModel>> {
         return Pager(
             config = PagingConfig(LookPagingSource.LOOK_PAGE_SIZE),
-            pagingSourceFactory = { LookPagingSource(lookService) }
+            pagingSourceFactory = { LookPagingSource(lookService) },
         ).flow.cachedIn(viewModelScope)
     }
 

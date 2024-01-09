@@ -29,13 +29,14 @@ class ProfileViewModel @Inject constructor(
     private val profileRepository: ProfileRepository,
     private val authRepository: AuthRepository,
     private val yelloRepository: YelloRepository,
-    private val payRepository: PayRepository
+    private val payRepository: PayRepository,
 ) : ViewModel() {
 
     private val _getUserDataState = MutableStateFlow<UiState<ProfileUserModel>>(UiState.Empty)
     val getUserDataState: StateFlow<UiState<ProfileUserModel>> = _getUserDataState
 
-    private val _getFriendListState = MutableStateFlow<UiState<ProfileFriendsListModel>>(UiState.Empty)
+    private val _getFriendListState =
+        MutableStateFlow<UiState<ProfileFriendsListModel>>(UiState.Empty)
     val getFriendListState: StateFlow<UiState<ProfileFriendsListModel>> = _getFriendListState
 
     private val _deleteUserState = MutableStateFlow<UiState<Unit>>(UiState.Empty)
@@ -211,14 +212,15 @@ class ProfileViewModel @Inject constructor(
                     _getPurchaseInfoState.value = UiState.Failure(it.message.toString())
                 }
         }
-
     }
 
     fun getVoteCount() {
         viewModelScope.launch {
             yelloRepository.voteCount()
                 .onSuccess {
-                    if (it != null) { _voteCount.value = UiState.Success(it) }
+                    if (it != null) {
+                        _voteCount.value = UiState.Success(it)
+                    }
                 }
                 .onFailure {
                     _voteCount.value = UiState.Failure(it.message.toString())

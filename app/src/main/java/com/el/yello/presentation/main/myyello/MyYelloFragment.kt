@@ -62,7 +62,7 @@ class MyYelloFragment : BindingFragment<FragmentMyYelloBinding>(R.layout.fragmen
             )
         }
         binding.rvMyYelloReceive.addItemDecoration(
-            BaseLinearRcvItemDeco(8, 8, 0, 0, 5, RecyclerView.VERTICAL, 110)
+            BaseLinearRcvItemDeco(8, 8, 0, 0, 5, RecyclerView.VERTICAL, 110),
         )
         adapter?.setHasStableIds(true)
         binding.rvMyYelloReceive.adapter = adapter

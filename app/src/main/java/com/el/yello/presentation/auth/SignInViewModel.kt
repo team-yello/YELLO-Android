@@ -74,7 +74,7 @@ class SignInViewModel @Inject constructor(
             )
         } else {
             Timber.d("NONERESPONSETEST : error or token is null \n error : $error \n token : $token")
-            _getKakaoValidState.value = UiState.Failure(ERROR)
+            // TODO : 뷰에서 오류 메시지 출력
         }
     }
 
@@ -91,6 +91,7 @@ class SignInViewModel @Inject constructor(
             )
         } else {
             Timber.d("NONERESPONSETEST : error or token is null \n error : $error \n token : $token")
+            // TODO : 뷰에서 오류 메시지 출력
         }
     }
 

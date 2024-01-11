@@ -10,7 +10,7 @@ data class ResponseProfileFriendsListDto(
     @SerialName("totalCount")
     val totalCount: Int,
     @SerialName("friends")
-    val friends: List<ResponseProfileFriendModel>
+    val friends: List<ResponseProfileFriendModel>,
 ) {
     @Serializable
     data class ResponseProfileFriendModel(
@@ -27,22 +27,23 @@ data class ResponseProfileFriendsListDto(
         @SerialName("yelloCount")
         val yelloCount: Int,
         @SerialName("friendCount")
-        val friendCount: Int
+        val friendCount: Int,
     )
 
     fun toProfileFriendsListModel(): ProfileFriendsListModel {
         return ProfileFriendsListModel(
-            totalCount, friends.map {
+            totalCount,
+            friends.map {
                 ProfileUserModel(
-                    it.userId,
-                    it.name,
-                    it.profileImageUrl,
-                    it.group,
-                    it.yelloId,
+                    userId = it.userId,
+                    name = it.name,
+                    profileImageUrl = it.profileImageUrl,
+                    group = it.group,
+                    yelloId = it.yelloId,
                     yelloCount = it.yelloCount,
-                    friendCount = it.friendCount
+                    friendCount = it.friendCount,
                 )
-            }
+            },
         )
     }
 }

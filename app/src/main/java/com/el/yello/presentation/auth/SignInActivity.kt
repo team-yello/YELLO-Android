@@ -45,31 +45,19 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
         observeAppLoginError()
         observeKakaoUserInfoState()
         observeFriendsListValidState()
-        observeChangeTokenState()
+        observePostChangeTokenState()
         observeUserDataState()
     }
 
+    // TODO : UiState 하나로 병합
     private fun initSignInBtnListener() {
         binding.btnSignIn.setOnSingleClickListener {
             AmplitudeUtils.trackEventWithProperties("click_onboarding_kakao")
-            viewModel.startKakaoLogIn(this)
+            viewModel.getKakaoToken(this)
         }
     }
 
-    private fun observeDeviceTokenError() {
-        viewModel.getDeviceTokenError.flowWithLifecycle(lifecycle).onEach { error ->
-            if (error) toast(getString(R.string.sign_in_error_connection))
-        }.launchIn(lifecycleScope)
-    }
-
-    // 카카오톡 앱 로그인에 실패한 경우 웹 로그인 시도
-    private fun observeAppLoginError() {
-        viewModel.isAppLoginAvailable.flowWithLifecycle(lifecycle).onEach { available ->
-            if (!available) viewModel.startKakaoLogIn(this)
-        }.launchIn(lifecycleScope)
-    }
-
-    private fun observeChangeTokenState() {
+    private fun observePostChangeTokenState() {
         viewModel.postChangeTokenState.flowWithLifecycle(lifecycle).onEach { state ->
             when (state) {
                 is UiState.Success -> {
@@ -77,6 +65,7 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
                 }
 
                 is UiState.Failure -> {
+                    // TODO : when문으로 수정
                     if (state.msg == CODE_NOT_SIGNED_IN || state.msg == CODE_NO_UUID) {
                         viewModel.getKakaoInfo()
                     } else {
@@ -88,6 +77,42 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
 
                 is UiState.Empty -> return@onEach
             }
+        }.launchIn(lifecycleScope)
+    }
+
+    private fun observeUserDataState() {
+        viewModel.getUserProfileState.flowWithLifecycle(lifecycle).onEach { state ->
+            when (state) {
+                is UiState.Success -> {
+                    if (viewModel.getIsFirstLoginData()) {
+                        if (viewModel.isResigned) {
+                            startActivity(TutorialAActivity.newIntent(this, false))
+                        } else {
+                            startMainActivity()
+                        }
+                    } else {
+                        startActivity(Intent(this, GetAlarmActivity::class.java))
+                    }
+                }
+
+                is UiState.Failure -> yelloSnackbar(binding.root, getString(R.string.msg_error))
+
+                is UiState.Empty -> yelloSnackbar(binding.root, getString(R.string.msg_error))
+
+                is UiState.Loading -> return@onEach
+            }
+        }.launchIn(lifecycleScope)
+    }
+
+    private fun observeDeviceTokenError() {
+        viewModel.getDeviceTokenError.flowWithLifecycle(lifecycle).onEach { error ->
+            if (error) toast(getString(R.string.sign_in_error_connection))
+        }.launchIn(lifecycleScope)
+    }
+
+    private fun observeAppLoginError() {
+        viewModel.isAppLoginAvailable.flowWithLifecycle(lifecycle).onEach { available ->
+            if (!available) viewModel.getKakaoToken(this)
         }.launchIn(lifecycleScope)
     }
 
@@ -127,31 +152,6 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
                 is UiState.Failure -> yelloSnackbar(binding.root, getString(R.string.msg_error))
 
                 is UiState.Empty -> return@onEach
-
-                is UiState.Loading -> return@onEach
-            }
-        }.launchIn(lifecycleScope)
-    }
-
-    // Success -> 서버에 등록된 유저 정보가 있는지 확인 후 메인 액티비티로 이동
-    private fun observeUserDataState() {
-        viewModel.getUserProfileState.flowWithLifecycle(lifecycle).onEach { state ->
-            when (state) {
-                is UiState.Success -> {
-                    if (viewModel.getIsFirstLoginData()) {
-                        if (viewModel.isResigned) {
-                            startActivity(TutorialAActivity.newIntent(this, false))
-                        } else {
-                            startMainActivity()
-                        }
-                    } else {
-                        startActivity(Intent(this, GetAlarmActivity::class.java))
-                    }
-                }
-
-                is UiState.Failure -> yelloSnackbar(binding.root, getString(R.string.msg_error))
-
-                is UiState.Empty -> yelloSnackbar(binding.root, getString(R.string.msg_error))
 
                 is UiState.Loading -> return@onEach
             }
@@ -215,7 +215,7 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
 
     override fun onDestroy() {
         super.onDestroy()
-        checkNameDialog?.dismiss()
+        checkNameDialog = null
     }
 
     companion object {

@@ -59,62 +59,101 @@ class SignInViewModel @Inject constructor(
     var isResigned = false
         private set
 
-    init {
-        initLoginState()
-        storeDeviceToken()
-    }
-
     private var webLoginCallback: (OAuthToken?, Throwable?) -> Unit = { token, error ->
-        Timber.d("NONERESPONSETEST : web login callback called")
-        if (error == null && token != null) {
-            Timber.d("NONRESPONSETEST : call change token from server")
-            changeTokenFromServer(
+        if (error != null) {
+            Timber.e("login with kakao account error : $error")
+            // TODO : 뷰에서 오류 메시지 출력 (토큰 오류 state 설정)
+        } else if (token != null) {
+            getServiceToken(
                 accessToken = token.accessToken,
                 deviceToken = deviceToken,
             )
-        } else {
-            Timber.d("NONERESPONSETEST : error or token is null \n error : $error \n token : $token")
-            // TODO : 뷰에서 오류 메시지 출력
         }
     }
 
     private var appLoginCallback: (OAuthToken?, Throwable?) -> Unit = { token, error ->
         if (error != null) {
-            // 뒤로가기 경우 예외 처리
-            if (!(error is ClientError && error.reason == ClientErrorCause.Cancelled)) {
-                _isAppLoginAvailable.value = false
+            if (error is ClientError && error.reason == ClientErrorCause.Cancelled) {
+                _isAppLoginAvailable.value = false // TODO : 뒤로가기 state 설정
             }
+
+            Timber.e("login with kakao talk error : $error")
+            _isAppLoginAvailable.value = false // TODO : 토큰 오류 state 설정
         } else if (token != null) {
-            changeTokenFromServer(
+            getServiceToken(
                 accessToken = token.accessToken,
                 deviceToken = deviceToken,
             )
-        } else {
-            Timber.d("NONERESPONSETEST : error or token is null \n error : $error \n token : $token")
-            // TODO : 뷰에서 오류 메시지 출력
         }
     }
 
-    private fun initLoginState() {
-        _isAppLoginAvailable.value = true
-        _getDeviceTokenError.value = false
-    }
-
-    fun startKakaoLogIn(context: Context) {
+    fun getKakaoToken(context: Context) {
         if (UserApiClient.instance.isKakaoTalkLoginAvailable(context) && isAppLoginAvailable.value) {
-            Timber.d("NONRESPONSETEST : Kakaotalk login available")
             UserApiClient.instance.loginWithKakaoTalk(
                 context = context,
                 callback = appLoginCallback,
                 serviceTerms = serviceTermsList,
             )
         } else {
-            Timber.d("NONRESPONSETEST : Kakaotalk login unavailable")
             UserApiClient.instance.loginWithKakaoAccount(
                 context = context,
                 callback = webLoginCallback,
                 serviceTerms = serviceTermsList,
             )
+        }
+    }
+
+    private fun getServiceToken(
+        accessToken: String,
+        social: String = KAKAO,
+        deviceToken: String,
+    ) {
+        _postChangeTokenState.value = UiState.Loading
+        viewModelScope.launch {
+            onboardingRepository.postTokenToServiceToken(
+                AuthTokenRequestModel(accessToken, social, deviceToken),
+            )
+                .onSuccess { authToken ->
+                    if (authToken == null) {
+                        _postChangeTokenState.value = UiState.Empty
+                        return@launch
+                    }
+                    authRepository.setAutoLogin(authToken.accessToken, authToken.refreshToken)
+                    isResigned = authToken.isResigned
+                    _postChangeTokenState.value = UiState.Success(authToken)
+                }
+                .onFailure {
+                    if (it is HttpException) {
+                        val errorMessage = when (it.code()) {
+                            // TODO : 분기 처리 가독성 개선하기
+                            403 -> CODE_NOT_SIGNED_IN
+                            404 -> CODE_NO_UUID
+                            else -> ERROR
+                        }
+                        _postChangeTokenState.value = UiState.Failure(errorMessage)
+                    }
+                }
+        }
+    }
+
+    fun getUserDataFromServer() {
+        _getUserProfileState.value = UiState.Loading
+        viewModelScope.launch {
+            profileRepository.getUserData()
+                .onSuccess { profile ->
+                    if (profile == null) {
+                        _getUserProfileState.value = UiState.Empty
+                        return@onSuccess
+                    }
+
+                    _getUserProfileState.value = UiState.Success(profile)
+                    authRepository.setYelloId(profile.yelloId)
+                }
+                .onFailure { t ->
+                    if (t is HttpException) {
+                        _getUserProfileState.value = UiState.Failure(t.code().toString())
+                    }
+                }
         }
     }
 
@@ -143,61 +182,6 @@ class SignInViewModel @Inject constructor(
             } else {
                 _getKakaoValidState.value = UiState.Failure(ERROR)
             }
-        }
-    }
-
-    // 서버 통신 - 카카오 토큰 보내서 서비스 토큰 받아오기
-    private fun changeTokenFromServer(
-        accessToken: String,
-        social: String = KAKAO,
-        deviceToken: String,
-    ) {
-        _postChangeTokenState.value = UiState.Loading
-        viewModelScope.launch {
-            onboardingRepository.postTokenToServiceToken(
-                AuthTokenRequestModel(accessToken, social, deviceToken),
-            )
-                .onSuccess { authToken ->
-                    if (authToken == null) {
-                        _postChangeTokenState.value = UiState.Empty
-                        return@launch
-                    }
-                    authRepository.setAutoLogin(authToken.accessToken, authToken.refreshToken)
-                    isResigned = authToken.isResigned
-                    _postChangeTokenState.value = UiState.Success(authToken)
-                }
-                .onFailure {
-                    if (it is HttpException) {
-                        val errorMessage = when (it.code()) {
-                            403 -> CODE_NOT_SIGNED_IN
-                            404 -> CODE_NO_UUID
-                            else -> ERROR
-                        }
-                        _postChangeTokenState.value = UiState.Failure(errorMessage)
-                    }
-                }
-        }
-    }
-
-    fun getUserDataFromServer() {
-        _getUserProfileState.value = UiState.Loading
-        viewModelScope.launch {
-            profileRepository.getUserData()
-                .onSuccess { profile ->
-                    if (profile == null) {
-                        _getUserProfileState.value = UiState.Empty
-                    }
-
-                    if (profile != null) {
-                        _getUserProfileState.value = UiState.Success(profile)
-                        authRepository.setYelloId(profile.yelloId)
-                    }
-                }
-                .onFailure { t ->
-                    if (t is HttpException) {
-                        _getUserProfileState.value = UiState.Failure(t.code().toString())
-                    }
-                }
         }
     }
 

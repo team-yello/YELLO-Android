@@ -10,22 +10,19 @@ import retrofit2.http.Query
 
 interface ProfileService {
 
-    @GET("/api/v1/user")
-    suspend fun getUserData(
-    ): BaseResponse<ResponseProfileUserDto>
+    @GET("/api/v2/user")
+    suspend fun getUserData(): BaseResponse<ResponseProfileUserDto>
 
     @GET("/api/v1/friend")
     suspend fun getFriendsData(
-        @Query("page") page: Int
+        @Query("page") page: Int,
     ): BaseResponse<ResponseProfileFriendsListDto>
 
     @DELETE("/api/v1/user")
-    suspend fun deleteUserData(
-    ): BaseResponse<Unit>
+    suspend fun deleteUserData(): BaseResponse<Unit>
 
     @DELETE("/api/v1/friend/{friendId}")
     suspend fun deleteFriendData(
-        @Path("friendId") friendId: Int
+        @Path("friendId") friendId: Int,
     ): BaseResponse<Unit>
-
 }

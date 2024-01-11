@@ -7,7 +7,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class ResponseProfileUserDto(
     @SerialName("userId")
-    val userId: Int,
+    val userId: Long,
     @SerialName("name")
     val name: String,
     @SerialName("yelloId")
@@ -57,6 +57,7 @@ data class ResponseProfileUserDto(
             yelloId = yelloId,
             yelloCount = yelloCount,
             friendCount = friendCount,
+            point = point,
         )
     }
 }

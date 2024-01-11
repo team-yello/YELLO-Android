@@ -15,7 +15,7 @@ data class ResponseProfileFriendsListDto(
     @Serializable
     data class ResponseProfileFriendModel(
         @SerialName("userId")
-        val userId: Int,
+        val userId: Long,
         @SerialName("name")
         val name: String,
         @SerialName("profileImageUrl")
@@ -28,6 +28,7 @@ data class ResponseProfileFriendsListDto(
         val yelloCount: Int,
         @SerialName("friendCount")
         val friendCount: Int,
+
     )
 
     fun toProfileFriendsListModel(): ProfileFriendsListModel {
@@ -42,6 +43,7 @@ data class ResponseProfileFriendsListDto(
                     yelloId = it.yelloId,
                     yelloCount = it.yelloCount,
                     friendCount = it.friendCount,
+                    point = 0,
                 )
             },
         )

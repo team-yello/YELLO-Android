@@ -23,6 +23,6 @@ interface ProfileService {
 
     @DELETE("/api/v1/friend/{friendId}")
     suspend fun deleteFriendData(
-        @Path("friendId") friendId: Int,
+        @Path("friendId") friendId: Long,
     ): BaseResponse<Unit>
 }

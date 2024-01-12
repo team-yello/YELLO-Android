@@ -70,8 +70,8 @@ class ProfileFriendDeleteBottomSheet :
                         toast(
                             getString(
                                 R.string.profile_delete_bottom_sheet_toast,
-                                viewModel.clickedUserData.name
-                            )
+                                viewModel.clickedUserData.name,
+                            ),
                         )
                         viewModel.setDeleteFriendStateEmpty()
                         this@ProfileFriendDeleteBottomSheet.dismiss()

@@ -158,7 +158,7 @@ class ProfileViewModel @Inject constructor(
     }
 
     // 서버 통신 - 친구 식제
-    fun deleteFriendDataToServer(friendId: Int) {
+    fun deleteFriendDataToServer(friendId: Long) {
         viewModelScope.launch {
             _deleteFriendState.value = UiState.Loading
             profileRepository.deleteFriendData(friendId)

@@ -3,8 +3,6 @@ package com.el.yello.presentation.auth
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.el.yello.presentation.auth.SignInActivity.Companion.CODE_NOT_SIGNED_IN
-import com.el.yello.presentation.auth.SignInActivity.Companion.CODE_NO_UUID
 import com.example.domain.entity.AuthTokenModel
 import com.example.domain.entity.AuthTokenRequestModel
 import com.example.domain.entity.ProfileUserModel
@@ -46,7 +44,13 @@ class SignInViewModel @Inject constructor(
     private val _getKakaoValidState = MutableStateFlow<UiState<List<Scope>>>(UiState.Empty)
     val getKakaoValidState: StateFlow<UiState<List<Scope>>> = _getKakaoValidState
 
-    private val serviceTermsList = listOf(THUMBNAIL, EMAIL, FRIEND_LIST, NAME, GENDER)
+    private val serviceTermsList = listOf(
+        SERVICE_TERM_THUMBNAIL,
+        SERVICE_TERM_EMAIL,
+        SERVICE_TERM_FRIEND_LIST,
+        SERVICE_TERM_NAME,
+        SERVICE_TERM_GENDER,
+    )
 
     private var deviceToken = String()
 
@@ -71,10 +75,11 @@ class SignInViewModel @Inject constructor(
         }
     }
 
-    private var appLoginCallback: (OAuthToken?, Throwable?) -> Unit = { token, error ->
+    private var appLoginCallback: (OAuthToken?, Throwable?) -> Unit = appLogin@{ token, error ->
         if (error != null) {
             if (error is ClientError && error.reason == ClientErrorCause.Cancelled) {
                 _isAppLoginAvailable.value = false // TODO : 뒤로가기 state 설정
+                return@appLogin
             }
 
             Timber.e("login with kakao talk error : $error")
@@ -105,13 +110,16 @@ class SignInViewModel @Inject constructor(
 
     private fun getServiceToken(
         accessToken: String,
-        social: String = KAKAO,
         deviceToken: String,
     ) {
         _postChangeTokenState.value = UiState.Loading
         viewModelScope.launch {
             onboardingRepository.postTokenToServiceToken(
-                AuthTokenRequestModel(accessToken, social, deviceToken),
+                AuthTokenRequestModel(
+                    accessToken = accessToken,
+                    social = SOCIAL_TYPE_KAKAO,
+                    deviceToken = deviceToken,
+                ),
             )
                 .onSuccess { authToken ->
                     if (authToken == null) {
@@ -126,9 +134,9 @@ class SignInViewModel @Inject constructor(
                     if (it is HttpException) {
                         val errorMessage = when (it.code()) {
                             // TODO : 분기 처리 가독성 개선하기
-                            403 -> CODE_NOT_SIGNED_IN
-                            404 -> CODE_NO_UUID
-                            else -> ERROR
+                            403 -> CODE_INVALID_USER
+                            404 -> CODE_INVALID_UUID
+                            else -> ""
                         }
                         _postChangeTokenState.value = UiState.Failure(errorMessage)
                     }
@@ -172,15 +180,16 @@ class SignInViewModel @Inject constructor(
     }
 
     fun checkFriendsListValid() {
-        val scopes = mutableListOf(FRIEND_LIST)
+        val scopes = mutableListOf(SERVICE_TERM_FRIEND_LIST)
         _getKakaoValidState.value = UiState.Loading
         UserApiClient.instance.scopes(scopes) { scopeInfo, error ->
             if (error != null) {
                 _getKakaoValidState.value = UiState.Failure(error.message.toString())
-            } else if (scopeInfo != null) {
+                return@scopes
+            }
+
+            if (scopeInfo != null) {
                 _getKakaoValidState.value = UiState.Success(scopeInfo.scopes ?: listOf())
-            } else {
-                _getKakaoValidState.value = UiState.Failure(ERROR)
             }
         }
     }
@@ -199,14 +208,15 @@ class SignInViewModel @Inject constructor(
     fun getIsFirstLoginData() = authRepository.getIsFirstLoginData()
 
     companion object {
-        const val KAKAO = "KAKAO"
+        const val SOCIAL_TYPE_KAKAO = "KAKAO"
 
-        const val THUMBNAIL = "profile_image"
-        const val EMAIL = "account_email"
-        const val FRIEND_LIST = "friends"
-        const val NAME = "name"
-        const val GENDER = "gender"
+        const val SERVICE_TERM_THUMBNAIL = "profile_image"
+        const val SERVICE_TERM_EMAIL = "account_email"
+        const val SERVICE_TERM_FRIEND_LIST = "friends"
+        const val SERVICE_TERM_NAME = "name"
+        const val SERVICE_TERM_GENDER = "gender"
 
-        const val ERROR = "error"
+        const val CODE_INVALID_USER = "403"
+        const val CODE_INVALID_UUID = "404"
     }
 }

@@ -8,7 +8,9 @@ import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import com.el.yello.R
 import com.el.yello.databinding.ActivitySignInBinding
-import com.el.yello.presentation.auth.SignInViewModel.Companion.FRIEND_LIST
+import com.el.yello.presentation.auth.SignInViewModel.Companion.CODE_INVALID_USER
+import com.el.yello.presentation.auth.SignInViewModel.Companion.CODE_INVALID_UUID
+import com.el.yello.presentation.auth.SignInViewModel.Companion.SERVICE_TERM_FRIEND_LIST
 import com.el.yello.presentation.main.MainActivity
 import com.el.yello.presentation.onboarding.activity.EditNameActivity
 import com.el.yello.presentation.onboarding.activity.GetAlarmActivity
@@ -66,10 +68,10 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
 
                 is UiState.Failure -> {
                     // TODO : when문으로 수정
-                    if (state.msg == CODE_NOT_SIGNED_IN || state.msg == CODE_NO_UUID) {
-                        viewModel.getKakaoInfo()
-                    } else {
-                        toast(getString(R.string.sign_in_error_connection))
+                    when (state.msg) {
+                        CODE_INVALID_USER -> viewModel.getKakaoInfo()
+                        CODE_INVALID_UUID -> viewModel.getKakaoInfo()
+                        else -> toast(getString(R.string.sign_in_error_connection))
                     }
                 }
 
@@ -141,7 +143,7 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
         viewModel.getKakaoValidState.flowWithLifecycle(lifecycle).onEach { state ->
             when (state) {
                 is UiState.Success -> {
-                    val friendScope = state.data.find { it.id == FRIEND_LIST }
+                    val friendScope = state.data.find { it.id == SERVICE_TERM_FRIEND_LIST }
                     if (friendScope?.agreed == true) {
                         startCheckNameDialog()
                     } else {
@@ -224,8 +226,6 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
         const val EXTRA_PROFILE_IMAGE = "PROFILE_IMAGE"
         const val EXTRA_NAME = "NAME"
         const val EXTRA_GENDER = "GENDER"
-        const val CODE_NOT_SIGNED_IN = "403"
-        const val CODE_NO_UUID = "404"
         const val CHECK_NAME_DIALOG = "CHECK_NAME_DIALOG"
     }
 }

@@ -79,7 +79,8 @@ class ProfileManageActivity :
     private fun initQuitBtnListener() {
         binding.btnProfileManageQuit.setOnSingleClickListener {
             AmplitudeUtils.trackEventWithProperties(
-                "click_profile_withdrawal", JSONObject().put("withdrawal_button", "withdrawal1")
+                "click_profile_withdrawal",
+                JSONObject().put("withdrawal_button", "withdrawal1"),
             )
             Intent(this, ProfileQuitOneActivity::class.java).apply {
                 addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)

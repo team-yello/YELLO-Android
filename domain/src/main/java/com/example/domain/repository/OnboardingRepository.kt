@@ -1,7 +1,7 @@
 package com.example.domain.repository
 
-import com.example.domain.entity.AuthTokenRequestModel
 import com.example.domain.entity.AuthTokenModel
+import com.example.domain.entity.AuthTokenRequestModel
 import com.example.domain.entity.onboarding.AddFriendListModel
 import com.example.domain.entity.onboarding.GroupHighSchool
 import com.example.domain.entity.onboarding.GroupList

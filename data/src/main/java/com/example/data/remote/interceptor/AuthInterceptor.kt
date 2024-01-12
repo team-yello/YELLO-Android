@@ -1,11 +1,9 @@
 package com.example.data.remote.interceptor
 
-import android.content.Context
 import com.example.data.model.response.BaseResponse
 import com.example.data.model.response.onboarding.ResponseAuthToken
 import com.example.domain.YelloDataStore
 import com.yello.data.BuildConfig.BASE_URL
-import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.serialization.json.Json
 import okhttp3.Interceptor
 import okhttp3.Request
@@ -17,7 +15,6 @@ import javax.inject.Inject
 class AuthInterceptor @Inject constructor(
     private val json: Json,
     private val dataStore: YelloDataStore,
-    @ApplicationContext private val context: Context,
 ) : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         Timber.d("ACCESS TOKEN : ${dataStore.userToken}")
@@ -38,11 +35,11 @@ class AuthInterceptor @Inject constructor(
                         .addHeader(HEADER_REFRESH_TOKEN, "Bearer ${dataStore.refreshToken}")
                         .build()
                     val refreshTokenResponse = chain.proceed(refreshTokenRequest)
-                    Timber.d("GET REFRESH TOKEN : $refreshTokenResponse")
+                    Timber.d("GET REFRESH TOKEN RESPONSE : $refreshTokenResponse")
 
                     if (refreshTokenResponse.isSuccessful) {
                         val responseToken = json.decodeFromString(
-                            refreshTokenResponse.body?.string().toString()
+                            refreshTokenResponse.body?.string().toString(),
                         ) as BaseResponse<ResponseAuthToken>
 
                         with(dataStore) {

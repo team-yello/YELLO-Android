@@ -15,9 +15,7 @@ class AuthRepositoryImpl @Inject constructor(
         yelloDataStore.refreshToken = refreshToken
     }
 
-    override fun getIsFirstLoginData(): Boolean {
-        return yelloDataStore.isFirstLogin
-    }
+    override fun getIsFirstLoginData() = yelloDataStore.isFirstLogin
 
     override fun getAutoLogin(): Boolean = yelloDataStore.isLogin
 

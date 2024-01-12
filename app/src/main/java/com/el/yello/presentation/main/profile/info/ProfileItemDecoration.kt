@@ -28,7 +28,7 @@ class ProfileItemDecoration(context: Context) : RecyclerView.ItemDecoration() {
     ) {
         super.getItemOffsets(outRect, view, parent, state)
 
-        // 헤더와 리스트 사이 디바이더 출력 안나오도록 설정
+        // 헤더와 리스트 사이 디바이더 출력 안 나오도록 설정
         val position = parent.getChildAdapterPosition(view)
         if (position == 0) {
             outRect.setEmpty()

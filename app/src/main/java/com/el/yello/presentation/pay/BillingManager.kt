@@ -84,12 +84,12 @@ class BillingManager(private val activity: Activity, private val callback: Billi
     private suspend fun getSubsProductDetails(): List<ProductDetails> {
         val subsProductList = ArrayList<Product>().apply {
             add(
-                Product.newBuilder().setProductId(YELLO_PLUS).setProductType(SUBS).build()
+                Product.newBuilder().setProductId(YELLO_PLUS).setProductType(SUBS).build(),
             )
         }
         val subsProductDetailList = withContext(Dispatchers.IO) {
             billingClient.queryProductDetails(
-                QueryProductDetailsParams.newBuilder().setProductList(subsProductList).build()
+                QueryProductDetailsParams.newBuilder().setProductList(subsProductList).build(),
             ).productDetailsList
         } ?: listOf()
         return subsProductDetailList
@@ -99,13 +99,13 @@ class BillingManager(private val activity: Activity, private val callback: Billi
         val inAppProductList = ArrayList<Product>().apply {
             listOf(YELLO_ONE, YELLO_TWO, YELLO_FIVE).forEach { productId ->
                 add(
-                    Product.newBuilder().setProductId(productId).setProductType(INAPP).build()
+                    Product.newBuilder().setProductId(productId).setProductType(INAPP).build(),
                 )
             }
         }
         val inAppProductDetailList = withContext(Dispatchers.IO) {
             billingClient.queryProductDetails(
-                QueryProductDetailsParams.newBuilder().setProductList(inAppProductList).build()
+                QueryProductDetailsParams.newBuilder().setProductList(inAppProductList).build(),
             ).productDetailsList
         } ?: listOf()
         return inAppProductDetailList
@@ -118,7 +118,7 @@ class BillingManager(private val activity: Activity, private val callback: Billi
 
         val productDetailsParamsList = listOf(
             BillingFlowParams.ProductDetailsParams.newBuilder().setProductDetails(productDetails)
-                .setOfferToken(offerToken ?: "").build()
+                .setOfferToken(offerToken ?: "").build(),
         )
         val billingFlowParams =
             BillingFlowParams.newBuilder().setProductDetailsParamsList(productDetailsParamsList)
@@ -171,7 +171,7 @@ class BillingManager(private val activity: Activity, private val callback: Billi
     // 구매 표시 안된 소비성 아이템 찾아 소비 완료 다시 실행, 모두 완료 확인 후 성공 설정
     private fun checkConsumable(purchasedItem: Purchase) {
         billingClient.queryPurchasesAsync(
-            QueryPurchasesParams.newBuilder().setProductType(ProductType.INAPP).build()
+            QueryPurchasesParams.newBuilder().setProductType(ProductType.INAPP).build(),
         ) { billingResult, purchaseList ->
             if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
                 if (purchaseList.isNotEmpty()) {

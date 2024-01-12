@@ -55,7 +55,7 @@ class PayInAppDialog :
 
     private fun setDialogByItem() {
         when (viewModel.currentInAppItem) {
-           YELLO_ONE -> {
+            YELLO_ONE -> {
                 binding.tvPayDialogSubtitle1.text = getString(R.string.pay_dialog_in_app_title_1)
                 binding.ivPayInApp.load(R.drawable.ic_pay_in_app_1)
             }

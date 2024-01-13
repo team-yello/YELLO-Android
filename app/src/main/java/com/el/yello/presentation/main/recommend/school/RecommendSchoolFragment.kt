@@ -80,7 +80,8 @@ class RecommendSchoolFragment :
             inviteYesFriendDialog =
                 InviteFriendDialog.newInstance(viewModel.getYelloId(), SCHOOL_YES_FRIEND)
             AmplitudeUtils.trackEventWithProperties(
-                "click_invite", JSONObject().put("invite_view", SCHOOL_YES_FRIEND)
+                "click_invite",
+                JSONObject().put("invite_view", SCHOOL_YES_FRIEND),
             )
             inviteYesFriendDialog?.show(parentFragmentManager, INVITE_DIALOG)
         }
@@ -89,7 +90,8 @@ class RecommendSchoolFragment :
             inviteNoFriendDialog =
                 InviteFriendDialog.newInstance(viewModel.getYelloId(), SCHOOL_NO_FRIEND)
             AmplitudeUtils.trackEventWithProperties(
-                "click_invite", JSONObject().put("invite_view", SCHOOL_NO_FRIEND)
+                "click_invite",
+                JSONObject().put("invite_view", SCHOOL_NO_FRIEND),
             )
             inviteNoFriendDialog?.show(parentFragmentManager, INVITE_DIALOG)
         }

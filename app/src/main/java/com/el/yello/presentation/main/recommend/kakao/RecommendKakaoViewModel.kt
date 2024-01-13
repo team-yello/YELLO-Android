@@ -78,7 +78,7 @@ class RecommendKakaoViewModel @Inject constructor(
                 totalPage = ceil((friends.totalCount * 0.01)).toInt() - 1
                 if (totalPage == currentPage) isPagingFinish = true
                 getListFromServer(
-                    friends.elements?.map { friend -> friend.id.toString() } ?: listOf()
+                    friends.elements?.map { friend -> friend.id.toString() } ?: listOf(),
                 )
             }
         }

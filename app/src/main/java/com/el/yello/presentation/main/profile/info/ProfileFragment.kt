@@ -117,7 +117,8 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
             if (!viewModel.isItemBottomSheetRunning) {
                 AmplitudeUtils.trackEventWithProperties("click_profile_friend")
                 ProfileFriendItemBottomSheet().show(
-                    parentFragmentManager, ITEM_BOTTOM_SHEET
+                    parentFragmentManager,
+                    ITEM_BOTTOM_SHEET,
                 )
             }
         }, {
@@ -127,7 +128,8 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
         }, {
             // 헤더 상점 버튼 클릭 리스너 설정
             AmplitudeUtils.trackEventWithProperties(
-                "click_go_shop", JSONObject().put("shop_button", "profile_shop")
+                "click_go_shop",
+                JSONObject().put("shop_button", "profile_shop"),
             )
             Intent(activity, PayActivity::class.java).apply {
                 addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)

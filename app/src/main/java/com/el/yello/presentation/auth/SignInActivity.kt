@@ -67,7 +67,6 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
                 }
 
                 is UiState.Failure -> {
-                    // TODO : when문으로 수정
                     when (state.msg) {
                         CODE_INVALID_USER -> viewModel.getKakaoInfo()
                         CODE_INVALID_UUID -> viewModel.getKakaoInfo()

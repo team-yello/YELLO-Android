@@ -132,13 +132,12 @@ class SignInViewModel @Inject constructor(
                 }
                 .onFailure {
                     if (it is HttpException) {
-                        val errorMessage = when (it.code()) {
-                            // TODO : 분기 처리 가독성 개선하기
+                        val errorCode = when (it.code()) {
                             403 -> CODE_INVALID_USER
                             404 -> CODE_INVALID_UUID
-                            else -> ""
+                            else -> CODE_UNKNOWN_ERROR
                         }
-                        _postChangeTokenState.value = UiState.Failure(errorMessage)
+                        _postChangeTokenState.value = UiState.Failure(errorCode)
                     }
                 }
         }
@@ -218,5 +217,6 @@ class SignInViewModel @Inject constructor(
 
         const val CODE_INVALID_USER = "403"
         const val CODE_INVALID_UUID = "404"
+        const val CODE_UNKNOWN_ERROR = "100"
     }
 }

@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/black">
+
+        <ImageView
+            android:id="@+id/btn_notice_resubscribe_quit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="12dp"
+            android:paddingHorizontal="8dp"
+            android:paddingVertical="8dp"
+            android:src="@drawable/ic_notice_resubscribe_exit"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_notice_resubscribe_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="49dp"
+            android:text="@string/notice_resubscribe_title"
+            android:textAppearance="@style/TextAppearance.Yello.Headline01"
+            android:textColor="@color/white"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_notice_resubscribe_subtitle_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:textAppearance="@style/TextAppearance.Yello.Subtitle01"
+            android:textColor="@color/white"
+            app:layout_constraintStart_toStartOf="@+id/tv_notice_resubscribe_title"
+            app:layout_constraintTop_toBottomOf="@id/tv_notice_resubscribe_title"
+            tools:text="2023-08-26" />
+
+        <TextView
+            android:id="@+id/tv_notice_resubscribe_subtitle_second"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:text="@string/notice_resubscribe_subtitle_second"
+            android:textAppearance="@style/TextAppearance.Yello.Subtitle01"
+            android:textColor="@color/white"
+            app:layout_constraintStart_toEndOf="@+id/tv_notice_resubscribe_subtitle_date"
+            app:layout_constraintTop_toTopOf="@+id/tv_notice_resubscribe_subtitle_date" />
+
+        <TextView
+            android:id="@+id/tv_notice_resubscribe_subtitle_thrid"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/notice_resubscribe_subtitle_third"
+            android:textAppearance="@style/TextAppearance.Yello.Subtitle01"
+            android:textColor="@color/white"
+            app:layout_constraintStart_toStartOf="@+id/tv_notice_resubscribe_subtitle_date"
+            app:layout_constraintTop_toBottomOf="@+id/tv_notice_resubscribe_subtitle_date" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_notice_resubscribe_benefit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="22dp"
+            android:background="@drawable/shape_grayscales900_fill_12_rect"
+            android:paddingBottom="22dp"
+            app:layout_constraintTop_toBottomOf="@id/tv_notice_resubscribe_subtitle_thrid">
+
+            <ImageView
+                android:id="@+id/iv_benefit_one"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="22dp"
+                android:src="@drawable/ic_notice_subscribe_one"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_benefit_one"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:text="@string/notice_resubscribe_benefit_one"
+                android:textAppearance="@style/TextAppearance.Yello.BodyLarge"
+                android:textColor="@color/grayscales_400"
+                app:layout_constraintBottom_toBottomOf="@+id/iv_benefit_one"
+                app:layout_constraintStart_toEndOf="@id/iv_benefit_one"
+                app:layout_constraintTop_toTopOf="@+id/iv_benefit_one" />
+
+            <ImageView
+                android:id="@+id/iv_benefit_two"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="22dp"
+                android:src="@drawable/ic_notice_subscribe_two"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/iv_benefit_one" />
+
+            <TextView
+                android:id="@+id/tv_benefit_two"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:text="@string/notice_resubscribe_benefit_two"
+                android:textAppearance="@style/TextAppearance.Yello.BodyLarge"
+                android:textColor="@color/grayscales_400"
+                app:layout_constraintBottom_toBottomOf="@+id/iv_benefit_two"
+                app:layout_constraintStart_toEndOf="@id/iv_benefit_two"
+                app:layout_constraintTop_toTopOf="@+id/iv_benefit_two" />
+
+            <ImageView
+                android:id="@+id/iv_benefit_three"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="22dp"
+                android:src="@drawable/ic_notice_subscribe_three"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/iv_benefit_two" />
+
+            <TextView
+                android:id="@+id/tv_benefit_three"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:text="@string/notice_resubscribe_benefit_third"
+                android:textAppearance="@style/TextAppearance.Yello.BodyLarge"
+                android:textColor="@color/grayscales_400"
+                app:layout_constraintBottom_toBottomOf="@+id/iv_benefit_three"
+                app:layout_constraintStart_toEndOf="@id/iv_benefit_three"
+                app:layout_constraintTop_toTopOf="@+id/iv_benefit_three" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/notice_subscribe_subtitle_end"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:text="@string/notice_resubscribe_subtitle_end"
+            android:textAppearance="@style/TextAppearance.Yello.Headline01"
+            android:textColor="@color/white"
+            app:layout_constraintStart_toStartOf="@+id/layout_notice_resubscribe_benefit"
+            app:layout_constraintTop_toBottomOf="@id/layout_notice_resubscribe_benefit" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="42dp"
+            android:background="@drawable/shape_purple_gradient_100dp"
+            android:paddingVertical="20dp"
+            android:text="@string/notice_resubscribe_button_tv"
+            android:textAlignment="center"
+            android:textAppearance="@style/TextAppearance.Yello.Subtitle02"
+            android:textColor="@color/white"
+            app:layout_constraintTop_toBottomOf="@+id/notice_subscribe_subtitle_end" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

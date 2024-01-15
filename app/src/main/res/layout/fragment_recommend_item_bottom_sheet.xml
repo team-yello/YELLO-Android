@@ -9,7 +9,7 @@
 
         <variable
             name="vm"
-            type="com.el.yello.presentation.main.profile.ProfileViewModel" />
+            type="com.el.yello.presentation.main.recommend.kakao.RecommendKakaoViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -61,7 +61,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
             android:layout_marginTop="16dp"
-            android:text="@{vm.clickedUserData.yelloId}"
+            android:text="@{vm.clickedUserData.name}"
             android:textAppearance="?textAppearanceLabelLarge"
             android:textColor="@color/yello_main_500"
             app:layout_constraintBaseline_toBaselineOf="@id/tv_recommend_friend_name"
@@ -105,7 +105,7 @@
                 android:id="@+id/tv_recommend_total_friend"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{@string/to_string(vm.clickedUserData.friendCount)}"
+                android:text="@{@string/to_string(vm.clickedUserData.name)}"
                 android:textAppearance="?textAppearanceHeadline2"
                 android:textColor="@color/white"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -142,7 +142,7 @@
                 android:id="@+id/tv_recommend_total_msg"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{@string/to_string(vm.clickedUserData.yelloCount)}"
+                android:text="@{@string/to_string(vm.clickedUserData.name)}"
                 android:textAppearance="?textAppearanceHeadline2"
                 android:textColor="@color/white"
                 app:layout_constraintEnd_toEndOf="parent"

@@ -8,7 +8,8 @@ import com.el.yello.databinding.ItemRecommendListBinding
 import com.example.domain.entity.RecommendListModel.RecommendFriend
 
 class RecommendAdapter(
-    private val itemClick: (RecommendFriend, Int, RecommendViewHolder) -> (Unit),
+    private val buttonClick: (RecommendFriend, Int, RecommendViewHolder) -> (Unit),
+    private val itemClick: (RecommendFriend, Int) -> (Unit),
 ) : RecyclerView.Adapter<RecommendViewHolder>() {
 
     private var itemList = mutableListOf<RecommendFriend>()
@@ -17,7 +18,7 @@ class RecommendAdapter(
         val inflater by lazy { LayoutInflater.from(parent.context) }
         val binding: ItemRecommendListBinding =
             ItemRecommendListBinding.inflate(inflater, parent, false)
-        return RecommendViewHolder(binding, itemClick)
+        return RecommendViewHolder(binding, buttonClick, itemClick)
     }
 
     override fun onBindViewHolder(holder: RecommendViewHolder, position: Int) {

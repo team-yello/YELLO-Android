@@ -1,6 +1,7 @@
 package com.el.yello.presentation.main.recommend.kakao
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import android.view.animation.AnimationUtils
@@ -15,12 +16,14 @@ import com.el.yello.R
 import com.el.yello.databinding.FragmentRecommendKakaoBinding
 import com.el.yello.presentation.main.dialog.InviteFriendDialog
 import com.el.yello.presentation.main.recommend.list.RecommendAdapter
+import com.el.yello.presentation.main.recommend.list.RecommendFriendItemBottomSheet
 import com.el.yello.presentation.main.recommend.list.RecommendItemDecoration
 import com.el.yello.presentation.main.recommend.list.RecommendViewHolder
 import com.el.yello.presentation.util.BaseLinearRcvItemDeco
 import com.el.yello.util.Utils.setPullToScrollColor
 import com.el.yello.util.amplitude.AmplitudeUtils
 import com.el.yello.util.context.yelloSnackbar
+import com.example.domain.entity.RecommendListModel
 import com.example.ui.base.BindingFragment
 import com.example.ui.view.UiState
 import com.example.ui.view.setOnSingleClickListener
@@ -146,10 +149,22 @@ class RecommendKakaoFragment :
 
     // 어댑터 클릭 리스너 설정
     private fun setAdapterWithClickListener() {
-        _adapter = RecommendAdapter { recommendModel, position, holder ->
-            viewModel.setPositionAndHolder(position, holder)
-            viewModel.addFriendToServer(recommendModel.id.toLong())
-        }
+        _adapter = RecommendAdapter(
+
+            buttonClick = { recommendModel, position, holder ->
+                viewModel.setPositionAndHolder(position, holder)
+                viewModel.addFriendToServer(recommendModel.id.toLong())
+            },
+
+            itemClick = { recommendModel, position ->
+                viewModel.clickedUserData = recommendModel
+                RecommendFriendItemBottomSheet().show(
+                    parentFragmentManager,
+                    ITEM_BOTTOM_SHEET,
+                )
+            },
+
+        )
         binding.rvRecommendKakao.adapter = adapter
     }
 
@@ -310,8 +325,8 @@ class RecommendKakaoFragment :
 
     private companion object {
         const val INVITE_DIALOG = "inviteDialog"
-
         const val KAKAO_NO_FRIEND = "recommend_kakao_nofriend"
         const val KAKAO_YES_FRIEND = "recommend_kakao_yesfriend"
+        const val ITEM_BOTTOM_SHEET = "itemBottomSheet"
     }
 }

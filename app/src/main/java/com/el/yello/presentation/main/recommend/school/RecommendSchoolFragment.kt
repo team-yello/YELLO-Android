@@ -15,6 +15,7 @@ import com.el.yello.R
 import com.el.yello.databinding.FragmentRecommendSchoolBinding
 import com.el.yello.presentation.main.dialog.InviteFriendDialog
 import com.el.yello.presentation.main.recommend.list.RecommendAdapter
+import com.el.yello.presentation.main.recommend.list.RecommendFriendItemBottomSheet
 import com.el.yello.presentation.main.recommend.list.RecommendItemDecoration
 import com.el.yello.presentation.main.recommend.list.RecommendViewHolder
 import com.el.yello.presentation.util.BaseLinearRcvItemDeco
@@ -130,10 +131,18 @@ class RecommendSchoolFragment :
 
     // 처음 리스트 설정 및 어댑터 클릭 리스너 설정
     private fun setAdapterWithClickListener() {
-        _adapter = RecommendAdapter { recommendModel, position, holder ->
-            viewModel.setPositionAndHolder(position, holder)
-            viewModel.addFriendToServer(recommendModel.id.toLong())
-        }
+        _adapter = RecommendAdapter(
+            buttonClick = { recommendModel, position, holder ->
+                viewModel.setPositionAndHolder(position, holder)
+                viewModel.addFriendToServer(recommendModel.id.toLong())
+            },
+            itemClick = { recommendModel, position ->
+                RecommendFriendItemBottomSheet().show(
+                    parentFragmentManager,
+                    ITEM_BOTTOM_SHEET,
+                )
+            },
+        )
         binding.rvRecommendSchool.adapter = adapter
     }
 
@@ -302,8 +311,8 @@ class RecommendSchoolFragment :
 
     private companion object {
         const val INVITE_DIALOG = "inviteDialog"
-
         const val SCHOOL_NO_FRIEND = "recommend_school_nofriend"
         const val SCHOOL_YES_FRIEND = "recommend_school_yesfriend"
+        const val ITEM_BOTTOM_SHEET = "itemBottomSheet"
     }
 }

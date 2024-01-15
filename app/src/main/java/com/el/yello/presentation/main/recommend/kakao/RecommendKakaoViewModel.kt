@@ -3,6 +3,7 @@ package com.el.yello.presentation.main.recommend.kakao
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.el.yello.presentation.main.recommend.list.RecommendViewHolder
+import com.example.domain.entity.ProfileUserModel
 import com.example.domain.entity.RecommendListModel
 import com.example.domain.entity.RecommendRequestModel
 import com.example.domain.repository.AuthRepository
@@ -35,6 +36,9 @@ class RecommendKakaoViewModel @Inject constructor(
 
     var itemPosition: Int? = null
     var itemHolder: RecommendViewHolder? = null
+
+    var isItemBottomSheetRunning: Boolean = false
+    var clickedUserData = RecommendListModel.RecommendFriend(0, "", "", "")
 
     private var currentOffset = -100
     private var currentPage = -1

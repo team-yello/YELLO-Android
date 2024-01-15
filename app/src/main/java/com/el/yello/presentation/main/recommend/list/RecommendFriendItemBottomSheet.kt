@@ -9,15 +9,14 @@ import coil.transform.CircleCropTransformation
 import com.el.yello.R
 import com.el.yello.databinding.FragmentRecommendItemBottomSheetBinding
 import com.el.yello.presentation.main.profile.ProfileViewModel
+import com.el.yello.presentation.main.recommend.kakao.RecommendKakaoViewModel
 import com.example.ui.base.BindingBottomSheetDialog
 import com.example.ui.view.setOnSingleClickListener
 
 class RecommendFriendItemBottomSheet :
     BindingBottomSheetDialog<FragmentRecommendItemBottomSheetBinding>(R.layout.fragment_recommend_item_bottom_sheet) {
 
-    private var deleteBottomSheet: RecommendFriendItemBottomSheet? =
-        RecommendFriendItemBottomSheet()
-    private val viewModel by activityViewModels<ProfileViewModel>()
+    private val viewModel by activityViewModels<RecommendKakaoViewModel>()
 
     override fun onStart() {
         super.onStart()
@@ -34,19 +33,19 @@ class RecommendFriendItemBottomSheet :
     }
 
     private fun setItemImage() {
-        if (viewModel.clickedUserData.profileImageUrl == ProfileViewModel.BASIC_THUMBNAIL) {
+        if (viewModel.clickedUserData.profileImage == ProfileViewModel.BASIC_THUMBNAIL) {
             binding.ivRecommendFriendThumbnail.load(R.drawable.img_yello_basic)
         } else {
-            binding.ivRecommendFriendThumbnail.load(viewModel.clickedUserData.profileImageUrl) {
+            binding.ivRecommendFriendThumbnail.load(viewModel.clickedUserData.profileImage) {
                 transformations(CircleCropTransformation())
             }
         }
     }
 
-    // 다음 바텀시트 출력
     private fun initDeleteBtnListener() {
         binding.btnRecommendFriendDelete.setOnSingleClickListener {
-            deleteBottomSheet?.show(parentFragmentManager, DELETE_BOTTOM_SHEET)
+            // TODO : 체크 표시 전환 후 dismiss ,
+            //  viewModel.deleteFriendDataToServer
             dismiss()
         }
     }
@@ -54,14 +53,5 @@ class RecommendFriendItemBottomSheet :
     override fun onDismiss(dialog: DialogInterface) {
         super.onDismiss(dialog)
         viewModel.isItemBottomSheetRunning = false
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        deleteBottomSheet = null
-    }
-
-    private companion object {
-        const val DELETE_BOTTOM_SHEET = "deleteBottomSheet"
     }
 }

@@ -11,14 +11,15 @@ import com.example.ui.view.setOnSingleClickListener
 
 class RecommendViewHolder(
     val binding: ItemRecommendListBinding,
-    private val itemClick: (RecommendFriend, Int, RecommendViewHolder) -> Unit,
+    private val buttonClick: (RecommendFriend, Int, RecommendViewHolder) -> Unit,
+    private val itemClick: (RecommendFriend, Int) -> (Unit),
+
 ) :
     RecyclerView.ViewHolder(binding.root) {
 
     fun onBind(item: RecommendFriend, position: Int) {
         binding.tvRecommendItemName.text = item.name
         binding.tvRecommendItemSchool.text = item.group
-
         item.profileImage.let { thumbnail ->
             if (thumbnail == BASIC_THUMBNAIL) {
                 binding.ivRecommendItemThumbnail.load(R.drawable.img_yello_basic)
@@ -30,7 +31,11 @@ class RecommendViewHolder(
         }
 
         binding.btnRecommendItemAdd.setOnSingleClickListener {
-            itemClick(item, position, this)
+            buttonClick(item, position, this)
+        }
+
+        binding.root.setOnSingleClickListener {
+            itemClick(item, position)
         }
     }
 }

@@ -63,5 +63,4 @@ object ServiceModule {
     @Singleton
     fun provideAuthService(retrofit: Retrofit): AuthService =
         retrofit.create(AuthService::class.java)
-
 }

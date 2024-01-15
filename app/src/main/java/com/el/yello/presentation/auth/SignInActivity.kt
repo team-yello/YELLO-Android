@@ -105,12 +105,14 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
         }.launchIn(lifecycleScope)
     }
 
+    // TODO : UiState 하나로 병합
     private fun observeDeviceTokenError() {
         viewModel.getDeviceTokenError.flowWithLifecycle(lifecycle).onEach { error ->
             if (error) toast(getString(R.string.sign_in_error_connection))
         }.launchIn(lifecycleScope)
     }
 
+    // TODO : UiState 하나로 병합
     private fun observeAppLoginError() {
         viewModel.isAppLoginAvailable.flowWithLifecycle(lifecycle).onEach { available ->
             if (!available) viewModel.getKakaoToken(this)

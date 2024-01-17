@@ -137,10 +137,8 @@ class RecommendSchoolFragment :
                 viewModel.addFriendToServer(recommendModel.id.toLong())
             },
             itemClick = { recommendModel, position ->
-                RecommendFriendItemBottomSheet().show(
-                    parentFragmentManager,
-                    ITEM_BOTTOM_SHEET,
-                )
+                viewModel.getUserDataFromServer(recommendModel.id.toLong())
+                observeUserDataState()
             },
         )
         binding.rvRecommendSchool.adapter = adapter
@@ -226,6 +224,27 @@ class RecommendSchoolFragment :
                     is UiState.Empty -> return@onEach
                 }
             }.launchIn(viewLifecycleOwner.lifecycleScope)
+    }
+
+    // 유저 정보 통신 성공
+    private fun observeUserDataState() {
+        viewModel.getUserDataState.flowWithLifecycle(viewLifecycleOwner.lifecycle).onEach { state ->
+            when (state) {
+                is UiState.Success -> {
+                    viewModel.clickedUserData = state.data.apply {
+                        if (!this.yelloId.startsWith("@")) this.yelloId = "@" + this.yelloId
+                    }
+                    if (!viewModel.isItemBottomSheetRunning) {
+                        RecommendFriendItemBottomSheet().show(
+                            parentFragmentManager,
+                            ITEM_BOTTOM_SHEET,
+                        )
+                    }
+                }
+
+                else -> {}
+            }
+        }.launchIn(viewLifecycleOwner.lifecycleScope)
     }
 
     private fun setDeleteAnimation() {

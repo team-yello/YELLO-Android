@@ -3,7 +3,6 @@ package com.el.yello.presentation.main.profile.info
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.view.animation.AnimationUtils
 import androidx.core.view.isVisible
@@ -113,7 +112,6 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
             viewModel.setItemPosition(position)
             viewModel.clickedUserData = profileUserModel.apply {
                 if (!this.yelloId.startsWith("@")) this.yelloId = "@" + this.yelloId
-                Log.d("manju1",viewModel.clickedUserData.name)
             }
 
             if (!viewModel.isItemBottomSheetRunning) {

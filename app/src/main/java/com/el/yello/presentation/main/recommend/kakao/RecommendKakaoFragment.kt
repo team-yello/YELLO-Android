@@ -1,7 +1,6 @@
 package com.el.yello.presentation.main.recommend.kakao
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import android.view.animation.AnimationUtils
@@ -23,7 +22,6 @@ import com.el.yello.presentation.util.BaseLinearRcvItemDeco
 import com.el.yello.util.Utils.setPullToScrollColor
 import com.el.yello.util.amplitude.AmplitudeUtils
 import com.el.yello.util.context.yelloSnackbar
-import com.example.domain.entity.RecommendListModel
 import com.example.ui.base.BindingFragment
 import com.example.ui.view.UiState
 import com.example.ui.view.setOnSingleClickListener
@@ -57,9 +55,10 @@ class RecommendKakaoFragment :
         initPullToScrollListener()
         setKakaoRecommendList()
         setAdapterWithClickListener()
-        observeKakaoError()
+        observeUserDataState()
         observeAddListState()
         observeAddFriendState()
+        observeKakaoError()
         setItemDecoration()
         setInfinityScroll()
         setDeleteAnimation()
@@ -150,18 +149,13 @@ class RecommendKakaoFragment :
     // 어댑터 클릭 리스너 설정
     private fun setAdapterWithClickListener() {
         _adapter = RecommendAdapter(
-
             buttonClick = { recommendModel, position, holder ->
                 viewModel.setPositionAndHolder(position, holder)
                 viewModel.addFriendToServer(recommendModel.id.toLong())
             },
 
             itemClick = { recommendModel, position ->
-                viewModel.clickedUserData = recommendModel
-                RecommendFriendItemBottomSheet().show(
-                    parentFragmentManager,
-                    ITEM_BOTTOM_SHEET,
-                )
+                viewModel.getUserDataFromServer(recommendModel.id.toLong())
             },
 
         )
@@ -238,6 +232,25 @@ class RecommendKakaoFragment :
                 }
 
                 is UiState.Empty -> return@onEach
+            }
+        }.launchIn(viewLifecycleOwner.lifecycleScope)
+    }
+
+    // 유저 정보 통신 성공
+    private fun observeUserDataState() {
+        viewModel.getUserDataState.flowWithLifecycle(viewLifecycleOwner.lifecycle).onEach { state ->
+            when (state) {
+                is UiState.Success -> {
+                    viewModel.clickedUserData = state.data.apply {
+                        if (!this.yelloId.startsWith("@")) this.yelloId = "@" + this.yelloId
+                    }
+                    RecommendFriendItemBottomSheet().show(
+                        parentFragmentManager,
+                        ITEM_BOTTOM_SHEET,
+                    )
+                }
+
+                else -> {}
             }
         }.launchIn(viewLifecycleOwner.lifecycleScope)
     }

@@ -4,6 +4,7 @@ import com.example.data.datasource.RecommendDataSource
 import com.example.data.model.request.recommend.toRequestDto
 import com.example.domain.entity.RecommendListModel
 import com.example.domain.entity.RecommendRequestModel
+import com.example.domain.entity.RecommendUserInfoModel
 import com.example.domain.repository.RecommendRepository
 import javax.inject.Inject
 
@@ -24,7 +25,7 @@ class RecommendRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getSchoolFriendList(
-        page: Int
+        page: Int,
     ): Result<RecommendListModel?> {
         return runCatching {
             recommendDataSource.getSchoolListData(
@@ -34,11 +35,16 @@ class RecommendRepositoryImpl @Inject constructor(
     }
 
     override suspend fun postFriendAdd(
-        friendId: Long
+        friendId: Long,
     ): Result<Unit> {
         return runCatching {
             recommendDataSource.postFriendAdd(friendId).data
         }
     }
 
+    override suspend fun getRecommendUserInfo(userId: Long): Result<RecommendUserInfoModel?> {
+        return runCatching {
+            recommendDataSource.getRecommendUserInfo(userId).data?.toRecommendUserModel()
+        }
+    }
 }

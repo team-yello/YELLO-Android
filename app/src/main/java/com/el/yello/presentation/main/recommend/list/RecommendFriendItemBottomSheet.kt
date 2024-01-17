@@ -1,6 +1,5 @@
 package com.el.yello.presentation.main.recommend.list
 
-import android.content.DialogInterface
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.activityViewModels
@@ -27,16 +26,15 @@ class RecommendFriendItemBottomSheet :
         super.onViewCreated(view, savedInstanceState)
 
         binding.vm = viewModel
-        viewModel.isItemBottomSheetRunning = true
         setItemImage()
         initDeleteBtnListener()
     }
 
     private fun setItemImage() {
-        if (viewModel.clickedUserData.profileImage == ProfileViewModel.BASIC_THUMBNAIL) {
+        if (viewModel.clickedUserData.profileImageUrl == ProfileViewModel.BASIC_THUMBNAIL) {
             binding.ivRecommendFriendThumbnail.load(R.drawable.img_yello_basic)
         } else {
-            binding.ivRecommendFriendThumbnail.load(viewModel.clickedUserData.profileImage) {
+            binding.ivRecommendFriendThumbnail.load(viewModel.clickedUserData.profileImageUrl) {
                 transformations(CircleCropTransformation())
             }
         }
@@ -48,10 +46,5 @@ class RecommendFriendItemBottomSheet :
             //  viewModel.deleteFriendDataToServer
             dismiss()
         }
-    }
-
-    override fun onDismiss(dialog: DialogInterface) {
-        super.onDismiss(dialog)
-        viewModel.isItemBottomSheetRunning = false
     }
 }

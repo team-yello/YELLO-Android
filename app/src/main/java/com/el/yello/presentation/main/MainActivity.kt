@@ -21,6 +21,7 @@ import com.el.yello.presentation.main.profile.ProfileViewModel
 import com.el.yello.presentation.main.profile.info.ProfileFragment
 import com.el.yello.presentation.main.recommend.RecommendFragment
 import com.el.yello.presentation.main.yello.YelloFragment
+import com.el.yello.presentation.pay.PayResubsNoticeDialog
 import com.el.yello.presentation.util.dp
 import com.el.yello.util.amplitude.AmplitudeUtils
 import com.el.yello.util.context.yelloSnackbar
@@ -55,7 +56,7 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        showPayResubsNoticeDialog()
         initBnvItemIconTintList()
         initBnvItemSelectedListener()
         initBnvItemReselectedListener()
@@ -67,6 +68,10 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
         this.onBackPressedDispatcher.addCallback(this, onBackPressedCallback)
     }
 
+    private fun showPayResubsNoticeDialog() {
+        val payResubsNoticeFragment = PayResubsNoticeDialog()
+        payResubsNoticeFragment.show(supportFragmentManager, "PayResubsNoticeDialog")
+    }
     private fun initBnvItemIconTintList() {
         binding.bnvMain.itemIconTintList = null
         binding.bnvMain.selectedItemId = R.id.menu_yello

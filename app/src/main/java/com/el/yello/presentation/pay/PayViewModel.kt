@@ -7,6 +7,7 @@ import com.example.domain.entity.PayInfoModel
 import com.example.domain.entity.PayRequestModel
 import com.example.domain.entity.PaySubsModel
 import com.example.domain.entity.PaySubsNeededModel
+import com.example.domain.entity.PayUserSubsInfoModel
 import com.example.domain.repository.PayRepository
 import com.example.ui.view.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -17,7 +18,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class PayViewModel @Inject constructor(
-    private val payRepository: PayRepository
+    private val payRepository: PayRepository,
 ) : ViewModel() {
 
     var currentInAppItem = String()
@@ -33,6 +34,10 @@ class PayViewModel @Inject constructor(
 
     private val _getPurchaseInfoState = MutableStateFlow<UiState<PayInfoModel?>>(UiState.Empty)
     val getPurchaseInfoState: StateFlow<UiState<PayInfoModel?>> = _getPurchaseInfoState
+
+    private val _getUserSubsInfoState =
+        MutableStateFlow<UiState<PayUserSubsInfoModel?>>(UiState.Empty)
+    val getUserSubsInfoState: StateFlow<UiState<PayUserSubsInfoModel?>> = _getUserSubsInfoState
 
     var ticketCount = 0
         private set
@@ -97,6 +102,20 @@ class PayViewModel @Inject constructor(
                 }
                 .onFailure {
                     _getPurchaseInfoState.value = UiState.Failure(it.message.toString())
+                }
+        }
+    }
+
+    // 서버 통신 - 유저 구독 정보 상세 조회
+    fun getUserSubsInfoStateFromServer() {
+        viewModelScope.launch {
+            payRepository.getUserSubsInfo()
+                .onSuccess {
+                    it ?: return@launch
+                    _getUserSubsInfoState.value = UiState.Success(it)
+                }
+                .onFailure {
+                    _getUserSubsInfoState.value = UiState.Failure(it.message.toString())
                 }
         }
     }

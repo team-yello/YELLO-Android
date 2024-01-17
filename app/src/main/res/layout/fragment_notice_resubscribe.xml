@@ -2,6 +2,9 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
+    <data>
+
+    </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -9,7 +12,7 @@
         android:background="@color/black">
 
         <ImageView
-            android:id="@+id/btn_notice_resubscribe_quit"
+            android:id="@+id/btn_notice_quit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
@@ -33,7 +36,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/tv_notice_resubscribe_subtitle_date"
+            android:id="@+id/tv_resubscribe_expired_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
@@ -41,6 +44,7 @@
             android:textColor="@color/white"
             app:layout_constraintStart_toStartOf="@+id/tv_notice_resubscribe_title"
             app:layout_constraintTop_toBottomOf="@id/tv_notice_resubscribe_title"
+            android:text=""
             tools:text="2023-08-26" />
 
         <TextView
@@ -51,8 +55,8 @@
             android:text="@string/notice_resubscribe_subtitle_second"
             android:textAppearance="@style/TextAppearance.Yello.Subtitle01"
             android:textColor="@color/white"
-            app:layout_constraintStart_toEndOf="@+id/tv_notice_resubscribe_subtitle_date"
-            app:layout_constraintTop_toTopOf="@+id/tv_notice_resubscribe_subtitle_date" />
+            app:layout_constraintStart_toEndOf="@+id/tv_resubscribe_expired_date"
+            app:layout_constraintTop_toTopOf="@+id/tv_resubscribe_expired_date" />
 
         <TextView
             android:id="@+id/tv_notice_resubscribe_subtitle_thrid"
@@ -61,8 +65,8 @@
             android:text="@string/notice_resubscribe_subtitle_third"
             android:textAppearance="@style/TextAppearance.Yello.Subtitle01"
             android:textColor="@color/white"
-            app:layout_constraintStart_toStartOf="@+id/tv_notice_resubscribe_subtitle_date"
-            app:layout_constraintTop_toBottomOf="@+id/tv_notice_resubscribe_subtitle_date" />
+            app:layout_constraintStart_toStartOf="@+id/tv_resubscribe_expired_date"
+            app:layout_constraintTop_toBottomOf="@+id/tv_resubscribe_expired_date" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layout_notice_resubscribe_benefit"
@@ -153,6 +157,7 @@
             app:layout_constraintTop_toBottomOf="@id/layout_notice_resubscribe_benefit" />
 
         <TextView
+            android:id="@+id/btn_yelloplus_subscribe"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"

@@ -29,6 +29,6 @@ interface PayService {
     @GET("/api/v1/purchase")
     suspend fun getPurchaseInfo(): BaseResponse<ResponsePurchaseInfoDto>
 
-    @GET("/api/v1/purchase/subscribe")
+    @GET("/api/v1/user/subscribe")
     suspend fun getUserSubsInfo(): BaseResponse<ResponseUserSubsInfoDto>
 }

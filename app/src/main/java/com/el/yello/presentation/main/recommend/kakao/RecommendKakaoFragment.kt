@@ -15,13 +15,13 @@ import com.el.yello.R
 import com.el.yello.databinding.FragmentRecommendKakaoBinding
 import com.el.yello.presentation.main.dialog.InviteFriendDialog
 import com.el.yello.presentation.main.recommend.list.RecommendAdapter
-import com.el.yello.presentation.main.recommend.list.RecommendFriendItemBottomSheet
 import com.el.yello.presentation.main.recommend.list.RecommendItemDecoration
 import com.el.yello.presentation.main.recommend.list.RecommendViewHolder
 import com.el.yello.presentation.util.BaseLinearRcvItemDeco
 import com.el.yello.util.Utils.setPullToScrollColor
 import com.el.yello.util.amplitude.AmplitudeUtils
 import com.el.yello.util.context.yelloSnackbar
+import com.example.domain.entity.RecommendListModel
 import com.example.ui.base.BindingFragment
 import com.example.ui.view.UiState
 import com.example.ui.view.setOnSingleClickListener
@@ -44,6 +44,7 @@ class RecommendKakaoFragment :
 
     private var inviteYesFriendDialog: InviteFriendDialog? = null
     private var inviteNoFriendDialog: InviteFriendDialog? = null
+    private var lastClickedRecommendModel: RecommendListModel.RecommendFriend? = null
 
     private lateinit var itemDivider: RecommendItemDecoration
 
@@ -152,12 +153,13 @@ class RecommendKakaoFragment :
             buttonClick = { recommendModel, position, holder ->
                 viewModel.setPositionAndHolder(position, holder)
                 viewModel.addFriendToServer(recommendModel.id.toLong())
+                lastClickedRecommendModel = recommendModel
             },
 
             itemClick = { recommendModel, position ->
                 viewModel.getUserDataFromServer(recommendModel.id.toLong())
+                lastClickedRecommendModel = recommendModel
             },
-
         )
         binding.rvRecommendKakao.adapter = adapter
     }
@@ -235,8 +237,6 @@ class RecommendKakaoFragment :
             }
         }.launchIn(viewLifecycleOwner.lifecycleScope)
     }
-
-    // 유저 정보 통신 성공
     private fun observeUserDataState() {
         viewModel.getUserDataState.flowWithLifecycle(viewLifecycleOwner.lifecycle).onEach { state ->
             when (state) {
@@ -244,17 +244,24 @@ class RecommendKakaoFragment :
                     viewModel.clickedUserData = state.data.apply {
                         if (!this.yelloId.startsWith("@")) this.yelloId = "@" + this.yelloId
                     }
-                    RecommendFriendItemBottomSheet().show(
-                        parentFragmentManager,
-                        ITEM_BOTTOM_SHEET,
-                    )
+                    if (lastClickedRecommendModel != null) {
+                        RecommendFriendItemBottomSheet().show(
+                            parentFragmentManager,
+                            ITEM_BOTTOM_SHEET,
+                        )
+                    }
                 }
 
-                else -> {}
+                is UiState.Failure -> {
+                    yelloSnackbar(requireView(), getString(R.string.profile_error_user_data))
+                }
+
+                is UiState.Empty -> return@onEach
+
+                is UiState.Loading -> return@onEach
             }
         }.launchIn(viewLifecycleOwner.lifecycleScope)
     }
-
     private fun setDeleteAnimation() {
         binding.rvRecommendKakao.itemAnimator = object : DefaultItemAnimator() {
             override fun animateRemove(holder: RecyclerView.ViewHolder): Boolean {

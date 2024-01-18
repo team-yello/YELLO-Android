@@ -1,4 +1,4 @@
-package com.el.yello.presentation.main.recommend.list
+package com.el.yello.presentation.main.recommend.school
 
 import android.os.Bundle
 import android.view.View
@@ -6,16 +6,15 @@ import androidx.fragment.app.activityViewModels
 import coil.load
 import coil.transform.CircleCropTransformation
 import com.el.yello.R
-import com.el.yello.databinding.FragmentRecommendItemBottomSheetBinding
+import com.el.yello.databinding.FragmentRecommendSchoolItemBottomSheetBinding
 import com.el.yello.presentation.main.profile.ProfileViewModel
-import com.el.yello.presentation.main.recommend.kakao.RecommendKakaoViewModel
 import com.example.ui.base.BindingBottomSheetDialog
 import com.example.ui.view.setOnSingleClickListener
 
-class RecommendFriendItemBottomSheet :
-    BindingBottomSheetDialog<FragmentRecommendItemBottomSheetBinding>(R.layout.fragment_recommend_item_bottom_sheet) {
+class RecommendSchoolItemBottomSheet :
+    BindingBottomSheetDialog<FragmentRecommendSchoolItemBottomSheetBinding>(R.layout.fragment_recommend_school_item_bottom_sheet) {
 
-    private val viewModel by activityViewModels<RecommendKakaoViewModel>()
+    private val viewModel by activityViewModels<RecommendSchoolViewModel>()
 
     override fun onStart() {
         super.onStart()

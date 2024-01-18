@@ -14,14 +14,15 @@ import androidx.recyclerview.widget.RecyclerView
 import com.el.yello.R
 import com.el.yello.databinding.FragmentRecommendSchoolBinding
 import com.el.yello.presentation.main.dialog.InviteFriendDialog
+import com.el.yello.presentation.main.recommend.kakao.RecommendFriendItemBottomSheet
 import com.el.yello.presentation.main.recommend.list.RecommendAdapter
-import com.el.yello.presentation.main.recommend.list.RecommendFriendItemBottomSheet
 import com.el.yello.presentation.main.recommend.list.RecommendItemDecoration
 import com.el.yello.presentation.main.recommend.list.RecommendViewHolder
 import com.el.yello.presentation.util.BaseLinearRcvItemDeco
 import com.el.yello.util.Utils.setPullToScrollColor
 import com.el.yello.util.amplitude.AmplitudeUtils
 import com.el.yello.util.context.yelloSnackbar
+import com.example.domain.entity.RecommendListModel
 import com.example.domain.entity.RecommendListModel.RecommendFriend
 import com.example.ui.base.BindingFragment
 import com.example.ui.view.UiState
@@ -45,6 +46,7 @@ class RecommendSchoolFragment :
 
     private var inviteYesFriendDialog: InviteFriendDialog? = null
     private var inviteNoFriendDialog: InviteFriendDialog? = null
+    private var lastClickedRecommendModel: RecommendListModel.RecommendFriend? = null
 
     private lateinit var friendsList: List<RecommendFriend>
 
@@ -62,6 +64,7 @@ class RecommendSchoolFragment :
         setListWithInfinityScroll()
         observeAddListState()
         observeAddFriendState()
+        observeUserDataState()
         setDeleteAnimation()
         AmplitudeUtils.trackEventWithProperties("view_recommend_school")
     }
@@ -135,10 +138,11 @@ class RecommendSchoolFragment :
             buttonClick = { recommendModel, position, holder ->
                 viewModel.setPositionAndHolder(position, holder)
                 viewModel.addFriendToServer(recommendModel.id.toLong())
+                lastClickedRecommendModel = recommendModel
             },
             itemClick = { recommendModel, position ->
                 viewModel.getUserDataFromServer(recommendModel.id.toLong())
-                observeUserDataState()
+                lastClickedRecommendModel = recommendModel
             },
         )
         binding.rvRecommendSchool.adapter = adapter
@@ -226,7 +230,6 @@ class RecommendSchoolFragment :
             }.launchIn(viewLifecycleOwner.lifecycleScope)
     }
 
-    // 유저 정보 통신 성공
     private fun observeUserDataState() {
         viewModel.getUserDataState.flowWithLifecycle(viewLifecycleOwner.lifecycle).onEach { state ->
             when (state) {
@@ -234,8 +237,8 @@ class RecommendSchoolFragment :
                     viewModel.clickedUserData = state.data.apply {
                         if (!this.yelloId.startsWith("@")) this.yelloId = "@" + this.yelloId
                     }
-                    if (!viewModel.isItemBottomSheetRunning) {
-                        RecommendFriendItemBottomSheet().show(
+                    if (lastClickedRecommendModel != null) {
+                        RecommendSchoolItemBottomSheet().show(
                             parentFragmentManager,
                             ITEM_BOTTOM_SHEET,
                         )

@@ -19,7 +19,7 @@ import javax.inject.Inject
 import kotlin.math.ceil
 
 @HiltViewModel
-class RecommendKakaoViewModel @Inject constructor(
+class RecommendViewModel @Inject constructor(
     private val recommendRepository: RecommendRepository,
     private val authRepository: AuthRepository,
 ) : ViewModel() {
@@ -40,6 +40,8 @@ class RecommendKakaoViewModel @Inject constructor(
 
     var itemPosition: Int? = null
     var itemHolder: RecommendViewHolder? = null
+
+    var isItemBottomSheetRunning: Boolean = false
     var clickedUserData = RecommendUserInfoModel(0, "", "", "", "", 0, 0)
 
     private var currentOffset = -100
@@ -49,8 +51,17 @@ class RecommendKakaoViewModel @Inject constructor(
 
     private var isFirstFriendsListPage: Boolean = true
 
-    fun setFirstPageLoading() {
+    fun setKakaoFirstPageLoading() {
         isFirstFriendsListPage = true
+    }
+
+    fun setSchoolFirstPageLoading() {
+        isFirstFriendsListPage = true
+        currentPage = -1
+        isPagingFinish = false
+        totalPage = Int.MAX_VALUE
+        _postFriendsListState.value = UiState.Empty
+        _addFriendState.value = UiState.Empty
     }
 
     fun setPositionAndHolder(position: Int, holder: RecommendViewHolder) {
@@ -99,6 +110,29 @@ class RecommendKakaoViewModel @Inject constructor(
             )
                 .onSuccess {
                     it ?: return@launch
+                    _postFriendsListState.value = UiState.Success(it)
+                }
+                .onFailure {
+                    _postFriendsListState.value = UiState.Failure(it.message.toString())
+                }
+        }
+    }
+
+    // 서버 통신 - 학교 추천 친구 리스트 추가
+    fun addListFromServer() {
+        viewModelScope.launch {
+            if (isPagingFinish) return@launch
+            if (isFirstFriendsListPage) {
+                _postFriendsListState.value = UiState.Loading
+                isFirstFriendsListPage = false
+            }
+            recommendRepository.getSchoolFriendList(
+                ++currentPage,
+            )
+                .onSuccess {
+                    it ?: return@launch
+                    totalPage = ceil((it.totalCount * 0.01)).toInt() - 1
+                    if (totalPage == currentPage) isPagingFinish = true
                     _postFriendsListState.value = UiState.Success(it)
                 }
                 .onFailure {

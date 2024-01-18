@@ -3,16 +3,19 @@ package com.el.yello.presentation.main.recommend.kakao
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import coil.load
 import coil.transform.CircleCropTransformation
 import com.el.yello.R
-import com.el.yello.databinding.FragmentRecommendItemBottomSheetBinding
+import com.el.yello.databinding.FragmentRecommendKakaoItemBottomSheetBinding
 import com.el.yello.presentation.main.profile.ProfileViewModel
 import com.example.ui.base.BindingBottomSheetDialog
 import com.example.ui.view.setOnSingleClickListener
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
-class RecommendFriendItemBottomSheet :
-    BindingBottomSheetDialog<FragmentRecommendItemBottomSheetBinding>(R.layout.fragment_recommend_item_bottom_sheet) {
+class RecommendKakaaoItemBottomSheet :
+    BindingBottomSheetDialog<FragmentRecommendKakaoItemBottomSheetBinding>(R.layout.fragment_recommend_kakao_item_bottom_sheet) {
 
     private val viewModel by activityViewModels<RecommendKakaoViewModel>()
 
@@ -26,7 +29,7 @@ class RecommendFriendItemBottomSheet :
 
         binding.vm = viewModel
         setItemImage()
-        initDeleteBtnListener()
+        initAddBtnListener()
     }
 
     private fun setItemImage() {
@@ -39,11 +42,14 @@ class RecommendFriendItemBottomSheet :
         }
     }
 
-    private fun initDeleteBtnListener() {
-        binding.btnRecommendFriendDelete.setOnSingleClickListener {
-            // TODO : 체크 표시 전환 후 dismiss ,
-            //  viewModel.deleteFriendDataToServer
-            dismiss()
+    private fun initAddBtnListener() {
+        binding.btnRecommendFriendAdd.setOnSingleClickListener {
+            binding.btnRecommendFriendAdd.visibility = View.INVISIBLE
+            binding.btnRecommendItemAddPressed.visibility = View.VISIBLE
+            lifecycleScope.launch {
+                delay(500)
+                dismiss()
+            }
         }
     }
 }

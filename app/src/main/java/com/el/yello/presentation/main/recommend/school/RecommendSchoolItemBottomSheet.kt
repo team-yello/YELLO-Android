@@ -3,6 +3,7 @@ package com.el.yello.presentation.main.recommend.school
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import coil.load
 import coil.transform.CircleCropTransformation
 import com.el.yello.R
@@ -10,6 +11,8 @@ import com.el.yello.databinding.FragmentRecommendSchoolItemBottomSheetBinding
 import com.el.yello.presentation.main.profile.ProfileViewModel
 import com.example.ui.base.BindingBottomSheetDialog
 import com.example.ui.view.setOnSingleClickListener
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class RecommendSchoolItemBottomSheet :
     BindingBottomSheetDialog<FragmentRecommendSchoolItemBottomSheetBinding>(R.layout.fragment_recommend_school_item_bottom_sheet) {
@@ -40,10 +43,13 @@ class RecommendSchoolItemBottomSheet :
     }
 
     private fun initDeleteBtnListener() {
-        binding.btnRecommendFriendDelete.setOnSingleClickListener {
-            // TODO : 체크 표시 전환 후 dismiss ,
-            //  viewModel.deleteFriendDataToServer
-            dismiss()
+        binding.btnRecommendFriendAdd.setOnSingleClickListener {
+            binding.btnRecommendFriendAdd.visibility = View.INVISIBLE
+            binding.btnRecommendItemAddPressed.visibility = View.VISIBLE
+            lifecycleScope.launch {
+                delay(500)
+                dismiss()
+            }
         }
     }
 }

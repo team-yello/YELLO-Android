@@ -158,6 +158,7 @@ class RecommendKakaoFragment :
 
             itemClick = { recommendModel, position ->
                 viewModel.getUserDataFromServer(recommendModel.id.toLong())
+
                 lastClickedRecommendModel = recommendModel
             },
         )
@@ -245,7 +246,7 @@ class RecommendKakaoFragment :
                         if (!this.yelloId.startsWith("@")) this.yelloId = "@" + this.yelloId
                     }
                     if (lastClickedRecommendModel != null) {
-                        RecommendFriendItemBottomSheet().show(
+                        RecommendKakaaoItemBottomSheet().show(
                             parentFragmentManager,
                             ITEM_BOTTOM_SHEET,
                         )

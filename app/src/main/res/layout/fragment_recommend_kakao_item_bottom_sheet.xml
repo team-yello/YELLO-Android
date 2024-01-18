@@ -164,7 +164,7 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <Button
-            android:id="@+id/btn_recommend_friend_delete"
+            android:id="@+id/btn_recommend_friend_add"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
@@ -178,6 +178,20 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/layout_recommend_friend_total_msg" />
+
+        <ImageView
+            android:id="@+id/btn_recommend_item_add_pressed"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginHorizontal="180dp"
+            android:padding="6dp"
+            android:src="@drawable/ic_onboarding_friend_check"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@id/btn_recommend_friend_add"
+            app:layout_constraintDimensionRatio="1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/btn_recommend_friend_add" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

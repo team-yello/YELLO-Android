@@ -40,8 +40,7 @@ class PayResubsNoticeDialog :
         viewModel.getUserSubsInfoState.flowWithLifecycle(lifecycle).onEach { state ->
             when (state) {
                 is UiState.Success -> {
-                    // TODO : 서버 url 변경 시 cancel 확인
-                    if (state.data?.subscribe.toString() == "cancel") {
+                    if (state.data?.subscribe.toString() == "canceled") {
                         view?.isVisible = true
                         binding.tvResubscribeExpiredDate.text = state.data?.expiredDate
                     }

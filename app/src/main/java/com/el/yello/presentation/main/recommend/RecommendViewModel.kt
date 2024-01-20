@@ -40,8 +40,6 @@ class RecommendViewModel @Inject constructor(
 
     var itemPosition: Int? = null
     var itemHolder: RecommendViewHolder? = null
-
-    var isItemBottomSheetRunning: Boolean = false
     var clickedUserData = RecommendUserInfoModel(0, "", "", "", "", 0, 0)
 
     private var currentOffset = -100
@@ -51,11 +49,7 @@ class RecommendViewModel @Inject constructor(
 
     private var isFirstFriendsListPage: Boolean = true
 
-    fun setKakaoFirstPageLoading() {
-        isFirstFriendsListPage = true
-    }
-
-    fun setSchoolFirstPageLoading() {
+    fun setFirstPageLoading() {
         isFirstFriendsListPage = true
         currentPage = -1
         isPagingFinish = false
@@ -101,25 +95,8 @@ class RecommendViewModel @Inject constructor(
         }
     }
 
-    // 서버 통신 - 추천 친구 리스트 추가
-    private fun getListFromServer(friendsKakaoId: List<String>) {
-        viewModelScope.launch {
-            recommendRepository.postToGetKakaoFriendList(
-                0,
-                RecommendRequestModel(friendsKakaoId),
-            )
-                .onSuccess {
-                    it ?: return@launch
-                    _postFriendsListState.value = UiState.Success(it)
-                }
-                .onFailure {
-                    _postFriendsListState.value = UiState.Failure(it.message.toString())
-                }
-        }
-    }
-
-    // 서버 통신 - 학교 추천 친구 리스트 추가
-    fun addListFromServer() {
+    // 서버 통신 - 학교 친구 리스트 추가
+    fun addListGroupFromServer() {
         viewModelScope.launch {
             if (isPagingFinish) return@launch
             if (isFirstFriendsListPage) {
@@ -133,6 +110,23 @@ class RecommendViewModel @Inject constructor(
                     it ?: return@launch
                     totalPage = ceil((it.totalCount * 0.01)).toInt() - 1
                     if (totalPage == currentPage) isPagingFinish = true
+                    _postFriendsListState.value = UiState.Success(it)
+                }
+                .onFailure {
+                    _postFriendsListState.value = UiState.Failure(it.message.toString())
+                }
+        }
+    }
+
+    // 서버 통신 - 추천 친구 리스트 추가
+    private fun getListFromServer(friendsKakaoId: List<String>) {
+        viewModelScope.launch {
+            recommendRepository.postToGetKakaoFriendList(
+                0,
+                RecommendRequestModel(friendsKakaoId),
+            )
+                .onSuccess {
+                    it ?: return@launch
                     _postFriendsListState.value = UiState.Success(it)
                 }
                 .onFailure {
@@ -155,7 +149,7 @@ class RecommendViewModel @Inject constructor(
         }
     }
 
-    // 서버 통신 - 특정 유저 정보 받아오기
+    // 서버 통신 - 특정 유저 정보 받아 오기
     fun getUserDataFromServer(userId: Long) {
         viewModelScope.launch {
             _getUserDataState.value = UiState.Loading

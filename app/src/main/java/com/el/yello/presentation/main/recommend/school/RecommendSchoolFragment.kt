@@ -14,6 +14,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.el.yello.R
 import com.el.yello.databinding.FragmentRecommendSchoolBinding
 import com.el.yello.presentation.main.dialog.InviteFriendDialog
+import com.el.yello.presentation.main.recommend.RecommendItemBottomSheet
+import com.el.yello.presentation.main.recommend.kakao.RecommendViewModel
 import com.el.yello.presentation.main.recommend.list.RecommendAdapter
 import com.el.yello.presentation.main.recommend.list.RecommendItemDecoration
 import com.el.yello.presentation.main.recommend.list.RecommendViewHolder
@@ -41,7 +43,7 @@ class RecommendSchoolFragment :
     private val adapter
         get() = requireNotNull(_adapter) { getString(R.string.adapter_not_initialized_error_msg) }
 
-    private lateinit var viewModel: RecommendSchoolViewModel
+    private lateinit var viewModel: RecommendViewModel
 
     private var inviteYesFriendDialog: InviteFriendDialog? = null
     private var inviteNoFriendDialog: InviteFriendDialog? = null
@@ -73,7 +75,7 @@ class RecommendSchoolFragment :
         if (viewModel.isSearchViewShowed) {
             adapter.clearList()
             viewModel.setFirstPageLoading()
-            viewModel.addListFromServer()
+            viewModel.addListGroupFromServer()
             viewModel.isSearchViewShowed = false
         }
     }
@@ -101,13 +103,13 @@ class RecommendSchoolFragment :
     }
 
     private fun initViewModel() {
-        viewModel = ViewModelProvider(requireActivity())[RecommendSchoolViewModel::class.java]
+        viewModel = ViewModelProvider(requireActivity())[RecommendViewModel::class.java]
         viewModel.isSearchViewShowed = false
     }
 
     private fun initFirstList() {
         viewModel.setFirstPageLoading()
-        viewModel.addListFromServer()
+        viewModel.addListGroupFromServer()
     }
 
     private fun initPullToScrollListener() {
@@ -116,7 +118,7 @@ class RecommendSchoolFragment :
                 lifecycleScope.launch {
                     adapter.clearList()
                     viewModel.setFirstPageLoading()
-                    viewModel.addListFromServer()
+                    viewModel.addListGroupFromServer()
                     delay(200)
                     binding.layoutRecommendSchoolSwipe.isRefreshing = false
                 }
@@ -155,7 +157,7 @@ class RecommendSchoolFragment :
                 if (dy > 0) {
                     recyclerView.layoutManager?.let { layoutManager ->
                         if (!binding.rvRecommendSchool.canScrollVertically(1) && layoutManager is LinearLayoutManager && layoutManager.findLastVisibleItemPosition() == adapter.itemCount - 1) {
-                            viewModel.addListFromServer()
+                            viewModel.addListGroupFromServer()
                         }
                     }
                 }
@@ -237,7 +239,7 @@ class RecommendSchoolFragment :
                         if (!this.yelloId.startsWith("@")) this.yelloId = "@" + this.yelloId
                     }
                     if (lastClickedRecommendModel != null) {
-                        RecommendSchoolItemBottomSheet().show(
+                        RecommendItemBottomSheet().show(
                             parentFragmentManager,
                             ITEM_BOTTOM_SHEET,
                         )

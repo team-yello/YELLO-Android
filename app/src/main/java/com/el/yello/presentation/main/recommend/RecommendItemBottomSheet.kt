@@ -45,6 +45,7 @@ class RecommendItemBottomSheet :
 
     private fun initAddBtnListener() {
         binding.btnRecommendFriendAdd.setOnSingleClickListener {
+            viewModel.isAddFriendBtnClicked = true
             binding.btnRecommendFriendAdd.visibility = View.INVISIBLE
             binding.btnRecommendItemAddPressed.visibility = View.VISIBLE
             lifecycleScope.launch {

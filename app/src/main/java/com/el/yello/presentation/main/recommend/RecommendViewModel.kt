@@ -41,6 +41,7 @@ class RecommendViewModel @Inject constructor(
     var itemPosition: Int? = null
     var itemHolder: RecommendViewHolder? = null
     var clickedUserData = RecommendUserInfoModel(0, "", "", "", "", 0, 0)
+    var isAddFriendBtnClicked: Boolean = false
 
     private var currentOffset = -100
     private var currentPage = -1
@@ -48,6 +49,7 @@ class RecommendViewModel @Inject constructor(
     private var totalPage = Int.MAX_VALUE
 
     private var isFirstFriendsListPage: Boolean = true
+
 
     fun setFirstPageLoading() {
         isFirstFriendsListPage = true

@@ -141,8 +141,12 @@ class RecommendSchoolFragment :
                 viewModel.addFriendToServer(recommendModel.id.toLong())
                 lastClickedRecommendModel = recommendModel
             },
-            itemClick = { recommendModel, position ->
+            itemClick = { recommendModel, position, holder ->
+                viewModel.setPositionAndHolder(position, holder)
                 viewModel.getUserDataFromServer(recommendModel.id.toLong())
+                if (viewModel.isAddFriendBtnClicked) {
+                    viewModel.addFriendToServer(recommendModel.id.toLong())
+                }
                 lastClickedRecommendModel = recommendModel
             },
         )

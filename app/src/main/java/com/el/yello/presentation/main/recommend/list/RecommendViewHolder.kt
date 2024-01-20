@@ -12,7 +12,7 @@ import com.example.ui.view.setOnSingleClickListener
 class RecommendViewHolder(
     val binding: ItemRecommendListBinding,
     private val buttonClick: (RecommendFriend, Int, RecommendViewHolder) -> Unit,
-    private val itemClick: (RecommendFriend, Int) -> (Unit),
+    private val itemClick: (RecommendFriend, Int, RecommendViewHolder) -> (Unit),
 
 ) :
     RecyclerView.ViewHolder(binding.root) {
@@ -35,7 +35,7 @@ class RecommendViewHolder(
         }
 
         binding.root.setOnSingleClickListener {
-            itemClick(item, position)
+            itemClick(item, position, this)
         }
     }
 }

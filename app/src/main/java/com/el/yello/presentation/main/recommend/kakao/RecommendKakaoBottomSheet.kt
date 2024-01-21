@@ -7,18 +7,18 @@ import androidx.lifecycle.lifecycleScope
 import coil.load
 import coil.transform.CircleCropTransformation
 import com.el.yello.R
-import com.el.yello.databinding.FragmentRecommendItemBottomSheetBinding
+import com.el.yello.databinding.FragmentRecommendKakaoItemBottomSheetBinding
 import com.el.yello.presentation.main.profile.ProfileViewModel
-import com.el.yello.presentation.main.recommend.kakao.RecommendViewModel
+import com.el.yello.presentation.main.recommend.kakao.RecommendKakaoViewModel
 import com.example.ui.base.BindingBottomSheetDialog
 import com.example.ui.view.setOnSingleClickListener
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class RecommendItemBottomSheet :
-    BindingBottomSheetDialog<FragmentRecommendItemBottomSheetBinding>(R.layout.fragment_recommend_item_bottom_sheet) {
+class RecommendKakaoBottomSheet :
+    BindingBottomSheetDialog<FragmentRecommendKakaoItemBottomSheetBinding>(R.layout.fragment_recommend_kakao_item_bottom_sheet) {
 
-    private val viewModel by activityViewModels<RecommendViewModel>()
+    private val viewModel by activityViewModels<RecommendKakaoViewModel>()
 
     override fun onStart() {
         super.onStart()

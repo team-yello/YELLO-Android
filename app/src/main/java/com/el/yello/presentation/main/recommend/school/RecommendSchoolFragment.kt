@@ -14,8 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.el.yello.R
 import com.el.yello.databinding.FragmentRecommendSchoolBinding
 import com.el.yello.presentation.main.dialog.InviteFriendDialog
-import com.el.yello.presentation.main.recommend.RecommendItemBottomSheet
-import com.el.yello.presentation.main.recommend.kakao.RecommendViewModel
+import com.el.yello.presentation.main.recommend.RecommendSchoolBottomSheet
 import com.el.yello.presentation.main.recommend.list.RecommendAdapter
 import com.el.yello.presentation.main.recommend.list.RecommendItemDecoration
 import com.el.yello.presentation.main.recommend.list.RecommendViewHolder
@@ -43,7 +42,7 @@ class RecommendSchoolFragment :
     private val adapter
         get() = requireNotNull(_adapter) { getString(R.string.adapter_not_initialized_error_msg) }
 
-    private lateinit var viewModel: RecommendViewModel
+    private lateinit var viewModel: RecommendSchoolViewModel
 
     private var inviteYesFriendDialog: InviteFriendDialog? = null
     private var inviteNoFriendDialog: InviteFriendDialog? = null
@@ -103,7 +102,7 @@ class RecommendSchoolFragment :
     }
 
     private fun initViewModel() {
-        viewModel = ViewModelProvider(requireActivity())[RecommendViewModel::class.java]
+        viewModel = ViewModelProvider(requireActivity())[RecommendSchoolViewModel::class.java]
         viewModel.isSearchViewShowed = false
     }
 
@@ -239,13 +238,12 @@ class RecommendSchoolFragment :
                         if (!this.yelloId.startsWith("@")) this.yelloId = "@" + this.yelloId
                     }
                     if (lastClickedRecommendModel != null) {
-                        RecommendItemBottomSheet().show(
+                        RecommendSchoolBottomSheet().show(
                             parentFragmentManager,
                             ITEM_BOTTOM_SHEET,
                         )
                     }
                 }
-
                 else -> {}
             }
         }.launchIn(viewLifecycleOwner.lifecycleScope)

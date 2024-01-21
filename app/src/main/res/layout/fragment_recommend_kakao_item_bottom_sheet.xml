@@ -9,7 +9,7 @@
 
         <variable
             name="vm"
-            type="com.el.yello.presentation.main.recommend.kakao.RecommendViewModel" />
+            type="com.el.yello.presentation.main.recommend.kakao.RecommendKakaoViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

@@ -9,7 +9,7 @@
 
         <variable
             name="vm"
-            type="com.el.yello.presentation.main.recommend.kakao.RecommendViewModel" />
+            type="com.el.yello.presentation.main.recommend.school.RecommendSchoolViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -178,7 +178,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/layout_recommend_friend_total_msg" />
-
 
         <ImageView
             android:id="@+id/btn_recommend_item_add_pressed"

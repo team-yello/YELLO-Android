@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.el.yello.R
 import com.el.yello.databinding.FragmentRecommendKakaoBinding
 import com.el.yello.presentation.main.dialog.InviteFriendDialog
-import com.el.yello.presentation.main.recommend.RecommendItemBottomSheet
+import com.el.yello.presentation.main.recommend.RecommendKakaoBottomSheet
 import com.el.yello.presentation.main.recommend.list.RecommendAdapter
 import com.el.yello.presentation.main.recommend.list.RecommendItemDecoration
 import com.el.yello.presentation.main.recommend.list.RecommendViewHolder
@@ -41,7 +41,7 @@ class RecommendKakaoFragment :
     private val adapter
         get() = requireNotNull(_adapter) { getString(R.string.adapter_not_initialized_error_msg) }
 
-    private lateinit var viewModel: RecommendViewModel
+    private lateinit var viewModel: RecommendKakaoViewModel
 
     private var inviteYesFriendDialog: InviteFriendDialog? = null
     private var inviteNoFriendDialog: InviteFriendDialog? = null
@@ -77,7 +77,7 @@ class RecommendKakaoFragment :
     }
 
     private fun initViewModel() {
-        viewModel = ViewModelProvider(requireActivity())[RecommendViewModel::class.java]
+        viewModel = ViewModelProvider(requireActivity())[RecommendKakaoViewModel::class.java]
         viewModel.isSearchViewShowed = false
     }
 
@@ -246,7 +246,7 @@ class RecommendKakaoFragment :
                         if (!this.yelloId.startsWith("@")) this.yelloId = "@" + this.yelloId
                     }
                     if (lastClickedRecommendModel != null) {
-                        RecommendItemBottomSheet().show(
+                        RecommendKakaoBottomSheet().show(
                             parentFragmentManager,
                             ITEM_BOTTOM_SHEET,
                         )

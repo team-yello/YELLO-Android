@@ -45,11 +45,11 @@ class RecommendSchoolBottomSheet :
 
     private fun initAddBtnListener() {
         binding.btnRecommendFriendAdd.setOnSingleClickListener {
-            // viewModel.isAddFriendBtnClicked = true
             binding.btnRecommendFriendAdd.visibility = View.INVISIBLE
             binding.btnRecommendItemAddPressed.visibility = View.VISIBLE
             lifecycleScope.launch {
-                delay(500)
+                viewModel.addFriendToServer(viewModel.clickedUserData.userId)
+                delay(300)
                 dismiss()
             }
         }

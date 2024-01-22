@@ -75,7 +75,6 @@ class AddFriendFragment : BindingFragment<FragmentAddFriendBinding>(R.layout.fra
         }
     }
 
-    // 서버 통신 성공 시 카카오 추천 친구 추가
     private fun setKakaoRecommendList() {
         setInfinityScroll()
         viewModel.initFriendPagingVariable()
@@ -97,7 +96,6 @@ class AddFriendFragment : BindingFragment<FragmentAddFriendBinding>(R.layout.fra
         })
     }
 
-    // 리스트 추가 서버 통신 성공 시 어댑터에 리스트 추가
     private fun observeAddListState() {
         viewModel.friendListState.flowWithLifecycle(viewLifecycleOwner.lifecycle)
             .onEach { state ->

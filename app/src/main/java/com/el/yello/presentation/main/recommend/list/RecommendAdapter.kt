@@ -9,7 +9,7 @@ import com.example.domain.entity.RecommendListModel.RecommendFriend
 
 class RecommendAdapter(
     private val buttonClick: (RecommendFriend, Int, RecommendViewHolder) -> (Unit),
-    private val itemClick: (RecommendFriend, Int,RecommendViewHolder) -> (Unit),
+    private val itemClick: (RecommendFriend, Int, RecommendViewHolder) -> (Unit),
 ) : RecyclerView.Adapter<RecommendViewHolder>() {
 
     private var itemList = mutableListOf<RecommendFriend>()

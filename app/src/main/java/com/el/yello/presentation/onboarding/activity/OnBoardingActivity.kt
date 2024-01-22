@@ -99,7 +99,7 @@ class OnBoardingActivity :
         viewModel.plusCurrentPercent()
         val animator = ObjectAnimator.ofInt(
             binding.onboardingProgressbar,
-            "progress",
+            PROPERTY_PROGRESS,
             binding.onboardingProgressbar.progress,
             viewModel.currentPercent,
         )
@@ -112,7 +112,7 @@ class OnBoardingActivity :
         viewModel.minusCurrentPercent()
         val animator = ObjectAnimator.ofInt(
             binding.onboardingProgressbar,
-            "progress",
+            PROPERTY_PROGRESS,
             binding.onboardingProgressbar.progress,
             viewModel.currentPercent,
         )
@@ -136,7 +136,8 @@ class OnBoardingActivity :
 
     companion object {
         private const val BACK_PRESSED_INTERVAL = 2000
-        const val EXTRA_CODE_TEXT_EMPTY = "codeTextEmpty"
         private const val NONE_ANIMATION = 0
+        const val EXTRA_CODE_TEXT_EMPTY = "codeTextEmpty"
+        const val PROPERTY_PROGRESS = "progress"
     }
 }

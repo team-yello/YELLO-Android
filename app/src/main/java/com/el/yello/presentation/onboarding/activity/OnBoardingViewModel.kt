@@ -46,8 +46,6 @@ class OnBoardingViewModel @Inject constructor(
     fun resetGetValidYelloId() {
         _getValidYelloIdState.value = UiState.Loading
     }
-
-    // 이름 수정뷰 name
     val nameText = MutableLiveData("")
     val isValidName: LiveData<Boolean> = nameText.map { name -> checkName(name) }
 

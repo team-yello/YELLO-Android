@@ -56,6 +56,7 @@ class UniversityInfoFragment :
     private fun setupUniversity() {
         viewModel.universityText.observe(viewLifecycleOwner) { school ->
             binding.tvUniversitySearch.text = school
+            binding.tvDepartmentSearch.text = ""
         }
     }
 

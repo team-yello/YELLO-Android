@@ -95,37 +95,49 @@ class CodeFragment : BindingFragment<FragmentCodeBinding>(R.layout.fragment_code
     }
 
     private fun initIdEditTextViewError() {
-        binding.etCode.setBackgroundResource(R.drawable.shape_fill_red20_line_semantic_status_red500_rect_8)
-        binding.ivCodeDelete.setBackgroundResource(R.drawable.ic_onboarding_delete_red)
-        binding.tvCodeWarning.text = getString(R.string.onboarding_code_duplicate_msg)
-        binding.tvCodeWarning.setTextColor(
-            ContextCompat.getColor(
-                requireContext(),
-                R.color.semantic_red_500,
-            ),
-        )
+        with(binding) {
+            etCode.setBackgroundResource(R.drawable.shape_fill_red20_line_semantic_status_red500_rect_8)
+            ivCodeDelete.setBackgroundResource(R.drawable.ic_onboarding_delete_red)
+            tvCodeWarning.text = getString(R.string.onboarding_code_duplicate_msg)
+            tvCodeWarning.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    R.color.semantic_red_500,
+                ),
+            )
+        }
     }
 
     private fun amplitudeCodeSkipInfo() {
-        AmplitudeUtils.trackEventWithProperties(EVENT_COMPLETE_ONBOARDING_FINISH)
-        AmplitudeUtils.trackEventWithProperties(
-            EVENT_CLICK_ONBOARDING_RECOMMEND,
-            JSONObject().put(NAME_REC_EXIST, VALUE_PASS),
-        )
-        AmplitudeUtils.updateUserProperties(PROPERTY_USER_RECOMMEND, VALUE_NO)
-        AmplitudeUtils.updateUserProperties(PROPERTY_USER_NAME, viewModel.nameText.value.toString())
-        AmplitudeUtils.updateUserProperties(PROPERTY_USER_SEX, viewModel.gender)
+        with(AmplitudeUtils) {
+            trackEventWithProperties(EVENT_COMPLETE_ONBOARDING_FINISH)
+            trackEventWithProperties(
+                EVENT_CLICK_ONBOARDING_RECOMMEND,
+                JSONObject().put(NAME_REC_EXIST, VALUE_PASS),
+            )
+            updateUserProperties(PROPERTY_USER_RECOMMEND, VALUE_NO)
+            updateUserProperties(
+                PROPERTY_USER_NAME,
+                viewModel.nameText.value.toString(),
+            )
+            updateUserProperties(PROPERTY_USER_SEX, viewModel.gender)
+        }
     }
 
     private fun amplitudeCodeNextInfo() {
-        AmplitudeUtils.trackEventWithProperties(EVENT_COMPLETE_ONBOARDING_FINISH)
-        AmplitudeUtils.trackEventWithProperties(
-            EVENT_CLICK_ONBOARDING_RECOMMEND,
-            JSONObject().put(NAME_REC_EXIST, VALUE_NEXT),
-        )
-        AmplitudeUtils.updateUserProperties(PROPERTY_USER_RECOMMEND, VALUE_YES)
-        AmplitudeUtils.updateUserProperties(PROPERTY_USER_NAME, viewModel.nameText.value.toString())
-        AmplitudeUtils.updateUserProperties(PROPERTY_USER_SEX, viewModel.gender)
+        with(AmplitudeUtils) {
+            trackEventWithProperties(EVENT_COMPLETE_ONBOARDING_FINISH)
+            trackEventWithProperties(
+                EVENT_CLICK_ONBOARDING_RECOMMEND,
+                JSONObject().put(NAME_REC_EXIST, VALUE_NEXT),
+            )
+            updateUserProperties(PROPERTY_USER_RECOMMEND, VALUE_YES)
+            updateUserProperties(
+                PROPERTY_USER_NAME,
+                viewModel.nameText.value.toString(),
+            )
+            updateUserProperties(PROPERTY_USER_SEX, viewModel.gender)
+        }
     }
 
     companion object {

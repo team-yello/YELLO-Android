@@ -14,11 +14,7 @@ import org.json.JSONObject
 class TutorialBActivity : BindingActivity<ActivityTutorialBBinding>(R.layout.activity_tutorial_b) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        AmplitudeUtils.trackEventWithProperties(
-            EVENT_VIEW_ONBOARDING_TUTORIAL,
-            JSONObject().put(NAME_TUTORIAL_STEP, VALUE_TUTORIAL_TWO),
-        )
+        amplitudeBTutorial()
         setClickListener()
     }
 
@@ -39,6 +35,13 @@ class TutorialBActivity : BindingActivity<ActivityTutorialBBinding>(R.layout.act
             startActivity(intent)
             finish()
         }
+    }
+
+    private fun amplitudeBTutorial() {
+        AmplitudeUtils.trackEventWithProperties(
+            EVENT_VIEW_ONBOARDING_TUTORIAL,
+            JSONObject().put(NAME_TUTORIAL_STEP, VALUE_TUTORIAL_TWO),
+        )
     }
 
     companion object {

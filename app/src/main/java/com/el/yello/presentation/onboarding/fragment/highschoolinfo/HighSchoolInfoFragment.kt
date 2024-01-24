@@ -14,6 +14,7 @@ import com.el.yello.util.amplitude.AmplitudeUtils
 import com.el.yello.util.context.yelloSnackbar
 import com.example.domain.enum.GradeEnum
 import com.example.ui.base.BindingFragment
+import com.example.ui.context.colorOf
 import com.example.ui.view.setOnSingleClickListener
 import org.json.JSONObject
 
@@ -24,9 +25,11 @@ class HighSchoolInfoFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.vm = viewModel
-        binding.first = GradeEnum.A.toInt()
-        binding.second = GradeEnum.B.toInt()
-        binding.third = GradeEnum.C.toInt()
+        with(binding) {
+            first = GradeEnum.A.toInt()
+            second = GradeEnum.B.toInt()
+            third = GradeEnum.C.toInt()
+        }
         setupHighSchool()
         setupGrade()
         setupHighSchoolGroup()
@@ -62,30 +65,15 @@ class HighSchoolInfoFragment :
         viewModel.studentIdText.observe(viewLifecycleOwner) { grade ->
             when (grade) {
                 GradeEnum.A.toInt() -> {
-                    binding.tvGradeFirst.setBackgroundResource(R.drawable.shape_grayscales900_fill_yello_main600_line_8_leftrect)
-                    binding.tvGradeFirst.setTextColor(resources.getColor(R.color.yello_main_600))
-                    binding.tvGradeSecond.setBackgroundResource(R.drawable.shape_grayscales900_fill_grayscales700_line_8_square)
-                    binding.tvGradeSecond.setTextColor(resources.getColor(R.color.grayscales_700))
-                    binding.tvGradeThird.setBackgroundResource(R.drawable.shape_grayscales900_fill_grayscales700_line_8_rightrect)
-                    binding.tvGradeThird.setTextColor(resources.getColor(R.color.grayscales_700))
+                    changeFirstGradeBtn()
                 }
 
                 GradeEnum.B.toInt() -> {
-                    binding.tvGradeFirst.setBackgroundResource(R.drawable.shape_grayscales900_fill_grayscales700_line_8_leftrect)
-                    binding.tvGradeFirst.setTextColor(resources.getColor(R.color.grayscales_700))
-                    binding.tvGradeSecond.setBackgroundResource(R.drawable.shape_grayscales900_fill_yello_main600_line_8_square)
-                    binding.tvGradeSecond.setTextColor(resources.getColor(R.color.yello_main_600))
-                    binding.tvGradeThird.setBackgroundResource(R.drawable.shape_grayscales900_fill_grayscales700_line_8_rightrect)
-                    binding.tvGradeThird.setTextColor(resources.getColor(R.color.grayscales_700))
+                    changeSecondGradeBtn()
                 }
 
                 GradeEnum.C.toInt() -> {
-                    binding.tvGradeFirst.setBackgroundResource(R.drawable.shape_grayscales900_fill_grayscales700_line_8_leftrect)
-                    binding.tvGradeFirst.setTextColor(resources.getColor(R.color.grayscales_700))
-                    binding.tvGradeSecond.setBackgroundResource(R.drawable.shape_grayscales900_fill_grayscales700_line_8_square)
-                    binding.tvGradeSecond.setTextColor(resources.getColor(R.color.grayscales_700))
-                    binding.tvGradeThird.setBackgroundResource(R.drawable.shape_grayscales900_fill_yello_main600_line_8_rightrect)
-                    binding.tvGradeThird.setTextColor(resources.getColor(R.color.yello_main_600))
+                    changeThirdGradeBtn()
                 }
             }
         }
@@ -106,17 +94,52 @@ class HighSchoolInfoFragment :
         }
     }
 
+    private fun changeFirstGradeBtn() {
+        with(binding) {
+            tvGradeFirst.setBackgroundResource(R.drawable.shape_grayscales900_fill_yello_main600_line_8_leftrect)
+            tvGradeFirst.setTextColor(binding.root.context.colorOf(R.color.yello_main_600))
+            tvGradeSecond.setBackgroundResource(R.drawable.shape_grayscales900_fill_grayscales700_line_8_square)
+            tvGradeSecond.setTextColor(binding.root.context.colorOf(R.color.grayscales_700))
+            tvGradeThird.setBackgroundResource(R.drawable.shape_grayscales900_fill_grayscales700_line_8_rightrect)
+            tvGradeThird.setTextColor(binding.root.context.colorOf(R.color.grayscales_700))
+        }
+    }
+
+    private fun changeSecondGradeBtn() {
+        with(binding) {
+            tvGradeFirst.setBackgroundResource(R.drawable.shape_grayscales900_fill_grayscales700_line_8_leftrect)
+            tvGradeFirst.setTextColor(binding.root.context.colorOf(R.color.grayscales_700))
+            tvGradeSecond.setBackgroundResource(R.drawable.shape_grayscales900_fill_yello_main600_line_8_square)
+            tvGradeSecond.setTextColor(binding.root.context.colorOf(R.color.yello_main_600))
+            tvGradeThird.setBackgroundResource(R.drawable.shape_grayscales900_fill_grayscales700_line_8_rightrect)
+            tvGradeThird.setTextColor(binding.root.context.colorOf(R.color.grayscales_700))
+        }
+    }
+
+    private fun changeThirdGradeBtn() {
+        with(binding) {
+            tvGradeFirst.setBackgroundResource(R.drawable.shape_grayscales900_fill_grayscales700_line_8_leftrect)
+            tvGradeFirst.setTextColor(binding.root.context.colorOf(R.color.grayscales_700))
+            tvGradeSecond.setBackgroundResource(R.drawable.shape_grayscales900_fill_grayscales700_line_8_square)
+            tvGradeSecond.setTextColor(binding.root.context.colorOf(R.color.grayscales_700))
+            tvGradeThird.setBackgroundResource(R.drawable.shape_grayscales900_fill_yello_main600_line_8_rightrect)
+            tvGradeThird.setTextColor(binding.root.context.colorOf(R.color.yello_main_600))
+        }
+    }
+
     private fun amplitudeHighSchoolInfo() {
-        AmplitudeUtils.trackEventWithProperties(
-            EVENT_CLICK_ONBOARDING_NEXT,
-            JSONObject().put(NAME_ONBOARD_VIEW, VALUE_SCHOOL),
-        )
-        AmplitudeUtils.updateUserProperties(PROPERTY_USER_SCHOOL, viewModel.highSchool)
-        AmplitudeUtils.updateUserProperties(
-            PROPERTY_USER_DEPARTMENT,
-            viewModel.highSchoolGroupText.value.toString(),
-        )
-        AmplitudeUtils.updateUserIntProperties(PROPERTY_USER_GRADE, viewModel.studentId)
+        with(AmplitudeUtils) {
+            trackEventWithProperties(
+                EVENT_CLICK_ONBOARDING_NEXT,
+                JSONObject().put(NAME_ONBOARD_VIEW, VALUE_SCHOOL),
+            )
+            updateUserProperties(PROPERTY_USER_SCHOOL, viewModel.highSchool)
+            updateUserProperties(
+                PROPERTY_USER_DEPARTMENT,
+                viewModel.highSchoolGroupText.value.toString(),
+            )
+            updateUserIntProperties(PROPERTY_USER_GRADE, viewModel.studentId)
+        }
     }
 
     companion object {

@@ -48,24 +48,26 @@ class CheckNameDialog :
     private fun initEditBtnListener() {
         val bundle = arguments
         if (bundle != null) {
-            binding.tvNameEditDialogTitleTwo.text = bundle.getString(EXTRA_NAME)
-            binding.btnNameEditDialogYes.setOnSingleClickListener {
-                Intent(requireContext(), OnBoardingActivity::class.java).apply {
-                    putExtras(bundle)
-                    addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                    startActivity(this)
+            with(binding) {
+                tvNameEditDialogTitleTwo.text = bundle.getString(EXTRA_NAME)
+                btnNameEditDialogYes.setOnSingleClickListener {
+                    Intent(requireContext(), OnBoardingActivity::class.java).apply {
+                        putExtras(bundle)
+                        addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                        startActivity(this)
+                    }
+                    dismiss()
+                    requireActivity().finish()
                 }
-                dismiss()
-                requireActivity().finish()
-            }
-            binding.btnNameEditDialogNo.setOnSingleClickListener {
-                Intent(requireContext(), EditNameActivity::class.java).apply {
-                    putExtras(bundle)
-                    addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                    startActivity(this)
+                btnNameEditDialogNo.setOnSingleClickListener {
+                    Intent(requireContext(), EditNameActivity::class.java).apply {
+                        putExtras(bundle)
+                        addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                        startActivity(this)
+                    }
+                    dismiss()
+                    requireActivity().finish()
                 }
-                dismiss()
-                requireActivity().finish()
             }
         } else {
             toast(getString(R.string.sign_in_error_connection))

@@ -14,10 +14,7 @@ class TutorialCActivity : BindingActivity<ActivityTutorialCBinding>(R.layout.act
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        AmplitudeUtils.trackEventWithProperties(
-            EVENT_VIEW_ONBOARDING_TUTORIAL,
-            JSONObject().put(NAME_TUTORIAL_STEP, VALUE_TUTORIAL_THREE),
-        )
+        amplitudeCTutorial()
         setClickListener()
     }
 
@@ -29,7 +26,8 @@ class TutorialCActivity : BindingActivity<ActivityTutorialCBinding>(R.layout.act
     private fun setClickListener() {
         binding.root.setOnSingleClickListener {
             val isCodeTextEmpty = intent.getBooleanExtra(OnBoardingActivity.EXTRA_CODE_TEXT_EMPTY, false)
-            val isFromOnBoarding = intent.getBooleanExtra(TutorialAActivity.EXTRA_FROM_ONBOARDING, false)
+            val isFromOnBoarding =
+                intent.getBooleanExtra(TutorialAActivity.EXTRA_FROM_ONBOARDING, false)
 
             val intent = Intent(this@TutorialCActivity, TutorialDActivity::class.java).apply {
                 putExtra(OnBoardingActivity.EXTRA_CODE_TEXT_EMPTY, isCodeTextEmpty)
@@ -38,6 +36,13 @@ class TutorialCActivity : BindingActivity<ActivityTutorialCBinding>(R.layout.act
             startActivity(intent)
             finish()
         }
+    }
+
+    private fun amplitudeCTutorial() {
+        AmplitudeUtils.trackEventWithProperties(
+            EVENT_VIEW_ONBOARDING_TUTORIAL,
+            JSONObject().put(NAME_TUTORIAL_STEP, VALUE_TUTORIAL_THREE),
+        )
     }
 
     companion object {

@@ -11,6 +11,7 @@ import com.el.yello.presentation.onboarding.activity.OnBoardingViewModel
 import com.el.yello.util.amplitude.AmplitudeUtils
 import com.example.domain.enum.StudentTypeEnum
 import com.example.ui.base.BindingFragment
+import com.example.ui.context.colorOf
 import com.example.ui.view.setOnSingleClickListener
 import org.json.JSONObject
 
@@ -57,29 +58,33 @@ class SelectStudentFragment :
         }
     }
 
+    private fun changeHighSchoolBtn() {
+        with(binding) {
+            btnSchoolHighschool.setBackgroundResource(R.drawable.shape_black_fill_yello_main_500_line_8_rect)
+            btnSchoolUniversity.setBackgroundResource(R.drawable.shape_black_fill_grayscales700_line_8_rect)
+            ivStudentHighschool.setImageResource(R.drawable.ic_student_highschool_face_select)
+            ivStudentUniversity.setImageResource(R.drawable.ic_student_university_face_unselected)
+            tvStudentHighschool.setTextColor(binding.root.context.colorOf(R.color.yello_main_500))
+            tvStudentUniversity.setTextColor(binding.root.context.colorOf(R.color.grayscales_700))
+        }
+    }
+
+    private fun changeUniversityBtn() {
+        with(binding) {
+            btnSchoolUniversity.setBackgroundResource(R.drawable.shape_black_fill_yello_main_500_line_8_rect)
+            btnSchoolHighschool.setBackgroundResource(R.drawable.shape_black_fill_grayscales700_line_8_rect)
+            ivStudentUniversity.setImageResource(R.drawable.ic_student_university_face_select)
+            ivStudentHighschool.setImageResource(R.drawable.ic_student_highschool_face_unselected)
+            tvStudentUniversity.setTextColor(binding.root.context.colorOf(R.color.yello_main_500))
+            tvStudentHighschool.setTextColor(binding.root.context.colorOf(R.color.grayscales_700))
+        }
+    }
+
     private fun amplitudeSelectStudent() {
         AmplitudeUtils.trackEventWithProperties(
             "click_onboarding_next",
             JSONObject().put("onboard_view", "student_type"),
         )
-    }
-
-    private fun changeHighSchoolBtn() {
-        binding.btnSchoolHighschool.setBackgroundResource(R.drawable.shape_black_fill_yello_main_500_line_8_rect)
-        binding.btnSchoolUniversity.setBackgroundResource(R.drawable.shape_black_fill_grayscales700_line_8_rect)
-        binding.ivStudentHighschool.setImageResource(R.drawable.ic_student_highschool_face_select)
-        binding.ivStudentUniversity.setImageResource(R.drawable.ic_student_university_face_unselected)
-        binding.tvStudentHighschool.setTextColor(resources.getColor(R.color.yello_main_500))
-        binding.tvStudentUniversity.setTextColor(resources.getColor(R.color.grayscales_700))
-    }
-
-    private fun changeUniversityBtn() {
-        binding.btnSchoolUniversity.setBackgroundResource(R.drawable.shape_black_fill_yello_main_500_line_8_rect)
-        binding.btnSchoolHighschool.setBackgroundResource(R.drawable.shape_black_fill_grayscales700_line_8_rect)
-        binding.ivStudentUniversity.setImageResource(R.drawable.ic_student_university_face_select)
-        binding.ivStudentHighschool.setImageResource(R.drawable.ic_student_highschool_face_unselected)
-        binding.tvStudentUniversity.setTextColor(resources.getColor(R.color.yello_main_500))
-        binding.tvStudentHighschool.setTextColor(resources.getColor(R.color.grayscales_700))
     }
 
     companion object {

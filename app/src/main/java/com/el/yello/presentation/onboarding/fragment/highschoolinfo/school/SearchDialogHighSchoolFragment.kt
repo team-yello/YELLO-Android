@@ -105,7 +105,7 @@ class SearchDialogHighSchoolFragment :
 
     private fun setClickToSchoolForm() {
         binding.tvHighschoolAdd.setOnClickListener {
-            Intent(Intent.ACTION_VIEW, Uri.parse(HIGHSCHOOL_FORM_URL)).apply {
+            Intent(Intent.ACTION_VIEW, Uri.parse(HIGH_SCHOOL_FORM_URL)).apply {
                 startActivity(this)
             }
         }
@@ -165,6 +165,6 @@ class SearchDialogHighSchoolFragment :
     companion object {
         @JvmStatic
         fun newInstance() = SearchDialogHighSchoolFragment()
-        private const val HIGHSCHOOL_FORM_URL = "https://forms.gle/sMyn6uq7oHDovSdi8"
+        private const val HIGH_SCHOOL_FORM_URL = "https://forms.gle/sMyn6uq7oHDovSdi8"
     }
 }

@@ -79,11 +79,13 @@ class OnBoardingActivity :
         val bundle: Bundle? = intent.extras
         intent.apply {
             if (bundle != null) {
-                viewModel.kakaoId = bundle.getLong(EXTRA_KAKAO_ID, 0).toString()
-                viewModel.nameText.value = bundle.getString(EXTRA_NAME, "")
-                viewModel.gender = bundle.getString(EXTRA_GENDER, "")
-                viewModel.email = bundle.getString(EXTRA_EMAIL, "")
-                viewModel.profileImg = bundle.getString(EXTRA_PROFILE_IMAGE, "")
+                with(viewModel) {
+                    kakaoId = bundle.getLong(EXTRA_KAKAO_ID, 0).toString()
+                    nameText.value = bundle.getString(EXTRA_NAME, "")
+                    gender = bundle.getString(EXTRA_GENDER, "")
+                    email = bundle.getString(EXTRA_EMAIL, "")
+                    profileImg = bundle.getString(EXTRA_PROFILE_IMAGE, "")
+                }
             }
         }
     }

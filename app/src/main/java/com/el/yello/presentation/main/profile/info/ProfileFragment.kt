@@ -45,6 +45,8 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
 
     private lateinit var itemDivider: ProfileItemDecoration
 
+    private var profileFriendItemBottomSheet: ProfileFriendItemBottomSheet? = null
+
     private var isScrolled: Boolean = false
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -116,10 +118,8 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
 
             if (!viewModel.isItemBottomSheetRunning) {
                 AmplitudeUtils.trackEventWithProperties("click_profile_friend")
-                ProfileFriendItemBottomSheet().show(
-                    parentFragmentManager,
-                    ITEM_BOTTOM_SHEET,
-                )
+                profileFriendItemBottomSheet = ProfileFriendItemBottomSheet()
+                profileFriendItemBottomSheet?.show(parentFragmentManager, ITEM_BOTTOM_SHEET)
             }
         }, {
             // 헤더 그룹 추가 버튼 클릭 리스너 설정
@@ -160,7 +160,7 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
 
     // 유저 정보 서버 통신 성공 시 어댑터 생성 후 리사이클러뷰에 부착
     private fun observeUserDataState() {
-        viewModel.getUserDataState.flowWithLifecycle(viewLifecycleOwner.lifecycle).onEach { state ->
+        viewModel.getUserDataState.flowWithLifecycle(lifecycle).onEach { state ->
             when (state) {
                 is UiState.Success -> {
                     viewModel.myUserData = state.data.apply {
@@ -177,31 +177,30 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
 
                 is UiState.Loading -> return@onEach
             }
-        }.launchIn(viewLifecycleOwner.lifecycleScope)
+        }.launchIn(lifecycleScope)
     }
 
     // 친구 목록 서버 통신 성공 시 어댑터에 리스트 추가
     private fun observeFriendsDataState() {
-        viewModel.getFriendListState.flowWithLifecycle(viewLifecycleOwner.lifecycle)
-            .onEach { state ->
-                when (state) {
-                    is UiState.Success -> {
-                        binding.ivProfileLoading.isVisible = false
-                        friendsList = state.data.friends
-                        adapter.addItemList(friendsList)
-                    }
-
-                    is UiState.Failure -> {
-                        yelloSnackbar(requireView(), getString(R.string.profile_error_friend_list))
-                    }
-
-                    is UiState.Loading -> {
-                        binding.ivProfileLoading.isVisible = true
-                    }
-
-                    is UiState.Empty -> return@onEach
+        viewModel.getFriendListState.flowWithLifecycle(lifecycle).onEach { state ->
+            when (state) {
+                is UiState.Success -> {
+                    binding.ivProfileLoading.isVisible = false
+                    friendsList = state.data.friends
+                    adapter.addItemList(friendsList)
                 }
-            }.launchIn(viewLifecycleOwner.lifecycleScope)
+
+                is UiState.Failure -> {
+                    yelloSnackbar(requireView(), getString(R.string.profile_error_friend_list))
+                }
+
+                is UiState.Loading -> {
+                    binding.ivProfileLoading.isVisible = true
+                }
+
+                is UiState.Empty -> return@onEach
+            }
+        }.launchIn(lifecycleScope)
     }
 
     // 무한 스크롤 구현
@@ -230,47 +229,45 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
 
     // 친구 삭제 서버 통신 성공 시 리스트에서 아이템 삭제
     private fun observeFriendDeleteState() {
-        viewModel.deleteFriendState.flowWithLifecycle(viewLifecycleOwner.lifecycle)
-            .onEach { state ->
-                when (state) {
-                    is UiState.Success -> {
-                        lifecycleScope.launch {
-                            viewModel.clickedItemPosition?.let { position ->
-                                adapter.removeItem(position)
-                            }
-                            binding.rvProfileFriendsList.removeItemDecoration(itemDivider)
-                            delay(450)
-                            binding.rvProfileFriendsList.addItemDecoration(itemDivider)
-                            viewModel.myFriendCount -= 1
-                            adapter.notifyDataSetChanged()
+        viewModel.deleteFriendState.flowWithLifecycle(lifecycle).onEach { state ->
+            when (state) {
+                is UiState.Success -> {
+                    lifecycleScope.launch {
+                        viewModel.clickedItemPosition?.let { position ->
+                            adapter.removeItem(position)
                         }
-                        AmplitudeUtils.trackEventWithProperties("complete_profile_delete_friend")
+                        binding.rvProfileFriendsList.removeItemDecoration(itemDivider)
+                        delay(450)
+                        binding.rvProfileFriendsList.addItemDecoration(itemDivider)
+                        viewModel.myFriendCount -= 1
+                        adapter.notifyDataSetChanged()
                     }
-
-                    is UiState.Failure -> toast(getString(R.string.profile_error_delete_friend))
-
-                    is UiState.Loading -> return@onEach
-
-                    is UiState.Empty -> return@onEach
+                    AmplitudeUtils.trackEventWithProperties("complete_profile_delete_friend")
                 }
-            }.launchIn(viewLifecycleOwner.lifecycleScope)
+
+                is UiState.Failure -> toast(getString(R.string.profile_error_delete_friend))
+
+                is UiState.Loading -> return@onEach
+
+                is UiState.Empty -> return@onEach
+            }
+        }.launchIn(lifecycleScope)
     }
 
     // 구독 여부 확인
     private fun observeCheckIsSubscribed() {
-        viewModel.getPurchaseInfoState.flowWithLifecycle(viewLifecycleOwner.lifecycle)
-            .onEach { state ->
-                when (state) {
-                    is UiState.Success -> viewModel.isSubscribed = state.data.isSubscribe == true
+        viewModel.getPurchaseInfoState.flowWithLifecycle(lifecycle).onEach { state ->
+            when (state) {
+                is UiState.Success -> viewModel.isSubscribed = state.data.isSubscribe == true
 
-                    is UiState.Failure -> viewModel.isSubscribed = false
+                is UiState.Failure -> viewModel.isSubscribed = false
 
-                    is UiState.Loading -> return@onEach
+                is UiState.Loading -> return@onEach
 
-                    is UiState.Empty -> return@onEach
-                }
-                adapter.notifyDataSetChanged()
-            }.launchIn(viewLifecycleOwner.lifecycleScope)
+                is UiState.Empty -> return@onEach
+            }
+            adapter.notifyDataSetChanged()
+        }.launchIn(lifecycleScope)
     }
 
     // 친구 삭제 시 오른쪽으로 스와이프 되는 애니메이션 추가
@@ -291,6 +288,7 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
     override fun onDestroyView() {
         super.onDestroyView()
         _adapter = null
+        if (profileFriendItemBottomSheet != null) profileFriendItemBottomSheet?.dismiss()
     }
 
     private companion object {

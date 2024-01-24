@@ -160,6 +160,7 @@ class LookFragment : BindingFragment<FragmentLookBinding>(R.layout.fragment_look
     override fun onDestroyView() {
         super.onDestroyView()
         _adapter = null
+        if (inviteFriendDialog != null) inviteFriendDialog?.dismiss()
     }
 
     companion object {

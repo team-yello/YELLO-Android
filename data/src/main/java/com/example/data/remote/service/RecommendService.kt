@@ -3,7 +3,7 @@ package com.example.data.remote.service
 import com.example.data.model.request.recommend.RequestRecommendKakaoDto
 import com.example.data.model.response.BaseResponse
 import com.example.data.model.response.recommend.ResponseRecommendDto
-import com.example.data.model.response.recommend.ResponseRecommendSearchDto
+import com.example.data.model.response.recommend.ResponseRecommendUserInfoDto
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
@@ -15,17 +15,21 @@ interface RecommendService {
     @POST("/api/v1/friend/recommend/kakao")
     suspend fun postToGetKakaoList(
         @Query("page") page: Int,
-        @Body request: RequestRecommendKakaoDto
+        @Body request: RequestRecommendKakaoDto,
     ): BaseResponse<ResponseRecommendDto>
 
     @GET("/api/v1/friend/recommend/school")
     suspend fun getSchoolList(
-        @Query("page") page: Int
+        @Query("page") page: Int,
     ): BaseResponse<ResponseRecommendDto>
 
     @POST("/api/v1/friend/{friendId}")
     suspend fun postFriendAdd(
-        @Path("friendId") friendId: Long
+        @Path("friendId") friendId: Long,
     ): BaseResponse<Unit>
 
+    @GET("/api/v1/user/{userId}")
+    suspend fun getRecommendUserInfo(
+        @Path("userId") userId: Long,
+    ): BaseResponse<ResponseRecommendUserInfoDto>
 }

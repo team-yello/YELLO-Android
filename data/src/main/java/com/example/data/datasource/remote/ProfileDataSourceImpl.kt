@@ -8,28 +8,24 @@ import com.example.data.remote.service.ProfileService
 import javax.inject.Inject
 
 class ProfileDataSourceImpl @Inject constructor(
-    private val profileService: ProfileService
+    private val profileService: ProfileService,
 ) : ProfileDataSource {
 
-    override suspend fun getUserData(
-    ): BaseResponse<ResponseProfileUserDto> {
+    override suspend fun getUserData(): BaseResponse<ResponseProfileUserDto> {
         return profileService.getUserData()
     }
 
     override suspend fun getFriendsData(
-        page: Int
+        page: Int,
     ): BaseResponse<ResponseProfileFriendsListDto> {
         return profileService.getFriendsData(page)
     }
 
-    override suspend fun deleteUserData(
-    ): BaseResponse<Unit> {
+    override suspend fun deleteUserData(): BaseResponse<Unit> {
         return profileService.deleteUserData()
     }
 
-    override suspend fun deleteFriendData(
-        friendId: Int
-    ): BaseResponse<Unit> {
+    override suspend fun deleteFriendData(friendId: Long): BaseResponse<Unit> {
         return profileService.deleteFriendData(friendId)
     }
 }

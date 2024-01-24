@@ -29,7 +29,7 @@ class ProfileViewModel @Inject constructor(
     private val profileRepository: ProfileRepository,
     private val authRepository: AuthRepository,
     private val yelloRepository: YelloRepository,
-    private val payRepository: PayRepository
+    private val payRepository: PayRepository,
 ) : ViewModel() {
 
     private val _getUserDataState = MutableStateFlow<UiState<ProfileUserModel>>(UiState.Empty)
@@ -158,7 +158,7 @@ class ProfileViewModel @Inject constructor(
     }
 
     // 서버 통신 - 친구 식제
-    fun deleteFriendDataToServer(friendId: Int) {
+    fun deleteFriendDataToServer(friendId: Long) {
         viewModelScope.launch {
             _deleteFriendState.value = UiState.Loading
             profileRepository.deleteFriendData(friendId)
@@ -211,7 +211,6 @@ class ProfileViewModel @Inject constructor(
                     _getPurchaseInfoState.value = UiState.Failure(it.message.toString())
                 }
         }
-
     }
 
     fun getVoteCount() {

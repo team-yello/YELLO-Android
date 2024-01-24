@@ -13,7 +13,7 @@ import com.example.ui.view.setOnSingleClickListener
 class ProfileUserInfoViewHolder(
     val binding: ItemProfileUserInfoBinding,
     val buttonClick: (ProfileViewModel) -> (Unit),
-    val shopClick: (ProfileViewModel) -> (Unit)
+    val shopClick: (ProfileViewModel) -> (Unit),
 ) : RecyclerView.ViewHolder(binding.root) {
 
     fun onBind(viewModel: ProfileViewModel) {

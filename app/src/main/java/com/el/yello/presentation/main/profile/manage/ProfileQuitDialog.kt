@@ -64,7 +64,8 @@ class ProfileQuitDialog :
     private fun initQuitBtnListener() {
         binding.btnProfileDialogQuit.setOnSingleClickListener {
             AmplitudeUtils.trackEventWithProperties(
-                "click_profile_withdrawal", JSONObject().put("withdrawal_button", "withdrawal4")
+                "click_profile_withdrawal",
+                JSONObject().put("withdrawal_button", "withdrawal4"),
             )
             viewModel.deleteUserDataToServer()
         }

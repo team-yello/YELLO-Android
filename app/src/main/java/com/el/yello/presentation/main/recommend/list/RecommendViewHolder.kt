@@ -13,29 +13,27 @@ class RecommendViewHolder(
     val binding: ItemRecommendListBinding,
     private val buttonClick: (RecommendFriend, Int, RecommendViewHolder) -> Unit,
     private val itemClick: (RecommendFriend, Int, RecommendViewHolder) -> (Unit),
-
-) :
-    RecyclerView.ViewHolder(binding.root) {
+    ) : RecyclerView.ViewHolder(binding.root) {
 
     fun onBind(item: RecommendFriend, position: Int) {
-        binding.tvRecommendItemName.text = item.name
-        binding.tvRecommendItemSchool.text = item.group
-        item.profileImage.let { thumbnail ->
-            if (thumbnail == BASIC_THUMBNAIL) {
-                binding.ivRecommendItemThumbnail.load(R.drawable.img_yello_basic)
-            } else {
-                binding.ivRecommendItemThumbnail.load(thumbnail) {
+        with(binding) {
+            tvRecommendItemName.text = item.name
+            tvRecommendItemSchool.text = item.group
+
+            ivRecommendItemThumbnail.apply {
+                val thumbnail = item.profileImage
+                load(if (thumbnail == BASIC_THUMBNAIL) R.drawable.img_yello_basic else thumbnail) {
                     transformations(CircleCropTransformation())
                 }
             }
-        }
 
-        binding.btnRecommendItemAdd.setOnSingleClickListener {
-            buttonClick(item, position, this)
-        }
+            btnRecommendItemAdd.setOnSingleClickListener {
+                buttonClick(item, position, this@RecommendViewHolder)
+            }
 
-        binding.root.setOnSingleClickListener {
-            itemClick(item, position, this)
+            root.setOnSingleClickListener {
+                itemClick(item, position, this@RecommendViewHolder)
+            }
         }
     }
 }

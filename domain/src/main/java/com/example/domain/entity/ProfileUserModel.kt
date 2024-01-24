@@ -10,3 +10,6 @@ data class ProfileUserModel(
     val friendCount: Int,
     val point: Int
 )
+
+fun getEmptyProfileUserModel() =
+    ProfileUserModel(0, "", "", "", "", 0, 0, 0)

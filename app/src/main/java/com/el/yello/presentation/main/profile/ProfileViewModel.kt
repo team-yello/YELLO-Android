@@ -6,6 +6,7 @@ import com.el.yello.util.amplitude.AmplitudeUtils
 import com.example.domain.entity.PayInfoModel
 import com.example.domain.entity.ProfileFriendsListModel
 import com.example.domain.entity.ProfileUserModel
+import com.example.domain.entity.getEmptyProfileUserModel
 import com.example.domain.entity.vote.VoteCount
 import com.example.domain.repository.AuthRepository
 import com.example.domain.repository.PayRepository
@@ -66,10 +67,10 @@ class ProfileViewModel @Inject constructor(
     private var isPagingFinish = false
     private var totalPage = Int.MAX_VALUE
 
-    var myUserData = ProfileUserModel(0, "", "", "", "", 0, 0, 0)
+    var myUserData = getEmptyProfileUserModel()
     var myFriendCount = 0
 
-    var clickedUserData = ProfileUserModel(0, "", "", "", "", 0, 0, 0)
+    var clickedUserData = getEmptyProfileUserModel()
     var clickedItemPosition: Int? = null
 
     fun setItemPosition(position: Int) {

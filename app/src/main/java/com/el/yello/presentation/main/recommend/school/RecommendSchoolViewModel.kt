@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.el.yello.presentation.main.recommend.list.RecommendViewHolder
 import com.example.domain.entity.RecommendListModel
 import com.example.domain.entity.RecommendUserInfoModel
+import com.example.domain.entity.setEmptyRecommendUserInfoModel
 import com.example.domain.repository.AuthRepository
 import com.example.domain.repository.RecommendRepository
 import com.example.ui.view.UiState
@@ -36,8 +37,7 @@ class RecommendSchoolViewModel @Inject constructor(
     var itemPosition: Int? = null
     var itemHolder: RecommendViewHolder? = null
 
-    var isItemBottomSheetRunning: Boolean = false
-    var clickedUserData = RecommendUserInfoModel(0, "", "", "", "", 0, 0)
+    var clickedUserData = setEmptyRecommendUserInfoModel()
 
     private var currentPage = -1
     private var isPagingFinish = false

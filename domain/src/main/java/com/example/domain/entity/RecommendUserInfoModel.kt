@@ -9,3 +9,6 @@ data class RecommendUserInfoModel(
     val yelloCount: Int,
     val friendCount: Int,
 )
+
+fun setEmptyRecommendUserInfoModel() =
+    RecommendUserInfoModel(0, "", "", "", "", 0, 0)

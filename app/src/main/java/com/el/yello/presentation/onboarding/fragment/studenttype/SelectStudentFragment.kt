@@ -34,12 +34,7 @@ class SelectStudentFragment :
         viewModel.studentType.observe(viewLifecycleOwner) { studentType ->
             when (studentType) {
                 StudentTypeEnum.H.toString() -> {
-                    binding.btnSchoolHighschool.setBackgroundResource(R.drawable.shape_black_fill_yello_main_500_line_8_rect)
-                    binding.btnSchoolUniversity.setBackgroundResource(R.drawable.shape_black_fill_grayscales700_line_8_rect)
-                    binding.ivStudentHighschool.setImageResource(R.drawable.ic_student_highschool_face_select)
-                    binding.ivStudentUniversity.setImageResource(R.drawable.ic_student_university_face_unselected)
-                    binding.tvStudentHighschool.setTextColor(resources.getColor(R.color.yello_main_500))
-                    binding.tvStudentUniversity.setTextColor(resources.getColor(R.color.grayscales_700))
+                    changeHighSchoolBtn()
                     binding.btnSelectTypeNext.setOnSingleClickListener {
                         findNavController().navigate(R.id.action_selectStudentFragment_to_highschoolInfoFragment)
                         amplitudeSelectStudent()
@@ -49,12 +44,7 @@ class SelectStudentFragment :
                     }
                 }
                 StudentTypeEnum.U.toString() -> {
-                    binding.btnSchoolUniversity.setBackgroundResource(R.drawable.shape_black_fill_yello_main_500_line_8_rect)
-                    binding.btnSchoolHighschool.setBackgroundResource(R.drawable.shape_black_fill_grayscales700_line_8_rect)
-                    binding.ivStudentUniversity.setImageResource(R.drawable.ic_student_university_face_select)
-                    binding.ivStudentHighschool.setImageResource(R.drawable.ic_student_highschool_face_unselected)
-                    binding.tvStudentUniversity.setTextColor(resources.getColor(R.color.yello_main_500))
-                    binding.tvStudentHighschool.setTextColor(resources.getColor(R.color.grayscales_700))
+                    changeUniversityBtn()
                     binding.btnSelectTypeNext.setOnSingleClickListener {
                         findNavController().navigate(R.id.action_selectStudentFragment_to_universityInfoFragment)
                         amplitudeSelectStudent()
@@ -72,6 +62,24 @@ class SelectStudentFragment :
             "click_onboarding_next",
             JSONObject().put("onboard_view", "student_type"),
         )
+    }
+
+    private fun changeHighSchoolBtn() {
+        binding.btnSchoolHighschool.setBackgroundResource(R.drawable.shape_black_fill_yello_main_500_line_8_rect)
+        binding.btnSchoolUniversity.setBackgroundResource(R.drawable.shape_black_fill_grayscales700_line_8_rect)
+        binding.ivStudentHighschool.setImageResource(R.drawable.ic_student_highschool_face_select)
+        binding.ivStudentUniversity.setImageResource(R.drawable.ic_student_university_face_unselected)
+        binding.tvStudentHighschool.setTextColor(resources.getColor(R.color.yello_main_500))
+        binding.tvStudentUniversity.setTextColor(resources.getColor(R.color.grayscales_700))
+    }
+
+    private fun changeUniversityBtn() {
+        binding.btnSchoolUniversity.setBackgroundResource(R.drawable.shape_black_fill_yello_main_500_line_8_rect)
+        binding.btnSchoolHighschool.setBackgroundResource(R.drawable.shape_black_fill_grayscales700_line_8_rect)
+        binding.ivStudentUniversity.setImageResource(R.drawable.ic_student_university_face_select)
+        binding.ivStudentHighschool.setImageResource(R.drawable.ic_student_highschool_face_unselected)
+        binding.tvStudentUniversity.setTextColor(resources.getColor(R.color.yello_main_500))
+        binding.tvStudentHighschool.setTextColor(resources.getColor(R.color.grayscales_700))
     }
 
     companion object {

@@ -1,6 +1,5 @@
 package com.el.yello.presentation.tutorial
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import com.el.yello.R

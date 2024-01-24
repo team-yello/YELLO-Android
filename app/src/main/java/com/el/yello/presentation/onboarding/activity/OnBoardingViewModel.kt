@@ -35,21 +35,8 @@ class OnBoardingViewModel @Inject constructor(
 ) : ViewModel() {
 
     var currentPercent = 17
-    fun plusCurrentPercent() {
-        currentPercent += 17
-    }
-
-    fun minusCurrentPercent() {
-        currentPercent -= 17
-    }
-
-    fun resetGetValidYelloId() {
-        _getValidYelloIdState.value = UiState.Loading
-    }
     val nameText = MutableLiveData("")
     val isValidName: LiveData<Boolean> = nameText.map { name -> checkName(name) }
-
-    private fun checkName(name: String) = Pattern.matches(REGEX_NAME_PATTERN, name)
 
     val checkNameLength: LiveData<Boolean> = nameText.map { name ->
         (name?.trim()?.length ?: 0) >= 2
@@ -75,6 +62,16 @@ class OnBoardingViewModel @Inject constructor(
     val codeText = MutableLiveData("")
     val isValidCode: LiveData<Boolean> = codeText.map { id -> checkId(id) }
 
+    private var currentFriendOffset = -100
+    private var currentFriendPage = -1
+    private var isFriendPagingFinish = false
+    private var totalFriendPage = Int.MAX_VALUE
+    private var isFirstFriendsListPage: Boolean = true
+
+    var kakaoId: String = ""
+    var email: String = ""
+    var profileImg: String = ""
+    var gender: String = ""
     private val _universityState = MutableStateFlow<UiState<SchoolList>>(UiState.Empty)
     val universityState: StateFlow<UiState<SchoolList>> = _universityState
 
@@ -88,12 +85,6 @@ class OnBoardingViewModel @Inject constructor(
 
     private val _highSchoolGroupList: MutableLiveData<List<String>> = MutableLiveData()
     val highSchoolGroupList: LiveData<List<String>> = _highSchoolGroupList
-    fun addHighSchoolGroup() {
-        val highSchoolGroupList = listOf(
-            "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20",
-        )
-        _highSchoolGroupList.value = highSchoolGroupList
-    }
 
     private val _studentIdResult: MutableLiveData<List<Int>> = MutableLiveData()
     val studentIdResult: LiveData<List<Int>> = _studentIdResult
@@ -110,6 +101,18 @@ class OnBoardingViewModel @Inject constructor(
 
     private val _postSignupState = MutableLiveData<UiState<UserInfo>>()
     val postSignupState: LiveData<UiState<UserInfo>> get() = _postSignupState
+
+    fun plusCurrentPercent() {
+        currentPercent += 17
+    }
+
+    fun minusCurrentPercent() {
+        currentPercent -= 17
+    }
+
+    fun resetGetValidYelloId() {
+        _getValidYelloIdState.value = UiState.Loading
+    }
 
     fun selectStudentType(student: String) {
         studentType.value = student
@@ -145,6 +148,13 @@ class OnBoardingViewModel @Inject constructor(
         getHighSchoolGroupId(group)
     }
 
+    fun addHighSchoolGroup() {
+        val highSchoolGroupList = listOf(
+            "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20",
+        )
+        _highSchoolGroupList.value = highSchoolGroupList
+    }
+
     fun setStudentId(studentId: Int) {
         studentIdText.value = studentId
     }
@@ -158,15 +168,10 @@ class OnBoardingViewModel @Inject constructor(
         studentIdText.value = grade
     }
 
+    private fun checkName(name: String) = Pattern.matches(REGEX_NAME_PATTERN, name)
     private fun checkId(id: String) = Pattern.matches(REGEX_ID_PATTERN, id)
 
     fun isCodeTextEmpty() = codeText.value.isNullOrEmpty()
-
-    private var currentFriendOffset = -100
-    private var currentFriendPage = -1
-    private var isFriendPagingFinish = false
-    private var totalFriendPage = Int.MAX_VALUE
-    private var isFirstFriendsListPage: Boolean = true
 
     fun initFriendPagingVariable() {
         selectedFriendCount.value = 0
@@ -176,10 +181,6 @@ class OnBoardingViewModel @Inject constructor(
         currentFriendPage = -1
         isFriendPagingFinish = false
         totalFriendPage = Int.MAX_VALUE
-    }
-
-    fun validYelloIdLoading() {
-        _getValidYelloIdState.value = UiState.Loading
     }
 
     fun getUniversityList(search: String) {
@@ -283,8 +284,6 @@ class OnBoardingViewModel @Inject constructor(
                 }
         }
     }
-
-    // 서버 통신 - 카카오 리스트 통신 후 친구 리스트 추가 서버 통신 진행
     fun addListWithKakaoIdList() {
         if (isFriendPagingFinish) return
         currentFriendOffset += 100
@@ -300,15 +299,13 @@ class OnBoardingViewModel @Inject constructor(
                 if (totalFriendPage == currentFriendPage) isFriendPagingFinish = true
                 val friendIdList: List<String> =
                     friends.elements?.map { friend -> friend.id.toString() } ?: listOf()
-                getListFromServer(friendIdList, groupId)
+                getKaKaoListFromServer(friendIdList, groupId)
             } else {
                 Timber.d("연동 가능한 카카오톡 친구 없음")
             }
         }
     }
-
-    // 서버 통신 - 추천 친구 리스트 추가
-    private fun getListFromServer(friendKakaoId: List<String>, groupId: Long) {
+    private fun getKaKaoListFromServer(friendKakaoId: List<String>, groupId: Long) {
         if (isFirstFriendsListPage) {
             _friendListState.value = UiState.Loading
             isFirstFriendsListPage = false
@@ -352,12 +349,6 @@ class OnBoardingViewModel @Inject constructor(
                 }
         }
     }
-
-    // 회원 가입
-    var kakaoId: String = ""
-    var email: String = ""
-    var profileImg: String = ""
-    var gender: String = ""
 
     fun postSignup() {
         viewModelScope.launch {

@@ -1,6 +1,7 @@
 package com.el.yello.presentation.auth
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.activity.viewModels
@@ -14,6 +15,7 @@ import com.el.yello.presentation.auth.SignInActivity.Companion.EXTRA_GENDER
 import com.el.yello.presentation.auth.SignInActivity.Companion.EXTRA_KAKAO_ID
 import com.el.yello.presentation.auth.SignInActivity.Companion.EXTRA_NAME
 import com.el.yello.presentation.auth.SignInActivity.Companion.EXTRA_PROFILE_IMAGE
+import com.el.yello.presentation.main.profile.manage.ProfileManageActivity.Companion.PRIVACY_URL
 import com.el.yello.presentation.onboarding.activity.EditNameActivity
 import com.el.yello.presentation.onboarding.fragment.checkName.CheckNameDialog
 import com.el.yello.util.amplitude.AmplitudeUtils
@@ -37,6 +39,7 @@ class SocialSyncActivity :
         super.onCreate(savedInstanceState)
 
         initSocialSyncBtnListener()
+        initSocialSyncTermsListener()
         observeFriendsAccessState()
     }
 
@@ -44,6 +47,12 @@ class SocialSyncActivity :
         binding.btnSocialSync.setOnSingleClickListener {
             AmplitudeUtils.trackEventWithProperties("click_onboarding_kakao_friends")
             viewModel.getKakaoFriendsList()
+        }
+    }
+
+    private fun initSocialSyncTermsListener() {
+        binding.btnSocialSyncTerms.setOnSingleClickListener {
+            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(PRIVACY_URL)))
         }
     }
 

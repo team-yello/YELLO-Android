@@ -33,10 +33,9 @@ class RecommendKakaoBottomSheet :
     }
 
     private fun setItemImage() {
-        if (viewModel.clickedUserData.profileImageUrl == ProfileViewModel.BASIC_THUMBNAIL) {
-            binding.ivRecommendFriendThumbnail.load(R.drawable.img_yello_basic)
-        } else {
-            binding.ivRecommendFriendThumbnail.load(viewModel.clickedUserData.profileImageUrl) {
+        binding.ivRecommendFriendThumbnail.apply {
+            val thumbnail = viewModel.clickedUserData.profileImageUrl
+            load(if (thumbnail == ProfileViewModel.BASIC_THUMBNAIL) R.drawable.img_yello_basic else thumbnail) {
                 transformations(CircleCropTransformation())
             }
         }

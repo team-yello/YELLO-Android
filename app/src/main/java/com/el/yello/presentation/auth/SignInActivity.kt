@@ -38,7 +38,7 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
         viewModel.getDeviceToken()
         observeDeviceTokenError()
         observeAppLoginError()
-        observeKakaoUserInfoState()
+        observeKakaoUserInfoResult()
         observeFriendsListValidState()
         observeChangeTokenResult()
         observeUserDataState()
@@ -73,7 +73,7 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
     }
 
     // Failure -> 카카오에 등록된 유저 정보 받아온 후 친구목록 동의 화면으로 이동
-    private fun observeKakaoUserInfoState() {
+    private fun observeKakaoUserInfoResult() {
         viewModel.getKakaoInfoResult.flowWithLifecycle(lifecycle).onEach { result ->
             if (!result) yelloSnackbar(binding.root, getString(R.string.msg_error))
         }.launchIn(lifecycleScope)

@@ -56,7 +56,7 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
         initPullToScrollListener()
         setInfinityScroll()
         setDeleteAnimation()
-        observeUserDataState()
+        observeUserDataResult()
         observeFriendsDataState()
         observeFriendDeleteState()
         observeCheckIsSubscribed()
@@ -159,24 +159,9 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
     }
 
     // 유저 정보 서버 통신 성공 시 어댑터 생성 후 리사이클러뷰에 부착
-    private fun observeUserDataState() {
-        viewModel.getUserDataState.flowWithLifecycle(lifecycle).onEach { state ->
-            when (state) {
-                is UiState.Success -> {
-                    viewModel.myUserData = state.data.apply {
-                        if (!this.yelloId.startsWith("@")) this.yelloId = "@" + this.yelloId
-                    }
-                    viewModel.myFriendCount = state.data.friendCount
-                }
-
-                is UiState.Failure -> {
-                    yelloSnackbar(requireView(), getString(R.string.profile_error_user_data))
-                }
-
-                is UiState.Empty -> return@onEach
-
-                is UiState.Loading -> return@onEach
-            }
+    private fun observeUserDataResult() {
+        viewModel.getUserDataResult.flowWithLifecycle(lifecycle).onEach { result ->
+            if (!result) yelloSnackbar(requireView(), getString(R.string.profile_error_user_data))
         }.launchIn(lifecycleScope)
     }
 

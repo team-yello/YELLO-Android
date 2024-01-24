@@ -290,8 +290,8 @@ class RecommendKakaoFragment :
 
     private fun changeToCheckIcon(holder: RecommendViewHolder) {
         with(holder.binding) {
-            btnRecommendItemAdd.isVisible = false
-            btnRecommendItemAddPressed.isVisible = true
+            btnRecommendItemAdd.visibility = View.INVISIBLE
+            btnRecommendItemAddPressed.visibility = View.VISIBLE
         }
     }
 

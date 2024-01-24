@@ -74,27 +74,8 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
 
     // 서비스 토큰 교체 서버 통신 결과에 따라서 분기 처리 진행
     private fun observeChangeTokenState() {
-        viewModel.postChangeTokenState.flowWithLifecycle(lifecycle).onEach { state ->
-            when (state) {
-                is UiState.Success -> {
-                    // 200(가입된 아이디): 온보딩 뷰 생략하고 바로 메인 화면으로 이동 위해 유저 정보 받기
-                    viewModel.getUserDataFromServer()
-                }
-
-                is UiState.Failure -> {
-                    if (state.msg == CODE_NOT_SIGNED_IN || state.msg == CODE_NO_UUID) {
-                        // 403, 404 : 온보딩 뷰로 이동 위해 카카오 유저 정보 얻기
-                        viewModel.getKakaoInfo()
-                    } else {
-                        // 나머지 : 에러 발생
-                        toast(getString(R.string.sign_in_error_connection))
-                    }
-                }
-
-                is UiState.Loading -> return@onEach
-
-                is UiState.Empty -> return@onEach
-            }
+        viewModel.postChangeTokenResult.flowWithLifecycle(lifecycle).onEach { result ->
+            if (!result) toast(getString(R.string.sign_in_error_connection))
         }.launchIn(lifecycleScope)
     }
 

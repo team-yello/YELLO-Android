@@ -4,11 +4,9 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
-import coil.load
-import coil.transform.CircleCropTransformation
 import com.el.yello.R
 import com.el.yello.databinding.FragmentRecommendKakaoItemBottomSheetBinding
-import com.el.yello.presentation.main.profile.ProfileViewModel
+import com.el.yello.util.Utils.setImageOrBasicThumbnail
 import com.example.ui.base.BindingBottomSheetDialog
 import com.example.ui.view.setOnSingleClickListener
 import kotlinx.coroutines.delay
@@ -33,12 +31,7 @@ class RecommendKakaoBottomSheet :
     }
 
     private fun setItemImage() {
-        binding.ivRecommendFriendThumbnail.apply {
-            val thumbnail = viewModel.clickedUserData.profileImageUrl
-            load(if (thumbnail == ProfileViewModel.BASIC_THUMBNAIL) R.drawable.img_yello_basic else thumbnail) {
-                transformations(CircleCropTransformation())
-            }
-        }
+        binding.ivRecommendFriendThumbnail.setImageOrBasicThumbnail(viewModel.clickedUserData.profileImageUrl)
     }
 
     private fun initAddBtnListener() {

@@ -4,12 +4,10 @@ import android.content.DialogInterface
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.activityViewModels
-import coil.load
-import coil.transform.CircleCropTransformation
 import com.el.yello.R
 import com.el.yello.databinding.FragmentProfileItemBottomSheetBinding
 import com.el.yello.presentation.main.profile.ProfileViewModel
-import com.el.yello.presentation.main.profile.ProfileViewModel.Companion.BASIC_THUMBNAIL
+import com.el.yello.util.Utils.setImageOrBasicThumbnail
 import com.example.ui.base.BindingBottomSheetDialog
 import com.example.ui.view.setOnSingleClickListener
 
@@ -35,12 +33,7 @@ class ProfileFriendItemBottomSheet :
     }
 
     private fun setItemImage() {
-        binding.ivProfileFriendThumbnail.apply {
-            val thumbnail = viewModel.clickedUserData.profileImageUrl
-            load(if (thumbnail == BASIC_THUMBNAIL) R.drawable.img_yello_basic else thumbnail) {
-                transformations(CircleCropTransformation())
-            }
-        }
+        binding.ivProfileFriendThumbnail.setImageOrBasicThumbnail(viewModel.clickedUserData.profileImageUrl)
     }
 
     // 다음 바텀시트 출력

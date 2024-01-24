@@ -7,6 +7,7 @@ import coil.transform.CircleCropTransformation
 import com.el.yello.R
 import com.el.yello.databinding.ItemRecommendSearchBinding
 import com.el.yello.presentation.main.profile.ProfileViewModel
+import com.el.yello.util.Utils.setImageOrBasicThumbnail
 import com.example.domain.entity.SearchListModel.SearchFriendModel
 import com.example.ui.view.setOnSingleClickListener
 
@@ -21,15 +22,7 @@ class SearchViewHolder(
         binding.tvRecommendItemId.text = String.format("@%s", item.yelloId)
         binding.tvRecommendItemSchool.text = item.group
 
-        item.profileImage.let { thumbnail ->
-            if (thumbnail == ProfileViewModel.BASIC_THUMBNAIL) {
-                binding.ivRecommendItemThumbnail.load(R.drawable.img_yello_basic)
-            } else {
-                binding.ivRecommendItemThumbnail.load(thumbnail) {
-                    transformations(CircleCropTransformation())
-                }
-            }
-        }
+        binding.ivRecommendItemThumbnail.setImageOrBasicThumbnail(item.profileImage)
 
         if (item.isFriend) {
             binding.btnRecommendItemAdd.visibility = View.GONE

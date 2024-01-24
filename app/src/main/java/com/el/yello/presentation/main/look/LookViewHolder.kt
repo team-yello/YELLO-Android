@@ -2,11 +2,9 @@ package com.el.yello.presentation.main.look
 
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
-import coil.load
-import coil.transform.CircleCropTransformation
 import com.el.yello.R
 import com.el.yello.databinding.ItemLookBinding
-import com.el.yello.presentation.main.profile.ProfileViewModel.Companion.BASIC_THUMBNAIL
+import com.el.yello.util.Utils.setImageOrBasicThumbnail
 import com.example.domain.entity.LookListModel.LookModel
 import com.example.ui.context.colorOf
 import com.example.ui.context.drawableOf
@@ -26,6 +24,8 @@ class LookViewHolder(
 
             tvNameHead.isVisible = !item.vote.nameHead.isNullOrEmpty()
             tvKeywordHead.isVisible = !item.vote.keywordHead.isNullOrEmpty()
+
+            ivLookThumbnail.setImageOrBasicThumbnail(item.receiverProfileImage)
 
             tvKeyword.apply {
                 text = item.vote.keyword
@@ -49,13 +49,6 @@ class LookViewHolder(
                 } else {
                     setTextColor(itemView.context.colorOf(R.color.semantic_gender_f_500))
                     FROM_FEMALE
-                }
-            }
-
-            ivLookThumbnail.apply {
-                val thumbnail = item.receiverProfileImage
-                load(if (thumbnail == BASIC_THUMBNAIL) R.drawable.img_yello_basic else thumbnail) {
-                    transformations(CircleCropTransformation())
                 }
             }
         }

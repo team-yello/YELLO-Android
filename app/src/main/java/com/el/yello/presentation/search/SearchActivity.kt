@@ -38,7 +38,6 @@ class SearchActivity : BindingActivity<ActivitySearchBinding>(R.layout.activity_
 
     private val viewModel by viewModels<SearchViewModel>()
 
-    private val debounceTime = 500L
     private var searchJob: Job? = null
 
     private var searchText: String = ""
@@ -85,10 +84,10 @@ class SearchActivity : BindingActivity<ActivitySearchBinding>(R.layout.activity_
         binding.layoutSearchSwipe.apply {
             setOnRefreshListener {
                 lifecycleScope.launch {
-                    showLoadingScreen()
+                    showShimmerView(isLoading = true, hasList = true)
                     viewModel.setListFromServer(searchText)
                     delay(300)
-                    showFriendListScreen()
+                    showShimmerView(isLoading = false, hasList = true)
                     binding.layoutSearchSwipe.isRefreshing = false
                 }
             }
@@ -100,7 +99,7 @@ class SearchActivity : BindingActivity<ActivitySearchBinding>(R.layout.activity_
     private fun setLoadingScreen() {
         binding.etRecommendSearchBox.doOnTextChanged { _, _, _, _ ->
             lifecycleScope.launch {
-                showLoadingScreen()
+                showShimmerView(isLoading = true, hasList = true)
                 viewModel.setNewPage()
                 adapter.submitList(listOf())
                 adapter.notifyDataSetChanged()
@@ -113,7 +112,7 @@ class SearchActivity : BindingActivity<ActivitySearchBinding>(R.layout.activity_
         binding.etRecommendSearchBox.doAfterTextChanged { text ->
             searchJob?.cancel()
             if (text.isNullOrBlank()) {
-                showNoFriendScreen()
+                showShimmerView(isLoading = false, hasList = false)
                 binding.layoutRecommendNoSearch.visibility = View.GONE
             } else {
                 searchJob = viewModel.viewModelScope.launch {
@@ -138,16 +137,16 @@ class SearchActivity : BindingActivity<ActivitySearchBinding>(R.layout.activity_
                             viewModel.isFirstLoading = false
                         }
                         if (state.data.friendList.isEmpty()) {
-                            showNoFriendScreen()
+                            showShimmerView(isLoading = false, hasList = false)
                         } else {
                             adapter.addList(state.data.friendList)
-                            showFriendListScreen()
+                            showShimmerView(isLoading = false, hasList = true)
                         }
                     }
 
                     is UiState.Failure -> {
                         toast(getString(R.string.recommend_search_error))
-                        showFriendListScreen()
+                        showShimmerView(isLoading = false, hasList = true)
                     }
 
                     is UiState.Loading -> return@onEach
@@ -200,27 +199,11 @@ class SearchActivity : BindingActivity<ActivitySearchBinding>(R.layout.activity_
         binding.rvRecommendSearch.startAnimation(animation)
     }
 
-    private fun showFriendListScreen() {
+    private fun showShimmerView(isLoading: Boolean, hasList: Boolean) {
         with(binding) {
-            layoutSearchSwipe.isVisible = true
-            layoutRecommendSearchLoading.isVisible = false
-            layoutRecommendNoSearch.isVisible = false
-        }
-    }
-
-    private fun showLoadingScreen() {
-        with(binding) {
-            layoutSearchSwipe.isVisible = false
-            layoutRecommendSearchLoading.isVisible = true
-            layoutRecommendNoSearch.isVisible = false
-        }
-    }
-
-    private fun showNoFriendScreen() {
-        with(binding) {
-            layoutSearchSwipe.isVisible = false
-            layoutRecommendSearchLoading.isVisible = false
-            layoutRecommendNoSearch.isVisible = true
+            layoutSearchSwipe.isVisible = !isLoading
+            layoutRecommendSearchLoading.isVisible = isLoading
+            layoutRecommendNoSearch.isVisible = !hasList
         }
     }
 
@@ -228,5 +211,9 @@ class SearchActivity : BindingActivity<ActivitySearchBinding>(R.layout.activity_
         super.onDestroy()
         _adapter = null
         searchJob?.cancel()
+    }
+
+    companion object {
+        const val debounceTime = 500L
     }
 }

@@ -35,10 +35,9 @@ class ProfileFriendItemBottomSheet :
     }
 
     private fun setItemImage() {
-        if (viewModel.clickedUserData.profileImageUrl == BASIC_THUMBNAIL) {
-            binding.ivProfileFriendThumbnail.load(R.drawable.img_yello_basic)
-        } else {
-            binding.ivProfileFriendThumbnail.load(viewModel.clickedUserData.profileImageUrl) {
+        binding.ivProfileFriendThumbnail.apply {
+            val thumbnail = viewModel.clickedUserData.profileImageUrl
+            load(if (thumbnail == BASIC_THUMBNAIL) R.drawable.img_yello_basic else thumbnail) {
                 transformations(CircleCropTransformation())
             }
         }

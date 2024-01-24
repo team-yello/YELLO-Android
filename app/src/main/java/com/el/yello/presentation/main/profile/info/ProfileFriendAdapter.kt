@@ -21,24 +21,17 @@ class ProfileFriendAdapter(
     private var itemList = mutableListOf<ProfileUserModel>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        val inflater by lazy { LayoutInflater.from(parent.context) }
         // 멀티뷰타입 구현 - 헤더 & 아이템 리스트
         return when (viewType) {
             VIEW_TYPE_USER_INFO -> ProfileUserInfoViewHolder(
-                ItemProfileUserInfoBinding.inflate(
-                    LayoutInflater.from(parent.context),
-                    parent,
-                    false,
-                ),
+                ItemProfileUserInfoBinding.inflate(inflater, parent, false),
                 buttonClick,
                 shopClick,
             )
 
             VIEW_TYPE_FRIENDS_LIST -> ProfileFriendsListViewHolder(
-                ItemProfileFriendsListBinding.inflate(
-                    LayoutInflater.from(parent.context),
-                    parent,
-                    false,
-                ),
+                ItemProfileFriendsListBinding.inflate(inflater, parent, false),
                 itemClick,
             )
 
@@ -67,16 +60,13 @@ class ProfileFriendAdapter(
         holder.itemView.layoutParams = layoutParams
     }
 
-    override fun getItemCount(): Int {
-        return itemList.size + HEADER_COUNT
-    }
+    override fun getItemCount() = itemList.size + HEADER_COUNT
 
-    override fun getItemViewType(position: Int): Int {
-        return when (position) {
+    override fun getItemViewType(position: Int) =
+        when (position) {
             0 -> VIEW_TYPE_USER_INFO
             else -> VIEW_TYPE_FRIENDS_LIST
         }
-    }
 
     fun addItemList(newItems: List<ProfileUserModel>) {
         this.itemList.addAll(newItems)

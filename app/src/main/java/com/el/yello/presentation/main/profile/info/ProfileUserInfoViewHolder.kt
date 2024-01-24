@@ -17,18 +17,20 @@ class ProfileUserInfoViewHolder(
 ) : RecyclerView.ViewHolder(binding.root) {
 
     fun onBind(viewModel: ProfileViewModel) {
-        binding.vm = viewModel
-        binding.ivSubsStar.isVisible = viewModel.isSubscribed
-        binding.ivSubsLine.isVisible = viewModel.isSubscribed
-        binding.btnProfileAddGroup.setOnSingleClickListener { buttonClick(viewModel) }
-        binding.btnProfileShop.setOnSingleClickListener { shopClick(viewModel) }
-        binding.btnProfileShopSale.setOnSingleClickListener { shopClick(viewModel) }
+        with(binding) {
+            vm = viewModel
+            ivSubsStar.isVisible = viewModel.isSubscribed
+            ivSubsLine.isVisible = viewModel.isSubscribed
 
-        if (viewModel.myUserData.profileImageUrl == BASIC_THUMBNAIL) {
-            binding.ivProfileInfoThumbnail.load(R.drawable.img_yello_basic)
-        } else {
-            binding.ivProfileInfoThumbnail.load(viewModel.myUserData.profileImageUrl) {
-                transformations(CircleCropTransformation())
+            btnProfileAddGroup.setOnSingleClickListener { buttonClick(viewModel) }
+            btnProfileShop.setOnSingleClickListener { shopClick(viewModel) }
+            btnProfileShopSale.setOnSingleClickListener { shopClick(viewModel) }
+
+            ivProfileInfoThumbnail.apply {
+                val thumbnail = viewModel.myUserData.profileImageUrl
+                load(if (thumbnail == BASIC_THUMBNAIL) R.drawable.img_yello_basic else thumbnail) {
+                    transformations(CircleCropTransformation())
+                }
             }
         }
     }

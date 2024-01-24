@@ -16,20 +16,20 @@ class ProfileFriendsListViewHolder(
     RecyclerView.ViewHolder(binding.root) {
 
     fun onBind(item: ProfileUserModel, position: Int) {
-        binding.tvProfileFriendItemName.text = item.name
-        binding.tvProfileFriendItemSchool.text = item.group
-        item.profileImageUrl.let { thumbnail ->
-            if (thumbnail == BASIC_THUMBNAIL) {
-                binding.ivProfileFriendItemThumbnail.load(R.drawable.img_yello_basic)
-            } else {
-                binding.ivProfileFriendItemThumbnail.load(thumbnail) {
+        with(binding) {
+            tvProfileFriendItemName.text = item.name
+            tvProfileFriendItemSchool.text = item.group
+
+            ivProfileFriendItemThumbnail.apply {
+                val thumbnail = item.profileImageUrl
+                load(if (thumbnail == BASIC_THUMBNAIL) R.drawable.img_yello_basic else thumbnail) {
                     transformations(CircleCropTransformation())
                 }
             }
-        }
 
-        binding.root.setOnSingleClickListener {
-            itemClick(item, position)
+            root.setOnSingleClickListener {
+                itemClick(item, position)
+            }
         }
     }
 }

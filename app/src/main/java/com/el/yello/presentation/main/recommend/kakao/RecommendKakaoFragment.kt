@@ -21,6 +21,7 @@ import com.el.yello.presentation.util.BaseLinearRcvItemDeco
 import com.el.yello.util.Utils.setPullToScrollColor
 import com.el.yello.util.amplitude.AmplitudeUtils
 import com.el.yello.util.context.yelloSnackbar
+import com.example.domain.entity.RecommendListModel
 import com.example.ui.base.BindingFragment
 import com.example.ui.view.UiState
 import com.example.ui.view.setOnSingleClickListener
@@ -43,6 +44,7 @@ class RecommendKakaoFragment :
 
     private var inviteYesFriendDialog: InviteFriendDialog? = null
     private var inviteNoFriendDialog: InviteFriendDialog? = null
+    private var lastClickedRecommendModel: RecommendListModel.RecommendFriend? = null
 
     private lateinit var itemDivider: RecommendItemDecoration
 
@@ -54,9 +56,10 @@ class RecommendKakaoFragment :
         initPullToScrollListener()
         setKakaoRecommendList()
         setAdapterWithClickListener()
-        observeKakaoError()
+        observeUserDataState()
         observeAddListState()
         observeAddFriendState()
+        observeKakaoError()
         setItemDecoration()
         setInfinityScroll()
         setDeleteAnimation()
@@ -146,10 +149,18 @@ class RecommendKakaoFragment :
 
     // 어댑터 클릭 리스너 설정
     private fun setAdapterWithClickListener() {
-        _adapter = RecommendAdapter { recommendModel, position, holder ->
-            viewModel.setPositionAndHolder(position, holder)
-            viewModel.addFriendToServer(recommendModel.id.toLong())
-        }
+        _adapter = RecommendAdapter(
+            buttonClick = { recommendModel, position, holder ->
+                viewModel.setPositionAndHolder(position, holder)
+                viewModel.addFriendToServer(recommendModel.id.toLong())
+            },
+
+            itemClick = { recommendModel, position, holder ->
+                viewModel.setPositionAndHolder(position, holder)
+                viewModel.getUserDataFromServer(recommendModel.id.toLong())
+                lastClickedRecommendModel = recommendModel
+            },
+        )
         binding.rvRecommendKakao.adapter = adapter
     }
 
@@ -226,7 +237,31 @@ class RecommendKakaoFragment :
             }
         }.launchIn(viewLifecycleOwner.lifecycleScope)
     }
+    private fun observeUserDataState() {
+        viewModel.getUserDataState.flowWithLifecycle(viewLifecycleOwner.lifecycle).onEach { state ->
+            when (state) {
+                is UiState.Success -> {
+                    viewModel.clickedUserData = state.data.apply {
+                        if (!this.yelloId.startsWith("@")) this.yelloId = "@" + this.yelloId
+                    }
+                    if (lastClickedRecommendModel != null) {
+                        RecommendKakaoBottomSheet().show(
+                            parentFragmentManager,
+                            ITEM_BOTTOM_SHEET,
+                        )
+                    }
+                }
 
+                is UiState.Failure -> {
+                    yelloSnackbar(requireView(), getString(R.string.profile_error_user_data))
+                }
+
+                is UiState.Empty -> return@onEach
+
+                is UiState.Loading -> return@onEach
+            }
+        }.launchIn(viewLifecycleOwner.lifecycleScope)
+    }
     private fun setDeleteAnimation() {
         binding.rvRecommendKakao.itemAnimator = object : DefaultItemAnimator() {
             override fun animateRemove(holder: RecyclerView.ViewHolder): Boolean {
@@ -310,8 +345,8 @@ class RecommendKakaoFragment :
 
     private companion object {
         const val INVITE_DIALOG = "inviteDialog"
-
         const val KAKAO_NO_FRIEND = "recommend_kakao_nofriend"
         const val KAKAO_YES_FRIEND = "recommend_kakao_yesfriend"
+        const val ITEM_BOTTOM_SHEET = "itemBottomSheet"
     }
 }

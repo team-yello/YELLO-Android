@@ -1,8 +1,8 @@
 package com.example.domain.repository
 
 import com.example.domain.entity.RecommendListModel
-import com.example.domain.entity.SearchListModel
 import com.example.domain.entity.RecommendRequestModel
+import com.example.domain.entity.RecommendUserInfoModel
 
 interface RecommendRepository {
 
@@ -19,4 +19,7 @@ interface RecommendRepository {
         friendId: Long,
     ): Result<Unit>
 
+    suspend fun getRecommendUserInfo(
+        userId: Long,
+    ): Result<RecommendUserInfoModel?>
 }

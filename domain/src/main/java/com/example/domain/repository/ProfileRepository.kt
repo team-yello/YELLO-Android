@@ -5,18 +5,15 @@ import com.example.domain.entity.ProfileUserModel
 
 interface ProfileRepository {
 
-    suspend fun getUserData(
-    ): Result<ProfileUserModel?>
+    suspend fun getUserData(): Result<ProfileUserModel?>
 
     suspend fun getFriendsData(
-        page: Int
+        page: Int,
     ): Result<ProfileFriendsListModel?>
 
-    suspend fun deleteUserData(
-    ): Result<Unit>
+    suspend fun deleteUserData(): Result<Unit>
 
     suspend fun deleteFriendData(
-        friendId: Int
+        friendId: Long,
     ): Result<Unit>
-
 }

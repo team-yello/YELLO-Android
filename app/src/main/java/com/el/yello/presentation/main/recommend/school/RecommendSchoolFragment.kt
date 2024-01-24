@@ -21,6 +21,7 @@ import com.el.yello.presentation.util.BaseLinearRcvItemDeco
 import com.el.yello.util.Utils.setPullToScrollColor
 import com.el.yello.util.amplitude.AmplitudeUtils
 import com.el.yello.util.context.yelloSnackbar
+import com.example.domain.entity.RecommendListModel
 import com.example.domain.entity.RecommendListModel.RecommendFriend
 import com.example.ui.base.BindingFragment
 import com.example.ui.view.UiState
@@ -44,6 +45,7 @@ class RecommendSchoolFragment :
 
     private var inviteYesFriendDialog: InviteFriendDialog? = null
     private var inviteNoFriendDialog: InviteFriendDialog? = null
+    private var lastClickedRecommendModel: RecommendListModel.RecommendFriend? = null
 
     private lateinit var friendsList: List<RecommendFriend>
 
@@ -61,6 +63,7 @@ class RecommendSchoolFragment :
         setListWithInfinityScroll()
         observeAddListState()
         observeAddFriendState()
+        observeUserDataState()
         setDeleteAnimation()
         AmplitudeUtils.trackEventWithProperties("view_recommend_school")
     }
@@ -70,7 +73,7 @@ class RecommendSchoolFragment :
         if (viewModel.isSearchViewShowed) {
             adapter.clearList()
             viewModel.setFirstPageLoading()
-            viewModel.addListFromServer()
+            viewModel.addListGroupFromServer()
             viewModel.isSearchViewShowed = false
         }
     }
@@ -80,7 +83,8 @@ class RecommendSchoolFragment :
             inviteYesFriendDialog =
                 InviteFriendDialog.newInstance(viewModel.getYelloId(), SCHOOL_YES_FRIEND)
             AmplitudeUtils.trackEventWithProperties(
-                "click_invite", JSONObject().put("invite_view", SCHOOL_YES_FRIEND)
+                "click_invite",
+                JSONObject().put("invite_view", SCHOOL_YES_FRIEND),
             )
             inviteYesFriendDialog?.show(parentFragmentManager, INVITE_DIALOG)
         }
@@ -89,7 +93,8 @@ class RecommendSchoolFragment :
             inviteNoFriendDialog =
                 InviteFriendDialog.newInstance(viewModel.getYelloId(), SCHOOL_NO_FRIEND)
             AmplitudeUtils.trackEventWithProperties(
-                "click_invite", JSONObject().put("invite_view", SCHOOL_NO_FRIEND)
+                "click_invite",
+                JSONObject().put("invite_view", SCHOOL_NO_FRIEND),
             )
             inviteNoFriendDialog?.show(parentFragmentManager, INVITE_DIALOG)
         }
@@ -102,7 +107,7 @@ class RecommendSchoolFragment :
 
     private fun initFirstList() {
         viewModel.setFirstPageLoading()
-        viewModel.addListFromServer()
+        viewModel.addListGroupFromServer()
     }
 
     private fun initPullToScrollListener() {
@@ -111,7 +116,7 @@ class RecommendSchoolFragment :
                 lifecycleScope.launch {
                     adapter.clearList()
                     viewModel.setFirstPageLoading()
-                    viewModel.addListFromServer()
+                    viewModel.addListGroupFromServer()
                     delay(200)
                     binding.layoutRecommendSchoolSwipe.isRefreshing = false
                 }
@@ -128,10 +133,17 @@ class RecommendSchoolFragment :
 
     // 처음 리스트 설정 및 어댑터 클릭 리스너 설정
     private fun setAdapterWithClickListener() {
-        _adapter = RecommendAdapter { recommendModel, position, holder ->
-            viewModel.setPositionAndHolder(position, holder)
-            viewModel.addFriendToServer(recommendModel.id.toLong())
-        }
+        _adapter = RecommendAdapter(
+            buttonClick = { recommendModel, position, holder ->
+                viewModel.setPositionAndHolder(position, holder)
+                viewModel.addFriendToServer(recommendModel.id.toLong())
+            },
+            itemClick = { recommendModel, position, holder ->
+                viewModel.setPositionAndHolder(position, holder)
+                viewModel.getUserDataFromServer(recommendModel.id.toLong())
+                lastClickedRecommendModel = recommendModel
+            },
+        )
         binding.rvRecommendSchool.adapter = adapter
     }
 
@@ -143,7 +155,7 @@ class RecommendSchoolFragment :
                 if (dy > 0) {
                     recyclerView.layoutManager?.let { layoutManager ->
                         if (!binding.rvRecommendSchool.canScrollVertically(1) && layoutManager is LinearLayoutManager && layoutManager.findLastVisibleItemPosition() == adapter.itemCount - 1) {
-                            viewModel.addListFromServer()
+                            viewModel.addListGroupFromServer()
                         }
                     }
                 }
@@ -215,6 +227,25 @@ class RecommendSchoolFragment :
                     is UiState.Empty -> return@onEach
                 }
             }.launchIn(viewLifecycleOwner.lifecycleScope)
+    }
+
+    private fun observeUserDataState() {
+        viewModel.getUserDataState.flowWithLifecycle(viewLifecycleOwner.lifecycle).onEach { state ->
+            when (state) {
+                is UiState.Success -> {
+                    viewModel.clickedUserData = state.data.apply {
+                        if (!this.yelloId.startsWith("@")) this.yelloId = "@" + this.yelloId
+                    }
+                    if (lastClickedRecommendModel != null) {
+                        RecommendSchoolBottomSheet().show(
+                            parentFragmentManager,
+                            ITEM_BOTTOM_SHEET,
+                        )
+                    }
+                }
+                else -> {}
+            }
+        }.launchIn(viewLifecycleOwner.lifecycleScope)
     }
 
     private fun setDeleteAnimation() {
@@ -300,8 +331,8 @@ class RecommendSchoolFragment :
 
     private companion object {
         const val INVITE_DIALOG = "inviteDialog"
-
         const val SCHOOL_NO_FRIEND = "recommend_school_nofriend"
         const val SCHOOL_YES_FRIEND = "recommend_school_yesfriend"
+        const val ITEM_BOTTOM_SHEET = "itemBottomSheet"
     }
 }

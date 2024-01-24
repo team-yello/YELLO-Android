@@ -28,7 +28,7 @@ class ProfileRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun deleteFriendData(friendId: Int): Result<Unit> {
+    override suspend fun deleteFriendData(friendId: Long): Result<Unit> {
         return runCatching {
             profileDataSource.deleteFriendData(friendId).data
         }

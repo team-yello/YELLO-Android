@@ -6,7 +6,6 @@ import com.example.domain.entity.PayInAppModel
 import com.example.domain.entity.PayInfoModel
 import com.example.domain.entity.PayRequestModel
 import com.example.domain.entity.PaySubsModel
-import com.example.domain.entity.PaySubsNeededModel
 import com.example.domain.entity.PayUserSubsInfoModel
 import com.example.domain.repository.PayRepository
 import javax.inject.Inject
@@ -32,12 +31,6 @@ class PayRepositoryImpl @Inject constructor(
             payDataSource.postToCheckInAppData(
                 request.toRequestDto(),
             ).data?.toResponsePayInAppModel()
-        }
-    }
-
-    override suspend fun getSubsNeeded(): Result<PaySubsNeededModel?> {
-        return runCatching {
-            payDataSource.getSubsNeededData().data?.toResponseSubsNeededModel()
         }
     }
 

@@ -6,7 +6,6 @@ import com.example.data.model.response.BaseResponse
 import com.example.data.model.response.pay.ResponsePayInAppDto
 import com.example.data.model.response.pay.ResponsePaySubsDto
 import com.example.data.model.response.pay.ResponsePurchaseInfoDto
-import com.example.data.model.response.pay.ResponseSubsNeededDto
 import com.example.data.model.response.pay.ResponseUserSubsInfoDto
 import com.example.data.remote.service.PayService
 import javax.inject.Inject
@@ -25,10 +24,6 @@ class PayDataSourceImpl @Inject constructor(
         request: RequestPayDto,
     ): BaseResponse<ResponsePayInAppDto> {
         return payService.postToCheckInApp(request)
-    }
-
-    override suspend fun getSubsNeededData(): BaseResponse<ResponseSubsNeededDto> {
-        return payService.getSubsNeeded()
     }
 
     override suspend fun getPurchaseInfoData(): BaseResponse<ResponsePurchaseInfoDto> {

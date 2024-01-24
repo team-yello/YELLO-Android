@@ -6,7 +6,6 @@ import com.example.domain.entity.PayInAppModel
 import com.example.domain.entity.PayInfoModel
 import com.example.domain.entity.PayRequestModel
 import com.example.domain.entity.PaySubsModel
-import com.example.domain.entity.PaySubsNeededModel
 import com.example.domain.entity.PayUserSubsInfoModel
 import com.example.domain.repository.PayRepository
 import com.example.ui.view.UiState
@@ -28,9 +27,6 @@ class PayViewModel @Inject constructor(
 
     private val _postInAppCheckState = MutableStateFlow<UiState<PayInAppModel?>>(UiState.Empty)
     val postInAppCheckState: StateFlow<UiState<PayInAppModel?>> = _postInAppCheckState
-
-    private val _getSubsNeededState = MutableStateFlow<UiState<PaySubsNeededModel?>>(UiState.Empty)
-    val getSubsNeededState: StateFlow<UiState<PaySubsNeededModel?>> = _getSubsNeededState
 
     private val _getPurchaseInfoState = MutableStateFlow<UiState<PayInfoModel?>>(UiState.Empty)
     val getPurchaseInfoState: StateFlow<UiState<PayInfoModel?>> = _getPurchaseInfoState
@@ -74,20 +70,6 @@ class PayViewModel @Inject constructor(
                 }
                 .onFailure {
                     _postInAppCheckState.value = UiState.Failure(it.message.toString())
-                }
-        }
-    }
-
-    // 서버 통신 - (아직 사용 X) 구독 재촉 알림 필요 여부 확인
-    fun getSubsNeededFromServer() {
-        viewModelScope.launch {
-            payRepository.getSubsNeeded()
-                .onSuccess {
-                    it ?: return@launch
-                    _getSubsNeededState.value = UiState.Success(it)
-                }
-                .onFailure {
-                    _getSubsNeededState.value = UiState.Failure(it.message.toString())
                 }
         }
     }

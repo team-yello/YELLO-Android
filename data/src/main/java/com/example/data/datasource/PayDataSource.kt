@@ -5,7 +5,6 @@ import com.example.data.model.response.BaseResponse
 import com.example.data.model.response.pay.ResponsePayInAppDto
 import com.example.data.model.response.pay.ResponsePaySubsDto
 import com.example.data.model.response.pay.ResponsePurchaseInfoDto
-import com.example.data.model.response.pay.ResponseSubsNeededDto
 import com.example.data.model.response.pay.ResponseUserSubsInfoDto
 
 interface PayDataSource {
@@ -17,8 +16,6 @@ interface PayDataSource {
     suspend fun postToCheckInAppData(
         request: RequestPayDto,
     ): BaseResponse<ResponsePayInAppDto>
-
-    suspend fun getSubsNeededData(): BaseResponse<ResponseSubsNeededDto>
 
     suspend fun getPurchaseInfoData(): BaseResponse<ResponsePurchaseInfoDto>
 

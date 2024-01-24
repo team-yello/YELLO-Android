@@ -31,23 +31,16 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
 
     private var checkNameDialog: CheckNameDialog? = null
 
-    private var userKakaoId: Long = 0
-    private var userName: String = String()
-    private var userGender: String = String()
-    private var userEmail: String = String()
-    private var userImage: String = String()
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         initSignInBtnListener()
-        viewModel.initLoginState()
         viewModel.getDeviceToken()
         observeDeviceTokenError()
         observeAppLoginError()
         observeKakaoUserInfoState()
         observeFriendsListValidState()
-        observeChangeTokenState()
+        observeChangeTokenResult()
         observeUserDataState()
     }
 
@@ -73,7 +66,7 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
     }
 
     // 서비스 토큰 교체 서버 통신 결과에 따라서 분기 처리 진행
-    private fun observeChangeTokenState() {
+    private fun observeChangeTokenResult() {
         viewModel.postChangeTokenResult.flowWithLifecycle(lifecycle).onEach { result ->
             if (!result) toast(getString(R.string.sign_in_error_connection))
         }.launchIn(lifecycleScope)
@@ -81,23 +74,8 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
 
     // Failure -> 카카오에 등록된 유저 정보 받아온 후 친구목록 동의 화면으로 이동
     private fun observeKakaoUserInfoState() {
-        viewModel.getKakaoInfoState.flowWithLifecycle(lifecycle).onEach { state ->
-            when (state) {
-                is UiState.Success -> {
-                    userKakaoId = state.data?.id ?: 0
-                    userName = state.data?.kakaoAccount?.name.toString()
-                    userGender = state.data?.kakaoAccount?.gender.toString()
-                    userEmail = state.data?.kakaoAccount?.email.toString()
-                    userImage = state.data?.kakaoAccount?.profile?.profileImageUrl.toString()
-                    viewModel.checkFriendsListValid()
-                }
-
-                is UiState.Failure -> yelloSnackbar(binding.root, getString(R.string.msg_error))
-
-                is UiState.Empty -> return@onEach
-
-                is UiState.Loading -> return@onEach
-            }
+        viewModel.getKakaoInfoResult.flowWithLifecycle(lifecycle).onEach { result ->
+            if (!result) yelloSnackbar(binding.root, getString(R.string.msg_error))
         }.launchIn(lifecycleScope)
     }
 
@@ -166,7 +144,7 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
 
     private fun startCheckNameDialog() {
         val bundle = Bundle().apply { addPutExtra() }
-        if (userName.isBlank() || userName.isEmpty()) {
+        if (viewModel.isUserNameBlank()) {
             Intent(SignInActivity(), EditNameActivity::class.java).apply {
                 putExtras(bundle)
                 addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
@@ -186,21 +164,24 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
     }
 
     private fun Intent.addPutExtra() {
-        putExtra(EXTRA_KAKAO_ID, userKakaoId)
-        putExtra(EXTRA_NAME, userName)
-        putExtra(EXTRA_GENDER, userGender)
-        putExtra(EXTRA_EMAIL, userEmail)
-        putExtra(EXTRA_PROFILE_IMAGE, userImage)
-        addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+        if (viewModel.checkKakaoUserInfoStored()) {
+            putExtra(EXTRA_KAKAO_ID, viewModel.kakaoUserInfo.id)
+            putExtra(EXTRA_NAME, viewModel.kakaoUserInfo.kakaoAccount?.name.orEmpty())
+            putExtra(EXTRA_GENDER, viewModel.kakaoUserInfo.kakaoAccount?.gender.toString())
+            putExtra(EXTRA_EMAIL, viewModel.kakaoUserInfo.kakaoAccount?.email.orEmpty())
+            putExtra(EXTRA_PROFILE_IMAGE, viewModel.kakaoUserInfo.kakaoAccount?.profile?.profileImageUrl.orEmpty())
+            addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+        }
     }
 
-
     private fun Bundle.addPutExtra() {
-        putLong(EXTRA_KAKAO_ID, userKakaoId)
-        putString(EXTRA_NAME, userName)
-        putString(EXTRA_GENDER, userGender)
-        putString(EXTRA_EMAIL, userEmail)
-        putString(EXTRA_PROFILE_IMAGE, userImage)
+        if (viewModel.checkKakaoUserInfoStored()) {
+            putLong(EXTRA_KAKAO_ID, viewModel.kakaoUserInfo.id ?: 0)
+            putString(EXTRA_NAME, viewModel.kakaoUserInfo.kakaoAccount?.name.orEmpty())
+            putString(EXTRA_GENDER, viewModel.kakaoUserInfo.kakaoAccount?.gender.toString())
+            putString(EXTRA_EMAIL, viewModel.kakaoUserInfo.kakaoAccount?.email.orEmpty())
+            putString(EXTRA_PROFILE_IMAGE, viewModel.kakaoUserInfo.kakaoAccount?.profile?.profileImageUrl.orEmpty())
+        }
     }
 
     override fun onDestroy() {
@@ -214,8 +195,6 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
         const val EXTRA_PROFILE_IMAGE = "PROFILE_IMAGE"
         const val EXTRA_NAME = "NAME"
         const val EXTRA_GENDER = "GENDER"
-        const val CODE_NOT_SIGNED_IN = "403"
-        const val CODE_NO_UUID = "404"
         const val CHECK_NAME_DIALOG = "CHECK_NAME_DIALOG"
     }
 }

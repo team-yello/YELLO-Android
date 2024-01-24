@@ -3,9 +3,6 @@ package com.el.yello.presentation.auth
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.el.yello.presentation.auth.SignInActivity.Companion.CODE_NOT_SIGNED_IN
-import com.el.yello.presentation.auth.SignInActivity.Companion.CODE_NO_UUID
-import com.example.domain.entity.AuthTokenModel
 import com.example.domain.entity.AuthTokenRequestModel
 import com.example.domain.entity.ProfileUserModel
 import com.example.domain.repository.AuthRepository
@@ -41,8 +38,8 @@ class SignInViewModel @Inject constructor(
     private val _getUserProfileState = MutableStateFlow<UiState<ProfileUserModel>>(UiState.Empty)
     val getUserProfileState: StateFlow<UiState<ProfileUserModel>> = _getUserProfileState
 
-    private val _getKakaoInfoState = MutableStateFlow<UiState<User>>(UiState.Empty)
-    val getKakaoInfoState: StateFlow<UiState<User?>> = _getKakaoInfoState
+    private val _getKakaoInfoResult = MutableSharedFlow<Boolean>()
+    val getKakaoInfoResult: SharedFlow<Boolean> = _getKakaoInfoResult
 
     lateinit var kakaoUserInfo: User
 
@@ -109,19 +106,25 @@ class SignInViewModel @Inject constructor(
     // 카카오 통신 - 카카오 유저 정보 받아오기
     private fun getKakaoInfo() {
         UserApiClient.instance.me { user, _ ->
-            _getKakaoInfoState.value = UiState.Loading
             try {
                 if (user != null) {
-                    _getKakaoInfoState.value = UiState.Success(user)
-                    return@me
+                    kakaoUserInfo = user
+                    checkFriendsListValid()
                 }
             } catch (e: IllegalArgumentException) {
-                _getKakaoInfoState.value = UiState.Failure(e.message.toString())
+                viewModelScope.launch {
+                    _getKakaoInfoResult.emit(false)
+                }
             }
         }
     }
 
-    fun checkFriendsListValid() {
+    fun checkKakaoUserInfoStored() = ::kakaoUserInfo.isInitialized
+
+    fun isUserNameBlank() =
+        !::kakaoUserInfo.isInitialized || kakaoUserInfo.kakaoAccount?.name.isNullOrEmpty()
+
+    private fun checkFriendsListValid() {
         val scopes = mutableListOf(FRIEND_LIST)
         _getKakaoValidState.value = UiState.Loading
         UserApiClient.instance.scopes(scopes) { scopeInfo, error ->

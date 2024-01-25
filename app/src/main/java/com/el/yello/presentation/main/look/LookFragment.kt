@@ -46,7 +46,7 @@ class LookFragment : BindingFragment<FragmentLookBinding>(R.layout.fragment_look
         initAdapter()
         initInviteBtnListener()
         setListBottomPadding()
-        observeTimelinePagingList()
+        observeTimelinePagingList(false)
         setPullToScrollListener()
         observePagingLoadingState()
         catchScrollForAmplitude()
@@ -97,11 +97,10 @@ class LookFragment : BindingFragment<FragmentLookBinding>(R.layout.fragment_look
             }.launchIn(viewLifecycleOwner.lifecycleScope)
     }
 
-    private fun observeTimelinePagingList() {
-        viewModel.getLookListWithPaging().flowWithLifecycle(viewLifecycleOwner.lifecycle)
-            .onEach { pagingData ->
-                adapter.submitData(lifecycle, pagingData)
-            }.launchIn(viewLifecycleOwner.lifecycleScope)
+    private fun observeTimelinePagingList(onlyMine: Boolean) {
+        viewModel.getLookListWithPaging(onlyMine).flowWithLifecycle(lifecycle).onEach { pagingData ->
+            adapter.submitData(lifecycle, pagingData)
+        }.launchIn(lifecycleScope)
     }
 
 

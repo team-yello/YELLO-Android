@@ -9,7 +9,8 @@ interface LookService {
 
     @GET("/api/v1/vote/friend")
     suspend fun getLookList(
-        @Query("page") page: Int
+        @Query("page") page: Int,
+        @Query("type") type: String? = null
     ): BaseResponse<ResponseLookListDto>
 
 }

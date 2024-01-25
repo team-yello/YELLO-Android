@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.el.yello.util.amplitude.AmplitudeUtils
 import com.example.domain.entity.PayInfoModel
+import com.example.domain.entity.PayUserSubsInfoModel
 import com.example.domain.entity.ProfileFriendsListModel
 import com.example.domain.entity.ProfileUserModel
 import com.example.domain.entity.vote.VoteCount
@@ -29,7 +30,7 @@ class ProfileViewModel @Inject constructor(
     private val profileRepository: ProfileRepository,
     private val authRepository: AuthRepository,
     private val yelloRepository: YelloRepository,
-    private val payRepository: PayRepository
+    private val payRepository: PayRepository,
 ) : ViewModel() {
 
     private val _getUserDataState = MutableStateFlow<UiState<ProfileUserModel>>(UiState.Empty)
@@ -57,6 +58,10 @@ class ProfileViewModel @Inject constructor(
 
     private val _voteCount = MutableStateFlow<UiState<VoteCount>>(UiState.Loading)
     val voteCount: StateFlow<UiState<VoteCount>> = _voteCount
+
+    private val _getUserSubsInfoState =
+        MutableStateFlow<UiState<PayUserSubsInfoModel?>>(UiState.Empty)
+    val getUserSubsInfoState: StateFlow<UiState<PayUserSubsInfoModel?>> = _getUserSubsInfoState
 
     var isItemBottomSheetRunning: Boolean = false
 
@@ -211,7 +216,6 @@ class ProfileViewModel @Inject constructor(
                     _getPurchaseInfoState.value = UiState.Failure(it.message.toString())
                 }
         }
-
     }
 
     fun getVoteCount() {
@@ -246,6 +250,20 @@ class ProfileViewModel @Inject constructor(
             runCatching {
                 authRepository.putDeviceToken(token)
             }.onFailure(Timber::e)
+        }
+    }
+
+    // 서버 통신 - 유저 구독 정보 상세 조회
+    fun getUserSubsInfoStateFromServer() {
+        viewModelScope.launch {
+            payRepository.getUserSubsInfo()
+                .onSuccess {
+                    it ?: return@launch
+                    _getUserSubsInfoState.value = UiState.Success(it)
+                }
+                .onFailure {
+                    _getUserSubsInfoState.value = UiState.Failure(it.message.toString())
+                }
         }
     }
 

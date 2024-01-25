@@ -9,6 +9,7 @@ import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
+import androidx.fragment.app.commitNow
 import androidx.fragment.app.replace
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
@@ -56,7 +57,8 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        showPayResubsNoticeDialog()
+        viewModel.getUserSubsInfoStateFromServer()
+        observeSubsNeededState()
         initBnvItemIconTintList()
         initBnvItemSelectedListener()
         initBnvItemReselectedListener()
@@ -68,10 +70,39 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
         this.onBackPressedDispatcher.addCallback(this, onBackPressedCallback)
     }
 
-    private fun showPayResubsNoticeDialog() {
-        val payResubsNoticeFragment = PayResubsNoticeDialog()
-        payResubsNoticeFragment.show(supportFragmentManager, "PayResubsNoticeDialog")
+    private fun observeSubsNeededState() {
+        viewModel.getUserSubsInfoState.onEach { state ->
+            when (state) {
+                is UiState.Success -> {
+                    // TODO : normal -> canceled
+                    if (state.data?.subscribe.toString() == "normal") {
+                        val expiredDateString = state.data?.expiredDate.toString()
+                        val payResubsNoticeFragment =
+                            PayResubsNoticeDialog.newInstance(expiredDateString)
+                        supportFragmentManager.commitNow {
+                            add(
+                                payResubsNoticeFragment,
+                                "PayResubsNoticeDialog",
+                            )
+                        }
+                        payResubsNoticeFragment.setExpiredDate(expiredDateString)
+                    }
+                }
+
+                is UiState.Failure -> {
+                    yelloSnackbar(binding.root, getString(R.string.msg_error))
+                }
+
+                is UiState.Empty -> {
+                    yelloSnackbar(binding.root, getString(R.string.msg_error))
+                }
+
+                is UiState.Loading -> {
+                }
+            }
+        }.launchIn(lifecycleScope)
     }
+
     private fun initBnvItemIconTintList() {
         binding.bnvMain.itemIconTintList = null
         binding.bnvMain.selectedItemId = R.id.menu_yello

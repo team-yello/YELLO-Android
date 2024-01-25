@@ -33,6 +33,9 @@ import com.example.ui.view.UiState
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.concurrent.TimeUnit
 
 @AndroidEntryPoint
 class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main) {
@@ -77,15 +80,24 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
                     // TODO : normal -> canceled
                     if (state.data?.subscribe.toString() == "normal") {
                         val expiredDateString = state.data?.expiredDate.toString()
-                        val payResubsNoticeFragment =
-                            PayResubsNoticeDialog.newInstance(expiredDateString)
-                        supportFragmentManager.commitNow {
-                            add(
-                                payResubsNoticeFragment,
-                                "PayResubsNoticeDialog",
-                            )
+                        val expiredDate = SimpleDateFormat("yyyy-MM-dd").parse(expiredDateString)
+                        val currentDate = Calendar.getInstance().time
+                        val daysDifference = TimeUnit.DAYS.convert(
+                            expiredDate.time - currentDate.time,
+                            TimeUnit.MILLISECONDS,
+                        )
+                        if (daysDifference >= 1) {
+                            val expiredDateString = state.data?.expiredDate.toString()
+                            val payResubsNoticeFragment =
+                                PayResubsNoticeDialog.newInstance(expiredDateString)
+                            supportFragmentManager.commitNow {
+                                add(
+                                    payResubsNoticeFragment,
+                                    "PayResubsNoticeDialog",
+                                )
+                            }
+                            payResubsNoticeFragment.setExpiredDate(expiredDateString)
                         }
-                        payResubsNoticeFragment.setExpiredDate(expiredDateString)
                     }
                 }
 

@@ -40,13 +40,16 @@ class LookFragment : BindingFragment<FragmentLookBinding>(R.layout.fragment_look
     private var isScrolled: Boolean = false
     private var isNoFriend: Boolean = false
 
+    private var isFilterSelected: Boolean = false
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         initAdapter()
         initInviteBtnListener()
+        initFilterBtnListener()
         setListBottomPadding()
-        observeTimelinePagingList(false)
+        observeTimelinePagingList(isFilterSelected)
         setPullToScrollListener()
         observePagingLoadingState()
         catchScrollForAmplitude()
@@ -75,6 +78,14 @@ class LookFragment : BindingFragment<FragmentLookBinding>(R.layout.fragment_look
                 "click_invite", JSONObject().put("invite_view", TIMELINE_NO_FRIEND)
             )
             inviteFriendDialog?.show(parentFragmentManager, INVITE_DIALOG)
+        }
+    }
+
+    private fun initFilterBtnListener() {
+        binding.btnLookFilter.setOnSingleClickListener {
+            isFilterSelected = !isFilterSelected
+            observeTimelinePagingList(isFilterSelected)
+            binding.tvLookFilterType.text = if(isFilterSelected) TYPE_MINE else TYPE_ALL
         }
     }
 
@@ -173,5 +184,8 @@ class LookFragment : BindingFragment<FragmentLookBinding>(R.layout.fragment_look
     companion object {
         const val INVITE_DIALOG = "inviteDialog"
         const val TIMELINE_NO_FRIEND = "timeline_0friend"
+
+        const val TYPE_ALL = "모든 쪽지"
+        const val TYPE_MINE = "내가 보낸 쪽지"
     }
 }

@@ -77,10 +77,10 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
         viewModel.getUserSubsInfoState.onEach { state ->
             when (state) {
                 is UiState.Success -> {
-                    // TODO : normal -> canceled
-                    if (state.data?.subscribe.toString() == "normal") {
+                    if (state.data?.subscribe.toString() == USER_SUBSCRIBE_CANCELED) {
                         val expiredDateString = state.data?.expiredDate.toString()
-                        val expiredDate = SimpleDateFormat("yyyy-MM-dd").parse(expiredDateString)
+                        val expiredDate =
+                            SimpleDateFormat(EXPIRED_DATA_FORMAT).parse(expiredDateString)
                         val currentDate = Calendar.getInstance().time
                         val daysDifference = TimeUnit.DAYS.convert(
                             expiredDate.time - currentDate.time,
@@ -93,7 +93,7 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
                             supportFragmentManager.commitNow {
                                 add(
                                     payResubsNoticeFragment,
-                                    "PayResubsNoticeDialog",
+                                    PAY_RESUBS_DIALOG,
                                 )
                             }
                             payResubsNoticeFragment.setExpiredDate(expiredDateString)
@@ -257,9 +257,10 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
         const val NEW_FRIEND = "NEW_FRIEND"
         const val VOTE_AVAILABLE = "VOTE_AVAILABLE"
         const val RECOMMEND = "RECOMMEND"
-
         const val BACK_PRESSED_INTERVAL = 2000
-
+        const val EXPIRED_DATA_FORMAT = "yyyy-MM-dd"
+        const val USER_SUBSCRIBE_CANCELED = "canceled"
+        const val PAY_RESUBS_DIALOG = "PayResubsNoticeDialog"
         private const val EVENT_CLICK_RECOMMEND_NAVIGATION = "click_recommend_navigation"
 
         fun getIntent(context: Context, type: String? = null, path: String? = null) =

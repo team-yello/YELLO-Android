@@ -1,5 +1,6 @@
 package com.el.yello.presentation.pay
 
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -38,7 +39,8 @@ class PayResubsNoticeDialog :
             dismiss()
         }
         binding.btnYelloplusSubscribe.setOnSingleClickListener {
-            // TODO: 계속 옐로 플러스 구독하기 뷰 이동
+            val intent = Intent(requireContext(), PayActivity::class.java)
+            startActivity(intent)
         }
     }
 

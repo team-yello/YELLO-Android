@@ -20,8 +20,8 @@ class PayResubsNoticeDialog :
         setNoticeBtnClickListener()
     }
 
-    override fun onResume() {
-        super.onResume()
+    override fun onStart() {
+        super.onStart()
         showDialogFullScreen()
     }
 
@@ -39,14 +39,15 @@ class PayResubsNoticeDialog :
             dismiss()
         }
         binding.btnYelloplusSubscribe.setOnSingleClickListener {
-            val intent = Intent(requireContext(), PayActivity::class.java)
-            startActivity(intent)
+            Intent(requireContext(), PayActivity::class.java).apply{
+                startActivity(this)
+            }
         }
     }
 
     fun setExpiredDate(expiredDate: String) {
         if (isAdded) {
-            binding.tvResubscribeExpiredDate?.text = expiredDate
+            binding.tvResubscribeExpiredDate.text = expiredDate
         }
     }
 

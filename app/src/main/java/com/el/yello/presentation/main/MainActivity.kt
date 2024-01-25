@@ -74,13 +74,13 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
     }
 
     private fun observeSubsNeededState() {
-        viewModel.getUserSubsInfoState.onEach { state ->
+        viewModel.getUserSubsInfoState.flowWithLifecycle(lifecycle).onEach { state ->
             when (state) {
                 is UiState.Success -> {
                     if (state.data?.subscribe.toString() == USER_SUBSCRIBE_CANCELED) {
                         val expiredDateString = state.data?.expiredDate.toString()
                         val expiredDate =
-                            SimpleDateFormat(EXPIRED_DATA_FORMAT).parse(expiredDateString)
+                            SimpleDateFormat(EXPIRED_DATE_FORMAT).parse(expiredDateString)
                         val currentDate = Calendar.getInstance().time
                         val daysDifference = TimeUnit.DAYS.convert(
                             expiredDate.time - currentDate.time,
@@ -106,10 +106,11 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
                 }
 
                 is UiState.Empty -> {
-                    yelloSnackbar(binding.root, getString(R.string.msg_error))
+                    return@onEach
                 }
 
                 is UiState.Loading -> {
+                    return@onEach
                 }
             }
         }.launchIn(lifecycleScope)
@@ -258,8 +259,8 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
         const val VOTE_AVAILABLE = "VOTE_AVAILABLE"
         const val RECOMMEND = "RECOMMEND"
         const val BACK_PRESSED_INTERVAL = 2000
-        const val EXPIRED_DATA_FORMAT = "yyyy-MM-dd"
-        const val USER_SUBSCRIBE_CANCELED = "canceled"
+        const val EXPIRED_DATE_FORMAT = "yyyy-MM-dd"
+        const val USER_SUBSCRIBE_CANCELED = "normal"
         const val PAY_RESUBS_DIALOG = "PayResubsNoticeDialog"
         private const val EVENT_CLICK_RECOMMEND_NAVIGATION = "click_recommend_navigation"
 

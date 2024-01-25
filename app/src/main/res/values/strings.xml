@@ -154,6 +154,8 @@
     <string name="look_title">타임라인</string>
     <string name="look_error_friend_list">타임라인 가져오기 실패</string>
     <string name="look_invite_no_title">친구들이 받은 쪽지가 궁금하다면\n친구를 초대해볼까요?</string>
+    <string name="look_tv_info">쪽지를 보낸 사람의 이름은 공개되지 않아요.</string>
+    <string name="look_tv_filter_basic">모든 쪽지</string>
 
     <string name="view_type_error_msg">Unknown View Type : %d</string>
 

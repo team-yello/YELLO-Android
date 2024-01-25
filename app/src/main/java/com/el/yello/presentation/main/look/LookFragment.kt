@@ -59,6 +59,7 @@ class LookFragment : BindingFragment<FragmentLookBinding>(R.layout.fragment_look
         adapter.addLoadStateListener { combinedLoadStates ->
             if (combinedLoadStates.prepend.endOfPaginationReached) {
                 binding.layoutLookNoFriendsList.isVisible = adapter.itemCount < 1
+                binding.layoutLookListInfo.isGone = adapter.itemCount < 1
                 binding.rvLook.isGone = adapter.itemCount < 1
                 isNoFriend = adapter.itemCount < 1
             }

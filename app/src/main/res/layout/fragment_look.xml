@@ -32,11 +32,33 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_layout_title">
 
+            <ImageView
+                android:id="@+id/iv_look_info_warning"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_warning_mini"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_look_info"
+                style="@style/TextAppearance.Yello.LabelSmall"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="2dp"
+                android:text="@string/look_tv_info"
+                android:textColor="@color/grayscales_600"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/btn_look_filter"
+                app:layout_constraintStart_toEndOf="@id/iv_look_info_warning"
+                app:layout_constraintTop_toTopOf="parent" />
+
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/btn_look_filter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginVertical="7dp"
+                android:layout_marginVertical="5dp"
                 android:background="@drawable/shape_grayscales800_line_40_rect"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -50,13 +72,13 @@
                     android:layout_marginStart="20dp"
                     android:layout_marginEnd="6dp"
                     android:paddingVertical="6dp"
+                    android:text="@string/look_tv_filter_basic"
                     android:textColor="@color/grayscales_500"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@id/iv_look_filter_down"
                     app:layout_constraintHorizontal_chainStyle="packed"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:text="모든 쪽지" />
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <ImageView
                     android:id="@+id/iv_look_filter_down"
@@ -79,7 +101,7 @@
             android:id="@+id/layout_look_swipe"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginTop="11dp"
+            android:layout_marginTop="6dp"
             android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -102,7 +124,7 @@
             android:id="@+id/shimmer_look_list"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginTop="11dp"
+            android:layout_marginTop="6dp"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

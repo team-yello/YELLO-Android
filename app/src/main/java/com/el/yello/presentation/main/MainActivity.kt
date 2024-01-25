@@ -259,7 +259,7 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
         const val RECOMMEND = "RECOMMEND"
         const val BACK_PRESSED_INTERVAL = 2000
         const val EXPIRED_DATA_FORMAT = "yyyy-MM-dd"
-        const val USER_SUBSCRIBE_CANCELED = "normal"
+        const val USER_SUBSCRIBE_CANCELED = "canceled"
         const val PAY_RESUBS_DIALOG = "PayResubsNoticeDialog"
         private const val EVENT_CLICK_RECOMMEND_NAVIGATION = "click_recommend_navigation"
 

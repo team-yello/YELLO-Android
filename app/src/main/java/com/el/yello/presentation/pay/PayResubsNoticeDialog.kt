@@ -42,6 +42,7 @@ class PayResubsNoticeDialog :
             Intent(requireContext(), PayActivity::class.java).apply{
                 startActivity(this)
             }
+            dismiss()
         }
     }
 

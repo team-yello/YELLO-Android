@@ -15,8 +15,7 @@ class SocialSyncViewModel @Inject constructor(
     private val _getFriendListState = MutableStateFlow<UiState<Unit>>(UiState.Empty)
     val getFriendListState: StateFlow<UiState<Unit>> = _getFriendListState
 
-    // 카카오 통신 - 카카오 친구목록 동의 받기
-    fun getKakaoFriendsList() {
+    fun getFriendsListFromKakao() {
         TalkApiClient.instance.friends { _, error ->
             _getFriendListState.value = UiState.Loading
             if (error == null) {

@@ -6,102 +6,103 @@
         <item name="android:textColor">@color/black</item>
         <item name="android:textAllCaps">false</item>
         <item name="android:includeFontPadding">false</item>
+        <item name="android:lineSpacingMultiplier">1.2</item>
     </style>
 
+    <!-- paddingVertical 3dp -->
     <style name="TextAppearance.Yello.Headline00">
         <item name="fontFamily">@font/font_pretendard_bold</item>
         <item name="android:textSize">26sp</item>
-        <item name="lineHeight">32sp</item>
     </style>
 
+    <!-- paddingVertical 5dp -->
     <style name="TextAppearance.Yello.Headline01">
         <item name="fontFamily">@font/font_pretendard_bold</item>
         <item name="android:textSize">22sp</item>
-        <item name="lineHeight">32sp</item>
     </style>
 
+    <!-- paddingVertical 5dp -->
     <style name="TextAppearance.Yello.Headline02">
         <item name="fontFamily">@font/font_pretendard_bold</item>
         <item name="android:textSize">22sp</item>
-        <item name="lineHeight">32sp</item>
     </style>
 
+    <!-- paddingVertical 5dp -->
     <style name="TextAppearance.Yello.Headline03">
         <item name="fontFamily">@font/font_pretendard_bold</item>
         <item name="android:textSize">21sp</item>
-        <item name="lineHeight">30sp</item>
     </style>
 
+    <!-- paddingVertical 3dp -->
     <style name="TextAppearance.Yello.Subtitle01">
         <item name="fontFamily">@font/font_pretendard_semibold</item>
         <item name="android:textSize">18sp</item>
-        <item name="lineHeight">24sp</item>
     </style>
 
+    <!-- paddingVertical 3dp -->
     <style name="TextAppearance.Yello.Subtitle02">
         <item name="fontFamily">@font/font_pretendard_bold</item>
         <item name="android:textSize">16sp</item>
-        <item name="lineHeight">22sp</item>
     </style>
 
+    <!-- paddingVertical 5dp -->
     <style name="TextAppearance.Yello.BodyLarge">
         <item name="fontFamily">@font/font_pretendard_medium</item>
         <item name="android:textSize">16sp</item>
-        <item name="lineHeight">26sp</item>
     </style>
 
+    <!-- paddingVertical 5dp -->
     <style name="TextAppearance.Yello.BodyMedium">
         <item name="fontFamily">@font/font_pretendard_medium</item>
         <item name="android:textSize">15sp</item>
-        <item name="lineHeight">24sp</item>
     </style>
 
+    <!-- paddingVertical 4dp -->
     <style name="TextAppearance.Yello.BodySmall">
         <item name="fontFamily">@font/font_pretendard_medium</item>
         <item name="android:textSize">14sp</item>
-        <item name="lineHeight">22sp</item>
     </style>
 
+    <!-- paddingVertical 5dp -->
     <style name="TextAppearance.Yello.Body02">
         <item name="fontFamily">@font/font_pretendard_regular</item>
         <item name="android:textSize">13sp</item>
-        <item name="lineHeight">22sp</item>
     </style>
 
+    <!-- paddingVertical 2dp -->
     <style name="TextAppearance.Yello.LabelLarge">
         <item name="fontFamily">@font/font_pretendard_medium</item>
         <item name="android:textSize">12sp</item>
-        <item name="lineHeight">16sp</item>
     </style>
 
+    <!-- paddingVertical 2dp -->
     <style name="TextAppearance.Yello.LabelMedium">
         <item name="fontFamily">@font/font_pretendard_medium</item>
         <item name="android:textSize">11sp</item>
-        <item name="lineHeight">15sp</item>
     </style>
 
+    <!-- paddingVertical 2dp -->
     <style name="TextAppearance.Yello.LabelSmall">
         <item name="fontFamily">@font/font_pretendard_medium</item>
         <item name="android:textSize">10sp</item>
-        <item name="lineHeight">14sp</item>
     </style>
 
+    <!-- paddingVertical 5dp -->
     <style name="TextAppearance.Yello.Body01">
         <item name="fontFamily">@font/font_pretendard_medium</item>
         <item name="android:textSize">15sp</item>
-        <item name="lineHeight">24sp</item>
     </style>
 
+    <!-- paddingVertical 3dp -->
     <style name="TextAppearance.Yello.Button">
         <item name="fontFamily">@font/font_pretendard_semibold</item>
         <item name="android:textSize">13sp</item>
-        <item name="lineHeight">18sp</item>
     </style>
 
+    <!-- paddingVertical 4dp -->
     <style name="TextAppearance.Yello.Dialog">
         <item name="fontFamily">@font/font_pretendard_medium</item>
         <item name="android:textSize">13sp</item>
-        <item name="lineHeight">20sp</item>
     </style>
 
     <!-- Bottom Navigation View Custom TextAppearances. -->

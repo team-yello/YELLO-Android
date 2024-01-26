@@ -59,8 +59,8 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
         setBillingManager()
         observeIsPurchasing()
         observePurchaseInfoState()
-        observeCheckSubsState()
-        observeCheckInAppState()
+        observeCheckSubsValidState()
+        observeCheckInAppValidState()
         initPrivacyBtnListener()
         initServiceBtnListener()
     }
@@ -104,9 +104,9 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
 
                 override fun onSuccess(purchase: Purchase) {
                     if (purchase.products[0] == YELLO_PLUS) {
-                        viewModel.checkSubsToServer(purchase.toRequestPayModel())
+                        viewModel.checkSubsValidToServer(purchase.toRequestPayModel())
                     } else {
-                        viewModel.checkInAppToServer(purchase.toRequestPayModel())
+                        viewModel.checkInAppValidToServer(purchase.toRequestPayModel())
                     }
                 }
 
@@ -162,14 +162,12 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
         })
     }
 
-    // 구매 완료 이후 검증 완료까지 로딩 로티 실행
     private fun observeIsPurchasing() {
         manager.isPurchasing.flowWithLifecycle(lifecycle).onEach { isPurchasing ->
             if (isPurchasing) startLoadingScreen()
         }.launchIn(lifecycleScope)
     }
 
-    // 구독 여부 확인해서 화면 표시 변경
     private fun observePurchaseInfoState() {
         viewModel.getPurchaseInfoState.flowWithLifecycle(lifecycle).onEach { state ->
             when (state) {
@@ -189,8 +187,7 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
         }.launchIn(lifecycleScope)
     }
 
-    // 구독 상품 검증 옵저버
-    private fun observeCheckSubsState() {
+    private fun observeCheckSubsValidState() {
         viewModel.postSubsCheckState.flowWithLifecycle(lifecycle).onEach { state ->
             stopLoadingScreen()
             when (state) {
@@ -217,8 +214,7 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
         }.launchIn(lifecycleScope)
     }
 
-    // 인앱(소비성) 상품 검증 옵저버
-    private fun observeCheckInAppState() {
+    private fun observeCheckInAppValidState() {
         viewModel.postInAppCheckState.flowWithLifecycle(lifecycle).onEach { state ->
             when (state) {
                 is UiState.Success -> {

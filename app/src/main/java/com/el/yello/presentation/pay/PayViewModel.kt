@@ -41,8 +41,7 @@ class PayViewModel @Inject constructor(
         ticketCount += count
     }
 
-    // 서버 통신 - 구독 상품 검증
-    fun checkSubsToServer(request: PayRequestModel) {
+    fun checkSubsValidToServer(request: PayRequestModel) {
         viewModelScope.launch {
             _postSubsCheckState.value = UiState.Loading
             payRepository.postToCheckSubs(request)
@@ -55,8 +54,7 @@ class PayViewModel @Inject constructor(
         }
     }
 
-    // 서버 통신 - 열람권 상품 검증
-    fun checkInAppToServer(request: PayRequestModel) {
+    fun checkInAppValidToServer(request: PayRequestModel) {
         viewModelScope.launch {
             _postInAppCheckState.value = UiState.Loading
             payRepository.postToCheckInApp(request)
@@ -69,7 +67,6 @@ class PayViewModel @Inject constructor(
         }
     }
 
-    // 서버 통신 - 구독 여부 & 열람권 개수 받아오기
     fun getPurchaseInfoFromServer() {
         viewModelScope.launch {
             payRepository.getPurchaseInfo()

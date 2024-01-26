@@ -45,6 +45,8 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
 
     private lateinit var itemDivider: ProfileItemDecoration
 
+    private var profileFriendItemBottomSheet: ProfileFriendItemBottomSheet? = null
+
     private var isScrolled: Boolean = false
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -54,7 +56,7 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
         initPullToScrollListener()
         setInfinityScroll()
         setDeleteAnimation()
-        observeUserDataState()
+        observeUserDataResult()
         observeFriendsDataState()
         observeFriendDeleteState()
         observeCheckIsSubscribed()
@@ -79,7 +81,6 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
         binding.rvProfileFriendsList.addItemDecoration(itemDivider)
     }
 
-    // 관리 액티비티 실행 & 뒤로가기 누를 때 다시 돌아오도록 현재 화면 finish 진행 X
     private fun initProfileManageBtnListener() {
         binding.btnProfileManage.setOnSingleClickListener {
             AmplitudeUtils.trackEventWithProperties("click_profile_manage")
@@ -90,50 +91,45 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
         }
     }
 
-    // 플로팅 버튼 클릭 시 리사이클러 최상단으로 이동
     private fun initUpwardBtnListener() {
         binding.fabUpward.setOnSingleClickListener {
             binding.rvProfileFriendsList.scrollToPosition(0)
         }
     }
 
-    // 최상단에 위치한 경우에만 플로팅 버튼 GONE 표시
     private fun initUpwardBtnVisibility() {
         binding.rvProfileFriendsList.setOnScrollChangeListener { view, _, _, _, _ ->
             binding.fabUpward.isVisible = view.canScrollVertically(-1)
         }
     }
 
-    // 어댑터 시작
     private fun initAdapter() {
-        _adapter = ProfileFriendAdapter((viewModel), { profileUserModel, position ->
-
-            // 리스트 아이템 클릭 리스너 설정 - 클릭된 아이템 값 저장 뷰모델 이후 바텀 시트 출력
-            viewModel.setItemPosition(position)
-            viewModel.clickedUserData = profileUserModel.apply {
-                if (!this.yelloId.startsWith("@")) this.yelloId = "@" + this.yelloId
-            }
-
-            if (!viewModel.isItemBottomSheetRunning) {
-                AmplitudeUtils.trackEventWithProperties("click_profile_friend")
-                ProfileFriendItemBottomSheet().show(
-                    parentFragmentManager, ITEM_BOTTOM_SHEET
+        _adapter = ProfileFriendAdapter(viewModel,
+            itemClick = { profileUserModel, position ->
+                viewModel.setItemPosition(position)
+                viewModel.clickedUserData = profileUserModel.apply {
+                    if (!this.yelloId.startsWith("@")) this.yelloId = "@" + this.yelloId
+                }
+                if (!viewModel.isItemBottomSheetRunning) {
+                    AmplitudeUtils.trackEventWithProperties("click_profile_friend")
+                    profileFriendItemBottomSheet = ProfileFriendItemBottomSheet()
+                    profileFriendItemBottomSheet?.show(parentFragmentManager, ITEM_BOTTOM_SHEET)
+                }
+            },
+            buttonClick = {
+                AmplitudeUtils.trackEventWithProperties("click_profile_group")
+                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(ADD_GROUP_URL)))
+            },
+            shopClick = {
+                AmplitudeUtils.trackEventWithProperties(
+                    "click_go_shop",
+                    JSONObject().put("shop_button", "profile_shop"),
                 )
-            }
-        }, {
-            // 헤더 그룹 추가 버튼 클릭 리스너 설정
-            AmplitudeUtils.trackEventWithProperties("click_profile_group")
-            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(ADD_GROUP_URL)))
-        }, {
-            // 헤더 상점 버튼 클릭 리스너 설정
-            AmplitudeUtils.trackEventWithProperties(
-                "click_go_shop", JSONObject().put("shop_button", "profile_shop")
-            )
-            Intent(activity, PayActivity::class.java).apply {
-                addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                startActivity(this)
-            }
-        })
+                Intent(activity, PayActivity::class.java).apply {
+                    addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                    startActivity(this)
+                }
+            })
         binding.rvProfileFriendsList.adapter = adapter
     }
 
@@ -156,53 +152,34 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
         }
     }
 
-    // 유저 정보 서버 통신 성공 시 어댑터 생성 후 리사이클러뷰에 부착
-    private fun observeUserDataState() {
-        viewModel.getUserDataState.flowWithLifecycle(viewLifecycleOwner.lifecycle).onEach { state ->
+    private fun observeUserDataResult() {
+        viewModel.getUserDataResult.flowWithLifecycle(lifecycle).onEach { result ->
+            if (!result) yelloSnackbar(requireView(), getString(R.string.profile_error_user_data))
+        }.launchIn(lifecycleScope)
+    }
+
+    private fun observeFriendsDataState() {
+        viewModel.getFriendListState.flowWithLifecycle(lifecycle).onEach { state ->
             when (state) {
                 is UiState.Success -> {
-                    viewModel.myUserData = state.data.apply {
-                        if (!this.yelloId.startsWith("@")) this.yelloId = "@" + this.yelloId
-                    }
-                    viewModel.myFriendCount = state.data.friendCount
+                    binding.ivProfileLoading.isVisible = false
+                    friendsList = state.data.friends
+                    adapter.addItemList(friendsList)
                 }
 
                 is UiState.Failure -> {
-                    yelloSnackbar(requireView(), getString(R.string.profile_error_user_data))
+                    yelloSnackbar(requireView(), getString(R.string.profile_error_friend_list))
+                }
+
+                is UiState.Loading -> {
+                    binding.ivProfileLoading.isVisible = true
                 }
 
                 is UiState.Empty -> return@onEach
-
-                is UiState.Loading -> return@onEach
             }
-        }.launchIn(viewLifecycleOwner.lifecycleScope)
+        }.launchIn(lifecycleScope)
     }
 
-    // 친구 목록 서버 통신 성공 시 어댑터에 리스트 추가
-    private fun observeFriendsDataState() {
-        viewModel.getFriendListState.flowWithLifecycle(viewLifecycleOwner.lifecycle)
-            .onEach { state ->
-                when (state) {
-                    is UiState.Success -> {
-                        binding.ivProfileLoading.isVisible = false
-                        friendsList = state.data.friends
-                        adapter.addItemList(friendsList)
-                    }
-
-                    is UiState.Failure -> {
-                        yelloSnackbar(requireView(), getString(R.string.profile_error_friend_list))
-                    }
-
-                    is UiState.Loading -> {
-                        binding.ivProfileLoading.isVisible = true
-                    }
-
-                    is UiState.Empty -> return@onEach
-                }
-            }.launchIn(viewLifecycleOwner.lifecycleScope)
-    }
-
-    // 무한 스크롤 구현
     private fun setInfinityScroll() {
         binding.rvProfileFriendsList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
@@ -226,52 +203,47 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
         })
     }
 
-    // 친구 삭제 서버 통신 성공 시 리스트에서 아이템 삭제
     private fun observeFriendDeleteState() {
-        viewModel.deleteFriendState.flowWithLifecycle(viewLifecycleOwner.lifecycle)
-            .onEach { state ->
-                when (state) {
-                    is UiState.Success -> {
-                        lifecycleScope.launch {
-                            viewModel.clickedItemPosition?.let { position ->
-                                adapter.removeItem(position)
-                            }
-                            binding.rvProfileFriendsList.removeItemDecoration(itemDivider)
-                            delay(450)
-                            binding.rvProfileFriendsList.addItemDecoration(itemDivider)
-                            viewModel.myFriendCount -= 1
-                            adapter.notifyDataSetChanged()
+        viewModel.deleteFriendState.flowWithLifecycle(lifecycle).onEach { state ->
+            when (state) {
+                is UiState.Success -> {
+                    lifecycleScope.launch {
+                        viewModel.clickedItemPosition?.let { position ->
+                            adapter.removeItem(position)
                         }
-                        AmplitudeUtils.trackEventWithProperties("complete_profile_delete_friend")
+                        binding.rvProfileFriendsList.removeItemDecoration(itemDivider)
+                        delay(450)
+                        binding.rvProfileFriendsList.addItemDecoration(itemDivider)
+                        viewModel.myFriendCount -= 1
+                        adapter.notifyDataSetChanged()
                     }
-
-                    is UiState.Failure -> toast(getString(R.string.profile_error_delete_friend))
-
-                    is UiState.Loading -> return@onEach
-
-                    is UiState.Empty -> return@onEach
+                    AmplitudeUtils.trackEventWithProperties("complete_profile_delete_friend")
                 }
-            }.launchIn(viewLifecycleOwner.lifecycleScope)
+
+                is UiState.Failure -> toast(getString(R.string.profile_error_delete_friend))
+
+                is UiState.Loading -> return@onEach
+
+                is UiState.Empty -> return@onEach
+            }
+        }.launchIn(lifecycleScope)
     }
 
-    // 구독 여부 확인
     private fun observeCheckIsSubscribed() {
-        viewModel.getPurchaseInfoState.flowWithLifecycle(viewLifecycleOwner.lifecycle)
-            .onEach { state ->
-                when (state) {
-                    is UiState.Success -> viewModel.isSubscribed = state.data.isSubscribe == true
+        viewModel.getPurchaseInfoState.flowWithLifecycle(lifecycle).onEach { state ->
+            when (state) {
+                is UiState.Success -> viewModel.isSubscribed = state.data.isSubscribe == true
 
-                    is UiState.Failure -> viewModel.isSubscribed = false
+                is UiState.Failure -> viewModel.isSubscribed = false
 
-                    is UiState.Loading -> return@onEach
+                is UiState.Loading -> return@onEach
 
-                    is UiState.Empty -> return@onEach
-                }
-                adapter.notifyDataSetChanged()
-            }.launchIn(viewLifecycleOwner.lifecycleScope)
+                is UiState.Empty -> return@onEach
+            }
+            adapter.notifyDataSetChanged()
+        }.launchIn(lifecycleScope)
     }
 
-    // 친구 삭제 시 오른쪽으로 스와이프 되는 애니메이션 추가
     private fun setDeleteAnimation() {
         binding.rvProfileFriendsList.itemAnimator = object : DefaultItemAnimator() {
             override fun animateRemove(holder: RecyclerView.ViewHolder): Boolean {
@@ -289,6 +261,7 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
     override fun onDestroyView() {
         super.onDestroyView()
         _adapter = null
+        if (profileFriendItemBottomSheet != null) profileFriendItemBottomSheet?.dismiss()
     }
 
     private companion object {

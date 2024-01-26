@@ -3,9 +3,6 @@ package com.el.yello.presentation.auth
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.el.yello.presentation.auth.SignInActivity.Companion.CODE_NOT_SIGNED_IN
-import com.el.yello.presentation.auth.SignInActivity.Companion.CODE_NO_UUID
-import com.example.domain.entity.AuthTokenModel
 import com.example.domain.entity.AuthTokenRequestModel
 import com.example.domain.entity.ProfileUserModel
 import com.example.domain.repository.AuthRepository
@@ -20,7 +17,9 @@ import com.kakao.sdk.user.UserApiClient
 import com.kakao.sdk.user.model.Scope
 import com.kakao.sdk.user.model.User
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
@@ -33,14 +32,16 @@ class SignInViewModel @Inject constructor(
     private val profileRepository: ProfileRepository
 ) : ViewModel() {
 
-    private val _postChangeTokenState = MutableStateFlow<UiState<AuthTokenModel>>(UiState.Empty)
-    val postChangeTokenState: StateFlow<UiState<AuthTokenModel?>> = _postChangeTokenState
+    private val _postChangeTokenResult = MutableSharedFlow<Boolean>()
+    val postChangeTokenResult: SharedFlow<Boolean> = _postChangeTokenResult
 
     private val _getUserProfileState = MutableStateFlow<UiState<ProfileUserModel>>(UiState.Empty)
     val getUserProfileState: StateFlow<UiState<ProfileUserModel>> = _getUserProfileState
 
-    private val _getKakaoInfoState = MutableStateFlow<UiState<User>>(UiState.Empty)
-    val getKakaoInfoState: StateFlow<UiState<User?>> = _getKakaoInfoState
+    private val _getKakaoInfoResult = MutableSharedFlow<Boolean>()
+    val getKakaoInfoResult: SharedFlow<Boolean> = _getKakaoInfoResult
+
+    lateinit var kakaoUserInfo: User
 
     private val _getKakaoValidState = MutableStateFlow<UiState<List<Scope>>>(UiState.Empty)
     val getKakaoValidState: StateFlow<UiState<List<Scope>>> = _getKakaoValidState
@@ -69,7 +70,6 @@ class SignInViewModel @Inject constructor(
 
     private var appLoginCallback: (OAuthToken?, Throwable?) -> Unit = { token, error ->
         if (error != null) {
-            // 뒤로가기 경우 예외 처리
             if (!(error is ClientError && error.reason == ClientErrorCause.Cancelled)) {
                 _isAppLoginAvailable.value = false
             }
@@ -81,12 +81,7 @@ class SignInViewModel @Inject constructor(
         }
     }
 
-    fun initLoginState() {
-        _isAppLoginAvailable.value = true
-        _getDeviceTokenError.value = false
-    }
-
-    fun startKakaoLogIn(context: Context) {
+    fun startLogInWithKakao(context: Context) {
         if (UserApiClient.instance.isKakaoTalkLoginAvailable(context) && isAppLoginAvailable.value) {
             UserApiClient.instance.loginWithKakaoTalk(
                 context = context,
@@ -102,22 +97,27 @@ class SignInViewModel @Inject constructor(
         }
     }
 
-    // 카카오 통신 - 카카오 유저 정보 받아오기
-    fun getKakaoInfo() {
+    private fun getUserInfoFromKakao() {
         UserApiClient.instance.me { user, _ ->
-            _getKakaoInfoState.value = UiState.Loading
             try {
                 if (user != null) {
-                    _getKakaoInfoState.value = UiState.Success(user)
-                    return@me
+                    kakaoUserInfo = user
+                    checkFriendsListValidFromKakao()
                 }
             } catch (e: IllegalArgumentException) {
-                _getKakaoInfoState.value = UiState.Failure(e.message.toString())
+                viewModelScope.launch {
+                    _getKakaoInfoResult.emit(false)
+                }
             }
         }
     }
 
-    fun checkFriendsListValid() {
+    fun checkKakaoUserInfoStored() = ::kakaoUserInfo.isInitialized
+
+    fun isUserNameBlank() =
+        !::kakaoUserInfo.isInitialized || kakaoUserInfo.kakaoAccount?.name.isNullOrEmpty()
+
+    private fun checkFriendsListValidFromKakao() {
         val scopes = mutableListOf(FRIEND_LIST)
         _getKakaoValidState.value = UiState.Loading
         UserApiClient.instance.scopes(scopes) { scopeInfo, error ->
@@ -131,39 +131,37 @@ class SignInViewModel @Inject constructor(
         }
     }
 
-    // 서버통신 - 카카오 토큰 보내서 서비스 토큰 받아오기
     private fun changeTokenFromServer(
         accessToken: String,
         social: String = KAKAO,
         deviceToken: String
     ) {
-        _postChangeTokenState.value = UiState.Loading
         viewModelScope.launch {
             onboardingRepository.postTokenToServiceToken(
                 AuthTokenRequestModel(accessToken, social, deviceToken),
             )
                 .onSuccess {
+                    // 200(가입된 아이디): 온보딩 뷰 생략하고 바로 메인 화면으로 이동 위해 유저 정보 받기
                     if (it == null) {
-                        _postChangeTokenState.value = UiState.Empty
+                        _postChangeTokenResult.emit(false)
                         return@launch
                     }
                     authRepository.setAutoLogin(it.accessToken, it.refreshToken)
                     isResigned = it.isResigned
-                    _postChangeTokenState.value = UiState.Success(it)
+                    getUserDataFromServer()
                 }
                 .onFailure {
-                    val errorMessage = when {
-                        it is HttpException && it.code() == 403 -> CODE_NOT_SIGNED_IN
-                        it is HttpException && it.code() == 404 -> CODE_NO_UUID
-                        else -> ERROR
+                    // 403, 404 : 온보딩 뷰로 이동 위해 카카오 유저 정보 얻기
+                    if (it is HttpException && (it.code() == 403 || it.code() == 404)) {
+                        getUserInfoFromKakao()
+                    } else {
+                        _postChangeTokenResult.emit(false)
                     }
-                    _postChangeTokenState.value = UiState.Failure(errorMessage)
                 }
         }
     }
 
-    // 서버통신 - (가입되어 있는) 유저 정보 가져오기
-    fun getUserDataFromServer() {
+    private fun getUserDataFromServer() {
         _getUserProfileState.value = UiState.Loading
         viewModelScope.launch {
             profileRepository.getUserData()

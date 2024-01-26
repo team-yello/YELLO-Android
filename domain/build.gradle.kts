@@ -11,6 +11,4 @@ java {
 
 dependencies {
     implementation(libs.bundles.kotlin)
-    implementation(libs.hiltCore)
-    kapt(libs.hiltAndroidCompiler)
 }

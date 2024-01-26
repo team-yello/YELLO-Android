@@ -38,7 +38,6 @@ class SearchActivity : BindingActivity<ActivitySearchBinding>(R.layout.activity_
 
     private val viewModel by viewModels<SearchViewModel>()
 
-    private val debounceTime = 500L
     private var searchJob: Job? = null
 
     private var searchText: String = ""
@@ -50,7 +49,7 @@ class SearchActivity : BindingActivity<ActivitySearchBinding>(R.layout.activity_
         initFocusToEditText()
         initBackBtnListener()
         setPullToScrollListener()
-        setLoadingScreen()
+        setLoadingScreenWhenTyping()
         setDebounceSearch()
         observeSearchListState()
         observeAddFriendState()
@@ -85,10 +84,10 @@ class SearchActivity : BindingActivity<ActivitySearchBinding>(R.layout.activity_
         binding.layoutSearchSwipe.apply {
             setOnRefreshListener {
                 lifecycleScope.launch {
-                    showLoadingScreen()
-                    viewModel.setListFromServer(searchText)
+                    showShimmerView(isLoading = true, hasList = true)
+                    viewModel.setFriendsListFromServer(searchText)
                     delay(300)
-                    showFriendListScreen()
+                    showShimmerView(isLoading = false, hasList = true)
                     binding.layoutSearchSwipe.isRefreshing = false
                 }
             }
@@ -96,11 +95,10 @@ class SearchActivity : BindingActivity<ActivitySearchBinding>(R.layout.activity_
         }
     }
 
-    // 텍스트 변경 감지 시 로딩 화면 출력
-    private fun setLoadingScreen() {
+    private fun setLoadingScreenWhenTyping() {
         binding.etRecommendSearchBox.doOnTextChanged { _, _, _, _ ->
             lifecycleScope.launch {
-                showLoadingScreen()
+                showShimmerView(isLoading = true, hasList = true)
                 viewModel.setNewPage()
                 adapter.submitList(listOf())
                 adapter.notifyDataSetChanged()
@@ -108,26 +106,24 @@ class SearchActivity : BindingActivity<ActivitySearchBinding>(R.layout.activity_
         }
     }
 
-    // 0.5초 뒤 검색 서버통신 진행
     private fun setDebounceSearch() {
         binding.etRecommendSearchBox.doAfterTextChanged { text ->
             searchJob?.cancel()
             if (text.isNullOrBlank()) {
-                showNoFriendScreen()
+                showShimmerView(isLoading = false, hasList = false)
                 binding.layoutRecommendNoSearch.visibility = View.GONE
             } else {
                 searchJob = viewModel.viewModelScope.launch {
                     delay(debounceTime)
                     text.toString().let { text ->
                         searchText = text
-                        viewModel.setListFromServer(text)
+                        viewModel.setFriendsListFromServer(text)
                     }
                 }
             }
         }
     }
 
-    // 검색 리스트 추가 서버 통신 성공 시 어댑터에 리스트 추가
     private fun observeSearchListState() {
         viewModel.postFriendsListState.flowWithLifecycle(lifecycle)
             .onEach { state ->
@@ -138,16 +134,16 @@ class SearchActivity : BindingActivity<ActivitySearchBinding>(R.layout.activity_
                             viewModel.isFirstLoading = false
                         }
                         if (state.data.friendList.isEmpty()) {
-                            showNoFriendScreen()
+                            showShimmerView(isLoading = false, hasList = false)
                         } else {
                             adapter.addList(state.data.friendList)
-                            showFriendListScreen()
+                            showShimmerView(isLoading = false, hasList = true)
                         }
                     }
 
                     is UiState.Failure -> {
                         toast(getString(R.string.recommend_search_error))
-                        showFriendListScreen()
+                        showShimmerView(isLoading = false, hasList = true)
                     }
 
                     is UiState.Loading -> return@onEach
@@ -157,7 +153,6 @@ class SearchActivity : BindingActivity<ActivitySearchBinding>(R.layout.activity_
             }.launchIn(lifecycleScope)
     }
 
-    // 무한 스크롤 구현
     private fun setListWithInfinityScroll() {
         binding.rvRecommendSearch.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
@@ -165,7 +160,7 @@ class SearchActivity : BindingActivity<ActivitySearchBinding>(R.layout.activity_
                 if (dy > 0) {
                     recyclerView.layoutManager?.let { layoutManager ->
                         if (!binding.rvRecommendSearch.canScrollVertically(1) && layoutManager is LinearLayoutManager && layoutManager.findLastVisibleItemPosition() == adapter.itemCount - 1) {
-                            viewModel.setListFromServer(searchText)
+                            viewModel.setFriendsListFromServer(searchText)
                         }
                     }
                 }
@@ -173,7 +168,6 @@ class SearchActivity : BindingActivity<ActivitySearchBinding>(R.layout.activity_
         })
     }
 
-    // 친구 추가 서버 통신 성공 시 표시 변경
     private fun observeAddFriendState() {
         viewModel.addFriendState.flowWithLifecycle(lifecycle).onEach { state ->
             when (state) {
@@ -200,27 +194,11 @@ class SearchActivity : BindingActivity<ActivitySearchBinding>(R.layout.activity_
         binding.rvRecommendSearch.startAnimation(animation)
     }
 
-    private fun showFriendListScreen() {
+    private fun showShimmerView(isLoading: Boolean, hasList: Boolean) {
         with(binding) {
-            layoutSearchSwipe.isVisible = true
-            layoutRecommendSearchLoading.isVisible = false
-            layoutRecommendNoSearch.isVisible = false
-        }
-    }
-
-    private fun showLoadingScreen() {
-        with(binding) {
-            layoutSearchSwipe.isVisible = false
-            layoutRecommendSearchLoading.isVisible = true
-            layoutRecommendNoSearch.isVisible = false
-        }
-    }
-
-    private fun showNoFriendScreen() {
-        with(binding) {
-            layoutSearchSwipe.isVisible = false
-            layoutRecommendSearchLoading.isVisible = false
-            layoutRecommendNoSearch.isVisible = true
+            layoutSearchSwipe.isVisible = !isLoading
+            layoutRecommendSearchLoading.isVisible = isLoading
+            layoutRecommendNoSearch.isVisible = !hasList
         }
     }
 
@@ -228,5 +206,9 @@ class SearchActivity : BindingActivity<ActivitySearchBinding>(R.layout.activity_
         super.onDestroy()
         _adapter = null
         searchJob?.cancel()
+    }
+
+    companion object {
+        const val debounceTime = 500L
     }
 }

@@ -6,18 +6,15 @@ import com.example.data.model.response.profile.ResponseProfileUserDto
 
 interface ProfileDataSource {
 
-    suspend fun getUserData(
-    ): BaseResponse<ResponseProfileUserDto>
+    suspend fun getUserData(): BaseResponse<ResponseProfileUserDto>
 
     suspend fun getFriendsData(
-        page: Int
+        page: Int,
     ): BaseResponse<ResponseProfileFriendsListDto>
 
-    suspend fun deleteUserData(
-    ): BaseResponse<Unit>
+    suspend fun deleteUserData(): BaseResponse<Unit>
 
     suspend fun deleteFriendData(
-        friendId: Int
+        friendId: Long,
     ): BaseResponse<Unit>
-
 }

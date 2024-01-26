@@ -5,11 +5,10 @@ import android.view.View
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
-import coil.load
-import coil.transform.CircleCropTransformation
 import com.el.yello.R
 import com.el.yello.databinding.FragmentProfileDeleteBottomSheetBinding
 import com.el.yello.presentation.main.profile.ProfileViewModel
+import com.el.yello.util.Utils.setImageOrBasicThumbnail
 import com.example.ui.base.BindingBottomSheetDialog
 import com.example.ui.fragment.toast
 import com.example.ui.view.UiState
@@ -38,13 +37,7 @@ class ProfileFriendDeleteBottomSheet :
     }
 
     private fun setItemImage() {
-        if (viewModel.clickedUserData.profileImageUrl == ProfileViewModel.BASIC_THUMBNAIL) {
-            binding.ivProfileFriendDeleteThumbnail.load(R.drawable.img_yello_basic)
-        } else {
-            binding.ivProfileFriendDeleteThumbnail.load(viewModel.clickedUserData.profileImageUrl) {
-                transformations(CircleCropTransformation())
-            }
-        }
+        binding.ivProfileFriendDeleteThumbnail.setImageOrBasicThumbnail(viewModel.clickedUserData.profileImageUrl)
     }
 
     private fun initReturnBtnListener() {
@@ -61,17 +54,15 @@ class ProfileFriendDeleteBottomSheet :
         }
     }
 
-    // 친구 삭제 서버 통신 성공 시 토스트 띄우고 바텀시트 종료
     private fun observeFriendDeleteState() {
-        viewModel.deleteFriendState.flowWithLifecycle(viewLifecycleOwner.lifecycle)
-            .onEach { state ->
+        viewModel.deleteFriendState.flowWithLifecycle(lifecycle).onEach { state ->
                 when (state) {
                     is UiState.Success -> {
                         toast(
                             getString(
                                 R.string.profile_delete_bottom_sheet_toast,
-                                viewModel.clickedUserData.name
-                            )
+                                viewModel.clickedUserData.name,
+                            ),
                         )
                         viewModel.setDeleteFriendStateEmpty()
                         this@ProfileFriendDeleteBottomSheet.dismiss()
@@ -83,6 +74,6 @@ class ProfileFriendDeleteBottomSheet :
 
                     is UiState.Empty -> return@onEach
                 }
-            }.launchIn(viewLifecycleOwner.lifecycleScope)
+            }.launchIn(lifecycleScope)
     }
 }

@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="vm"
+            type="com.el.yello.presentation.main.recommend.kakao.RecommendKakaoViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout_recommend_friend_item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape_grayscales900_fill_top10_rect"
+        android:paddingBottom="46dp">
+
+        <View
+            android:id="@+id/iv_recommend_friend_handler"
+            android:layout_width="80dp"
+            android:layout_height="4dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/shape_grayscales800_fill_8_rect"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/iv_recommend_friend_thumbnail"
+            android:layout_width="72dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="28dp"
+            app:layout_constraintDimensionRatio="1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/iv_recommend_friend_handler"
+            tools:src="@drawable/ic_main_yello_active" />
+
+        <TextView
+            android:id="@+id/tv_recommend_friend_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="4dp"
+            android:text="@{vm.clickedUserData.name}"
+            android:textAppearance="?textAppearanceHeadline3"
+            android:textColor="@color/white"
+            app:layout_constraintEnd_toStartOf="@id/tv_recommend_friend_id"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/iv_recommend_friend_thumbnail"
+            tools:text="박민주" />
+
+        <TextView
+            android:id="@+id/tv_recommend_friend_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="16dp"
+            android:text="@{vm.clickedUserData.yelloId}"
+            android:textAppearance="?textAppearanceLabelLarge"
+            android:textColor="@color/yello_main_500"
+            app:layout_constraintBaseline_toBaselineOf="@id/tv_recommend_friend_name"
+            app:layout_constraintBottom_toBottomOf="@id/tv_recommend_friend_name"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/tv_recommend_friend_name"
+            tools:text="\@filminju_" />
+
+        <TextView
+            android:id="@+id/tv_recommend_friend_school"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="80dp"
+            android:layout_marginTop="7dp"
+            android:gravity="center_horizontal"
+            android:minHeight="40dp"
+            android:paddingVertical="2dp"
+            android:text="@{vm.clickedUserData.group}"
+            android:textAppearance="?textAppearanceBody2"
+            android:textColor="@color/grayscales_500"
+            app:layout_constrainedWidth="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_recommend_friend_id"
+            tools:text="경화여자고등학교 3학년 10반" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_recommend_friend_total_friend"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="90dp"
+            android:paddingTop="9dp"
+            android:paddingBottom="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toEndOf="@id/layout_recommend_friend_total_msg"
+            app:layout_constraintTop_toBottomOf="@id/tv_recommend_friend_school">
+
+            <TextView
+                android:id="@+id/tv_recommend_total_friend"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{@string/to_string(vm.clickedUserData.friendCount)}"
+                android:textAppearance="?textAppearanceHeadline2"
+                android:textColor="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="50" />
+
+            <TextView
+                android:id="@+id/tv_recommend_total_friend_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/profile_item_bottom_sheet_tv_friend"
+                android:textAppearance="?textAppearanceLabelMedium"
+                android:textColor="@color/grayscales_500"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_recommend_total_friend" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_recommend_friend_total_msg"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="90dp"
+            android:layout_marginTop="12dp"
+            android:paddingTop="9dp"
+            android:paddingBottom="10dp"
+            app:layout_constraintEnd_toStartOf="@id/layout_recommend_friend_total_friend"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_recommend_friend_school">
+
+            <TextView
+                android:id="@+id/tv_recommend_total_msg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{@string/to_string(vm.clickedUserData.yelloCount)}"
+                android:textAppearance="?textAppearanceHeadline2"
+                android:textColor="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="120" />
+
+            <TextView
+                android:id="@+id/tv_recommend_total_msg_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/profile_item_bottom_sheet_tv_msg"
+                android:textAppearance="?textAppearanceLabelMedium"
+                android:textColor="@color/grayscales_500"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_recommend_total_msg" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <Button
+            android:id="@+id/btn_recommend_friend_add"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:backgroundTint="@color/yello_main_500"
+            android:paddingHorizontal="26dp"
+            android:paddingVertical="8dp"
+            android:text="@string/recommend_item_btn_add"
+            android:textAppearance="?textAppearanceLabelLarge"
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/layout_recommend_friend_total_msg" />
+
+        <ImageView
+            android:id="@+id/btn_recommend_item_add_pressed"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginHorizontal="180dp"
+            android:padding="6dp"
+            android:src="@drawable/ic_onboarding_friend_check"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@id/btn_recommend_friend_add"
+            app:layout_constraintDimensionRatio="1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/btn_recommend_friend_add" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

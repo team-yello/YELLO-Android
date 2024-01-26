@@ -102,39 +102,42 @@ class InviteFriendDialog :
     }
 
     private fun startKakaoInvite(context: Context) {
-        // 카카오톡 설치 여부 확인
         if (ShareClient.instance.isKakaoTalkSharingAvailable(context)) {
-            // 앱으로 공유
-            ShareClient.instance.shareCustom(
-                context,
-                templateId,
-                mapOf(KEY_YELLO_ID to myYelloId),
-            ) { sharingResult, error ->
-                if (error != null) {
-                    Timber.tag(TAG_SHARE).e(error, getString(R.string.invite_error_kakao))
-                } else if (sharingResult != null) {
-                    startActivity(sharingResult.intent)
-                }
-            }
+            shareKakaoWithApp(context)
         } else {
-            // 웹으로 공유
-            val sharerUrl = WebSharerClient.instance.makeCustomUrl(templateId)
+            shareKakaoWithWeb(context)
+        }
+    }
 
-            // 1. CustomTabsServiceConnection 지원 브라우저 - Chrome, 삼성 인터넷 등
-            try {
-                KakaoCustomTabsClient.openWithDefault(context, sharerUrl)
-                return
-            } catch (error: UnsupportedOperationException) {
-                Timber.tag(TAG_SHARE).e(error, getString(R.string.invite_error_browser))
+    private fun shareKakaoWithApp(context: Context) {
+        ShareClient.instance.shareCustom(
+            context,
+            templateId,
+            mapOf(KEY_YELLO_ID to myYelloId),
+        ) { sharingResult, error ->
+            if (error != null) {
+                Timber.tag(TAG_SHARE).e(error, getString(R.string.invite_error_kakao))
+            } else if (sharingResult != null) {
+                startActivity(sharingResult.intent)
             }
+        }
+    }
 
-            // 2. CustomTabsServiceConnection 미지원 브라우저 - 네이버 앱 등
-            try {
-                KakaoCustomTabsClient.open(context, sharerUrl)
-                return
-            } catch (error: ActivityNotFoundException) {
-                Timber.tag(TAG_SHARE).e(error, getString(R.string.invite_error_browser))
-            }
+    private fun shareKakaoWithWeb(context: Context) {
+        val sharerUrl = WebSharerClient.instance.makeCustomUrl(templateId)
+        // 1. CustomTabsServiceConnection 지원 브라우저 - Chrome, 삼성 인터넷 등
+        try {
+            KakaoCustomTabsClient.openWithDefault(context, sharerUrl)
+            return
+        } catch (error: UnsupportedOperationException) {
+            Timber.tag(TAG_SHARE).e(error, getString(R.string.invite_error_browser))
+        }
+        // 2. CustomTabsServiceConnection 미지원 브라우저 - 네이버 앱 등
+        try {
+            KakaoCustomTabsClient.open(context, sharerUrl)
+            return
+        } catch (error: ActivityNotFoundException) {
+            Timber.tag(TAG_SHARE).e(error, getString(R.string.invite_error_browser))
         }
     }
 

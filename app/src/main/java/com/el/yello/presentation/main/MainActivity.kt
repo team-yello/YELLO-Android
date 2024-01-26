@@ -97,7 +97,6 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
                                     PAY_RESUBS_DIALOG,
                                 )
                             }
-                            payResubsNoticeFragment.setExpiredDate(expiredDateString)
                         }
                     }
                 }

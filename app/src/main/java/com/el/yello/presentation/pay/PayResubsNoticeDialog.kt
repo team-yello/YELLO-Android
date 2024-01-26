@@ -18,6 +18,7 @@ class PayResubsNoticeDialog :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setNoticeBtnClickListener()
+        getExpiredDate()
     }
 
     override fun onStart() {
@@ -39,16 +40,23 @@ class PayResubsNoticeDialog :
             dismiss()
         }
         binding.btnYelloplusSubscribe.setOnSingleClickListener {
-            Intent(requireContext(), PayActivity::class.java).apply{
+            Intent(requireContext(), PayActivity::class.java).apply {
                 startActivity(this)
             }
             dismiss()
         }
     }
 
-    fun setExpiredDate(expiredDate: String) {
+    private fun setExpiredDate(expiredDate: String) {
         if (isAdded) {
             binding.tvResubscribeExpiredDate.text = expiredDate
+        }
+    }
+
+    private fun getExpiredDate() {
+        val expiredDate = arguments?.getString(ARG_EXPIRED_DATE)
+        expiredDate?.let {
+            setExpiredDate(it)
         }
     }
 

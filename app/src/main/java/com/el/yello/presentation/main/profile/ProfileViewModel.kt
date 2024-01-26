@@ -248,9 +248,12 @@ class ProfileViewModel @Inject constructor(
     fun getUserSubsInfoStateFromServer() {
         viewModelScope.launch {
             payRepository.getUserSubsInfo()
-                .onSuccess {
-                    it ?: return@launch
-                    _getUserSubsInfoState.value = UiState.Success(it)
+                .onSuccess { userInfo ->
+                    if (userInfo == null) {
+                        _getUserSubsInfoState.value = UiState.Empty
+                    } else {
+                        _getUserSubsInfoState.value = UiState.Success(userInfo)
+                    }
                 }
                 .onFailure {
                     _getUserSubsInfoState.value = UiState.Failure(it.message.toString())

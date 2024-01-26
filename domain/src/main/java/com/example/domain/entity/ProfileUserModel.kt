@@ -9,7 +9,6 @@ data class ProfileUserModel(
     val yelloCount: Int,
     val friendCount: Int,
     val point: Int
-)
-
-fun getEmptyProfileUserModel() =
-    ProfileUserModel(0, "", "", "", "", 0, 0, 0)
+){
+    constructor() : this(0, "", "", "", "", 0, 0, 0)
+}

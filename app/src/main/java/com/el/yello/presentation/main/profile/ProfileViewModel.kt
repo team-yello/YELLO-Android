@@ -6,7 +6,6 @@ import com.el.yello.util.amplitude.AmplitudeUtils
 import com.example.domain.entity.PayInfoModel
 import com.example.domain.entity.ProfileFriendsListModel
 import com.example.domain.entity.ProfileUserModel
-import com.example.domain.entity.getEmptyProfileUserModel
 import com.example.domain.entity.vote.VoteCount
 import com.example.domain.repository.AuthRepository
 import com.example.domain.repository.PayRepository
@@ -22,7 +21,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import retrofit2.HttpException
 import timber.log.Timber
 import javax.inject.Inject
 import kotlin.math.ceil
@@ -38,7 +36,8 @@ class ProfileViewModel @Inject constructor(
     private val _getUserDataResult = MutableSharedFlow<Boolean>()
     val getUserDataResult: SharedFlow<Boolean> = _getUserDataResult
 
-    private val _getFriendListState = MutableStateFlow<UiState<ProfileFriendsListModel>>(UiState.Empty)
+    private val _getFriendListState =
+        MutableStateFlow<UiState<ProfileFriendsListModel>>(UiState.Empty)
     val getFriendListState: StateFlow<UiState<ProfileFriendsListModel>> = _getFriendListState
 
     private val _deleteUserState = MutableStateFlow<UiState<Unit>>(UiState.Empty)
@@ -69,10 +68,10 @@ class ProfileViewModel @Inject constructor(
     private var isPagingFinish = false
     private var totalPage = Int.MAX_VALUE
 
-    var myUserData = getEmptyProfileUserModel()
+    var myUserData = ProfileUserModel()
     var myFriendCount = 0
 
-    var clickedUserData = getEmptyProfileUserModel()
+    var clickedUserData = ProfileUserModel()
     var clickedItemPosition: Int? = null
 
     fun setItemPosition(position: Int) {
@@ -216,7 +215,9 @@ class ProfileViewModel @Inject constructor(
         viewModelScope.launch {
             yelloRepository.voteCount()
                 .onSuccess {
-                    if (it != null) { _voteCount.value = UiState.Success(it) }
+                    if (it != null) {
+                        _voteCount.value = UiState.Success(it)
+                    }
                 }
                 .onFailure {
                     _voteCount.value = UiState.Failure(it.message.toString())

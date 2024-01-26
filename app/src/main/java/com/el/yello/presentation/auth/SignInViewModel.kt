@@ -150,7 +150,10 @@ class SignInViewModel @Inject constructor(
             )
                 .onSuccess {
                     // 200(가입된 아이디): 온보딩 뷰 생략하고 바로 메인 화면으로 이동 위해 유저 정보 받기
-                    if (it == null) return@launch
+                    if (it == null) {
+                        _postChangeTokenResult.emit(false)
+                        return@launch
+                    }
                     authRepository.setAutoLogin(it.accessToken, it.refreshToken)
                     isResigned = it.isResigned
                     getUserDataFromServer()

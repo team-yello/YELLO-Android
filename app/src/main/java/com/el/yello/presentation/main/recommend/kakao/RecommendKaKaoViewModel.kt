@@ -6,7 +6,6 @@ import com.el.yello.presentation.main.recommend.list.RecommendViewHolder
 import com.example.domain.entity.RecommendListModel
 import com.example.domain.entity.RecommendRequestModel
 import com.example.domain.entity.RecommendUserInfoModel
-import com.example.domain.entity.setEmptyRecommendUserInfoModel
 import com.example.domain.repository.AuthRepository
 import com.example.domain.repository.RecommendRepository
 import com.example.ui.view.UiState
@@ -41,7 +40,7 @@ class RecommendKakaoViewModel @Inject constructor(
 
     var itemPosition: Int? = null
     var itemHolder: RecommendViewHolder? = null
-    var clickedUserData = setEmptyRecommendUserInfoModel()
+    var clickedUserData = RecommendUserInfoModel()
 
     private var currentOffset = -100
     private var currentPage = -1

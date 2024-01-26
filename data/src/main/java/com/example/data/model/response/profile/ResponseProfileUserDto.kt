@@ -58,7 +58,10 @@ data class ResponseProfileUserDto(
             yelloCount = yelloCount,
             friendCount = friendCount,
             point = point,
-            groupType = groupType
+            groupType = groupType,
+            groupName = groupName,
+            subGroupName = subGroupName,
+            groupAdmissionYear = groupAdmissionYear
         )
     }
 }

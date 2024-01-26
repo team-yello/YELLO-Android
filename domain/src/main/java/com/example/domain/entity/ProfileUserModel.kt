@@ -9,7 +9,10 @@ data class ProfileUserModel(
     val yelloCount: Int,
     val friendCount: Int,
     val point: Int,
-    val groupType: String
+    val groupType: String,
+    val groupName: String,
+    val subGroupName: String,
+    val groupAdmissionYear: Int
 ) {
-    constructor() : this(0, "", "", "", "", 0, 0, 0, "")
+    constructor() : this(0, "", "", "", "", 0, 0, 0, "", "", "", 0)
 }

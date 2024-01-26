@@ -3,6 +3,12 @@
 
     <data>
 
+        <variable
+            name="vm"
+            type="com.el.yello.presentation.main.profile.detail.UnivProfileDetailViewModel" />
+
+        <import type="android.view.View" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

@@ -15,6 +15,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.el.yello.R
 import com.el.yello.databinding.FragmentProfileBinding
 import com.el.yello.presentation.main.profile.ProfileViewModel
+import com.el.yello.presentation.main.profile.detail.SchoolProfileDetailActivity
+import com.el.yello.presentation.main.profile.detail.UnivProfileDetailActivity
 import com.el.yello.presentation.main.profile.manage.ProfileManageActivity
 import com.el.yello.presentation.pay.PayActivity
 import com.el.yello.util.Utils.setPullToScrollColor
@@ -131,9 +133,9 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
 
     private fun initProfileModClickListener() {
         when (viewModel.myUserData.groupType) {
-            TYPE_UNIVERSITY -> {}
-            TYPE_HIGH_SCHOOL -> {}
-            TYPE_MIDDLE_SCHOOL -> {}
+            TYPE_UNIVERSITY -> navigateTo<UnivProfileDetailActivity>()
+            TYPE_HIGH_SCHOOL -> navigateTo<SchoolProfileDetailActivity>()
+            TYPE_MIDDLE_SCHOOL -> navigateTo<SchoolProfileDetailActivity>()
             else -> toast(getString(R.string.sign_in_error_connection))
         }
     }
@@ -263,7 +265,7 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
         binding.rvProfileFriendsList.smoothScrollToPosition(0)
     }
 
-    private inline fun <reified T : Activity>navigateTo() {
+    private inline fun <reified T : Activity> navigateTo() {
         Intent(activity, T::class.java).apply {
             addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
             startActivity(this)

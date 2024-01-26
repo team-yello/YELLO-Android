@@ -102,7 +102,6 @@ class InviteFriendDialog :
     }
 
     private fun startKakaoInvite(context: Context) {
-        // 카카오톡 설치 여부 확인
         if (ShareClient.instance.isKakaoTalkSharingAvailable(context)) {
             // 앱으로 공유
             ShareClient.instance.shareCustom(

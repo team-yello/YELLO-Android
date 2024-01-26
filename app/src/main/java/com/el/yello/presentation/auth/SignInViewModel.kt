@@ -70,7 +70,6 @@ class SignInViewModel @Inject constructor(
 
     private var appLoginCallback: (OAuthToken?, Throwable?) -> Unit = { token, error ->
         if (error != null) {
-            // 뒤로가기 경우 예외 처리
             if (!(error is ClientError && error.reason == ClientErrorCause.Cancelled)) {
                 _isAppLoginAvailable.value = false
             }
@@ -82,12 +81,7 @@ class SignInViewModel @Inject constructor(
         }
     }
 
-    fun initLoginState() {
-        _isAppLoginAvailable.value = true
-        _getDeviceTokenError.value = false
-    }
-
-    fun startKakaoLogIn(context: Context) {
+    fun startLogInWithKakao(context: Context) {
         if (UserApiClient.instance.isKakaoTalkLoginAvailable(context) && isAppLoginAvailable.value) {
             UserApiClient.instance.loginWithKakaoTalk(
                 context = context,
@@ -103,13 +97,12 @@ class SignInViewModel @Inject constructor(
         }
     }
 
-    // 카카오 통신 - 카카오 유저 정보 받아오기
-    private fun getKakaoInfo() {
+    private fun getUserInfoFromKakao() {
         UserApiClient.instance.me { user, _ ->
             try {
                 if (user != null) {
                     kakaoUserInfo = user
-                    checkFriendsListValid()
+                    checkFriendsListValidFromKakao()
                 }
             } catch (e: IllegalArgumentException) {
                 viewModelScope.launch {
@@ -124,7 +117,7 @@ class SignInViewModel @Inject constructor(
     fun isUserNameBlank() =
         !::kakaoUserInfo.isInitialized || kakaoUserInfo.kakaoAccount?.name.isNullOrEmpty()
 
-    private fun checkFriendsListValid() {
+    private fun checkFriendsListValidFromKakao() {
         val scopes = mutableListOf(FRIEND_LIST)
         _getKakaoValidState.value = UiState.Loading
         UserApiClient.instance.scopes(scopes) { scopeInfo, error ->
@@ -138,7 +131,6 @@ class SignInViewModel @Inject constructor(
         }
     }
 
-    // 서버통신 - 카카오 토큰 보내서 서비스 토큰 받아오기
     private fun changeTokenFromServer(
         accessToken: String,
         social: String = KAKAO,
@@ -161,7 +153,7 @@ class SignInViewModel @Inject constructor(
                 .onFailure {
                     // 403, 404 : 온보딩 뷰로 이동 위해 카카오 유저 정보 얻기
                     if (it is HttpException && (it.code() == 403 || it.code() == 404)) {
-                        getKakaoInfo()
+                        getUserInfoFromKakao()
                     } else {
                         _postChangeTokenResult.emit(false)
                     }
@@ -169,7 +161,6 @@ class SignInViewModel @Inject constructor(
         }
     }
 
-    // 서버통신 - (가입되어 있는) 유저 정보 가져오기
     private fun getUserDataFromServer() {
         _getUserProfileState.value = UiState.Loading
         viewModelScope.launch {

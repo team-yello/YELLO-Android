@@ -44,11 +44,10 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
         observeUserDataState()
     }
 
-    // 카카오톡 앱 설치 유무에 따라 로그인 진행
     private fun initSignInBtnListener() {
         binding.btnSignIn.setOnSingleClickListener {
             AmplitudeUtils.trackEventWithProperties("click_onboarding_kakao")
-            viewModel.startKakaoLogIn(this)
+            viewModel.startLogInWithKakao(this)
         }
     }
 
@@ -58,27 +57,25 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
         }.launchIn(lifecycleScope)
     }
 
-    // 카카오통 앱 로그인에 실패한 경우 웹 로그인 시도
     private fun observeAppLoginError() {
         viewModel.isAppLoginAvailable.flowWithLifecycle(lifecycle).onEach { available ->
-            if (!available) viewModel.startKakaoLogIn(this)
+            if (!available) viewModel.startLogInWithKakao(this)
         }.launchIn(lifecycleScope)
     }
 
-    // 서비스 토큰 교체 서버 통신 결과에 따라서 분기 처리 진행
     private fun observeChangeTokenResult() {
         viewModel.postChangeTokenResult.flowWithLifecycle(lifecycle).onEach { result ->
             if (!result) toast(getString(R.string.sign_in_error_connection))
         }.launchIn(lifecycleScope)
     }
 
-    // Failure -> 카카오에 등록된 유저 정보 받아온 후 친구목록 동의 화면으로 이동
     private fun observeKakaoUserInfoResult() {
         viewModel.getKakaoInfoResult.flowWithLifecycle(lifecycle).onEach { result ->
             if (!result) yelloSnackbar(binding.root, getString(R.string.msg_error))
         }.launchIn(lifecycleScope)
     }
 
+    // ChangeToken Failure -> 카카오에 등록된 유저 정보 받아온 후 친구목록 동의 or 온보딩 화면으로 이동
     private fun observeFriendsListValidState() {
         viewModel.getKakaoValidState.flowWithLifecycle(lifecycle).onEach { state ->
             when (state) {
@@ -100,7 +97,7 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
         }.launchIn(lifecycleScope)
     }
 
-    // Success -> 서버에 등록된 유저 정보가 있는지 확인 후 메인 액티비티로 이동
+    // ChangeToken Success -> 서버에 등록된 유저 정보가 있는지 확인 후 메인 액티비티로 이동
     private fun observeUserDataState() {
         viewModel.getUserProfileState.flowWithLifecycle(lifecycle).onEach { state ->
             when (state) {

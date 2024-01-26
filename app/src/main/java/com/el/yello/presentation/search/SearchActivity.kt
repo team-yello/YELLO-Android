@@ -49,7 +49,7 @@ class SearchActivity : BindingActivity<ActivitySearchBinding>(R.layout.activity_
         initFocusToEditText()
         initBackBtnListener()
         setPullToScrollListener()
-        setLoadingScreen()
+        setLoadingScreenWhenTyping()
         setDebounceSearch()
         observeSearchListState()
         observeAddFriendState()
@@ -85,7 +85,7 @@ class SearchActivity : BindingActivity<ActivitySearchBinding>(R.layout.activity_
             setOnRefreshListener {
                 lifecycleScope.launch {
                     showShimmerView(isLoading = true, hasList = true)
-                    viewModel.setListFromServer(searchText)
+                    viewModel.setFriendsListFromServer(searchText)
                     delay(300)
                     showShimmerView(isLoading = false, hasList = true)
                     binding.layoutSearchSwipe.isRefreshing = false
@@ -95,8 +95,7 @@ class SearchActivity : BindingActivity<ActivitySearchBinding>(R.layout.activity_
         }
     }
 
-    // 텍스트 변경 감지 시 로딩 화면 출력
-    private fun setLoadingScreen() {
+    private fun setLoadingScreenWhenTyping() {
         binding.etRecommendSearchBox.doOnTextChanged { _, _, _, _ ->
             lifecycleScope.launch {
                 showShimmerView(isLoading = true, hasList = true)
@@ -107,7 +106,6 @@ class SearchActivity : BindingActivity<ActivitySearchBinding>(R.layout.activity_
         }
     }
 
-    // 0.5초 뒤 검색 서버통신 진행
     private fun setDebounceSearch() {
         binding.etRecommendSearchBox.doAfterTextChanged { text ->
             searchJob?.cancel()
@@ -119,14 +117,13 @@ class SearchActivity : BindingActivity<ActivitySearchBinding>(R.layout.activity_
                     delay(debounceTime)
                     text.toString().let { text ->
                         searchText = text
-                        viewModel.setListFromServer(text)
+                        viewModel.setFriendsListFromServer(text)
                     }
                 }
             }
         }
     }
 
-    // 검색 리스트 추가 서버 통신 성공 시 어댑터에 리스트 추가
     private fun observeSearchListState() {
         viewModel.postFriendsListState.flowWithLifecycle(lifecycle)
             .onEach { state ->
@@ -156,7 +153,6 @@ class SearchActivity : BindingActivity<ActivitySearchBinding>(R.layout.activity_
             }.launchIn(lifecycleScope)
     }
 
-    // 무한 스크롤 구현
     private fun setListWithInfinityScroll() {
         binding.rvRecommendSearch.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
@@ -164,7 +160,7 @@ class SearchActivity : BindingActivity<ActivitySearchBinding>(R.layout.activity_
                 if (dy > 0) {
                     recyclerView.layoutManager?.let { layoutManager ->
                         if (!binding.rvRecommendSearch.canScrollVertically(1) && layoutManager is LinearLayoutManager && layoutManager.findLastVisibleItemPosition() == adapter.itemCount - 1) {
-                            viewModel.setListFromServer(searchText)
+                            viewModel.setFriendsListFromServer(searchText)
                         }
                     }
                 }
@@ -172,7 +168,6 @@ class SearchActivity : BindingActivity<ActivitySearchBinding>(R.layout.activity_
         })
     }
 
-    // 친구 추가 서버 통신 성공 시 표시 변경
     private fun observeAddFriendState() {
         viewModel.addFriendState.flowWithLifecycle(lifecycle).onEach { state ->
             when (state) {

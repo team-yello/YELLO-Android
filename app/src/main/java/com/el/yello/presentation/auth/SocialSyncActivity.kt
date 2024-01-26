@@ -46,7 +46,7 @@ class SocialSyncActivity :
     private fun initSocialSyncBtnListener() {
         binding.btnSocialSync.setOnSingleClickListener {
             AmplitudeUtils.trackEventWithProperties("click_onboarding_kakao_friends")
-            viewModel.getKakaoFriendsList()
+            viewModel.getFriendsListFromKakao()
         }
     }
 
@@ -56,7 +56,6 @@ class SocialSyncActivity :
         }
     }
 
-    // 친구목록 동의만 받고 온보딩 뷰로 이동
     private fun observeFriendsAccessState() {
         viewModel.getFriendListState.flowWithLifecycle(lifecycle).onEach { state ->
             when (state) {

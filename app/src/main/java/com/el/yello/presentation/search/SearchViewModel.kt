@@ -47,8 +47,7 @@ class SearchViewModel @Inject constructor(
         _postFriendsListState.value = UiState.Empty
     }
 
-    // 서버 통신 - 추천 친구 리스트 추가
-    fun setListFromServer(keyword: String) {
+    fun setFriendsListFromServer(keyword: String) {
         if (isPagingFinish) return
         viewModelScope.launch {
             searchRepository.getSearchList(
@@ -67,7 +66,6 @@ class SearchViewModel @Inject constructor(
         }
     }
 
-    // 서버 통신 - 친구 추가
     fun addFriendToServer(friendId: Long) {
         _addFriendState.value = UiState.Loading
         viewModelScope.launch {

@@ -26,7 +26,7 @@
     <string name="social_sync_tv_title">나의 옐로 친구는 어디 있을까?</string>
     <string name="social_sync_tv_subtitle">친구 목록을 불러와봐요!</string>
     <string name="social_sync_tv_btn">카카오톡 친구 연결하기</string>
-    <string name="social_sync_tv_info"><u>개인정보처리약관</u></string>
+    <string name="social_sync_tv_info"><u>개인정보처리방침</u></string>
     <string name="social_sync_error_kakao_profile">카카오 프로필 가져오기 실패</string>
 
     <string name="main_recommend">추천친구</string>

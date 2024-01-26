@@ -101,11 +101,11 @@ class LookFragment : BindingFragment<FragmentLookBinding>(R.layout.fragment_look
             }
             setPullToScrollColor(R.color.grayscales_500, R.color.grayscales_700)
         }
-        adapter.loadStateFlow.flowWithLifecycle(viewLifecycleOwner.lifecycle)
+        adapter.loadStateFlow.flowWithLifecycle(lifecycle)
             .distinctUntilChangedBy { it.refresh }.onEach {
                 delay(200)
                 binding.layoutLookSwipe.isRefreshing = false
-            }.launchIn(viewLifecycleOwner.lifecycleScope)
+            }.launchIn(lifecycleScope)
     }
 
     private fun observeTimelinePagingList(onlyMine: Boolean) {
@@ -116,11 +116,11 @@ class LookFragment : BindingFragment<FragmentLookBinding>(R.layout.fragment_look
 
 
     private fun observePagingLoadingState() {
-        adapter.loadStateFlow.flowWithLifecycle(viewLifecycleOwner.lifecycle)
+        adapter.loadStateFlow.flowWithLifecycle(lifecycle)
             .onEach { loadStates ->
                 when (loadStates.refresh) {
                     is LoadState.Loading -> {
-                        if (!isNoFriend) startShimmerView()
+                        if (!isNoFriend) showShimmerView(true)
                     }
 
                     is LoadState.NotLoading -> {
@@ -128,15 +128,15 @@ class LookFragment : BindingFragment<FragmentLookBinding>(R.layout.fragment_look
                             startFadeIn()
                             viewModel.setFirstLoading(false)
                         }
-                        stopShimmerView()
+                        showShimmerView(false)
                     }
 
                     is LoadState.Error -> {
-                        startShimmerView()
+                        showShimmerView(true)
                         yelloSnackbar(requireView(), getString(R.string.look_error_friend_list))
                     }
                 }
-            }.launchIn(viewLifecycleOwner.lifecycleScope)
+            }.launchIn(lifecycleScope)
     }
 
     private fun catchScrollForAmplitude() {
@@ -156,19 +156,11 @@ class LookFragment : BindingFragment<FragmentLookBinding>(R.layout.fragment_look
         binding.rvLook.startAnimation(animation)
     }
 
-    private fun startShimmerView() {
+    private fun showShimmerView(isShown: Boolean) {
         with(binding) {
-            shimmerLookList.startShimmer()
-            shimmerLookList.isVisible = true
-            rvLook.isVisible = false
-        }
-    }
-
-    private fun stopShimmerView() {
-        with(binding) {
-            shimmerLookList.stopShimmer()
-            shimmerLookList.isVisible = false
-            rvLook.isVisible = true
+            if (isShown) shimmerLookList.startShimmer() else shimmerLookList.stopShimmer()
+            shimmerLookList.isVisible = isShown
+            rvLook.isVisible = !isShown
         }
     }
 
@@ -179,6 +171,7 @@ class LookFragment : BindingFragment<FragmentLookBinding>(R.layout.fragment_look
     override fun onDestroyView() {
         super.onDestroyView()
         _adapter = null
+        if (inviteFriendDialog != null) inviteFriendDialog?.dismiss()
     }
 
     companion object {

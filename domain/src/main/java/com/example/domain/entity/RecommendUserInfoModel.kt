@@ -8,4 +8,6 @@ data class RecommendUserInfoModel(
     var yelloId: String,
     val yelloCount: Int,
     val friendCount: Int,
-)
+) {
+    constructor() : this(0, "", "", "", "", 0, 0)
+}

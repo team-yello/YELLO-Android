@@ -2,13 +2,12 @@ package com.el.yello.presentation.main.recommend.school
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
-import coil.load
-import coil.transform.CircleCropTransformation
 import com.el.yello.R
 import com.el.yello.databinding.FragmentRecommendSchoolItemBottomSheetBinding
-import com.el.yello.presentation.main.profile.ProfileViewModel
+import com.el.yello.util.Utils.setImageOrBasicThumbnail
 import com.example.ui.base.BindingBottomSheetDialog
 import com.example.ui.view.setOnSingleClickListener
 import kotlinx.coroutines.delay
@@ -33,19 +32,13 @@ class RecommendSchoolBottomSheet :
     }
 
     private fun setItemImage() {
-        if (viewModel.clickedUserData.profileImageUrl == ProfileViewModel.BASIC_THUMBNAIL) {
-            binding.ivRecommendFriendThumbnail.load(R.drawable.img_yello_basic)
-        } else {
-            binding.ivRecommendFriendThumbnail.load(viewModel.clickedUserData.profileImageUrl) {
-                transformations(CircleCropTransformation())
-            }
-        }
+        binding.ivRecommendFriendThumbnail.setImageOrBasicThumbnail(viewModel.clickedUserData.profileImageUrl)
     }
 
     private fun initAddBtnListener() {
         binding.btnRecommendFriendAdd.setOnSingleClickListener {
-            binding.btnRecommendFriendAdd.visibility = View.INVISIBLE
-            binding.btnRecommendItemAddPressed.visibility = View.VISIBLE
+            binding.btnRecommendFriendAdd.isVisible = false
+            binding.btnRecommendItemAddPressed.isVisible = true
             lifecycleScope.launch {
                 viewModel.addFriendToServer(viewModel.clickedUserData.userId)
                 delay(300)

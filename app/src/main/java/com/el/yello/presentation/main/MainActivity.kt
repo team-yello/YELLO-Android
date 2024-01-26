@@ -26,6 +26,7 @@ import com.el.yello.presentation.pay.PayResubsNoticeDialog
 import com.el.yello.presentation.util.dp
 import com.el.yello.util.amplitude.AmplitudeUtils
 import com.el.yello.util.context.yelloSnackbar
+import com.example.domain.enum.SubscribeEnum
 import com.example.ui.base.BindingActivity
 import com.example.ui.context.toast
 import com.example.ui.intent.stringExtra
@@ -77,7 +78,7 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
         viewModel.getUserSubsInfoState.flowWithLifecycle(lifecycle).onEach { state ->
             when (state) {
                 is UiState.Success -> {
-                    if (state.data?.subscribe.toString() == USER_SUBSCRIBE_CANCELED) {
+                    if (state.data?.subscribe == SubscribeEnum.CANCELED.toString()) {
                         val expiredDateString = state.data?.expiredDate.toString()
                         val expiredDate =
                             SimpleDateFormat(EXPIRED_DATE_FORMAT).parse(expiredDateString)
@@ -260,7 +261,6 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
         const val RECOMMEND = "RECOMMEND"
         const val BACK_PRESSED_INTERVAL = 2000
         const val EXPIRED_DATE_FORMAT = "yyyy-MM-dd"
-        const val USER_SUBSCRIBE_CANCELED = "canceled"
         const val PAY_RESUBS_DIALOG = "PayResubsNoticeDialog"
         private const val EVENT_CLICK_RECOMMEND_NAVIGATION = "click_recommend_navigation"
 

@@ -6,6 +6,7 @@ import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import com.el.yello.R
 import com.el.yello.databinding.ActivityProfileUnivDetailBinding
+import com.el.yello.util.Utils.setImageOrBasicThumbnail
 import com.el.yello.util.context.yelloSnackbar
 import com.example.ui.base.BindingActivity
 import com.example.ui.view.UiState
@@ -40,8 +41,7 @@ class UnivProfileDetailActivity :
         viewModel.getUserDataState.flowWithLifecycle(lifecycle).onEach { state ->
             when (state) {
                 is UiState.Success -> {
-                    // TODO: 이미지
-                    state.data
+                    binding.ivProfileDetailThumbnail.setImageOrBasicThumbnail(state.data)
                 }
 
                 is UiState.Failure -> {

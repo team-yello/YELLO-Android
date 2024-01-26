@@ -218,7 +218,7 @@
 
     <string name="profile_user_info_total_msg">받은 쪽지</string>
     <string name="profile_user_info_total_point">내 포인트</string>
-    <string name="profile_user_info_total_friends">내 친구수</string>
+    <string name="profile_user_info_total_friends">내 친구</string>
     <string name="profile_user_info_add_group">그룹 추가</string>
     <string name="profile_user_info_friends_list_title">내 친구들</string>
     <string name="profile_user_info_friends_list_subtitle_2">명</string>

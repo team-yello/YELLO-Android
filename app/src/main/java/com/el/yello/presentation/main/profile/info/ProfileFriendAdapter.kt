@@ -22,7 +22,7 @@ class ProfileFriendAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val inflater by lazy { LayoutInflater.from(parent.context) }
-        // 멀티뷰타입 구현 - 헤더 & 아이템 리스트
+
         return when (viewType) {
             VIEW_TYPE_USER_INFO -> ProfileUserInfoViewHolder(
                 ItemProfileUserInfoBinding.inflate(inflater, parent, false),

@@ -98,7 +98,6 @@ class ProfileViewModel @Inject constructor(
         authRepository.setIsFirstLoginData()
     }
 
-    // 서버 통신 - 유저 정보 받아오기
     fun getUserDataFromServer() {
         viewModelScope.launch {
             profileRepository.getUserData()
@@ -115,7 +114,6 @@ class ProfileViewModel @Inject constructor(
         }
     }
 
-    // 서버 통신 - 친구 목록 정보 받아오기
     fun getFriendsListFromServer() {
         if (isPagingFinish) return
         if (isFirstScroll) {
@@ -139,7 +137,6 @@ class ProfileViewModel @Inject constructor(
         }
     }
 
-    // 서버 통신 - 회원 탈퇴
     fun deleteUserDataToServer() {
         viewModelScope.launch {
             _deleteUserState.value = UiState.Loading
@@ -155,7 +152,6 @@ class ProfileViewModel @Inject constructor(
         }
     }
 
-    // 서버 통신 - 친구 식제
     fun deleteFriendDataToServer(friendId: Long) {
         viewModelScope.launch {
             _deleteFriendState.value = UiState.Loading
@@ -169,7 +165,6 @@ class ProfileViewModel @Inject constructor(
         }
     }
 
-    // 카카오 SDK 통신 - 로그아웃
     fun logoutKakaoAccount() {
         UserApiClient.instance.logout { error ->
             _kakaoLogoutState.value = UiState.Loading
@@ -182,7 +177,6 @@ class ProfileViewModel @Inject constructor(
         }
     }
 
-    // 카카오 SDK 통신 - 회원 탈퇴
     fun quitKakaoAccount() {
         UserApiClient.instance.unlink { error ->
             _kakaoQuitState.value = UiState.Loading
@@ -194,7 +188,6 @@ class ProfileViewModel @Inject constructor(
         }
     }
 
-    // 서버 통신 - 구독 여부 & 열람권 개수 받아오기
     fun getPurchaseInfoFromServer() {
         viewModelScope.launch {
             payRepository.getPurchaseInfo()

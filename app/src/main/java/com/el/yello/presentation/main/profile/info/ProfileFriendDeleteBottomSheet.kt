@@ -54,7 +54,6 @@ class ProfileFriendDeleteBottomSheet :
         }
     }
 
-    // 친구 삭제 서버 통신 성공 시 토스트 띄우고 바텀시트 종료
     private fun observeFriendDeleteState() {
         viewModel.deleteFriendState.flowWithLifecycle(lifecycle).onEach { state ->
                 when (state) {

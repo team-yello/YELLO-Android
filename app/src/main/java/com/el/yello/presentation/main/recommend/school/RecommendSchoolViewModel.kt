@@ -58,8 +58,7 @@ class RecommendSchoolViewModel @Inject constructor(
         itemHolder = holder
     }
 
-    // 서버 통신 - 추천 친구 리스트 추가
-    fun addListGroupFromServer() {
+    fun getSchoolFriendsListFromServer() {
         viewModelScope.launch {
             if (isPagingFinish) return@launch
             if (isFirstFriendsListPage) {
@@ -81,7 +80,6 @@ class RecommendSchoolViewModel @Inject constructor(
         }
     }
 
-    // 서버 통신 - 친구 추가
     fun addFriendToServer(friendId: Long) {
         viewModelScope.launch {
             _addFriendState.value = UiState.Loading
@@ -95,7 +93,6 @@ class RecommendSchoolViewModel @Inject constructor(
         }
     }
 
-    // 서버 통신 - 특정 유저 받아오기
     fun getUserDataFromServer(userId: Long) {
         viewModelScope.launch {
             _getUserDataState.value = UiState.Loading

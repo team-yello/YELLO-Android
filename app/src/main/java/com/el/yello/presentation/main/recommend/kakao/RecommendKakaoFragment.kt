@@ -59,7 +59,7 @@ class RecommendKakaoFragment :
         setKakaoRecommendList()
         setAdapterWithClickListener()
         observeUserDataState()
-        observeAddListState()
+        observeAddFriendsListState()
         observeAddFriendState()
         observeKakaoError()
         setItemDecoration()
@@ -82,16 +82,14 @@ class RecommendKakaoFragment :
         viewModel.isSearchViewShowed = false
     }
 
-    // 서버 통신 성공 시 카카오 추천 친구 추가
     private fun setKakaoRecommendList() {
         with(viewModel) {
             setFirstPageLoading()
             initViewModelVariable()
-            addListWithKakaoIdList()
+            getIdListFromKakao()
         }
     }
 
-    // 무한 스크롤 구현
     private fun setInfinityScroll() {
         binding.rvRecommendKakao.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
@@ -99,7 +97,7 @@ class RecommendKakaoFragment :
                 if (dy > 0) {
                     recyclerView.layoutManager?.let { layoutManager ->
                         if (!binding.rvRecommendKakao.canScrollVertically(1) && layoutManager is LinearLayoutManager && layoutManager.findLastVisibleItemPosition() == adapter.itemCount - 1) {
-                            viewModel.addListWithKakaoIdList()
+                            viewModel.getIdListFromKakao()
                         }
                     }
                 }
@@ -149,7 +147,6 @@ class RecommendKakaoFragment :
         binding.rvRecommendKakao.addItemDecoration(BaseLinearRcvItemDeco(bottomPadding = 12))
     }
 
-    // 어댑터 클릭 리스너 설정
     private fun setAdapterWithClickListener() {
         _adapter = RecommendAdapter(
             buttonClick = { recommendModel, position, holder ->
@@ -175,8 +172,7 @@ class RecommendKakaoFragment :
         }.launchIn(lifecycleScope)
     }
 
-    // 추천친구 리스트 추가 서버 통신 성공 시 어댑터에 리스트 추가
-    private fun observeAddListState() {
+    private fun observeAddFriendsListState() {
         viewModel.postFriendsListState.flowWithLifecycle(lifecycle).onEach { state ->
             when (state) {
                 is UiState.Success -> {
@@ -204,7 +200,6 @@ class RecommendKakaoFragment :
         }.launchIn(lifecycleScope)
     }
 
-    // 친구 추가 서버 통신 성공 시 리스트에서 아이템 삭제 & 서버 통신 중 액티비티 클릭 방지
     private fun observeAddFriendState() {
         viewModel.addFriendState.flowWithLifecycle(lifecycle).onEach { state ->
             when (state) {
@@ -272,7 +267,6 @@ class RecommendKakaoFragment :
         }
     }
 
-    // 삭제 시 체크 버튼으로 전환 후 0.3초 뒤 애니메이션 적용
     private fun removeItemWithAnimation(holder: RecommendViewHolder, position: Int) {
         lifecycleScope.launch {
             changeToCheckIcon(holder)

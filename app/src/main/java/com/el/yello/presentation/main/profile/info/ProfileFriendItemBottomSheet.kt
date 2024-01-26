@@ -36,7 +36,6 @@ class ProfileFriendItemBottomSheet :
         binding.ivProfileFriendThumbnail.setImageOrBasicThumbnail(viewModel.clickedUserData.profileImageUrl)
     }
 
-    // 다음 바텀시트 출력
     private fun initDeleteBtnListener() {
         binding.btnProfileFriendDelete.setOnSingleClickListener {
             deleteBottomSheet?.show(parentFragmentManager, DELETE_BOTTOM_SHEET)

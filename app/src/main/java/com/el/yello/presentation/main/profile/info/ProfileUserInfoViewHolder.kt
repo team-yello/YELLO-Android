@@ -9,7 +9,6 @@ import com.example.ui.view.setOnSingleClickListener
 
 class ProfileUserInfoViewHolder(
     val binding: ItemProfileUserInfoBinding,
-    val buttonClick: (ProfileViewModel) -> (Unit),
     val shopClick: (ProfileViewModel) -> (Unit),
 ) : RecyclerView.ViewHolder(binding.root) {
 
@@ -19,7 +18,6 @@ class ProfileUserInfoViewHolder(
             ivSubsStar.isVisible = viewModel.isSubscribed
             ivSubsLine.isVisible = viewModel.isSubscribed
 
-            btnProfileAddGroup.setOnSingleClickListener { buttonClick(viewModel) }
             btnProfileShop.setOnSingleClickListener { shopClick(viewModel) }
             btnProfileShopSale.setOnSingleClickListener { shopClick(viewModel) }
 

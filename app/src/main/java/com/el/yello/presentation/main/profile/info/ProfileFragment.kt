@@ -1,7 +1,6 @@
 package com.el.yello.presentation.main.profile.info
 
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.view.animation.AnimationUtils
@@ -115,10 +114,6 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
                     profileFriendItemBottomSheet = ProfileFriendItemBottomSheet()
                     profileFriendItemBottomSheet?.show(parentFragmentManager, ITEM_BOTTOM_SHEET)
                 }
-            },
-            buttonClick = {
-                AmplitudeUtils.trackEventWithProperties("click_profile_group")
-                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(ADD_GROUP_URL)))
             },
             shopClick = {
                 AmplitudeUtils.trackEventWithProperties(
@@ -266,6 +261,5 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
 
     private companion object {
         const val ITEM_BOTTOM_SHEET = "itemBottomSheet"
-        const val ADD_GROUP_URL = "https://bit.ly/44xDDqC"
     }
 }

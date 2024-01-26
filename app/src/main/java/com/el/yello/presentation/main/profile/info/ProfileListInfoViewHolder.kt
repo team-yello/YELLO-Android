@@ -6,7 +6,7 @@ import com.el.yello.util.Utils.setImageOrBasicThumbnail
 import com.example.domain.entity.ProfileUserModel
 import com.example.ui.view.setOnSingleClickListener
 
-class ProfileFriendsListViewHolder(
+class ProfileListInfoViewHolder(
     val binding: ItemProfileFriendsListBinding,
     private val itemClick: (ProfileUserModel, Int) -> (Unit),
 ) :

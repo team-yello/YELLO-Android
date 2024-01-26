@@ -12,9 +12,9 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
-    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES"/>
-    <uses-permission android:name="android.permission.READ_MEDIA_VIDEO"/>
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+    <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" />
 
     <queries>
         <package android:name="com.instagram.android" />
@@ -32,6 +32,7 @@
         android:theme="@style/Theme.YELLO"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
+
         <activity
             android:name=".presentation.splash.SplashActivity"
             android:exported="true"
@@ -60,10 +61,12 @@
             android:name=".presentation.auth.SignInActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
+
         <activity
             android:name=".presentation.auth.SocialSyncActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
+
         <activity
             android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"
             android:exported="true">
@@ -82,7 +85,7 @@
         <activity
             android:name=".presentation.onboarding.activity.EditNameActivity"
             android:exported="true"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
 
         <activity
             android:name=".presentation.onboarding.activity.OnBoardingActivity"
@@ -93,58 +96,92 @@
             android:name=".presentation.onboarding.activity.GetAlarmActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
+
         <activity
             android:name=".presentation.tutorial.TutorialAActivity"
             android:exported="true"
             android:screenOrientation="portrait" />
+
         <activity
             android:name=".presentation.tutorial.TutorialBActivity"
             android:exported="true"
             android:screenOrientation="portrait" />
+
         <activity
             android:name=".presentation.tutorial.TutorialCActivity"
             android:exported="true"
             android:screenOrientation="portrait" />
+
         <activity
             android:name=".presentation.tutorial.TutorialDActivity"
             android:exported="true"
             android:screenOrientation="portrait" />
+
         <activity
             android:name=".presentation.tutorial.TutorialEndActivity"
             android:exported="true"
             android:screenOrientation="portrait" />
+
         <activity
             android:name=".presentation.tutorial.TutorialEndPlusActivity"
             android:exported="true"
             android:screenOrientation="portrait" />
+
         <activity
             android:name=".presentation.main.MainActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
+
         <activity
             android:name=".presentation.main.yello.vote.VoteActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
+
         <activity
             android:name=".presentation.main.profile.manage.ProfileManageActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
+
         <activity
             android:name=".presentation.main.profile.manage.ProfileQuitTwoActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
+
         <activity
             android:name=".presentation.main.profile.manage.ProfileQuitOneActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".presentation.main.profile.detail.SchoolProfileDetailActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".presentation.main.profile.detail.UnivProfileDetailActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".presentation.main.profile.mod.SchoolProfileModActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".presentation.main.profile.mod.UnivProfileModActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+
         <activity
             android:name=".presentation.main.myyello.read.MyYelloReadActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
+
         <activity
             android:name=".presentation.pay.PayActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
+
         <activity
             android:name=".presentation.search.SearchActivity"
             android:exported="false"
@@ -162,5 +199,6 @@
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_channel_id"
             android:value="@string/default_notification_channel_id" />
+
     </application>
 </manifest>

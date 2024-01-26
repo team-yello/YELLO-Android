@@ -104,28 +104,38 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
 
     private fun initAdapter() {
         _adapter = ProfileFriendAdapter(viewModel,
-            itemClick = { profileUserModel, position ->
-                viewModel.setItemPosition(position)
-                viewModel.clickedUserData = profileUserModel.apply {
-                    if (!this.yelloId.startsWith("@")) this.yelloId = "@" + this.yelloId
-                }
-                if (!viewModel.isItemBottomSheetRunning) {
-                    AmplitudeUtils.trackEventWithProperties("click_profile_friend")
-                    profileFriendItemBottomSheet = ProfileFriendItemBottomSheet()
-                    profileFriendItemBottomSheet?.show(parentFragmentManager, ITEM_BOTTOM_SHEET)
-                }
-            },
-            shopClick = {
-                AmplitudeUtils.trackEventWithProperties(
-                    "click_go_shop",
-                    JSONObject().put("shop_button", "profile_shop"),
-                )
-                Intent(activity, PayActivity::class.java).apply {
-                    addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                    startActivity(this)
-                }
-            })
+            itemClick = { profileUserModel, position -> initItemClickListener(profileUserModel, position) },
+            shopClick = { initShopClickListener() },
+            modClick = { initProfileModClickListener() }
+        )
         binding.rvProfileFriendsList.adapter = adapter
+    }
+
+    private fun initItemClickListener(profileUserModel: ProfileUserModel, position:Int ) {
+        viewModel.setItemPosition(position)
+        viewModel.clickedUserData = profileUserModel.apply {
+            if (!this.yelloId.startsWith("@")) this.yelloId = "@" + this.yelloId
+        }
+        if (!viewModel.isItemBottomSheetRunning) {
+            AmplitudeUtils.trackEventWithProperties("click_profile_friend")
+            profileFriendItemBottomSheet = ProfileFriendItemBottomSheet()
+            profileFriendItemBottomSheet?.show(parentFragmentManager, ITEM_BOTTOM_SHEET)
+        }
+    }
+
+    private fun initShopClickListener() {
+        AmplitudeUtils.trackEventWithProperties(
+            "click_go_shop",
+            JSONObject().put("shop_button", "profile_shop"),
+        )
+        Intent(activity, PayActivity::class.java).apply {
+            addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            startActivity(this)
+        }
+    }
+
+    private fun initProfileModClickListener() {
+
     }
 
     private fun initPullToScrollListener() {

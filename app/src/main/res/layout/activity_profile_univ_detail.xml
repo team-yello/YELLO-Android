@@ -64,6 +64,37 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
+                <LinearLayout
+                    android:id="@+id/btn_change_kakao_image"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/shape_grayscales900_fill_8_rect"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:paddingHorizontal="8dp"
+                    android:paddingVertical="6dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/iv_profile_detail_thumbnail">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="3dp"
+                        android:src="@drawable/ic_rotate" />
+
+                    <TextView
+                        style="@style/TextAppearance.Yello.LabelSmall"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="카카오톡 동기화"
+                        android:textColor="@color/grayscales_400"/>
+
+                </LinearLayout>
+
+
+
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </ScrollView>

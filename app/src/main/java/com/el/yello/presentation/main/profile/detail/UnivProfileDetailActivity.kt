@@ -10,6 +10,7 @@ import com.el.yello.util.Utils.setImageOrBasicThumbnail
 import com.el.yello.util.context.yelloSnackbar
 import com.example.ui.base.BindingActivity
 import com.example.ui.view.UiState
+import com.example.ui.view.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -24,7 +25,8 @@ class UnivProfileDetailActivity :
         super.onCreate(savedInstanceState)
 
         setUserDetail()
-        initProfileModClickListener()
+        initProfileModBtnListener()
+        initChangeThumbnailBtnListener()
         observeUserDataState()
     }
 
@@ -33,8 +35,15 @@ class UnivProfileDetailActivity :
         viewModel.getUserDataFromServer()
     }
 
-    private fun initProfileModClickListener() {
+    private fun initProfileModBtnListener() {
         // TODO: 이동
+    }
+
+    private fun initChangeThumbnailBtnListener() {
+        // TODO: 카카오
+        binding.btnChangeKakaoImage.setOnSingleClickListener {
+
+        }
     }
 
     private fun observeUserDataState() {

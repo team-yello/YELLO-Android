@@ -1,5 +1,6 @@
 package com.el.yello.presentation.main.profile.info
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -83,10 +84,7 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
     private fun initProfileManageBtnListener() {
         binding.btnProfileManage.setOnSingleClickListener {
             AmplitudeUtils.trackEventWithProperties("click_profile_manage")
-            Intent(activity, ProfileManageActivity::class.java).apply {
-                addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                startActivity(this)
-            }
+            navigateTo<ProfileManageActivity>()
         }
     }
 
@@ -111,7 +109,7 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
         binding.rvProfileFriendsList.adapter = adapter
     }
 
-    private fun initItemClickListener(profileUserModel: ProfileUserModel, position:Int ) {
+    private fun initItemClickListener(profileUserModel: ProfileUserModel, position: Int) {
         viewModel.setItemPosition(position)
         viewModel.clickedUserData = profileUserModel.apply {
             if (!this.yelloId.startsWith("@")) this.yelloId = "@" + this.yelloId
@@ -128,14 +126,16 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
             "click_go_shop",
             JSONObject().put("shop_button", "profile_shop"),
         )
-        Intent(activity, PayActivity::class.java).apply {
-            addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-            startActivity(this)
-        }
+        navigateTo<PayActivity>()
     }
 
     private fun initProfileModClickListener() {
-
+        when (viewModel.myUserData.groupType) {
+            TYPE_UNIVERSITY -> {}
+            TYPE_HIGH_SCHOOL -> {}
+            TYPE_MIDDLE_SCHOOL -> {}
+            else -> toast(getString(R.string.sign_in_error_connection))
+        }
     }
 
     private fun initPullToScrollListener() {
@@ -263,6 +263,13 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
         binding.rvProfileFriendsList.smoothScrollToPosition(0)
     }
 
+    private inline fun <reified T : Activity>navigateTo() {
+        Intent(activity, T::class.java).apply {
+            addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            startActivity(this)
+        }
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _adapter = null
@@ -271,5 +278,9 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
 
     private companion object {
         const val ITEM_BOTTOM_SHEET = "itemBottomSheet"
+
+        const val TYPE_UNIVERSITY = "UNIVERSITY"
+        const val TYPE_HIGH_SCHOOL = "HIGH_SCHOOL"
+        const val TYPE_MIDDLE_SCHOOL = "MIDDLE_SCHOOL"
     }
 }

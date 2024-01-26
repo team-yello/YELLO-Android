@@ -8,7 +8,8 @@ data class ProfileUserModel(
     var yelloId: String,
     val yelloCount: Int,
     val friendCount: Int,
-    val point: Int
-){
-    constructor() : this(0, "", "", "", "", 0, 0, 0)
+    val point: Int,
+    val groupType: String
+) {
+    constructor() : this(0, "", "", "", "", 0, 0, 0, "")
 }

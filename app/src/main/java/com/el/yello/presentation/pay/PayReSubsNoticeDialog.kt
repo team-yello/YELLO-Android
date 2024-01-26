@@ -12,13 +12,13 @@ import com.el.yello.databinding.FragmentNoticeResubscribeBinding
 import com.example.ui.base.BindingDialogFragment
 import com.example.ui.view.setOnSingleClickListener
 
-class PayResubsNoticeDialog :
+class PayReSubsNoticeDialog :
     BindingDialogFragment<FragmentNoticeResubscribeBinding>(R.layout.fragment_notice_resubscribe) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setNoticeBtnClickListener()
-        getExpiredDate()
+        getArgExpiredDate()
     }
 
     override fun onStart() {
@@ -53,7 +53,7 @@ class PayResubsNoticeDialog :
         }
     }
 
-    private fun getExpiredDate() {
+    private fun getArgExpiredDate() {
         val expiredDate = arguments?.getString(ARG_EXPIRED_DATE)
         expiredDate?.let {
             setExpiredDate(it)
@@ -64,8 +64,8 @@ class PayResubsNoticeDialog :
         private const val ARG_EXPIRED_DATE = "arg_expired_date"
 
         @JvmStatic
-        fun newInstance(expiredDate: String): PayResubsNoticeDialog {
-            return PayResubsNoticeDialog().apply {
+        fun newInstance(expiredDate: String): PayReSubsNoticeDialog {
+            return PayReSubsNoticeDialog().apply {
                 arguments = Bundle().apply {
                     putString(ARG_EXPIRED_DATE, expiredDate)
                 }

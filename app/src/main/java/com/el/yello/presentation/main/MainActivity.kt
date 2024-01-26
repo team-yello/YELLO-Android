@@ -22,11 +22,11 @@ import com.el.yello.presentation.main.profile.ProfileViewModel
 import com.el.yello.presentation.main.profile.info.ProfileFragment
 import com.el.yello.presentation.main.recommend.RecommendFragment
 import com.el.yello.presentation.main.yello.YelloFragment
-import com.el.yello.presentation.pay.PayResubsNoticeDialog
+import com.el.yello.presentation.pay.PayReSubsNoticeDialog
 import com.el.yello.presentation.util.dp
 import com.el.yello.util.amplitude.AmplitudeUtils
 import com.el.yello.util.context.yelloSnackbar
-import com.example.domain.enum.SubscribeEnum
+import com.example.domain.enum.SubscribeType
 import com.example.ui.base.BindingActivity
 import com.example.ui.context.toast
 import com.example.ui.intent.stringExtra
@@ -78,7 +78,7 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
         viewModel.getUserSubsInfoState.flowWithLifecycle(lifecycle).onEach { state ->
             when (state) {
                 is UiState.Success -> {
-                    if (state.data?.subscribe == SubscribeEnum.CANCELED.toString()) {
+                    if (state.data?.subscribe == SubscribeType.CANCELED) {
                         val expiredDateString = state.data?.expiredDate.toString()
                         val expiredDate =
                             SimpleDateFormat(EXPIRED_DATE_FORMAT).parse(expiredDateString)
@@ -90,7 +90,7 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
                         if (daysDifference >= 1) {
                             val expiredDateString = state.data?.expiredDate.toString()
                             val payResubsNoticeFragment =
-                                PayResubsNoticeDialog.newInstance(expiredDateString)
+                                PayReSubsNoticeDialog.newInstance(expiredDateString)
                             supportFragmentManager.commitNow {
                                 add(
                                     payResubsNoticeFragment,

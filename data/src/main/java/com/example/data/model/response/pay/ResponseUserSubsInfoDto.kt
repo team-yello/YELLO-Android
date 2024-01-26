@@ -1,6 +1,7 @@
 package com.example.data.model.response.pay
 
 import com.example.domain.entity.PayUserSubsInfoModel
+import com.example.domain.enum.toSubscribeType
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -16,7 +17,7 @@ data class ResponseUserSubsInfoDto(
     fun toResponseUserSubsInfoModel(): PayUserSubsInfoModel {
         return PayUserSubsInfoModel(
             id = id,
-            subscribe = subscribe,
+            subscribe = subscribe.toSubscribeType(),
             expiredDate = expiredDate,
         )
     }

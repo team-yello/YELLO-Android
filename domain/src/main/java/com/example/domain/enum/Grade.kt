@@ -1,6 +1,6 @@
 package com.example.domain.enum
 
-enum class GradeEnum {
+enum class Grade {
     A, B, C;
 
     fun toInt() = when (this) {

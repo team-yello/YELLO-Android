@@ -9,7 +9,7 @@ import com.el.yello.databinding.FragmentSelectStudentTypeBinding
 import com.el.yello.presentation.onboarding.activity.OnBoardingActivity
 import com.el.yello.presentation.onboarding.activity.OnBoardingViewModel
 import com.el.yello.util.amplitude.AmplitudeUtils
-import com.example.domain.enum.StudentTypeEnum
+import com.example.domain.enum.StudentType
 import com.example.ui.base.BindingFragment
 import com.example.ui.view.setOnSingleClickListener
 import org.json.JSONObject
@@ -21,8 +21,8 @@ class SelectStudentFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.vm = viewModel
-        binding.highschool = StudentTypeEnum.H.toString()
-        binding.university = StudentTypeEnum.U.toString()
+        binding.highschool = StudentType.H.toString()
+        binding.university = StudentType.U.toString()
         setupStudentType()
     }
 
@@ -33,7 +33,7 @@ class SelectStudentFragment :
     private fun setupStudentType() {
         viewModel.studentType.observe(viewLifecycleOwner) { studentType ->
             when (studentType) {
-                StudentTypeEnum.H.toString() -> {
+                StudentType.H.toString() -> {
                     binding.btnSchoolHighschool.setBackgroundResource(R.drawable.shape_black_fill_yello_main_500_line_8_rect)
                     binding.btnSchoolUniversity.setBackgroundResource(R.drawable.shape_black_fill_grayscales700_line_8_rect)
                     binding.ivStudentHighschool.setImageResource(R.drawable.ic_student_highschool_face_select)
@@ -48,7 +48,7 @@ class SelectStudentFragment :
                         activity.progressBarPlus()
                     }
                 }
-                StudentTypeEnum.U.toString() -> {
+                StudentType.U.toString() -> {
                     binding.btnSchoolUniversity.setBackgroundResource(R.drawable.shape_black_fill_yello_main_500_line_8_rect)
                     binding.btnSchoolHighschool.setBackgroundResource(R.drawable.shape_black_fill_grayscales700_line_8_rect)
                     binding.ivStudentUniversity.setImageResource(R.drawable.ic_student_university_face_select)

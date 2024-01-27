@@ -1,7 +1,11 @@
 package com.el.yello.util
 
-import androidx.core.content.ContextCompat
+import android.widget.ImageView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import coil.load
+import coil.transform.CircleCropTransformation
+import com.el.yello.R
+import com.example.ui.context.colorOf
 
 object Utils {
     fun setChosungText(name: String, number: Int): String {
@@ -20,8 +24,19 @@ object Utils {
     }
 
     fun SwipeRefreshLayout.setPullToScrollColor(arrowColor: Int, bgColor: Int) {
-        setColorSchemeColors(ContextCompat.getColor(context, arrowColor))
-        setProgressBackgroundColorSchemeColor(ContextCompat.getColor(context, bgColor))
+        setColorSchemeColors(context.colorOf(arrowColor))
+        setProgressBackgroundColorSchemeColor(context.colorOf(bgColor))
     }
+
+    fun ImageView.setImageOrBasicThumbnail(thumbnail: String) {
+        this.apply {
+            load(if (thumbnail == URL_BASIC_THUMBNAIL) R.drawable.img_yello_basic else thumbnail) {
+                transformations(CircleCropTransformation())
+            }
+        }
+    }
+
+    private const val URL_BASIC_THUMBNAIL =
+        "https://k.kakaocdn.net/dn/dpk9l1/btqmGhA2lKL/Oz0wDuJn1YV2DIn92f6DVK/img_640x640.jpg"
 
 }

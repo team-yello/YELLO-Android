@@ -1,6 +1,6 @@
 package com.example.domain.enum
 
-enum class GenderEnum {
+enum class Gender {
     M, W;
 
     override fun toString() = when (this) {

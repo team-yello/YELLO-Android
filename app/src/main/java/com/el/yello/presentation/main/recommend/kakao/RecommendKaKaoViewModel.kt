@@ -40,7 +40,7 @@ class RecommendKakaoViewModel @Inject constructor(
 
     var itemPosition: Int? = null
     var itemHolder: RecommendViewHolder? = null
-    var clickedUserData = RecommendUserInfoModel(0, "", "", "", "", 0, 0)
+    var clickedUserData = RecommendUserInfoModel()
 
     private var currentOffset = -100
     private var currentPage = -1
@@ -68,8 +68,7 @@ class RecommendKakaoViewModel @Inject constructor(
         _getKakaoErrorResult.value = false
     }
 
-    // 서버 통신 - 카카오 리스트 통신 후 친구 리스트 추가 서버 통신 진행
-    fun addListWithKakaoIdList() {
+    fun getIdListFromKakao() {
         if (isPagingFinish) return
         currentOffset += 100
         currentPage += 1
@@ -83,15 +82,14 @@ class RecommendKakaoViewModel @Inject constructor(
             } else if (friends != null) {
                 totalPage = ceil((friends.totalCount * 0.01)).toInt() - 1
                 if (totalPage == currentPage) isPagingFinish = true
-                getListFromServer(
+                getFriendsListFromServer(
                     friends.elements?.map { friend -> friend.id.toString() } ?: listOf(),
                 )
             }
         }
     }
 
-    // 서버 통신 - 추천 친구 리스트 추가
-    private fun getListFromServer(friendsKakaoId: List<String>) {
+    private fun getFriendsListFromServer(friendsKakaoId: List<String>) {
         viewModelScope.launch {
             recommendRepository.postToGetKakaoFriendList(
                 0,
@@ -107,7 +105,6 @@ class RecommendKakaoViewModel @Inject constructor(
         }
     }
 
-    // 서버 통신 - 친구 추가
     fun addFriendToServer(friendId: Long) {
         _addFriendState.value = UiState.Loading
         viewModelScope.launch {
@@ -121,7 +118,6 @@ class RecommendKakaoViewModel @Inject constructor(
         }
     }
 
-    // 서버 통신 - 특정 유저 정보 받아오기
     fun getUserDataFromServer(userId: Long) {
         viewModelScope.launch {
             _getUserDataState.value = UiState.Loading

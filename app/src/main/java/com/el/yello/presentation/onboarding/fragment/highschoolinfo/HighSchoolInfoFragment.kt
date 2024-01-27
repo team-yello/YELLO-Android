@@ -12,7 +12,7 @@ import com.el.yello.presentation.onboarding.fragment.highschoolinfo.group.GroupD
 import com.el.yello.presentation.onboarding.fragment.highschoolinfo.school.SearchDialogHighSchoolFragment
 import com.el.yello.util.amplitude.AmplitudeUtils
 import com.el.yello.util.context.yelloSnackbar
-import com.example.domain.enum.GradeEnum
+import com.example.domain.enum.Grade
 import com.example.ui.base.BindingFragment
 import com.example.ui.context.colorOf
 import com.example.ui.view.setOnSingleClickListener
@@ -26,9 +26,9 @@ class HighSchoolInfoFragment :
         super.onViewCreated(view, savedInstanceState)
         binding.vm = viewModel
         with(binding) {
-            first = GradeEnum.A.toInt()
-            second = GradeEnum.B.toInt()
-            third = GradeEnum.C.toInt()
+            first = Grade.A.toInt()
+            second = Grade.B.toInt()
+            third = Grade.C.toInt()
         }
         setupHighSchool()
         setupGrade()
@@ -64,15 +64,15 @@ class HighSchoolInfoFragment :
     private fun setupGrade() {
         viewModel.studentIdText.observe(viewLifecycleOwner) { grade ->
             when (grade) {
-                GradeEnum.A.toInt() -> {
+                Grade.A.toInt() -> {
                     changeFirstGradeBtn()
                 }
 
-                GradeEnum.B.toInt() -> {
+                Grade.B.toInt() -> {
                     changeSecondGradeBtn()
                 }
 
-                GradeEnum.C.toInt() -> {
+                Grade.C.toInt() -> {
                     changeThirdGradeBtn()
                 }
             }

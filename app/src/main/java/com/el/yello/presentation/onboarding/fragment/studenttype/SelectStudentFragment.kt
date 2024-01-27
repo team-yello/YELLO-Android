@@ -9,7 +9,7 @@ import com.el.yello.databinding.FragmentSelectStudentTypeBinding
 import com.el.yello.presentation.onboarding.activity.OnBoardingActivity
 import com.el.yello.presentation.onboarding.activity.OnBoardingViewModel
 import com.el.yello.util.amplitude.AmplitudeUtils
-import com.example.domain.enum.StudentTypeEnum
+import com.example.domain.enum.StudentType
 import com.example.ui.base.BindingFragment
 import com.example.ui.context.colorOf
 import com.example.ui.view.setOnSingleClickListener
@@ -22,8 +22,8 @@ class SelectStudentFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.vm = viewModel
-        binding.highschool = StudentTypeEnum.H.toString()
-        binding.university = StudentTypeEnum.U.toString()
+        binding.highschool = StudentType.H.toString()
+        binding.university = StudentType.U.toString()
         setupStudentType()
     }
 
@@ -34,7 +34,7 @@ class SelectStudentFragment :
     private fun setupStudentType() {
         viewModel.studentType.observe(viewLifecycleOwner) { studentType ->
             when (studentType) {
-                StudentTypeEnum.H.toString() -> {
+                StudentType.H.toString() -> {
                     changeHighSchoolBtn()
                     binding.btnSelectTypeNext.setOnSingleClickListener {
                         findNavController().navigate(R.id.action_selectStudentFragment_to_highschoolInfoFragment)
@@ -44,7 +44,8 @@ class SelectStudentFragment :
                         activity.progressBarPlus()
                     }
                 }
-                StudentTypeEnum.U.toString() -> {
+
+                StudentType.U.toString() -> {
                     changeUniversityBtn()
                     binding.btnSelectTypeNext.setOnSingleClickListener {
                         findNavController().navigate(R.id.action_selectStudentFragment_to_universityInfoFragment)

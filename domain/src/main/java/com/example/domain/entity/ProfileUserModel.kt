@@ -9,4 +9,6 @@ data class ProfileUserModel(
     val yelloCount: Int,
     val friendCount: Int,
     val point: Int
-)
+){
+    constructor() : this(0, "", "", "", "", 0, 0, 0)
+}

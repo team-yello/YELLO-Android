@@ -23,7 +23,7 @@ class UnivProfileDetailViewModel @Inject constructor(
     val id = MutableLiveData("")
     val school = MutableLiveData("")
     val subGroup = MutableLiveData("")
-    val admYear = MutableLiveData(0)
+    val admYear = MutableLiveData("")
 
     fun getUserDataFromServer() {
         viewModelScope.launch {
@@ -37,7 +37,7 @@ class UnivProfileDetailViewModel @Inject constructor(
                     id.value = profile.yelloId
                     school.value = profile.groupName
                     subGroup.value = profile.subGroupName
-                    admYear.value = profile.groupAdmissionYear
+                    admYear.value = profile.groupAdmissionYear.toString()
                     _getUserDataState.value = UiState.Success(profile.profileImageUrl)
                 }
                 .onFailure {

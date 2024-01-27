@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -89,11 +90,260 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="카카오톡 동기화"
-                        android:textColor="@color/grayscales_400"/>
+                        android:textColor="@color/grayscales_400" />
 
                 </LinearLayout>
 
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/layout_profile_detail_name"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginTop="24dp"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="12dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/btn_change_kakao_image">
 
+                    <TextView
+                        android:id="@+id/tv_profile_detail_name_title"
+                        style="@style/TextAppearance.Yello.BodySmall"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingVertical="3dp"
+                        android:text="이름"
+                        android:textColor="@color/grayscales_700"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tv_profile_detail_name"
+                        style="@style/TextAppearance.Yello.Subtitle01"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:paddingVertical="3dp"
+                        android:text="@={vm.name}"
+                        android:textColor="@color/grayscales_600"
+                        app:layout_constraintTop_toBottomOf="@id/tv_profile_detail_name_title"
+                        tools:text="김상호" />
+
+                    <com.google.android.material.divider.MaterialDivider
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="7dp"
+                        app:dividerColor="@color/grayscales_700"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_profile_detail_name" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/layout_profile_detail_id"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="16dp"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="12dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/layout_profile_detail_name">
+
+                    <TextView
+                        android:id="@+id/tv_profile_detail_id_title"
+                        style="@style/TextAppearance.Yello.BodySmall"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingVertical="3dp"
+                        android:text="아이디"
+                        android:textColor="@color/grayscales_700"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tv_profile_detail_id"
+                        style="@style/TextAppearance.Yello.Subtitle01"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:paddingVertical="3dp"
+                        android:text="@={vm.school}"
+                        android:textColor="@color/grayscales_600"
+                        app:layout_constraintTop_toBottomOf="@id/tv_profile_detail_id_title"
+                        tools:text="sangho.kk" />
+
+                    <com.google.android.material.divider.MaterialDivider
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="7dp"
+                        app:dividerColor="@color/grayscales_700"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_profile_detail_id" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/layout_profile_detail_school"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="16dp"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="12dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/layout_profile_detail_id">
+
+                    <TextView
+                        android:id="@+id/tv_profile_detail_school_title"
+                        style="@style/TextAppearance.Yello.BodySmall"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingVertical="3dp"
+                        android:text="학교"
+                        android:textColor="@color/grayscales_500"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tv_profile_detail_school"
+                        style="@style/TextAppearance.Yello.Subtitle01"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:paddingVertical="3dp"
+                        android:text="@={vm.school}"
+                        android:textColor="@color/white"
+                        app:layout_constraintTop_toBottomOf="@id/tv_profile_detail_school_title"
+                        tools:text="고려대학교" />
+
+                    <ImageView
+                        android:id="@+id/btn_mod_school"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="12dp"
+                        android:src="@drawable/ic_edit"
+                        app:layout_constraintBottom_toTopOf="@id/divider_profile_detail_school"
+                        app:layout_constraintEnd_toEndOf="parent" />
+
+                    <com.google.android.material.divider.MaterialDivider
+                        android:id="@+id/divider_profile_detail_school"
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="7dp"
+                        app:dividerColor="@color/grayscales_700"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_profile_detail_school" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/layout_profile_detail_subgroup"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="16dp"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="12dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/layout_profile_detail_school">
+
+                    <TextView
+                        android:id="@+id/tv_profile_detail_subgroup_title"
+                        style="@style/TextAppearance.Yello.BodySmall"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingVertical="3dp"
+                        android:text="학과"
+                        android:textColor="@color/grayscales_500"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tv_profile_detail_subgroup"
+                        style="@style/TextAppearance.Yello.Subtitle01"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:paddingVertical="3dp"
+                        android:text="@={vm.subGroup}"
+                        android:textColor="@color/white"
+                        app:layout_constraintTop_toBottomOf="@id/tv_profile_detail_subgroup_title"
+                        tools:text="산업경영공학부" />
+
+                    <ImageView
+                        android:id="@+id/btn_mod_subgroup"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="12dp"
+                        android:src="@drawable/ic_edit"
+                        app:layout_constraintBottom_toTopOf="@id/divider_profile_detail_subgroup"
+                        app:layout_constraintEnd_toEndOf="parent" />
+
+                    <com.google.android.material.divider.MaterialDivider
+                        android:id="@+id/divider_profile_detail_subgroup"
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="7dp"
+                        app:dividerColor="@color/grayscales_700"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_profile_detail_subgroup" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/layout_profile_detail_yearl"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="16dp"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="12dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/layout_profile_detail_subgroup">
+
+                    <TextView
+                        android:id="@+id/tv_profile_detail_year_title"
+                        style="@style/TextAppearance.Yello.BodySmall"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingVertical="3dp"
+                        android:text="학번"
+                        android:textColor="@color/grayscales_500"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tv_profile_detail_year"
+                        style="@style/TextAppearance.Yello.Subtitle01"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:paddingVertical="3dp"
+                        android:text="@={vm.admYear}"
+                        android:textColor="@color/white"
+                        app:layout_constraintTop_toBottomOf="@id/tv_profile_detail_year_title"
+                        tools:text="19" />
+
+                    <ImageView
+                        android:id="@+id/btn_mod_yearl"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="12dp"
+                        android:src="@drawable/ic_edit"
+                        app:layout_constraintBottom_toTopOf="@id/divider_profile_detail_year"
+                        app:layout_constraintEnd_toEndOf="parent" />
+
+                    <com.google.android.material.divider.MaterialDivider
+                        android:id="@+id/divider_profile_detail_year"
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="7dp"
+                        app:dividerColor="@color/grayscales_700"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_profile_detail_year" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

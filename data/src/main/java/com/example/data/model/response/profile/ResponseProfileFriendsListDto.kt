@@ -41,9 +41,15 @@ data class ResponseProfileFriendsListDto(
                     profileImageUrl = it.profileImageUrl,
                     group = it.group,
                     yelloId = it.yelloId,
+                    gender = "",
+                    email = "",
                     yelloCount = it.yelloCount,
                     friendCount = it.friendCount,
                     point = 0,
+                    groupType = "",
+                    groupName = "",
+                    subGroupName = "",
+                    groupAdmissionYear = 0
                 )
             },
         )

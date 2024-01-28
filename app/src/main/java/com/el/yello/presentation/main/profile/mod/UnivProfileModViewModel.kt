@@ -5,12 +5,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.domain.entity.ProfileModRequestModel
 import com.example.domain.repository.ProfileRepository
-import com.example.ui.view.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -21,6 +18,9 @@ class UnivProfileModViewModel @Inject constructor(
 
     private val _getUserDataResult = MutableSharedFlow<Boolean>()
     val getUserDataResult: SharedFlow<Boolean> = _getUserDataResult
+
+    private val _getIsModValidResult = MutableSharedFlow<Boolean>()
+    val getIsModValidResult: SharedFlow<Boolean> = _getIsModValidResult
 
     val lastModDate = MutableLiveData("")
     val school = MutableLiveData("")
@@ -56,6 +56,24 @@ class UnivProfileModViewModel @Inject constructor(
                 }
                 .onFailure {
                     _getUserDataResult.emit(false)
+                }
+        }
+    }
+
+    fun getIsModValidFromServer() {
+        viewModelScope.launch {
+            profileRepository.getModValidData()
+                .onSuccess {
+                    if (it == null) {
+                        _getIsModValidResult.emit(false)
+                        return@launch
+                    }
+                    val splitValue = it.value.split("|")
+                    isModAvailable = splitValue[0].toBoolean()
+                    lastModDate.value = splitValue[1]
+                }
+                .onFailure {
+                    _getIsModValidResult.emit(false)
                 }
         }
     }

@@ -4,6 +4,7 @@ import com.example.data.datasource.ProfileDataSource
 import com.example.data.model.request.profile.toRequestDto
 import com.example.domain.entity.ProfileFriendsListModel
 import com.example.domain.entity.ProfileModRequestModel
+import com.example.domain.entity.ProfileModValidModel
 import com.example.domain.entity.ProfileUserModel
 import com.example.domain.repository.ProfileRepository
 import javax.inject.Inject
@@ -45,6 +46,12 @@ class ProfileRepositoryImpl @Inject constructor(
     ): Result<Unit> {
         return runCatching {
             profileDataSource.postToModUserData(request.toRequestDto())
+        }
+    }
+
+    override suspend fun getModValidData(): Result<ProfileModValidModel?> {
+        return runCatching {
+            profileDataSource.getModValidData().data?.toProfileModValidModel()
         }
     }
 

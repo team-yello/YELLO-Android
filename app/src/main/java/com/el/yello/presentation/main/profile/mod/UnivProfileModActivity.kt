@@ -23,15 +23,23 @@ class UnivProfileModActivity :
 
         setUserDetail()
         observeGetUserDataResult()
+        observeGetIsModValidResult()
     }
 
     private fun setUserDetail() {
         binding.vm = viewModel
         viewModel.getUserDataFromServer()
+        viewModel.getIsModValidFromServer()
     }
 
     private fun observeGetUserDataResult() {
         viewModel.getUserDataResult.flowWithLifecycle(lifecycle).onEach { result ->
+            if (!result) yelloSnackbar(binding.root, getString(R.string.msg_error))
+        }.launchIn(lifecycleScope)
+    }
+
+    private fun observeGetIsModValidResult() {
+        viewModel.getIsModValidResult.flowWithLifecycle(lifecycle).onEach { result ->
             if (!result) yelloSnackbar(binding.root, getString(R.string.msg_error))
         }.launchIn(lifecycleScope)
     }

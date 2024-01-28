@@ -3,6 +3,7 @@ package com.example.data.remote.service
 import com.example.data.model.request.profile.ProfileModRequestDto
 import com.example.data.model.response.BaseResponse
 import com.example.data.model.response.profile.ResponseProfileFriendsListDto
+import com.example.data.model.response.profile.ResponseProfileModValidDto
 import com.example.data.model.response.profile.ResponseProfileUserDto
 import retrofit2.http.Body
 import retrofit2.http.DELETE
@@ -33,5 +34,8 @@ interface ProfileService {
     suspend fun postToModUserData(
         @Body request: ProfileModRequestDto
     ): BaseResponse<Unit>
+
+    @GET("/api/v1/user/data/account-update-at")
+    suspend fun getModValidData(): BaseResponse<ResponseProfileModValidDto>
 
 }

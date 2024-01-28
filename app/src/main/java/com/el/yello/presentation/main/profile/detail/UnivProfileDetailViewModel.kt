@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.domain.repository.ProfileRepository
 import com.example.ui.view.UiState
+import com.kakao.sdk.user.UserApiClient
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -18,6 +19,9 @@ class UnivProfileDetailViewModel @Inject constructor(
 
     private val _getUserDataState = MutableStateFlow<UiState<String>>(UiState.Empty)
     val getUserDataState: StateFlow<UiState<String>> = _getUserDataState
+
+    private val _getKakaoDataState = MutableStateFlow<UiState<String>>(UiState.Empty)
+    val getKakaoDataState: StateFlow<UiState<String>> = _getKakaoDataState
 
     val name = MutableLiveData("")
     val id = MutableLiveData("")
@@ -44,5 +48,21 @@ class UnivProfileDetailViewModel @Inject constructor(
                     _getUserDataState.value = UiState.Failure(it.message.toString())
                 }
         }
+    }
+
+    fun getUserInfoFromKakao() {
+        UserApiClient.instance.me { user, _ ->
+            try {
+                _getKakaoDataState.value =
+                    UiState.Success(user?.kakaoAccount?.profile?.profileImageUrl.orEmpty())
+                postNewProfileImageToServer()
+            } catch (e: IllegalArgumentException) {
+                _getKakaoDataState.value = UiState.Failure(e.toString())
+            }
+        }
+    }
+
+    private fun postNewProfileImageToServer() {
+
     }
 }

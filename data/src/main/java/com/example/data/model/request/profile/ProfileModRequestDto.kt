@@ -12,13 +12,15 @@ data class ProfileModRequestDto(
     val yelloId: String,
     @SerialName("gender")
     val gender: String,
+    @SerialName("email")
+    val email: String,
     @SerialName("profileImageUrl")
     val profileImageUrl: String,
     @SerialName("groupId")
     val groupId: Long,
     @SerialName("groupAdmissionYear")
-    val groupAdmissionYear: Long
+    val groupAdmissionYear: Int
 )
 
 fun ProfileModRequestModel.toRequestDto() =
-    ProfileModRequestDto(name, yelloId, gender, profileImageUrl, groupId, groupAdmissionYear)
+    ProfileModRequestDto(name, yelloId, gender, email, profileImageUrl, groupId, groupAdmissionYear)

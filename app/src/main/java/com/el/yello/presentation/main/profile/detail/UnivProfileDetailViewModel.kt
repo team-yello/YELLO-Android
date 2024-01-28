@@ -55,6 +55,7 @@ class UnivProfileDetailViewModel @Inject constructor(
                         profile.name,
                         profile.yelloId,
                         profile.gender,
+                        profile.email,
                         profile.profileImageUrl,
                         0,
                         profile.groupAdmissionYear

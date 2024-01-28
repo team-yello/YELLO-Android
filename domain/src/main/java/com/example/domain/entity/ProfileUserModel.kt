@@ -7,6 +7,7 @@ data class ProfileUserModel(
     val group: String,
     var yelloId: String,
     val gender: String,
+    val email: String,
     val yelloCount: Int,
     val friendCount: Int,
     val point: Int,
@@ -15,5 +16,5 @@ data class ProfileUserModel(
     val subGroupName: String,
     val groupAdmissionYear: Int
 ) {
-    constructor() : this(0, "", "","", "", "", 0, 0, 0, "", "", "", 0)
+    constructor() : this(0, "", "","","", "", "", 0, 0, 0, "", "", "", 0)
 }

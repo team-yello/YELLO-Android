@@ -56,6 +56,7 @@ data class ResponseProfileUserDto(
             group = group,
             yelloId = yelloId,
             gender = gender,
+            email = email,
             yelloCount = yelloCount,
             friendCount = friendCount,
             point = point,

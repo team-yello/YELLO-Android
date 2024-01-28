@@ -37,6 +37,9 @@ class UnivProfileDetailActivity :
 
     private fun initProfileModBtnListener() {
         // TODO: 이동
+        binding.btnModSchool.setOnSingleClickListener {  }
+        binding.btnModSubgroup.setOnSingleClickListener {  }
+        binding.btnModYear.setOnSingleClickListener {  }
     }
 
     private fun initChangeThumbnailBtnListener() {

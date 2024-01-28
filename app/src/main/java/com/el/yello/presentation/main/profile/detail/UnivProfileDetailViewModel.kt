@@ -3,11 +3,14 @@ package com.el.yello.presentation.main.profile.detail
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.domain.entity.ProfileModRequestModel
 import com.example.domain.repository.ProfileRepository
 import com.example.ui.view.UiState
 import com.kakao.sdk.user.UserApiClient
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -20,14 +23,19 @@ class UnivProfileDetailViewModel @Inject constructor(
     private val _getUserDataState = MutableStateFlow<UiState<String>>(UiState.Empty)
     val getUserDataState: StateFlow<UiState<String>> = _getUserDataState
 
-    private val _getKakaoDataState = MutableStateFlow<UiState<String>>(UiState.Empty)
-    val getKakaoDataState: StateFlow<UiState<String>> = _getKakaoDataState
+    private val _getKakaoInfoResult = MutableSharedFlow<Boolean>()
+    val getKakaoInfoResult: SharedFlow<Boolean> = _getKakaoInfoResult
+
+    private val _postToModProfileState = MutableStateFlow<UiState<String>>(UiState.Empty)
+    val postToModProfileState: StateFlow<UiState<String>> = _postToModProfileState
 
     val name = MutableLiveData("")
     val id = MutableLiveData("")
     val school = MutableLiveData("")
     val subGroup = MutableLiveData("")
     val admYear = MutableLiveData("")
+
+    private lateinit var myUserData: ProfileModRequestModel
 
     fun getUserDataFromServer() {
         viewModelScope.launch {
@@ -42,6 +50,15 @@ class UnivProfileDetailViewModel @Inject constructor(
                     school.value = profile.groupName
                     subGroup.value = profile.subGroupName
                     admYear.value = profile.groupAdmissionYear.toString()
+                    // TODO : groupId 수정
+                    myUserData = ProfileModRequestModel(
+                        profile.name,
+                        profile.yelloId,
+                        profile.gender,
+                        profile.profileImageUrl,
+                        0,
+                        profile.groupAdmissionYear
+                    )
                     _getUserDataState.value = UiState.Success(profile.profileImageUrl)
                 }
                 .onFailure {
@@ -53,16 +70,26 @@ class UnivProfileDetailViewModel @Inject constructor(
     fun getUserInfoFromKakao() {
         UserApiClient.instance.me { user, _ ->
             try {
-                _getKakaoDataState.value =
-                    UiState.Success(user?.kakaoAccount?.profile?.profileImageUrl.orEmpty())
+                myUserData.profileImageUrl = user?.kakaoAccount?.profile?.profileImageUrl.orEmpty()
                 postNewProfileImageToServer()
             } catch (e: IllegalArgumentException) {
-                _getKakaoDataState.value = UiState.Failure(e.toString())
+                viewModelScope.launch {
+                    _getKakaoInfoResult.emit(false)
+                }
             }
         }
     }
 
     private fun postNewProfileImageToServer() {
-
+        if (!::myUserData.isInitialized) _postToModProfileState.value = UiState.Failure(toString())
+        viewModelScope.launch {
+            profileRepository.postToModUserData(myUserData)
+                .onSuccess {
+                    _postToModProfileState.value = UiState.Success(myUserData.profileImageUrl)
+                }
+                .onFailure {
+                    _postToModProfileState.value = UiState.Failure(it.message.toString())
+                }
+        }
     }
 }

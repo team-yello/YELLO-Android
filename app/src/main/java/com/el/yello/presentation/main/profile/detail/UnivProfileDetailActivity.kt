@@ -31,7 +31,8 @@ class UnivProfileDetailActivity :
         initProfileModBtnListener()
         initChangeThumbnailBtnListener()
         observeUserDataState()
-        observeKakaoDataState()
+        observeKakaoDataResult()
+        observeModProfileState()
     }
 
     private fun setUserDetail() {
@@ -69,8 +70,14 @@ class UnivProfileDetailActivity :
         }.launchIn(lifecycleScope)
     }
 
-    private fun observeKakaoDataState() {
-        viewModel.getKakaoDataState.flowWithLifecycle(lifecycle).onEach { state ->
+    private fun observeKakaoDataResult() {
+        viewModel.getKakaoInfoResult.flowWithLifecycle(lifecycle).onEach { result ->
+            if (!result) yelloSnackbar(binding.root, getString(R.string.msg_error))
+        }.launchIn(lifecycleScope)
+    }
+
+    private fun observeModProfileState() {
+        viewModel.postToModProfileState.flowWithLifecycle(lifecycle).onEach { state ->
             when (state) {
                 is UiState.Success -> {
                     binding.ivProfileDetailThumbnail.setImageOrBasicThumbnail(state.data)

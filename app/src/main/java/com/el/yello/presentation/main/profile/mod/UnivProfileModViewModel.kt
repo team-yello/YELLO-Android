@@ -8,6 +8,7 @@ import javax.inject.Inject
 @HiltViewModel
 class UnivProfileModViewModel @Inject constructor() : ViewModel() {
 
+    val lastModDate = MutableLiveData("")
     val school = MutableLiveData("")
     val subGroup = MutableLiveData("")
     val admYear = MutableLiveData("")

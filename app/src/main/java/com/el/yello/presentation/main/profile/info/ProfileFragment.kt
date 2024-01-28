@@ -23,6 +23,7 @@ import com.el.yello.util.Utils.setPullToScrollColor
 import com.el.yello.util.amplitude.AmplitudeUtils
 import com.el.yello.util.context.yelloSnackbar
 import com.example.domain.entity.ProfileUserModel
+import com.example.ui.activity.navigateTo
 import com.example.ui.base.BindingFragment
 import com.example.ui.fragment.toast
 import com.example.ui.view.UiState
@@ -86,7 +87,7 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
     private fun initProfileManageBtnListener() {
         binding.btnProfileManage.setOnSingleClickListener {
             AmplitudeUtils.trackEventWithProperties("click_profile_manage")
-            navigateTo<ProfileManageActivity>()
+            activity?.navigateTo<ProfileManageActivity>()
         }
     }
 
@@ -128,14 +129,14 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
             "click_go_shop",
             JSONObject().put("shop_button", "profile_shop"),
         )
-        navigateTo<PayActivity>()
+        activity?.navigateTo<PayActivity>()
     }
 
     private fun initProfileModClickListener() {
         when (viewModel.myUserData.groupType) {
-            TYPE_UNIVERSITY -> navigateTo<UnivProfileDetailActivity>()
-            TYPE_HIGH_SCHOOL -> navigateTo<SchoolProfileDetailActivity>()
-            TYPE_MIDDLE_SCHOOL -> navigateTo<SchoolProfileDetailActivity>()
+            TYPE_UNIVERSITY -> activity?.navigateTo<UnivProfileDetailActivity>()
+            TYPE_HIGH_SCHOOL -> activity?.navigateTo<SchoolProfileDetailActivity>()
+            TYPE_MIDDLE_SCHOOL -> activity?.navigateTo<SchoolProfileDetailActivity>()
             else -> toast(getString(R.string.sign_in_error_connection))
         }
     }
@@ -263,13 +264,6 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
 
     fun scrollToTop() {
         binding.rvProfileFriendsList.smoothScrollToPosition(0)
-    }
-
-    private inline fun <reified T : Activity> navigateTo() {
-        Intent(activity, T::class.java).apply {
-            addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-            startActivity(this)
-        }
     }
 
     override fun onDestroyView() {

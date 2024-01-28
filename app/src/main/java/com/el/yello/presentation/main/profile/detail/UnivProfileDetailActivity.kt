@@ -6,8 +6,11 @@ import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import com.el.yello.R
 import com.el.yello.databinding.ActivityProfileUnivDetailBinding
+import com.el.yello.presentation.main.MainActivity
+import com.el.yello.presentation.main.profile.mod.UnivProfileModActivity
 import com.el.yello.util.Utils.setImageOrBasicThumbnail
 import com.el.yello.util.context.yelloSnackbar
+import com.example.ui.activity.navigateTo
 import com.example.ui.base.BindingActivity
 import com.example.ui.view.UiState
 import com.example.ui.view.setOnSingleClickListener
@@ -36,10 +39,9 @@ class UnivProfileDetailActivity :
     }
 
     private fun initProfileModBtnListener() {
-        // TODO: 이동
-        binding.btnModSchool.setOnSingleClickListener {  }
-        binding.btnModSubgroup.setOnSingleClickListener {  }
-        binding.btnModYear.setOnSingleClickListener {  }
+        binding.btnModSchool.setOnSingleClickListener { this.navigateTo<UnivProfileModActivity>() }
+        binding.btnModSubgroup.setOnSingleClickListener { this.navigateTo<UnivProfileModActivity>()  }
+        binding.btnModYear.setOnSingleClickListener { this.navigateTo<UnivProfileModActivity>()  }
     }
 
     private fun initChangeThumbnailBtnListener() {

@@ -22,12 +22,16 @@ class UnivProfileModViewModel @Inject constructor(
     private val _getIsModValidResult = MutableSharedFlow<Boolean>()
     val getIsModValidResult: SharedFlow<Boolean> = _getIsModValidResult
 
+    private val _postToModProfileResult = MutableSharedFlow<Boolean>()
+    val postToModProfileResult: SharedFlow<Boolean> = _postToModProfileResult
+
     val lastModDate = MutableLiveData("")
     val school = MutableLiveData("")
     val subGroup = MutableLiveData("")
     val admYear = MutableLiveData("")
 
     var isModAvailable = true
+    var isChanged = false
 
     private lateinit var myUserData: ProfileModRequestModel
 
@@ -70,10 +74,26 @@ class UnivProfileModViewModel @Inject constructor(
                     }
                     val splitValue = it.value.split("|")
                     isModAvailable = splitValue[0].toBoolean()
-                    lastModDate.value = splitValue[1]
+                    lastModDate.value = splitValue[1].replace("-", ".")
                 }
                 .onFailure {
                     _getIsModValidResult.emit(false)
+                }
+        }
+    }
+
+    fun postNewProfileToServer() {
+        viewModelScope.launch {
+            if (!::myUserData.isInitialized) {
+                _postToModProfileResult.emit(false)
+                return@launch
+            }
+            profileRepository.postToModUserData(myUserData)
+                .onSuccess {
+                    _postToModProfileResult.emit(true)
+                }
+                .onFailure {
+                    _postToModProfileResult.emit(false)
                 }
         }
     }

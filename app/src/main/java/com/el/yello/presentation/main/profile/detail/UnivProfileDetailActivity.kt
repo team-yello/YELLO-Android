@@ -30,6 +30,7 @@ class UnivProfileDetailActivity :
         binding.vm = viewModel
         initProfileModBtnListener()
         initChangeThumbnailBtnListener()
+        initBackBtnListener()
         observeUserDataState()
         observeKakaoDataResult()
         observeModProfileState()
@@ -51,6 +52,10 @@ class UnivProfileDetailActivity :
         binding.btnChangeKakaoImage.setOnSingleClickListener {
             viewModel.getUserInfoFromKakao()
         }
+    }
+
+    private fun initBackBtnListener() {
+        binding.btnProfileDetailBack.setOnSingleClickListener { finish() }
     }
 
     private fun observeUserDataState() {

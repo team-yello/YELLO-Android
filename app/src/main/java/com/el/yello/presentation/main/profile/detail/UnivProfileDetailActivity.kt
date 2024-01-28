@@ -27,7 +27,7 @@ class UnivProfileDetailActivity :
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setUserDetail()
+        binding.vm = viewModel
         initProfileModBtnListener()
         initChangeThumbnailBtnListener()
         observeUserDataState()
@@ -35,8 +35,9 @@ class UnivProfileDetailActivity :
         observeModProfileState()
     }
 
-    private fun setUserDetail() {
-        binding.vm = viewModel
+    override fun onResume() {
+        super.onResume()
+
         viewModel.getUserDataFromServer()
     }
 

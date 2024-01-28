@@ -272,7 +272,7 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
         if (profileFriendItemBottomSheet != null) profileFriendItemBottomSheet?.dismiss()
     }
 
-    private companion object {
+    companion object {
         const val ITEM_BOTTOM_SHEET = "itemBottomSheet"
 
         const val TYPE_UNIVERSITY = "UNIVERSITY"

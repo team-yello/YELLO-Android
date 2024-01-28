@@ -3,6 +3,7 @@ package com.el.yello.presentation.main.profile.mod
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.el.yello.presentation.main.profile.info.ProfileFragment.Companion.TYPE_UNIVERSITY
 import com.example.domain.entity.ProfileModRequestModel
 import com.example.domain.repository.ProfileRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -43,9 +44,15 @@ class UnivProfileModViewModel @Inject constructor(
                         _getUserDataResult.emit(false)
                         return@launch
                     }
-                    school.value = profile.groupName
-                    subGroup.value = profile.subGroupName
-                    admYear.value = profile.groupAdmissionYear.toString()
+                    if (profile.groupType == TYPE_UNIVERSITY) {
+                        school.value = profile.groupName
+                        subGroup.value = profile.subGroupName
+                        admYear.value = profile.groupAdmissionYear.toString()
+                    } else {
+                        school.value = TEXT_NONE
+                        subGroup.value = TEXT_NONE
+                        admYear.value = TEXT_NONE
+                    }
                     // TODO : groupId 수정
                     myUserData = ProfileModRequestModel(
                         profile.name,
@@ -54,7 +61,7 @@ class UnivProfileModViewModel @Inject constructor(
                         profile.email,
                         profile.profileImageUrl,
                         0,
-                        profile.groupAdmissionYear
+                        admYear.value?.toInt() ?: 0
                     )
                     _getUserDataResult.emit(true)
                 }
@@ -96,6 +103,10 @@ class UnivProfileModViewModel @Inject constructor(
                     _postToModProfileResult.emit(false)
                 }
         }
+    }
+
+    companion object {
+        const val TEXT_NONE = "-"
     }
 
 }

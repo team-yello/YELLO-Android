@@ -5,16 +5,23 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.el.yello.presentation.main.profile.info.ProfileFragment.Companion.TYPE_UNIVERSITY
 import com.example.domain.entity.ProfileModRequestModel
+import com.example.domain.entity.onboarding.SchoolList
+import com.example.domain.repository.OnboardingRepository
 import com.example.domain.repository.ProfileRepository
+import com.example.ui.view.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlin.math.ceil
 
 @HiltViewModel
 class UnivProfileModViewModel @Inject constructor(
     private val profileRepository: ProfileRepository,
+    private val onboardingRepository: OnboardingRepository
 ) : ViewModel() {
 
     private val _getUserDataResult = MutableSharedFlow<Boolean>()
@@ -26,6 +33,9 @@ class UnivProfileModViewModel @Inject constructor(
     private val _postToModProfileResult = MutableSharedFlow<Boolean>()
     val postToModProfileResult: SharedFlow<Boolean> = _postToModProfileResult
 
+    private val _postUniversityListState = MutableStateFlow<UiState<SchoolList>>(UiState.Empty)
+    val postUniversityListState: StateFlow<UiState<SchoolList>> = _postUniversityListState
+
     val lastModDate = MutableLiveData("")
     val school = MutableLiveData("")
     val subGroup = MutableLiveData("")
@@ -35,6 +45,17 @@ class UnivProfileModViewModel @Inject constructor(
     var isChanged = false
 
     private lateinit var myUserData: ProfileModRequestModel
+
+    private var currentPage = -1
+    private var isPagingFinish = false
+    private var totalPage = Int.MAX_VALUE
+
+    fun setNewPage() {
+        currentPage = -1
+        isPagingFinish = false
+        totalPage = Int.MAX_VALUE
+        _postUniversityListState.value = UiState.Empty
+    }
 
     fun getUserDataFromServer() {
         viewModelScope.launch {
@@ -101,6 +122,28 @@ class UnivProfileModViewModel @Inject constructor(
                 }
                 .onFailure {
                     _postToModProfileResult.emit(false)
+                }
+        }
+    }
+
+    fun getUniversityListFromServer(searchText: String) {
+        if (isPagingFinish) return
+        viewModelScope.launch {
+            onboardingRepository.getSchoolList(
+                searchText,
+                ++currentPage
+            )
+                .onSuccess {schoolList ->
+                    if (schoolList == null) {
+                        _postUniversityListState.value = UiState.Empty
+                        return@launch
+                    }
+                    totalPage = ceil((schoolList.totalCount * 0.1)).toInt() - 1
+                    if (totalPage == currentPage) isPagingFinish = true
+                    _postUniversityListState.value = UiState.Success(schoolList)
+                }
+                .onFailure { t ->
+                    _postUniversityListState.value = UiState.Failure(t.message.toString())
                 }
         }
     }

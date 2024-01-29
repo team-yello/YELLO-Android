@@ -15,7 +15,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.el.yello.R
-import com.el.yello.databinding.FragmentUnivModSchoolBottomSheetBinding
+import com.el.yello.databinding.FragmentUnivModSearchBottomSheetBinding
 import com.el.yello.presentation.onboarding.fragment.universityinfo.university.SearchDialogUniversityFragment.Companion.SCHOOL_FORM_URL
 import com.el.yello.presentation.onboarding.fragment.universityinfo.university.UniversityAdapter
 import com.example.ui.base.BindingBottomSheetDialog
@@ -31,8 +31,8 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
-class UnivModSchoolBottomSheet :
-    BindingBottomSheetDialog<FragmentUnivModSchoolBottomSheetBinding>(R.layout.fragment_univ_mod_school_bottom_sheet) {
+class UnivModSearchBottomSheet :
+    BindingBottomSheetDialog<FragmentUnivModSearchBottomSheetBinding>(R.layout.fragment_univ_mod_search_bottom_sheet) {
 
     private val viewModel by activityViewModels<UnivProfileModViewModel>()
 
@@ -58,7 +58,7 @@ class UnivModSchoolBottomSheet :
 
     private fun initAdapter() {
         _adapter = UniversityAdapter(storeUniversity = ::storeUniversity)
-        binding.rvSchoolList.adapter = adapter
+        binding.rvUnivSearchList.adapter = adapter
     }
 
     private fun storeUniversity(school: String) {
@@ -67,7 +67,7 @@ class UnivModSchoolBottomSheet :
     }
 
     private fun initSchoolFormBtnListener() {
-        binding.btnSchoolAdd.setOnSingleClickListener {
+        binding.btnUnivAddForm.setOnSingleClickListener {
             Intent(Intent.ACTION_VIEW, Uri.parse(SCHOOL_FORM_URL)).apply {
                 startActivity(this)
             }
@@ -79,7 +79,7 @@ class UnivModSchoolBottomSheet :
     }
 
     private fun setDebounceSearch() {
-        binding.etSchoolSearch.doAfterTextChanged { input ->
+        binding.etUnivSearch.doAfterTextChanged { input ->
             searchJob?.cancel()
             searchJob = viewModel.viewModelScope.launch {
                 delay(debounceTime)
@@ -92,12 +92,12 @@ class UnivModSchoolBottomSheet :
     }
 
     private fun setListWithInfinityScroll() {
-        binding.rvSchoolList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+        binding.rvUnivSearchList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
                 if (dy > 0) {
                     recyclerView.layoutManager?.let { layoutManager ->
-                        if (!binding.rvSchoolList.canScrollVertically(1) && layoutManager is LinearLayoutManager && layoutManager.findLastVisibleItemPosition() == adapter.itemCount - 1) {
+                        if (!binding.rvUnivSearchList.canScrollVertically(1) && layoutManager is LinearLayoutManager && layoutManager.findLastVisibleItemPosition() == adapter.itemCount - 1) {
                             viewModel.getUniversityListFromServer(searchText)
                         }
                     }
@@ -107,7 +107,7 @@ class UnivModSchoolBottomSheet :
     }
 
     private fun setEmptyListWithTyping() {
-        binding.etSchoolSearch.doOnTextChanged { _, _, _, _ ->
+        binding.etUnivSearch.doOnTextChanged { _, _, _, _ ->
             lifecycleScope.launch {
                 viewModel.setNewPage()
                 adapter.submitList(listOf())
@@ -132,18 +132,17 @@ class UnivModSchoolBottomSheet :
     }
 
     private fun observeSearchListState() {
-        viewModel.postUniversityListState.flowWithLifecycle(lifecycle)
-            .onEach { state ->
-                when (state) {
-                    is UiState.Success -> adapter.submitList(state.data.schoolList)
+        viewModel.postUniversityListState.flowWithLifecycle(lifecycle).onEach { state ->
+            when (state) {
+                is UiState.Success -> adapter.submitList(state.data.schoolList)
 
-                    is UiState.Failure -> toast(getString(R.string.recommend_search_error))
+                is UiState.Failure -> toast(getString(R.string.recommend_search_error))
 
-                    is UiState.Loading -> return@onEach
+                is UiState.Loading -> return@onEach
 
-                    is UiState.Empty -> return@onEach
-                }
-            }.launchIn(lifecycleScope)
+                is UiState.Empty -> return@onEach
+            }
+        }.launchIn(lifecycleScope)
     }
 
     private fun setupFullHeight(bottomSheet: View) {
@@ -153,10 +152,8 @@ class UnivModSchoolBottomSheet :
     }
 
     private fun setHideKeyboard() {
-        binding.layoutModSchoolBottomSheet.setOnSingleClickListener {
-            requireContext().hideKeyboard(
-                requireView(),
-            )
+        binding.layoutModSearchBottomSheet.setOnSingleClickListener {
+            requireContext().hideKeyboard(requireView())
         }
     }
 

@@ -8,7 +8,7 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/layout_mod_school_bottom_sheet"
+        android:id="@+id/layout_mod_search_bottom_sheet"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/shape_rounded_dialog">
@@ -23,7 +23,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/tv_school_dialog"
+            android:id="@+id/tv_univ_search_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
@@ -46,13 +46,13 @@
             android:background="@null"
             android:padding="12dp"
             android:src="@drawable/ic_onboarding_x"
-            app:layout_constraintBottom_toTopOf="@+id/et_school_search"
+            app:layout_constraintBottom_toTopOf="@+id/et_univ_search"
             app:layout_constraintDimensionRatio="1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
-            android:id="@+id/et_school_search"
+            android:id="@+id/et_univ_search"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="20dp"
@@ -70,11 +70,11 @@
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_school_dialog"
+            app:layout_constraintTop_toBottomOf="@+id/tv_univ_search_title"
             tools:text="디자dfsdfsdfdsfsdfdsfsdfdsfsdfdsfsdsdfsdfsdfsdfsdfsdfs" />
 
         <TextView
-            android:id="@+id/btn_school_add"
+            android:id="@+id/btn_univ_add_form"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -86,10 +86,10 @@
             android:textSize="12sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/et_school_search" />
+            app:layout_constraintTop_toBottomOf="@+id/et_univ_search" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_school_list"
+            android:id="@+id/rv_univ_search_list"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginTop="8dp"
@@ -99,7 +99,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/btn_school_add"
+            app:layout_constraintTop_toBottomOf="@id/btn_univ_add_form"
             tools:listitem="@layout/item_university_list" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

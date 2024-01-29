@@ -67,11 +67,12 @@ class UnivProfileModActivity :
 
     private fun initBottomSheetListener() {
         binding.btnSearchSchool.setOnSingleClickListener {
-            univModSearchBottomSheet = UnivModSearchBottomSheet()
+            univModSearchBottomSheet = UnivModSearchBottomSheet.newInstance(true)
             univModSearchBottomSheet?.show(supportFragmentManager, DIALOG_SCHOOL)
         }
         binding.btnSearchSubgroup.setOnSingleClickListener {
-
+            univModSearchBottomSheet = UnivModSearchBottomSheet.newInstance(false)
+            univModSearchBottomSheet?.show(supportFragmentManager, DIALOG_SCHOOL)
         }
         binding.btnSearchYear.setOnSingleClickListener {
 

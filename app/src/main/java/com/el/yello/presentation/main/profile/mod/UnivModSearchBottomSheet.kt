@@ -6,6 +6,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
+import androidx.core.os.bundleOf
 import androidx.core.widget.doAfterTextChanged
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.activityViewModels
@@ -16,6 +17,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.el.yello.R
 import com.el.yello.databinding.FragmentUnivModSearchBottomSheetBinding
+import com.el.yello.presentation.main.dialog.InviteFriendDialog
 import com.el.yello.presentation.onboarding.fragment.universityinfo.university.SearchDialogUniversityFragment.Companion.SCHOOL_FORM_URL
 import com.el.yello.presentation.onboarding.fragment.universityinfo.university.UniversityAdapter
 import com.example.ui.base.BindingBottomSheetDialog
@@ -164,6 +166,12 @@ class UnivModSearchBottomSheet :
     }
 
     companion object {
+        @JvmStatic
+        fun newInstance(isUnivSearch: Boolean) = UnivModSearchBottomSheet().apply {
+            arguments = bundleOf(ARGS_IS_UNIV_SEARCH to isUnivSearch)
+        }
+        private const val ARGS_IS_UNIV_SEARCH = "IS_UNIV_SEARCH"
+
         const val debounceTime = 500L
     }
 }

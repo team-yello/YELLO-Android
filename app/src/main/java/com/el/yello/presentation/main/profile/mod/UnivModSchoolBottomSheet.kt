@@ -15,7 +15,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.el.yello.R
-import com.el.yello.databinding.FragmentProfileModSchoolBottomSheetBinding
+import com.el.yello.databinding.FragmentUnivModSchoolBottomSheetBinding
 import com.el.yello.presentation.onboarding.fragment.universityinfo.university.SearchDialogUniversityFragment.Companion.SCHOOL_FORM_URL
 import com.el.yello.presentation.onboarding.fragment.universityinfo.university.UniversityAdapter
 import com.example.ui.base.BindingBottomSheetDialog
@@ -31,8 +31,8 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
-class ProfileModSchoolBottomSheet :
-    BindingBottomSheetDialog<FragmentProfileModSchoolBottomSheetBinding>(R.layout.fragment_profile_mod_school_bottom_sheet) {
+class UnivModSchoolBottomSheet :
+    BindingBottomSheetDialog<FragmentUnivModSchoolBottomSheetBinding>(R.layout.fragment_univ_mod_school_bottom_sheet) {
 
     private val viewModel by activityViewModels<UnivProfileModViewModel>()
 

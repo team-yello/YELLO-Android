@@ -21,7 +21,7 @@ class UnivProfileModActivity :
 
     private val viewModel by viewModels<UnivProfileModViewModel>()
 
-    private var profileModSchoolBottomSheet: ProfileModSchoolBottomSheet? = null
+    private var univModSchoolBottomSheet: UnivModSchoolBottomSheet? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -67,8 +67,8 @@ class UnivProfileModActivity :
 
     private fun initBottomSheetListener() {
         binding.btnSearchSchool.setOnSingleClickListener {
-            profileModSchoolBottomSheet = ProfileModSchoolBottomSheet()
-            profileModSchoolBottomSheet?.show(supportFragmentManager, DIALOG_SCHOOL)
+            univModSchoolBottomSheet = UnivModSchoolBottomSheet()
+            univModSchoolBottomSheet?.show(supportFragmentManager, DIALOG_SCHOOL)
         }
         binding.btnSearchSubgroup.setOnSingleClickListener {
 
@@ -103,7 +103,7 @@ class UnivProfileModActivity :
 
     override fun onDestroy() {
         super.onDestroy()
-        if (profileModSchoolBottomSheet != null) profileModSchoolBottomSheet?.dismiss()
+        if (univModSchoolBottomSheet != null) univModSchoolBottomSheet?.dismiss()
     }
 
     private companion object {

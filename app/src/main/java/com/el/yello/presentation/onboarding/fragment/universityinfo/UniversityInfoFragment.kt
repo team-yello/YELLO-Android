@@ -8,7 +8,7 @@ import androidx.navigation.fragment.findNavController
 import com.el.yello.R
 import com.el.yello.databinding.FragmentUniversityBinding
 import com.el.yello.presentation.onboarding.activity.OnBoardingActivity
-import com.el.yello.presentation.onboarding.activity.OnBoardingViewModel
+import com.el.yello.presentation.onboarding.OnBoardingViewModel
 import com.el.yello.presentation.onboarding.fragment.universityinfo.department.SearchDialogDepartmentFragment
 import com.el.yello.presentation.onboarding.fragment.universityinfo.studentid.StudentIdDialogFragment
 import com.el.yello.presentation.onboarding.fragment.universityinfo.university.SearchDialogUniversityFragment

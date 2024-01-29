@@ -14,6 +14,7 @@ import com.el.yello.presentation.auth.SignInActivity.Companion.EXTRA_GENDER
 import com.el.yello.presentation.auth.SignInActivity.Companion.EXTRA_KAKAO_ID
 import com.el.yello.presentation.auth.SignInActivity.Companion.EXTRA_NAME
 import com.el.yello.presentation.auth.SignInActivity.Companion.EXTRA_PROFILE_IMAGE
+import com.el.yello.presentation.onboarding.OnBoardingViewModel
 import com.example.ui.base.BindingActivity
 import com.example.ui.context.toast
 import dagger.hilt.android.AndroidEntryPoint

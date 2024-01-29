@@ -26,7 +26,7 @@
     <string name="social_sync_tv_title">나의 옐로 친구는 어디 있을까?</string>
     <string name="social_sync_tv_subtitle">친구 목록을 불러와봐요!</string>
     <string name="social_sync_tv_btn">카카오톡 친구 연결하기</string>
-    <string name="social_sync_tv_info"><u>개인정보처리약관</u></string>
+    <string name="social_sync_tv_info"><u>개인정보처리방침</u></string>
     <string name="social_sync_error_kakao_profile">카카오 프로필 가져오기 실패</string>
 
     <string name="main_recommend">추천친구</string>
@@ -340,5 +340,14 @@
     <string name="start_balloon_tooltip">💛4명 이상의 친구💛를 가지면 옐로가 더 재밌어요!</string>
     <string name="note_friend_null">친구를 추가해주세요!</string>
     <string name="note_msg_invalid_name">4명 이상의 친구를 가지면 선택지가 채워져요.</string>
+
+    <string name="notice_resubscribe_title">곧 옐로플러스의 \n특별한 혜택을 잃게 돼요</string>
+    <string name="notice_resubscribe_subtitle_second">에 만료 예정인</string>
+    <string name="notice_resubscribe_subtitle_third">옐로 플러스의 구독을 해지했어요.</string>
+    <string name="notice_resubscribe_benefit_one">이름 열람권 매주 3회</string>
+    <string name="notice_resubscribe_benefit_two">포인트 2배 지급</string>
+    <string name="notice_resubscribe_benefit_third">초성 힌트 무제한 제공</string>
+    <string name="notice_resubscribe_subtitle_end">곧 위와 같은 혜택을 누릴 수 없게 돼요. \n\n옐로 플러스의 특별한 서비스를\n계속 이용하시려면, 버튼을 눌러\n구독을 계속해 보세요!</string>
+    <string name="notice_resubscribe_button_tv">계속 옐로플러스 구독하기</string>
 
 </resources>

@@ -3,7 +3,7 @@ package com.example.data.model.response.yello
 import com.example.domain.entity.MyYello
 import com.example.domain.entity.Vote
 import com.example.domain.entity.Yello
-import com.example.domain.enum.GenderEnum
+import com.example.domain.enum.Gender
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -40,7 +40,7 @@ data class YelloDto(
     val createdAt: String,
 ) {
     fun toYello(): Yello {
-        val genderEnum = if (senderGender.contains("FE")) GenderEnum.W else GenderEnum.M
+        val genderEnum = if (senderGender.contains("FE")) Gender.W else Gender.M
         return Yello(
             id,
             genderEnum,

@@ -17,8 +17,10 @@ import okhttp3.Interceptor
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
+import org.json.JSONObject
 import retrofit2.Converter
 import retrofit2.Retrofit
+import timber.log.Timber
 import javax.inject.Singleton
 
 @Module
@@ -45,7 +47,21 @@ object RetrofitModule {
     @Provides
     @Singleton
     @Logger
-    fun provideHttpLoggingInterceptor(): Interceptor = HttpLoggingInterceptor().apply {
+    fun provideHttpLoggingInterceptor(): Interceptor = HttpLoggingInterceptor { message ->
+        when {
+            message.startsWith("{") && message.endsWith("}") -> {
+                Timber.tag("okhttp").d(JSONObject(message).toString(4))
+            }
+
+            message.startsWith("[") && message.endsWith("]") -> {
+                Timber.tag("okhttp").d(JSONObject(message).toString(4))
+            }
+
+            else -> {
+                Timber.tag("okhttp").d("CONNECTION INFO -> $message")
+            }
+        }
+    }.apply {
         level = HttpLoggingInterceptor.Level.BODY
     }
 

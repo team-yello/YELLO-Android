@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.el.yello.util.amplitude.AmplitudeUtils
 import com.example.domain.entity.PayInfoModel
+import com.example.domain.entity.PayUserSubsInfoModel
 import com.example.domain.entity.ProfileFriendsListModel
 import com.example.domain.entity.ProfileUserModel
 import com.example.domain.entity.vote.VoteCount
@@ -16,10 +17,11 @@ import com.google.firebase.messaging.FirebaseMessaging
 import com.kakao.sdk.user.UserApiClient
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import retrofit2.HttpException
 import timber.log.Timber
 import javax.inject.Inject
 import kotlin.math.ceil
@@ -32,8 +34,8 @@ class ProfileViewModel @Inject constructor(
     private val payRepository: PayRepository,
 ) : ViewModel() {
 
-    private val _getUserDataState = MutableStateFlow<UiState<ProfileUserModel>>(UiState.Empty)
-    val getUserDataState: StateFlow<UiState<ProfileUserModel>> = _getUserDataState
+    private val _getUserDataResult = MutableSharedFlow<Boolean>()
+    val getUserDataResult: SharedFlow<Boolean> = _getUserDataResult
 
     private val _getFriendListState =
         MutableStateFlow<UiState<ProfileFriendsListModel>>(UiState.Empty)
@@ -59,6 +61,10 @@ class ProfileViewModel @Inject constructor(
     private val _voteCount = MutableStateFlow<UiState<VoteCount>>(UiState.Loading)
     val voteCount: StateFlow<UiState<VoteCount>> = _voteCount
 
+    private val _getUserSubsInfoState =
+        MutableStateFlow<UiState<PayUserSubsInfoModel?>>(UiState.Empty)
+    val getUserSubsInfoState: StateFlow<UiState<PayUserSubsInfoModel?>> = _getUserSubsInfoState
+
     var isItemBottomSheetRunning: Boolean = false
 
     var isFirstScroll: Boolean = true
@@ -67,10 +73,10 @@ class ProfileViewModel @Inject constructor(
     private var isPagingFinish = false
     private var totalPage = Int.MAX_VALUE
 
-    var myUserData = ProfileUserModel(0, "", "", "", "", 0, 0, 0)
+    var myUserData = ProfileUserModel()
     var myFriendCount = 0
 
-    var clickedUserData = ProfileUserModel(0, "", "", "", "", 0, 0, 0)
+    var clickedUserData = ProfileUserModel()
     var clickedItemPosition: Int? = null
 
     fun setItemPosition(position: Int) {
@@ -90,7 +96,6 @@ class ProfileViewModel @Inject constructor(
         _kakaoLogoutState.value = UiState.Empty
         _kakaoQuitState.value = UiState.Empty
         _getFriendListState.value = UiState.Empty
-        _getUserDataState.value = UiState.Empty
         _getPurchaseInfoState.value = UiState.Empty
     }
 
@@ -98,27 +103,22 @@ class ProfileViewModel @Inject constructor(
         authRepository.setIsFirstLoginData()
     }
 
-    // 서버 통신 - 유저 정보 받아오기
     fun getUserDataFromServer() {
         viewModelScope.launch {
-            _getUserDataState.value = UiState.Loading
             profileRepository.getUserData()
                 .onSuccess { profile ->
-                    if (profile == null) {
-                        _getUserDataState.value = UiState.Empty
-                        return@launch
+                    if (profile == null) return@launch
+                    myUserData = profile.apply {
+                        if (!this.yelloId.startsWith("@")) this.yelloId = "@" + this.yelloId
                     }
-                    _getUserDataState.value = UiState.Success(profile)
+                    myFriendCount = profile.friendCount
                 }
                 .onFailure { t ->
-                    if (t is HttpException) {
-                        _getUserDataState.value = UiState.Failure(t.message.toString())
-                    }
+                    _getUserDataResult.emit(false)
                 }
         }
     }
 
-    // 서버 통신 - 친구 목록 정보 받아오기
     fun getFriendsListFromServer() {
         if (isPagingFinish) return
         if (isFirstScroll) {
@@ -142,7 +142,6 @@ class ProfileViewModel @Inject constructor(
         }
     }
 
-    // 서버 통신 - 회원 탈퇴
     fun deleteUserDataToServer() {
         viewModelScope.launch {
             _deleteUserState.value = UiState.Loading
@@ -158,8 +157,7 @@ class ProfileViewModel @Inject constructor(
         }
     }
 
-    // 서버 통신 - 친구 식제
-    fun deleteFriendDataToServer(friendId: Int) {
+    fun deleteFriendDataToServer(friendId: Long) {
         viewModelScope.launch {
             _deleteFriendState.value = UiState.Loading
             profileRepository.deleteFriendData(friendId)
@@ -172,7 +170,6 @@ class ProfileViewModel @Inject constructor(
         }
     }
 
-    // 카카오 SDK 통신 - 로그아웃
     fun logoutKakaoAccount() {
         UserApiClient.instance.logout { error ->
             _kakaoLogoutState.value = UiState.Loading
@@ -185,7 +182,6 @@ class ProfileViewModel @Inject constructor(
         }
     }
 
-    // 카카오 SDK 통신 - 회원 탈퇴
     fun quitKakaoAccount() {
         UserApiClient.instance.unlink { error ->
             _kakaoQuitState.value = UiState.Loading
@@ -197,7 +193,6 @@ class ProfileViewModel @Inject constructor(
         }
     }
 
-    // 서버 통신 - 구독 여부 & 열람권 개수 받아오기
     fun getPurchaseInfoFromServer() {
         viewModelScope.launch {
             payRepository.getPurchaseInfo()
@@ -250,9 +245,19 @@ class ProfileViewModel @Inject constructor(
             }.onFailure(Timber::e)
         }
     }
-
-    companion object {
-        const val BASIC_THUMBNAIL =
-            "https://k.kakaocdn.net/dn/dpk9l1/btqmGhA2lKL/Oz0wDuJn1YV2DIn92f6DVK/img_640x640.jpg"
+    fun getUserSubsInfoStateFromServer() {
+        viewModelScope.launch {
+            payRepository.getUserSubsInfo()
+                .onSuccess { userInfo ->
+                    if (userInfo == null) {
+                        _getUserSubsInfoState.value = UiState.Empty
+                    } else {
+                        _getUserSubsInfoState.value = UiState.Success(userInfo)
+                    }
+                }
+                .onFailure {
+                    _getUserSubsInfoState.value = UiState.Failure(it.message.toString())
+                }
+        }
     }
 }

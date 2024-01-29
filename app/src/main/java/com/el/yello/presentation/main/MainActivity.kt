@@ -9,6 +9,7 @@ import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
+import androidx.fragment.app.commitNow
 import androidx.fragment.app.replace
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
@@ -21,9 +22,11 @@ import com.el.yello.presentation.main.profile.ProfileViewModel
 import com.el.yello.presentation.main.profile.info.ProfileFragment
 import com.el.yello.presentation.main.recommend.RecommendFragment
 import com.el.yello.presentation.main.yello.YelloFragment
+import com.el.yello.presentation.pay.PayReSubsNoticeDialog
 import com.el.yello.presentation.util.dp
 import com.el.yello.util.amplitude.AmplitudeUtils
 import com.el.yello.util.context.yelloSnackbar
+import com.example.domain.enum.SubscribeType
 import com.example.ui.base.BindingActivity
 import com.example.ui.context.toast
 import com.example.ui.intent.stringExtra
@@ -31,6 +34,9 @@ import com.example.ui.view.UiState
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.concurrent.TimeUnit
 
 @AndroidEntryPoint
 class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main) {
@@ -55,7 +61,8 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        viewModel.getUserSubsInfoStateFromServer()
+        observeSubsNeededState()
         initBnvItemIconTintList()
         initBnvItemSelectedListener()
         initBnvItemReselectedListener()
@@ -65,6 +72,48 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
         viewModel.setIsFirstLoginData()
         observe()
         this.onBackPressedDispatcher.addCallback(this, onBackPressedCallback)
+    }
+
+    private fun observeSubsNeededState() {
+        viewModel.getUserSubsInfoState.flowWithLifecycle(lifecycle).onEach { state ->
+            when (state) {
+                is UiState.Success -> {
+                    if (state.data?.subscribe == SubscribeType.CANCELED) {
+                        val expiredDateString = state.data?.expiredDate.toString()
+                        val expiredDate =
+                            SimpleDateFormat(EXPIRED_DATE_FORMAT).parse(expiredDateString)
+                        val currentDate = Calendar.getInstance().time
+                        val daysDifference = TimeUnit.DAYS.convert(
+                            expiredDate.time - currentDate.time,
+                            TimeUnit.MILLISECONDS,
+                        )
+                        if (daysDifference >= 1) {
+                            val expiredDateString = state.data?.expiredDate.toString()
+                            val payResubsNoticeFragment =
+                                PayReSubsNoticeDialog.newInstance(expiredDateString)
+                            supportFragmentManager.commitNow {
+                                add(
+                                    payResubsNoticeFragment,
+                                    PAY_RESUBS_DIALOG,
+                                )
+                            }
+                        }
+                    }
+                }
+
+                is UiState.Failure -> {
+                    yelloSnackbar(binding.root, getString(R.string.msg_error))
+                }
+
+                is UiState.Empty -> {
+                    return@onEach
+                }
+
+                is UiState.Loading -> {
+                    return@onEach
+                }
+            }
+        }.launchIn(lifecycleScope)
     }
 
     private fun initBnvItemIconTintList() {
@@ -209,9 +258,9 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
         const val NEW_FRIEND = "NEW_FRIEND"
         const val VOTE_AVAILABLE = "VOTE_AVAILABLE"
         const val RECOMMEND = "RECOMMEND"
-
         const val BACK_PRESSED_INTERVAL = 2000
-
+        const val EXPIRED_DATE_FORMAT = "yyyy-MM-dd"
+        const val PAY_RESUBS_DIALOG = "PayResubsNoticeDialog"
         private const val EVENT_CLICK_RECOMMEND_NAVIGATION = "click_recommend_navigation"
 
         fun getIntent(context: Context, type: String? = null, path: String? = null) =

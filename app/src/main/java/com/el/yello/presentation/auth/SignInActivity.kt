@@ -8,9 +8,7 @@ import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import com.el.yello.R
 import com.el.yello.databinding.ActivitySignInBinding
-import com.el.yello.presentation.auth.SignInViewModel.Companion.CODE_INVALID_USER
-import com.el.yello.presentation.auth.SignInViewModel.Companion.CODE_INVALID_UUID
-import com.el.yello.presentation.auth.SignInViewModel.Companion.SERVICE_TERM_FRIEND_LIST
+import com.el.yello.presentation.auth.SignInViewModel.Companion.FRIEND_LIST
 import com.el.yello.presentation.main.MainActivity
 import com.el.yello.presentation.onboarding.activity.EditNameActivity
 import com.el.yello.presentation.onboarding.activity.GetAlarmActivity
@@ -33,54 +31,73 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
 
     private var checkNameDialog: CheckNameDialog? = null
 
-    private var userKakaoId: Long = 0
-    private var userName: String = String()
-    private var userGender: String = String()
-    private var userEmail: String = String()
-    private var userImage: String = String()
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         initSignInBtnListener()
+        viewModel.getDeviceToken()
         observeDeviceTokenError()
         observeAppLoginError()
-        observeKakaoUserInfoState()
+        observeKakaoUserInfoResult()
         observeFriendsListValidState()
-        observePostChangeTokenState()
+        observeChangeTokenResult()
         observeUserDataState()
     }
 
-    // TODO : UiState 하나로 병합
     private fun initSignInBtnListener() {
         binding.btnSignIn.setOnSingleClickListener {
             AmplitudeUtils.trackEventWithProperties("click_onboarding_kakao")
-            viewModel.getKakaoToken(this)
+            viewModel.startLogInWithKakao(this)
         }
     }
 
-    private fun observePostChangeTokenState() {
-        viewModel.postChangeTokenState.flowWithLifecycle(lifecycle).onEach { state ->
+    private fun observeDeviceTokenError() {
+        viewModel.getDeviceTokenError.flowWithLifecycle(lifecycle).onEach { error ->
+            if (error) toast(getString(R.string.sign_in_error_connection))
+        }.launchIn(lifecycleScope)
+    }
+
+    private fun observeAppLoginError() {
+        viewModel.isAppLoginAvailable.flowWithLifecycle(lifecycle).onEach { available ->
+            if (!available) viewModel.startLogInWithKakao(this)
+        }.launchIn(lifecycleScope)
+    }
+
+    private fun observeChangeTokenResult() {
+        viewModel.postChangeTokenResult.flowWithLifecycle(lifecycle).onEach { result ->
+            if (!result) toast(getString(R.string.sign_in_error_connection))
+        }.launchIn(lifecycleScope)
+    }
+
+    private fun observeKakaoUserInfoResult() {
+        viewModel.getKakaoInfoResult.flowWithLifecycle(lifecycle).onEach { result ->
+            if (!result) yelloSnackbar(binding.root, getString(R.string.msg_error))
+        }.launchIn(lifecycleScope)
+    }
+
+    // ChangeToken Failure -> 카카오에 등록된 유저 정보 받아온 후 친구목록 동의 or 온보딩 화면으로 이동
+    private fun observeFriendsListValidState() {
+        viewModel.getKakaoValidState.flowWithLifecycle(lifecycle).onEach { state ->
             when (state) {
                 is UiState.Success -> {
-                    viewModel.getUserDataFromServer()
-                }
-
-                is UiState.Failure -> {
-                    when (state.msg) {
-                        CODE_INVALID_USER -> viewModel.getKakaoInfo()
-                        CODE_INVALID_UUID -> viewModel.getKakaoInfo()
-                        else -> toast(getString(R.string.sign_in_error_connection))
+                    val friendScope = state.data.find { it.id == FRIEND_LIST }
+                    if (friendScope?.agreed == true) {
+                        startCheckNameDialog()
+                    } else {
+                        startSocialSyncActivity()
                     }
                 }
 
-                is UiState.Loading -> return@onEach
+                is UiState.Failure -> yelloSnackbar(binding.root, getString(R.string.msg_error))
 
                 is UiState.Empty -> return@onEach
+
+                is UiState.Loading -> return@onEach
             }
         }.launchIn(lifecycleScope)
     }
 
+    // ChangeToken Success -> 서버에 등록된 유저 정보가 있는지 확인 후 메인 액티비티로 이동
     private fun observeUserDataState() {
         viewModel.getUserProfileState.flowWithLifecycle(lifecycle).onEach { state ->
             when (state) {
@@ -93,62 +110,6 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
                         }
                     } else {
                         startActivity(Intent(this, GetAlarmActivity::class.java))
-                    }
-                }
-
-                is UiState.Failure -> yelloSnackbar(binding.root, getString(R.string.msg_error))
-
-                is UiState.Empty -> yelloSnackbar(binding.root, getString(R.string.msg_error))
-
-                is UiState.Loading -> return@onEach
-            }
-        }.launchIn(lifecycleScope)
-    }
-
-    // TODO : UiState 하나로 병합
-    private fun observeDeviceTokenError() {
-        viewModel.getDeviceTokenError.flowWithLifecycle(lifecycle).onEach { error ->
-            if (error) toast(getString(R.string.sign_in_error_connection))
-        }.launchIn(lifecycleScope)
-    }
-
-    // TODO : UiState 하나로 병합
-    private fun observeAppLoginError() {
-        viewModel.isAppLoginAvailable.flowWithLifecycle(lifecycle).onEach { available ->
-            if (!available) viewModel.getKakaoToken(this)
-        }.launchIn(lifecycleScope)
-    }
-
-    private fun observeKakaoUserInfoState() {
-        viewModel.getKakaoInfoState.flowWithLifecycle(lifecycle).onEach { state ->
-            when (state) {
-                is UiState.Success -> {
-                    userKakaoId = state.data?.id ?: 0
-                    userName = state.data?.kakaoAccount?.name.toString()
-                    userGender = state.data?.kakaoAccount?.gender.toString()
-                    userEmail = state.data?.kakaoAccount?.email.toString()
-                    userImage = state.data?.kakaoAccount?.profile?.profileImageUrl.toString()
-                    viewModel.checkFriendsListValid()
-                }
-
-                is UiState.Failure -> yelloSnackbar(binding.root, getString(R.string.msg_error))
-
-                is UiState.Empty -> return@onEach
-
-                is UiState.Loading -> return@onEach
-            }
-        }.launchIn(lifecycleScope)
-    }
-
-    private fun observeFriendsListValidState() {
-        viewModel.getKakaoValidState.flowWithLifecycle(lifecycle).onEach { state ->
-            when (state) {
-                is UiState.Success -> {
-                    val friendScope = state.data.find { it.id == SERVICE_TERM_FRIEND_LIST }
-                    if (friendScope?.agreed == true) {
-                        startCheckNameDialog()
-                    } else {
-                        startSocialSyncActivity()
                     }
                 }
 
@@ -180,7 +141,7 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
 
     private fun startCheckNameDialog() {
         val bundle = Bundle().apply { addPutExtra() }
-        if (userName.isBlank() || userName.isEmpty()) {
+        if (viewModel.isUserNameBlank()) {
             Intent(SignInActivity(), EditNameActivity::class.java).apply {
                 putExtras(bundle)
                 addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
@@ -200,25 +161,35 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
     }
 
     private fun Intent.addPutExtra() {
-        putExtra(EXTRA_KAKAO_ID, userKakaoId)
-        putExtra(EXTRA_NAME, userName)
-        putExtra(EXTRA_GENDER, userGender)
-        putExtra(EXTRA_EMAIL, userEmail)
-        putExtra(EXTRA_PROFILE_IMAGE, userImage)
-        addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+        if (viewModel.checkKakaoUserInfoStored()) {
+            putExtra(EXTRA_KAKAO_ID, viewModel.kakaoUserInfo.id)
+            putExtra(EXTRA_NAME, viewModel.kakaoUserInfo.kakaoAccount?.name.orEmpty())
+            putExtra(EXTRA_GENDER, viewModel.kakaoUserInfo.kakaoAccount?.gender.toString())
+            putExtra(EXTRA_EMAIL, viewModel.kakaoUserInfo.kakaoAccount?.email.orEmpty())
+            putExtra(
+                EXTRA_PROFILE_IMAGE,
+                viewModel.kakaoUserInfo.kakaoAccount?.profile?.profileImageUrl.orEmpty(),
+            )
+            addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+        }
     }
 
     private fun Bundle.addPutExtra() {
-        putLong(EXTRA_KAKAO_ID, userKakaoId)
-        putString(EXTRA_NAME, userName)
-        putString(EXTRA_GENDER, userGender)
-        putString(EXTRA_EMAIL, userEmail)
-        putString(EXTRA_PROFILE_IMAGE, userImage)
+        if (viewModel.checkKakaoUserInfoStored()) {
+            putLong(EXTRA_KAKAO_ID, viewModel.kakaoUserInfo.id ?: 0)
+            putString(EXTRA_NAME, viewModel.kakaoUserInfo.kakaoAccount?.name.orEmpty())
+            putString(EXTRA_GENDER, viewModel.kakaoUserInfo.kakaoAccount?.gender.toString())
+            putString(EXTRA_EMAIL, viewModel.kakaoUserInfo.kakaoAccount?.email.orEmpty())
+            putString(
+                EXTRA_PROFILE_IMAGE,
+                viewModel.kakaoUserInfo.kakaoAccount?.profile?.profileImageUrl.orEmpty(),
+            )
+        }
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        checkNameDialog = null
+        checkNameDialog?.dismiss()
     }
 
     companion object {

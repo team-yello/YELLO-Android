@@ -10,7 +10,7 @@ import com.el.yello.R
 import com.el.yello.databinding.ItemMyYelloBinding
 import com.el.yello.util.Utils
 import com.example.domain.entity.Yello
-import com.example.domain.enum.GenderEnum
+import com.example.domain.enum.Gender
 import com.example.ui.view.setOnSingleClickListener
 
 class MyYelloAdapter(private val itemClick: (Yello, Int) -> (Unit)) :
@@ -80,7 +80,7 @@ class MyYelloAdapter(private val itemClick: (Yello, Int) -> (Unit)) :
                     R.color.grayscales_600,
                 ),
             )
-            if (item.gender == GenderEnum.M) {
+            if (item.gender == Gender.M) {
                 if ((item.isHintUsed || item.nameHint != -1) && item.isRead) {
                     binding.cardMyYello.setCardBackgroundColor(
                         ContextCompat.getColor(

@@ -44,6 +44,9 @@ class RecommendSchoolFragment :
 
     private var inviteYesFriendDialog: InviteFriendDialog? = null
     private var inviteNoFriendDialog: InviteFriendDialog? = null
+    private var lastClickedRecommendModel: RecommendFriend? = null
+
+    private var recommendSchoolBottomSheet: RecommendSchoolBottomSheet? = null
 
     private lateinit var friendsList: List<RecommendFriend>
 
@@ -59,8 +62,9 @@ class RecommendSchoolFragment :
         setItemDecoration()
         setAdapterWithClickListener()
         setListWithInfinityScroll()
-        observeAddListState()
+        observeAddFriendsListState()
         observeAddFriendState()
+        observeUserDataState()
         setDeleteAnimation()
         AmplitudeUtils.trackEventWithProperties("view_recommend_school")
     }
@@ -70,7 +74,7 @@ class RecommendSchoolFragment :
         if (viewModel.isSearchViewShowed) {
             adapter.clearList()
             viewModel.setFirstPageLoading()
-            viewModel.addListFromServer()
+            viewModel.getSchoolFriendsListFromServer()
             viewModel.isSearchViewShowed = false
         }
     }
@@ -104,7 +108,7 @@ class RecommendSchoolFragment :
 
     private fun initFirstList() {
         viewModel.setFirstPageLoading()
-        viewModel.addListFromServer()
+        viewModel.getSchoolFriendsListFromServer()
     }
 
     private fun initPullToScrollListener() {
@@ -113,7 +117,7 @@ class RecommendSchoolFragment :
                 lifecycleScope.launch {
                     adapter.clearList()
                     viewModel.setFirstPageLoading()
-                    viewModel.addListFromServer()
+                    viewModel.getSchoolFriendsListFromServer()
                     delay(200)
                     binding.layoutRecommendSchoolSwipe.isRefreshing = false
                 }
@@ -128,16 +132,21 @@ class RecommendSchoolFragment :
         binding.rvRecommendSchool.addItemDecoration(BaseLinearRcvItemDeco(bottomPadding = 12))
     }
 
-    // 처음 리스트 설정 및 어댑터 클릭 리스너 설정
     private fun setAdapterWithClickListener() {
-        _adapter = RecommendAdapter { recommendModel, position, holder ->
-            viewModel.setPositionAndHolder(position, holder)
-            viewModel.addFriendToServer(recommendModel.id.toLong())
-        }
+        _adapter = RecommendAdapter(
+            buttonClick = { recommendModel, position, holder ->
+                viewModel.setPositionAndHolder(position, holder)
+                viewModel.addFriendToServer(recommendModel.id.toLong())
+            },
+            itemClick = { recommendModel, position, holder ->
+                viewModel.setPositionAndHolder(position, holder)
+                viewModel.getUserDataFromServer(recommendModel.id.toLong())
+                lastClickedRecommendModel = recommendModel
+            },
+        )
         binding.rvRecommendSchool.adapter = adapter
     }
 
-    // 무한 스크롤 구현
     private fun setListWithInfinityScroll() {
         binding.rvRecommendSchool.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
@@ -145,7 +154,7 @@ class RecommendSchoolFragment :
                 if (dy > 0) {
                     recyclerView.layoutManager?.let { layoutManager ->
                         if (!binding.rvRecommendSchool.canScrollVertically(1) && layoutManager is LinearLayoutManager && layoutManager.findLastVisibleItemPosition() == adapter.itemCount - 1) {
-                            viewModel.addListFromServer()
+                            viewModel.getSchoolFriendsListFromServer()
                         }
                     }
                 }
@@ -153,70 +162,80 @@ class RecommendSchoolFragment :
         })
     }
 
-    // 추천친구 리스트 추가 서버 통신 성공 시 어댑터에 리스트 추가
-    private fun observeAddListState() {
-        viewModel.postFriendsListState.flowWithLifecycle(viewLifecycleOwner.lifecycle)
-            .onEach { state ->
-                when (state) {
-                    is UiState.Success -> {
-                        startFadeIn()
-                        if (state.data.friends.isEmpty() && adapter.itemCount == 0) {
-                            showNoFriendScreen()
-                        } else {
-                            showFriendListScreen()
-                            friendsList = state.data.friends
-                            adapter.addItemList(friendsList)
-                        }
+    private fun observeAddFriendsListState() {
+        viewModel.postFriendsListState.flowWithLifecycle(lifecycle).onEach { state ->
+            when (state) {
+                is UiState.Success -> {
+                    startFadeIn()
+                    if (state.data.friends.isEmpty() && adapter.itemCount == 0) {
+                        showShimmerView(isLoading = false, hasList = false)
+                    } else {
+                        showShimmerView(isLoading = false, hasList = true)
+                        friendsList = state.data.friends
+                        adapter.addItemList(friendsList)
                     }
-
-                    is UiState.Failure -> {
-                        showShimmerScreen()
-                        yelloSnackbar(
-                            requireView(),
-                            getString(R.string.recommend_error_school_friend_connection),
-                        )
-                    }
-
-                    is UiState.Loading -> showShimmerScreen()
-
-                    is UiState.Empty -> return@onEach
                 }
-            }.launchIn(viewLifecycleOwner.lifecycleScope)
+
+                is UiState.Failure -> {
+                    showShimmerView(isLoading = true, hasList = true)
+                    yelloSnackbar(
+                        requireView(),
+                        getString(R.string.recommend_error_school_friend_connection),
+                    )
+                }
+
+                is UiState.Loading -> showShimmerView(isLoading = true, hasList = true)
+
+                is UiState.Empty -> return@onEach
+            }
+        }.launchIn(lifecycleScope)
     }
 
-    // 친구 추가 서버 통신 성공 시 리스트에서 아이템 삭제 & 서버 통신 중 액티비티 클릭 방지
     private fun observeAddFriendState() {
-        viewModel.addFriendState.flowWithLifecycle(viewLifecycleOwner.lifecycle)
-            .onEach { state ->
-                when (state) {
-                    is UiState.Success -> {
-                        val position = viewModel.itemPosition
-                        val holder = viewModel.itemHolder
-                        if (position != null && holder != null) {
-                            removeItemWithAnimation(holder, position)
-                        } else {
-                            activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
-                        }
-                    }
-
-                    is UiState.Failure -> {
-                        yelloSnackbar(
-                            requireView(),
-                            getString(R.string.recommend_error_add_friend_connection),
-                        )
+        viewModel.addFriendState.flowWithLifecycle(lifecycle).onEach { state ->
+            when (state) {
+                is UiState.Success -> {
+                    val position = viewModel.itemPosition
+                    val holder = viewModel.itemHolder
+                    if (position != null && holder != null) {
+                        removeItemWithAnimation(holder, position)
+                    } else {
                         activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
                     }
-
-                    is UiState.Loading -> {
-                        activity?.window?.setFlags(
-                            WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
-                            WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
-                        )
-                    }
-
-                    is UiState.Empty -> return@onEach
                 }
-            }.launchIn(viewLifecycleOwner.lifecycleScope)
+
+                is UiState.Failure -> {
+                    yelloSnackbar(
+                        requireView(),
+                        getString(R.string.recommend_error_add_friend_connection),
+                    )
+                    activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
+                }
+
+                is UiState.Loading -> {
+                    activity?.window?.setFlags(
+                        WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                        WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                    )
+                }
+
+                is UiState.Empty -> return@onEach
+            }
+        }.launchIn(lifecycleScope)
+    }
+
+    private fun observeUserDataState() {
+        viewModel.getUserDataState.flowWithLifecycle(lifecycle).onEach { state ->
+            if (state is UiState.Success) {
+                viewModel.clickedUserData = state.data.apply {
+                    if (!this.yelloId.startsWith("@")) this.yelloId = "@" + this.yelloId
+                }
+                if (lastClickedRecommendModel != null) {
+                    recommendSchoolBottomSheet = RecommendSchoolBottomSheet()
+                    recommendSchoolBottomSheet?.show(parentFragmentManager, ITEM_BOTTOM_SHEET)
+                }
+            }
+        }.launchIn(lifecycleScope)
     }
 
     private fun setDeleteAnimation() {
@@ -229,12 +248,6 @@ class RecommendSchoolFragment :
         }
     }
 
-    private fun dismissDialog() {
-        if (inviteYesFriendDialog?.isAdded == true) inviteYesFriendDialog?.dismiss()
-        if (inviteNoFriendDialog?.isAdded == true) inviteNoFriendDialog?.dismiss()
-    }
-
-    // 삭제 시 체크 버튼으로 전환 후 0.3초 뒤 애니메이션 적용
     private fun removeItemWithAnimation(holder: RecommendViewHolder, position: Int) {
         lifecycleScope.launch {
             changeToCheckIcon(holder)
@@ -245,7 +258,7 @@ class RecommendSchoolFragment :
             activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
             binding.rvRecommendSchool.addItemDecoration(itemDivider)
             if (adapter.itemCount == 0) {
-                showNoFriendScreen()
+                showShimmerView(isLoading = false, hasList = false)
             }
         }
     }
@@ -262,31 +275,13 @@ class RecommendSchoolFragment :
         binding.rvRecommendSchool.startAnimation(animation)
     }
 
-    private fun showShimmerScreen() {
+    private fun showShimmerView(isLoading: Boolean, hasList: Boolean) {
         with(binding) {
-            layoutRecommendFriendsList.isVisible = true
-            layoutRecommendNoFriendsList.isVisible = false
-            shimmerFriendList.startShimmer()
-            shimmerFriendList.isVisible = true
-            rvRecommendSchool.isVisible = false
-        }
-    }
-
-    private fun showFriendListScreen() {
-        with(binding) {
-            layoutRecommendFriendsList.isVisible = true
-            layoutRecommendNoFriendsList.isVisible = false
-            shimmerFriendList.startShimmer()
-            shimmerFriendList.isVisible = false
-            rvRecommendSchool.isVisible = true
-        }
-    }
-
-    private fun showNoFriendScreen() {
-        with(binding) {
-            layoutRecommendFriendsList.isVisible = false
-            layoutRecommendNoFriendsList.isVisible = true
-            shimmerFriendList.stopShimmer()
+            if (isLoading) shimmerFriendList.startShimmer() else shimmerFriendList.stopShimmer()
+            layoutRecommendFriendsList.isVisible = hasList
+            layoutRecommendNoFriendsList.isVisible = !hasList
+            shimmerFriendList.isVisible = isLoading
+            rvRecommendSchool.isVisible = !isLoading
         }
     }
 
@@ -297,13 +292,15 @@ class RecommendSchoolFragment :
     override fun onDestroyView() {
         super.onDestroyView()
         _adapter = null
-        dismissDialog()
+        if (inviteYesFriendDialog?.isAdded == true) inviteYesFriendDialog?.dismiss()
+        if (inviteNoFriendDialog?.isAdded == true) inviteNoFriendDialog?.dismiss()
+        if (recommendSchoolBottomSheet != null) recommendSchoolBottomSheet?.dismiss()
     }
 
     private companion object {
         const val INVITE_DIALOG = "inviteDialog"
-
         const val SCHOOL_NO_FRIEND = "recommend_school_nofriend"
         const val SCHOOL_YES_FRIEND = "recommend_school_yesfriend"
+        const val ITEM_BOTTOM_SHEET = "itemBottomSheet"
     }
 }

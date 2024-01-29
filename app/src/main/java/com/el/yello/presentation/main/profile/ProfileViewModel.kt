@@ -1,5 +1,7 @@
 package com.el.yello.presentation.main.profile
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.el.yello.util.amplitude.AmplitudeUtils
@@ -78,6 +80,28 @@ class ProfileViewModel @Inject constructor(
 
     var clickedUserData = ProfileUserModel()
     var clickedItemPosition: Int? = null
+
+    val _quitReasonData: MutableLiveData<List<String>> = MutableLiveData()
+    val quitReasonData: LiveData<List<String>> = _quitReasonData
+
+    private val quitReasonText = MutableLiveData<String>()
+
+    fun setQuitReason(reason: String) {
+        quitReasonText.value = reason
+    }
+    fun addQuitReasonList() {
+        val quitReasonList = listOf(
+            "앱에 아는 사람들이 없어서",
+            "구독권과 열람권의 가격이 비싸서",
+            "오류가 많아서",
+            "재밌는 콘텐츠 또는 질문이 없어서",
+            "포인트를 너무 적게 줘서",
+            "내 정보를 삭제하고 싶어서",
+            "다른 앱이 더 재밌어서",
+            "기타",
+        )
+        _quitReasonData.value = quitReasonList
+    }
 
     fun setItemPosition(position: Int) {
         clickedItemPosition = position

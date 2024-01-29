@@ -138,6 +138,10 @@
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".presentation.main.profile.quit.QuitReasonActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".presentation.main.myyello.read.MyYelloReadActivity"
             android:exported="false"
             android:screenOrientation="portrait" />

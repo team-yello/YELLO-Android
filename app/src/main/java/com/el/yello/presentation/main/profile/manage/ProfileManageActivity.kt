@@ -10,6 +10,7 @@ import com.el.yello.BuildConfig
 import com.el.yello.R
 import com.el.yello.databinding.ActivityProfileManageBinding
 import com.el.yello.presentation.main.profile.ProfileViewModel
+import com.el.yello.presentation.main.profile.quit.QuitReasonActivity
 import com.el.yello.util.amplitude.AmplitudeUtils
 import com.el.yello.util.context.yelloSnackbar
 import com.example.ui.base.BindingActivity
@@ -82,7 +83,7 @@ class ProfileManageActivity :
                 "click_profile_withdrawal",
                 JSONObject().put("withdrawal_button", "withdrawal1"),
             )
-            Intent(this, ProfileQuitOneActivity::class.java).apply {
+            Intent(this, QuitReasonActivity::class.java).apply {
                 addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                 startActivity(this)
             }

@@ -21,6 +21,8 @@ class UnivProfileModActivity :
 
     private val viewModel by viewModels<UnivProfileModViewModel>()
 
+    private var profileModSchoolBottomSheet: ProfileModSchoolBottomSheet? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -28,6 +30,7 @@ class UnivProfileModActivity :
         initChangeToSchoolBtnListener()
         initSaveBtnListener()
         initBackBtnListener()
+        initBottomSheetListener()
         observeGetUserDataResult()
         observeGetIsModValidResult()
         observePostNewProfileResult()
@@ -62,6 +65,19 @@ class UnivProfileModActivity :
         binding.btnProfileModBack.setOnSingleClickListener { finish() }
     }
 
+    private fun initBottomSheetListener() {
+        binding.btnSearchSchool.setOnSingleClickListener {
+            profileModSchoolBottomSheet = ProfileModSchoolBottomSheet()
+            profileModSchoolBottomSheet?.show(supportFragmentManager, DIALOG_SCHOOL)
+        }
+        binding.btnSearchSubgroup.setOnSingleClickListener {
+
+        }
+        binding.btnSearchYear.setOnSingleClickListener {
+
+        }
+    }
+
     private fun observeGetUserDataResult() {
         viewModel.getUserDataResult.flowWithLifecycle(lifecycle).onEach { result ->
             if (!result) yelloSnackbar(binding.root, getString(R.string.msg_error))
@@ -83,5 +99,17 @@ class UnivProfileModActivity :
                 yelloSnackbar(binding.root, getString(R.string.msg_error))
             }
         }.launchIn(lifecycleScope)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        if (profileModSchoolBottomSheet != null) profileModSchoolBottomSheet?.dismiss()
+    }
+
+    private companion object {
+        const val DIALOG_SCHOOL = "school"
+        const val DIALOG_SUBGROUP = "subgroup"
+        const val DIALOG_YEAR = "year"
+
     }
 }

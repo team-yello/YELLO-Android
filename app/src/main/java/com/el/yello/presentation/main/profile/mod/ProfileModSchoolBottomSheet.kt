@@ -48,6 +48,7 @@ class ProfileModSchoolBottomSheet :
 
         initAdapter()
         initSchoolFormBtnListener()
+        initBackBtnListener()
         setDebounceSearch()
         setListWithInfinityScroll()
         setEmptyListWithTyping()
@@ -71,6 +72,10 @@ class ProfileModSchoolBottomSheet :
                 startActivity(this)
             }
         }
+    }
+
+    private fun initBackBtnListener() {
+        binding.btnBackDialog.setOnSingleClickListener { dismiss() }
     }
 
     private fun setDebounceSearch() {

@@ -11,7 +11,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:background="@color/black">
 
         <ImageView
@@ -38,25 +38,23 @@
             app:layout_constraintStart_toEndOf="@id/btn_profile_quit_reason_back"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <ScrollView
+        <androidx.core.widget.NestedScrollView
             android:id="@+id/sv_quit_reason"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:overScrollMode="never"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            android:layout_height="0dp"
+            android:fillViewport="true"
+            app:layout_constraintBottom_toTopOf="@+id/btn_profile_quit_reason_done"
             app:layout_constraintTop_toBottomOf="@id/tv_profile_quit_for_sure_title">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/layout_profile_quit_reason"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingBottom="84dp">
+                android:layout_height="wrap_content">
 
                 <TextView
                     android:id="@+id/tv_profile_quit_reason_title"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="39dp"
                     android:text="@string/profile_quit_reason_title"
                     android:textAlignment="center"
@@ -70,34 +68,32 @@
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="32dp"
                     android:layout_marginTop="20dp"
+                    android:layout_marginBottom="26dp"
                     android:orientation="vertical"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     android:overScrollMode="never"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tv_profile_quit_reason_title"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     tools:listitem="@layout/item_profile_quit_reason" />
-
-                <TextView
-                    android:id="@+id/btn_profile_quit_reason_done"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="16dp"
-                    android:layout_marginTop="32dp"
-                    android:background="@drawable/shape_grayscales800_fill_100_rect"
-                    android:gravity="center"
-                    android:paddingVertical="16dp"
-                    android:text="@string/profile_quit_reason_button"
-                    android:textColor="@color/semantic_red_500"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/rv_quit_reason"
-                    tools:layout_editor_absoluteY="1042dp" />
-
             </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.core.widget.NestedScrollView>
 
-        </ScrollView>
-
+        <TextView
+            android:id="@+id/btn_profile_quit_reason_done"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginBottom="34dp"
+            android:background="@drawable/shape_black_fill_grayscales700_line_100_rect"
+            android:gravity="center"
+            android:paddingVertical="16dp"
+            android:text="@string/profile_quit_reason_button"
+            android:textColor="@color/semantic_red_500"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 </layout>

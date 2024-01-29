@@ -1,4 +1,4 @@
-package com.el.yello.presentation.main.dialog
+package com.el.yello.presentation.main.dialog.invite
 
 import android.content.ActivityNotFoundException
 import android.content.ClipData

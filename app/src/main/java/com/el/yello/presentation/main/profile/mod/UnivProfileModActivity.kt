@@ -8,7 +8,6 @@ import androidx.lifecycle.lifecycleScope
 import com.el.yello.R
 import com.el.yello.databinding.ActivityProfileUnivModBinding
 import com.el.yello.presentation.main.profile.mod.UnivProfileModViewModel.Companion.TEXT_NONE
-import com.el.yello.util.context.yelloSnackbar
 import com.example.ui.activity.navigateTo
 import com.example.ui.base.BindingActivity
 import com.example.ui.context.drawableOf
@@ -40,12 +39,6 @@ class UnivProfileModActivity :
         observePostNewProfileResult()
     }
 
-    override fun onResume() {
-        super.onResume()
-
-        checkIsTextNone()
-    }
-
     private fun initUserData() {
         binding.vm = viewModel
         viewModel.getUserDataFromServer()
@@ -62,27 +55,24 @@ class UnivProfileModActivity :
     private fun initSaveBtnListener() {
         binding.btnProfileModSave.setOnSingleClickListener {
             when {
-                viewModel.isChanged -> {
-                    yelloSnackbar(binding.root, getString(R.string.profile_mod_no_change))
+                !viewModel.isChanged -> {
+                    toast(getString(R.string.profile_mod_no_change))
                 }
+
                 !viewModel.isModAvailable -> {
-                    yelloSnackbar(binding.root, getString(R.string.profile_mod_no_valid))
+                    toast(getString(R.string.profile_mod_no_valid))
                 }
+
                 viewModel.subGroup.value == TEXT_NONE -> {
-                    binding.layoutProfileModSubgroup.background = drawableOf(R.drawable.shape_red_fill_red500_line_10_rect)
+                    binding.layoutProfileModSubgroup.background =
+                        drawableOf(R.drawable.shape_red_fill_red500_line_10_rect)
                     binding.tvProfileModSubgroupError.isVisible = true
                 }
+
                 else -> {
                     viewModel.postNewProfileToServer()
                 }
             }
-        }
-    }
-
-    private fun checkIsTextNone() {
-        if (viewModel.subGroup.value != TEXT_NONE) {
-            binding.layoutProfileModSubgroup.background = drawableOf(R.drawable.shape_grayscales900_fill_12_rect)
-            binding.tvProfileModSubgroupError.isVisible = false
         }
     }
 
@@ -107,13 +97,13 @@ class UnivProfileModActivity :
 
     private fun observeGetUserDataResult() {
         viewModel.getUserDataResult.flowWithLifecycle(lifecycle).onEach { result ->
-            if (!result) yelloSnackbar(binding.root, getString(R.string.msg_error))
+            if (!result) toast(getString(R.string.msg_error))
         }.launchIn(lifecycleScope)
     }
 
     private fun observeGetIsModValidResult() {
         viewModel.getIsModValidResult.flowWithLifecycle(lifecycle).onEach { result ->
-            if (!result) yelloSnackbar(binding.root, getString(R.string.msg_error))
+            if (!result) toast(getString(R.string.msg_error))
         }.launchIn(lifecycleScope)
     }
 
@@ -123,9 +113,17 @@ class UnivProfileModActivity :
                 toast(getString(R.string.profile_mod_success))
                 finish()
             } else {
-                yelloSnackbar(binding.root, getString(R.string.msg_error))
+                toast(getString(R.string.msg_error))
             }
         }.launchIn(lifecycleScope)
+    }
+
+    fun checkIsTextNone() {
+        if (viewModel.subGroup.value != TEXT_NONE) {
+            binding.layoutProfileModSubgroup.background =
+                drawableOf(R.drawable.shape_grayscales900_fill_12_rect)
+            binding.tvProfileModSubgroupError.isVisible = false
+        }
     }
 
     override fun onDestroy() {

@@ -61,7 +61,11 @@ class UnivProfileModViewModel @Inject constructor(
         currentPage = -1
         isPagingFinish = false
         totalPage = Int.MAX_VALUE
+    }
+
+    fun resetStateVariables() {
         _getUnivListState.value = UiState.Empty
+        _getUnivGroupIdListState.value = UiState.Empty
     }
 
     fun getUserDataFromServer() {

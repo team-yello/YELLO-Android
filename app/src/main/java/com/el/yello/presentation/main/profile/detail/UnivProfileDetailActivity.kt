@@ -75,7 +75,7 @@ class UnivProfileDetailActivity :
                 }
 
                 is UiState.Failure -> {
-                    yelloSnackbar(binding.root, getString(R.string.profile_error_user_data))
+                    toast(getString(R.string.profile_error_user_data))
                 }
 
                 is UiState.Empty -> return@onEach
@@ -96,12 +96,11 @@ class UnivProfileDetailActivity :
             when (state) {
                 is UiState.Success -> {
                     binding.ivProfileDetailThumbnail.setImageOrBasicThumbnail(state.data)
-                    yelloSnackbar(binding.root, getString(R.string.profile_detail_image_change))
+                    toast(getString(R.string.profile_detail_image_change))
                 }
 
                 is UiState.Failure -> {
                     toast(getString(R.string.sign_in_error_connection))
-                    yelloSnackbar(binding.root, getString(R.string.sign_in_error_connection))
                 }
 
                 is UiState.Empty -> return@onEach

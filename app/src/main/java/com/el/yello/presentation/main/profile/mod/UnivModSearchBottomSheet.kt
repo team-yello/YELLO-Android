@@ -98,6 +98,7 @@ class UnivModSearchBottomSheet :
             viewModel.groupId = groupId
             viewModel.subGroup.value = department
             viewModel.isChanged = true
+            (activity as UnivProfileModActivity).checkIsTextNone()
         }
         dismiss()
     }
@@ -234,7 +235,9 @@ class UnivModSearchBottomSheet :
     override fun onDestroy() {
         super.onDestroy()
         _groupAdapter = null
+        _univAdapter = null
         searchJob?.cancel()
+        viewModel.resetStateVariables()
     }
 
     companion object {

@@ -9,7 +9,6 @@ import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
-import androidx.fragment.app.commitNow
 import androidx.fragment.app.replace
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
@@ -26,11 +25,14 @@ import com.el.yello.presentation.pay.PayReSubsNoticeDialog
 import com.el.yello.presentation.util.dp
 import com.el.yello.util.amplitude.AmplitudeUtils
 import com.el.yello.util.context.yelloSnackbar
-import com.example.domain.enum.SubscribeType
+import com.example.domain.enum.SubscribeType.CANCELED
 import com.example.ui.base.BindingActivity
 import com.example.ui.context.toast
 import com.example.ui.intent.stringExtra
-import com.example.ui.view.UiState
+import com.example.ui.view.UiState.Empty
+import com.example.ui.view.UiState.Failure
+import com.example.ui.view.UiState.Loading
+import com.example.ui.view.UiState.Success
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -65,9 +67,9 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
         initBnvItemSelectedListener()
         initBnvItemReselectedListener()
         initPushNotificationEvent()
-        observeSubsNeededState()
-        observeVoteCount()
-        showNoticeDialog()
+        setupGetUserSubsState()
+        setupGetNoticeState()
+        setupGetVoteCountState()
     }
 
     private fun initBackPressedCallback() {
@@ -151,8 +153,8 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
     }
 
     private fun initPushNotificationEvent() {
-        when {
-            type.equals(PUSH_TYPE_NEW_VOTE) -> {
+        when (type) {
+            PUSH_TYPE_NEW_VOTE -> {
                 binding.bnvMain.menu.getItem(3).isChecked = true
                 navigateTo<MyYelloFragment>()
 
@@ -164,94 +166,108 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
                 }
             }
 
-            type.equals(PUSH_TYPE_NEW_FRIEND) -> {
+            PUSH_TYPE_NEW_FRIEND -> {
                 binding.bnvMain.menu.getItem(4).isChecked = true
                 navigateTo<ProfileFragment>()
             }
 
-            type.equals(PUSH_TYPE_VOTE_AVAILABLE) || type.equals(PUSH_TYPE_RECOMMEND) -> {
+            PUSH_TYPE_VOTE_AVAILABLE, PUSH_TYPE_RECOMMEND -> {
                 binding.bnvMain.menu.getItem(2).isChecked = true
                 navigateTo<YelloFragment>()
             }
         }
     }
 
-    private fun observeSubsNeededState() {
-        viewModel.getUserSubsInfoState.flowWithLifecycle(lifecycle).onEach { state ->
-            when (state) {
-                is UiState.Success -> {
-                    if (state.data?.subscribe == SubscribeType.CANCELED) {
+    private inline fun <reified T : Fragment> navigateTo() {
+        supportFragmentManager.commit {
+            replace<T>(R.id.fcv_main, T::class.java.canonicalName)
+        }
+    }
+
+    private fun setupGetUserSubsState() {
+        viewModel.getUserSubsState.flowWithLifecycle(lifecycle)
+            .onEach { state ->
+                when (state) {
+                    is Empty -> {
+                        return@onEach
+                    }
+
+                    is Loading -> {
+                        return@onEach
+                    }
+
+                    is Success -> {
+                        if (state.data?.subscribe != CANCELED) return@onEach
+                        // TODO : 도메인 모델에 변환된 날짜로 파싱되도록 보완
                         val expiredDateString = state.data?.expiredDate.toString()
                         val expiredDate =
                             SimpleDateFormat(EXPIRED_DATE_FORMAT).parse(expiredDateString)
+                                ?: return@onEach
                         val currentDate = Calendar.getInstance().time
                         val daysDifference = TimeUnit.DAYS.convert(
                             expiredDate.time - currentDate.time,
                             TimeUnit.MILLISECONDS,
                         )
                         if (daysDifference >= 1) {
-                            val expiredDateString = state.data?.expiredDate.toString()
-                            val payResubsNoticeFragment =
-                                PayReSubsNoticeDialog.newInstance(expiredDateString)
-                            supportFragmentManager.commitNow {
-                                add(
-                                    payResubsNoticeFragment,
-                                    PAY_RESUBS_DIALOG,
-                                )
-                            }
+                            PayReSubsNoticeDialog.newInstance(expiredDateString)
+                                .show(supportFragmentManager, PAY_RESUBS_DIALOG)
                         }
                     }
-                }
 
-                is UiState.Failure -> {
-                    yelloSnackbar(binding.root, getString(R.string.msg_error))
-                }
-
-                is UiState.Empty -> {
-                    return@onEach
-                }
-
-                is UiState.Loading -> {
-                    return@onEach
-                }
-            }
-        }.launchIn(lifecycleScope)
-    }
-
-    private fun observeVoteCount() {
-        viewModel.voteCount.flowWithLifecycle(lifecycle).onEach {
-            when (it) {
-                is UiState.Loading -> return@onEach
-
-                is UiState.Success -> {
-                    if (it.data.totalCount != 0) {
-                        initBadge(it.data.totalCount)
+                    is Failure -> {
+                        yelloSnackbar(binding.root, getString(R.string.msg_error))
                     }
                 }
+            }.launchIn(lifecycleScope)
+    }
 
-                is UiState.Empty -> return@onEach
+    private fun setupGetNoticeState() {
+        viewModel.getNoticeState.flowWithLifecycle(lifecycle)
+            .onEach { state ->
+                when (state) {
+                    is Empty -> yelloSnackbar(binding.root, getString(R.string.msg_error))
+                    is Loading -> return@onEach
+                    is Success -> {
+                        if (!state.data.isAvailable) return@onEach
+                        NoticeDialog.newInstance(
+                            imageUrl = state.data.imageUrl,
+                            redirectUrl = state.data.redirectUrl,
+                        ).show(supportFragmentManager, TAG_NOTICE_DIALOG)
+                    }
 
-                is UiState.Failure -> {
-                    yelloSnackbar(binding.root, it.msg)
+                    is Failure -> yelloSnackbar(
+                        binding.root,
+                        getString(R.string.main_get_notice_failure),
+                    )
                 }
             }
-        }.launchIn(lifecycleScope)
+    }
+
+    private fun setupGetVoteCountState() {
+        viewModel.voteCount.flowWithLifecycle(lifecycle)
+            .onEach { state ->
+                when (state) {
+                    is Empty -> return@onEach
+
+                    is Loading -> return@onEach
+
+                    is Success -> {
+                        if (state.data.totalCount != 0) {
+                            initBadge(state.data.totalCount)
+                        }
+                    }
+
+                    is Failure -> {
+                        yelloSnackbar(binding.root, state.msg)
+                    }
+                }
+            }.launchIn(lifecycleScope)
     }
 
     fun setBadgeCount(count: Int) {
         val badgeDrawable = binding.bnvMain.getOrCreateBadge(R.id.menu_my_yello)
         badgeDrawable.number = count
         badgeDrawable.isVisible = count != 0
-    }
-
-    private fun showNoticeDialog() {
-        NoticeDialog.newInstance().show(supportFragmentManager, TAG_NOTICE_DIALOG)
-    }
-
-    private inline fun <reified T : Fragment> navigateTo() {
-        supportFragmentManager.commit {
-            replace<T>(R.id.fcv_main, T::class.java.canonicalName)
-        }
     }
 
     companion object {
@@ -270,6 +286,7 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
 
         private const val TAG_NOTICE_DIALOG = "NOTICE_DIALOG"
 
+        @JvmStatic
         fun getIntent(context: Context, type: String? = null, path: String? = null) =
             Intent(context, MainActivity::class.java).apply {
                 putExtra(EXTRA_TYPE, type)

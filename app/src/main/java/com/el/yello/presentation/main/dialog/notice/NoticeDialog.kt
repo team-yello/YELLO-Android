@@ -3,6 +3,7 @@ package com.el.yello.presentation.main.dialog.notice
 import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
+import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
 import com.el.yello.R
 import com.el.yello.databinding.FragmentNoticeDialogBinding
@@ -27,8 +28,13 @@ class NoticeDialog :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        initNoticeImgRes()
         initDoNotSeeItAgainBtnClickListener()
         initCloseBtnClickListener()
+    }
+
+    private fun initNoticeImgRes() {
+        // TODO : imageUrl 및 redirectUrl 연결
     }
 
     private fun initDoNotSeeItAgainBtnClickListener() {
@@ -62,7 +68,18 @@ class NoticeDialog :
     }
 
     companion object {
+        private const val ARGS_IMAGE_URL = "IMAGE_URL"
+        private const val ARGS_REDIRECT_URL = "REDIRECT_URL"
+
         @JvmStatic
-        fun newInstance() = NoticeDialog()
+        fun newInstance(
+            imageUrl: String,
+            redirectUrl: String,
+        ) = NoticeDialog().apply {
+            arguments = bundleOf(
+                ARGS_IMAGE_URL to imageUrl,
+                ARGS_REDIRECT_URL to redirectUrl,
+            )
+        }
     }
 }

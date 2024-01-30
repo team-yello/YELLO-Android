@@ -35,6 +35,7 @@
     <string name="main_my_yello">내 쪽지</string>
     <string name="main_profile">프로필</string>
     <string name="main_toast_back_pressed">버튼을 한번 더 누르면 종료됩니다.</string>
+    <string name="main_get_notice_failure">공지 조회에 실패했습니다.</string>
 
     <string name="onboarding_tv_what_studentid">몇 학번인가요?</string>
     <string name="onboarding_tv_search_department">학과 검색하기</string>

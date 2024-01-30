@@ -42,7 +42,6 @@ class UnivProfileDetailViewModel @Inject constructor(
         _postToModProfileState.value = UiState.Empty
     }
 
-
     fun getUserDataFromServer() {
         viewModelScope.launch {
             profileRepository.getUserData()

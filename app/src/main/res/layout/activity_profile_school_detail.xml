@@ -260,7 +260,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingVertical="3dp"
-                        android:text="@string/profile_mod_tv_school_grade"
+                        android:text="@string/profile_detail_tv_school_grade"
                         android:textColor="@color/grayscales_500"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -316,7 +316,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingVertical="3dp"
-                        android:text="반"
+                        android:text="@string/profile_detail_tv_school_classroom"
                         android:textColor="@color/grayscales_500"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -325,7 +325,7 @@
                         android:id="@+id/tv_profile_detail_classroom"
                         style="@style/TextAppearance.Yello.Subtitle01"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toStartOf="@id/btn_mod_year"
+                        app:layout_constraintEnd_toStartOf="@id/btn_mod_classroom"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:paddingVertical="3dp"

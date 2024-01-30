@@ -163,6 +163,16 @@
     <string name="profile_error_logout">로그아웃 실패 : %s</string>
     <string name="profile_error_unlink">회원 탈퇴하기 실패</string>
     <string name="profile_error_unlink_kakao">카카오 연동 끊기 실패</string>
+
+    <string name="profile_detail_tv_title">프로필 정보</string>
+    <string name="profile_detail_btn_kakao_change">카카오톡 동기화</string>
+    <string name="profile_detail_tv_name">이름</string>
+    <string name="profile_detail_tv_id">아이디</string>
+    <string name="profile_detail_tv_school">학교</string>
+    <string name="profile_detail_tv_univ_subgroup">학과</string>
+    <string name="profile_detail_tv_univ_admyear">학번</string>
+    <string name="profile_detail_tv_school_grade">학년</string>
+    <string name="profile_detail_tv_school_classroom">반</string>
     <string name="profile_detail_image_change">프로필 사진 동기화 완료</string>
 
     <string name="invite_error_kakao">카카오톡 공유하기 실패</string>
@@ -355,13 +365,5 @@
     <string name="notice_resubscribe_benefit_third">초성 힌트 무제한 제공</string>
     <string name="notice_resubscribe_subtitle_end">곧 위와 같은 혜택을 누릴 수 없게 돼요. \n\n옐로 플러스의 특별한 서비스를\n계속 이용하시려면, 버튼을 눌러\n구독을 계속해 보세요!</string>
     <string name="notice_resubscribe_button_tv">계속 옐로플러스 구독하기</string>
-    <string name="profile_detail_tv_title">프로필 정보</string>
-    <string name="profile_detail_btn_kakao_change">카카오톡 동기화</string>
-    <string name="profile_detail_tv_name">이름</string>
-    <string name="profile_detail_tv_id">아이디</string>
-    <string name="profile_detail_tv_school">학교</string>
-    <string name="profile_detail_tv_univ_subgroup">학과</string>
-    <string name="profile_detail_tv_univ_admyear">학번</string>
-    <string name="profile_mod_tv_school_grade">학년</string>
 
 </resources>

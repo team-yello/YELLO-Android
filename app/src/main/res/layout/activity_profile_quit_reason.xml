@@ -91,7 +91,7 @@
             android:gravity="center"
             android:paddingVertical="16dp"
             android:text="@string/profile_quit_reason_button"
-            android:clickable="false"
+            android:enabled="false"
             android:textColor="@color/grayscales_600"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

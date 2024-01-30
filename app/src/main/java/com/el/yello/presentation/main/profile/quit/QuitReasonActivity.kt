@@ -24,6 +24,7 @@ class QuitReasonActivity :
         super.onCreate(savedInstanceState)
         binding.vm = viewModel
         initQuitReasonAdapter()
+        initBackBtnListener()
         initInviteDialogBtnListener()
     }
 
@@ -56,6 +57,10 @@ class QuitReasonActivity :
         }
     }
 
+    private fun initBackBtnListener() {
+        binding.btnProfileQuitReasonBack.setOnSingleClickListener { finish() }
+    }
+
     private fun clickedButtonUI() {
         binding.btnProfileQuitReasonDone.setBackgroundResource(R.drawable.shape_black_fill_grayscales700_line_100_rect)
         binding.btnProfileQuitReasonDone.setTextColor(
@@ -64,7 +69,7 @@ class QuitReasonActivity :
                 R.color.semantic_red_500,
             ),
         )
-        binding.btnProfileQuitReasonDone.isClickable = true
+        binding.btnProfileQuitReasonDone.isEnabled = true
     }
 
     private fun unclickedButtonUI() {
@@ -75,7 +80,7 @@ class QuitReasonActivity :
                 R.color.grayscales_600,
             ),
         )
-        binding.btnProfileQuitReasonDone.isClickable = false
+        binding.btnProfileQuitReasonDone.isEnabled = false
     }
 
     private fun storeQuitReason(reason: String) {

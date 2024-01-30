@@ -2,10 +2,10 @@ package com.el.yello.presentation.main.yello
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.domain.entity.PayInfoModel
 import com.el.yello.presentation.main.yello.YelloState.Lock
 import com.el.yello.presentation.main.yello.YelloState.Valid
 import com.el.yello.presentation.main.yello.YelloState.Wait
+import com.example.domain.entity.PayInfoModel
 import com.example.domain.repository.AuthRepository
 import com.example.domain.repository.PayRepository
 import com.example.domain.repository.VoteRepository

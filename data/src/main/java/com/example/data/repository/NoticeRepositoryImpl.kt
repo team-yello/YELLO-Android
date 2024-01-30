@@ -1,0 +1,14 @@
+package com.example.data.repository
+
+import com.example.data.datasource.NoticeDataSource
+import com.example.domain.entity.notice.Notice
+import com.example.domain.repository.NoticeRepository
+import javax.inject.Inject
+
+class NoticeRepositoryImpl @Inject constructor(
+    private val dataSource: NoticeDataSource,
+) : NoticeRepository {
+    override suspend fun getNotice(): Result<Notice?> = runCatching {
+        dataSource.getNotice().data?.toNotice()
+    }
+}

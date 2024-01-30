@@ -1,5 +1,6 @@
 package com.example.data.datasource
 
+import com.example.data.model.request.profile.RequestQuitReasonDto
 import com.example.data.model.response.BaseResponse
 import com.example.data.model.response.profile.ResponseProfileFriendsListDto
 import com.example.data.model.response.profile.ResponseProfileUserDto
@@ -12,7 +13,9 @@ interface ProfileDataSource {
         page: Int,
     ): BaseResponse<ResponseProfileFriendsListDto>
 
-    suspend fun deleteUserData(): BaseResponse<Unit>
+    suspend fun deleteUserData(
+        request: RequestQuitReasonDto,
+    ): BaseResponse<Unit>
 
     suspend fun deleteFriendData(
         friendId: Long,

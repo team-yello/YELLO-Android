@@ -9,6 +9,7 @@ import com.el.yello.util.amplitude.AmplitudeUtils
 import com.example.domain.entity.PayInfoModel
 import com.example.domain.entity.PayUserSubsInfoModel
 import com.example.domain.entity.ProfileFriendsListModel
+import com.example.domain.entity.ProfileQuitReasonModel
 import com.example.domain.entity.ProfileUserModel
 import com.example.domain.entity.vote.VoteCount
 import com.example.domain.repository.AuthRepository
@@ -171,13 +172,19 @@ class ProfileViewModel @Inject constructor(
     fun deleteUserDataToServer() {
         viewModelScope.launch {
             _deleteUserState.value = UiState.Loading
-            profileRepository.deleteUserData()
+            profileRepository.deleteUserData(
+                ProfileQuitReasonModel(
+                    quitReasonText.value.toString()
+                ),
+            )
                 .onSuccess {
+                    Timber.d("User deletion successful")
                     clearLocalInfo()
                     delay(300)
                     _deleteUserState.value = UiState.Success(it)
                 }
                 .onFailure {
+                    Timber.e("User deletion failed: ${it.message}")
                     _deleteUserState.value = UiState.Failure(it.message.toString())
                 }
         }

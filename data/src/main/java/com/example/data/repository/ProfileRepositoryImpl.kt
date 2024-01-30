@@ -1,7 +1,9 @@
 package com.example.data.repository
 
 import com.example.data.datasource.ProfileDataSource
+import com.example.data.model.request.profile.toRequestDto
 import com.example.domain.entity.ProfileFriendsListModel
+import com.example.domain.entity.ProfileQuitReasonModel
 import com.example.domain.entity.ProfileUserModel
 import com.example.domain.repository.ProfileRepository
 import javax.inject.Inject
@@ -22,9 +24,9 @@ class ProfileRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun deleteUserData(): Result<Unit> {
+    override suspend fun deleteUserData(request: ProfileQuitReasonModel): Result<Unit> {
         return runCatching {
-            profileDataSource.deleteUserData().data
+            profileDataSource.deleteUserData(request.toRequestDto())
         }
     }
 

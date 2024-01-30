@@ -60,55 +60,17 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        observeSubsNeededState()
+        initBackPressedCallback()
         initBnvItemIconTintList()
         initBnvItemSelectedListener()
         initBnvItemReselectedListener()
-        pushNotificationEvent()
+        observeSubsNeededState()
         observeVoteCount()
-        this.onBackPressedDispatcher.addCallback(this, onBackPressedCallback)
+        initPushNotificationEvent()
     }
 
-    private fun observeSubsNeededState() {
-        viewModel.getUserSubsInfoState.flowWithLifecycle(lifecycle).onEach { state ->
-            when (state) {
-                is UiState.Success -> {
-                    if (state.data?.subscribe == SubscribeType.CANCELED) {
-                        val expiredDateString = state.data?.expiredDate.toString()
-                        val expiredDate =
-                            SimpleDateFormat(EXPIRED_DATE_FORMAT).parse(expiredDateString)
-                        val currentDate = Calendar.getInstance().time
-                        val daysDifference = TimeUnit.DAYS.convert(
-                            expiredDate.time - currentDate.time,
-                            TimeUnit.MILLISECONDS,
-                        )
-                        if (daysDifference >= 1) {
-                            val expiredDateString = state.data?.expiredDate.toString()
-                            val payResubsNoticeFragment =
-                                PayReSubsNoticeDialog.newInstance(expiredDateString)
-                            supportFragmentManager.commitNow {
-                                add(
-                                    payResubsNoticeFragment,
-                                    PAY_RESUBS_DIALOG,
-                                )
-                            }
-                        }
-                    }
-                }
-
-                is UiState.Failure -> {
-                    yelloSnackbar(binding.root, getString(R.string.msg_error))
-                }
-
-                is UiState.Empty -> {
-                    return@onEach
-                }
-
-                is UiState.Loading -> {
-                    return@onEach
-                }
-            }
-        }.launchIn(lifecycleScope)
+    private fun initBackPressedCallback() {
+        onBackPressedDispatcher.addCallback(this, onBackPressedCallback)
     }
 
     private fun initBnvItemIconTintList() {
@@ -187,9 +149,9 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
         )
     }
 
-    private fun pushNotificationEvent() {
+    private fun initPushNotificationEvent() {
         when {
-            type.equals(NEW_VOTE) -> {
+            type.equals(PUSH_TYPE_NEW_VOTE) -> {
                 binding.bnvMain.menu.getItem(3).isChecked = true
                 navigateTo<MyYelloFragment>()
 
@@ -201,35 +163,78 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
                 }
             }
 
-            type.equals(NEW_FRIEND) -> {
+            type.equals(PUSH_TYPE_NEW_FRIEND) -> {
                 binding.bnvMain.menu.getItem(4).isChecked = true
                 navigateTo<ProfileFragment>()
             }
 
-            type.equals(VOTE_AVAILABLE) || type.equals(RECOMMEND) -> {
+            type.equals(PUSH_TYPE_VOTE_AVAILABLE) || type.equals(PUSH_TYPE_RECOMMEND) -> {
                 binding.bnvMain.menu.getItem(2).isChecked = true
                 navigateTo<YelloFragment>()
             }
         }
     }
 
-    private fun observeVoteCount() {
-        viewModel.voteCount.flowWithLifecycle(lifecycle)
-            .onEach {
-                when (it) {
-                    is UiState.Success -> {
-                        if (it.data.totalCount != 0) {
-                            initBadge(it.data.totalCount)
+    private fun observeSubsNeededState() {
+        viewModel.getUserSubsInfoState.flowWithLifecycle(lifecycle).onEach { state ->
+            when (state) {
+                is UiState.Success -> {
+                    if (state.data?.subscribe == SubscribeType.CANCELED) {
+                        val expiredDateString = state.data?.expiredDate.toString()
+                        val expiredDate =
+                            SimpleDateFormat(EXPIRED_DATE_FORMAT).parse(expiredDateString)
+                        val currentDate = Calendar.getInstance().time
+                        val daysDifference = TimeUnit.DAYS.convert(
+                            expiredDate.time - currentDate.time,
+                            TimeUnit.MILLISECONDS,
+                        )
+                        if (daysDifference >= 1) {
+                            val expiredDateString = state.data?.expiredDate.toString()
+                            val payResubsNoticeFragment =
+                                PayReSubsNoticeDialog.newInstance(expiredDateString)
+                            supportFragmentManager.commitNow {
+                                add(
+                                    payResubsNoticeFragment,
+                                    PAY_RESUBS_DIALOG,
+                                )
+                            }
                         }
                     }
-
-                    is UiState.Failure -> {
-                        yelloSnackbar(binding.root, it.msg)
-                    }
-
-                    else -> {}
                 }
-            }.launchIn(lifecycleScope)
+
+                is UiState.Failure -> {
+                    yelloSnackbar(binding.root, getString(R.string.msg_error))
+                }
+
+                is UiState.Empty -> {
+                    return@onEach
+                }
+
+                is UiState.Loading -> {
+                    return@onEach
+                }
+            }
+        }.launchIn(lifecycleScope)
+    }
+
+    private fun observeVoteCount() {
+        viewModel.voteCount.flowWithLifecycle(lifecycle).onEach {
+            when (it) {
+                is UiState.Loading -> return@onEach
+
+                is UiState.Success -> {
+                    if (it.data.totalCount != 0) {
+                        initBadge(it.data.totalCount)
+                    }
+                }
+
+                is UiState.Empty -> return@onEach
+
+                is UiState.Failure -> {
+                    yelloSnackbar(binding.root, it.msg)
+                }
+            }
+        }.launchIn(lifecycleScope)
     }
 
     fun setBadgeCount(count: Int) {
@@ -245,15 +250,17 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
     }
 
     companion object {
-        const val NEW_VOTE = "NEW_VOTE"
-        const val NEW_FRIEND = "NEW_FRIEND"
-        const val VOTE_AVAILABLE = "VOTE_AVAILABLE"
-        const val RECOMMEND = "RECOMMEND"
+        const val PUSH_TYPE_NEW_VOTE = "NEW_VOTE"
+        const val PUSH_TYPE_NEW_FRIEND = "NEW_FRIEND"
+        const val PUSH_TYPE_VOTE_AVAILABLE = "VOTE_AVAILABLE"
+        const val PUSH_TYPE_RECOMMEND = "RECOMMEND"
+
         const val BACK_PRESSED_INTERVAL = 2000
         const val EXPIRED_DATE_FORMAT = "yyyy-MM-dd"
         const val PAY_RESUBS_DIALOG = "PayResubsNoticeDialog"
         private const val EVENT_CLICK_RECOMMEND_NAVIGATION = "click_recommend_navigation"
 
+        // TODO : extra name 상수화
         fun getIntent(context: Context, type: String? = null, path: String? = null) =
             Intent(context, MainActivity::class.java).apply {
                 putExtra("type", type)

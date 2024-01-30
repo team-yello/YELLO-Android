@@ -46,6 +46,7 @@ data class ResponseProfileFriendsListDto(
                     yelloCount = it.yelloCount,
                     friendCount = it.friendCount,
                     point = 0,
+                    groupId = 0,
                     groupType = "",
                     groupName = "",
                     subGroupName = "",

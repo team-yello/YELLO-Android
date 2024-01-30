@@ -32,8 +32,7 @@ class OnboardingRepositoryImpl @Inject constructor(
 
     override suspend fun getSchoolList(
         keyword: String,
-        page: Long,
-
+        page: Int,
     ): Result<SchoolList?> {
         return runCatching {
             onboardingDataSource.getSchoolNameData(
@@ -43,7 +42,10 @@ class OnboardingRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getHighSchoolList(keyword: String, page: Long): Result<HighSchoolList?> {
+    override suspend fun getHighSchoolList(
+        keyword: String,
+        page: Int,
+    ): Result<HighSchoolList?> {
         return runCatching {
             onboardingDataSource.getHighSchoolNameData(
                 keyword,

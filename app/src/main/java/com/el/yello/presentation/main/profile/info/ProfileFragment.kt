@@ -1,7 +1,5 @@
 package com.el.yello.presentation.main.profile.info
 
-import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.view.animation.AnimationUtils
@@ -15,12 +13,15 @@ import androidx.recyclerview.widget.RecyclerView
 import com.el.yello.R
 import com.el.yello.databinding.FragmentProfileBinding
 import com.el.yello.presentation.main.profile.ProfileViewModel
+import com.el.yello.presentation.main.profile.detail.SchoolProfileDetailActivity
+import com.el.yello.presentation.main.profile.detail.UnivProfileDetailActivity
 import com.el.yello.presentation.main.profile.manage.ProfileManageActivity
 import com.el.yello.presentation.pay.PayActivity
 import com.el.yello.util.Utils.setPullToScrollColor
 import com.el.yello.util.amplitude.AmplitudeUtils
 import com.el.yello.util.context.yelloSnackbar
 import com.example.domain.entity.ProfileUserModel
+import com.example.ui.activity.navigateTo
 import com.example.ui.base.BindingFragment
 import com.example.ui.fragment.toast
 import com.example.ui.view.UiState
@@ -64,8 +65,6 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
     }
 
     private fun initProfileSetting() {
-        viewModel.initViewModelVariable()
-        viewModel.isFirstScroll = true
         initProfileManageBtnListener()
         initUpwardBtnListener()
         initUpwardBtnVisibility()
@@ -84,10 +83,8 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
     private fun initProfileManageBtnListener() {
         binding.btnProfileManage.setOnSingleClickListener {
             AmplitudeUtils.trackEventWithProperties("click_profile_manage")
-            Intent(activity, ProfileManageActivity::class.java).apply {
-                addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                startActivity(this)
-            }
+            activity?.navigateTo<ProfileManageActivity>()
+            viewModel.resetStateVariable()
         }
     }
 
@@ -106,31 +103,52 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
     private fun initAdapter() {
         _adapter = ProfileFriendAdapter(viewModel,
             itemClick = { profileUserModel, position ->
-                viewModel.setItemPosition(position)
-                viewModel.clickedUserData = profileUserModel.apply {
-                    if (!this.yelloId.startsWith("@")) this.yelloId = "@" + this.yelloId
-                }
-                if (!viewModel.isItemBottomSheetRunning) {
-                    AmplitudeUtils.trackEventWithProperties("click_profile_friend")
-                    profileFriendItemBottomSheet = ProfileFriendItemBottomSheet()
-                    profileFriendItemBottomSheet?.show(parentFragmentManager, ITEM_BOTTOM_SHEET)
-                }
-            },
-            buttonClick = {
-                AmplitudeUtils.trackEventWithProperties("click_profile_group")
-                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(ADD_GROUP_URL)))
-            },
-            shopClick = {
-                AmplitudeUtils.trackEventWithProperties(
-                    "click_go_shop",
-                    JSONObject().put("shop_button", "profile_shop"),
+                initItemClickListener(
+                    profileUserModel,
+                    position
                 )
-                Intent(activity, PayActivity::class.java).apply {
-                    addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                    startActivity(this)
-                }
-            })
+            },
+            shopClick = { initShopClickListener() },
+            modClick = { initProfileModClickListener() }
+        )
         binding.rvProfileFriendsList.adapter = adapter
+    }
+
+    private fun initItemClickListener(profileUserModel: ProfileUserModel, position: Int) {
+        viewModel.setItemPosition(position)
+        viewModel.clickedUserData = profileUserModel.apply {
+            if (!this.yelloId.startsWith("@")) this.yelloId = "@" + this.yelloId
+        }
+        if (!viewModel.isItemBottomSheetRunning) {
+            AmplitudeUtils.trackEventWithProperties("click_profile_friend")
+            profileFriendItemBottomSheet = ProfileFriendItemBottomSheet()
+            profileFriendItemBottomSheet?.show(parentFragmentManager, ITEM_BOTTOM_SHEET)
+        }
+    }
+
+    private fun initShopClickListener() {
+        AmplitudeUtils.trackEventWithProperties(
+            "click_go_shop",
+            JSONObject().put("shop_button", "profile_shop"),
+        )
+        activity?.navigateTo<PayActivity>()
+        viewModel.resetStateVariable()
+    }
+
+    private fun initProfileModClickListener() {
+        when (viewModel.myUserData.groupType) {
+            TYPE_UNIVERSITY -> {
+                activity?.navigateTo<UnivProfileDetailActivity>()
+                viewModel.resetStateVariable()
+            }
+
+            TYPE_HIGH_SCHOOL, TYPE_MIDDLE_SCHOOL -> {
+                activity?.navigateTo<SchoolProfileDetailActivity>()
+                viewModel.resetStateVariable()
+            }
+
+            else -> toast(getString(R.string.sign_in_error_connection))
+        }
     }
 
     private fun initPullToScrollListener() {
@@ -139,7 +157,8 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
                 lifecycleScope.launch {
                     adapter.setItemList(listOf())
                     viewModel.run {
-                        initViewModelVariable()
+                        resetPageVariable()
+                        resetStateVariable()
                         getPurchaseInfoFromServer()
                         getUserDataFromServer()
                         getFriendsListFromServer()
@@ -264,8 +283,11 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
         if (profileFriendItemBottomSheet != null) profileFriendItemBottomSheet?.dismiss()
     }
 
-    private companion object {
+    companion object {
         const val ITEM_BOTTOM_SHEET = "itemBottomSheet"
-        const val ADD_GROUP_URL = "https://bit.ly/44xDDqC"
+
+        const val TYPE_UNIVERSITY = "UNIVERSITY"
+        const val TYPE_HIGH_SCHOOL = "HIGH_SCHOOL"
+        const val TYPE_MIDDLE_SCHOOL = "MIDDLE_SCHOOL"
     }
 }

@@ -27,14 +27,14 @@ class OnboardingDataSourceImpl @Inject constructor(
 
     override suspend fun getSchoolNameData(
         keyword: String,
-        page: Long,
+        page: Int,
     ): BaseResponse<ResponseSchoolDto> {
         return onboardingService.getSchoolSearchService(keyword, page)
     }
 
     override suspend fun getHighSchoolNameData(
         keyword: String,
-        page: Long,
+        page: Int,
     ): BaseResponse<ResponseHighSchoolDto> {
         return onboardingService.getHighSchoolSearchService(keyword, page)
     }

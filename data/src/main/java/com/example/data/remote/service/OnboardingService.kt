@@ -25,13 +25,13 @@ interface OnboardingService {
     @GET("api/v1/auth/group/univ/name")
     suspend fun getSchoolSearchService(
         @Query("keyword") keyword: String,
-        @Query("page") page: Long,
+        @Query("page") page: Int,
     ): BaseResponse<ResponseSchoolDto>
 
     @GET("api/v1/auth/group/high/name")
     suspend fun getHighSchoolSearchService(
         @Query("keyword") keyword: String,
-        @Query("page") page: Long,
+        @Query("page") page: Int,
     ): BaseResponse<ResponseHighSchoolDto>
 
     @GET("api/v1/auth/group/univ/department")

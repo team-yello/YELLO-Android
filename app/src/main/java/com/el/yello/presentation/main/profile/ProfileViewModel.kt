@@ -1,6 +1,5 @@
 package com.el.yello.presentation.main.profile
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -40,7 +39,7 @@ class ProfileViewModel @Inject constructor(
 
     init {
         resetPageVariable()
-        resetStateVariable()
+        // resetStateVariable()
     }
 
     private val _getUserDataResult = MutableSharedFlow<Boolean>()
@@ -126,7 +125,7 @@ class ProfileViewModel @Inject constructor(
     }
 
     fun resetStateVariable() {
-        _deleteFriendState.value = UiState.Empty
+        _deleteFriendState.value = UiState.Loading
         _deleteUserState.value = UiState.Empty
         _kakaoLogoutState.value = UiState.Empty
         _kakaoQuitState.value = UiState.Empty
@@ -182,17 +181,15 @@ class ProfileViewModel @Inject constructor(
             _deleteUserState.value = UiState.Loading
             profileRepository.deleteUserData(
                 ProfileQuitReasonModel(
-                    quitReasonText.value.toString()
+                    quitReasonText.value.toString(),
                 ),
             )
                 .onSuccess {
-                    Timber.d("User deletion successful")
                     clearLocalInfo()
                     delay(300)
                     _deleteUserState.value = UiState.Success(it)
                 }
                 .onFailure {
-                    Timber.e("User deletion failed: ${it.message}")
                     _deleteUserState.value = UiState.Failure(it.message.toString())
                 }
         }

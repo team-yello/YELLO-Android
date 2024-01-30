@@ -64,9 +64,9 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
         initBnvItemIconTintList()
         initBnvItemSelectedListener()
         initBnvItemReselectedListener()
+        initPushNotificationEvent()
         observeSubsNeededState()
         observeVoteCount()
-        initPushNotificationEvent()
     }
 
     private fun initBackPressedCallback() {

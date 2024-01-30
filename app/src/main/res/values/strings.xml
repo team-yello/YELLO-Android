@@ -350,4 +350,7 @@
     <string name="notice_resubscribe_subtitle_end">곧 위와 같은 혜택을 누릴 수 없게 돼요. \n\n옐로 플러스의 특별한 서비스를\n계속 이용하시려면, 버튼을 눌러\n구독을 계속해 보세요!</string>
     <string name="notice_resubscribe_button_tv">계속 옐로플러스 구독하기</string>
 
+    <string name="notice_do_not_see_it_again">다시 보지 않기</string>
+    <string name="notice_close">닫기</string>
+    <string name="notice_do_not_see_it_again_icon">다시 보지 않기 아이콘</string>
 </resources>

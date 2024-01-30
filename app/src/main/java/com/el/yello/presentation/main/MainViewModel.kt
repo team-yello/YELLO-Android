@@ -9,12 +9,14 @@ import com.example.domain.repository.PayRepository
 import com.example.domain.repository.YelloRepository
 import com.example.ui.view.UiState
 import com.google.firebase.messaging.FirebaseMessaging
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
 
+@HiltViewModel
 class MainViewModel @Inject constructor(
     private val authRepository: AuthRepository,
     private val payRepository: PayRepository,

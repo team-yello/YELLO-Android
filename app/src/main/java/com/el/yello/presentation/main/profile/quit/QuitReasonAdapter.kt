@@ -12,6 +12,7 @@ import com.example.ui.view.setOnSingleClickListener
 
 class QuitReasonAdapter(
     private val storeQuitReason: (String) -> Unit,
+    private val onItemClickListener: (Int, Boolean) -> Unit
 ) : ListAdapter<String, QuitReasonAdapter.QuitReasonViewHolder>(diffUtil) {
 
     private var selectedItemPosition: Int = RecyclerView.NO_POSITION
@@ -39,6 +40,7 @@ class QuitReasonAdapter(
         selectedItemPosition = position
         notifyItemChanged(position)
         storeQuitReason(getItem(position))
+        onItemClickListener(position, true)
     }
 
     class QuitReasonViewHolder(

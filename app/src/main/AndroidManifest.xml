@@ -140,6 +140,7 @@
         <activity
             android:name=".presentation.main.profile.quit.QuitReasonActivity"
             android:exported="false"
+            android:windowSoftInputMode="adjustPan"
             android:screenOrientation="portrait" />
         <activity
             android:name=".presentation.main.myyello.read.MyYelloReadActivity"

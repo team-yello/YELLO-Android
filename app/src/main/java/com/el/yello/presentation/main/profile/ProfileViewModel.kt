@@ -1,5 +1,6 @@
 package com.el.yello.presentation.main.profile
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -81,14 +82,15 @@ class ProfileViewModel @Inject constructor(
     var clickedUserData = ProfileUserModel()
     var clickedItemPosition: Int? = null
 
-    val _quitReasonData: MutableLiveData<List<String>> = MutableLiveData()
-    val quitReasonData: LiveData<List<String>> = _quitReasonData
-
-    private val quitReasonText = MutableLiveData<String>()
+    val etcText = MutableLiveData("")
+    val quitReasonText = MutableLiveData<String>()
 
     fun setQuitReason(reason: String) {
         quitReasonText.value = reason
     }
+
+    private val _quitReasonData: MutableLiveData<List<String>> = MutableLiveData()
+    val quitReasonData: LiveData<List<String>> = _quitReasonData
     fun addQuitReasonList() {
         val quitReasonList = listOf(
             "앱에 아는 사람들이 없어서",

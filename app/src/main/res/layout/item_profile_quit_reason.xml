@@ -4,9 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="reason"
             type="String" />
+
+        <variable
+            name="vm"
+            type="com.el.yello.presentation.main.profile.ProfileViewModel" />
     </data>
 
     <androidx.cardview.widget.CardView
@@ -57,6 +62,9 @@
                 android:paddingTop="12dp"
                 android:visibility="gone"
                 android:paddingBottom="44dp"
+                android:lines="3"
+                android:singleLine="true"
+                android:text="@{vm.etcText}"
                 android:textAppearance="@style/TextAppearance.Yello.Body02"
                 android:textColor="@color/white"
                 android:textColorHint="@color/grayscales_600"

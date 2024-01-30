@@ -1,6 +1,6 @@
 package com.example.domain.entity
 
-import com.example.domain.enum.GenderEnum
+import com.example.domain.enum.Gender
 
 data class MyYello(
     val totalCount: Int,
@@ -14,7 +14,7 @@ data class MyYello(
 
 data class Yello(
     val id: Long,
-    val gender: GenderEnum,
+    val gender: Gender,
     var nameHint: Int,
     val senderName: String,
     val vote: Vote,

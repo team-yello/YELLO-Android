@@ -18,7 +18,6 @@ import com.el.yello.databinding.ActivityMainBinding
 import com.el.yello.presentation.main.look.LookFragment
 import com.el.yello.presentation.main.myyello.MyYelloFragment
 import com.el.yello.presentation.main.myyello.read.MyYelloReadActivity
-import com.el.yello.presentation.main.profile.ProfileViewModel
 import com.el.yello.presentation.main.profile.info.ProfileFragment
 import com.el.yello.presentation.main.recommend.RecommendFragment
 import com.el.yello.presentation.main.yello.YelloFragment
@@ -41,7 +40,7 @@ import java.util.concurrent.TimeUnit
 @AndroidEntryPoint
 class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main) {
 
-    val viewModel by viewModels<ProfileViewModel>()
+    val viewModel by viewModels<MainViewModel>()
 
     val path by stringExtra()
     val type by stringExtra()
@@ -61,16 +60,12 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel.getUserSubsInfoStateFromServer()
         observeSubsNeededState()
         initBnvItemIconTintList()
         initBnvItemSelectedListener()
         initBnvItemReselectedListener()
-        initDeviceToken()
         pushNotificationEvent()
-        viewModel.getVoteCount()
-        viewModel.setIsFirstLoginData()
-        observe()
+        observeVoteCount()
         this.onBackPressedDispatcher.addCallback(this, onBackPressedCallback)
     }
 
@@ -177,10 +172,6 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
         }
     }
 
-    private fun initDeviceToken() {
-        viewModel.putDeviceToken()
-    }
-
     private fun initBadge(voteCount: Int) {
         val badgeDrawable = binding.bnvMain.getOrCreateBadge(R.id.menu_my_yello)
         badgeDrawable.verticalOffset = 12.dp
@@ -222,7 +213,7 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
         }
     }
 
-    private fun observe() {
+    private fun observeVoteCount() {
         viewModel.voteCount.flowWithLifecycle(lifecycle)
             .onEach {
                 when (it) {

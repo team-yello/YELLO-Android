@@ -36,7 +36,7 @@
             android:layout_marginStart="-4dp"
             android:layout_marginTop="1dp"
             android:paddingVertical="15dp"
-            android:text="프로필 정보"
+            android:text="@string/profile_detail_tv_title"
             android:textAppearance="?textAppearanceSubtitle1"
             android:textColor="@color/white"
             app:layout_constraintStart_toEndOf="@id/btn_profile_detail_back"
@@ -89,7 +89,7 @@
                         style="@style/TextAppearance.Yello.LabelSmall"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="카카오톡 동기화"
+                        android:text="@string/profile_detail_btn_kakao_change"
                         android:textColor="@color/grayscales_400" />
 
                 </LinearLayout>
@@ -112,7 +112,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingVertical="3dp"
-                        android:text="이름"
+                        android:text="@string/profile_detail_tv_name"
                         android:textColor="@color/grayscales_700"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -158,7 +158,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingVertical="3dp"
-                        android:text="아이디"
+                        android:text="@string/profile_detail_tv_id"
                         android:textColor="@color/grayscales_700"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -204,7 +204,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingVertical="3dp"
-                        android:text="학교"
+                        android:text="@string/profile_detail_tv_school"
                         android:textColor="@color/grayscales_500"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -260,7 +260,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingVertical="3dp"
-                        android:text="학과"
+                        android:text="@string/profile_detail_tv_univ_subgroup"
                         android:textColor="@color/grayscales_500"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -316,7 +316,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingVertical="3dp"
-                        android:text="학번"
+                        android:text="@string/profile_detail_tv_univ_admyear"
                         android:textColor="@color/grayscales_500"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />

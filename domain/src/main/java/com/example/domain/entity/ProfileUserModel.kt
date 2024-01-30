@@ -6,9 +6,16 @@ data class ProfileUserModel(
     val profileImageUrl: String,
     val group: String,
     var yelloId: String,
+    val gender: String,
+    val email: String,
     val yelloCount: Int,
     val friendCount: Int,
-    val point: Int
-){
-    constructor() : this(0, "", "", "", "", 0, 0, 0)
+    val point: Int,
+    val groupId: Long,
+    val groupType: String,
+    val groupName: String,
+    val subGroupName: String,
+    val groupAdmissionYear: Int
+) {
+    constructor() : this(0, "", "","","", "", "", 0, 0, 0, 0,"", "", "", 0)
 }

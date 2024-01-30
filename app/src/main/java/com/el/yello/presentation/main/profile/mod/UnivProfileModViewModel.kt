@@ -74,14 +74,13 @@ class UnivProfileModViewModel @Inject constructor(
                         subGroup.value = TEXT_NONE
                         admYear.value = TEXT_NONE
                     }
-                    // TODO : groupId 수정
                     myUserData = ProfileModRequestModel(
                         profile.name,
                         profile.yelloId,
                         profile.gender,
                         profile.email,
                         profile.profileImageUrl,
-                        0,
+                        profile.groupId,
                         admYear.value?.toInt() ?: 0
                     )
                     _getUserDataResult.emit(true)
@@ -133,7 +132,7 @@ class UnivProfileModViewModel @Inject constructor(
                 searchText,
                 ++currentPage
             )
-                .onSuccess {schoolList ->
+                .onSuccess { schoolList ->
                     if (schoolList == null) {
                         _postUniversityListState.value = UiState.Empty
                         return@launch

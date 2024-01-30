@@ -50,14 +50,13 @@ class UnivProfileDetailViewModel @Inject constructor(
                     school.value = profile.groupName
                     subGroup.value = profile.subGroupName
                     admYear.value = profile.groupAdmissionYear.toString()
-                    // TODO : groupId 수정
                     myUserData = ProfileModRequestModel(
                         profile.name,
                         profile.yelloId,
                         profile.gender,
                         profile.email,
                         profile.profileImageUrl,
-                        0,
+                        profile.groupId,
                         profile.groupAdmissionYear
                     )
                     _getUserDataState.value = UiState.Success(profile.profileImageUrl)

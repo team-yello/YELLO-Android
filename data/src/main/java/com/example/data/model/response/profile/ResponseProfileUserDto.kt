@@ -24,6 +24,8 @@ data class ResponseProfileUserDto(
     val uuid: String,
     @SerialName("deviceToken")
     val deviceToken: String,
+    @SerialName("groupId")
+    val groupId: Long,
     @SerialName("group")
     val group: String,
     @SerialName("groupType")
@@ -60,6 +62,7 @@ data class ResponseProfileUserDto(
             yelloCount = yelloCount,
             friendCount = friendCount,
             point = point,
+            groupId = groupId,
             groupType = groupType,
             groupName = groupName,
             subGroupName = subGroupName,

@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.el.yello.presentation.main.profile.info.ProfileFragment.Companion.TYPE_UNIVERSITY
 import com.example.domain.entity.ProfileModRequestModel
+import com.example.domain.entity.onboarding.GroupList
 import com.example.domain.entity.onboarding.SchoolList
 import com.example.domain.repository.OnboardingRepository
 import com.example.domain.repository.ProfileRepository
@@ -33,13 +34,17 @@ class UnivProfileModViewModel @Inject constructor(
     private val _postToModProfileResult = MutableSharedFlow<Boolean>()
     val postToModProfileResult: SharedFlow<Boolean> = _postToModProfileResult
 
-    private val _postUniversityListState = MutableStateFlow<UiState<SchoolList>>(UiState.Empty)
-    val postUniversityListState: StateFlow<UiState<SchoolList>> = _postUniversityListState
+    private val _getUnivListState = MutableStateFlow<UiState<SchoolList>>(UiState.Empty)
+    val getUnivListState: StateFlow<UiState<SchoolList>> = _getUnivListState
+
+    private val _getUnivGroupIdListState = MutableStateFlow<UiState<GroupList>>(UiState.Empty)
+    val getUnivGroupIdListState: StateFlow<UiState<GroupList>> = _getUnivGroupIdListState
 
     val lastModDate = MutableLiveData("")
     val school = MutableLiveData("")
     val subGroup = MutableLiveData("")
     val admYear = MutableLiveData("")
+    var groupId : Long = 0
 
     var isModAvailable = true
     var isChanged = false
@@ -54,7 +59,7 @@ class UnivProfileModViewModel @Inject constructor(
         currentPage = -1
         isPagingFinish = false
         totalPage = Int.MAX_VALUE
-        _postUniversityListState.value = UiState.Empty
+        _getUnivListState.value = UiState.Empty
     }
 
     fun getUserDataFromServer() {
@@ -125,7 +130,7 @@ class UnivProfileModViewModel @Inject constructor(
         }
     }
 
-    fun getUniversityListFromServer(searchText: String) {
+    fun getUnivListFromServer(searchText: String) {
         if (isPagingFinish) return
         viewModelScope.launch {
             onboardingRepository.getSchoolList(
@@ -134,15 +139,38 @@ class UnivProfileModViewModel @Inject constructor(
             )
                 .onSuccess { schoolList ->
                     if (schoolList == null) {
-                        _postUniversityListState.value = UiState.Empty
+                        _getUnivListState.value = UiState.Empty
                         return@launch
                     }
                     totalPage = ceil((schoolList.totalCount * 0.1)).toInt() - 1
                     if (totalPage == currentPage) isPagingFinish = true
-                    _postUniversityListState.value = UiState.Success(schoolList)
+                    _getUnivListState.value = UiState.Success(schoolList)
                 }
                 .onFailure { t ->
-                    _postUniversityListState.value = UiState.Failure(t.message.toString())
+                    _getUnivListState.value = UiState.Failure(t.message.toString())
+                }
+        }
+    }
+
+    fun getUnivGroupIdListFromServer(searchText: String) {
+        viewModelScope.launch {
+            _getUnivGroupIdListState.value = UiState.Loading
+            onboardingRepository.getGroupList(
+                ++currentPage,
+                school.value ?: return@launch,
+                searchText,
+            )
+                .onSuccess { groupList ->
+                    if (groupList == null || groupList.totalCount == 0) {
+                        _getUnivGroupIdListState.value = UiState.Empty
+                        return@launch
+                    }
+                    totalPage = ceil((groupList.totalCount * 0.1)).toInt() - 1
+                    if (totalPage == currentPage) isPagingFinish = true
+                    _getUnivGroupIdListState.value = UiState.Success(groupList)
+                }
+                .onFailure { t ->
+                    _getUnivGroupIdListState.value = UiState.Failure(t.message.toString())
                 }
         }
     }
@@ -150,5 +178,4 @@ class UnivProfileModViewModel @Inject constructor(
     companion object {
         const val TEXT_NONE = "-"
     }
-
 }

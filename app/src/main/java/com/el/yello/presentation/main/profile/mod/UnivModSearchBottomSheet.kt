@@ -17,7 +17,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.el.yello.R
 import com.el.yello.databinding.FragmentUnivModSearchBottomSheetBinding
-import com.el.yello.presentation.main.dialog.InviteFriendDialog
+import com.el.yello.presentation.onboarding.fragment.universityinfo.department.DepartmentAdapter
 import com.el.yello.presentation.onboarding.fragment.universityinfo.university.SearchDialogUniversityFragment.Companion.SCHOOL_FORM_URL
 import com.el.yello.presentation.onboarding.fragment.universityinfo.university.UniversityAdapter
 import com.example.ui.base.BindingBottomSheetDialog
@@ -38,33 +38,56 @@ class UnivModSearchBottomSheet :
 
     private val viewModel by activityViewModels<UnivProfileModViewModel>()
 
-    private var _adapter: UniversityAdapter? = null
-    private val adapter
-        get() = requireNotNull(_adapter) { getString(R.string.adapter_not_initialized_error_msg) }
+    private var _univAdapter: UniversityAdapter? = null
+    private val univAdapter
+        get() = requireNotNull(_univAdapter) { getString(R.string.adapter_not_initialized_error_msg) }
+
+    private var _groupAdapter: DepartmentAdapter? = null
+    private val groupAdapter
+        get() = requireNotNull(_groupAdapter) { getString(R.string.adapter_not_initialized_error_msg) }
 
     private var searchJob: Job? = null
     private var searchText: String = ""
 
+    private var isUnivSearch = true
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        checkIsUnivSearch()
         initAdapter()
         initSchoolFormBtnListener()
         initBackBtnListener()
         setDebounceSearch()
         setListWithInfinityScroll()
         setEmptyListWithTyping()
-        observeSearchListState()
+        observeGetUnivListState()
+        observeGetUnivGroupIdListState()
         setHideKeyboard()
     }
 
+    private fun checkIsUnivSearch() {
+        isUnivSearch = arguments?.getBoolean(ARGS_IS_UNIV_SEARCH) ?: true
+    }
+
     private fun initAdapter() {
-        _adapter = UniversityAdapter(storeUniversity = ::storeUniversity)
-        binding.rvUnivSearchList.adapter = adapter
+        if (isUnivSearch) {
+            _univAdapter = UniversityAdapter(storeUniversity = ::storeUniversity)
+            binding.rvUnivSearchList.adapter = univAdapter
+        } else {
+            _groupAdapter = DepartmentAdapter(storeDepartment = ::storeDepartment)
+            binding.rvUnivSearchList.adapter = groupAdapter
+        }
     }
 
     private fun storeUniversity(school: String) {
         viewModel.school.value = school
+        dismiss()
+    }
+
+    private fun storeDepartment(department: String, groupId: Long) {
+        viewModel.subGroup.value = department
+        viewModel.groupId = groupId
         dismiss()
     }
 
@@ -87,7 +110,7 @@ class UnivModSearchBottomSheet :
                 delay(debounceTime)
                 input.toString().let { text ->
                     searchText = text
-                    viewModel.getUniversityListFromServer(text)
+                    getSearchListFromServer(searchText)
                 }
             }
         }
@@ -99,8 +122,8 @@ class UnivModSearchBottomSheet :
                 super.onScrolled(recyclerView, dx, dy)
                 if (dy > 0) {
                     recyclerView.layoutManager?.let { layoutManager ->
-                        if (!binding.rvUnivSearchList.canScrollVertically(1) && layoutManager is LinearLayoutManager && layoutManager.findLastVisibleItemPosition() == adapter.itemCount - 1) {
-                            viewModel.getUniversityListFromServer(searchText)
+                        if (!binding.rvUnivSearchList.canScrollVertically(1) && layoutManager is LinearLayoutManager && layoutManager.findLastVisibleItemPosition() == univAdapter.itemCount - 1) {
+                            getSearchListFromServer(searchText)
                         }
                     }
                 }
@@ -108,12 +131,20 @@ class UnivModSearchBottomSheet :
         })
     }
 
+    private fun getSearchListFromServer(searchText: String) {
+        if (isUnivSearch) {
+            viewModel.getUnivListFromServer(searchText)
+        } else {
+            viewModel.getUnivGroupIdListFromServer(searchText)
+        }
+    }
+
     private fun setEmptyListWithTyping() {
         binding.etUnivSearch.doOnTextChanged { _, _, _, _ ->
             lifecycleScope.launch {
                 viewModel.setNewPage()
-                adapter.submitList(listOf())
-                adapter.notifyDataSetChanged()
+                univAdapter.submitList(listOf())
+                univAdapter.notifyDataSetChanged()
             }
         }
     }
@@ -133,10 +164,24 @@ class UnivModSearchBottomSheet :
         return dialog
     }
 
-    private fun observeSearchListState() {
-        viewModel.postUniversityListState.flowWithLifecycle(lifecycle).onEach { state ->
+    private fun observeGetUnivListState() {
+        viewModel.getUnivListState.flowWithLifecycle(lifecycle).onEach { state ->
             when (state) {
-                is UiState.Success -> adapter.submitList(state.data.schoolList)
+                is UiState.Success -> univAdapter.submitList(state.data.schoolList)
+
+                is UiState.Failure -> toast(getString(R.string.recommend_search_error))
+
+                is UiState.Loading -> return@onEach
+
+                is UiState.Empty -> return@onEach
+            }
+        }.launchIn(lifecycleScope)
+    }
+
+    private fun observeGetUnivGroupIdListState() {
+        viewModel.getUnivGroupIdListState.flowWithLifecycle(lifecycle).onEach { state ->
+            when (state) {
+                is UiState.Success -> groupAdapter.submitList(state.data.groupList)
 
                 is UiState.Failure -> toast(getString(R.string.recommend_search_error))
 
@@ -161,7 +206,7 @@ class UnivModSearchBottomSheet :
 
     override fun onDestroy() {
         super.onDestroy()
-        _adapter = null
+        _groupAdapter = null
         searchJob?.cancel()
     }
 

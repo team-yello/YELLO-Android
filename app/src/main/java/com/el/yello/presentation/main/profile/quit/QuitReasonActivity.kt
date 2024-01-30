@@ -7,7 +7,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.el.yello.R
 import com.el.yello.databinding.ActivityProfileQuitReasonBinding
 import com.el.yello.presentation.main.profile.ProfileViewModel
+import com.el.yello.presentation.main.profile.manage.ProfileQuitDialog
 import com.example.ui.base.BindingActivity
+import com.example.ui.view.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -17,10 +19,12 @@ class QuitReasonActivity :
     private val viewModel by viewModels<ProfileViewModel>()
     private var clickedItemPosition: Int = RecyclerView.NO_POSITION
     private var isItemClicked: Boolean = false
+    private var profileQuitDialog: ProfileQuitDialog? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding.vm = viewModel
         initQuitReasonAdapter()
+        initInviteDialogBtnListener()
     }
 
     private fun initQuitReasonAdapter() {
@@ -45,19 +49,45 @@ class QuitReasonActivity :
         adapter.submitList(ArrayList(quitReasonList))
     }
 
-    private fun clickedButtonUI(){
+    private fun initInviteDialogBtnListener() {
+        binding.btnProfileQuitReasonDone.setOnSingleClickListener {
+            profileQuitDialog = ProfileQuitDialog()
+            profileQuitDialog?.show(supportFragmentManager, QUIT_DIALOG)
+        }
+    }
+
+    private fun clickedButtonUI() {
         binding.btnProfileQuitReasonDone.setBackgroundResource(R.drawable.shape_black_fill_grayscales700_line_100_rect)
-        binding.btnProfileQuitReasonDone.setTextColor(ContextCompat.getColor(this, R.color.semantic_red_500))
+        binding.btnProfileQuitReasonDone.setTextColor(
+            ContextCompat.getColor(
+                this,
+                R.color.semantic_red_500,
+            ),
+        )
         binding.btnProfileQuitReasonDone.isClickable = true
     }
 
-    private fun unclickedButtonUI(){
+    private fun unclickedButtonUI() {
         binding.btnProfileQuitReasonDone.setBackgroundResource(R.drawable.shape_black_fill_grayscales600_line_100_rect)
-        binding.btnProfileQuitReasonDone.setTextColor(ContextCompat.getColor(this, R.color.grayscales_600))
+        binding.btnProfileQuitReasonDone.setTextColor(
+            ContextCompat.getColor(
+                this,
+                R.color.grayscales_600,
+            ),
+        )
         binding.btnProfileQuitReasonDone.isClickable = false
     }
 
     private fun storeQuitReason(reason: String) {
         viewModel.setQuitReason(reason)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        profileQuitDialog?.dismiss()
+    }
+
+    private companion object {
+        const val QUIT_DIALOG = "quitDialog"
     }
 }

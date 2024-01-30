@@ -19,6 +19,7 @@ import com.el.yello.R
 import com.el.yello.databinding.FragmentUnivModSearchBottomSheetBinding
 import com.el.yello.presentation.main.profile.mod.UnivProfileModViewModel.Companion.TEXT_NONE
 import com.el.yello.presentation.onboarding.fragment.universityinfo.department.DepartmentAdapter
+import com.el.yello.presentation.onboarding.fragment.universityinfo.department.SearchDialogDepartmentFragment.Companion.DEPARTMENT_FORM_URL
 import com.el.yello.presentation.onboarding.fragment.universityinfo.university.SearchDialogUniversityFragment.Companion.SCHOOL_FORM_URL
 import com.el.yello.presentation.onboarding.fragment.universityinfo.university.UniversityAdapter
 import com.example.ui.base.BindingBottomSheetDialog
@@ -73,9 +74,11 @@ class UnivModSearchBottomSheet :
 
     private fun initAdapter() {
         if (isUnivSearch) {
+            binding.tvUnivSearchTitle.text = getString(R.string.onboarding_tv_search_school)
             _univAdapter = UniversityAdapter(storeUniversity = ::storeUniversity)
             binding.rvUnivSearchList.adapter = univAdapter
         } else {
+            binding.tvUnivSearchTitle.text = getString(R.string.onboarding_tv_search_department)
             _groupAdapter = DepartmentAdapter(storeDepartment = ::storeDepartment)
             binding.rvUnivSearchList.adapter = groupAdapter
         }
@@ -96,9 +99,20 @@ class UnivModSearchBottomSheet :
     }
 
     private fun initSchoolFormBtnListener() {
-        binding.btnUnivAddForm.setOnSingleClickListener {
-            Intent(Intent.ACTION_VIEW, Uri.parse(SCHOOL_FORM_URL)).apply {
-                startActivity(this)
+        if (isUnivSearch) {
+            setFormBtn(getString(R.string.onboarding_tv_add_school), SCHOOL_FORM_URL)
+        } else {
+            setFormBtn(getString(R.string.onboarding_btn_add_department), DEPARTMENT_FORM_URL)
+        }
+    }
+
+    private fun setFormBtn(btnText: String, uri: String) {
+        with(binding.btnUnivAddForm) {
+            text = btnText
+            setOnSingleClickListener {
+                Intent(Intent.ACTION_VIEW, Uri.parse(uri)).apply {
+                    startActivity(this)
+                }
             }
         }
     }
@@ -219,6 +233,7 @@ class UnivModSearchBottomSheet :
         fun newInstance(isUnivSearch: Boolean) = UnivModSearchBottomSheet().apply {
             arguments = bundleOf(ARGS_IS_UNIV_SEARCH to isUnivSearch)
         }
+
         private const val ARGS_IS_UNIV_SEARCH = "IS_UNIV_SEARCH"
 
         const val debounceTime = 500L

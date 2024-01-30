@@ -203,6 +203,19 @@
                 app:layout_constraintBottom_toTopOf="@id/divider_profile_mod_subgroup"
                 app:layout_constraintEnd_toEndOf="parent" />
 
+            <TextView
+                android:id="@+id/tv_profile_mod_subgroup_error"
+                style="@style/TextAppearance.Yello.LabelLarge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:paddingVertical="2dp"
+                android:text="학과를 입력해야 수정할 수 있어요."
+                android:textColor="@color/semantic_red_500"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/divider_profile_mod_subgroup"/>
+
             <com.google.android.material.divider.MaterialDivider
                 android:id="@+id/divider_profile_mod_subgroup"
                 android:layout_width="0dp"

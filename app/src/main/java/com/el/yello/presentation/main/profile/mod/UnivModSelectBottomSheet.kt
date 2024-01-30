@@ -6,7 +6,6 @@ import androidx.fragment.app.activityViewModels
 import com.el.yello.R
 import com.el.yello.databinding.FragmentUnivModSelectBottomSheetBinding
 import com.el.yello.presentation.onboarding.fragment.universityinfo.studentid.StudentIdDialogAdapter
-import com.el.yello.presentation.onboarding.fragment.universityinfo.studentid.StudentIdDialogFragment
 import com.example.ui.base.BindingBottomSheetDialog
 
 class UnivModSelectBottomSheet :
@@ -32,7 +31,10 @@ class UnivModSelectBottomSheet :
     }
 
     private fun storeStudentId(studentId: Int) {
-        viewModel.admYear.value = studentId.toString()
+        if (viewModel.admYear.value != studentId.toString()) {
+            viewModel.admYear.value = studentId.toString()
+            viewModel.isChanged = true
+        }
         dismiss()
     }
 

@@ -88,13 +88,17 @@ class UnivModSearchBottomSheet :
         if (viewModel.school.value != school) {
             viewModel.school.value = school
             viewModel.subGroup.value = TEXT_NONE
+            viewModel.isChanged = true
         }
         dismiss()
     }
 
     private fun storeDepartment(department: String, groupId: Long) {
-        viewModel.subGroup.value = department
-        viewModel.groupId = groupId
+        if (viewModel.groupId != groupId) {
+            viewModel.groupId = groupId
+            viewModel.subGroup.value = department
+            viewModel.isChanged = true
+        }
         dismiss()
     }
 

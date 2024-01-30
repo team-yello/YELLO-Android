@@ -10,7 +10,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         tools:background="@color/black">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -27,12 +27,12 @@
             <ImageView
                 android:id="@+id/iv_notice_img"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 android:scaleType="centerCrop"
+                app:layout_constraintDimensionRatio="252:336"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:minHeight="400dp"
                 tools:src="@drawable/img_notice_dummy" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -51,7 +51,7 @@
                     android:layout_height="wrap_content"
                     android:background="@null"
                     android:contentDescription="@string/notice_do_not_see_it_again_icon"
-                    android:src="@drawable/sel_notice_icon_do_not_see_it_again"
+                    android:src="@drawable/ic_notice_uncheck"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />

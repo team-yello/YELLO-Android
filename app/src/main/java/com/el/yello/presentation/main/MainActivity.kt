@@ -15,6 +15,7 @@ import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import com.el.yello.R
 import com.el.yello.databinding.ActivityMainBinding
+import com.el.yello.presentation.main.dialog.notice.NoticeDialog
 import com.el.yello.presentation.main.look.LookFragment
 import com.el.yello.presentation.main.myyello.MyYelloFragment
 import com.el.yello.presentation.main.myyello.read.MyYelloReadActivity
@@ -39,11 +40,10 @@ import java.util.concurrent.TimeUnit
 
 @AndroidEntryPoint
 class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main) {
+    private val viewModel by viewModels<MainViewModel>()
 
-    val viewModel by viewModels<MainViewModel>()
-
-    val path by stringExtra()
-    val type by stringExtra()
+    private val path by stringExtra()
+    private val type by stringExtra()
 
     private var backPressedTime: Long = 0
 
@@ -67,6 +67,7 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
         initPushNotificationEvent()
         observeSubsNeededState()
         observeVoteCount()
+        showNoticeDialog()
     }
 
     private fun initBackPressedCallback() {
@@ -243,6 +244,10 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
         badgeDrawable.isVisible = count != 0
     }
 
+    private fun showNoticeDialog() {
+        NoticeDialog.newInstance().show(supportFragmentManager, TAG_NOTICE_DIALOG)
+    }
+
     private inline fun <reified T : Fragment> navigateTo() {
         supportFragmentManager.commit {
             replace<T>(R.id.fcv_main, T::class.java.canonicalName)
@@ -250,6 +255,9 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
     }
 
     companion object {
+        private const val EXTRA_TYPE = "type"
+        private const val EXTRA_PATH = "path"
+
         const val PUSH_TYPE_NEW_VOTE = "NEW_VOTE"
         const val PUSH_TYPE_NEW_FRIEND = "NEW_FRIEND"
         const val PUSH_TYPE_VOTE_AVAILABLE = "VOTE_AVAILABLE"
@@ -260,11 +268,12 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
         const val PAY_RESUBS_DIALOG = "PayResubsNoticeDialog"
         private const val EVENT_CLICK_RECOMMEND_NAVIGATION = "click_recommend_navigation"
 
-        // TODO : extra name 상수화
+        private const val TAG_NOTICE_DIALOG = "NOTICE_DIALOG"
+
         fun getIntent(context: Context, type: String? = null, path: String? = null) =
             Intent(context, MainActivity::class.java).apply {
-                putExtra("type", type)
-                putExtra("path", path)
+                putExtra(EXTRA_TYPE, type)
+                putExtra(EXTRA_PATH, path)
             }
     }
 }

@@ -26,10 +26,12 @@ class MainViewModel @Inject constructor(
     // TODO : State 클래스 하나로 병합
     private val _getUserSubsInfoState =
         MutableStateFlow<UiState<PayUserSubsInfoModel?>>(UiState.Empty)
-    val getUserSubsInfoState: StateFlow<UiState<PayUserSubsInfoModel?>> = _getUserSubsInfoState
+    val getUserSubsInfoState: StateFlow<UiState<PayUserSubsInfoModel?>>
+        get() = _getUserSubsInfoState
 
     private val _voteCount = MutableStateFlow<UiState<VoteCount>>(UiState.Loading)
-    val voteCount: StateFlow<UiState<VoteCount>> = _voteCount
+    val voteCount: StateFlow<UiState<VoteCount>>
+        get() = _voteCount
 
     init {
         putDeviceToken()

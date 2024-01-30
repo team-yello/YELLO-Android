@@ -1,7 +1,5 @@
 package com.el.yello.presentation.main.profile.info
 
-import android.app.Activity
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.view.animation.AnimationUtils
@@ -67,7 +65,8 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
     }
 
     private fun initProfileSetting() {
-        viewModel.initViewModelVariable()
+        viewModel.resetPageVariable()
+        viewModel.resetStateVariable()
         viewModel.isFirstScroll = true
         initProfileManageBtnListener()
         initUpwardBtnListener()
@@ -88,6 +87,7 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
         binding.btnProfileManage.setOnSingleClickListener {
             AmplitudeUtils.trackEventWithProperties("click_profile_manage")
             activity?.navigateTo<ProfileManageActivity>()
+            viewModel.resetStateVariable()
         }
     }
 
@@ -105,7 +105,12 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
 
     private fun initAdapter() {
         _adapter = ProfileFriendAdapter(viewModel,
-            itemClick = { profileUserModel, position -> initItemClickListener(profileUserModel, position) },
+            itemClick = { profileUserModel, position ->
+                initItemClickListener(
+                    profileUserModel,
+                    position
+                )
+            },
             shopClick = { initShopClickListener() },
             modClick = { initProfileModClickListener() }
         )
@@ -130,13 +135,21 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
             JSONObject().put("shop_button", "profile_shop"),
         )
         activity?.navigateTo<PayActivity>()
+        viewModel.resetStateVariable()
     }
 
     private fun initProfileModClickListener() {
         when (viewModel.myUserData.groupType) {
-            TYPE_UNIVERSITY -> activity?.navigateTo<UnivProfileDetailActivity>()
-            TYPE_HIGH_SCHOOL -> activity?.navigateTo<SchoolProfileDetailActivity>()
-            TYPE_MIDDLE_SCHOOL -> activity?.navigateTo<SchoolProfileDetailActivity>()
+            TYPE_UNIVERSITY -> {
+                activity?.navigateTo<UnivProfileDetailActivity>()
+                viewModel.resetStateVariable()
+            }
+
+            TYPE_HIGH_SCHOOL, TYPE_MIDDLE_SCHOOL -> {
+                activity?.navigateTo<SchoolProfileDetailActivity>()
+                viewModel.resetStateVariable()
+            }
+
             else -> toast(getString(R.string.sign_in_error_connection))
         }
     }
@@ -147,7 +160,8 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
                 lifecycleScope.launch {
                     adapter.setItemList(listOf())
                     viewModel.run {
-                        initViewModelVariable()
+                        resetPageVariable()
+                        resetStateVariable()
                         getPurchaseInfoFromServer()
                         getUserDataFromServer()
                         getFriendsListFromServer()

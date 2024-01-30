@@ -6,12 +6,12 @@ import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import com.el.yello.R
 import com.el.yello.databinding.ActivityProfileUnivDetailBinding
-import com.el.yello.presentation.main.MainActivity
 import com.el.yello.presentation.main.profile.mod.UnivProfileModActivity
 import com.el.yello.util.Utils.setImageOrBasicThumbnail
 import com.el.yello.util.context.yelloSnackbar
 import com.example.ui.activity.navigateTo
 import com.example.ui.base.BindingActivity
+import com.example.ui.context.toast
 import com.example.ui.view.UiState
 import com.example.ui.view.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
@@ -43,9 +43,18 @@ class UnivProfileDetailActivity :
     }
 
     private fun initProfileModBtnListener() {
-        binding.btnModSchool.setOnSingleClickListener { this.navigateTo<UnivProfileModActivity>() }
-        binding.btnModSubgroup.setOnSingleClickListener { this.navigateTo<UnivProfileModActivity>()  }
-        binding.btnModYear.setOnSingleClickListener { this.navigateTo<UnivProfileModActivity>()  }
+        binding.btnModSchool.setOnSingleClickListener {
+            this.navigateTo<UnivProfileModActivity>()
+            viewModel.resetViewModelState()
+        }
+        binding.btnModSubgroup.setOnSingleClickListener {
+            this.navigateTo<UnivProfileModActivity>()
+            viewModel.resetViewModelState()
+        }
+        binding.btnModYear.setOnSingleClickListener {
+            this.navigateTo<UnivProfileModActivity>()
+            viewModel.resetViewModelState()
+        }
     }
 
     private fun initChangeThumbnailBtnListener() {
@@ -87,9 +96,11 @@ class UnivProfileDetailActivity :
             when (state) {
                 is UiState.Success -> {
                     binding.ivProfileDetailThumbnail.setImageOrBasicThumbnail(state.data)
+                    yelloSnackbar(binding.root, getString(R.string.profile_detail_image_change))
                 }
 
                 is UiState.Failure -> {
+                    toast(getString(R.string.sign_in_error_connection))
                     yelloSnackbar(binding.root, getString(R.string.sign_in_error_connection))
                 }
 

@@ -37,6 +37,12 @@ class UnivProfileDetailViewModel @Inject constructor(
 
     private lateinit var myUserData: ProfileModRequestModel
 
+    fun resetViewModelState() {
+        _getUserDataState.value = UiState.Empty
+        _postToModProfileState.value = UiState.Empty
+    }
+
+
     fun getUserDataFromServer() {
         viewModelScope.launch {
             profileRepository.getUserData()

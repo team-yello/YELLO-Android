@@ -165,8 +165,13 @@ class UnivModSearchBottomSheet :
         binding.etUnivSearch.doOnTextChanged { _, _, _, _ ->
             lifecycleScope.launch {
                 viewModel.setNewPage()
-                univAdapter.submitList(listOf())
-                univAdapter.notifyDataSetChanged()
+                if (isUnivSearch) {
+                    univAdapter.submitList(listOf())
+                    univAdapter.notifyDataSetChanged()
+                } else {
+                    groupAdapter.submitList(listOf())
+                    groupAdapter.notifyDataSetChanged()
+                }
             }
         }
     }

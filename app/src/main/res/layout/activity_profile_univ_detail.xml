@@ -171,7 +171,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:paddingVertical="3dp"
-                        android:text="@={vm.school}"
+                        android:text="@={vm.id}"
                         android:textColor="@color/grayscales_600"
                         app:layout_constraintTop_toBottomOf="@id/tv_profile_detail_id_title"
                         tools:text="sangho.kk" />

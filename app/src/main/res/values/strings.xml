@@ -163,6 +163,7 @@
     <string name="profile_error_logout">로그아웃 실패 : %s</string>
     <string name="profile_error_unlink">회원 탈퇴하기 실패</string>
     <string name="profile_error_unlink_kakao">카카오 연동 끊기 실패</string>
+    <string name="profile_detail_image_change">프로필 사진 동기화 완료</string>
 
     <string name="invite_error_kakao">카카오톡 공유하기 실패</string>
     <string name="invite_error_browser">가능한 브라우저 없음</string>
@@ -175,7 +176,7 @@
     <string name="recommend_error_school_friend_connection">학교 추천친구 목록 가져오기 실패</string>
     <string name="recommend_error_add_friend_connection">친구 추가하기 실패</string>
 
-    <string name="profile_manage_tv_title">프로필 관리</string>
+    <string name="profile_manage_tv_title">설정</string>
     <string name="profile_manage_tv_center">고객센터</string>
     <string name="profile_manage_tv_privacy">개인정보 처리방침</string>
     <string name="profile_manage_tv_service">이용약관</string>
@@ -204,7 +205,7 @@
     <string name="profile_quit_for_sure_btn">탈퇴하기</string>
 
     <string name="profile_tv_title">프로필</string>
-    <string name="profile_btn_manage">관리</string>
+    <string name="profile_btn_manage">설정</string>
     <string name="profile_delete_bottom_sheet_tv_subtitle">정말로 친구를 끊으실 건가요?</string>
     <string name="profile_delete_bottom_sheet_btn_return">취소</string>
     <string name="profile_delete_bottom_sheet_btn_resume">네, 친구를 끊을게요</string>

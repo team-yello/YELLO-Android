@@ -87,10 +87,13 @@ class ProfileViewModel @Inject constructor(
         _deleteFriendState.value = UiState.Empty
     }
 
-    fun initViewModelVariable() {
+    fun resetPageVariable() {
         currentPage = -1
         isPagingFinish = false
         totalPage = Int.MAX_VALUE
+    }
+
+    fun resetStateVariable() {
         _deleteFriendState.value = UiState.Empty
         _deleteUserState.value = UiState.Empty
         _kakaoLogoutState.value = UiState.Empty

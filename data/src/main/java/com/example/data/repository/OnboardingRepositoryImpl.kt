@@ -3,8 +3,8 @@ package com.example.data.repository
 import com.example.data.datasource.OnboardingDataSource
 import com.example.data.model.request.onboarding.toRequestDto
 import com.example.data.model.request.onboarding.toRequestPostSignupDto
-import com.example.domain.entity.AuthTokenRequestModel
 import com.example.domain.entity.AuthTokenModel
+import com.example.domain.entity.AuthTokenRequestModel
 import com.example.domain.entity.onboarding.AddFriendListModel
 import com.example.domain.entity.onboarding.GroupHighSchool
 import com.example.domain.entity.onboarding.GroupList
@@ -32,8 +32,7 @@ class OnboardingRepositoryImpl @Inject constructor(
 
     override suspend fun getSchoolList(
         keyword: String,
-        page: Long,
-
+        page: Int,
     ): Result<SchoolList?> {
         return runCatching {
             onboardingDataSource.getSchoolNameData(
@@ -43,7 +42,10 @@ class OnboardingRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getHighSchoolList(keyword: String, page: Long): Result<HighSchoolList?> {
+    override suspend fun getHighSchoolList(
+        keyword: String,
+        page: Int,
+    ): Result<HighSchoolList?> {
         return runCatching {
             onboardingDataSource.getHighSchoolNameData(
                 keyword,

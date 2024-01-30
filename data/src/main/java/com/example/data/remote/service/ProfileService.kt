@@ -1,10 +1,10 @@
 package com.example.data.remote.service
 
-import com.example.data.model.request.onboarding.RequestAddFriendDto
+import com.example.data.model.request.profile.ProfileModRequestDto
 import com.example.data.model.request.profile.RequestQuitReasonDto
 import com.example.data.model.response.BaseResponse
-import com.example.data.model.response.onboarding.ResponseFriendListDto
 import com.example.data.model.response.profile.ResponseProfileFriendsListDto
+import com.example.data.model.response.profile.ResponseProfileModValidDto
 import com.example.data.model.response.profile.ResponseProfileUserDto
 import retrofit2.http.Body
 import retrofit2.http.DELETE
@@ -33,4 +33,12 @@ interface ProfileService {
     suspend fun deleteFriendData(
         @Path("friendId") friendId: Long,
     ): BaseResponse<Unit>
+
+    @POST("/api/v1/user")
+    suspend fun postToModUserData(
+        @Body request: ProfileModRequestDto,
+    ): BaseResponse<Unit>
+
+    @GET("/api/v1/user/data/account-update-at")
+    suspend fun getModValidData(): BaseResponse<ResponseProfileModValidDto>
 }

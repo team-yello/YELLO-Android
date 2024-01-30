@@ -1,0 +1,323 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="vm"
+            type="com.el.yello.presentation.main.profile.mod.UnivProfileModViewModel" />
+
+        <import type="android.view.View" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/black">
+
+        <ImageView
+            android:id="@+id/btn_profile_mod_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:padding="12dp"
+            android:src="@drawable/ic_arrow_left"
+            app:layout_constraintBottom_toBottomOf="@id/tv_profile_mod_title"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tv_profile_mod_title" />
+
+        <TextView
+            android:id="@+id/tv_profile_mod_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="-4dp"
+            android:layout_marginTop="1dp"
+            android:paddingVertical="15dp"
+            android:text="프로필 수정"
+            android:textAppearance="?textAppearanceSubtitle1"
+            android:textColor="@color/white"
+            app:layout_constraintStart_toEndOf="@id/btn_profile_mod_back"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/btn_profile_mod_save"
+            style="@style/TextAppearance.Yello.Button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:text="저장"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="@id/tv_profile_mod_title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tv_profile_mod_title" />
+
+        <ImageView
+            android:id="@+id/iv_profile_mod_alert"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:src="@drawable/ic_alert_yellow"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_profile_mod_title" />
+
+        <TextView
+            android:id="@+id/tv_profile_mod_alert"
+            style="@style/TextAppearance.Yello.LabelLarge"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="6dp"
+            android:gravity="center"
+            android:paddingVertical="2dp"
+            android:text="올해 한 번만 수정할 수 있어요.\n신중히 수정해 주세요!"
+            android:textColor="@color/yello_main_500"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/iv_profile_mod_alert" />
+
+        <TextView
+            android:id="@+id/tv_profile_mod_last_date"
+            style="@style/TextAppearance.Yello.LabelMedium"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="4dp"
+            android:gravity="center"
+            android:paddingVertical="2dp"
+            android:text="@={vm.lastModDate}"
+            android:textColor="@color/grayscales_400"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_profile_mod_alert"
+            tools:text="마지막 수정일 : 2023.12.26." />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_profile_mod_school"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/shape_grayscales900_fill_12_rect"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="12dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_profile_mod_last_date">
+
+            <TextView
+                android:id="@+id/tv_profile_mod_school_title"
+                style="@style/TextAppearance.Yello.BodySmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingVertical="3dp"
+                android:text="학교"
+                android:textColor="@color/grayscales_500"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_profile_mod_school"
+                style="@style/TextAppearance.Yello.Subtitle01"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:paddingVertical="3dp"
+                android:text="@={vm.school}"
+                android:textColor="@color/white"
+                app:layout_constraintEnd_toStartOf="@id/btn_search_school"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_profile_mod_school_title"
+                tools:text="고려대학교" />
+
+            <ImageView
+                android:id="@+id/btn_search_school"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="-12dp"
+                android:layout_marginBottom="-5dp"
+                android:padding="12dp"
+                android:src="@drawable/ic_onboarding_search"
+                app:layout_constraintBottom_toTopOf="@id/divider_profile_mod_school"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <com.google.android.material.divider.MaterialDivider
+                android:id="@+id/divider_profile_mod_school"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_marginTop="7dp"
+                app:dividerColor="@color/grayscales_700"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_profile_mod_school" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_profile_mod_subgroup"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/shape_grayscales900_fill_12_rect"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="12dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/layout_profile_mod_school">
+
+            <TextView
+                android:id="@+id/tv_profile_mod_subgroup_title"
+                style="@style/TextAppearance.Yello.BodySmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingVertical="3dp"
+                android:text="학과"
+                android:textColor="@color/grayscales_500"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_profile_mod_subgroup"
+                style="@style/TextAppearance.Yello.Subtitle01"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:paddingVertical="3dp"
+                android:text="@={vm.subGroup}"
+                android:textColor="@color/white"
+                app:layout_constraintEnd_toStartOf="@id/btn_search_subgroup"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_profile_mod_subgroup_title"
+                tools:text="산업경영공학부" />
+
+            <ImageView
+                android:id="@+id/btn_search_subgroup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="-12dp"
+                android:layout_marginBottom="-5dp"
+                android:padding="12dp"
+                android:src="@drawable/ic_onboarding_search"
+                app:layout_constraintBottom_toTopOf="@id/divider_profile_mod_subgroup"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_profile_mod_subgroup_error"
+                style="@style/TextAppearance.Yello.LabelLarge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:paddingVertical="2dp"
+                android:text="학과를 입력해야 수정할 수 있어요."
+                android:textColor="@color/semantic_red_500"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/divider_profile_mod_subgroup"/>
+
+            <com.google.android.material.divider.MaterialDivider
+                android:id="@+id/divider_profile_mod_subgroup"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_marginTop="7dp"
+                app:dividerColor="@color/grayscales_700"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_profile_mod_subgroup" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_profile_mod_year"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/shape_grayscales900_fill_12_rect"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="12dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/layout_profile_mod_subgroup">
+
+            <TextView
+                android:id="@+id/tv_profile_mod_year_title"
+                style="@style/TextAppearance.Yello.BodySmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingVertical="3dp"
+                android:text="학번"
+                android:textColor="@color/grayscales_500"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_profile_mod_year"
+                style="@style/TextAppearance.Yello.Subtitle01"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:paddingVertical="3dp"
+                android:text="@={vm.admYear}"
+                android:textColor="@color/white"
+                app:layout_constraintEnd_toStartOf="@id/btn_search_year"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_profile_mod_year_title"
+                tools:text="19" />
+
+            <ImageView
+                android:id="@+id/btn_search_year"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="-12dp"
+                android:layout_marginBottom="-5dp"
+                android:padding="12dp"
+                android:src="@drawable/ic_onboarding_studentid_down"
+                app:layout_constraintBottom_toTopOf="@id/divider_profile_mod_year"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <com.google.android.material.divider.MaterialDivider
+                android:id="@+id/divider_profile_mod_year"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_marginTop="7dp"
+                app:dividerColor="@color/grayscales_700"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_profile_mod_year" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <LinearLayout
+            android:id="@+id/btn_change_univ_to_school"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="30dp"
+            android:background="@drawable/shape_yello500_line_100_rect"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="13dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <TextView
+                style="@style/TextAppearance.Yello.LabelLarge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:paddingVertical="2dp"
+                android:text="중/고등학생으로 전환"
+                android:textColor="@color/yello_main_500" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_right_yellow" />
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

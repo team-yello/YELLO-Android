@@ -1,7 +1,7 @@
 package com.example.domain.repository
 
-import com.example.domain.entity.AuthTokenRequestModel
 import com.example.domain.entity.AuthTokenModel
+import com.example.domain.entity.AuthTokenRequestModel
 import com.example.domain.entity.onboarding.AddFriendListModel
 import com.example.domain.entity.onboarding.GroupHighSchool
 import com.example.domain.entity.onboarding.GroupList
@@ -18,12 +18,12 @@ interface OnboardingRepository {
 
     suspend fun getSchoolList(
         keyword: String,
-        page: Long,
+        page: Int,
     ): Result<SchoolList?>
 
     suspend fun getHighSchoolList(
         keyword: String,
-        page: Long,
+        page: Int,
     ): Result<HighSchoolList?>
 
     suspend fun getGroupList(

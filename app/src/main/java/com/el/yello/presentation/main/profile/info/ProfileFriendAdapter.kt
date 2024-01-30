@@ -14,8 +14,8 @@ import com.example.ui.view.ItemDiffCallback
 class ProfileFriendAdapter(
     private val viewModel: ProfileViewModel,
     private val itemClick: (ProfileUserModel, Int) -> (Unit),
-    private val buttonClick: (ProfileViewModel) -> (Unit),
-    private val shopClick: (ProfileViewModel) -> (Unit),
+    private val shopClick: (Unit) -> (Unit),
+    private val modClick: (Unit) -> (Unit),
 ) : ListAdapter<ProfileUserModel, RecyclerView.ViewHolder>(diffUtil) {
 
     private var itemList = mutableListOf<ProfileUserModel>()
@@ -26,11 +26,11 @@ class ProfileFriendAdapter(
         return when (viewType) {
             VIEW_TYPE_USER_INFO -> ProfileUserInfoViewHolder(
                 ItemProfileUserInfoBinding.inflate(inflater, parent, false),
-                buttonClick,
                 shopClick,
+                modClick
             )
 
-            VIEW_TYPE_FRIENDS_LIST -> ProfileFriendsListViewHolder(
+            VIEW_TYPE_FRIENDS_LIST -> ProfileListInfoViewHolder(
                 ItemProfileFriendsListBinding.inflate(inflater, parent, false),
                 itemClick,
             )
@@ -50,7 +50,7 @@ class ProfileFriendAdapter(
                 holder.onBind(viewModel)
             }
 
-            is ProfileFriendsListViewHolder -> {
+            is ProfileListInfoViewHolder -> {
                 val itemPosition = position - HEADER_COUNT
                 holder.onBind(itemList[itemPosition], itemPosition)
             }

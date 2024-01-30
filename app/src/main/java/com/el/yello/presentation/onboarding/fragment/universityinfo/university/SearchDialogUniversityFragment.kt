@@ -162,6 +162,7 @@ class SearchDialogUniversityFragment :
     companion object {
         @JvmStatic
         fun newInstance() = SearchDialogUniversityFragment()
-        private const val SCHOOL_FORM_URL = "https://bit.ly/46Yv0Hc"
+
+        const val SCHOOL_FORM_URL = "https://bit.ly/46Yv0Hc"
     }
 }

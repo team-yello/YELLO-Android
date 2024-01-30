@@ -1,10 +1,13 @@
 package com.el.yello.presentation.main.dialog.notice
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
 import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
+import coil.load
 import com.el.yello.R
 import com.el.yello.databinding.FragmentNoticeDialogBinding
 import com.example.ui.base.BindingDialogFragment
@@ -13,6 +16,9 @@ import com.example.ui.view.setOnSingleClickListener
 class NoticeDialog :
     BindingDialogFragment<FragmentNoticeDialogBinding>(R.layout.fragment_notice_dialog) {
     private val viewModel by viewModels<NoticeViewModel>()
+
+    private lateinit var imageUrl: String
+    private lateinit var redirectUrl: String
 
     override fun onStart() {
         super.onStart()
@@ -28,13 +34,26 @@ class NoticeDialog :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        initNoticeImgRes()
+        getBundleArgs()
+        initNoticeImageView()
         initDoNotSeeItAgainBtnClickListener()
         initCloseBtnClickListener()
     }
 
-    private fun initNoticeImgRes() {
-        // TODO : imageUrl 및 redirectUrl 연결
+    private fun getBundleArgs() {
+        imageUrl = arguments?.getString(ARGS_IMAGE_URL) ?: return
+        redirectUrl = arguments?.getString(ARGS_REDIRECT_URL) ?: return
+    }
+
+    private fun initNoticeImageView() {
+        with (binding.ivNoticeImg) {
+            load(imageUrl)
+
+            if (redirectUrl.isBlank()) return
+            setOnSingleClickListener {
+                Intent(Intent.ACTION_VIEW, Uri.parse(redirectUrl))
+            }
+        }
     }
 
     private fun initDoNotSeeItAgainBtnClickListener() {

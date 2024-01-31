@@ -36,7 +36,7 @@ class ProfileViewModel @Inject constructor(
 
     init {
         resetPageVariable()
-        resetStateVariable()
+        // resetStateVariable()
     }
 
     private val _getUserDataResult = MutableSharedFlow<Boolean>()

@@ -53,6 +53,8 @@ class SchoolProfileModViewModel @Inject constructor(
 
     private lateinit var myUserData: ProfileModRequestModel
 
+    val classroomList = listOf("1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20")
+
     private var currentPage = -1
     private var isPagingFinish = false
     private var totalPage = Int.MAX_VALUE

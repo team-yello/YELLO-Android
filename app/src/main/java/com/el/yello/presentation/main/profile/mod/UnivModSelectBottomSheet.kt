@@ -27,7 +27,6 @@ class UnivModSelectBottomSheet :
     private fun initAdapter() {
         _adapter = StudentIdDialogAdapter(storeStudentId = ::storeStudentId)
         binding.rvSelectList.adapter = adapter
-
     }
 
     private fun storeStudentId(studentId: Int) {

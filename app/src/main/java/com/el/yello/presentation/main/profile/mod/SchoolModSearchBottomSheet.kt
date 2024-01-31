@@ -173,6 +173,6 @@ class SchoolModSearchBottomSheet :
 
     companion object {
         @JvmStatic
-        fun newInstance(isUnivSearch: Boolean) = UnivModSearchBottomSheet()
+        fun newInstance() = SchoolModSearchBottomSheet()
     }
 }

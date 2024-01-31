@@ -136,6 +136,5 @@ class UnivProfileModActivity :
         const val DIALOG_SCHOOL = "school"
         const val DIALOG_SUBGROUP = "subgroup"
         const val DIALOG_YEAR = "year"
-
     }
 }

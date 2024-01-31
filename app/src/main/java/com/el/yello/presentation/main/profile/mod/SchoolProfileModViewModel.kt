@@ -143,11 +143,11 @@ class SchoolProfileModViewModel @Inject constructor(
         }
     }
 
-    fun getSchoolGroupIdFromServer(searchText: String) {
+    fun getSchoolGroupIdFromServer() {
         viewModelScope.launch {
             onboardingRepository.getGroupHighSchool(
                 school.value ?: return@launch,
-                searchText,
+                classroom.value ?: return@launch,
             )
                 .onSuccess { data ->
                     if (data == null) {

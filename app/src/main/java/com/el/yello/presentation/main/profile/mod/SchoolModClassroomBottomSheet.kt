@@ -33,6 +33,7 @@ class SchoolModClassroomBottomSheet :
         if (viewModel.classroom.value != classroom) {
             viewModel.classroom.value = classroom
             viewModel.isChanged = true
+            (activity as SchoolProfileModActivity).checkIsClassroomTextNone()
         }
         dismiss()
     }

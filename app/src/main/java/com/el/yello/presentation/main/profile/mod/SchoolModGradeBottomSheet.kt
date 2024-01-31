@@ -26,6 +26,16 @@ class SchoolModGradeBottomSheet :
     }
 
     private fun setGrade(grade: Int) {
-        viewModel.grade.value = grade.toString()
+        if (viewModel.grade.value != grade.toString()) {
+            viewModel.grade.value = grade.toString()
+            viewModel.isChanged = true
+            (activity as SchoolProfileModActivity).checkIsGradeTextNone()
+        }
+        dismiss()
+    }
+
+    companion object {
+        @JvmStatic
+        fun newInstance() = SchoolModGradeBottomSheet()
     }
 }

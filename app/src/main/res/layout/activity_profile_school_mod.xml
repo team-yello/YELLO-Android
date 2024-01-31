@@ -337,7 +337,7 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <LinearLayout
-            android:id="@+id/btn_change_univ_to_school"
+            android:id="@+id/btn_change_school_to_univ"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="30dp"

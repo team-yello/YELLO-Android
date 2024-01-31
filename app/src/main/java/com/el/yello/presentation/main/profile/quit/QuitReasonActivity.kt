@@ -1,6 +1,7 @@
 package com.el.yello.presentation.main.profile.quit
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
@@ -36,7 +37,8 @@ class QuitReasonActivity :
             isItemClicked = clicked
             if (isItemClicked) {
                 if (clickedItemPosition == 7) {
-                    unclickedButtonUI()
+                   //unClickedButtonUI()
+                    clickedButtonUI()
                 } else {
                     clickedButtonUI()
                 }
@@ -59,23 +61,13 @@ class QuitReasonActivity :
 
     private fun clickedButtonUI() {
         binding.btnProfileQuitReasonDone.setBackgroundResource(R.drawable.shape_black_fill_grayscales700_line_100_rect)
-        binding.btnProfileQuitReasonDone.setTextColor(
-            ContextCompat.getColor(
-                this,
-                R.color.semantic_red_500,
-            ),
-        )
+        binding.btnProfileQuitReasonDone.setTextColor(ContextCompat.getColor(this, R.color.semantic_red_500))
         binding.btnProfileQuitReasonDone.isEnabled = true
     }
 
-    private fun unclickedButtonUI() {
+    private fun unClickedButtonUI() {
         binding.btnProfileQuitReasonDone.setBackgroundResource(R.drawable.shape_black_fill_grayscales600_line_100_rect)
-        binding.btnProfileQuitReasonDone.setTextColor(
-            ContextCompat.getColor(
-                this,
-                R.color.grayscales_600,
-            ),
-        )
+        binding.btnProfileQuitReasonDone.setTextColor(ContextCompat.getColor(this, R.color.grayscales_600))
         binding.btnProfileQuitReasonDone.isEnabled = false
     }
 

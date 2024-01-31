@@ -88,7 +88,7 @@ class ProfileViewModel @Inject constructor(
     var clickedItemPosition: Int? = null
 
     val etcText = MutableLiveData("")
-    val quitReasonText = MutableLiveData<String>()
+    private val quitReasonText = MutableLiveData<String>()
 
     fun setQuitReason(reason: String) {
         quitReasonText.value = reason

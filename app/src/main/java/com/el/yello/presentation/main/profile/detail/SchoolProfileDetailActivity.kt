@@ -6,7 +6,7 @@ import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import com.el.yello.R
 import com.el.yello.databinding.ActivityProfileSchoolDetailBinding
-import com.el.yello.presentation.main.profile.mod.UnivProfileModActivity
+import com.el.yello.presentation.main.profile.mod.SchoolProfileModActivity
 import com.el.yello.util.Utils.setImageOrBasicThumbnail
 import com.el.yello.util.context.yelloSnackbar
 import com.example.ui.activity.navigateTo
@@ -44,15 +44,15 @@ class SchoolProfileDetailActivity :
 
     private fun initProfileModBtnListener() {
         binding.btnModSchool.setOnSingleClickListener {
-            this.navigateTo<UnivProfileModActivity>()
+            this.navigateTo<SchoolProfileModActivity>()
             viewModel.resetViewModelState()
         }
         binding.btnModGrade.setOnSingleClickListener {
-            this.navigateTo<UnivProfileModActivity>()
+            this.navigateTo<SchoolProfileModActivity>()
             viewModel.resetViewModelState()
         }
         binding.btnModClassroom.setOnSingleClickListener {
-            this.navigateTo<UnivProfileModActivity>()
+            this.navigateTo<SchoolProfileModActivity>()
             viewModel.resetViewModelState()
         }
     }

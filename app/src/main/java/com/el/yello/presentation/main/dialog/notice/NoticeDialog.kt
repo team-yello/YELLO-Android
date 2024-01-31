@@ -7,12 +7,18 @@ import android.view.View
 import android.view.WindowManager
 import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.flowWithLifecycle
+import androidx.lifecycle.lifecycleScope
 import coil.load
 import com.el.yello.R
 import com.el.yello.databinding.FragmentNoticeDialogBinding
 import com.example.ui.base.BindingDialogFragment
 import com.example.ui.view.setOnSingleClickListener
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 
+@AndroidEntryPoint
 class NoticeDialog :
     BindingDialogFragment<FragmentNoticeDialogBinding>(R.layout.fragment_notice_dialog) {
     private val viewModel by viewModels<NoticeViewModel>()
@@ -38,6 +44,7 @@ class NoticeDialog :
         initNoticeImageView()
         initDoNotSeeItAgainBtnClickListener()
         initCloseBtnClickListener()
+        setupIsNoticeDisabled()
     }
 
     private fun getBundleArgs() {
@@ -58,21 +65,23 @@ class NoticeDialog :
 
     private fun initDoNotSeeItAgainBtnClickListener() {
         binding.btnNoticeDoNotSeeItAgain.setOnSingleClickListener {
-            switchDoNotSeeItAgainState()
+            viewModel.switchNoticeDisabledState()
         }
         binding.icNoticeDoNotSeeItAgain.setOnSingleClickListener {
-            switchDoNotSeeItAgainState()
+            viewModel.switchNoticeDisabledState()
         }
         binding.tvNoticeDoNotSeeItAgain.setOnSingleClickListener {
-            switchDoNotSeeItAgainState()
+            viewModel.switchNoticeDisabledState()
         }
     }
 
-    private fun switchDoNotSeeItAgainState() {
-        val isBtnDisabled = viewModel.switchNoticeDisabledState()
-        binding.icNoticeDoNotSeeItAgain.setImageResource(
-            if (isBtnDisabled) R.drawable.ic_notice_uncheck else R.drawable.ic_notice_check,
-        )
+    private fun setupIsNoticeDisabled() {
+        viewModel.isNoticeDisabled.flowWithLifecycle(viewLifecycleOwner.lifecycle)
+            .onEach { isNoticeDisabled ->
+                binding.icNoticeDoNotSeeItAgain.setImageResource(
+                    if (isNoticeDisabled) R.drawable.ic_notice_check else R.drawable.ic_notice_uncheck,
+                )
+            }.launchIn(viewLifecycleOwner.lifecycleScope)
     }
 
     private fun initCloseBtnClickListener() {
@@ -83,7 +92,7 @@ class NoticeDialog :
 
     override fun onDestroyView() {
         super.onDestroyView()
-        // TODO : 로컬 디비에 초기 1회 다시 보지 않기 선택 여부 저장
+        viewModel.setDisabledNotice(imageUrl)
     }
 
     companion object {

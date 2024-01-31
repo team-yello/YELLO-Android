@@ -91,6 +91,7 @@ class MainViewModel @Inject constructor(
                         return@onSuccess
                     }
 
+                    if (noticeRepository.isDisabledNoticeUrl(notice.imageUrl)) return@onSuccess
                     _getNoticeState.value = UiState.Success(notice)
                 }
                 .onFailure { t ->

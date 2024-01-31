@@ -33,14 +33,14 @@ class SchoolProfileModViewModel @Inject constructor(
     private val _getIsModValidResult = MutableSharedFlow<Boolean>()
     val getIsModValidResult: SharedFlow<Boolean> = _getIsModValidResult
 
-    private val _postToModProfileResult = MutableSharedFlow<Boolean>()
-    val postToModProfileResult: SharedFlow<Boolean> = _postToModProfileResult
-
     private val _getSchoolListState = MutableStateFlow<UiState<HighSchoolList>>(UiState.Empty)
     val getSchoolListState: StateFlow<UiState<HighSchoolList>> = _getSchoolListState
 
-    private val _getSchoolGroupIdState = MutableStateFlow<UiState<GroupHighSchool>>(UiState.Empty)
-    val getSchoolGroupIdState: StateFlow<UiState<GroupHighSchool>> = _getSchoolGroupIdState
+    private val _getSchoolGroupIdResult = MutableSharedFlow<Boolean>()
+    val getSchoolGroupIdResult: SharedFlow<Boolean> = _getSchoolGroupIdResult
+
+    private val _postToModProfileResult = MutableSharedFlow<Boolean>()
+    val postToModProfileResult: SharedFlow<Boolean> = _postToModProfileResult
 
     val lastModDate = MutableLiveData("")
     val school = MutableLiveData("")
@@ -67,7 +67,6 @@ class SchoolProfileModViewModel @Inject constructor(
 
     fun resetStateVariables() {
         _getSchoolListState.value = UiState.Empty
-        _getSchoolGroupIdState.value = UiState.Empty
     }
 
     fun getUserDataFromServer() {
@@ -122,25 +121,6 @@ class SchoolProfileModViewModel @Inject constructor(
         }
     }
 
-    fun postNewProfileToServer() {
-        viewModelScope.launch {
-            if (!::myUserData.isInitialized) {
-                _postToModProfileResult.emit(false)
-                return@launch
-            }
-            myUserData.groupId = groupId
-            myUserData.groupAdmissionYear = grade.value?.toInt() ?: return@launch
-
-            profileRepository.postToModUserData(myUserData)
-                .onSuccess {
-                    _postToModProfileResult.emit(true)
-                }
-                .onFailure {
-                    _postToModProfileResult.emit(false)
-                }
-        }
-    }
-
     fun getSchoolListFromServer(searchText: String) {
         if (isPagingFinish) return
         viewModelScope.launch {
@@ -165,21 +145,40 @@ class SchoolProfileModViewModel @Inject constructor(
 
     fun getSchoolGroupIdFromServer(searchText: String) {
         viewModelScope.launch {
-            _getSchoolGroupIdState.value = UiState.Loading
             onboardingRepository.getGroupHighSchool(
                 school.value ?: return@launch,
                 searchText,
             )
                 .onSuccess { data ->
                     if (data == null) {
-                        _getSchoolGroupIdState.value = UiState.Failure(searchText)
+                        _getSchoolGroupIdResult.emit(false)
                         return@launch
                     }
                     groupId = data.groupId
-                    _getSchoolGroupIdState.value = UiState.Success(data)
+                    _getSchoolGroupIdResult.emit(true)
+                    postNewProfileToServer()
                 }
                 .onFailure { t ->
-                    _getSchoolGroupIdState.value = UiState.Failure(t.message.toString())
+                    _getSchoolGroupIdResult.emit(false)
+                }
+        }
+    }
+
+    private fun postNewProfileToServer() {
+        viewModelScope.launch {
+            if (!::myUserData.isInitialized) {
+                _postToModProfileResult.emit(false)
+                return@launch
+            }
+            myUserData.groupId = groupId
+            myUserData.groupAdmissionYear = grade.value?.toInt() ?: return@launch
+
+            profileRepository.postToModUserData(myUserData)
+                .onSuccess {
+                    _postToModProfileResult.emit(true)
+                }
+                .onFailure {
+                    _postToModProfileResult.emit(false)
                 }
         }
     }

@@ -36,7 +36,6 @@ import com.example.ui.view.UiState.Success
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.concurrent.TimeUnit
@@ -188,7 +187,6 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
     private fun setupGetUserSubsState() {
         viewModel.getUserSubsState.flowWithLifecycle(lifecycle)
             .onEach { state ->
-                Timber.tag("GET_NOTICE_TEST").d("setup get user subscription state")
                 when (state) {
                     is Empty -> return@onEach
                     is Loading -> return@onEach
@@ -218,7 +216,6 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
     private fun setupGetNoticeState() {
         viewModel.getNoticeState.flowWithLifecycle(lifecycle)
             .onEach { state ->
-                Timber.tag("GET_NOTICE_TEST").d("setup get notice state!!!")
                 when (state) {
                     is Empty -> yelloSnackbar(binding.root, getString(R.string.msg_error))
                     is Loading -> return@onEach
@@ -235,13 +232,12 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
                         getString(R.string.main_get_notice_failure),
                     )
                 }
-            }
+            }.launchIn(lifecycleScope)
     }
 
     private fun setupGetVoteCountState() {
         viewModel.voteCount.flowWithLifecycle(lifecycle)
             .onEach { state ->
-                Timber.tag("GET_NOTICE_TEST").d("setup get vote count")
                 when (state) {
                     is Empty -> return@onEach
 

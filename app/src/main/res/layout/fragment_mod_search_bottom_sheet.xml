@@ -81,12 +81,22 @@
             android:background="@null"
             android:fontFamily="@font/font_pretendard_medium"
             android:padding="12dp"
-            android:text="@string/onboarding_tv_add_school"
+            android:text="@string/profile_mod_tv_add_school"
             android:textColor="@color/grayscales_500"
             android:textSize="12sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/et_search" />
+
+        <com.google.android.material.divider.MaterialDivider
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginHorizontal="12dp"
+            android:layout_marginBottom="12dp"
+            app:dividerColor="@color/grayscales_500"
+            app:layout_constraintBottom_toBottomOf="@id/btn_add_form"
+            app:layout_constraintEnd_toEndOf="@id/btn_add_form"
+            app:layout_constraintStart_toStartOf="@id/btn_add_form" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_search_list"

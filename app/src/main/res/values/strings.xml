@@ -253,7 +253,10 @@
     <string name="profile_mod_no_change">수정할 정보가 없어요.</string>
     <string name="profile_mod_no_valid">올해 안에 수정한 기록이 있어요.</string>
     <string name="profile_mod_success">프로필 수정이 완료되었습니다.</string>
-
+    <string name="profile_mod_tv_add_school">우리 학교가 없나요? 학교를 추가해보세요!</string>
+    <string name="profile_mod_tv_school_grade_one">1학년</string>
+    <string name="profile_mod_tv_school_grade_two">2학년</string>
+    <string name="profile_mod_tv_school_grade_three">3학년</string>
 
     <string name="recommend_tv_title">추천친구</string>
     <string name="recommend_dialog_tv_title">친구 초대하기</string>
@@ -380,8 +383,5 @@
     <string name="notice_resubscribe_benefit_third">초성 힌트 무제한 제공</string>
     <string name="notice_resubscribe_subtitle_end">곧 위와 같은 혜택을 누릴 수 없게 돼요. \n\n옐로 플러스의 특별한 서비스를\n계속 이용하시려면, 버튼을 눌러\n구독을 계속해 보세요!</string>
     <string name="notice_resubscribe_button_tv">계속 옐로플러스 구독하기</string>
-    <string name="profile_mod_tv_school_grade_one">1학년</string>
-    <string name="profile_mod_tv_school_grade_two">2학년</string>
-    <string name="profile_mod_tv_school_grade_three">3학년</string>
 
 </resources>

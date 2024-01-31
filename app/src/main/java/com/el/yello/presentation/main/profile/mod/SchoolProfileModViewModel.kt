@@ -46,7 +46,8 @@ class SchoolProfileModViewModel @Inject constructor(
     val school = MutableLiveData("")
     val grade = MutableLiveData("")
     val classroom = MutableLiveData("")
-    var groupId: Long = 0
+
+    private var groupId: Long = 0
 
     var isModAvailable = true
     var isChanged = false
@@ -158,7 +159,7 @@ class SchoolProfileModViewModel @Inject constructor(
                     _getSchoolGroupIdResult.emit(true)
                     postNewProfileToServer()
                 }
-                .onFailure { t ->
+                .onFailure {
                     _getSchoolGroupIdResult.emit(false)
                 }
         }

@@ -16,7 +16,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.el.yello.R
-import com.el.yello.databinding.FragmentUnivModSearchBottomSheetBinding
+import com.el.yello.databinding.FragmentModSearchBottomSheetBinding
 import com.el.yello.presentation.main.profile.mod.UnivProfileModViewModel.Companion.TEXT_NONE
 import com.el.yello.presentation.onboarding.fragment.universityinfo.department.DepartmentAdapter
 import com.el.yello.presentation.onboarding.fragment.universityinfo.department.SearchDialogDepartmentFragment.Companion.DEPARTMENT_FORM_URL
@@ -36,7 +36,7 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
 class UnivModSearchBottomSheet :
-    BindingBottomSheetDialog<FragmentUnivModSearchBottomSheetBinding>(R.layout.fragment_univ_mod_search_bottom_sheet) {
+    BindingBottomSheetDialog<FragmentModSearchBottomSheetBinding>(R.layout.fragment_mod_search_bottom_sheet) {
 
     private val viewModel by activityViewModels<UnivProfileModViewModel>()
 
@@ -74,13 +74,13 @@ class UnivModSearchBottomSheet :
 
     private fun initAdapter() {
         if (isUnivSearch) {
-            binding.tvUnivSearchTitle.text = getString(R.string.onboarding_tv_search_school)
+            binding.tvSearchTitle.text = getString(R.string.onboarding_tv_search_school)
             _univAdapter = UniversityAdapter(storeUniversity = ::storeUniversity)
-            binding.rvUnivSearchList.adapter = univAdapter
+            binding.rvSearchList.adapter = univAdapter
         } else {
-            binding.tvUnivSearchTitle.text = getString(R.string.onboarding_tv_search_department)
+            binding.tvSearchTitle.text = getString(R.string.onboarding_tv_search_department)
             _groupAdapter = DepartmentAdapter(storeDepartment = ::storeDepartment)
-            binding.rvUnivSearchList.adapter = groupAdapter
+            binding.rvSearchList.adapter = groupAdapter
         }
     }
 
@@ -112,7 +112,7 @@ class UnivModSearchBottomSheet :
     }
 
     private fun setFormBtn(btnText: String, uri: String) {
-        with(binding.btnUnivAddForm) {
+        with(binding.btnAddForm) {
             text = btnText
             setOnSingleClickListener {
                 Intent(Intent.ACTION_VIEW, Uri.parse(uri)).apply {
@@ -127,7 +127,7 @@ class UnivModSearchBottomSheet :
     }
 
     private fun setDebounceSearch() {
-        binding.etUnivSearch.doAfterTextChanged { input ->
+        binding.etSearch.doAfterTextChanged { input ->
             searchJob?.cancel()
             searchJob = viewModel.viewModelScope.launch {
                 delay(debounceTime)
@@ -140,12 +140,12 @@ class UnivModSearchBottomSheet :
     }
 
     private fun setListWithInfinityScroll() {
-        binding.rvUnivSearchList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+        binding.rvSearchList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
                 if (dy > 0) {
                     recyclerView.layoutManager?.let { layoutManager ->
-                        if (!binding.rvUnivSearchList.canScrollVertically(1) && layoutManager is LinearLayoutManager && layoutManager.findLastVisibleItemPosition() == univAdapter.itemCount - 1) {
+                        if (!binding.rvSearchList.canScrollVertically(1) && layoutManager is LinearLayoutManager && layoutManager.findLastVisibleItemPosition() == univAdapter.itemCount - 1) {
                             getSearchListFromServer(searchText)
                         }
                     }
@@ -163,7 +163,7 @@ class UnivModSearchBottomSheet :
     }
 
     private fun setEmptyListWithTyping() {
-        binding.etUnivSearch.doOnTextChanged { _, _, _, _ ->
+        binding.etSearch.doOnTextChanged { _, _, _, _ ->
             lifecycleScope.launch {
                 viewModel.setNewPage()
                 if (isUnivSearch) {

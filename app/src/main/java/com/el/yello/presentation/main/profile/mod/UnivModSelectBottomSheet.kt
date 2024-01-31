@@ -4,12 +4,12 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.activityViewModels
 import com.el.yello.R
-import com.el.yello.databinding.FragmentUnivModSelectBottomSheetBinding
+import com.el.yello.databinding.FragmentModSelectBottomSheetBinding
 import com.el.yello.presentation.onboarding.fragment.universityinfo.studentid.StudentIdDialogAdapter
 import com.example.ui.base.BindingBottomSheetDialog
 
 class UnivModSelectBottomSheet :
-    BindingBottomSheetDialog<FragmentUnivModSelectBottomSheetBinding>(R.layout.fragment_univ_mod_select_bottom_sheet) {
+    BindingBottomSheetDialog<FragmentModSelectBottomSheetBinding>(R.layout.fragment_mod_select_bottom_sheet) {
 
     private val viewModel by activityViewModels<UnivProfileModViewModel>()
 

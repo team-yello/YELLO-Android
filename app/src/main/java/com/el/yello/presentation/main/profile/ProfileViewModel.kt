@@ -34,6 +34,11 @@ class ProfileViewModel @Inject constructor(
     private val payRepository: PayRepository,
 ) : ViewModel() {
 
+    init {
+        resetPageVariable()
+        resetStateVariable()
+    }
+
     private val _getUserDataResult = MutableSharedFlow<Boolean>()
     val getUserDataResult: SharedFlow<Boolean> = _getUserDataResult
 
@@ -67,7 +72,7 @@ class ProfileViewModel @Inject constructor(
 
     var isItemBottomSheetRunning: Boolean = false
 
-    var isFirstScroll: Boolean = true
+    private var isFirstScroll: Boolean = true
 
     private var currentPage = -1
     private var isPagingFinish = false
@@ -87,10 +92,13 @@ class ProfileViewModel @Inject constructor(
         _deleteFriendState.value = UiState.Empty
     }
 
-    fun initViewModelVariable() {
+    fun resetPageVariable() {
         currentPage = -1
         isPagingFinish = false
         totalPage = Int.MAX_VALUE
+    }
+
+    fun resetStateVariable() {
         _deleteFriendState.value = UiState.Empty
         _deleteUserState.value = UiState.Empty
         _kakaoLogoutState.value = UiState.Empty
@@ -245,6 +253,7 @@ class ProfileViewModel @Inject constructor(
             }.onFailure(Timber::e)
         }
     }
+
     fun getUserSubsInfoStateFromServer() {
         viewModelScope.launch {
             payRepository.getUserSubsInfo()

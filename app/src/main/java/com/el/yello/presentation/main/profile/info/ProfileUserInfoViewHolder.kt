@@ -9,8 +9,8 @@ import com.example.ui.view.setOnSingleClickListener
 
 class ProfileUserInfoViewHolder(
     val binding: ItemProfileUserInfoBinding,
-    val buttonClick: (ProfileViewModel) -> (Unit),
-    val shopClick: (ProfileViewModel) -> (Unit),
+    val shopClick: (Unit) -> (Unit),
+    val modClick: (Unit) -> (Unit),
 ) : RecyclerView.ViewHolder(binding.root) {
 
     fun onBind(viewModel: ProfileViewModel) {
@@ -19,9 +19,10 @@ class ProfileUserInfoViewHolder(
             ivSubsStar.isVisible = viewModel.isSubscribed
             ivSubsLine.isVisible = viewModel.isSubscribed
 
-            btnProfileAddGroup.setOnSingleClickListener { buttonClick(viewModel) }
-            btnProfileShop.setOnSingleClickListener { shopClick(viewModel) }
-            btnProfileShopSale.setOnSingleClickListener { shopClick(viewModel) }
+            btnProfileShop.setOnSingleClickListener { shopClick(Unit) }
+            btnProfileShopSale.setOnSingleClickListener { shopClick(Unit) }
+
+            btnPrifileMod.setOnSingleClickListener { modClick(Unit) }
 
             ivProfileInfoThumbnail.setImageOrBasicThumbnail(viewModel.myUserData.profileImageUrl)
         }

@@ -165,6 +165,6 @@ class SearchDialogHighSchoolFragment :
     companion object {
         @JvmStatic
         fun newInstance() = SearchDialogHighSchoolFragment()
-        private const val HIGHSCHOOL_FORM_URL = "https://forms.gle/sMyn6uq7oHDovSdi8"
+        const val HIGHSCHOOL_FORM_URL = "https://forms.gle/sMyn6uq7oHDovSdi8"
     }
 }

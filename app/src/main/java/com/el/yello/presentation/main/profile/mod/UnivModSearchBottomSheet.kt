@@ -133,7 +133,11 @@ class UnivModSearchBottomSheet :
                 delay(debounceTime)
                 input.toString().let { text ->
                     searchText = text
-                    getSearchListFromServer(searchText)
+                    if (isUnivSearch) {
+                        viewModel.getUnivListFromServer(searchText)
+                    } else {
+                        viewModel.getUnivGroupIdListFromServer(searchText)
+                    }
                 }
             }
         }
@@ -145,21 +149,19 @@ class UnivModSearchBottomSheet :
                 super.onScrolled(recyclerView, dx, dy)
                 if (dy > 0) {
                     recyclerView.layoutManager?.let { layoutManager ->
-                        if (!binding.rvSearchList.canScrollVertically(1) && layoutManager is LinearLayoutManager && layoutManager.findLastVisibleItemPosition() == univAdapter.itemCount - 1) {
-                            getSearchListFromServer(searchText)
+                        if (isUnivSearch) {
+                            if (!binding.rvSearchList.canScrollVertically(1) && layoutManager is LinearLayoutManager && layoutManager.findLastVisibleItemPosition() == univAdapter.itemCount - 1) {
+                                viewModel.getUnivListFromServer(searchText)
+                            }
+                        } else {
+                            if (!binding.rvSearchList.canScrollVertically(1) && layoutManager is LinearLayoutManager && layoutManager.findLastVisibleItemPosition() == groupAdapter.itemCount - 1) {
+                                viewModel.getUnivGroupIdListFromServer(searchText)
+                            }
                         }
                     }
                 }
             }
         })
-    }
-
-    private fun getSearchListFromServer(searchText: String) {
-        if (isUnivSearch) {
-            viewModel.getUnivListFromServer(searchText)
-        } else {
-            viewModel.getUnivGroupIdListFromServer(searchText)
-        }
     }
 
     private fun setEmptyListWithTyping() {
@@ -175,21 +177,6 @@ class UnivModSearchBottomSheet :
                 }
             }
         }
-    }
-
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val dialog = BottomSheetDialog(requireContext(), theme)
-        dialog.setOnShowListener {
-            val bottomSheetDialog = it as BottomSheetDialog
-            val parentLayout =
-                bottomSheetDialog.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet)
-            parentLayout?.let { view ->
-                val behaviour = BottomSheetBehavior.from(view)
-                setupFullHeight(view)
-                behaviour.state = BottomSheetBehavior.STATE_EXPANDED
-            }
-        }
-        return dialog
     }
 
     private fun observeGetUnivListState() {
@@ -218,6 +205,21 @@ class UnivModSearchBottomSheet :
                 is UiState.Empty -> return@onEach
             }
         }.launchIn(lifecycleScope)
+    }
+
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        val dialog = BottomSheetDialog(requireContext(), theme)
+        dialog.setOnShowListener {
+            val bottomSheetDialog = it as BottomSheetDialog
+            val parentLayout =
+                bottomSheetDialog.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet)
+            parentLayout?.let { view ->
+                val behaviour = BottomSheetBehavior.from(view)
+                setupFullHeight(view)
+                behaviour.state = BottomSheetBehavior.STATE_EXPANDED
+            }
+        }
+        return dialog
     }
 
     private fun setupFullHeight(bottomSheet: View) {

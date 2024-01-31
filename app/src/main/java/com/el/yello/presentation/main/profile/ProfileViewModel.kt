@@ -87,15 +87,16 @@ class ProfileViewModel @Inject constructor(
     var clickedUserData = ProfileUserModel()
     var clickedItemPosition: Int? = null
 
-    val etcText = MutableLiveData("")
     private val quitReasonText = MutableLiveData<String>()
-
+    val etcText = MutableLiveData("")
+    private val _quitReasonData: MutableLiveData<List<String>> = MutableLiveData()
+    val quitReasonData: LiveData<List<String>> = _quitReasonData
+    fun setEtcText(etc: String) {
+        etcText.value = etc
+    }
     fun setQuitReason(reason: String) {
         quitReasonText.value = reason
     }
-
-    private val _quitReasonData: MutableLiveData<List<String>> = MutableLiveData()
-    val quitReasonData: LiveData<List<String>> = _quitReasonData
     fun addQuitReasonList() {
         val quitReasonList = listOf(
             "앱에 아는 사람들이 없어서",

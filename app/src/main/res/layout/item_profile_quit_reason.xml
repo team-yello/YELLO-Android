@@ -9,9 +9,6 @@
             name="reason"
             type="String" />
 
-        <variable
-            name="vm"
-            type="com.el.yello.presentation.main.profile.ProfileViewModel" />
     </data>
 
     <androidx.cardview.widget.CardView
@@ -63,7 +60,7 @@
                 android:paddingBottom="44dp"
                 android:maxLength="30"
                 android:singleLine="true"
-                android:text="@={vm.etcText}"
+                android:visibility="gone"
                 android:inputType="textMultiLine"
                 android:textAppearance="@style/TextAppearance.Yello.Body02"
                 android:textColor="@color/white"

@@ -64,7 +64,7 @@
                 android:paddingBottom="44dp"
                 android:lines="3"
                 android:singleLine="true"
-                android:text="@{vm.etcText}"
+                android:text="@={vm.etcText}"
                 android:textAppearance="@style/TextAppearance.Yello.Body02"
                 android:textColor="@color/white"
                 android:textColorHint="@color/grayscales_600"

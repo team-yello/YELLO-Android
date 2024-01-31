@@ -179,9 +179,14 @@ class ProfileViewModel @Inject constructor(
     fun deleteUserDataToServer() {
         viewModelScope.launch {
             _deleteUserState.value = UiState.Loading
+            val quitReason = if (quitReasonText.value.toString() == "기타") {
+                etcText.value.toString()
+            } else {
+                quitReasonText.value.toString()
+            }
             profileRepository.deleteUserData(
                 ProfileQuitReasonModel(
-                    quitReasonText.value.toString(),
+                    quitReason,
                 ),
             )
                 .onSuccess {

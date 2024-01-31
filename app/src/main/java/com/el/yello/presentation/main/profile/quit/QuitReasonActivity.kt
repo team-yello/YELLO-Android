@@ -1,7 +1,6 @@
 package com.el.yello.presentation.main.profile.quit
 
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
@@ -37,11 +36,7 @@ class QuitReasonActivity :
             isItemClicked = clicked
             if (isItemClicked) {
                 if (clickedItemPosition == 7) {
-                    if (viewModel.etcText.value.toString().isNotBlank()) {
-                        clickedButtonUI()
-                    } else {
-                        unclickedButtonUI()
-                    }
+                    unclickedButtonUI()
                 } else {
                     clickedButtonUI()
                 }

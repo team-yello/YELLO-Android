@@ -83,7 +83,7 @@ class UnivProfileModViewModel @Inject constructor(
                     } else {
                         school.value = TEXT_NONE
                         subGroup.value = TEXT_NONE
-                        admYear.value = TEXT_NONE
+                        admYear.value = "24"
                     }
                     myUserData = ProfileModRequestModel(
                         profile.name,
@@ -92,7 +92,7 @@ class UnivProfileModViewModel @Inject constructor(
                         profile.email,
                         profile.profileImageUrl,
                         profile.groupId,
-                        admYear.value?.toInt() ?: 0
+                        profile.groupAdmissionYear
                     )
                     _getUserDataResult.emit(true)
                 }
@@ -126,6 +126,9 @@ class UnivProfileModViewModel @Inject constructor(
                 _postToModProfileResult.emit(false)
                 return@launch
             }
+            myUserData.groupId = groupId
+            myUserData.groupAdmissionYear = admYear.value?.toInt() ?: return@launch
+
             profileRepository.postToModUserData(myUserData)
                 .onSuccess {
                     _postToModProfileResult.emit(true)

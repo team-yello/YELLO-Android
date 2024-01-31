@@ -36,7 +36,7 @@
             android:layout_marginStart="-4dp"
             android:layout_marginTop="1dp"
             android:paddingVertical="15dp"
-            android:text="프로필 수정"
+            android:text="@string/profile_mod_tv_title"
             android:textAppearance="?textAppearanceSubtitle1"
             android:textColor="@color/white"
             app:layout_constraintStart_toEndOf="@id/btn_profile_mod_back"
@@ -48,7 +48,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
-            android:text="저장"
+            android:text="@string/profile_mod_btn_save"
             android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="@id/tv_profile_mod_title"
             app:layout_constraintEnd_toEndOf="parent"
@@ -73,27 +73,42 @@
             android:layout_marginTop="6dp"
             android:gravity="center"
             android:paddingVertical="2dp"
-            android:text="올해 한 번만 수정할 수 있어요.\n신중히 수정해 주세요!"
+            android:text="@string/profile_mod_tv_warning"
             android:textColor="@color/yello_main_500"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/iv_profile_mod_alert" />
 
         <TextView
+            android:id="@+id/tv_profile_mod_last_date_title"
+            style="@style/TextAppearance.Yello.LabelMedium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:gravity="center"
+            android:paddingVertical="2dp"
+            android:text="@string/profile_mod_tv_date_title"
+            android:textColor="@color/grayscales_400"
+            app:layout_constraintEnd_toStartOf="@id/tv_profile_mod_last_date"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_profile_mod_alert" />
+
+        <TextView
             android:id="@+id/tv_profile_mod_last_date"
             style="@style/TextAppearance.Yello.LabelMedium"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="16dp"
             android:layout_marginTop="4dp"
             android:gravity="center"
             android:paddingVertical="2dp"
             android:text="@={vm.lastModDate}"
             android:textColor="@color/grayscales_400"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toEndOf="@id/tv_profile_mod_last_date_title"
             app:layout_constraintTop_toBottomOf="@id/tv_profile_mod_alert"
-            tools:text="마지막 수정일 : 2023.12.26." />
+            tools:text="2023.12.26." />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layout_profile_mod_school"
@@ -114,7 +129,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingVertical="3dp"
-                android:text="학교"
+                android:text="@string/profile_mod_tv_school"
                 android:textColor="@color/grayscales_500"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -174,7 +189,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingVertical="3dp"
-                android:text="학과"
+                android:text="@string/profile_mod_tv_univ_subgroup"
                 android:textColor="@color/grayscales_500"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -210,11 +225,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:paddingVertical="2dp"
-                android:text="학과를 입력해야 수정할 수 있어요."
+                android:text="@string/profile_mod_tv_univ_subgroup_error"
                 android:textColor="@color/semantic_red_500"
                 android:visibility="gone"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/divider_profile_mod_subgroup"/>
+                app:layout_constraintTop_toBottomOf="@id/divider_profile_mod_subgroup" />
 
             <com.google.android.material.divider.MaterialDivider
                 android:id="@+id/divider_profile_mod_subgroup"
@@ -247,7 +262,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingVertical="3dp"
-                android:text="학번"
+                android:text="@string/profile_mod_tv_univ_admyear"
                 android:textColor="@color/grayscales_500"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -308,7 +323,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:paddingVertical="2dp"
-                android:text="중/고등학생으로 전환"
+                android:text="@string/profile_mod_btn_univ_change"
                 android:textColor="@color/yello_main_500" />
 
             <ImageView

@@ -6,6 +6,6 @@ data class ProfileModRequestModel(
     val gender: String,
     val email: String,
     var profileImageUrl: String,
-    val groupId: Long,
-    val groupAdmissionYear: Int
+    var groupId: Long,
+    var groupAdmissionYear: Int
 )

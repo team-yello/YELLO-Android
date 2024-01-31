@@ -78,8 +78,8 @@ class SchoolProfileModViewModel @Inject constructor(
                     }
                     if (profile.groupType == TYPE_HIGH_SCHOOL || profile.groupType == TYPE_MIDDLE_SCHOOL) {
                         school.value = profile.groupName
-                        grade.value = profile.groupAdmissionYear.toString() + "학년"
-                        classroom.value = profile.subGroupName + "반"
+                        grade.value = profile.groupAdmissionYear.toString()
+                        classroom.value = profile.subGroupName
                     } else {
                         school.value = TEXT_NONE
                         grade.value = TEXT_NONE
@@ -126,6 +126,9 @@ class SchoolProfileModViewModel @Inject constructor(
                 _postToModProfileResult.emit(false)
                 return@launch
             }
+            myUserData.groupId = groupId
+            myUserData.groupAdmissionYear = grade.value?.toInt() ?: return@launch
+
             profileRepository.postToModUserData(myUserData)
                 .onSuccess {
                     _postToModProfileResult.emit(true)

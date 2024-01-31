@@ -1,13 +1,350 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
+        <variable
+            name="vm"
+            type="com.el.yello.presentation.main.profile.mod.SchoolProfileModViewModel" />
+
+        <import type="android.view.View" />
 
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/black">
+
+        <ImageView
+            android:id="@+id/btn_profile_mod_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:padding="12dp"
+            android:src="@drawable/ic_arrow_left"
+            app:layout_constraintBottom_toBottomOf="@id/tv_profile_mod_title"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tv_profile_mod_title" />
+
+        <TextView
+            android:id="@+id/tv_profile_mod_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="-4dp"
+            android:layout_marginTop="1dp"
+            android:paddingVertical="15dp"
+            android:text="@string/profile_mod_tv_title"
+            android:textAppearance="?textAppearanceSubtitle1"
+            android:textColor="@color/white"
+            app:layout_constraintStart_toEndOf="@id/btn_profile_mod_back"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/btn_profile_mod_save"
+            style="@style/TextAppearance.Yello.Button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:text="@string/profile_mod_btn_save"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="@id/tv_profile_mod_title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tv_profile_mod_title" />
+
+        <ImageView
+            android:id="@+id/iv_profile_mod_alert"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:src="@drawable/ic_alert_yellow"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_profile_mod_title" />
+
+        <TextView
+            android:id="@+id/tv_profile_mod_alert"
+            style="@style/TextAppearance.Yello.LabelLarge"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="6dp"
+            android:gravity="center"
+            android:paddingVertical="2dp"
+            android:text="@string/profile_mod_tv_warning"
+            android:textColor="@color/yello_main_500"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/iv_profile_mod_alert" />
+
+        <TextView
+            android:id="@+id/tv_profile_mod_last_date_title"
+            style="@style/TextAppearance.Yello.LabelMedium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:gravity="center"
+            android:paddingVertical="2dp"
+            android:text="@string/profile_mod_tv_date_title"
+            android:textColor="@color/grayscales_400"
+            app:layout_constraintEnd_toStartOf="@id/tv_profile_mod_last_date"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_profile_mod_alert" />
+
+        <TextView
+            android:id="@+id/tv_profile_mod_last_date"
+            style="@style/TextAppearance.Yello.LabelMedium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:gravity="center"
+            android:paddingVertical="2dp"
+            android:text="@={vm.lastModDate}"
+            android:textColor="@color/grayscales_400"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toEndOf="@id/tv_profile_mod_last_date_title"
+            app:layout_constraintTop_toBottomOf="@id/tv_profile_mod_alert"
+            tools:text="2023.12.26." />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_profile_mod_school"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/shape_grayscales900_fill_12_rect"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="12dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_profile_mod_last_date">
+
+            <TextView
+                android:id="@+id/tv_profile_mod_school_title"
+                style="@style/TextAppearance.Yello.BodySmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingVertical="3dp"
+                android:text="@string/profile_mod_tv_school"
+                android:textColor="@color/grayscales_500"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_profile_mod_school"
+                style="@style/TextAppearance.Yello.Subtitle01"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:paddingVertical="3dp"
+                android:text="@={vm.school}"
+                android:textColor="@color/white"
+                app:layout_constraintEnd_toStartOf="@id/btn_search_school"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_profile_mod_school_title"
+                tools:text="방산고등학교" />
+
+            <ImageView
+                android:id="@+id/btn_search_school"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="-12dp"
+                android:layout_marginBottom="-5dp"
+                android:padding="12dp"
+                android:src="@drawable/ic_onboarding_search"
+                app:layout_constraintBottom_toTopOf="@id/divider_profile_mod_school"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <com.google.android.material.divider.MaterialDivider
+                android:id="@+id/divider_profile_mod_school"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_marginTop="7dp"
+                app:dividerColor="@color/grayscales_700"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_profile_mod_school" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_profile_mod_grade"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/shape_grayscales900_fill_12_rect"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="12dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/layout_profile_mod_school">
+
+            <TextView
+                android:id="@+id/tv_profile_mod_grade_title"
+                style="@style/TextAppearance.Yello.BodySmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingVertical="3dp"
+                android:text="@string/profile_mod_tv_school_grade"
+                android:textColor="@color/grayscales_500"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_profile_mod_grade"
+                style="@style/TextAppearance.Yello.Subtitle01"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:paddingVertical="3dp"
+                android:text="@={vm.grade}"
+                android:textColor="@color/white"
+                app:layout_constraintEnd_toStartOf="@id/btn_search_grade"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_profile_mod_grade_title"
+                tools:text="3학년" />
+
+            <ImageView
+                android:id="@+id/btn_search_grade"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="-12dp"
+                android:layout_marginBottom="-5dp"
+                android:padding="12dp"
+                android:src="@drawable/ic_onboarding_studentid_down"
+                app:layout_constraintBottom_toTopOf="@id/divider_profile_mod_grade"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_profile_mod_subgroup_error"
+                style="@style/TextAppearance.Yello.LabelLarge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:paddingVertical="2dp"
+                android:text="@string/profile_mod_tv_school_grade_error"
+                android:textColor="@color/semantic_red_500"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/divider_profile_mod_grade" />
+
+            <com.google.android.material.divider.MaterialDivider
+                android:id="@+id/divider_profile_mod_grade"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_marginTop="7dp"
+                app:dividerColor="@color/grayscales_700"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_profile_mod_grade" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_profile_mod_classroom"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/shape_grayscales900_fill_12_rect"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="12dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/layout_profile_mod_grade">
+
+            <TextView
+                android:id="@+id/tv_profile_mod_classroom_title"
+                style="@style/TextAppearance.Yello.BodySmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingVertical="3dp"
+                android:text="@string/profile_mod_tv_school_classroom"
+                android:textColor="@color/grayscales_500"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_profile_mod_classroom"
+                style="@style/TextAppearance.Yello.Subtitle01"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:paddingVertical="3dp"
+                android:text="@={vm.classroom}"
+                android:textColor="@color/white"
+                app:layout_constraintEnd_toStartOf="@id/btn_search_classroom"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_profile_mod_classroom_title"
+                tools:text="1반" />
+
+            <ImageView
+                android:id="@+id/btn_search_classroom"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="-12dp"
+                android:layout_marginBottom="-5dp"
+                android:padding="12dp"
+                android:src="@drawable/ic_onboarding_studentid_down"
+                app:layout_constraintBottom_toTopOf="@id/divider_profile_mod_classroom"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_profile_mod_classroom_error"
+                style="@style/TextAppearance.Yello.LabelLarge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:paddingVertical="2dp"
+                android:text="@string/profile_mod_tv_school_classroom_error"
+                android:textColor="@color/semantic_red_500"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/divider_profile_mod_classroom" />
+
+            <com.google.android.material.divider.MaterialDivider
+                android:id="@+id/divider_profile_mod_classroom"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_marginTop="7dp"
+                app:dividerColor="@color/grayscales_700"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_profile_mod_classroom" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <LinearLayout
+            android:id="@+id/btn_change_univ_to_school"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="30dp"
+            android:background="@drawable/shape_yello500_line_100_rect"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="13dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <TextView
+                style="@style/TextAppearance.Yello.LabelLarge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:paddingVertical="2dp"
+                android:text="@string/profile_mod_btn_school_change"
+                android:textColor="@color/yello_main_500" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_right_yellow" />
+
+        </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

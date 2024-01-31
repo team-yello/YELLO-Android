@@ -197,15 +197,25 @@
             <TextView
                 android:id="@+id/tv_profile_mod_grade"
                 style="@style/TextAppearance.Yello.Subtitle01"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingVertical="3dp"
                 android:text="@={vm.grade}"
                 android:textColor="@color/white"
-                app:layout_constraintEnd_toStartOf="@id/btn_search_grade"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_profile_mod_grade_title"
-                tools:text="3학년" />
+                tools:text="3" />
+
+            <TextView
+                android:id="@+id/tv_profile_mod_grade_text"
+                style="@style/TextAppearance.Yello.Subtitle01"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingVertical="3dp"
+                android:text="@string/profile_mod_tv_school_grade"
+                android:textColor="@color/white"
+                app:layout_constraintStart_toEndOf="@id/tv_profile_mod_grade"
+                app:layout_constraintTop_toBottomOf="@id/tv_profile_mod_grade_title" />
 
             <ImageView
                 android:id="@+id/btn_search_grade"
@@ -270,15 +280,25 @@
             <TextView
                 android:id="@+id/tv_profile_mod_classroom"
                 style="@style/TextAppearance.Yello.Subtitle01"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingVertical="3dp"
                 android:text="@={vm.classroom}"
                 android:textColor="@color/white"
-                app:layout_constraintEnd_toStartOf="@id/btn_search_classroom"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_profile_mod_classroom_title"
-                tools:text="1반" />
+                tools:text="1" />
+
+            <TextView
+                android:id="@+id/tv_profile_mod_classroom_text"
+                style="@style/TextAppearance.Yello.Subtitle01"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingVertical="3dp"
+                android:text="@string/profile_mod_tv_school_classroom"
+                android:textColor="@color/white"
+                app:layout_constraintStart_toEndOf="@id/tv_profile_mod_classroom"
+                app:layout_constraintTop_toBottomOf="@id/tv_profile_mod_classroom_title" />
 
             <ImageView
                 android:id="@+id/btn_search_classroom"

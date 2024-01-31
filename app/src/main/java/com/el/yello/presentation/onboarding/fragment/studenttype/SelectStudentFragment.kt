@@ -12,6 +12,7 @@ import com.el.yello.util.amplitude.AmplitudeUtils
 import com.example.domain.enum.StudentType
 import com.example.ui.base.BindingFragment
 import com.example.ui.context.colorOf
+import com.example.ui.fragment.colorOf
 import com.example.ui.view.setOnSingleClickListener
 import org.json.JSONObject
 
@@ -65,8 +66,8 @@ class SelectStudentFragment :
             btnSchoolUniversity.setBackgroundResource(R.drawable.shape_black_fill_grayscales700_line_8_rect)
             ivStudentHighschool.setImageResource(R.drawable.ic_student_highschool_face_select)
             ivStudentUniversity.setImageResource(R.drawable.ic_student_university_face_unselected)
-            tvStudentHighschool.setTextColor(binding.root.context.colorOf(R.color.yello_main_500))
-            tvStudentUniversity.setTextColor(binding.root.context.colorOf(R.color.grayscales_700))
+            tvStudentHighschool.setTextColor(colorOf(R.color.yello_main_500))
+            tvStudentUniversity.setTextColor(colorOf(R.color.grayscales_700))
         }
     }
 
@@ -76,8 +77,8 @@ class SelectStudentFragment :
             btnSchoolHighschool.setBackgroundResource(R.drawable.shape_black_fill_grayscales700_line_8_rect)
             ivStudentUniversity.setImageResource(R.drawable.ic_student_university_face_select)
             ivStudentHighschool.setImageResource(R.drawable.ic_student_highschool_face_unselected)
-            tvStudentUniversity.setTextColor(binding.root.context.colorOf(R.color.yello_main_500))
-            tvStudentHighschool.setTextColor(binding.root.context.colorOf(R.color.grayscales_700))
+            tvStudentUniversity.setTextColor(colorOf(R.color.yello_main_500))
+            tvStudentHighschool.setTextColor(colorOf(R.color.grayscales_700))
         }
     }
 

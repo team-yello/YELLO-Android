@@ -12,6 +12,7 @@ import com.el.yello.presentation.onboarding.activity.OnBoardingViewModel
 import com.el.yello.util.amplitude.AmplitudeUtils
 import com.el.yello.util.context.yelloSnackbar
 import com.example.ui.base.BindingFragment
+import com.example.ui.fragment.colorOf
 import com.example.ui.view.UiState
 import com.example.ui.view.setOnSingleClickListener
 import org.json.JSONObject
@@ -69,12 +70,7 @@ class YelIoIdFragment : BindingFragment<FragmentYelloIdBinding>(R.layout.fragmen
             etId.setBackgroundResource(R.drawable.shape_fill_red20_line_semantic_status_red500_rect_8)
             btnIdDelete.setBackgroundResource(R.drawable.ic_onboarding_delete_red)
             tvIdErrorFirst.text = getString(R.string.onboarding_name_id_duplicate_id_msg)
-            tvIdErrorFirst.setTextColor(
-                ContextCompat.getColor(
-                    requireContext(),
-                    R.color.semantic_red_500,
-                ),
-            )
+            tvIdErrorFirst.setTextColor(colorOf(R.color.semantic_red_500))
             tvIdErrorSecond.visibility = View.INVISIBLE
             tvIdErrorThird.visibility = View.INVISIBLE
         }

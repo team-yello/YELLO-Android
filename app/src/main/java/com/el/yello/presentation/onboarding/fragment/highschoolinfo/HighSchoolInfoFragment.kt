@@ -26,9 +26,9 @@ class HighSchoolInfoFragment :
         super.onViewCreated(view, savedInstanceState)
         binding.vm = viewModel
         with(binding) {
-            first = Grade.A.toInt()
-            second = Grade.B.toInt()
-            third = Grade.C.toInt()
+            firstGrade = Grade.A.toInt()
+            secondGrade = Grade.B.toInt()
+            thirdGrade = Grade.C.toInt()
         }
         setupHighSchool()
         setupGrade()

@@ -27,7 +27,7 @@ class MainViewModel @Inject constructor(
     private val yelloRepository: YelloRepository,
 ) : ViewModel() {
     private val _getUserSubsState =
-        MutableStateFlow<UiState<PayUserSubsInfoModel?>>(UiState.Empty)
+        MutableStateFlow<UiState<PayUserSubsInfoModel?>>(UiState.Loading)
     val getUserSubsState: StateFlow<UiState<PayUserSubsInfoModel?>>
         get() = _getUserSubsState
 
@@ -91,11 +91,15 @@ class MainViewModel @Inject constructor(
                         return@onSuccess
                     }
 
+                    Timber.tag("GET_NOTICE_SUCCESS_BEFORE").d(_getNoticeState.value.toString())
                     _getNoticeState.value = UiState.Success(notice)
+                    Timber.tag("GET_NOTICE_SUCCESS").d(notice.toString())
+                    Timber.tag("GET_NOTICE_SUCCESS_AFTER").d(_getNoticeState.value.toString())
                 }
                 .onFailure { t ->
                     if (t is HttpException) {
                         _getNoticeState.value = UiState.Failure(t.code().toString())
+                        Timber.tag("GET_NOTICE_FAILURE").e(t)
                         return@onFailure
                     }
                     _getNoticeState.value = UiState.Failure(t.message.toString())

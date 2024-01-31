@@ -12,14 +12,14 @@ import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import com.el.yello.R
 import com.el.yello.databinding.FragmentYelloBinding
+import com.el.yello.presentation.main.yello.YelloState.Lock
+import com.el.yello.presentation.main.yello.YelloState.Valid
+import com.el.yello.presentation.main.yello.YelloState.Wait
 import com.el.yello.presentation.main.yello.lock.YelloLockFragment
 import com.el.yello.presentation.main.yello.start.YelloStartFragment
 import com.el.yello.presentation.main.yello.vote.VoteActivity
 import com.el.yello.presentation.main.yello.wait.YelloWaitFragment
 import com.el.yello.util.context.yelloSnackbar
-import com.el.yello.presentation.main.yello.YelloState.Lock
-import com.el.yello.presentation.main.yello.YelloState.Valid
-import com.el.yello.presentation.main.yello.YelloState.Wait
 import com.example.ui.base.BindingFragment
 import com.example.ui.fragment.toast
 import com.example.ui.view.UiState.Empty

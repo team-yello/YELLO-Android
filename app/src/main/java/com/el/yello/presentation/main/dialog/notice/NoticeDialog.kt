@@ -46,7 +46,7 @@ class NoticeDialog :
     }
 
     private fun initNoticeImageView() {
-        with (binding.ivNoticeImg) {
+        with(binding.ivNoticeImg) {
             load(imageUrl)
 
             if (redirectUrl.isBlank()) return

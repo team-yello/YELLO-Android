@@ -11,7 +11,7 @@ data class LookListModel(
         val receiverProfileImage: String,
         val vote: LookVoteModel,
         val isHintUsed: Boolean,
-        val createdAt: String
+        val createdAt: String,
         val isUserSenderVote: Boolean
     ) {
         data class LookVoteModel(

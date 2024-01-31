@@ -84,6 +84,8 @@ class LookFragment : BindingFragment<FragmentLookBinding>(R.layout.fragment_look
     private fun initFilterBtnListener() {
         binding.btnLookFilter.setOnSingleClickListener {
             isFilterSelected = !isFilterSelected
+            adapter.refresh()
+            viewModel.setFirstLoading(true)
             observeTimelinePagingList(isFilterSelected)
             binding.tvLookFilterType.text = if(isFilterSelected) TYPE_MINE else TYPE_ALL
         }

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout_mod_select"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape_rounded_dialog"
+        android:paddingBottom="16dp">
+
+        <View
+            android:id="@+id/iv_handler"
+            android:layout_width="80dp"
+            android:layout_height="4dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/shape_grayscales800_fill_8_rect"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_item_grade_one"
+            style="@style/TextAppearance.Yello.BodyLarge"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/sel_onboarding_studentid"
+            android:paddingTop="12dp"
+            android:paddingBottom="14dp"
+            android:text="@string/profile_mod_tv_school_grade_one"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/iv_handler" />
+
+        <TextView
+            android:id="@+id/tv_item_grade_two"
+            style="@style/TextAppearance.Yello.BodyLarge"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:background="@drawable/sel_onboarding_studentid"
+            android:paddingTop="12dp"
+            android:paddingBottom="14dp"
+            android:text="@string/profile_mod_tv_school_grade_two"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_item_grade_one" />
+
+        <TextView
+            android:id="@+id/tv_item_grade_three"
+            style="@style/TextAppearance.Yello.BodyLarge"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:background="@drawable/sel_onboarding_studentid"
+            android:paddingTop="12dp"
+            android:paddingBottom="14dp"
+            android:text="@string/profile_mod_tv_school_grade_three"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_item_grade_two" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

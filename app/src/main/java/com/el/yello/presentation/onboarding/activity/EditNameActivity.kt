@@ -73,11 +73,13 @@ class EditNameActivity :
         intent.apply {
             if (bundle != null) {
                 with(viewModel) {
-                    kakaoId = bundle.getLong(EXTRA_KAKAO_ID, 0).toString()
-                    nameText.value = bundle.getString(EXTRA_NAME, "")
-                    gender = bundle.getString(EXTRA_GENDER, "")
-                    email = bundle.getString(EXTRA_EMAIL, "")
-                    profileImg = bundle.getString(EXTRA_PROFILE_IMAGE, "")
+                    with(bundle) {
+                        kakaoId = getLong(EXTRA_KAKAO_ID, 0).toString()
+                        nameText.value = getString(EXTRA_NAME, "")
+                        gender = getString(EXTRA_GENDER, "")
+                        email = getString(EXTRA_EMAIL, "")
+                        profileImg = getString(EXTRA_PROFILE_IMAGE, "")
+                    }
                 }
             }
         }

@@ -299,13 +299,13 @@ class OnBoardingViewModel @Inject constructor(
                 if (totalFriendPage == currentFriendPage) isFriendPagingFinish = true
                 val friendIdList: List<String> =
                     friends.elements?.map { friend -> friend.id.toString() } ?: listOf()
-                getKaKaoListFromServer(friendIdList, groupId)
+                getKaKaoFriendList(friendIdList, groupId)
             } else {
                 Timber.d("연동 가능한 카카오톡 친구 없음")
             }
         }
     }
-    private fun getKaKaoListFromServer(friendKakaoId: List<String>, groupId: Long) {
+    private fun getKaKaoFriendList(friendKakaoId: List<String>, groupId: Long) {
         if (isFirstFriendsListPage) {
             _friendListState.value = UiState.Loading
             isFirstFriendsListPage = false

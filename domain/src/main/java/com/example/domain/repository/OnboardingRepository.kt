@@ -18,12 +18,12 @@ interface OnboardingRepository {
 
     suspend fun getSchoolList(
         keyword: String,
-        page: Long,
+        page: Int,
     ): Result<SchoolList?>
 
     suspend fun getHighSchoolList(
         keyword: String,
-        page: Long,
+        page: Int,
     ): Result<HighSchoolList?>
 
     suspend fun getGroupList(

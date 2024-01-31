@@ -19,12 +19,12 @@ interface OnboardingDataSource {
 
     suspend fun getSchoolNameData(
         keyword: String,
-        page: Long,
+        page: Int,
     ): BaseResponse<ResponseSchoolDto>
 
     suspend fun getHighSchoolNameData(
         keyword: String,
-        page: Long,
+        page: Int,
     ): BaseResponse<ResponseHighSchoolDto>
 
     suspend fun getDepartmentNameData(

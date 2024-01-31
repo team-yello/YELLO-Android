@@ -1,4 +1,4 @@
-package com.el.yello.presentation.main.profile.quit
+package com.el.yello.presentation.main.profile.manage
 
 import android.view.LayoutInflater
 import android.view.View
@@ -11,11 +11,11 @@ import com.el.yello.databinding.ItemProfileQuitReasonBinding
 import com.example.ui.view.ItemDiffCallback
 import com.example.ui.view.setOnSingleClickListener
 
-class QuitReasonAdapter(
+class ProfileQuitReasonAdapter(
     private val storeQuitReason: (String) -> Unit,
     private val setEtcText: (String) -> Unit,
     private val onItemClickListener: (Int, Boolean) -> Unit,
-) : ListAdapter<String, QuitReasonAdapter.QuitReasonViewHolder>(diffUtil) {
+) : ListAdapter<String, ProfileQuitReasonAdapter.QuitReasonViewHolder>(diffUtil) {
     private var selectedItemPosition: Int = RecyclerView.NO_POSITION
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): QuitReasonViewHolder {
         return QuitReasonViewHolder(

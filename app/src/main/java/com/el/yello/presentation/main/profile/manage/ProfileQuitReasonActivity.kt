@@ -1,4 +1,4 @@
-package com.el.yello.presentation.main.profile.quit
+package com.el.yello.presentation.main.profile.manage
 
 import android.os.Bundle
 import androidx.activity.viewModels
@@ -6,14 +6,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.el.yello.R
 import com.el.yello.databinding.ActivityProfileQuitReasonBinding
 import com.el.yello.presentation.main.profile.ProfileViewModel
-import com.el.yello.presentation.main.profile.manage.ProfileQuitDialog
 import com.example.ui.base.BindingActivity
 import com.example.ui.context.colorOf
 import com.example.ui.view.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class QuitReasonActivity :
+class ProfileQuitReasonActivity :
     BindingActivity<ActivityProfileQuitReasonBinding>(R.layout.activity_profile_quit_reason) {
     private lateinit var quitReasonList: List<String>
     private val viewModel by viewModels<ProfileViewModel>()
@@ -31,7 +30,7 @@ class QuitReasonActivity :
     private fun initQuitReasonAdapter() {
         viewModel.addQuitReasonList()
         quitReasonList = viewModel.quitReasonData.value ?: emptyList()
-        val adapter = QuitReasonAdapter(
+        val adapter = ProfileQuitReasonAdapter(
             storeQuitReason = ::storeQuitReason,
             setEtcText = ::setEtcText,
         ) { position, clicked ->

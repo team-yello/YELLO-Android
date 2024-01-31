@@ -173,7 +173,7 @@
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".presentation.main.profile.quit.QuitReasonActivity"
+            android:name=".presentation.main.profile.manage.ProfileQuitReasonActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustPan"
             android:screenOrientation="portrait" />

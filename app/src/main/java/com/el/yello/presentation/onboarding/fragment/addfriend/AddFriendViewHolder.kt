@@ -15,29 +15,31 @@ class AddFriendViewHolder(
 ) : RecyclerView.ViewHolder(binding.root) {
 
     fun onBind(friendModel: AddFriendListModel.FriendModel, position: Int) {
-        binding.ivFriendProfile.load(friendModel.profileImage) {
-            transformations(CircleCropTransformation())
-        }
-        binding.tvFriendName.text = friendModel.name
-        binding.tvFriendDepartment.text = friendModel.groupName
-        binding.btnFriendCheck.isSelected = friendModel.isSelected
+        with(binding) {
+            ivFriendProfile.load(friendModel.profileImage) {
+                transformations(CircleCropTransformation())
+            }
+            tvFriendName.text = friendModel.name
+            tvFriendDepartment.text = friendModel.groupName
+            btnFriendCheck.isSelected = friendModel.isSelected
 
-        binding.tvFriendName.setTextColor(
-            ContextCompat.getColor(
-                itemView.context,
-                if (friendModel.isSelected) R.color.white else R.color.grayscales_onbarding_light,
-            ),
-        )
+            tvFriendName.setTextColor(
+                ContextCompat.getColor(
+                    itemView.context,
+                    if (friendModel.isSelected) R.color.white else R.color.grayscales_onbarding_light,
+                ),
+            )
 
-        binding.tvFriendDepartment.setTextColor(
-            ContextCompat.getColor(
-                itemView.context,
-                if (friendModel.isSelected) R.color.grayscales_500 else R.color.grayscales_onbarding_dark,
-            ),
-        )
+            tvFriendDepartment.setTextColor(
+                ContextCompat.getColor(
+                    itemView.context,
+                    if (friendModel.isSelected) R.color.grayscales_500 else R.color.grayscales_onbarding_dark,
+                ),
+            )
 
-        binding.btnFriendCheck.setOnSingleClickListener {
-            itemClick(friendModel, position)
+            btnFriendCheck.setOnSingleClickListener {
+                itemClick(friendModel, position)
+            }
         }
     }
 }

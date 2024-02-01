@@ -14,15 +14,19 @@ class TutorialEndActivity :
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        initEndClickListener()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        overridePendingTransition(NONE_ANIMATION, NONE_ANIMATION)
+    }
+    private fun initEndClickListener() {
         binding.btnEndTutorial.setOnSingleClickListener {
             AmplitudeUtils.trackEventWithProperties(EVENT_CLICK_ONBOARDING_YELLO_START)
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
         }
-    }
-    override fun onPause() {
-        super.onPause()
-        overridePendingTransition(NONE_ANIMATION, NONE_ANIMATION)
     }
 
     companion object {

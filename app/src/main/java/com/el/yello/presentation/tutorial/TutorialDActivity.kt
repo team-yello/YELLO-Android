@@ -15,12 +15,8 @@ class TutorialDActivity : BindingActivity<ActivityTutorialDBinding>(R.layout.act
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        AmplitudeUtils.trackEventWithProperties(
-            EVENT_VIEW_ONBOARDING_TUTORIAL,
-            JSONObject().put(NAME_TUTORIAL_STEP, VALUE_TUTORIAL_FOUR),
-        )
         setClickListener()
+        amplitudeDTutorial()
     }
 
     override fun onPause() {
@@ -48,6 +44,13 @@ class TutorialDActivity : BindingActivity<ActivityTutorialDBinding>(R.layout.act
             }
             finish()
         }
+    }
+
+    private fun amplitudeDTutorial() {
+        AmplitudeUtils.trackEventWithProperties(
+            EVENT_VIEW_ONBOARDING_TUTORIAL,
+            JSONObject().put(NAME_TUTORIAL_STEP, VALUE_TUTORIAL_FOUR),
+        )
     }
 
     companion object {

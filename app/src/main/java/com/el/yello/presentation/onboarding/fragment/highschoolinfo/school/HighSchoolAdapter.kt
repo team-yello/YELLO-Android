@@ -28,16 +28,16 @@ class HighSchoolAdapter(
 
     class HighSchoolViewHolder(
         private val binding: ItemHighschoolListBinding,
-        private val storeSchool: (String) -> Unit,
+        private val storeHighSchool: (String) -> Unit,
     ) :
         RecyclerView.ViewHolder(binding.root) {
         fun setHighSchool(highSchool: String) {
             binding.data = highSchool
             binding.root.setOnSingleClickListener {
-                storeSchool(highSchool)
+                storeHighSchool(highSchool)
             }
             binding.tvHighschoolName.setOnSingleClickListener {
-                storeSchool(highSchool)
+                storeHighSchool(highSchool)
             }
         }
     }

@@ -61,7 +61,7 @@
                 android:maxLength="30"
                 android:singleLine="true"
                 android:visibility="gone"
-                android:inputType="textMultiLine"
+                android:inputType="text"
                 android:textAppearance="@style/TextAppearance.Yello.Body02"
                 android:textColor="@color/white"
                 android:textColorHint="@color/grayscales_600"

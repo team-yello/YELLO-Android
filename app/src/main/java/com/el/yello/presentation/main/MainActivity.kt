@@ -87,7 +87,7 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
                             expiredDate.time - currentDate.time,
                             TimeUnit.MILLISECONDS,
                         )
-                        if (daysDifference >= 1) {
+                        if (daysDifference <= 1) {
                             val expiredDateString = state.data?.expiredDate.toString()
                             val payResubsNoticeFragment =
                                 PayReSubsNoticeDialog.newInstance(expiredDateString)

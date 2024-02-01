@@ -46,6 +46,7 @@
             tools:layout_marginBottom="-348dp" />
 
         <com.el.yello.util.view.YelloStartShadowView
+            tools:visibility="invisible"
             android:id="@+id/shadow_start"
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -187,6 +188,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
+            tools:visibility="visible"
             android:visibility="gone"
             app:layout_constraintBottom_toTopOf="@id/btn_start_vote"
             app:layout_constraintEnd_toEndOf="parent"
@@ -238,6 +240,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
+            tools:visibility="visible"
             android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

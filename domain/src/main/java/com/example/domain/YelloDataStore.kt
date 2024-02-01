@@ -10,6 +10,7 @@ interface YelloDataStore {
     var yelloId: String
     var isFirstLogin: Boolean
     var storedVote: StoredVote?
+    var disabledNoticeUrl: String?
 
     fun clearLocalPref()
 }

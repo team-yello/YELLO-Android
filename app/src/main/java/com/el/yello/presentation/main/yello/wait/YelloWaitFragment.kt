@@ -7,7 +7,7 @@ import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import com.el.yello.R
 import com.el.yello.databinding.FragmentYelloWaitBinding
-import com.el.yello.presentation.main.dialog.InviteFriendDialog
+import com.el.yello.presentation.main.dialog.invite.InviteFriendDialog
 import com.el.yello.presentation.main.yello.YelloViewModel
 import com.el.yello.presentation.main.yello.lock.YelloLockFragment.Companion.EVENT_CLICK_INVITE
 import com.el.yello.presentation.main.yello.lock.YelloLockFragment.Companion.JSON_INVITE_VIEW

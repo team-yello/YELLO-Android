@@ -11,6 +11,8 @@ import com.el.yello.presentation.onboarding.OnBoardingViewModel
 import com.el.yello.util.amplitude.AmplitudeUtils
 import com.example.domain.enum.StudentType
 import com.example.ui.base.BindingFragment
+import com.example.ui.context.colorOf
+import com.example.ui.fragment.colorOf
 import com.example.ui.view.setOnSingleClickListener
 import org.json.JSONObject
 
@@ -34,12 +36,7 @@ class SelectStudentFragment :
         viewModel.studentType.observe(viewLifecycleOwner) { studentType ->
             when (studentType) {
                 StudentType.H.toString() -> {
-                    binding.btnSchoolHighschool.setBackgroundResource(R.drawable.shape_black_fill_yello_main_500_line_8_rect)
-                    binding.btnSchoolUniversity.setBackgroundResource(R.drawable.shape_black_fill_grayscales700_line_8_rect)
-                    binding.ivStudentHighschool.setImageResource(R.drawable.ic_student_highschool_face_select)
-                    binding.ivStudentUniversity.setImageResource(R.drawable.ic_student_university_face_unselected)
-                    binding.tvStudentHighschool.setTextColor(resources.getColor(R.color.yello_main_500))
-                    binding.tvStudentUniversity.setTextColor(resources.getColor(R.color.grayscales_700))
+                    changeHighSchoolBtn()
                     binding.btnSelectTypeNext.setOnSingleClickListener {
                         findNavController().navigate(R.id.action_selectStudentFragment_to_highschoolInfoFragment)
                         amplitudeSelectStudent()
@@ -48,13 +45,9 @@ class SelectStudentFragment :
                         activity.progressBarPlus()
                     }
                 }
+
                 StudentType.U.toString() -> {
-                    binding.btnSchoolUniversity.setBackgroundResource(R.drawable.shape_black_fill_yello_main_500_line_8_rect)
-                    binding.btnSchoolHighschool.setBackgroundResource(R.drawable.shape_black_fill_grayscales700_line_8_rect)
-                    binding.ivStudentUniversity.setImageResource(R.drawable.ic_student_university_face_select)
-                    binding.ivStudentHighschool.setImageResource(R.drawable.ic_student_highschool_face_unselected)
-                    binding.tvStudentUniversity.setTextColor(resources.getColor(R.color.yello_main_500))
-                    binding.tvStudentHighschool.setTextColor(resources.getColor(R.color.grayscales_700))
+                    changeUniversityBtn()
                     binding.btnSelectTypeNext.setOnSingleClickListener {
                         findNavController().navigate(R.id.action_selectStudentFragment_to_universityInfoFragment)
                         amplitudeSelectStudent()
@@ -64,6 +57,28 @@ class SelectStudentFragment :
                     }
                 }
             }
+        }
+    }
+
+    private fun changeHighSchoolBtn() {
+        with(binding) {
+            btnSchoolHighschool.setBackgroundResource(R.drawable.shape_black_fill_yello_main_500_line_8_rect)
+            btnSchoolUniversity.setBackgroundResource(R.drawable.shape_black_fill_grayscales700_line_8_rect)
+            ivStudentHighschool.setImageResource(R.drawable.ic_student_highschool_face_select)
+            ivStudentUniversity.setImageResource(R.drawable.ic_student_university_face_unselected)
+            tvStudentHighschool.setTextColor(colorOf(R.color.yello_main_500))
+            tvStudentUniversity.setTextColor(colorOf(R.color.grayscales_700))
+        }
+    }
+
+    private fun changeUniversityBtn() {
+        with(binding) {
+            btnSchoolUniversity.setBackgroundResource(R.drawable.shape_black_fill_yello_main_500_line_8_rect)
+            btnSchoolHighschool.setBackgroundResource(R.drawable.shape_black_fill_grayscales700_line_8_rect)
+            ivStudentUniversity.setImageResource(R.drawable.ic_student_university_face_select)
+            ivStudentHighschool.setImageResource(R.drawable.ic_student_highschool_face_unselected)
+            tvStudentUniversity.setTextColor(colorOf(R.color.yello_main_500))
+            tvStudentHighschool.setTextColor(colorOf(R.color.grayscales_700))
         }
     }
 

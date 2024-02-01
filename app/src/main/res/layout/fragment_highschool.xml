@@ -10,15 +10,15 @@
             type="com.el.yello.presentation.onboarding.OnBoardingViewModel" />
 
         <variable
-            name="first"
+            name="firstGrade"
             type="Integer" />
 
         <variable
-            name="second"
+            name="secondGrade"
             type="Integer" />
 
         <variable
-            name="third"
+            name="thirdGrade"
             type="Integer" />
     </data>
 
@@ -83,7 +83,7 @@
             android:background="@drawable/shape_grayscales900_fill_grayscales700_line_8_leftrect"
             android:clickable="true"
             android:gravity="center"
-            android:onClick="@{()->vm.selectGrade(first)}"
+            android:onClick="@{()->vm.selectGrade(firstGrade)}"
             android:paddingVertical="16dp"
             android:text="@string/onboarding_highschool_firstgrade"
             android:textAppearance="?textAppearanceBodyLarge"
@@ -101,7 +101,7 @@
             android:background="@drawable/shape_grayscales900_fill_grayscales700_line_8_square"
             android:clickable="true"
             android:gravity="center"
-            android:onClick="@{()->vm.selectGrade(second)}"
+            android:onClick="@{()->vm.selectGrade(secondGrade)}"
             android:paddingVertical="16dp"
             android:text="@string/onboarding_highschool_secondgrade"
             android:textAppearance="?textAppearanceBodyLarge"
@@ -121,7 +121,7 @@
             android:background="@drawable/shape_grayscales900_fill_grayscales700_line_8_rightrect"
             android:clickable="true"
             android:gravity="center"
-            android:onClick="@{()->vm.selectGrade(third)}"
+            android:onClick="@{()->vm.selectGrade(thirdGrade)}"
             android:paddingVertical="16dp"
             android:text="@string/onboarding_highschool_thirdgrade"
             android:textAppearance="?textAppearanceBodyLarge"

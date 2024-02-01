@@ -80,11 +80,13 @@ class OnBoardingActivity :
         val bundle: Bundle? = intent.extras
         intent.apply {
             if (bundle != null) {
-                viewModel.kakaoId = bundle.getLong(EXTRA_KAKAO_ID, 0).toString()
-                viewModel.nameText.value = bundle.getString(EXTRA_NAME, "")
-                viewModel.gender = bundle.getString(EXTRA_GENDER, "")
-                viewModel.email = bundle.getString(EXTRA_EMAIL, "")
-                viewModel.profileImg = bundle.getString(EXTRA_PROFILE_IMAGE, "")
+                with(viewModel) {
+                    kakaoId = bundle.getLong(EXTRA_KAKAO_ID, 0).toString()
+                    nameText.value = bundle.getString(EXTRA_NAME, "")
+                    gender = bundle.getString(EXTRA_GENDER, "")
+                    email = bundle.getString(EXTRA_EMAIL, "")
+                    profileImg = bundle.getString(EXTRA_PROFILE_IMAGE, "")
+                }
             }
         }
     }
@@ -100,7 +102,7 @@ class OnBoardingActivity :
         viewModel.plusCurrentPercent()
         val animator = ObjectAnimator.ofInt(
             binding.onboardingProgressbar,
-            "progress",
+            PROPERTY_PROGRESS,
             binding.onboardingProgressbar.progress,
             viewModel.currentPercent,
         )
@@ -113,7 +115,7 @@ class OnBoardingActivity :
         viewModel.minusCurrentPercent()
         val animator = ObjectAnimator.ofInt(
             binding.onboardingProgressbar,
-            "progress",
+            PROPERTY_PROGRESS,
             binding.onboardingProgressbar.progress,
             viewModel.currentPercent,
         )
@@ -137,7 +139,8 @@ class OnBoardingActivity :
 
     companion object {
         private const val BACK_PRESSED_INTERVAL = 2000
-        const val EXTRA_CODE_TEXT_EMPTY = "codeTextEmpty"
         private const val NONE_ANIMATION = 0
+        const val EXTRA_CODE_TEXT_EMPTY = "codeTextEmpty"
+        const val PROPERTY_PROGRESS = "progress"
     }
 }

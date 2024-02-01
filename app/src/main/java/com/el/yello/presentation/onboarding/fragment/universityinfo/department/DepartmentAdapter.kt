@@ -33,12 +33,14 @@ class DepartmentAdapter(
     ) :
         RecyclerView.ViewHolder(binding.root) {
         fun setDepartment(department: Group) {
-            binding.data = department.name
-            binding.root.setOnSingleClickListener {
-                storeDepartment(department.name, department.groupId)
-            }
-            binding.tvDepartmentName.setOnSingleClickListener {
-                storeDepartment(department.name, department.groupId)
+            with(binding) {
+                data = department.name
+                root.setOnSingleClickListener {
+                    storeDepartment(department.name, department.groupId)
+                }
+                tvDepartmentName.setOnSingleClickListener {
+                    storeDepartment(department.name, department.groupId)
+                }
             }
         }
     }

@@ -1,4 +1,4 @@
-package com.example.domain.entity.type
+package com.el.yello.presentation.main.yello
 
 sealed class YelloState {
     object Lock : YelloState()

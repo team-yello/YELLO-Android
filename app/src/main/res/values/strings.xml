@@ -242,7 +242,7 @@
     <string name="recommend_invite_title">친구 초대하기</string>
     <string name="recommend_invite_subtitle">찾는 친구가 없다면 친구를 초대해볼까요?</string>
     <string name="recommend_invite_no_title">찾는 친구가 없다면\n친구를 초대해볼까요?</string>
-    <string name="recommend_invite_no_subtitle">친구 초대하고 100포인트 받기</string>
+    <string name="recommend_invite_no_subtitle">친구 초대하고 리워드 받기</string>
     <string name="recommend_item_btn_add">친구추가</string>
 
     <string name="recommend_search_title">친구 검색</string>

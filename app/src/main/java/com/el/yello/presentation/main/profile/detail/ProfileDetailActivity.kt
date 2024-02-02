@@ -6,10 +6,11 @@ import androidx.core.view.isVisible
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import com.el.yello.R
-import com.el.yello.databinding.ActivityProfileUnivDetailBinding
+import com.el.yello.databinding.ActivityProfileDetailBinding
+import com.el.yello.presentation.main.profile.info.ProfileFragment.Companion.TYPE_UNIVERSITY
+import com.el.yello.presentation.main.profile.mod.SchoolProfileModActivity
 import com.el.yello.presentation.main.profile.mod.UnivProfileModActivity
 import com.el.yello.util.Utils.setImageOrBasicThumbnail
-import com.el.yello.util.context.yelloSnackbar
 import com.example.ui.activity.navigateTo
 import com.example.ui.base.BindingActivity
 import com.example.ui.context.toast
@@ -21,10 +22,12 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
 @AndroidEntryPoint
-class UnivProfileDetailActivity :
-    BindingActivity<ActivityProfileUnivDetailBinding>(R.layout.activity_profile_univ_detail) {
+class ProfileDetailActivity :
+    BindingActivity<ActivityProfileDetailBinding>(R.layout.activity_profile_detail) {
 
-    private val viewModel by viewModels<UnivProfileDetailViewModel>()
+    private val viewModel by viewModels<ProfileDetailViewModel>()
+
+    private var isUnivProfile = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,18 +48,18 @@ class UnivProfileDetailActivity :
     }
 
     private fun initProfileModBtnListener() {
-        binding.btnModSchool.setOnSingleClickListener {
+        binding.btnModSchool.setOnSingleClickListener { navigateToModActivity() }
+        binding.btnModSubgroup.setOnSingleClickListener { navigateToModActivity() }
+        binding.btnModYear.setOnSingleClickListener { navigateToModActivity() }
+    }
+
+    private fun navigateToModActivity() {
+        if (isUnivProfile) {
             this.navigateTo<UnivProfileModActivity>()
-            viewModel.resetViewModelState()
+        } else {
+            this.navigateTo<SchoolProfileModActivity>()
         }
-        binding.btnModSubgroup.setOnSingleClickListener {
-            this.navigateTo<UnivProfileModActivity>()
-            viewModel.resetViewModelState()
-        }
-        binding.btnModYear.setOnSingleClickListener {
-            this.navigateTo<UnivProfileModActivity>()
-            viewModel.resetViewModelState()
-        }
+        viewModel.resetViewModelState()
     }
 
     private fun initChangeThumbnailBtnListener() {
@@ -73,7 +76,10 @@ class UnivProfileDetailActivity :
         viewModel.getUserDataState.flowWithLifecycle(lifecycle).onEach { state ->
             when (state) {
                 is UiState.Success -> {
-                    binding.ivProfileDetailThumbnail.setImageOrBasicThumbnail(state.data)
+                    binding.ivProfileDetailThumbnail.setImageOrBasicThumbnail(state.data.profileImageUrl)
+                    isUnivProfile = state.data.groupType == TYPE_UNIVERSITY
+                    binding.layoutProfileModUniv.isVisible = isUnivProfile
+                    binding.layoutProfileModSchool.isVisible = !isUnivProfile
                 }
 
                 is UiState.Failure -> {
@@ -90,9 +96,17 @@ class UnivProfileDetailActivity :
     private fun observeKakaoDataResult() {
         viewModel.getKakaoInfoResult.flowWithLifecycle(lifecycle).onEach { result ->
             when (result) {
-                is ImageChangeState.Success -> binding.ivProfileDetailThumbnailEmpty.isVisible = true
-                is ImageChangeState.NotChanged -> toast(getString(R.string.profile_mod_already_changed))
-                is ImageChangeState.Error -> toast(getString(R.string.sign_in_error_connection))
+                is ImageChangeState.Success -> {
+                    binding.ivProfileDetailThumbnailEmpty.isVisible = true
+                }
+
+                is ImageChangeState.NotChanged -> {
+                    toast(getString(R.string.profile_mod_already_changed))
+                }
+
+                is ImageChangeState.Error -> {
+                    toast(getString(R.string.sign_in_error_connection))
+                }
             }
         }.launchIn(lifecycleScope)
     }

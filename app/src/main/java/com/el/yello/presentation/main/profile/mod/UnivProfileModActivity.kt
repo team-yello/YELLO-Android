@@ -115,6 +115,7 @@ class UnivProfileModActivity :
             } else {
                 toast(getString(R.string.msg_error))
             }
+            viewModel.resetStateVariables()
         }.launchIn(lifecycleScope)
     }
 

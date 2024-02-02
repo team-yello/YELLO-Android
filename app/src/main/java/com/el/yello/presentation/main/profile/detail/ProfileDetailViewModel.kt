@@ -3,7 +3,9 @@ package com.el.yello.presentation.main.profile.detail
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.el.yello.presentation.main.profile.info.ProfileFragment.Companion.TYPE_UNIVERSITY
 import com.example.domain.entity.ProfileModRequestModel
+import com.example.domain.entity.ProfileUserModel
 import com.example.domain.repository.ProfileRepository
 import com.example.ui.view.UiState
 import com.kakao.sdk.user.UserApiClient
@@ -16,12 +18,12 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class UnivProfileDetailViewModel @Inject constructor(
+class ProfileDetailViewModel @Inject constructor(
     private val profileRepository: ProfileRepository,
 ) : ViewModel() {
 
-    private val _getUserDataState = MutableStateFlow<UiState<String>>(UiState.Empty)
-    val getUserDataState: StateFlow<UiState<String>> = _getUserDataState
+    private val _getUserDataState = MutableStateFlow<UiState<ProfileUserModel>>(UiState.Empty)
+    val getUserDataState: StateFlow<UiState<ProfileUserModel>> = _getUserDataState
 
     private val _getKakaoInfoResult = MutableSharedFlow<ImageChangeState>()
     val getKakaoInfoResult: SharedFlow<ImageChangeState> = _getKakaoInfoResult
@@ -32,8 +34,12 @@ class UnivProfileDetailViewModel @Inject constructor(
     val name = MutableLiveData("")
     val id = MutableLiveData("")
     val school = MutableLiveData("")
+
     val subGroup = MutableLiveData("")
     val admYear = MutableLiveData("")
+
+    val grade = MutableLiveData("")
+    val classroom = MutableLiveData("")
 
     private lateinit var myUserData: ProfileModRequestModel
 
@@ -54,8 +60,13 @@ class UnivProfileDetailViewModel @Inject constructor(
                     name.value = profile.name
                     id.value = profile.yelloId
                     school.value = profile.groupName
-                    subGroup.value = profile.subGroupName
-                    admYear.value = profile.groupAdmissionYear.toString()
+                    if (profile.groupType == TYPE_UNIVERSITY) {
+                        subGroup.value = profile.subGroupName
+                        admYear.value = profile.groupAdmissionYear.toString()
+                    } else {
+                        grade.value = profile.groupAdmissionYear.toString() + "학년"
+                        classroom.value = profile.subGroupName + "반"
+                    }
                     myUserData = ProfileModRequestModel(
                         profile.name,
                         profile.yelloId,
@@ -65,7 +76,7 @@ class UnivProfileDetailViewModel @Inject constructor(
                         profile.groupId,
                         profile.groupAdmissionYear
                     )
-                    _getUserDataState.value = UiState.Success(profile.profileImageUrl)
+                    _getUserDataState.value = UiState.Success(profile)
                 }
                 .onFailure {
                     _getUserDataState.value = UiState.Failure(it.message.toString())

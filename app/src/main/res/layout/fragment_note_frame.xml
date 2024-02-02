@@ -56,18 +56,17 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layout_vote_note"
             android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_constraintBottom_toTopOf="@id/flow_vote_option"
+            android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/layout_vote_progress_bar">
 
-            <!-- TODO : 동적으로 marginTop 조정 (여백 / 2) -->
             <com.airbnb.lottie.LottieAnimationView
                 android:id="@+id/lottie_note_balloon"
                 setBalloonSrc="@{index}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 android:minHeight="40dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -75,8 +74,7 @@
                 app:lottie_autoPlay="true"
                 app:lottie_loop="true"
                 app:lottie_rawRes="@raw/lottie_note_balloon1"
-                app:lottie_repeatMode="restart"
-                tools:layout_marginTop="10dp" />
+                app:lottie_repeatMode="restart" />
 
             <LinearLayout
                 android:id="@+id/layout_note_progress_before"
@@ -176,17 +174,16 @@
                 app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <!-- TODO : 동적으로 marginBottom 값 조정 (여백 / 2 + 4) -->
         <androidx.constraintlayout.helper.widget.Flow
             android:id="@+id/flow_vote_option"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="8dp"
+            android:layout_marginBottom="26dp"
             app:constraint_referenced_ids="btn_vote_shuffle,btn_vote_skip"
             app:flow_horizontalGap="4dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            tools:layout_marginBottom="26dp" />
+            app:layout_constraintStart_toStartOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

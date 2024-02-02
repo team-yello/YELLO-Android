@@ -34,50 +34,43 @@ class VoteViewModel @Inject constructor(
     private val voteRepository: VoteRepository,
 ) : ViewModel() {
     private val _noteState = MutableSharedFlow<NoteState>()
-    val noteState: SharedFlow<NoteState>
-        get() = _noteState.asSharedFlow()
+    val noteState: SharedFlow<NoteState> get() = _noteState.asSharedFlow()
 
     private val _voteState = MutableStateFlow<UiState<List<Note>>>(UiState.Loading)
-    val voteState: StateFlow<UiState<List<Note>>>
-        get() = _voteState.asStateFlow()
+    val voteState: StateFlow<UiState<List<Note>>> get() = _voteState.asStateFlow()
 
     private val _postVoteState = MutableStateFlow<UiState<Int>>(UiState.Loading)
-    val postVoteState: StateFlow<UiState<Int>>
-        get() = _postVoteState.asStateFlow()
+    val postVoteState: StateFlow<UiState<Int>> get() = _postVoteState.asStateFlow()
 
     private val _shuffleCount = MutableStateFlow(MAX_COUNT_SHUFFLE)
-    val shuffleCount: StateFlow<Int>
-        get() = _shuffleCount.asStateFlow()
+    val shuffleCount: StateFlow<Int> get() = _shuffleCount.asStateFlow()
 
     private val _backgroundIndex = MutableStateFlow(0)
-    val backgroundIndex: Int
-        get() = _backgroundIndex.value
+    val backgroundIndex: Int get() = _backgroundIndex.value
 
     val _currentNoteIndex = MutableStateFlow(0)
-    val currentNoteIndex: Int
-        get() = _currentNoteIndex.value
+    val currentNoteIndex: Int get() = _currentNoteIndex.value
 
     val _currentChoice = MutableLiveData<Choice>()
-    val currentChoice: Choice
-        get() = requireNotNull(_currentChoice.value)
+    val currentChoice: Choice get() = requireNotNull(_currentChoice.value)
 
     val _choiceList = MutableStateFlow(mutableListOf<Choice>())
-    val choiceList: MutableList<Choice>
-        get() = requireNotNull(_choiceList.value)
+    val choiceList: MutableList<Choice> get() = requireNotNull(_choiceList.value)
 
     val _voteList = MutableLiveData<List<Note>>()
-    val voteList: List<Note>
-        get() = requireNotNull(_voteList.value)
+    val voteList: List<Note> get() = requireNotNull(_voteList.value)
 
     private val _votePointSum = MutableStateFlow(0)
-    val votePointSum: Int
-        get() = _votePointSum.value
+    val votePointSum: Int get() = _votePointSum.value
 
     private val _totalPoint = MutableStateFlow(0)
-    val totalPoint: Int
-        get() = _totalPoint.value
+    val totalPoint: Int get() = _totalPoint.value
 
     private var isTransitioning = false
+
+    private val _noteHeight = MutableStateFlow(0)
+    val noteHeight: StateFlow<Int> get() = _noteHeight
+
     var totalListCount = Int.MAX_VALUE
         private set
 
@@ -107,12 +100,11 @@ class VoteViewModel @Inject constructor(
                         notes[noteIndex].friendList = newFriendList
                     }
 
+                    delay(400L)
                     totalListCount = notes.size - 1
                     _voteState.value = Success(notes)
                     _voteList.value = notes
                     initVoteIndex()
-                    // TODO : 셔플 안 하면 초기 쪽지 뷰 페이저만 안 띄워지는 원인 파악
-                    shuffle()
                 }
                 .onFailure { t ->
                     if (t is HttpException) {
@@ -293,7 +285,7 @@ class VoteViewModel @Inject constructor(
             )
             initCurrentChoice()
             viewModelScope.launch {
-                delay(500L)
+                delay(DURATION_VIEW_SETTING)
                 isTransitioning = false
             }
         }
@@ -314,7 +306,7 @@ class VoteViewModel @Inject constructor(
             _totalPoint.value = vote.totalPoint
             initCurrentChoice()
             // TODO: delay 없이 해결 가능한 방법 찾아보기
-            delay(500L)
+            delay(DURATION_VIEW_SETTING)
             _currentNoteIndex.value = vote.currentIndex
         }
     }
@@ -325,5 +317,7 @@ class VoteViewModel @Inject constructor(
         private const val MAX_COUNT_SHUFFLE = 3
         private const val DELAY_OPTION_SELECTION = 1000L
         private const val ID_EMPTY_USER = -1
+
+        private const val DURATION_VIEW_SETTING = 200L
     }
 }

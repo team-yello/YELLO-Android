@@ -105,7 +105,7 @@ class ProfileViewModel @Inject constructor(
     }
 
     fun resetStateVariable() {
-        _deleteFriendState.value = UiState.Loading
+        _deleteFriendState.value = UiState.Empty
         _deleteUserState.value = UiState.Empty
         _kakaoLogoutState.value = UiState.Empty
         _kakaoQuitState.value = UiState.Empty

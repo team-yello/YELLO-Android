@@ -1,10 +1,12 @@
 package com.el.yello.presentation.main.profile
 
+import android.content.Context
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.el.yello.R
 import com.el.yello.util.amplitude.AmplitudeUtils
 import com.example.domain.entity.PayInfoModel
 import com.example.domain.entity.ProfileFriendsListModel
@@ -85,18 +87,9 @@ class ProfileViewModel @Inject constructor(
     fun setQuitReason(reason: String) {
         quitReasonText.value = reason
     }
-    fun addQuitReasonList() {
-        val quitReasonList = listOf(
-            "앱에 아는 사람들이 없어서",
-            "구독권과 열람권의 가격이 비싸서",
-            "오류가 많아서",
-            "재밌는 콘텐츠 또는 질문이 없어서",
-            "포인트를 너무 적게 줘서",
-            "내 정보를 삭제하고 싶어서",
-            "다른 앱이 더 재밌어서",
-            "기타",
-        )
-        _quitReasonData.value = quitReasonList
+    fun addQuitReasonList(context: Context) {
+        val quitReasonArray = context.resources.getStringArray(R.array.quit_reasons)
+        _quitReasonData.value = quitReasonArray.toList()
     }
 
     fun setItemPosition(position: Int) {

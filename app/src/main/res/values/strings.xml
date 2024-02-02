@@ -363,4 +363,15 @@
     <string name="notice_do_not_see_it_again">다시 보지 않기</string>
     <string name="notice_close">닫기</string>
     <string name="notice_do_not_see_it_again_icon">다시 보지 않기 아이콘</string>
+
+    <string-array name="quit_reasons">
+        <item>앱에 아는 사람들이 없어서</item>
+        <item>구독권과 열람권의 가격이 비싸서</item>
+        <item>오류가 많아서</item>
+        <item>재밌는 콘텐츠 또는 질문이 없어서</item>
+        <item>포인트를 너무 적게 줘서</item>
+        <item>내 정보를 삭제하고 싶어서</item>
+        <item>다른 앱이 더 재밌어서</item>
+        <item>기타</item>
+    </string-array>
 </resources>

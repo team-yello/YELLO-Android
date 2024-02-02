@@ -28,7 +28,7 @@ class ProfileQuitReasonActivity :
     }
 
     private fun initQuitReasonAdapter() {
-        viewModel.addQuitReasonList()
+        viewModel.addQuitReasonList(this)
         quitReasonList = viewModel.quitReasonData.value ?: emptyList()
         val adapter = ProfileQuitReasonAdapter(
             storeQuitReason = ::storeQuitReason,

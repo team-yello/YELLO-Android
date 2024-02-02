@@ -1,16 +1,22 @@
-package com.el.yello.presentation.main.yello.vote.note
+package com.el.yello.presentation.main.yello.vote.frame
 
 import android.os.Bundle
 import android.view.View
 import androidx.core.os.bundleOf
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.flowWithLifecycle
+import androidx.lifecycle.lifecycleScope
 import com.el.yello.R
 import com.el.yello.databinding.FragmentNoteFrameBinding
+import com.el.yello.presentation.main.yello.vote.NoteState
 import com.el.yello.presentation.main.yello.vote.VoteViewModel
 import com.el.yello.util.amplitude.AmplitudeUtils
+import com.el.yello.util.context.yelloSnackbar
 import com.example.ui.base.BindingFragment
 import com.example.ui.view.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import org.json.JSONObject
 
 @AndroidEntryPoint
@@ -84,6 +90,45 @@ class NoteFrameFragment : BindingFragment<FragmentNoteFrameBinding>(R.layout.fra
                 AmplitudeUtils.trackEventWithProperties(EVENT_CLICK_VOTE_SKIP, properties)
             }
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        setupVoteState()
+    }
+
+    private fun setupVoteState() {
+        viewModel.noteState.flowWithLifecycle(viewLifecycleOwner.lifecycle)
+            .onEach { state ->
+                when (state) {
+                    NoteState.Success -> return@onEach
+                    NoteState.InvalidSkip -> yelloSnackbar(
+                        binding.root,
+                        getString(R.string.note_msg_invalid_skip),
+                    )
+
+                    NoteState.InvalidCancel -> yelloSnackbar(
+                        binding.root,
+                        getString(R.string.note_msg_invalid_cancel),
+                    )
+
+                    NoteState.InvalidShuffle -> yelloSnackbar(
+                        binding.root,
+                        getString(R.string.note_msg_invalid_shuffle),
+                    )
+
+                    NoteState.InvalidName -> yelloSnackbar(
+                        binding.root,
+                        getString(R.string.note_msg_invalid_name),
+                    )
+
+                    NoteState.Failure -> yelloSnackbar(
+                        binding.root,
+                        getString(R.string.msg_error),
+                    )
+                }
+            }.launchIn(viewLifecycleOwner.lifecycleScope)
     }
 
     companion object {

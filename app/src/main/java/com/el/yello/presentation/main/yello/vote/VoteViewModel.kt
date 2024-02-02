@@ -111,6 +111,8 @@ class VoteViewModel @Inject constructor(
                     _voteState.value = Success(notes)
                     _voteList.value = notes
                     initVoteIndex()
+                    // TODO : 셔플 안 하면 초기 쪽지 뷰 페이저만 안 띄워지는 원인 파악
+                    shuffle()
                 }
                 .onFailure { t ->
                     if (t is HttpException) {
@@ -229,7 +231,12 @@ class VoteViewModel @Inject constructor(
 
     private fun postVote() {
         viewModelScope.launch {
-            voteRepository.postVote(ChoiceList(choiceList = choiceList, totalPoint = votePointSum))
+            voteRepository.postVote(
+                ChoiceList(
+                    choiceList = choiceList,
+                    totalPoint = votePointSum,
+                ),
+            )
                 .onSuccess { point ->
                     Timber.d("POST VOTE SUCCESS : $point")
                     if (point == null) {

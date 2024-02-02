@@ -112,6 +112,7 @@ object BindingAdapter {
                 else -> R.raw.lottie_note_balloon8
             },
         )
+        playAnimation()
     }
 
     @JvmStatic

@@ -6,6 +6,9 @@ import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import com.el.yello.R
 import com.el.yello.databinding.ActivityVoteBinding
+import com.el.yello.presentation.main.yello.vote.frame.NoteFrameAdapter
+import com.el.yello.presentation.main.yello.vote.note.NoteAdapter
+import com.el.yello.presentation.util.setCurrentItemWithDuration
 import com.el.yello.util.amplitude.AmplitudeUtils
 import com.el.yello.util.context.yelloSnackbar
 import com.example.ui.base.BindingActivity
@@ -21,9 +24,17 @@ import org.json.JSONObject
 class VoteActivity : BindingActivity<ActivityVoteBinding>(R.layout.activity_vote) {
     private val viewModel by viewModels<VoteViewModel>()
 
-    private val voteAdapter by lazy {
-        VoteAdapter(
+    private val noteAdapter by lazy {
+        NoteAdapter(
             fragmentActivity = this,
+            voteListSize = viewModel.totalListCount + 1,
+        )
+    }
+
+    private val noteFrameAdapter by lazy {
+        NoteFrameAdapter(
+            fragmentActivity = this,
+            bgIndex = viewModel.backgroundIndex,
             voteListSize = viewModel.totalListCount + 1,
         )
     }
@@ -42,7 +53,7 @@ class VoteActivity : BindingActivity<ActivityVoteBinding>(R.layout.activity_vote
             .onEach { state ->
                 when (state) {
                     is UiState.Loading -> {}
-                    is UiState.Success -> initVoteViewPager()
+                    is UiState.Success -> initNoteViewPager()
                     is UiState.Empty -> {}
                     is UiState.Failure -> {
                         // TODO: 커스텀 스낵바로 변경
@@ -53,17 +64,23 @@ class VoteActivity : BindingActivity<ActivityVoteBinding>(R.layout.activity_vote
             }.launchIn(lifecycleScope)
     }
 
-    private fun initVoteViewPager() {
-        with(binding) {
-            vpVote.adapter = voteAdapter
-            vpVote.setPageTransformer(FadeOutTransformation())
-            vpVote.isUserInputEnabled = false
+    private fun initNoteViewPager() {
+        with(binding.vpVoteNote) {
+            adapter = noteAdapter
+            isUserInputEnabled = false
+        }
+        with(binding.vpVoteNoteFrame) {
+            adapter = noteFrameAdapter
+            setPageTransformer(FadeOutTransformation())
+            isUserInputEnabled = false
         }
     }
 
     private fun setupCurrentNoteIndex() {
         viewModel._currentNoteIndex.flowWithLifecycle(lifecycle)
             .onEach { index ->
+                binding.vpVoteNote.setCurrentItemWithDuration(index, DURATION_NOTE_TRANSITION)
+                binding.vpVoteNoteFrame.setCurrentItemWithDuration(index, DURATION_FRAME_TRANSITION)
                 if (index <= viewModel.totalListCount) {
                     val properties = JSONObject().put(JSON_VOTE_STEP, index + 1)
                     AmplitudeUtils.trackEventWithProperties(EVENT_VIEW_VOTE_QUESTION, properties)
@@ -90,6 +107,8 @@ class VoteActivity : BindingActivity<ActivityVoteBinding>(R.layout.activity_vote
     }
 
     companion object {
+        private const val DURATION_NOTE_TRANSITION = 500L
+        private const val DURATION_FRAME_TRANSITION = 400L
         private const val JSON_VOTE_STEP = "vote_step"
         private const val EVENT_VIEW_VOTE_QUESTION = "view_vote_question"
     }

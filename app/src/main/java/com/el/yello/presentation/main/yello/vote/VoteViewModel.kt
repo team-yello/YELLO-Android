@@ -299,13 +299,13 @@ class VoteViewModel @Inject constructor(
                 return@launch
             }
 
+            Timber.tag("GET_STORED_VOTE_SUCCESS").d(vote.toString())
             totalListCount = vote.questionList.size - 1
             _voteList.value = vote.questionList
             _voteState.value = Success(vote.questionList)
             _choiceList.value = vote.choiceList
             _totalPoint.value = vote.totalPoint
             initCurrentChoice()
-            // TODO: delay 없이 해결 가능한 방법 찾아보기
             delay(DURATION_VIEW_SETTING)
             _currentNoteIndex.value = vote.currentIndex
         }
@@ -318,6 +318,7 @@ class VoteViewModel @Inject constructor(
         private const val DELAY_OPTION_SELECTION = 1000L
         private const val ID_EMPTY_USER = -1
 
-        private const val DURATION_VIEW_SETTING = 200L
+        // TODO: delay 없이 해결 가능한 방법 찾아보기
+        private const val DURATION_VIEW_SETTING = 500L
     }
 }

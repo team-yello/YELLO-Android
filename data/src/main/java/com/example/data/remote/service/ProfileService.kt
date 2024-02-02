@@ -35,7 +35,7 @@ interface ProfileService {
         @Body request: ProfileModRequestDto
     ): BaseResponse<Unit>
 
-    @GET("/api/v1/user/data/account-update-at")
+    @GET("/api/v1/user/data/account-updated-at")
     suspend fun getModValidData(): BaseResponse<ResponseProfileModValidDto>
 
 }

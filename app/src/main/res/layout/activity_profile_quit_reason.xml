@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="vm"
+            type="com.el.yello.presentation.main.profile.ProfileViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/black">
+
+        <ImageView
+            android:id="@+id/btn_profile_quit_reason_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingVertical="12dp"
+            android:paddingStart="16dp"
+            android:paddingEnd="8dp"
+            android:src="@drawable/ic_arrow_left"
+            app:layout_constraintBottom_toBottomOf="@id/tv_profile_quit_for_sure_title"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tv_profile_quit_for_sure_title" />
+
+        <TextView
+            android:id="@+id/tv_profile_quit_for_sure_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="1dp"
+            android:paddingVertical="15dp"
+            android:text="@string/profile_quit_for_sure_tv_title"
+            android:textAppearance="?textAppearanceSubtitle1"
+            android:textColor="@color/white"
+            app:layout_constraintStart_toEndOf="@id/btn_profile_quit_reason_back"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/sv_quit_reason"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:fillViewport="true"
+            app:layout_constraintBottom_toTopOf="@+id/btn_profile_quit_reason_done"
+            app:layout_constraintTop_toBottomOf="@id/tv_profile_quit_for_sure_title">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layout_profile_quit_reason"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/tv_profile_quit_reason_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="39dp"
+                    android:text="@string/profile_quit_reason_title"
+                    android:textAlignment="center"
+                    android:textAppearance="@style/TextAppearance.Yello.Headline01"
+                    android:textColor="@color/white"
+                    app:layout_constraintTop_toTopOf="@id/layout_profile_quit_reason" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_quit_reason"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="32dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="26dp"
+                    android:orientation="vertical"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    android:overScrollMode="never"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_profile_quit_reason_title"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    tools:listitem="@layout/item_profile_quit_reason" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.core.widget.NestedScrollView>
+
+        <TextView
+            android:id="@+id/btn_profile_quit_reason_done"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginBottom="34dp"
+            android:background="@{!vm.etcText.isEmpty() ?  @drawable/shape_black_fill_grayscales700_line_100_rect :  @drawable/shape_black_fill_grayscales600_line_100_rect}"
+            android:gravity="center"
+            android:paddingVertical="16dp"
+            android:text="@string/profile_quit_reason_button"
+            android:enabled="@{!vm.etcText.isEmpty()}"
+            android:textColor="@{!vm.etcText.isEmpty() ? @color/semantic_red_500 : @color/grayscales_600}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

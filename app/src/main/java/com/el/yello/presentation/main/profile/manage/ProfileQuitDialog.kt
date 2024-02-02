@@ -70,8 +70,6 @@ class ProfileQuitDialog :
             viewModel.deleteUserDataToServer()
         }
     }
-
-    // 유저 탈퇴 서버 통신 성공 시 카카오 연결 해제 진행
     private fun observeUserDeleteState() {
         viewModel.deleteUserState.flowWithLifecycle(lifecycle).onEach { state ->
             when (state) {

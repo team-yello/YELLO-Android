@@ -36,14 +36,12 @@ class PayReSubsNoticeDialog :
     }
 
     private fun setNoticeBtnClickListener() {
-        binding.btnNoticeQuit.setOnSingleClickListener {
-            dismiss()
-        }
+        binding.btnNoticeQuit.setOnSingleClickListener { dismiss() }
         binding.btnYelloplusSubscribe.setOnSingleClickListener {
+            dismiss()
             Intent(requireContext(), PayActivity::class.java).apply {
                 startActivity(this)
             }
-            dismiss()
         }
     }
 
@@ -62,7 +60,6 @@ class PayReSubsNoticeDialog :
 
     companion object {
         private const val ARG_EXPIRED_DATE = "arg_expired_date"
-
         @JvmStatic
         fun newInstance(expiredDate: String): PayReSubsNoticeDialog {
             return PayReSubsNoticeDialog().apply {

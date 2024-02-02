@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="reason"
+            type="String" />
+
+    </data>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cv_quit_reason_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardBackgroundColor="@color/grayscales_900"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="10dp"
+        android:layout_marginBottom="4dp"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingVertical="20dp">
+
+            <ImageView
+                android:id="@+id/iv_quit_reason_checkpoint"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:src="@drawable/ic_profile_quit_reason_uncheck"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_quit_reason_list"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:textAppearance="@style/TextAppearance.Yello.BodyLarge"
+                android:textColor="@color/white"
+                android:text="@{reason}"
+                app:layout_constraintStart_toEndOf="@id/iv_quit_reason_checkpoint"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="오류가 많아서" />
+
+            <EditText
+                android:id="@+id/et_quit_etc"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginHorizontal="15dp"
+                android:layout_marginTop="7dp"
+                android:background="@drawable/shape_grayscales800_fill_8_rect"
+                android:hint="@string/profile_quit_reason_hint"
+                android:paddingHorizontal="14dp"
+                android:paddingTop="12dp"
+                android:paddingBottom="44dp"
+                android:maxLength="30"
+                android:singleLine="true"
+                android:visibility="gone"
+                android:inputType="text"
+                android:textAppearance="@style/TextAppearance.Yello.Body02"
+                android:textColor="@color/white"
+                android:textColorHint="@color/grayscales_600"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/iv_quit_reason_checkpoint" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+</layout>

@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.el.yello.R
 import com.el.yello.databinding.FragmentAddFriendBinding
 import com.el.yello.presentation.onboarding.activity.OnBoardingActivity
-import com.el.yello.presentation.onboarding.activity.OnBoardingViewModel
+import com.el.yello.presentation.onboarding.OnBoardingViewModel
 import com.el.yello.util.amplitude.AmplitudeUtils
 import com.example.domain.entity.onboarding.AddFriendListModel.FriendModel
 import com.example.ui.base.BindingFragment

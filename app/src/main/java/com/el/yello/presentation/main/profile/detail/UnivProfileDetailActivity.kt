@@ -2,6 +2,7 @@ package com.el.yello.presentation.main.profile.detail
 
 import android.os.Bundle
 import androidx.activity.viewModels
+import androidx.core.view.isVisible
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import com.el.yello.R
@@ -15,6 +16,7 @@ import com.example.ui.context.toast
 import com.example.ui.view.UiState
 import com.example.ui.view.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
@@ -87,7 +89,11 @@ class UnivProfileDetailActivity :
 
     private fun observeKakaoDataResult() {
         viewModel.getKakaoInfoResult.flowWithLifecycle(lifecycle).onEach { result ->
-            if (!result) yelloSnackbar(binding.root, getString(R.string.msg_error))
+            if (result) {
+                binding.ivProfileDetailThumbnailEmpty.isVisible = true
+            } else {
+                yelloSnackbar(binding.root, getString(R.string.msg_error))
+            }
         }.launchIn(lifecycleScope)
     }
 
@@ -107,6 +113,8 @@ class UnivProfileDetailActivity :
 
                 is UiState.Loading -> return@onEach
             }
+            delay(500)
+            binding.ivProfileDetailThumbnailEmpty.isVisible = false
         }.launchIn(lifecycleScope)
     }
 }

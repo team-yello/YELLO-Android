@@ -18,7 +18,7 @@ import com.el.yello.R
 import com.el.yello.databinding.FragmentModSearchBottomSheetBinding
 import com.el.yello.presentation.main.profile.mod.UnivProfileModViewModel.Companion.TEXT_NONE
 import com.el.yello.presentation.onboarding.fragment.highschoolinfo.school.HighSchoolAdapter
-import com.el.yello.presentation.onboarding.fragment.highschoolinfo.school.SearchDialogHighSchoolFragment.Companion.HIGHSCHOOL_FORM_URL
+import com.el.yello.presentation.onboarding.fragment.highschoolinfo.school.SearchDialogHighSchoolFragment.Companion.HIGH_SCHOOL_FORM_URL
 import com.example.ui.base.BindingBottomSheetDialog
 import com.example.ui.context.hideKeyboard
 import com.example.ui.fragment.toast
@@ -74,7 +74,7 @@ class SchoolModSearchBottomSheet :
 
     private fun initSchoolFormBtnListener() {
         binding.btnAddForm.setOnClickListener {
-            Intent(Intent.ACTION_VIEW, Uri.parse(HIGHSCHOOL_FORM_URL)).apply {
+            Intent(Intent.ACTION_VIEW, Uri.parse(HIGH_SCHOOL_FORM_URL)).apply {
                 startActivity(this)
             }
         }

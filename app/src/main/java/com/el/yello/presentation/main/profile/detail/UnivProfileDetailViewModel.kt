@@ -40,6 +40,7 @@ class UnivProfileDetailViewModel @Inject constructor(
     fun resetViewModelState() {
         _getUserDataState.value = UiState.Empty
         _postToModProfileState.value = UiState.Empty
+        _getKakaoInfoResult.resetReplayCache()
     }
 
     fun getUserDataFromServer() {
@@ -74,11 +75,14 @@ class UnivProfileDetailViewModel @Inject constructor(
 
     fun getUserInfoFromKakao() {
         UserApiClient.instance.me { user, _ ->
-            try {
-                myUserData.profileImageUrl = user?.kakaoAccount?.profile?.profileImageUrl.orEmpty()
-                postNewProfileImageToServer()
-            } catch (e: IllegalArgumentException) {
-                viewModelScope.launch {
+            viewModelScope.launch {
+                try {
+                    if (myUserData.profileImageUrl != user?.kakaoAccount?.profile?.profileImageUrl) {
+                        myUserData.profileImageUrl = user?.kakaoAccount?.profile?.profileImageUrl.orEmpty()
+                        _getKakaoInfoResult.emit(true)
+                        postNewProfileImageToServer()
+                    }
+                } catch (e: IllegalArgumentException) {
                     _getKakaoInfoResult.emit(false)
                 }
             }

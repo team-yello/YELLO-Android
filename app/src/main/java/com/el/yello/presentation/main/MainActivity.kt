@@ -26,7 +26,6 @@ import com.el.yello.presentation.util.dp
 import com.el.yello.util.amplitude.AmplitudeUtils
 import com.el.yello.util.context.yelloSnackbar
 import com.example.domain.enum.SubscribeType.CANCELED
-import com.example.domain.enum.SubscribeType.NORMAL
 import com.example.ui.base.BindingActivity
 import com.example.ui.context.toast
 import com.example.ui.intent.stringExtra
@@ -35,6 +34,7 @@ import com.example.ui.view.UiState.Failure
 import com.example.ui.view.UiState.Loading
 import com.example.ui.view.UiState.Success
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import java.text.SimpleDateFormat
@@ -49,6 +49,7 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
     private val type by stringExtra()
 
     private var backPressedTime: Long = 0
+    private var userSubsStateJob: Job? = null
 
     private val onBackPressedCallback = object : OnBackPressedCallback(true) {
         override fun handleOnBackPressed() {
@@ -189,7 +190,7 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
     }
 
     private fun setupGetUserSubsState() {
-        viewModel.getUserSubsState.flowWithLifecycle(lifecycle)
+        userSubsStateJob = viewModel.getUserSubsState.flowWithLifecycle(lifecycle)
             .onEach { state ->
                 when (state) {
                     is Empty -> return@onEach
@@ -273,6 +274,10 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
         val badgeDrawable = binding.bnvMain.getOrCreateBadge(R.id.menu_my_yello)
         badgeDrawable.number = count
         badgeDrawable.isVisible = count != 0
+    }
+
+    fun resetUserSubsStateFlow() {
+        userSubsStateJob?.cancel()
     }
 
     companion object {

@@ -48,28 +48,26 @@ class CheckNameDialog :
     private fun initEditBtnListener() {
         val bundle = arguments
         if (bundle != null) {
-            // 다이얼로그에 카카오 계정 이름 띄우기
-            binding.tvNameEditDialogTitleTwo.text = bundle.getString(EXTRA_NAME)
-
-            // 이름 유지 (Y)
-            binding.btnNameEditDialogYes.setOnSingleClickListener {
-                Intent(requireContext(), OnBoardingActivity::class.java).apply {
-                    putExtras(bundle)
-                    addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                    startActivity(this)
+            with(binding) {
+                tvNameEditDialogTitleTwo.text = bundle.getString(EXTRA_NAME)
+                btnNameEditDialogYes.setOnSingleClickListener {
+                    Intent(requireContext(), OnBoardingActivity::class.java).apply {
+                        putExtras(bundle)
+                        addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                        startActivity(this)
+                    }
+                    dismiss()
+                    requireActivity().finish()
                 }
-                dismiss()
-                requireActivity().finish()
-            }
-            // 이름 수정 (N)
-            binding.btnNameEditDialogNo.setOnSingleClickListener {
-                Intent(requireContext(), EditNameActivity::class.java).apply {
-                    putExtras(bundle)
-                    addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                    startActivity(this)
+                btnNameEditDialogNo.setOnSingleClickListener {
+                    Intent(requireContext(), EditNameActivity::class.java).apply {
+                        putExtras(bundle)
+                        addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                        startActivity(this)
+                    }
+                    dismiss()
+                    requireActivity().finish()
                 }
-                dismiss()
-                requireActivity().finish()
             }
         } else {
             toast(getString(R.string.sign_in_error_connection))

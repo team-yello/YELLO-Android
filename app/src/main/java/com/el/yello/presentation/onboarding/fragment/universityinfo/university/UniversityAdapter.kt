@@ -32,12 +32,14 @@ class UniversityAdapter(
     ) :
         RecyclerView.ViewHolder(binding.root) {
         fun setUniversity(university: String) {
-            binding.universityList = university
-            binding.root.setOnSingleClickListener {
-                storeUniversity(university)
-            }
-            binding.tvSchoolName.setOnSingleClickListener {
-                storeUniversity(university)
+            with(binding) {
+                universityList = university
+                root.setOnSingleClickListener {
+                    storeUniversity(university)
+                }
+                tvSchoolName.setOnSingleClickListener {
+                    storeUniversity(university)
+                }
             }
         }
     }

@@ -1,6 +1,7 @@
 package com.el.yello.di
 
 import com.example.data.repository.AuthRepositoryImpl
+import com.example.data.repository.NoticeRepositoryImpl
 import com.example.data.repository.OnboardingRepositoryImpl
 import com.example.data.repository.PayRepositoryImpl
 import com.example.data.repository.ProfileRepositoryImpl
@@ -9,6 +10,7 @@ import com.example.data.repository.SearchRepositoryImpl
 import com.example.data.repository.VoteRepositoryImpl
 import com.example.data.repository.YelloRepositoryImpl
 import com.example.domain.repository.AuthRepository
+import com.example.domain.repository.NoticeRepository
 import com.example.domain.repository.OnboardingRepository
 import com.example.domain.repository.PayRepository
 import com.example.domain.repository.ProfileRepository
@@ -65,4 +67,8 @@ object RepositoryModule {
     fun providePayRepository(payRepositoryImpl: PayRepositoryImpl): PayRepository =
         payRepositoryImpl
 
+    @Provides
+    @Singleton
+    fun provideNoticeRepository(noticeRepositoryImpl: NoticeRepositoryImpl): NoticeRepository =
+        noticeRepositoryImpl
 }

@@ -38,6 +38,6 @@ interface YelloService {
 
     @PATCH("api/v1/vote/{voteId}/fullname")
     suspend fun postFullName(
-        @Path("voteId") voteId: Long
+        @Path("voteId") voteId: Long,
     ): BaseResponse<ResponseFullName>
 }

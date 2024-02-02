@@ -5,12 +5,9 @@
     tools:context=".presentation.main.yello.vote.note.NoteFragment">
 
     <data>
-        <variable
-            name="index"
-            type="Integer" />
 
         <variable
-            name="bgIndex"
+            name="index"
             type="Integer" />
 
         <variable
@@ -22,740 +19,249 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layout_note"
-        setVoteBackground="@{bgIndex}"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:background="@drawable/shape_gradient_vote_bg_01">
+        android:layout_height="wrap_content">
 
-        <LinearLayout
-            android:id="@+id/layout_note_progress_bar"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_note_question"
             android:layout_width="0dp"
-            android:layout_height="6dp"
-            android:layout_marginHorizontal="16dp"
-            android:layout_marginTop="14dp"
-            android:background="@drawable/shape_white35_fill_20_rect"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="8dp"
+            android:background="@drawable/shape_black_fill_32_rect"
+            android:minHeight="154dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <View
-                android:id="@+id/view_note_progress"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="@{index + 1}"
-                android:background="@drawable/shape_white_fill_8_rect"
-                tools:layout_weight="1" />
-
-            <View
-                android:id="@+id/view_note_progress_left"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="@{7 - index}"
-                tools:layout_weight="7" />
-        </LinearLayout>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/layout_note_components"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="36dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/layout_note_progress_bar">
-
-            <com.airbnb.lottie.LottieAnimationView
-                android:id="@+id/lottie_note_balloon"
-                setBalloonSrc="@{index}"
+            <TextView
+                android:id="@+id/tv_note_first_sentence_head"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:minHeight="40dp"
-                app:layout_constraintEnd_toEndOf="parent"
+                android:fontFamily="@font/font_pretendard_bold"
+                android:text="@{vm._voteList.get(vm.currentNoteIndex).nameHead}"
+                android:textColor="@color/white"
+                android:textSize="24sp"
+                app:layout_constraintBottom_toBottomOf="@id/layout_note_blank_name"
+                app:layout_constraintEnd_toStartOf="@id/layout_note_blank_name"
+                app:layout_constraintHorizontal_chainStyle="packed"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:lottie_autoPlay="true"
-                app:lottie_loop="true"
-                app:lottie_rawRes="@raw/lottie_note_balloon1"
-                app:lottie_repeatMode="restart" />
+                app:layout_constraintTop_toTopOf="@id/layout_note_blank_name"
+                tools:text="나는" />
 
-            <LinearLayout
-                android:id="@+id/layout_note_progress_before"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_marginEnd="10dp"
-                android:gravity="end"
-                android:orientation="horizontal"
-                app:layout_constraintBottom_toBottomOf="@id/iv_note_face"
-                app:layout_constraintEnd_toStartOf="@id/iv_note_face"
-                app:layout_constraintTop_toTopOf="@id/iv_note_face" />
-
-            <ImageView
-                android:id="@+id/iv_note_face"
-                setFaceSrc="@{index}"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layout_note_blank_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:src="@drawable/img_note_face1"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/lottie_note_balloon" />
-
-            <LinearLayout
-                android:id="@+id/layout_note_progress_after"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
                 android:layout_marginStart="10dp"
-                android:orientation="horizontal"
-                app:layout_constraintBottom_toBottomOf="@id/iv_note_face"
-                app:layout_constraintStart_toEndOf="@id/iv_note_face"
-                app:layout_constraintTop_toTopOf="@id/iv_note_face" />
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/layout_note_question"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="8dp"
-                android:layout_marginTop="16dp"
-                android:background="@drawable/shape_black_fill_32_rect"
-                android:minHeight="154dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/iv_note_face">
+                android:background="@drawable/shape_grayscales900_fill_grayscales700_dashline_8_rect"
+                android:padding="1dp"
+                app:flow_verticalGap="100dp"
+                app:layout_constraintBottom_toTopOf="@id/layout_note_blank_keyword"
+                app:layout_constraintEnd_toStartOf="@id/tv_note_first_sentence_foot"
+                app:layout_constraintStart_toEndOf="@id/tv_note_first_sentence_head"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_chainStyle="packed">
 
                 <TextView
-                    android:id="@+id/tv_note_first_sentence_head"
+                    android:id="@+id/tv_note_name_invisible1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/font_pretendard_bold"
-                    android:text="@{vm._voteList.get(vm.currentNoteIndex).nameHead}"
-                    android:textColor="@color/white"
-                    android:textSize="24sp"
-                    app:layout_constraintBottom_toBottomOf="@id/layout_note_blank_name"
-                    app:layout_constraintEnd_toStartOf="@id/layout_note_blank_name"
-                    app:layout_constraintHorizontal_chainStyle="packed"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/layout_note_blank_name"
-                    tools:text="나는" />
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/layout_note_blank_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:background="@drawable/shape_grayscales900_fill_grayscales700_dashline_8_rect"
-                    android:padding="1dp"
-                    app:flow_verticalGap="100dp"
-                    app:layout_constraintBottom_toTopOf="@id/layout_note_blank_keyword"
-                    app:layout_constraintEnd_toStartOf="@id/tv_note_first_sentence_foot"
-                    app:layout_constraintStart_toEndOf="@id/tv_note_first_sentence_head"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_chainStyle="packed">
-
-                    <TextView
-                        android:id="@+id/tv_note_name_invisible1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@color/yello_main_500"
-                        android:lineSpacingExtra="24sp"
-                        android:paddingHorizontal="20dp"
-                        android:paddingVertical="7dp"
-                        android:rotation="-3"
-                        android:text="@{vm._voteList.get(vm.currentNoteIndex).friendList.get(0).name}"
-                        android:textAppearance="?textAppearanceBodyLarge"
-                        android:visibility="invisible"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        tools:text="김효원" />
-
-                    <TextView
-                        android:id="@+id/tv_note_name_invisible2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@color/yello_main_500"
-                        android:lineSpacingExtra="24sp"
-                        android:paddingHorizontal="20dp"
-                        android:paddingVertical="7dp"
-                        android:rotation="-3"
-                        android:text="@{vm._voteList.get(vm.currentNoteIndex).friendList.get(1).name}"
-                        android:textAppearance="?textAppearanceBodyLarge"
-                        android:visibility="invisible"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        tools:text="권세훈" />
-
-                    <TextView
-                        android:id="@+id/tv_note_name_invisible3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@color/yello_main_500"
-                        android:lineSpacingExtra="24sp"
-                        android:paddingHorizontal="20dp"
-                        android:paddingVertical="7dp"
-                        android:rotation="-3"
-                        android:text="@{vm._voteList.get(vm.currentNoteIndex).friendList.get(2).name}"
-                        android:textAppearance="?textAppearanceBodyLarge"
-                        android:visibility="invisible"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        tools:text="이강민" />
-
-                    <TextView
-                        android:id="@+id/tv_note_name_invisible4"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@color/yello_main_500"
-                        android:lineSpacingExtra="24sp"
-                        android:paddingHorizontal="20dp"
-                        android:paddingVertical="7dp"
-                        android:rotation="-3"
-                        android:text="@{vm._voteList.get(vm.currentNoteIndex).friendList.get(3).name}"
-                        android:textAppearance="?textAppearanceBodyLarge"
-                        android:visibility="invisible"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        tools:Text="이의제" />
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-                <TextView
-                    android:id="@+id/tv_note_name_selected"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginVertical="8dp"
                     android:background="@color/yello_main_500"
+                    android:lineSpacingExtra="24sp"
                     android:paddingHorizontal="20dp"
                     android:paddingVertical="7dp"
                     android:rotation="-3"
-                    android:text="@{vm._currentChoice.friendName}"
-                    android:textAppearance="?textAppearanceBodyLarge"
-                    android:visibility="@{vm._currentChoice.friendId == null ? View.INVISIBLE : View.VISIBLE}"
-                    app:layout_constraintBottom_toBottomOf="@id/layout_note_blank_name"
-                    app:layout_constraintEnd_toEndOf="@id/layout_note_blank_name"
-                    app:layout_constraintStart_toStartOf="@id/layout_note_blank_name"
-                    app:layout_constraintTop_toTopOf="@id/layout_note_blank_name"
-                    tools:text="이의제" />
-
-                <TextView
-                    android:id="@+id/tv_note_first_sentence_foot"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:fontFamily="@font/font_pretendard_bold"
-                    android:text="@{vm._voteList.get(vm.currentNoteIndex).nameFoot}"
-                    android:textColor="@color/white"
-                    android:textSize="24sp"
-                    app:layout_constraintBottom_toBottomOf="@id/layout_note_blank_name"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/layout_note_blank_name"
-                    app:layout_constraintTop_toTopOf="@id/layout_note_blank_name"
-                    tools:text="이(가)" />
-
-                <TextView
-                    android:id="@+id/tv_note_second_sentence_head"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/font_pretendard_bold"
-                    android:text="@{vm._voteList.get(vm.currentNoteIndex).keywordHead}"
-                    android:textColor="@color/white"
-                    android:textSize="24sp"
-                    app:layout_constraintBottom_toBottomOf="@id/layout_note_blank_keyword"
-                    app:layout_constraintEnd_toStartOf="@id/layout_note_blank_keyword"
-                    app:layout_constraintHorizontal_chainStyle="packed"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/layout_note_blank_keyword"
-                    tools:text="" />
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/layout_note_blank_keyword"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginTop="14dp"
-                    android:background="@drawable/shape_grayscales900_fill_grayscales700_dashline_8_rect"
-                    android:padding="1dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@id/tv_note_second_sentence_foot"
-                    app:layout_constraintStart_toEndOf="@id/tv_note_second_sentence_head"
-                    app:layout_constraintTop_toBottomOf="@id/layout_note_blank_name">
-
-                    <TextView
-                        android:id="@+id/tv_note_keyword_invisible1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@color/yello_main_500"
-                        android:lineSpacingExtra="24sp"
-                        android:paddingHorizontal="20dp"
-                        android:paddingVertical="7dp"
-                        android:rotation="-3"
-                        android:text="@{vm._voteList.get(vm.currentNoteIndex).keywordList.get(0)}"
-                        android:textAppearance="?textAppearanceBodyLarge"
-                        android:visibility="invisible"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        tools:text="99대장 나선욱이랑" />
-
-                    <TextView
-                        android:id="@+id/tv_note_keyword_invisible2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@color/yello_main_500"
-                        android:lineSpacingExtra="24sp"
-                        android:paddingHorizontal="20dp"
-                        android:paddingVertical="7dp"
-                        android:rotation="-3"
-                        android:text="@{vm._voteList.get(vm.currentNoteIndex).keywordList.get(1)}"
-                        android:textAppearance="?textAppearanceBodyLarge"
-                        android:visibility="invisible"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        tools:text="skrr하는 송민호랑" />
-
-                    <TextView
-                        android:id="@+id/tv_note_keyword_invisible3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@color/yello_main_500"
-                        android:lineSpacingExtra="24sp"
-                        android:paddingHorizontal="20dp"
-                        android:paddingVertical="7dp"
-                        android:rotation="-3"
-                        android:text="@{vm._voteList.get(vm.currentNoteIndex).keywordList.get(2)}"
-                        android:textAppearance="?textAppearanceBodyLarge"
-                        android:visibility="invisible"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        tools:text="범죄도시 손석구랑" />
-
-                    <TextView
-                        android:id="@+id/tv_note_keyword_invisible4"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@color/yello_main_500"
-                        android:lineSpacingExtra="24sp"
-                        android:paddingHorizontal="20dp"
-                        android:paddingVertical="7dp"
-                        android:rotation="-3"
-                        android:text="@{vm._voteList.get(vm.currentNoteIndex).keywordList.get(3)}"
-                        android:textAppearance="?textAppearanceBodyLarge"
-                        android:visibility="invisible"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        tools:text="코딩하는 강동원이랑" />
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-                <TextView
-                    android:id="@+id/tv_note_keyword_selected"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginVertical="8dp"
-                    android:background="@color/yello_main_500"
-                    android:paddingHorizontal="20dp"
-                    android:paddingVertical="7dp"
-                    android:rotation="-3"
-                    android:text="@{vm._currentChoice.keywordName}"
-                    android:textAppearance="?textAppearanceBodyLarge"
-                    android:visibility="@{vm._currentChoice.keywordName == null ? View.INVISIBLE : View.VISIBLE}"
-                    app:layout_constraintBottom_toBottomOf="@id/layout_note_blank_keyword"
-                    app:layout_constraintEnd_toEndOf="@id/layout_note_blank_keyword"
-                    app:layout_constraintStart_toStartOf="@id/layout_note_blank_keyword"
-                    app:layout_constraintTop_toTopOf="@id/layout_note_blank_keyword"
-                    tools:text="skrr하는 송민호랑" />
-
-                <TextView
-                    android:id="@+id/tv_note_second_sentence_foot"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:fontFamily="@font/font_pretendard_bold"
-                    android:text="@{vm._voteList.get(vm.currentNoteIndex).keywordFoot}"
-                    android:textColor="@color/white"
-                    android:textSize="24sp"
-                    app:layout_constraintBottom_toBottomOf="@id/layout_note_blank_keyword"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/layout_note_blank_keyword"
-                    app:layout_constraintTop_toTopOf="@id/layout_note_blank_keyword"
-                    tools:text="닮은 것 같아" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/btn_note_name1"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:background="@drawable/shape_black_fill_grayscales700_line_top32_rect"
-                android:onClick="@{()->vm.selectName(0)}"
-                android:paddingVertical="20dp"
-                app:layout_constraintHorizontal_weight="37">
-
-                <TextView
-                    android:id="@+id/tv_note_name1_name"
-                    optionIndex="@{vm._voteList[vm.currentNoteIndex].friendList[0].id}"
-                    selectedIndex="@{vm._currentChoice.friendId}"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/font_pretendard_medium"
-                    android:lineHeight="16sp"
-                    android:onClick="@{()->vm.selectName(0)}"
                     android:text="@{vm._voteList.get(vm.currentNoteIndex).friendList.get(0).name}"
-                    android:textColor="@color/white"
-                    android:textSize="15sp"
+                    android:textAppearance="?textAppearanceBodyLarge"
+                    android:visibility="invisible"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:text="김효원" />
 
                 <TextView
-                    android:id="@+id/tv_note_name1_id"
-                    optionId="@{vm._voteList[vm.currentNoteIndex].friendList[0].id}"
-                    selectedId="@{vm._currentChoice.friendId}"
+                    android:id="@+id/tv_note_name_invisible2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:fontFamily="@font/font_pretendard_medium"
-                    android:lineHeight="10sp"
-                    android:onClick="@{()->vm.selectName(0)}"
-                    android:text="@{@string/note_yello_id(vm._voteList.get(vm.currentNoteIndex).friendList.get(0).yelloId)}"
-                    android:textSize="10sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tv_note_name1_name"
-                    tools:text="\@kev_hy1042"
-                    tools:textColor="@color/grayscales_600" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/btn_note_keyword1"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_marginStart="-1dp"
-                android:background="@drawable/shape_black_fill_grayscales700_line_top32_rect"
-                android:onClick="@{()->vm.selectKeyword(0)}"
-                app:layout_constraintBottom_toBottomOf="@id/btn_note_name1"
-                app:layout_constraintHorizontal_weight="49"
-                app:layout_constraintTop_toTopOf="@id/btn_note_name1">
-
-                <TextView
-                    android:id="@+id/tv_note_keyword1"
-                    optionKeyword="@{vm._voteList.get(vm.currentNoteIndex).keywordList[0]}"
-                    selectedKeyword="@{vm._currentChoice.keywordName}"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:onClick="@{()->vm.selectKeyword(0)}"
-                    android:text="@{vm._voteList.get(vm.currentNoteIndex).keywordList.get(0)}"
-                    android:textAppearance="?textAppearanceBodyMedium"
-                    android:textColor="@color/white"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:text="99대장 나선욱이랑" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <androidx.constraintlayout.helper.widget.Flow
-                android:id="@+id/flow_note_pick1"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="8dp"
-                android:layout_marginTop="5dp"
-                app:constraint_referenced_ids="btn_note_name1,btn_note_keyword1"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/layout_note_question" />
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/btn_note_name2"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:background="@drawable/shape_black_fill_grayscales700_line_rect"
-                android:onClick="@{()->vm.selectName(1)}"
-                android:paddingVertical="20dp"
-                app:layout_constraintHorizontal_weight="37">
-
-                <TextView
-                    android:id="@+id/tv_note_name2_name"
-                    optionIndex="@{vm._voteList[vm.currentNoteIndex].friendList[1].id}"
-                    selectedIndex="@{vm._currentChoice.friendId}"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/font_pretendard_medium"
-                    android:lineHeight="16sp"
-                    android:onClick="@{()->vm.selectName(1)}"
+                    android:background="@color/yello_main_500"
+                    android:lineSpacingExtra="24sp"
+                    android:paddingHorizontal="20dp"
+                    android:paddingVertical="7dp"
+                    android:rotation="-3"
                     android:text="@{vm._voteList.get(vm.currentNoteIndex).friendList.get(1).name}"
-                    android:textColor="@color/white"
-                    android:textSize="15sp"
+                    android:textAppearance="?textAppearanceBodyLarge"
+                    android:visibility="invisible"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:text="권세훈" />
 
                 <TextView
-                    android:id="@+id/tv_note_name2_id"
-                    optionId="@{vm._voteList[vm.currentNoteIndex].friendList[1].id}"
-                    selectedId="@{vm._currentChoice.friendId}"
+                    android:id="@+id/tv_note_name_invisible3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:visibility="@{(vm._voteList.get(vm.currentNoteIndex).friendList.get(1).id == -1)? View.INVISIBLE : View.VISIBLE}"
-                    android:fontFamily="@font/font_pretendard_medium"
-                    android:lineHeight="10sp"
-                    android:onClick="@{()->vm.selectName(1)}"
-                    android:text="@{@string/note_yello_id(vm._voteList.get(vm.currentNoteIndex).friendList.get(1).yelloId)}"
-                    android:textSize="10sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tv_note_name2_name"
-                    tools:text="\@hj__p_"
-                    tools:textColor="@color/grayscales_600" />
-
-                <TextView
-                    android:id="@+id/tv_note_name2_null"
-                    android:layout_width="wrap_content"
-                    android:visibility="@{(vm._voteList.get(vm.currentNoteIndex).friendList.get(1).id == -1)? View.VISIBLE : View.INVISIBLE}"
-                    android:layout_height="wrap_content"
-                    android:text="@string/note_friend_null"
-                    android:textAppearance="?textAppearanceBody2"
-                    android:textColor="@color/grayscales_600"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/btn_note_keyword2"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:background="@drawable/shape_black_fill_grayscales700_line_rect"
-                android:onClick="@{()->vm.selectKeyword(1)}"
-                app:layout_constraintBottom_toBottomOf="@id/btn_note_name2"
-                app:layout_constraintHorizontal_weight="49"
-                app:layout_constraintTop_toTopOf="@id/btn_note_name2">
-
-                <TextView
-                    android:id="@+id/tv_note_keyword2"
-                    optionKeyword="@{vm._voteList.get(vm.currentNoteIndex).keywordList[1]}"
-                    selectedKeyword="@{vm._currentChoice.keywordName}"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/font_pretendard_medium"
-                    android:onClick="@{()->vm.selectKeyword(1)}"
-                    android:text="@{vm._voteList.get(vm.currentNoteIndex).keywordList.get(1)}"
-                    android:textColor="@color/white"
-                    android:textSize="15sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:text="skrr하는 송민호랑" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <androidx.constraintlayout.helper.widget.Flow
-                android:id="@+id/flow_note_pick2"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="8dp"
-                android:layout_marginTop="-1dp"
-                app:constraint_referenced_ids="btn_note_name2,btn_note_keyword2"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/flow_note_pick1" />
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/btn_note_name3"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:background="@drawable/shape_black_fill_grayscales700_line_rect"
-                android:onClick="@{()->vm.selectName(2)}"
-                android:paddingVertical="20dp"
-                app:layout_constraintHorizontal_weight="37">
-
-                <TextView
-                    android:id="@+id/tv_note_name3_name"
-                    optionIndex="@{vm._voteList[vm.currentNoteIndex].friendList[2].id}"
-                    selectedIndex="@{vm._currentChoice.friendId}"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/font_pretendard_medium"
-                    android:lineHeight="16sp"
-                    android:onClick="@{()->vm.selectName(2)}"
+                    android:background="@color/yello_main_500"
+                    android:lineSpacingExtra="24sp"
+                    android:paddingHorizontal="20dp"
+                    android:paddingVertical="7dp"
+                    android:rotation="-3"
                     android:text="@{vm._voteList.get(vm.currentNoteIndex).friendList.get(2).name}"
-                    android:textColor="@color/white"
-                    android:textSize="15sp"
+                    android:textAppearance="?textAppearanceBodyLarge"
+                    android:visibility="invisible"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:text="이강민" />
 
                 <TextView
-                    android:id="@+id/tv_note_name3_id"
-                    optionId="@{vm._voteList[vm.currentNoteIndex].friendList[2].id}"
-                    selectedId="@{vm._currentChoice.friendId}"
+                    android:id="@+id/tv_note_name_invisible4"
                     android:layout_width="wrap_content"
-                    android:visibility="@{(vm._voteList.get(vm.currentNoteIndex).friendList.get(2).id == -1)? View.INVISIBLE : View.VISIBLE}"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:fontFamily="@font/font_pretendard_medium"
-                    android:lineHeight="10sp"
-                    android:onClick="@{()->vm.selectName(2)}"
-                    android:text="@{@string/note_yello_id(vm._voteList.get(vm.currentNoteIndex).friendList.get(2).yelloId)}"
-                    android:textSize="10sp"
+                    android:background="@color/yello_main_500"
+                    android:lineSpacingExtra="24sp"
+                    android:paddingHorizontal="20dp"
+                    android:paddingVertical="7dp"
+                    android:rotation="-3"
+                    android:text="@{vm._voteList.get(vm.currentNoteIndex).friendList.get(3).name}"
+                    android:textAppearance="?textAppearanceBodyLarge"
+                    android:visibility="invisible"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tv_note_name3_name"
-                    tools:text="\@_euije"
-                    tools:textColor="@color/grayscales_600" />
-
-                <TextView
-                    android:id="@+id/tv_note_name3_null"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:visibility="@{(vm._voteList.get(vm.currentNoteIndex).friendList.get(2).id == -1)? View.VISIBLE : View.INVISIBLE}"
-                    android:text="@string/note_friend_null"
-                    android:textAppearance="?textAppearanceBody2"
-                    android:textColor="@color/grayscales_600"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:Text="이의제" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
+            <TextView
+                android:id="@+id/tv_note_name_selected"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="8dp"
+                android:background="@color/yello_main_500"
+                android:paddingHorizontal="20dp"
+                android:paddingVertical="7dp"
+                android:rotation="-3"
+                android:text="@{vm._currentChoice.friendName}"
+                android:textAppearance="?textAppearanceBodyLarge"
+                android:visibility="@{vm._currentChoice.friendId == null ? View.INVISIBLE : View.VISIBLE}"
+                app:layout_constraintBottom_toBottomOf="@id/layout_note_blank_name"
+                app:layout_constraintEnd_toEndOf="@id/layout_note_blank_name"
+                app:layout_constraintStart_toStartOf="@id/layout_note_blank_name"
+                app:layout_constraintTop_toTopOf="@id/layout_note_blank_name"
+                tools:text="이의제" />
+
+            <TextView
+                android:id="@+id/tv_note_first_sentence_foot"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:fontFamily="@font/font_pretendard_bold"
+                android:text="@{vm._voteList.get(vm.currentNoteIndex).nameFoot}"
+                android:textColor="@color/white"
+                android:textSize="24sp"
+                app:layout_constraintBottom_toBottomOf="@id/layout_note_blank_name"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/layout_note_blank_name"
+                app:layout_constraintTop_toTopOf="@id/layout_note_blank_name"
+                tools:text="이(가)" />
+
+            <TextView
+                android:id="@+id/tv_note_second_sentence_head"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/font_pretendard_bold"
+                android:text="@{vm._voteList.get(vm.currentNoteIndex).keywordHead}"
+                android:textColor="@color/white"
+                android:textSize="24sp"
+                app:layout_constraintBottom_toBottomOf="@id/layout_note_blank_keyword"
+                app:layout_constraintEnd_toStartOf="@id/layout_note_blank_keyword"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/layout_note_blank_keyword"
+                tools:text="" />
+
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/btn_note_keyword3"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:background="@drawable/shape_black_fill_grayscales700_line_rect"
-                android:onClick="@{()->vm.selectKeyword(2)}"
-                app:layout_constraintBottom_toBottomOf="@id/btn_note_name3"
-                app:layout_constraintHorizontal_weight="49"
-                app:layout_constraintTop_toTopOf="@id/btn_note_name3">
+                android:id="@+id/layout_note_blank_keyword"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="14dp"
+                android:background="@drawable/shape_grayscales900_fill_grayscales700_dashline_8_rect"
+                android:padding="1dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/tv_note_second_sentence_foot"
+                app:layout_constraintStart_toEndOf="@id/tv_note_second_sentence_head"
+                app:layout_constraintTop_toBottomOf="@id/layout_note_blank_name">
 
                 <TextView
-                    android:id="@+id/tv_note_keyword3"
-                    optionKeyword="@{vm._voteList.get(vm.currentNoteIndex).keywordList[2]}"
-                    selectedKeyword="@{vm._currentChoice.keywordName}"
+                    android:id="@+id/tv_note_keyword_invisible1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/font_pretendard_medium"
-                    android:lineHeight="16sp"
-                    android:onClick="@{()->vm.selectKeyword(2)}"
+                    android:background="@color/yello_main_500"
+                    android:lineSpacingExtra="24sp"
+                    android:paddingHorizontal="20dp"
+                    android:paddingVertical="7dp"
+                    android:rotation="-3"
+                    android:text="@{vm._voteList.get(vm.currentNoteIndex).keywordList.get(0)}"
+                    android:textAppearance="?textAppearanceBodyLarge"
+                    android:visibility="invisible"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="99대장 나선욱이랑" />
+
+                <TextView
+                    android:id="@+id/tv_note_keyword_invisible2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/yello_main_500"
+                    android:lineSpacingExtra="24sp"
+                    android:paddingHorizontal="20dp"
+                    android:paddingVertical="7dp"
+                    android:rotation="-3"
+                    android:text="@{vm._voteList.get(vm.currentNoteIndex).keywordList.get(1)}"
+                    android:textAppearance="?textAppearanceBodyLarge"
+                    android:visibility="invisible"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="skrr하는 송민호랑" />
+
+                <TextView
+                    android:id="@+id/tv_note_keyword_invisible3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/yello_main_500"
+                    android:lineSpacingExtra="24sp"
+                    android:paddingHorizontal="20dp"
+                    android:paddingVertical="7dp"
+                    android:rotation="-3"
                     android:text="@{vm._voteList.get(vm.currentNoteIndex).keywordList.get(2)}"
-                    android:textColor="@color/white"
-                    android:textSize="15sp"
+                    android:textAppearance="?textAppearanceBodyLarge"
+                    android:visibility="invisible"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:text="범죄도시 손석구랑" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <androidx.constraintlayout.helper.widget.Flow
-                android:id="@+id/flow_note_pick3"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="8dp"
-                android:layout_marginTop="-1dp"
-                app:constraint_referenced_ids="btn_note_name3,btn_note_keyword3"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/flow_note_pick2" />
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/btn_note_name4"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:background="@drawable/shape_black_fill_grayscales700_line_bot32_rect"
-                android:onClick="@{()->vm.selectName(3)}"
-                android:paddingVertical="20dp"
-                app:layout_constraintHorizontal_weight="37">
 
                 <TextView
-                    android:id="@+id/tv_note_name4_name"
-                    optionIndex="@{vm._voteList[vm.currentNoteIndex].friendList[3].id}"
-                    selectedIndex="@{vm._currentChoice.friendId}"
+                    android:id="@+id/tv_note_keyword_invisible4"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/font_pretendard_medium"
-                    android:lineHeight="16sp"
-                    android:onClick="@{()->vm.selectName(3)}"
-                    android:text="@{vm._voteList.get(vm.currentNoteIndex).friendList.get(3).name}"
-                    android:textColor="@color/white"
-                    android:textSize="15sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:text="이의제" />
-
-                <TextView
-                    android:id="@+id/tv_note_name4_id"
-                    optionId="@{vm._voteList[vm.currentNoteIndex].friendList[3].id}"
-                    selectedId="@{vm._currentChoice.friendId}"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:visibility="@{(vm._voteList.get(vm.currentNoteIndex).friendList.get(3).id == -1)? View.INVISIBLE : View.VISIBLE}"
-                    android:fontFamily="@font/font_pretendard_medium"
-                    android:lineHeight="10sp"
-                    android:onClick="@{()->vm.selectName(3)}"
-                    android:text="@{@string/note_yello_id(vm._voteList.get(vm.currentNoteIndex).friendList.get(3).yelloId)}"
-                    android:textSize="10sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tv_note_name4_name"
-                    tools:text="\@nahyunyou"
-                    tools:textColor="@color/grayscales_600" />
-
-                <TextView
-                    android:id="@+id/tv_note_name4_null"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/note_friend_null"
-                    android:visibility="@{(vm._voteList.get(vm.currentNoteIndex).friendList.get(3).id == -1)? View.VISIBLE : View.INVISIBLE}"
-                    android:textAppearance="?textAppearanceBody2"
-                    android:textColor="@color/grayscales_600"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/btn_note_keyword4"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:background="@drawable/shape_black_fill_grayscales700_line_bot32_rect"
-                android:onClick="@{()->vm.selectKeyword(3)}"
-                app:layout_constraintBottom_toBottomOf="@id/btn_note_name4"
-                app:layout_constraintHorizontal_weight="49"
-                app:layout_constraintTop_toTopOf="@id/btn_note_name4">
-
-                <TextView
-                    android:id="@+id/tv_note_keyword4"
-                    optionKeyword="@{vm._voteList.get(vm.currentNoteIndex).keywordList[3]}"
-                    selectedKeyword="@{vm._currentChoice.keywordName}"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/font_pretendard_medium"
-                    android:lineHeight="16sp"
-                    android:onClick="@{()->vm.selectKeyword(3)}"
+                    android:background="@color/yello_main_500"
+                    android:lineSpacingExtra="24sp"
+                    android:paddingHorizontal="20dp"
+                    android:paddingVertical="7dp"
+                    android:rotation="-3"
                     android:text="@{vm._voteList.get(vm.currentNoteIndex).keywordList.get(3)}"
-                    android:textColor="@color/white"
-                    android:textSize="15sp"
+                    android:textAppearance="?textAppearanceBodyLarge"
+                    android:visibility="invisible"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -763,96 +269,422 @@
                     tools:text="코딩하는 강동원이랑" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <androidx.constraintlayout.helper.widget.Flow
-                android:id="@+id/flow_note_pick4"
-                android:layout_width="0dp"
+            <TextView
+                android:id="@+id/tv_note_keyword_selected"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="8dp"
-                android:layout_marginTop="-1dp"
-                app:constraint_referenced_ids="btn_note_name4,btn_note_keyword4"
+                android:layout_marginVertical="8dp"
+                android:background="@color/yello_main_500"
+                android:paddingHorizontal="20dp"
+                android:paddingVertical="7dp"
+                android:rotation="-3"
+                android:text="@{vm._currentChoice.keywordName}"
+                android:textAppearance="?textAppearanceBodyLarge"
+                android:visibility="@{vm._currentChoice.keywordName == null ? View.INVISIBLE : View.VISIBLE}"
+                app:layout_constraintBottom_toBottomOf="@id/layout_note_blank_keyword"
+                app:layout_constraintEnd_toEndOf="@id/layout_note_blank_keyword"
+                app:layout_constraintStart_toStartOf="@id/layout_note_blank_keyword"
+                app:layout_constraintTop_toTopOf="@id/layout_note_blank_keyword"
+                tools:text="skrr하는 송민호랑" />
+
+            <TextView
+                android:id="@+id/tv_note_second_sentence_foot"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:fontFamily="@font/font_pretendard_bold"
+                android:text="@{vm._voteList.get(vm.currentNoteIndex).keywordFoot}"
+                android:textColor="@color/white"
+                android:textSize="24sp"
+                app:layout_constraintBottom_toBottomOf="@id/layout_note_blank_keyword"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/flow_note_pick3" />
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/btn_note_shuffle"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:background="@drawable/shape_white35_fill_100_rect"
-                android:paddingVertical="17dp"
-                app:layout_constraintHorizontal_weight="37">
-
-                <TextView
-                    android:id="@+id/tv_note_shuffle"
-                    setDrawableTint="@{vm._currentChoice.friendId != null}"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:drawablePadding="4dp"
-                    android:text="@string/note_friend_shuffle"
-                    android:textAppearance="?textAppearanceBodySmall"
-                    android:textColor="@{vm.shuffleCount == 0 ? @color/gray_66 : @color/black}"
-                    app:drawableStartCompat="@drawable/ic_note_shuffle"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@id/tv_note_shuffle_count"
-                    app:layout_constraintHorizontal_chainStyle="packed"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/tv_note_shuffle_count"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="6dp"
-                    android:fontFamily="@font/font_pretendard_bold"
-                    android:lineHeight="16sp"
-                    android:text="@{@string/note_shuffle_count(vm.shuffleCount)}"
-                    android:textColor="@{vm.shuffleCount == 0 ? @color/gray_66 : @color/black}"
-                    android:textSize="12sp"
-                    app:layout_constraintBottom_toBottomOf="@id/tv_note_shuffle"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/tv_note_shuffle"
-                    app:layout_constraintTop_toTopOf="@id/tv_note_shuffle"
-                    tools:text="@string/note_shuffle_count" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/btn_note_skip"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:background="@drawable/shape_white35_fill_100_rect"
-                android:paddingVertical="17dp"
-                app:layout_constraintHorizontal_weight="49">
-
-                <TextView
-                    android:id="@+id/tv_note_skip"
-                    setDrawableTint="@{vm._currentChoice.keywordName != null}"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:drawablePadding="4dp"
-                    android:text="@string/note_skip"
-                    android:textAppearance="?attr/textAppearanceBodySmall"
-                    android:textColor="@{vm._currentChoice.keywordName != null ? @color/gray_66 : @color/black}"
-                    app:drawableEndCompat="@drawable/ic_note_skip"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <androidx.constraintlayout.helper.widget.Flow
-                android:id="@+id/flow_note_option"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="8dp"
-                android:layout_marginTop="8dp"
-                app:constraint_referenced_ids="btn_note_shuffle,btn_note_skip"
-                app:flow_horizontalGap="4dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/flow_note_pick4" />
-
+                app:layout_constraintStart_toEndOf="@id/layout_note_blank_keyword"
+                app:layout_constraintTop_toTopOf="@id/layout_note_blank_keyword"
+                tools:text="닮은 것 같아" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/btn_note_name1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shape_black_fill_grayscales700_line_top32_rect"
+            android:onClick="@{()->vm.selectName(0)}"
+            android:paddingVertical="20dp"
+            app:layout_constraintHorizontal_weight="37">
 
+            <TextView
+                android:id="@+id/tv_note_name1_name"
+                optionIndex="@{vm._voteList[vm.currentNoteIndex].friendList[0].id}"
+                selectedIndex="@{vm._currentChoice.friendId}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/font_pretendard_medium"
+                android:lineHeight="16sp"
+                android:onClick="@{()->vm.selectName(0)}"
+                android:text="@{vm._voteList.get(vm.currentNoteIndex).friendList.get(0).name}"
+                android:textColor="@color/white"
+                android:textSize="15sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="김효원" />
+
+            <TextView
+                android:id="@+id/tv_note_name1_id"
+                optionId="@{vm._voteList[vm.currentNoteIndex].friendList[0].id}"
+                selectedId="@{vm._currentChoice.friendId}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:fontFamily="@font/font_pretendard_medium"
+                android:lineHeight="10sp"
+                android:onClick="@{()->vm.selectName(0)}"
+                android:text="@{@string/note_yello_id(vm._voteList.get(vm.currentNoteIndex).friendList.get(0).yelloId)}"
+                android:textSize="10sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_note_name1_name"
+                tools:text="\@kev_hy1042"
+                tools:textColor="@color/grayscales_600" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/btn_note_keyword1"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="-1dp"
+            android:background="@drawable/shape_black_fill_grayscales700_line_top32_rect"
+            android:onClick="@{()->vm.selectKeyword(0)}"
+            app:layout_constraintBottom_toBottomOf="@id/btn_note_name1"
+            app:layout_constraintHorizontal_weight="49"
+            app:layout_constraintTop_toTopOf="@id/btn_note_name1">
+
+            <TextView
+                android:id="@+id/tv_note_keyword1"
+                optionKeyword="@{vm._voteList.get(vm.currentNoteIndex).keywordList[0]}"
+                selectedKeyword="@{vm._currentChoice.keywordName}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="@{()->vm.selectKeyword(0)}"
+                android:text="@{vm._voteList.get(vm.currentNoteIndex).keywordList.get(0)}"
+                android:textAppearance="?textAppearanceBodyMedium"
+                android:textColor="@color/white"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="99대장 나선욱이랑" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.helper.widget.Flow
+            android:id="@+id/flow_note_pick1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="8dp"
+            android:layout_marginTop="5dp"
+            app:constraint_referenced_ids="btn_note_name1,btn_note_keyword1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/layout_note_question" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/btn_note_name2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shape_black_fill_grayscales700_line_rect"
+            android:onClick="@{()->vm.selectName(1)}"
+            android:paddingVertical="20dp"
+            app:layout_constraintHorizontal_weight="37">
+
+            <TextView
+                android:id="@+id/tv_note_name2_name"
+                optionIndex="@{vm._voteList[vm.currentNoteIndex].friendList[1].id}"
+                selectedIndex="@{vm._currentChoice.friendId}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/font_pretendard_medium"
+                android:lineHeight="16sp"
+                android:onClick="@{()->vm.selectName(1)}"
+                android:text="@{vm._voteList.get(vm.currentNoteIndex).friendList.get(1).name}"
+                android:textColor="@color/white"
+                android:textSize="15sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="권세훈" />
+
+            <TextView
+                android:id="@+id/tv_note_name2_id"
+                optionId="@{vm._voteList[vm.currentNoteIndex].friendList[1].id}"
+                selectedId="@{vm._currentChoice.friendId}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:fontFamily="@font/font_pretendard_medium"
+                android:lineHeight="10sp"
+                android:onClick="@{()->vm.selectName(1)}"
+                android:text="@{@string/note_yello_id(vm._voteList.get(vm.currentNoteIndex).friendList.get(1).yelloId)}"
+                android:textSize="10sp"
+                android:visibility="@{(vm._voteList.get(vm.currentNoteIndex).friendList.get(1).id == -1)? View.INVISIBLE : View.VISIBLE}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_note_name2_name"
+                tools:text="\@hj__p_"
+                tools:textColor="@color/grayscales_600" />
+
+            <TextView
+                android:id="@+id/tv_note_name2_null"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/note_friend_null"
+                android:textAppearance="?textAppearanceBody2"
+                android:textColor="@color/grayscales_600"
+                android:visibility="@{(vm._voteList.get(vm.currentNoteIndex).friendList.get(1).id == -1)? View.VISIBLE : View.INVISIBLE}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:visibility="gone" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/btn_note_keyword2"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@drawable/shape_black_fill_grayscales700_line_rect"
+            android:onClick="@{()->vm.selectKeyword(1)}"
+            app:layout_constraintBottom_toBottomOf="@id/btn_note_name2"
+            app:layout_constraintHorizontal_weight="49"
+            app:layout_constraintTop_toTopOf="@id/btn_note_name2">
+
+            <TextView
+                android:id="@+id/tv_note_keyword2"
+                optionKeyword="@{vm._voteList.get(vm.currentNoteIndex).keywordList[1]}"
+                selectedKeyword="@{vm._currentChoice.keywordName}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/font_pretendard_medium"
+                android:onClick="@{()->vm.selectKeyword(1)}"
+                android:text="@{vm._voteList.get(vm.currentNoteIndex).keywordList.get(1)}"
+                android:textColor="@color/white"
+                android:textSize="15sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="skrr하는 송민호랑" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.helper.widget.Flow
+            android:id="@+id/flow_note_pick2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="8dp"
+            android:layout_marginTop="-1dp"
+            app:constraint_referenced_ids="btn_note_name2,btn_note_keyword2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/flow_note_pick1" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/btn_note_name3"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shape_black_fill_grayscales700_line_rect"
+            android:onClick="@{()->vm.selectName(2)}"
+            android:paddingVertical="20dp"
+            app:layout_constraintHorizontal_weight="37">
+
+            <TextView
+                android:id="@+id/tv_note_name3_name"
+                optionIndex="@{vm._voteList[vm.currentNoteIndex].friendList[2].id}"
+                selectedIndex="@{vm._currentChoice.friendId}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/font_pretendard_medium"
+                android:lineHeight="16sp"
+                android:onClick="@{()->vm.selectName(2)}"
+                android:text="@{vm._voteList.get(vm.currentNoteIndex).friendList.get(2).name}"
+                android:textColor="@color/white"
+                android:textSize="15sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="이강민" />
+
+            <TextView
+                android:id="@+id/tv_note_name3_id"
+                optionId="@{vm._voteList[vm.currentNoteIndex].friendList[2].id}"
+                selectedId="@{vm._currentChoice.friendId}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:fontFamily="@font/font_pretendard_medium"
+                android:lineHeight="10sp"
+                android:onClick="@{()->vm.selectName(2)}"
+                android:text="@{@string/note_yello_id(vm._voteList.get(vm.currentNoteIndex).friendList.get(2).yelloId)}"
+                android:textSize="10sp"
+                android:visibility="@{(vm._voteList.get(vm.currentNoteIndex).friendList.get(2).id == -1)? View.INVISIBLE : View.VISIBLE}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_note_name3_name"
+                tools:text="\@_euije"
+                tools:textColor="@color/grayscales_600" />
+
+            <TextView
+                android:id="@+id/tv_note_name3_null"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/note_friend_null"
+                android:textAppearance="?textAppearanceBody2"
+                android:textColor="@color/grayscales_600"
+                android:visibility="@{(vm._voteList.get(vm.currentNoteIndex).friendList.get(2).id == -1)? View.VISIBLE : View.INVISIBLE}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:visibility="gone" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/btn_note_keyword3"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@drawable/shape_black_fill_grayscales700_line_rect"
+            android:onClick="@{()->vm.selectKeyword(2)}"
+            app:layout_constraintBottom_toBottomOf="@id/btn_note_name3"
+            app:layout_constraintHorizontal_weight="49"
+            app:layout_constraintTop_toTopOf="@id/btn_note_name3">
+
+            <TextView
+                android:id="@+id/tv_note_keyword3"
+                optionKeyword="@{vm._voteList.get(vm.currentNoteIndex).keywordList[2]}"
+                selectedKeyword="@{vm._currentChoice.keywordName}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/font_pretendard_medium"
+                android:lineHeight="16sp"
+                android:onClick="@{()->vm.selectKeyword(2)}"
+                android:text="@{vm._voteList.get(vm.currentNoteIndex).keywordList.get(2)}"
+                android:textColor="@color/white"
+                android:textSize="15sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="범죄도시 손석구랑" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.helper.widget.Flow
+            android:id="@+id/flow_note_pick3"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="8dp"
+            android:layout_marginTop="-1dp"
+            app:constraint_referenced_ids="btn_note_name3,btn_note_keyword3"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/flow_note_pick2" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/btn_note_name4"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shape_black_fill_grayscales700_line_bot32_rect"
+            android:onClick="@{()->vm.selectName(3)}"
+            android:paddingVertical="20dp"
+            app:layout_constraintHorizontal_weight="37">
+
+            <TextView
+                android:id="@+id/tv_note_name4_name"
+                optionIndex="@{vm._voteList[vm.currentNoteIndex].friendList[3].id}"
+                selectedIndex="@{vm._currentChoice.friendId}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/font_pretendard_medium"
+                android:lineHeight="16sp"
+                android:onClick="@{()->vm.selectName(3)}"
+                android:text="@{vm._voteList.get(vm.currentNoteIndex).friendList.get(3).name}"
+                android:textColor="@color/white"
+                android:textSize="15sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="이의제" />
+
+            <TextView
+                android:id="@+id/tv_note_name4_id"
+                optionId="@{vm._voteList[vm.currentNoteIndex].friendList[3].id}"
+                selectedId="@{vm._currentChoice.friendId}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:fontFamily="@font/font_pretendard_medium"
+                android:lineHeight="10sp"
+                android:onClick="@{()->vm.selectName(3)}"
+                android:text="@{@string/note_yello_id(vm._voteList.get(vm.currentNoteIndex).friendList.get(3).yelloId)}"
+                android:textSize="10sp"
+                android:visibility="@{(vm._voteList.get(vm.currentNoteIndex).friendList.get(3).id == -1)? View.INVISIBLE : View.VISIBLE}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_note_name4_name"
+                tools:text="\@nahyunyou"
+                tools:textColor="@color/grayscales_600" />
+
+            <TextView
+                android:id="@+id/tv_note_name4_null"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/note_friend_null"
+                android:textAppearance="?textAppearanceBody2"
+                android:textColor="@color/grayscales_600"
+                android:visibility="@{(vm._voteList.get(vm.currentNoteIndex).friendList.get(3).id == -1)? View.VISIBLE : View.INVISIBLE}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:visibility="gone" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/btn_note_keyword4"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@drawable/shape_black_fill_grayscales700_line_bot32_rect"
+            android:onClick="@{()->vm.selectKeyword(3)}"
+            app:layout_constraintBottom_toBottomOf="@id/btn_note_name4"
+            app:layout_constraintHorizontal_weight="49"
+            app:layout_constraintTop_toTopOf="@id/btn_note_name4">
+
+            <TextView
+                android:id="@+id/tv_note_keyword4"
+                optionKeyword="@{vm._voteList.get(vm.currentNoteIndex).keywordList[3]}"
+                selectedKeyword="@{vm._currentChoice.keywordName}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/font_pretendard_medium"
+                android:lineHeight="16sp"
+                android:onClick="@{()->vm.selectKeyword(3)}"
+                android:text="@{vm._voteList.get(vm.currentNoteIndex).keywordList.get(3)}"
+                android:textColor="@color/white"
+                android:textSize="15sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="코딩하는 강동원이랑" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.helper.widget.Flow
+            android:id="@+id/flow_note_pick4"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="8dp"
+            android:layout_marginTop="-1dp"
+            app:constraint_referenced_ids="btn_note_name4,btn_note_keyword4"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/flow_note_pick3" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

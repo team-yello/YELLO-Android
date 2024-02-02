@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".presentation.main.yello.vote.note.NoteFrameFragment">
+
+    <data>
+
+        <variable
+            name="index"
+            type="Integer" />
+
+        <variable
+            name="bgIndex"
+            type="Integer" />
+
+        <variable
+            name="vm"
+            type="com.el.yello.presentation.main.yello.vote.VoteViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout_vote"
+        setVoteBackground="@{bgIndex}"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:background="@drawable/shape_gradient_vote_bg_01">
+
+        <LinearLayout
+            android:id="@+id/layout_vote_progress_bar"
+            android:layout_width="0dp"
+            android:layout_height="6dp"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="14dp"
+            android:background="@drawable/shape_white35_fill_20_rect"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <View
+                android:id="@+id/view_vote_progress"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="@{index + 1}"
+                android:background="@drawable/shape_white_fill_8_rect"
+                tools:layout_weight="1" />
+
+            <View
+                android:id="@+id/view_vote_progress_left"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="@{7 - index}"
+                tools:layout_weight="7" />
+        </LinearLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_vote_note"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@id/flow_vote_option"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/layout_vote_progress_bar">
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/lottie_note_balloon"
+                setBalloonSrc="@{index}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:minHeight="40dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:lottie_autoPlay="true"
+                app:lottie_loop="true"
+                app:lottie_rawRes="@raw/lottie_note_balloon1"
+                app:lottie_repeatMode="restart" />
+
+            <LinearLayout
+                android:id="@+id/layout_note_progress_before"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginEnd="10dp"
+                android:gravity="end"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toBottomOf="@id/iv_note_face"
+                app:layout_constraintEnd_toStartOf="@id/iv_note_face"
+                app:layout_constraintTop_toTopOf="@id/iv_note_face" />
+
+            <ImageView
+                android:id="@+id/iv_note_face"
+                setFaceSrc="@{index}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/lottie_note_balloon"
+                tools:src="@drawable/img_note_face1" />
+
+            <LinearLayout
+                android:id="@+id/layout_note_progress_after"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginStart="10dp"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toBottomOf="@id/iv_note_face"
+                app:layout_constraintStart_toEndOf="@id/iv_note_face"
+                app:layout_constraintTop_toTopOf="@id/iv_note_face" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/btn_vote_shuffle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shape_white35_fill_100_rect"
+            android:paddingVertical="17dp"
+            app:layout_constraintHorizontal_weight="37">
+
+            <TextView
+                android:id="@+id/tv_vote_shuffle"
+                setDrawableTint="@{vm._currentChoice.friendId != null}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawablePadding="4dp"
+                android:text="@string/note_friend_shuffle"
+                android:textAppearance="?textAppearanceBodySmall"
+                android:textColor="@{vm.shuffleCount == 0 ? @color/gray_66 : @color/black}"
+                app:drawableStartCompat="@drawable/ic_note_shuffle"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/tv_vote_shuffle_count"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_vote_shuffle_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:fontFamily="@font/font_pretendard_bold"
+                android:lineHeight="16sp"
+                android:text="@{@string/note_shuffle_count(vm.shuffleCount)}"
+                android:textColor="@{vm.shuffleCount == 0 ? @color/gray_66 : @color/black}"
+                android:textSize="12sp"
+                app:layout_constraintBottom_toBottomOf="@id/tv_vote_shuffle"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/tv_vote_shuffle"
+                app:layout_constraintTop_toTopOf="@id/tv_vote_shuffle"
+                tools:text="@string/note_shuffle_count" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/btn_vote_skip"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shape_white35_fill_100_rect"
+            android:paddingVertical="17dp"
+            app:layout_constraintHorizontal_weight="49">
+
+            <TextView
+                android:id="@+id/tv_vote_skip"
+                setDrawableTint="@{vm._currentChoice.keywordName != null}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawablePadding="4dp"
+                android:text="@string/note_skip"
+                android:textAppearance="?attr/textAppearanceBodySmall"
+                android:textColor="@{vm._currentChoice.keywordName != null ? @color/gray_66 : @color/black}"
+                app:drawableEndCompat="@drawable/ic_note_skip"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.helper.widget.Flow
+            android:id="@+id/flow_vote_option"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="8dp"
+            android:layout_marginBottom="26dp"
+            app:constraint_referenced_ids="btn_vote_shuffle,btn_vote_skip"
+            app:flow_horizontalGap="4dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -56,6 +56,7 @@ class UniversityInfoFragment :
     private fun setupUniversity() {
         viewModel.universityText.observe(viewLifecycleOwner) { school ->
             binding.tvUniversitySearch.text = school
+            binding.tvDepartmentSearch.text = ""
         }
     }
 
@@ -88,13 +89,18 @@ class UniversityInfoFragment :
     }
 
     private fun amplitudeUniversityInfo() {
-        AmplitudeUtils.trackEventWithProperties(
-            EVENT_CLICK_ONBOARDING_NEXT,
-            JSONObject().put(NAME_ONBOARD_VIEW, VALUE_SCHOOL),
-        )
-        AmplitudeUtils.updateUserProperties(PROPERTY_USER_SCHOOL, viewModel.university)
-        AmplitudeUtils.updateUserProperties(PROPERTY_USER_DEPARTMENT, viewModel.departmentText.value.toString())
-        AmplitudeUtils.updateUserIntProperties(PROPERTY_USER_GRADE, viewModel.studentId)
+        with(AmplitudeUtils) {
+            trackEventWithProperties(
+                EVENT_CLICK_ONBOARDING_NEXT,
+                JSONObject().put(NAME_ONBOARD_VIEW, VALUE_SCHOOL),
+            )
+            updateUserProperties(PROPERTY_USER_SCHOOL, viewModel.university)
+            updateUserProperties(
+                PROPERTY_USER_DEPARTMENT,
+                viewModel.departmentText.value.toString(),
+            )
+            updateUserIntProperties(PROPERTY_USER_GRADE, viewModel.studentId)
+        }
     }
     companion object {
         private const val OVERLAP_MIN_ID = 1

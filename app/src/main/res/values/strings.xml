@@ -35,6 +35,7 @@
     <string name="main_my_yello">내 쪽지</string>
     <string name="main_profile">프로필</string>
     <string name="main_toast_back_pressed">버튼을 한번 더 누르면 종료됩니다.</string>
+    <string name="main_get_notice_failure">공지 조회에 실패했습니다.</string>
 
     <string name="onboarding_tv_what_studentid">몇 학번인가요?</string>
     <string name="onboarding_tv_search_department">학과 검색하기</string>
@@ -154,6 +155,8 @@
     <string name="look_title">타임라인</string>
     <string name="look_error_friend_list">타임라인 가져오기 실패</string>
     <string name="look_invite_no_title">친구들이 받은 쪽지가 궁금하다면\n친구를 초대해볼까요?</string>
+    <string name="look_tv_info">쪽지를 보낸 사람의 이름은 공개되지 않아요.</string>
+    <string name="look_tv_filter_basic">모든 쪽지</string>
 
     <string name="view_type_error_msg">Unknown View Type : %d</string>
 
@@ -384,4 +387,7 @@
     <string name="notice_resubscribe_subtitle_end">곧 위와 같은 혜택을 누릴 수 없게 돼요. \n\n옐로 플러스의 특별한 서비스를\n계속 이용하시려면, 버튼을 눌러\n구독을 계속해 보세요!</string>
     <string name="notice_resubscribe_button_tv">계속 옐로플러스 구독하기</string>
 
+    <string name="notice_do_not_see_it_again">다시 보지 않기</string>
+    <string name="notice_close">닫기</string>
+    <string name="notice_do_not_see_it_again_icon">다시 보지 않기 아이콘</string>
 </resources>

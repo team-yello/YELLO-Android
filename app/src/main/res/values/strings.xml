@@ -155,6 +155,8 @@
     <string name="look_title">타임라인</string>
     <string name="look_error_friend_list">타임라인 가져오기 실패</string>
     <string name="look_invite_no_title">친구들이 받은 쪽지가 궁금하다면\n친구를 초대해볼까요?</string>
+    <string name="look_tv_info">쪽지를 보낸 사람의 이름은 공개되지 않아요.</string>
+    <string name="look_tv_filter_basic">모든 쪽지</string>
 
     <string name="view_type_error_msg">Unknown View Type : %d</string>
 
@@ -233,15 +235,17 @@
 
     <string name="recommend_tv_title">추천친구</string>
     <string name="recommend_dialog_tv_title">친구 초대하기</string>
-    <string name="recommend_dialog_tv_subtitle">친구가 내 추천인 코드로 가입하면</string>
-    <string name="recommend_dialog_tv_subtitle_2">40분 대기 초기화 + 100포인트 지급!</string>
+    <string name="recommend_dialog_tv_subtitle_up">친구가 내 추천인 코드로 가입하면,</string>
+    <string name="recommend_dialog_tv_subtitle_up_box">40분 대기 초기화 + 100포인트</string>
+    <string name="recommend_dialog_tv_subtitle_down">내 추천인 코드가 처음 쓰였다면?!</string>
+    <string name="recommend_dialog_tv_subtitle_down_box">열람권 1개 추가 지급!</string>
     <string name="recommend_dialog_tv_code_title">내 추천인 코드</string>
     <string name="recommend_dialog_tv_code_start">\@</string>
 
     <string name="recommend_invite_title">친구 초대하기</string>
     <string name="recommend_invite_subtitle">찾는 친구가 없다면 친구를 초대해볼까요?</string>
     <string name="recommend_invite_no_title">찾는 친구가 없다면\n친구를 초대해볼까요?</string>
-    <string name="recommend_invite_no_subtitle">친구 초대하고 100포인트 받기</string>
+    <string name="recommend_invite_no_subtitle">친구 초대하고 리워드 받기</string>
     <string name="recommend_item_btn_add">친구추가</string>
 
     <string name="recommend_search_title">친구 검색</string>
@@ -356,8 +360,22 @@
     <string name="notice_resubscribe_benefit_third">초성 힌트 무제한 제공</string>
     <string name="notice_resubscribe_subtitle_end">곧 위와 같은 혜택을 누릴 수 없게 돼요. \n\n옐로 플러스의 특별한 서비스를\n계속 이용하시려면, 버튼을 눌러\n구독을 계속해 보세요!</string>
     <string name="notice_resubscribe_button_tv">계속 옐로플러스 구독하기</string>
+    <string name="profile_quit_reason_title">탈퇴 사유를 적어주세요.</string>
+    <string name="profile_quit_reason_button">완료</string>
+    <string name="profile_quit_reason_hint">사유를 적어주세요.(최대 30자)</string>
 
     <string name="notice_do_not_see_it_again">다시 보지 않기</string>
     <string name="notice_close">닫기</string>
     <string name="notice_do_not_see_it_again_icon">다시 보지 않기 아이콘</string>
+
+    <string-array name="quit_reasons">
+        <item>앱에 아는 사람들이 없어서</item>
+        <item>구독권과 열람권의 가격이 비싸서</item>
+        <item>오류가 많아서</item>
+        <item>재밌는 콘텐츠 또는 질문이 없어서</item>
+        <item>포인트를 너무 적게 줘서</item>
+        <item>내 정보를 삭제하고 싶어서</item>
+        <item>다른 앱이 더 재밌어서</item>
+        <item>기타</item>
+    </string-array>
 </resources>

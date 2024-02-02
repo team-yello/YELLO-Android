@@ -39,6 +39,7 @@ class SchoolProfileModActivity :
         observeGetIsModValidResult()
         observeGetSchoolGroupIdResult()
         observePostNewProfileResult()
+        observeTextIsNone()
     }
 
     private fun initUserData() {
@@ -130,6 +131,15 @@ class SchoolProfileModActivity :
                 toast(getString(R.string.msg_error))
             }
         }.launchIn(lifecycleScope)
+    }
+
+    private fun observeTextIsNone() {
+        viewModel.grade.observe(this) { grade ->
+            binding.tvProfileModGradeText.isVisible = grade != TEXT_NONE
+        }
+        viewModel.classroom.observe(this) { classroom ->
+            binding.tvProfileModClassroomText.isVisible = classroom != TEXT_NONE
+        }
     }
 
     fun checkIsGradeTextNone() {

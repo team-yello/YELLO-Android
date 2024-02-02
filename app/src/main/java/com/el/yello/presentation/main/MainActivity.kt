@@ -9,16 +9,15 @@ import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
-import androidx.fragment.app.commitNow
 import androidx.fragment.app.replace
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import com.el.yello.R
 import com.el.yello.databinding.ActivityMainBinding
+import com.el.yello.presentation.main.dialog.notice.NoticeDialog
 import com.el.yello.presentation.main.look.LookFragment
 import com.el.yello.presentation.main.myyello.MyYelloFragment
 import com.el.yello.presentation.main.myyello.read.MyYelloReadActivity
-import com.el.yello.presentation.main.profile.ProfileViewModel
 import com.el.yello.presentation.main.profile.info.ProfileFragment
 import com.el.yello.presentation.main.recommend.RecommendFragment
 import com.el.yello.presentation.main.yello.YelloFragment
@@ -26,11 +25,14 @@ import com.el.yello.presentation.pay.PayReSubsNoticeDialog
 import com.el.yello.presentation.util.dp
 import com.el.yello.util.amplitude.AmplitudeUtils
 import com.el.yello.util.context.yelloSnackbar
-import com.example.domain.enum.SubscribeType
+import com.example.domain.enum.SubscribeType.CANCELED
 import com.example.ui.base.BindingActivity
 import com.example.ui.context.toast
 import com.example.ui.intent.stringExtra
-import com.example.ui.view.UiState
+import com.example.ui.view.UiState.Empty
+import com.example.ui.view.UiState.Failure
+import com.example.ui.view.UiState.Loading
+import com.example.ui.view.UiState.Success
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -40,11 +42,10 @@ import java.util.concurrent.TimeUnit
 
 @AndroidEntryPoint
 class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main) {
+    private val viewModel by viewModels<MainViewModel>()
 
-    val viewModel by viewModels<ProfileViewModel>()
-
-    val path by stringExtra()
-    val type by stringExtra()
+    private val path by stringExtra()
+    private val type by stringExtra()
 
     private var backPressedTime: Long = 0
 
@@ -61,59 +62,18 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel.getUserSubsInfoStateFromServer()
-        observeSubsNeededState()
+        initBackPressedCallback()
         initBnvItemIconTintList()
         initBnvItemSelectedListener()
         initBnvItemReselectedListener()
-        initDeviceToken()
-        pushNotificationEvent()
-        viewModel.getVoteCount()
-        viewModel.setIsFirstLoginData()
-        observe()
-        this.onBackPressedDispatcher.addCallback(this, onBackPressedCallback)
+        initPushNotificationEvent()
+        setupGetUserSubsState()
+        setupGetNoticeState()
+        setupGetVoteCountState()
     }
 
-    private fun observeSubsNeededState() {
-        viewModel.getUserSubsInfoState.flowWithLifecycle(lifecycle).onEach { state ->
-            when (state) {
-                is UiState.Success -> {
-                    if (state.data?.subscribe == SubscribeType.CANCELED) {
-                        val expiredDateString = state.data?.expiredDate.toString()
-                        val expiredDate =
-                            SimpleDateFormat(EXPIRED_DATE_FORMAT).parse(expiredDateString)
-                        val currentDate = Calendar.getInstance().time
-                        val daysDifference = TimeUnit.DAYS.convert(
-                            expiredDate.time - currentDate.time,
-                            TimeUnit.MILLISECONDS,
-                        )
-                        if (daysDifference >= 1) {
-                            val expiredDateString = state.data?.expiredDate.toString()
-                            val payResubsNoticeFragment =
-                                PayReSubsNoticeDialog.newInstance(expiredDateString)
-                            supportFragmentManager.commitNow {
-                                add(
-                                    payResubsNoticeFragment,
-                                    PAY_RESUBS_DIALOG,
-                                )
-                            }
-                        }
-                    }
-                }
-
-                is UiState.Failure -> {
-                    yelloSnackbar(binding.root, getString(R.string.msg_error))
-                }
-
-                is UiState.Empty -> {
-                    return@onEach
-                }
-
-                is UiState.Loading -> {
-                    return@onEach
-                }
-            }
-        }.launchIn(lifecycleScope)
+    private fun initBackPressedCallback() {
+        onBackPressedDispatcher.addCallback(this, onBackPressedCallback)
     }
 
     private fun initBnvItemIconTintList() {
@@ -177,10 +137,6 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
         }
     }
 
-    private fun initDeviceToken() {
-        viewModel.putDeviceToken()
-    }
-
     private fun initBadge(voteCount: Int) {
         val badgeDrawable = binding.bnvMain.getOrCreateBadge(R.id.menu_my_yello)
         badgeDrawable.verticalOffset = 12.dp
@@ -196,9 +152,9 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
         )
     }
 
-    private fun pushNotificationEvent() {
-        when {
-            type.equals(NEW_VOTE) -> {
+    private fun initPushNotificationEvent() {
+        when (type) {
+            PUSH_TYPE_NEW_VOTE -> {
                 binding.bnvMain.menu.getItem(3).isChecked = true
                 navigateTo<MyYelloFragment>()
 
@@ -210,33 +166,92 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
                 }
             }
 
-            type.equals(NEW_FRIEND) -> {
+            PUSH_TYPE_NEW_FRIEND -> {
                 binding.bnvMain.menu.getItem(4).isChecked = true
                 navigateTo<ProfileFragment>()
             }
 
-            type.equals(VOTE_AVAILABLE) || type.equals(RECOMMEND) -> {
+            PUSH_TYPE_VOTE_AVAILABLE, PUSH_TYPE_RECOMMEND -> {
                 binding.bnvMain.menu.getItem(2).isChecked = true
                 navigateTo<YelloFragment>()
             }
         }
     }
 
-    private fun observe() {
-        viewModel.voteCount.flowWithLifecycle(lifecycle)
-            .onEach {
-                when (it) {
-                    is UiState.Success -> {
-                        if (it.data.totalCount != 0) {
-                            initBadge(it.data.totalCount)
+    private inline fun <reified T : Fragment> navigateTo() {
+        supportFragmentManager.commit {
+            replace<T>(R.id.fcv_main, T::class.java.canonicalName)
+        }
+    }
+
+    private fun setupGetUserSubsState() {
+        viewModel.getUserSubsState.flowWithLifecycle(lifecycle)
+            .onEach { state ->
+                when (state) {
+                    is Empty -> return@onEach
+                    is Loading -> return@onEach
+                    is Success -> {
+                        if (state.data?.subscribe != CANCELED) return@onEach
+                        // TODO : 도메인 모델에 변환된 날짜로 파싱되도록 보완
+                        val expiredDateString = state.data?.expiredDate.toString()
+                        val expiredDate =
+                            SimpleDateFormat(EXPIRED_DATE_FORMAT).parse(expiredDateString)
+                                ?: return@onEach
+                        val currentDate = Calendar.getInstance().time
+                        val daysDifference = TimeUnit.DAYS.convert(
+                            expiredDate.time - currentDate.time,
+                            TimeUnit.MILLISECONDS,
+                        )
+                        if (daysDifference >= 1) {
+                            PayReSubsNoticeDialog.newInstance(expiredDateString)
+                                .show(supportFragmentManager, PAY_RESUBS_DIALOG)
                         }
                     }
 
-                    is UiState.Failure -> {
-                        yelloSnackbar(binding.root, it.msg)
+                    is Failure -> yelloSnackbar(binding.root, getString(R.string.msg_error))
+                }
+            }.launchIn(lifecycleScope)
+    }
+
+    private fun setupGetNoticeState() {
+        viewModel.getNoticeState.flowWithLifecycle(lifecycle)
+            .onEach { state ->
+                when (state) {
+                    is Empty -> yelloSnackbar(binding.root, getString(R.string.msg_error))
+                    is Loading -> return@onEach
+                    is Success -> {
+                        if (!state.data.isAvailable) return@onEach
+                        NoticeDialog.newInstance(
+                            imageUrl = state.data.imageUrl,
+                            redirectUrl = state.data.redirectUrl,
+                        ).show(supportFragmentManager, TAG_NOTICE_DIALOG)
                     }
 
-                    else -> {}
+                    is Failure -> yelloSnackbar(
+                        binding.root,
+                        getString(R.string.main_get_notice_failure),
+                    )
+                }
+            }.launchIn(lifecycleScope)
+    }
+
+    private fun setupGetVoteCountState() {
+        viewModel.voteCount.flowWithLifecycle(lifecycle)
+            .onEach { state ->
+                when (state) {
+                    is Empty -> return@onEach
+
+                    is Loading -> return@onEach
+
+                    is Success -> {
+                        if (state.data.totalCount != 0) {
+                            initBadge(state.data.totalCount)
+                        }
+                    }
+
+                    is Failure -> {
+                        yelloSnackbar(binding.root, state.msg)
+                    }
                 }
             }.launchIn(lifecycleScope)
     }
@@ -247,26 +262,27 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
         badgeDrawable.isVisible = count != 0
     }
 
-    private inline fun <reified T : Fragment> navigateTo() {
-        supportFragmentManager.commit {
-            replace<T>(R.id.fcv_main, T::class.java.canonicalName)
-        }
-    }
-
     companion object {
-        const val NEW_VOTE = "NEW_VOTE"
-        const val NEW_FRIEND = "NEW_FRIEND"
-        const val VOTE_AVAILABLE = "VOTE_AVAILABLE"
-        const val RECOMMEND = "RECOMMEND"
+        private const val EXTRA_TYPE = "type"
+        private const val EXTRA_PATH = "path"
+
+        const val PUSH_TYPE_NEW_VOTE = "NEW_VOTE"
+        const val PUSH_TYPE_NEW_FRIEND = "NEW_FRIEND"
+        const val PUSH_TYPE_VOTE_AVAILABLE = "VOTE_AVAILABLE"
+        const val PUSH_TYPE_RECOMMEND = "RECOMMEND"
+
         const val BACK_PRESSED_INTERVAL = 2000
         const val EXPIRED_DATE_FORMAT = "yyyy-MM-dd"
         const val PAY_RESUBS_DIALOG = "PayResubsNoticeDialog"
         private const val EVENT_CLICK_RECOMMEND_NAVIGATION = "click_recommend_navigation"
 
+        private const val TAG_NOTICE_DIALOG = "NOTICE_DIALOG"
+
+        @JvmStatic
         fun getIntent(context: Context, type: String? = null, path: String? = null) =
             Intent(context, MainActivity::class.java).apply {
-                putExtra("type", type)
-                putExtra("path", path)
+                putExtra(EXTRA_TYPE, type)
+                putExtra(EXTRA_PATH, path)
             }
     }
 }

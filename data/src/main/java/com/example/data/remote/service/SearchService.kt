@@ -10,7 +10,6 @@ interface SearchService {
     @GET("/api/v1/friend/search")
     suspend fun getSearchList(
         @Query("page") page: Int,
-        @Query("keyword") keyword: String
+        @Query("keyword") keyword: String,
     ): BaseResponse<ResponseRecommendSearchDto>
-
 }

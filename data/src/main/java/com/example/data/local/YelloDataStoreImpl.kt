@@ -52,6 +52,10 @@ class YelloDataStoreImpl @Inject constructor(
             putString(PREF_STORED_VOTE, storedVote)
         }
 
+    override var disabledNoticeUrl: String?
+        get() = appPref.getString(PREF_DISABLED_NOTICE_URL, "")
+        set(value) = appPref.edit { putString(PREF_DISABLED_NOTICE_URL, value) }
+
     override fun clearLocalPref() = userPref.edit { clear() }
 
     companion object {
@@ -62,5 +66,6 @@ class YelloDataStoreImpl @Inject constructor(
         private const val PREF_YELLO_ID = "YELLO_ID"
         private const val PREF_IS_FIRST_LOGIN = "IS_FIRST_LOGIN"
         private const val PREF_STORED_VOTE = "STORED_VOTE"
+        private const val PREF_DISABLED_NOTICE_URL = "DISABLED_NOTICE_URL"
     }
 }

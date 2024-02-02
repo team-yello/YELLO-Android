@@ -4,16 +4,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.el.yello.util.amplitude.AmplitudeUtils
 import com.example.domain.entity.PayInfoModel
-import com.example.domain.entity.PayUserSubsInfoModel
 import com.example.domain.entity.ProfileFriendsListModel
 import com.example.domain.entity.ProfileUserModel
-import com.example.domain.entity.vote.VoteCount
 import com.example.domain.repository.AuthRepository
 import com.example.domain.repository.PayRepository
 import com.example.domain.repository.ProfileRepository
-import com.example.domain.repository.YelloRepository
 import com.example.ui.view.UiState
-import com.google.firebase.messaging.FirebaseMessaging
 import com.kakao.sdk.user.UserApiClient
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
@@ -22,7 +18,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import javax.inject.Inject
 import kotlin.math.ceil
 
@@ -30,13 +25,12 @@ import kotlin.math.ceil
 class ProfileViewModel @Inject constructor(
     private val profileRepository: ProfileRepository,
     private val authRepository: AuthRepository,
-    private val yelloRepository: YelloRepository,
     private val payRepository: PayRepository,
 ) : ViewModel() {
 
     init {
         resetPageVariable()
-        resetStateVariable()
+        // resetStateVariable()
     }
 
     private val _getUserDataResult = MutableSharedFlow<Boolean>()
@@ -62,13 +56,6 @@ class ProfileViewModel @Inject constructor(
     val getPurchaseInfoState: StateFlow<UiState<PayInfoModel>> = _getPurchaseInfoState
 
     var isSubscribed: Boolean = false
-
-    private val _voteCount = MutableStateFlow<UiState<VoteCount>>(UiState.Loading)
-    val voteCount: StateFlow<UiState<VoteCount>> = _voteCount
-
-    private val _getUserSubsInfoState =
-        MutableStateFlow<UiState<PayUserSubsInfoModel?>>(UiState.Empty)
-    val getUserSubsInfoState: StateFlow<UiState<PayUserSubsInfoModel?>> = _getUserSubsInfoState
 
     var isItemBottomSheetRunning: Boolean = false
 
@@ -105,10 +92,6 @@ class ProfileViewModel @Inject constructor(
         _kakaoQuitState.value = UiState.Empty
         _getFriendListState.value = UiState.Empty
         _getPurchaseInfoState.value = UiState.Empty
-    }
-
-    fun setIsFirstLoginData() {
-        authRepository.setIsFirstLoginData()
     }
 
     fun getUserDataFromServer() {
@@ -217,56 +200,7 @@ class ProfileViewModel @Inject constructor(
         }
     }
 
-    fun getVoteCount() {
-        viewModelScope.launch {
-            yelloRepository.voteCount()
-                .onSuccess {
-                    if (it != null) {
-                        _voteCount.value = UiState.Success(it)
-                    }
-                }
-                .onFailure {
-                    _voteCount.value = UiState.Failure(it.message.toString())
-                }
-        }
-    }
-
     private fun clearLocalInfo() {
         authRepository.clearLocalPref()
-    }
-
-    fun putDeviceToken() {
-        FirebaseMessaging.getInstance().token.addOnCompleteListener { addTask ->
-            runCatching {
-                addTask.result
-            }.onSuccess { token ->
-                if (authRepository.getDeviceToken() != token) resetDeviceToken(token)
-            }
-        }
-    }
-
-    private fun resetDeviceToken(token: String) {
-        authRepository.setDeviceToken(token)
-        viewModelScope.launch {
-            runCatching {
-                authRepository.putDeviceToken(token)
-            }.onFailure(Timber::e)
-        }
-    }
-
-    fun getUserSubsInfoStateFromServer() {
-        viewModelScope.launch {
-            payRepository.getUserSubsInfo()
-                .onSuccess { userInfo ->
-                    if (userInfo == null) {
-                        _getUserSubsInfoState.value = UiState.Empty
-                    } else {
-                        _getUserSubsInfoState.value = UiState.Success(userInfo)
-                    }
-                }
-                .onFailure {
-                    _getUserSubsInfoState.value = UiState.Failure(it.message.toString())
-                }
-        }
     }
 }

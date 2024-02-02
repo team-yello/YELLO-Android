@@ -8,6 +8,6 @@ import retrofit2.http.PUT
 interface AuthService {
     @PUT("api/v1/user/device")
     suspend fun putDeviceToken(
-        @Body body: RequestDeviceDto
+        @Body body: RequestDeviceDto,
     ): BaseResponse<Unit>
 }

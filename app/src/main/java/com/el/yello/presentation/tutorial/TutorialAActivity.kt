@@ -18,11 +18,7 @@ class TutorialAActivity : BindingActivity<ActivityTutorialABinding>(R.layout.act
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        AmplitudeUtils.trackEventWithProperties(
-            EVENT_VIEW_ONBOARDING_TUTORIAL,
-            JSONObject().put(NAME_TUTORIAL_STEP, VALUE_TUTORIAL_ONE),
-        )
+        amplitudeATutorial()
         setClickListener()
     }
 
@@ -43,12 +39,20 @@ class TutorialAActivity : BindingActivity<ActivityTutorialABinding>(R.layout.act
         }
     }
 
+    private fun amplitudeATutorial() {
+        AmplitudeUtils.trackEventWithProperties(
+            EVENT_VIEW_ONBOARDING_TUTORIAL,
+            JSONObject().put(NAME_TUTORIAL_STEP, VALUE_TUTORIAL_ONE),
+        )
+    }
+
     companion object {
         @JvmStatic
         fun newIntent(context: Context, isFromOnBoarding: Boolean) =
             Intent(context, TutorialAActivity::class.java).apply {
                 putExtra("isFromOnBoarding", isFromOnBoarding)
             }
+
         const val EXTRA_FROM_ONBOARDING = "isFromOnBoarding"
         private const val NONE_ANIMATION = 0
         private const val EVENT_VIEW_ONBOARDING_TUTORIAL = "view_onboarding_tutorial"

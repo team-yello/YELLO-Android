@@ -12,5 +12,4 @@ interface LookService {
         @Query("page") page: Int,
         @Query("type") type: String? = null
     ): BaseResponse<ResponseLookListDto>
-
 }

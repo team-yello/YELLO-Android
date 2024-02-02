@@ -1,6 +1,7 @@
 plugins {
     id("yello.android.application")
     id("yello.android.androidHilt")
+    alias(libs.plugins.androidKotlin)
 }
 
 dependencies {

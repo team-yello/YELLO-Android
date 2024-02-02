@@ -173,6 +173,11 @@
             android:screenOrientation="portrait" />
 
         <activity
+            android:name=".presentation.main.profile.manage.ProfileQuitReasonActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustPan"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".presentation.main.myyello.read.MyYelloReadActivity"
             android:exported="false"
             android:screenOrientation="portrait" />

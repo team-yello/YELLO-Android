@@ -1,6 +1,7 @@
 package com.example.data.datasource
 
 import com.example.data.model.request.profile.ProfileModRequestDto
+import com.example.data.model.request.profile.RequestQuitReasonDto
 import com.example.data.model.response.BaseResponse
 import com.example.data.model.response.profile.ResponseProfileFriendsListDto
 import com.example.data.model.response.profile.ResponseProfileModValidDto
@@ -14,16 +15,17 @@ interface ProfileDataSource {
         page: Int,
     ): BaseResponse<ResponseProfileFriendsListDto>
 
-    suspend fun deleteUserData(): BaseResponse<Unit>
+    suspend fun deleteUserData(
+        request: RequestQuitReasonDto,
+    ): BaseResponse<Unit>
 
     suspend fun deleteFriendData(
         friendId: Long,
     ): BaseResponse<Unit>
 
     suspend fun postToModUserData(
-        request: ProfileModRequestDto
+        request: ProfileModRequestDto,
     ): BaseResponse<Unit>
 
-    suspend fun getModValidData() : BaseResponse<ResponseProfileModValidDto>
-
+    suspend fun getModValidData(): BaseResponse<ResponseProfileModValidDto>
 }

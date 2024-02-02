@@ -7,7 +7,7 @@ import androidx.navigation.fragment.findNavController
 import com.el.yello.R
 import com.el.yello.databinding.FragmentHighschoolBinding
 import com.el.yello.presentation.onboarding.activity.OnBoardingActivity
-import com.el.yello.presentation.onboarding.activity.OnBoardingViewModel
+import com.el.yello.presentation.onboarding.OnBoardingViewModel
 import com.el.yello.presentation.onboarding.fragment.highschoolinfo.group.GroupDialogFragment
 import com.el.yello.presentation.onboarding.fragment.highschoolinfo.school.SearchDialogHighSchoolFragment
 import com.el.yello.util.amplitude.AmplitudeUtils

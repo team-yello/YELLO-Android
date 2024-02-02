@@ -1,10 +1,16 @@
 package com.el.yello.presentation.main.profile
 
+import android.content.Context
+import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.el.yello.R
 import com.el.yello.util.amplitude.AmplitudeUtils
 import com.example.domain.entity.PayInfoModel
 import com.example.domain.entity.ProfileFriendsListModel
+import com.example.domain.entity.ProfileQuitReasonModel
 import com.example.domain.entity.ProfileUserModel
 import com.example.domain.repository.AuthRepository
 import com.example.domain.repository.PayRepository
@@ -68,6 +74,21 @@ class ProfileViewModel @Inject constructor(
 
     var clickedUserData = ProfileUserModel()
     var clickedItemPosition: Int? = null
+
+    private val quitReasonText = MutableLiveData<String>()
+    val etcText = MutableLiveData("")
+    private val _quitReasonData: MutableLiveData<List<String>> = MutableLiveData()
+    val quitReasonData: LiveData<List<String>> = _quitReasonData
+    fun setEtcText(etc: String) {
+        etcText.value = etc
+    }
+    fun setQuitReason(reason: String) {
+        quitReasonText.value = reason
+    }
+    fun addQuitReasonList(context: Context) {
+        val quitReasonArray = context.resources.getStringArray(R.array.quit_reasons)
+        _quitReasonData.value = quitReasonArray.toList()
+    }
 
     fun setItemPosition(position: Int) {
         clickedItemPosition = position
@@ -135,7 +156,16 @@ class ProfileViewModel @Inject constructor(
     fun deleteUserDataToServer() {
         viewModelScope.launch {
             _deleteUserState.value = UiState.Loading
-            profileRepository.deleteUserData()
+            val quitReason = if (quitReasonText.value.toString().equals("기타")) {
+                etcText.value.toString()
+            } else {
+                quitReasonText.value.toString()
+            }
+            profileRepository.deleteUserData(
+                ProfileQuitReasonModel(
+                    quitReason,
+                ),
+            )
                 .onSuccess {
                     clearLocalInfo()
                     delay(300)

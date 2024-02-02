@@ -9,7 +9,6 @@ import com.el.yello.R
 import com.el.yello.databinding.ActivityProfileSchoolDetailBinding
 import com.el.yello.presentation.main.profile.mod.SchoolProfileModActivity
 import com.el.yello.util.Utils.setImageOrBasicThumbnail
-import com.el.yello.util.context.yelloSnackbar
 import com.example.ui.activity.navigateTo
 import com.example.ui.base.BindingActivity
 import com.example.ui.context.toast
@@ -89,10 +88,10 @@ class SchoolProfileDetailActivity :
 
     private fun observeKakaoDataResult() {
         viewModel.getKakaoInfoResult.flowWithLifecycle(lifecycle).onEach { result ->
-            if (result) {
-                binding.ivProfileDetailThumbnailEmpty.isVisible = true
-            } else {
-                yelloSnackbar(binding.root, getString(R.string.msg_error))
+            when (result) {
+                is ImageChangeState.Success -> binding.ivProfileDetailThumbnailEmpty.isVisible = true
+                is ImageChangeState.NotChanged -> toast(getString(R.string.profile_mod_already_changed))
+                is ImageChangeState.Error -> toast(getString(R.string.sign_in_error_connection))
             }
         }.launchIn(lifecycleScope)
     }

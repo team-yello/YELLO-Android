@@ -177,6 +177,7 @@
     <string name="profile_detail_tv_school_grade">학년</string>
     <string name="profile_detail_tv_school_classroom">반</string>
     <string name="profile_detail_image_change">프로필 사진 동기화 완료</string>
+    <string name="profile_mod_already_changed">이미 동기화된 이미지입니다.</string>
 
     <string name="profile_mod_tv_title">프로필 수정</string>
     <string name="profile_mod_btn_save">저장</string>
@@ -390,4 +391,5 @@
     <string name="notice_do_not_see_it_again">다시 보지 않기</string>
     <string name="notice_close">닫기</string>
     <string name="notice_do_not_see_it_again_icon">다시 보지 않기 아이콘</string>
+
 </resources>

@@ -23,8 +23,8 @@ class UnivProfileDetailViewModel @Inject constructor(
     private val _getUserDataState = MutableStateFlow<UiState<String>>(UiState.Empty)
     val getUserDataState: StateFlow<UiState<String>> = _getUserDataState
 
-    private val _getKakaoInfoResult = MutableSharedFlow<Boolean>()
-    val getKakaoInfoResult: SharedFlow<Boolean> = _getKakaoInfoResult
+    private val _getKakaoInfoResult = MutableSharedFlow<ImageChangeState>()
+    val getKakaoInfoResult: SharedFlow<ImageChangeState> = _getKakaoInfoResult
 
     private val _postToModProfileState = MutableStateFlow<UiState<String>>(UiState.Empty)
     val postToModProfileState: StateFlow<UiState<String>> = _postToModProfileState
@@ -79,11 +79,13 @@ class UnivProfileDetailViewModel @Inject constructor(
                 try {
                     if (myUserData.profileImageUrl != user?.kakaoAccount?.profile?.profileImageUrl) {
                         myUserData.profileImageUrl = user?.kakaoAccount?.profile?.profileImageUrl.orEmpty()
-                        _getKakaoInfoResult.emit(true)
+                        _getKakaoInfoResult.emit(ImageChangeState.Success)
                         postNewProfileImageToServer()
+                    } else {
+                        _getKakaoInfoResult.emit(ImageChangeState.NotChanged)
                     }
                 } catch (e: IllegalArgumentException) {
-                    _getKakaoInfoResult.emit(false)
+                    _getKakaoInfoResult.emit(ImageChangeState.Error)
                 }
             }
         }

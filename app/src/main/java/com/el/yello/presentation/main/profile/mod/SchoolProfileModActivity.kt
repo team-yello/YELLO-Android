@@ -154,7 +154,7 @@ class SchoolProfileModActivity :
         if (viewModel.classroom.value != TEXT_NONE) {
             binding.layoutProfileModClassroom.background =
                 drawableOf(R.drawable.shape_grayscales900_fill_12_rect)
-            binding.tvProfileModSubgroupError.isVisible = false
+            binding.tvProfileModClassroomError.isVisible = false
         }
     }
 

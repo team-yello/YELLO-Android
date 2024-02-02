@@ -125,7 +125,7 @@ class SchoolModSearchBottomSheet :
     private fun observeGetSchoolListState() {
         viewModel.getSchoolListState.flowWithLifecycle(lifecycle).onEach { state ->
             when (state) {
-                is UiState.Success -> adapter.submitList(state.data.groupNameList)
+                is UiState.Success -> adapter.addList(state.data.groupNameList)
 
                 is UiState.Failure -> toast(getString(R.string.recommend_search_error))
 

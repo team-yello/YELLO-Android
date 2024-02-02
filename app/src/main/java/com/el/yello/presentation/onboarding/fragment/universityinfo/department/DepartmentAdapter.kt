@@ -27,6 +27,12 @@ class DepartmentAdapter(
         holder.setDepartment(getItem(position))
     }
 
+    fun addList(newItems: List<Group>) {
+        val currentItems = currentList.toMutableList()
+        currentItems.addAll(newItems)
+        submitList(currentItems)
+    }
+
     class DepartmentViewHolder(
         private val binding: ItemDepartmentListBinding,
         private val storeDepartment: (String, Long) -> Unit,

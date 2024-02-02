@@ -182,7 +182,7 @@ class UnivModSearchBottomSheet :
     private fun observeGetUnivListState() {
         viewModel.getUnivListState.flowWithLifecycle(lifecycle).onEach { state ->
             when (state) {
-                is UiState.Success -> univAdapter.submitList(state.data.schoolList)
+                is UiState.Success -> univAdapter.addList(state.data.schoolList)
 
                 is UiState.Failure -> toast(getString(R.string.recommend_search_error))
 
@@ -196,7 +196,7 @@ class UnivModSearchBottomSheet :
     private fun observeGetUnivGroupIdListState() {
         viewModel.getUnivGroupIdListState.flowWithLifecycle(lifecycle).onEach { state ->
             when (state) {
-                is UiState.Success -> groupAdapter.submitList(state.data.groupList)
+                is UiState.Success -> groupAdapter.addList(state.data.groupList)
 
                 is UiState.Failure -> toast(getString(R.string.recommend_search_error))
 

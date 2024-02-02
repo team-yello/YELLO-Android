@@ -7,7 +7,8 @@ import com.example.domain.entity.LookListModel.LookModel
 import javax.inject.Inject
 
 class LookPagingSource @Inject constructor(
-    private val lookService: LookService
+    private val lookService: LookService,
+    private val onlyMine: Boolean,
 ) : PagingSource<Int, LookModel>() {
 
     override fun getRefreshKey(state: PagingState<Int, LookModel>): Int? {
@@ -21,7 +22,11 @@ class LookPagingSource @Inject constructor(
         val currentPosition = params.key ?: 0
         val currentPage = currentPosition.times(LOOK_POSITION_TO_PAGE).toInt()
         val response = runCatching {
-            lookService.getLookList(currentPage)
+            if (onlyMine) {
+                lookService.getLookList(currentPage, ONLY_MINE)
+            } else {
+                lookService.getLookList(currentPage)
+            }
         }.getOrElse {
             return LoadResult.Error(it)
         }
@@ -42,5 +47,7 @@ class LookPagingSource @Inject constructor(
     companion object {
         const val LOOK_PAGE_SIZE = 10
         const val LOOK_POSITION_TO_PAGE = 0.1
+
+        const val ONLY_MINE = "send"
     }
 }

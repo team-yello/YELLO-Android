@@ -64,15 +64,21 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
         AmplitudeUtils.trackEventWithProperties("view_profile")
     }
 
+    override fun onResume() {
+        super.onResume()
+
+        viewModel.resetStateVariable()
+        viewModel.getUserDataFromServer()
+        viewModel.getFriendsListFromServer()
+        viewModel.getPurchaseInfoFromServer()
+    }
+
     private fun initProfileSetting() {
         initProfileManageBtnListener()
         initUpwardBtnListener()
         initUpwardBtnVisibility()
         initAdapter()
         setItemDivider()
-        viewModel.getUserDataFromServer()
-        viewModel.getFriendsListFromServer()
-        viewModel.getPurchaseInfoFromServer()
     }
 
     private fun setItemDivider() {
@@ -102,12 +108,7 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
 
     private fun initAdapter() {
         _adapter = ProfileFriendAdapter(viewModel,
-            itemClick = { profileUserModel, position ->
-                initItemClickListener(
-                    profileUserModel,
-                    position
-                )
-            },
+            itemClick = { profileUserModel, position -> initItemClickListener(profileUserModel, position) },
             shopClick = { initShopClickListener() },
             modClick = { initProfileModClickListener() }
         )

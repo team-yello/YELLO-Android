@@ -1,5 +1,6 @@
 package com.el.yello.presentation.main.profile
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -163,7 +164,7 @@ class ProfileViewModel @Inject constructor(
     fun deleteUserDataToServer() {
         viewModelScope.launch {
             _deleteUserState.value = UiState.Loading
-            val quitReason = if (quitReasonText.value.toString() == "기타") {
+            val quitReason = if (quitReasonText.value.toString().equals("기타")) {
                 etcText.value.toString()
             } else {
                 quitReasonText.value.toString()

@@ -30,14 +30,12 @@ class ProfileViewModel @Inject constructor(
 
     init {
         resetPageVariable()
-        // resetStateVariable()
     }
 
     private val _getUserDataResult = MutableSharedFlow<Boolean>()
     val getUserDataResult: SharedFlow<Boolean> = _getUserDataResult
 
-    private val _getFriendListState =
-        MutableStateFlow<UiState<ProfileFriendsListModel>>(UiState.Empty)
+    private val _getFriendListState = MutableStateFlow<UiState<ProfileFriendsListModel>>(UiState.Empty)
     val getFriendListState: StateFlow<UiState<ProfileFriendsListModel>> = _getFriendListState
 
     private val _deleteUserState = MutableStateFlow<UiState<Unit>>(UiState.Empty)
@@ -92,6 +90,7 @@ class ProfileViewModel @Inject constructor(
         _kakaoQuitState.value = UiState.Empty
         _getFriendListState.value = UiState.Empty
         _getPurchaseInfoState.value = UiState.Empty
+        _getUserDataResult.resetReplayCache()
     }
 
     fun getUserDataFromServer() {

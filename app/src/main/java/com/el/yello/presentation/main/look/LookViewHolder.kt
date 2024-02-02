@@ -50,6 +50,7 @@ class LookViewHolder(
                     setTextColor(itemView.context.colorOf(R.color.semantic_gender_f_500))
                     FROM_FEMALE
                 }
+                if (item.isUserSenderVote) text = FROM_ME
             }
         }
     }
@@ -58,5 +59,6 @@ class LookViewHolder(
         const val MALE = "MALE"
         const val FROM_MALE = "남학생에게 받음"
         const val FROM_FEMALE = "여학생에게 받음"
+        const val FROM_ME = "나에게 받음"
     }
 }

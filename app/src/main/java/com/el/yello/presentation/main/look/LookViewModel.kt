@@ -29,10 +29,10 @@ class LookViewModel @Inject constructor(
         _isFirstLoading.value = boolean
     }
 
-    fun getLookListWithPaging(): Flow<PagingData<LookModel>> =
+    fun getLookListWithPaging(onlyMine: Boolean): Flow<PagingData<LookModel>> =
         Pager(
             config = PagingConfig(LookPagingSource.LOOK_PAGE_SIZE),
-            pagingSourceFactory = { LookPagingSource(lookService) }
+            pagingSourceFactory = { LookPagingSource(lookService, onlyMine) }
         ).flow.cachedIn(viewModelScope)
 
     fun getYelloId() = authRepository.getYelloId()

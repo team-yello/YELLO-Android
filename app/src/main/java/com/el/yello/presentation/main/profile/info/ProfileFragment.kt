@@ -64,15 +64,18 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
         AmplitudeUtils.trackEventWithProperties("view_profile")
     }
 
+    override fun onResume() {
+        super.onResume()
+
+        resetProfileData()
+    }
+
     private fun initProfileSetting() {
         initProfileManageBtnListener()
         initUpwardBtnListener()
         initUpwardBtnVisibility()
         initAdapter()
         setItemDivider()
-        viewModel.getUserDataFromServer()
-        viewModel.getFriendsListFromServer()
-        viewModel.getPurchaseInfoFromServer()
     }
 
     private fun setItemDivider() {
@@ -102,12 +105,7 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
 
     private fun initAdapter() {
         _adapter = ProfileFriendAdapter(viewModel,
-            itemClick = { profileUserModel, position ->
-                initItemClickListener(
-                    profileUserModel,
-                    position
-                )
-            },
+            itemClick = { profileUserModel, position -> initItemClickListener(profileUserModel, position) },
             shopClick = { initShopClickListener() },
             modClick = { initProfileModClickListener() }
         )
@@ -155,19 +153,23 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
         binding.layoutProfileSwipe.apply {
             setOnRefreshListener {
                 lifecycleScope.launch {
-                    adapter.setItemList(listOf())
-                    viewModel.run {
-                        resetPageVariable()
-                        resetStateVariable()
-                        getPurchaseInfoFromServer()
-                        getUserDataFromServer()
-                        getFriendsListFromServer()
-                    }
+                    resetProfileData()
                     delay(200)
                     binding.layoutProfileSwipe.isRefreshing = false
                 }
             }
             setPullToScrollColor(R.color.grayscales_500, R.color.grayscales_700)
+        }
+    }
+
+    private fun resetProfileData() {
+        adapter.setItemList(listOf())
+        viewModel.run {
+            resetPageVariable()
+            resetStateVariable()
+            getPurchaseInfoFromServer()
+            getUserDataFromServer()
+            getFriendsListFromServer()
         }
     }
 

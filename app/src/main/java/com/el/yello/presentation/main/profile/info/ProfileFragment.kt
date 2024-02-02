@@ -67,10 +67,7 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
     override fun onResume() {
         super.onResume()
 
-        viewModel.resetStateVariable()
-        viewModel.getUserDataFromServer()
-        viewModel.getFriendsListFromServer()
-        viewModel.getPurchaseInfoFromServer()
+        resetProfileData()
     }
 
     private fun initProfileSetting() {
@@ -156,19 +153,23 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
         binding.layoutProfileSwipe.apply {
             setOnRefreshListener {
                 lifecycleScope.launch {
-                    adapter.setItemList(listOf())
-                    viewModel.run {
-                        resetPageVariable()
-                        resetStateVariable()
-                        getPurchaseInfoFromServer()
-                        getUserDataFromServer()
-                        getFriendsListFromServer()
-                    }
+                    resetProfileData()
                     delay(200)
                     binding.layoutProfileSwipe.isRefreshing = false
                 }
             }
             setPullToScrollColor(R.color.grayscales_500, R.color.grayscales_700)
+        }
+    }
+
+    private fun resetProfileData() {
+        adapter.setItemList(listOf())
+        viewModel.run {
+            resetPageVariable()
+            resetStateVariable()
+            getPurchaseInfoFromServer()
+            getUserDataFromServer()
+            getFriendsListFromServer()
         }
     }
 

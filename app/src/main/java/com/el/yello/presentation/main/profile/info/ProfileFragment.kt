@@ -104,10 +104,16 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
     }
 
     private fun initAdapter() {
-        _adapter = ProfileFriendAdapter(viewModel,
-            itemClick = { profileUserModel, position -> initItemClickListener(profileUserModel, position) },
+        _adapter = ProfileFriendAdapter(
+            viewModel,
+            itemClick = { profileUserModel, position ->
+                initItemClickListener(
+                    profileUserModel,
+                    position,
+                )
+            },
             shopClick = { initShopClickListener() },
-            modClick = { initProfileModClickListener() }
+            modClick = { initProfileModClickListener() },
         )
         binding.rvProfileFriendsList.adapter = adapter
     }

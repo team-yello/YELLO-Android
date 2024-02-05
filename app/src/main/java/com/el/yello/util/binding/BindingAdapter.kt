@@ -12,6 +12,7 @@ import androidx.core.view.isVisible
 import androidx.databinding.BindingAdapter
 import com.airbnb.lottie.LottieAnimationView
 import com.el.yello.R
+import com.example.ui.context.setMargins
 
 object BindingAdapter {
     @JvmStatic
@@ -112,6 +113,7 @@ object BindingAdapter {
                 else -> R.raw.lottie_note_balloon8
             },
         )
+        playAnimation()
     }
 
     @JvmStatic
@@ -171,5 +173,17 @@ object BindingAdapter {
             it.weight = weight.toFloat()
             this.layoutParams = it
         }
+    }
+
+    @JvmStatic
+    @BindingAdapter("android:layout_marginTop")
+    fun View.setLayoutMarginTop(margin: Int) {
+        setMargins(
+            view = this,
+            left = 0,
+            top = margin,
+            right = 0,
+            bottom = 0,
+        )
     }
 }

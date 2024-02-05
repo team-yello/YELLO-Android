@@ -13,17 +13,29 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layout_vote"
-        android:background="@color/black"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/black">
 
         <androidx.viewpager2.widget.ViewPager2
-            android:id="@+id/vp_vote"
+            android:id="@+id/vp_vote_note_frame"
             android:layout_width="0dp"
             android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:background="@drawable/shape_gradient_vote_bg_01" />
+
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/vp_vote_note"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:layout="@layout/fragment_note" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

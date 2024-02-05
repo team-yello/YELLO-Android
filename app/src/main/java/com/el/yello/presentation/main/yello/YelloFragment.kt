@@ -96,6 +96,7 @@ class YelloFragment : BindingFragment<FragmentYelloBinding>(R.layout.fragment_ye
 
     override fun onResume() {
         super.onResume()
+
         viewModel.getVoteState()
     }
 

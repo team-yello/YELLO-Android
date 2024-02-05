@@ -1,12 +1,11 @@
-package com.el.yello.presentation.main.yello.vote
+package com.el.yello.presentation.main.yello.vote.frame
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.el.yello.presentation.main.yello.point.PointFragment
-import com.el.yello.presentation.main.yello.vote.note.NoteFragment
 
-class VoteAdapter(
+class NoteFrameAdapter(
     fragmentActivity: FragmentActivity,
     private val bgIndex: Int,
     private val voteListSize: Int,
@@ -15,10 +14,10 @@ class VoteAdapter(
 
     override fun createFragment(position: Int): Fragment {
         return when (position) {
-            in INDEX_START_POSITION until voteListSize -> NoteFragment.newInstance(
-                position,
-                bgIndex,
-                voteListSize,
+            in INDEX_START_POSITION until voteListSize -> NoteFrameFragment.newInstance(
+                index = position,
+                bgIndex = bgIndex,
+                voteListSize = voteListSize,
             )
 
             else -> PointFragment.newInstance()

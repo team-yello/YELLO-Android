@@ -7,18 +7,18 @@ import android.os.Bundle
 import android.view.MotionEvent.ACTION_DOWN
 import android.view.MotionEvent.ACTION_UP
 import android.view.View
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import com.el.yello.R
 import com.el.yello.databinding.FragmentYelloStartBinding
+import com.el.yello.presentation.main.yello.YelloState
 import com.el.yello.presentation.main.yello.YelloViewModel
 import com.el.yello.presentation.main.yello.vote.VoteActivity
 import com.el.yello.util.amplitude.AmplitudeUtils
-import com.el.yello.presentation.main.yello.YelloState
 import com.example.ui.base.BindingFragment
 import com.example.ui.context.setMargins
+import com.example.ui.fragment.drawableOf
 import com.example.ui.fragment.getCompatibleRealSize
 import com.example.ui.view.UiState
 import com.example.ui.view.dpToPx
@@ -46,7 +46,6 @@ class YelloStartFragment :
     }
 
     private fun setBalloonVisibility() {
-        // TODO: 삭제 이후 바로 반영되도록 로직 보완
         val yelloState = viewModel.yelloState.value
         if (yelloState is UiState.Success) {
             if (yelloState.data is YelloState.Valid) {
@@ -74,11 +73,11 @@ class YelloStartFragment :
         getCompatibleRealSize(size)
         val displayWidth = size.x
         setMargins(
-            binding.layoutSubsDouble,
-            0,
-            displayWidth + MARGIN_TOP_SUBSCRIBE_LAYOUT.dpToPx(requireContext()),
-            0,
-            0,
+            view = binding.layoutSubsDouble,
+            left = 0,
+            top = displayWidth + MARGIN_TOP_SUBSCRIBE_LAYOUT.dpToPx(requireContext()),
+            right = 0,
+            bottom = 0,
         )
     }
 
@@ -89,13 +88,14 @@ class YelloStartFragment :
         }
     }
 
+    // TODO : SuppressLint 제거
     @SuppressLint("ClickableViewAccessibility")
     private fun initVoteBtnTouchListener() {
-        binding.btnStartVote.setOnTouchListener { view, event ->
+        binding.btnStartVote.setOnTouchListener { _, event ->
             when (event.actionMasked) {
                 ACTION_DOWN -> {
                     with(binding.btnStartVote) {
-                        background = ContextCompat.getDrawable(context, R.drawable.shape_yello_main_500_fill_100_rect)
+                        background = drawableOf(R.drawable.shape_yello_main_500_fill_100_rect)
                         setPadding(
                             0,
                             PADDING_HORIZONTAL_VOTE_BTN_PRESSED.dpToPx(requireContext()),
@@ -107,7 +107,7 @@ class YelloStartFragment :
 
                 ACTION_UP -> {
                     with(binding.btnStartVote) {
-                        background = ContextCompat.getDrawable(context, R.drawable.shape_yello_main_500_fill_500_botshadow_rect)
+                        background = drawableOf(R.drawable.shape_yello_main_500_fill_500_botshadow_rect)
                         setPadding(
                             0,
                             PADDING_TOP_VOTE_BTN.dpToPx(requireContext()),

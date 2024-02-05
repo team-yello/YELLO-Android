@@ -31,7 +31,6 @@ class PointFragment : BindingFragment<FragmentPointBinding>(R.layout.fragment_po
 
     private fun setConfirmBtnClickListener() {
         binding.btnPointConfirm.setOnSingleClickListener {
-            yelloViewModel.getVoteState()
             requireActivity().finish()
         }
     }

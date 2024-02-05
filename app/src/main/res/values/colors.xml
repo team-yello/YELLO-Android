@@ -19,6 +19,7 @@
     <color name="grayscales_700">#FF495057</color>
     <color name="grayscales_800">#FF343A40</color>
     <color name="grayscales_900">#FF212529</color>
+
     <color name="grayscales_onbarding_light">#FF8B8B8B</color>
     <color name="grayscales_onbarding_dark">#FF62666A</color>
     <color name="grayscales_shimmer_off">#FF252728</color>

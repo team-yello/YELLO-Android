@@ -37,9 +37,11 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.job
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.concurrent.TimeUnit
+import kotlin.coroutines.coroutineContext
 
 @AndroidEntryPoint
 class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main) {
@@ -239,6 +241,7 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
                             imageUrl = state.data.imageUrl,
                             redirectUrl = state.data.redirectUrl,
                         ).show(supportFragmentManager, TAG_NOTICE_DIALOG)
+                        coroutineContext.job.cancel()
                     }
 
                     is Failure -> yelloSnackbar(

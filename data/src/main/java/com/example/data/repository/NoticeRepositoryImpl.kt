@@ -2,6 +2,7 @@ package com.example.data.repository
 
 import com.example.data.datasource.NoticeDataSource
 import com.example.domain.YelloDataStore
+import com.example.domain.entity.notice.Banner
 import com.example.domain.entity.notice.Notice
 import com.example.domain.repository.NoticeRepository
 import javax.inject.Inject
@@ -12,6 +13,10 @@ class NoticeRepositoryImpl @Inject constructor(
 ) : NoticeRepository {
     override suspend fun getNotice(): Result<Notice?> = runCatching {
         dataSource.getNotice().data?.toNotice()
+    }
+
+    override suspend fun getBanner(): Result<Banner?> = kotlin.runCatching {
+        dataSource.getBanner().data?.toBanner()
     }
 
     override fun isDisabledNoticeUrl(url: String): Boolean =

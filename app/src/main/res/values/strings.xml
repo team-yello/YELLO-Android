@@ -166,7 +166,33 @@
     <string name="profile_error_logout">로그아웃 실패 : %s</string>
     <string name="profile_error_unlink">회원 탈퇴하기 실패</string>
     <string name="profile_error_unlink_kakao">카카오 연동 끊기 실패</string>
+
+    <string name="profile_detail_tv_title">프로필 정보</string>
+    <string name="profile_detail_btn_kakao_change">카카오톡 동기화</string>
+    <string name="profile_detail_tv_name">이름</string>
+    <string name="profile_detail_tv_id">아이디</string>
+    <string name="profile_detail_tv_school">학교</string>
+    <string name="profile_detail_tv_univ_subgroup">학과</string>
+    <string name="profile_detail_tv_univ_admyear">학번</string>
+    <string name="profile_detail_tv_school_grade">학년</string>
+    <string name="profile_detail_tv_school_classroom">반</string>
     <string name="profile_detail_image_change">프로필 사진 동기화 완료</string>
+    <string name="profile_mod_already_changed">이미 동기화된 이미지입니다.</string>
+
+    <string name="profile_mod_tv_title">프로필 수정</string>
+    <string name="profile_mod_btn_save">저장</string>
+    <string name="profile_mod_tv_warning">올해 한 번만 수정할 수 있어요.\n신중히 수정해 주세요!</string>
+    <string name="profile_mod_tv_date_title">마지막 수정일 : </string>
+    <string name="profile_mod_tv_school">학교</string>
+    <string name="profile_mod_tv_univ_subgroup">학과</string>
+    <string name="profile_mod_tv_univ_subgroup_error">학과를 입력해야 수정할 수 있어요.</string>
+    <string name="profile_mod_tv_univ_admyear">학번</string>
+    <string name="profile_mod_btn_univ_change">중/고등학생으로 전환</string>
+    <string name="profile_mod_tv_school_grade">학년</string>
+    <string name="profile_mod_tv_school_grade_error">학년을 입력해야 수정할 수 있어요.</string>
+    <string name="profile_mod_tv_school_classroom_error">반을 입력해야 수정할 수 있어요.</string>
+    <string name="profile_mod_tv_school_classroom">반</string>
+    <string name="profile_mod_btn_school_change">대학생으로 전환</string>
 
     <string name="invite_error_kakao">카카오톡 공유하기 실패</string>
     <string name="invite_error_browser">가능한 브라우저 없음</string>
@@ -231,7 +257,10 @@
     <string name="profile_mod_no_change">수정할 정보가 없어요.</string>
     <string name="profile_mod_no_valid">올해 안에 수정한 기록이 있어요.</string>
     <string name="profile_mod_success">프로필 수정이 완료되었습니다.</string>
-
+    <string name="profile_mod_tv_add_school">우리 학교가 없나요? 학교를 추가해보세요!</string>
+    <string name="profile_mod_tv_school_grade_one">1학년</string>
+    <string name="profile_mod_tv_school_grade_two">2학년</string>
+    <string name="profile_mod_tv_school_grade_three">3학년</string>
 
     <string name="recommend_tv_title">추천친구</string>
     <string name="recommend_dialog_tv_title">친구 초대하기</string>
@@ -380,4 +409,5 @@
         <item>다른 앱이 더 재밌어서</item>
         <item>기타</item>
     </string-array>
+
 </resources>

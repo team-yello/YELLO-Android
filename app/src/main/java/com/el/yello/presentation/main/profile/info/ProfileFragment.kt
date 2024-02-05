@@ -13,8 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.el.yello.R
 import com.el.yello.databinding.FragmentProfileBinding
 import com.el.yello.presentation.main.profile.ProfileViewModel
-import com.el.yello.presentation.main.profile.detail.SchoolProfileDetailActivity
-import com.el.yello.presentation.main.profile.detail.UnivProfileDetailActivity
+import com.el.yello.presentation.main.profile.detail.ProfileDetailActivity
 import com.el.yello.presentation.main.profile.manage.ProfileManageActivity
 import com.el.yello.presentation.pay.PayActivity
 import com.el.yello.util.Utils.setPullToScrollColor
@@ -140,19 +139,8 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
     }
 
     private fun initProfileModClickListener() {
-        when (viewModel.myUserData.groupType) {
-            TYPE_UNIVERSITY -> {
-                activity?.navigateTo<UnivProfileDetailActivity>()
-                viewModel.resetStateVariable()
-            }
-
-            TYPE_HIGH_SCHOOL, TYPE_MIDDLE_SCHOOL -> {
-                activity?.navigateTo<SchoolProfileDetailActivity>()
-                viewModel.resetStateVariable()
-            }
-
-            else -> toast(getString(R.string.sign_in_error_connection))
-        }
+        activity?.navigateTo<ProfileDetailActivity>()
+        viewModel.resetStateVariable()
     }
 
     private fun initPullToScrollListener() {

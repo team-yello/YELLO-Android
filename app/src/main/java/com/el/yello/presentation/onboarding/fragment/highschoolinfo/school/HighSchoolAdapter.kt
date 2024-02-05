@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.el.yello.databinding.ItemHighschoolListBinding
+import com.example.domain.entity.SearchListModel
 import com.example.ui.view.ItemDiffCallback
 import com.example.ui.view.setOnSingleClickListener
 
@@ -24,6 +25,12 @@ class HighSchoolAdapter(
 
     override fun onBindViewHolder(holder: HighSchoolViewHolder, position: Int) {
         holder.setHighSchool(getItem(position))
+    }
+
+    fun addList(newItems: List<String>) {
+        val currentItems = currentList.toMutableList()
+        currentItems.addAll(newItems)
+        submitList(currentItems)
     }
 
     class HighSchoolViewHolder(

@@ -26,6 +26,12 @@ class UniversityAdapter(
         holder.setUniversity(getItem(position))
     }
 
+    fun addList(newItems: List<String>) {
+        val currentItems = currentList.toMutableList()
+        currentItems.addAll(newItems)
+        submitList(currentItems)
+    }
+
     class UniversityViewHolder(
         private val binding: ItemUniversityListBinding,
         private val storeUniversity: (String) -> Unit,

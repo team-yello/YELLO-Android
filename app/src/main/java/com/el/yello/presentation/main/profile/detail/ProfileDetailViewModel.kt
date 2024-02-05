@@ -3,7 +3,9 @@ package com.el.yello.presentation.main.profile.detail
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.el.yello.presentation.main.profile.info.ProfileFragment.Companion.TYPE_UNIVERSITY
 import com.example.domain.entity.ProfileModRequestModel
+import com.example.domain.entity.ProfileUserModel
 import com.example.domain.repository.ProfileRepository
 import com.example.ui.view.UiState
 import com.kakao.sdk.user.UserApiClient
@@ -16,15 +18,15 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class UnivProfileDetailViewModel @Inject constructor(
+class ProfileDetailViewModel @Inject constructor(
     private val profileRepository: ProfileRepository,
 ) : ViewModel() {
 
-    private val _getUserDataState = MutableStateFlow<UiState<String>>(UiState.Empty)
-    val getUserDataState: StateFlow<UiState<String>> = _getUserDataState
+    private val _getUserDataState = MutableStateFlow<UiState<ProfileUserModel>>(UiState.Empty)
+    val getUserDataState: StateFlow<UiState<ProfileUserModel>> = _getUserDataState
 
-    private val _getKakaoInfoResult = MutableSharedFlow<Boolean>()
-    val getKakaoInfoResult: SharedFlow<Boolean> = _getKakaoInfoResult
+    private val _getKakaoInfoResult = MutableSharedFlow<ImageChangeState>()
+    val getKakaoInfoResult: SharedFlow<ImageChangeState> = _getKakaoInfoResult
 
     private val _postToModProfileState = MutableStateFlow<UiState<String>>(UiState.Empty)
     val postToModProfileState: StateFlow<UiState<String>> = _postToModProfileState
@@ -32,16 +34,20 @@ class UnivProfileDetailViewModel @Inject constructor(
     val name = MutableLiveData("")
     val id = MutableLiveData("")
     val school = MutableLiveData("")
+
     val subGroup = MutableLiveData("")
     val admYear = MutableLiveData("")
+
+    val grade = MutableLiveData("")
+    val classroom = MutableLiveData("")
 
     private lateinit var myUserData: ProfileModRequestModel
 
     fun resetViewModelState() {
         _getUserDataState.value = UiState.Empty
         _postToModProfileState.value = UiState.Empty
+        _getKakaoInfoResult.resetReplayCache()
     }
-
 
     fun getUserDataFromServer() {
         viewModelScope.launch {
@@ -54,8 +60,13 @@ class UnivProfileDetailViewModel @Inject constructor(
                     name.value = profile.name
                     id.value = profile.yelloId
                     school.value = profile.groupName
-                    subGroup.value = profile.subGroupName
-                    admYear.value = profile.groupAdmissionYear.toString()
+                    if (profile.groupType == TYPE_UNIVERSITY) {
+                        subGroup.value = profile.subGroupName
+                        admYear.value = profile.groupAdmissionYear.toString()
+                    } else {
+                        grade.value = profile.groupAdmissionYear.toString() + "학년"
+                        classroom.value = profile.subGroupName + "반"
+                    }
                     myUserData = ProfileModRequestModel(
                         profile.name,
                         profile.yelloId,
@@ -65,7 +76,7 @@ class UnivProfileDetailViewModel @Inject constructor(
                         profile.groupId,
                         profile.groupAdmissionYear
                     )
-                    _getUserDataState.value = UiState.Success(profile.profileImageUrl)
+                    _getUserDataState.value = UiState.Success(profile)
                 }
                 .onFailure {
                     _getUserDataState.value = UiState.Failure(it.message.toString())
@@ -75,12 +86,17 @@ class UnivProfileDetailViewModel @Inject constructor(
 
     fun getUserInfoFromKakao() {
         UserApiClient.instance.me { user, _ ->
-            try {
-                myUserData.profileImageUrl = user?.kakaoAccount?.profile?.profileImageUrl.orEmpty()
-                postNewProfileImageToServer()
-            } catch (e: IllegalArgumentException) {
-                viewModelScope.launch {
-                    _getKakaoInfoResult.emit(false)
+            viewModelScope.launch {
+                try {
+                    if (myUserData.profileImageUrl != user?.kakaoAccount?.profile?.profileImageUrl) {
+                        myUserData.profileImageUrl = user?.kakaoAccount?.profile?.profileImageUrl.orEmpty()
+                        _getKakaoInfoResult.emit(ImageChangeState.Success)
+                        postNewProfileImageToServer()
+                    } else {
+                        _getKakaoInfoResult.emit(ImageChangeState.NotChanged)
+                    }
+                } catch (e: IllegalArgumentException) {
+                    _getKakaoInfoResult.emit(ImageChangeState.Error)
                 }
             }
         }

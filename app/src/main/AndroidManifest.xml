@@ -153,12 +153,7 @@
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".presentation.main.profile.detail.SchoolProfileDetailActivity"
-            android:exported="false"
-            android:screenOrientation="portrait" />
-
-        <activity
-            android:name=".presentation.main.profile.detail.UnivProfileDetailActivity"
+            android:name=".presentation.main.profile.detail.ProfileDetailActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
 

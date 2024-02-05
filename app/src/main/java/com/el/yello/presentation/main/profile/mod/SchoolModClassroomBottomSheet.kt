@@ -5,15 +5,15 @@ import android.view.View
 import androidx.fragment.app.activityViewModels
 import com.el.yello.R
 import com.el.yello.databinding.FragmentModSelectBottomSheetBinding
-import com.el.yello.presentation.onboarding.fragment.universityinfo.studentid.StudentIdDialogAdapter
+import com.el.yello.presentation.onboarding.fragment.highschoolinfo.group.GroupDialogAdapter
 import com.example.ui.base.BindingBottomSheetDialog
 
-class UnivModSelectBottomSheet :
+class SchoolModClassroomBottomSheet :
     BindingBottomSheetDialog<FragmentModSelectBottomSheetBinding>(R.layout.fragment_mod_select_bottom_sheet) {
 
-    private val viewModel by activityViewModels<UnivProfileModViewModel>()
+    private val viewModel by activityViewModels<SchoolProfileModViewModel>()
 
-    private var _adapter: StudentIdDialogAdapter? = null
+    private var _adapter: GroupDialogAdapter? = null
     private val adapter
         get() = requireNotNull(_adapter) { getString(R.string.adapter_not_initialized_error_msg) }
 
@@ -21,24 +21,25 @@ class UnivModSelectBottomSheet :
         super.onViewCreated(view, savedInstanceState)
 
         initAdapter()
-        setStudentIdList()
+        setClassroomList()
     }
 
     private fun initAdapter() {
-        _adapter = StudentIdDialogAdapter(storeStudentId = ::storeStudentId)
+        _adapter = GroupDialogAdapter(storeHighSchoolGroup = ::storeHighSchoolGroup)
         binding.rvSelectList.adapter = adapter
     }
 
-    private fun storeStudentId(studentId: Int) {
-        if (viewModel.admYear.value != studentId.toString()) {
-            viewModel.admYear.value = studentId.toString()
+    private fun storeHighSchoolGroup(classroom: String) {
+        if (viewModel.classroom.value != classroom) {
+            viewModel.classroom.value = classroom
             viewModel.isChanged = true
+            (activity as SchoolProfileModActivity).checkIsClassroomTextNone()
         }
         dismiss()
     }
 
-    private fun setStudentIdList() {
-        adapter.submitList(viewModel.studentIdList)
+    private fun setClassroomList() {
+        adapter.submitList(viewModel.classroomList)
     }
 
     override fun onDestroy() {
@@ -48,7 +49,6 @@ class UnivModSelectBottomSheet :
 
     companion object {
         @JvmStatic
-        fun newInstance() = UnivModSelectBottomSheet()
+        fun newInstance() = SchoolModClassroomBottomSheet()
     }
-
 }

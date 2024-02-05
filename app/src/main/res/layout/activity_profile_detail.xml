@@ -1,0 +1,510 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="vm"
+            type="com.el.yello.presentation.main.profile.detail.ProfileDetailViewModel" />
+
+        <import type="android.view.View" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/black">
+
+        <ImageView
+            android:id="@+id/btn_profile_detail_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:padding="12dp"
+            android:src="@drawable/ic_arrow_left"
+            app:layout_constraintBottom_toBottomOf="@id/tv_profile_manage_title"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tv_profile_manage_title" />
+
+        <TextView
+            android:id="@+id/tv_profile_manage_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="-4dp"
+            android:layout_marginTop="1dp"
+            android:paddingVertical="15dp"
+            android:text="@string/profile_detail_tv_title"
+            android:textAppearance="?textAppearanceSubtitle1"
+            android:textColor="@color/white"
+            app:layout_constraintStart_toEndOf="@id/btn_profile_detail_back"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ScrollView
+            android:id="@+id/layout_profile_detail"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btn_profile_detail_back">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/iv_profile_detail_thumbnail"
+                    android:layout_width="72dp"
+                    android:layout_height="0dp"
+                    android:layout_marginTop="21dp"
+                    android:src="@drawable/ic_empty_circle_gray700"
+                    app:layout_constraintDimensionRatio="1"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/iv_profile_detail_thumbnail_empty"
+                    android:layout_width="72dp"
+                    android:layout_height="0dp"
+                    android:layout_marginTop="21dp"
+                    android:src="@drawable/ic_empty_circle_gray700"
+                    android:visibility="gone"
+                    app:layout_constraintDimensionRatio="1"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <LinearLayout
+                    android:id="@+id/btn_change_kakao_image"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/shape_grayscales900_fill_8_rect"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:paddingHorizontal="8dp"
+                    android:paddingVertical="6dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/iv_profile_detail_thumbnail">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="3dp"
+                        android:src="@drawable/ic_rotate" />
+
+                    <TextView
+                        style="@style/TextAppearance.Yello.LabelSmall"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/profile_detail_btn_kakao_change"
+                        android:textColor="@color/grayscales_400" />
+
+                </LinearLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/layout_profile_detail_name"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginTop="24dp"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="12dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/btn_change_kakao_image">
+
+                    <TextView
+                        android:id="@+id/tv_profile_detail_name_title"
+                        style="@style/TextAppearance.Yello.BodySmall"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingVertical="3dp"
+                        android:text="@string/profile_detail_tv_name"
+                        android:textColor="@color/grayscales_700"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tv_profile_detail_name"
+                        style="@style/TextAppearance.Yello.Subtitle01"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:paddingVertical="3dp"
+                        android:text="@={vm.name}"
+                        android:textColor="@color/grayscales_600"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_profile_detail_name_title"
+                        tools:text="김상호" />
+
+                    <com.google.android.material.divider.MaterialDivider
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="7dp"
+                        app:dividerColor="@color/grayscales_700"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_profile_detail_name" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/layout_profile_detail_id"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="16dp"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="12dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/layout_profile_detail_name">
+
+                    <TextView
+                        android:id="@+id/tv_profile_detail_id_title"
+                        style="@style/TextAppearance.Yello.BodySmall"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingVertical="3dp"
+                        android:text="@string/profile_detail_tv_id"
+                        android:textColor="@color/grayscales_700"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tv_profile_detail_id"
+                        style="@style/TextAppearance.Yello.Subtitle01"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:paddingVertical="3dp"
+                        android:text="@={vm.id}"
+                        android:textColor="@color/grayscales_600"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_profile_detail_id_title"
+                        tools:text="sangho.kk" />
+
+                    <com.google.android.material.divider.MaterialDivider
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="7dp"
+                        app:dividerColor="@color/grayscales_700"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_profile_detail_id" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/layout_profile_detail_school"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="16dp"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="12dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/layout_profile_detail_id">
+
+                    <TextView
+                        android:id="@+id/tv_profile_detail_school_title"
+                        style="@style/TextAppearance.Yello.BodySmall"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingVertical="3dp"
+                        android:text="@string/profile_detail_tv_school"
+                        android:textColor="@color/grayscales_500"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tv_profile_detail_school"
+                        style="@style/TextAppearance.Yello.Subtitle01"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:paddingVertical="3dp"
+                        android:text="@={vm.school}"
+                        android:textColor="@color/white"
+                        app:layout_constraintEnd_toStartOf="@id/btn_mod_school"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_profile_detail_school_title"
+                        tools:text="고려대학교" />
+
+                    <ImageView
+                        android:id="@+id/btn_mod_school"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="12dp"
+                        android:src="@drawable/ic_edit"
+                        app:layout_constraintBottom_toTopOf="@id/divider_profile_detail_school"
+                        app:layout_constraintEnd_toEndOf="parent" />
+
+                    <com.google.android.material.divider.MaterialDivider
+                        android:id="@+id/divider_profile_detail_school"
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="7dp"
+                        app:dividerColor="@color/grayscales_700"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_profile_detail_school" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/layout_profile_mod_univ"
+                    android:layout_width="0dp"
+                    android:visibility="gone"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/layout_profile_detail_school">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/layout_profile_detail_subgroup"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="16dp"
+                        android:paddingHorizontal="16dp"
+                        android:paddingVertical="12dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <TextView
+                            android:id="@+id/tv_profile_detail_subgroup_title"
+                            style="@style/TextAppearance.Yello.BodySmall"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingVertical="3dp"
+                            android:text="@string/profile_detail_tv_univ_subgroup"
+                            android:textColor="@color/grayscales_500"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/tv_profile_detail_subgroup"
+                            style="@style/TextAppearance.Yello.Subtitle01"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:paddingVertical="3dp"
+                            android:text="@={vm.subGroup}"
+                            android:textColor="@color/white"
+                            app:layout_constraintEnd_toStartOf="@id/btn_mod_subgroup"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/tv_profile_detail_subgroup_title"
+                            tools:text="산업경영공학부" />
+
+                        <ImageView
+                            android:id="@+id/btn_mod_subgroup"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="12dp"
+                            android:src="@drawable/ic_edit"
+                            app:layout_constraintBottom_toTopOf="@id/divider_profile_detail_subgroup"
+                            app:layout_constraintEnd_toEndOf="parent" />
+
+                        <com.google.android.material.divider.MaterialDivider
+                            android:id="@+id/divider_profile_detail_subgroup"
+                            android:layout_width="0dp"
+                            android:layout_height="1dp"
+                            android:layout_marginTop="7dp"
+                            app:dividerColor="@color/grayscales_700"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/tv_profile_detail_subgroup" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/layout_profile_detail_year"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="16dp"
+                        android:paddingHorizontal="16dp"
+                        android:paddingVertical="12dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/layout_profile_detail_subgroup">
+
+                        <TextView
+                            android:id="@+id/tv_profile_detail_year_title"
+                            style="@style/TextAppearance.Yello.BodySmall"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingVertical="3dp"
+                            android:text="@string/profile_detail_tv_univ_admyear"
+                            android:textColor="@color/grayscales_500"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/tv_profile_detail_year"
+                            style="@style/TextAppearance.Yello.Subtitle01"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:paddingVertical="3dp"
+                            android:text="@={vm.admYear}"
+                            android:textColor="@color/white"
+                            app:layout_constraintEnd_toStartOf="@id/btn_mod_year"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/tv_profile_detail_year_title"
+                            tools:text="19" />
+
+                        <ImageView
+                            android:id="@+id/btn_mod_year"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="12dp"
+                            android:src="@drawable/ic_edit"
+                            app:layout_constraintBottom_toTopOf="@id/divider_profile_detail_year"
+                            app:layout_constraintEnd_toEndOf="parent" />
+
+                        <com.google.android.material.divider.MaterialDivider
+                            android:id="@+id/divider_profile_detail_year"
+                            android:layout_width="0dp"
+                            android:layout_height="1dp"
+                            android:layout_marginTop="7dp"
+                            app:dividerColor="@color/grayscales_700"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/tv_profile_detail_year" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/layout_profile_mod_school"
+                    android:visibility="gone"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/layout_profile_detail_school">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/layout_profile_detail_grade"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="16dp"
+                        android:paddingHorizontal="16dp"
+                        android:paddingVertical="12dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <TextView
+                            android:id="@+id/tv_profile_detail_grade_title"
+                            style="@style/TextAppearance.Yello.BodySmall"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingVertical="3dp"
+                            android:text="@string/profile_detail_tv_school_grade"
+                            android:textColor="@color/grayscales_500"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/tv_profile_detail_grade"
+                            style="@style/TextAppearance.Yello.Subtitle01"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:paddingVertical="3dp"
+                            android:text="@={vm.grade}"
+                            android:textColor="@color/white"
+                            app:layout_constraintEnd_toStartOf="@id/btn_mod_grade"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/tv_profile_detail_grade_title"
+                            tools:text="3학년" />
+
+                        <ImageView
+                            android:id="@+id/btn_mod_grade"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="12dp"
+                            android:src="@drawable/ic_edit"
+                            app:layout_constraintBottom_toTopOf="@id/divider_profile_detail_grade"
+                            app:layout_constraintEnd_toEndOf="parent" />
+
+                        <com.google.android.material.divider.MaterialDivider
+                            android:id="@+id/divider_profile_detail_grade"
+                            android:layout_width="0dp"
+                            android:layout_height="1dp"
+                            android:layout_marginTop="7dp"
+                            app:dividerColor="@color/grayscales_700"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/tv_profile_detail_grade" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/layout_profile_detail_classroom"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="16dp"
+                        android:paddingHorizontal="16dp"
+                        android:paddingVertical="12dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/layout_profile_detail_grade">
+
+                        <TextView
+                            android:id="@+id/tv_profile_detail_classroom_title"
+                            style="@style/TextAppearance.Yello.BodySmall"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingVertical="3dp"
+                            android:text="@string/profile_detail_tv_school_classroom"
+                            android:textColor="@color/grayscales_500"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/tv_profile_detail_classroom"
+                            style="@style/TextAppearance.Yello.Subtitle01"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:paddingVertical="3dp"
+                            android:text="@={vm.classroom}"
+                            android:textColor="@color/white"
+                            app:layout_constraintEnd_toStartOf="@id/btn_mod_classroom"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/tv_profile_detail_classroom_title"
+                            tools:text="1반" />
+
+                        <ImageView
+                            android:id="@+id/btn_mod_classroom"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="12dp"
+                            android:src="@drawable/ic_edit"
+                            app:layout_constraintBottom_toTopOf="@id/divider_profile_detail_classroom"
+                            app:layout_constraintEnd_toEndOf="parent" />
+
+                        <com.google.android.material.divider.MaterialDivider
+                            android:id="@+id/divider_profile_detail_classroom"
+                            android:layout_width="0dp"
+                            android:layout_height="1dp"
+                            android:layout_marginTop="7dp"
+                            app:dividerColor="@color/grayscales_700"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/tv_profile_detail_classroom" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </ScrollView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

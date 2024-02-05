@@ -2,6 +2,7 @@ package com.el.yello.presentation.main.myyello
 
 import android.app.Activity
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.view.animation.AnimationUtils
@@ -49,7 +50,6 @@ class MyYelloFragment : BindingFragment<FragmentMyYelloBinding>(R.layout.fragmen
     }
 
     private fun initView() {
-        viewModel.getMyYelloList()
         adapter = MyYelloAdapter { it, pos ->
             viewModel.setPosition(pos)
             myYelloReadActivityLauncher.launch(
@@ -89,6 +89,12 @@ class MyYelloFragment : BindingFragment<FragmentMyYelloBinding>(R.layout.fragmen
     }
 
     private fun observe() {
+        setupMyYelloData()
+        setupTotalCount()
+        setupGetBannerState()
+    }
+
+    private fun setupMyYelloData() {
         viewModel.myYelloData.observe(viewLifecycleOwner) { state ->
             binding.uiState = state.getUiStateModel()
             when (state) {
@@ -114,7 +120,48 @@ class MyYelloFragment : BindingFragment<FragmentMyYelloBinding>(R.layout.fragmen
                 is UiState.Loading -> binding.shimmerMyYelloReceive.startShimmer()
             }
         }
+    }
 
+    private fun setupGetBannerState() {
+        viewModel.getBannerState.flowWithLifecycle(viewLifecycleOwner.lifecycle)
+            .onEach { state ->
+                when (state) {
+                    is UiState.Success -> {
+                        with(state.data) {
+                            if (!isAvailable) return@onEach
+
+                            binding.layoutMyYelloBanner.visibility = View.VISIBLE
+                            binding.tvMyYelloBanner.text = title
+                            if (redirectUrl.isBlank()) {
+                                binding.tvMyYelloClickMe.visibility = View.GONE
+                                return@onEach
+                            }
+                            binding.layoutMyYelloBanner.setOnSingleClickListener {
+                                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(redirectUrl)))
+                            }
+                            binding.tvMyYelloBanner.setOnSingleClickListener {
+                                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(redirectUrl)))
+                            }
+                            binding.tvMyYelloClickMe.setOnSingleClickListener {
+                                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(redirectUrl)))
+                            }
+                        }
+                    }
+
+                    is UiState.Failure -> {
+                        yelloSnackbar(binding.root, getString(R.string.msg_error))
+                    }
+
+                    is UiState.Empty -> {
+                        yelloSnackbar(binding.root, getString(R.string.my_yello_get_banner_failure))
+                    }
+
+                    is UiState.Loading -> return@onEach
+                }
+            }.launchIn(viewLifecycleOwner.lifecycleScope)
+    }
+
+    private fun setupTotalCount() {
         viewModel.totalCount.flowWithLifecycle(viewLifecycleOwner.lifecycle).onEach {
             binding.tvCount.text = it.toString()
         }.launchIn(viewLifecycleOwner.lifecycleScope)

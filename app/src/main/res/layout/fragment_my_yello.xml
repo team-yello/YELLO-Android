@@ -80,9 +80,11 @@
             android:layout_marginTop="3dp"
             android:background="@drawable/shape_grayscales700_line_8_rect"
             android:paddingVertical="10dp"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_my_yello_title">
+            app:layout_constraintTop_toBottomOf="@id/tv_my_yello_title"
+            tools:visibility="visible">
 
             <ImageView
                 android:id="@+id/iv_my_yello_notice_icon"

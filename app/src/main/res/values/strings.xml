@@ -135,6 +135,10 @@
     <string name="my_yello_instagram">인스타그램 공유하기</string>
     <string name="my_yello_point_check">100포인트로 키워드 확인하기</string>
     <string name="my_yello_300">300</string>
+    <string name="my_yello_story_share">스토리 공유하기</string>
+    <string name="my_yello_banner_icon">내 쪽지 배너 아이콘</string>
+    <string name="my_yello_click_me">CLICK ME</string>
+    <string name="my_yello_get_banner_failure">배너 정보 불러오기에 실패했습니다.</string>
 
     <string name="point_description">투표 포인트 적립!</string>
     <string name="point_sub_description">투표로 포인트를 모아 쪽지를 열어보세요.</string>
@@ -367,10 +371,6 @@
     <string name="notice_do_not_see_it_again">다시 보지 않기</string>
     <string name="notice_close">닫기</string>
     <string name="notice_do_not_see_it_again_icon">다시 보지 않기 아이콘</string>
-
-    <string name="my_yello_story_share">스토리 공유하기</string>
-    <string name="my_yello_banner_icon">내 쪽지 배너 아이콘</string>
-    <string name="my_yello_click_me">CLICK ME</string>
 
     <string-array name="quit_reasons">
         <item>앱에 아는 사람들이 없어서</item>

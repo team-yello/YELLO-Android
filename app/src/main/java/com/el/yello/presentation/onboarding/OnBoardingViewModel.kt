@@ -1,4 +1,4 @@
-package com.el.yello.presentation.onboarding.activity
+package com.el.yello.presentation.onboarding
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

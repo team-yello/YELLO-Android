@@ -34,6 +34,7 @@ import com.example.ui.view.UiState.Failure
 import com.example.ui.view.UiState.Loading
 import com.example.ui.view.UiState.Success
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import java.text.SimpleDateFormat
@@ -48,6 +49,7 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
     private val type by stringExtra()
 
     private var backPressedTime: Long = 0
+    private var userSubsStateJob: Job? = null
 
     private val onBackPressedCallback = object : OnBackPressedCallback(true) {
         override fun handleOnBackPressed() {
@@ -82,12 +84,15 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
     }
 
     private fun initBnvItemSelectedListener() {
-        supportFragmentManager.findFragmentById(R.id.fcv_main) ?: navigateTo<YelloFragment>()
+        supportFragmentManager.findFragmentById(R.id.fcv_main)
+            ?: navigateTo<YelloFragment>()
 
         binding.bnvMain.setOnItemSelectedListener { menu ->
             when (menu.itemId) {
                 R.id.menu_recommend -> {
-                    AmplitudeUtils.trackEventWithProperties(EVENT_CLICK_RECOMMEND_NAVIGATION)
+                    AmplitudeUtils.trackEventWithProperties(
+                        EVENT_CLICK_RECOMMEND_NAVIGATION,
+                    )
                     navigateTo<RecommendFragment>()
                 }
 
@@ -185,7 +190,7 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
     }
 
     private fun setupGetUserSubsState() {
-        viewModel.getUserSubsState.flowWithLifecycle(lifecycle)
+        userSubsStateJob = viewModel.getUserSubsState.flowWithLifecycle(lifecycle)
             .onEach { state ->
                 when (state) {
                     is Empty -> return@onEach
@@ -195,20 +200,25 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
                         // TODO : 도메인 모델에 변환된 날짜로 파싱되도록 보완
                         val expiredDateString = state.data?.expiredDate.toString()
                         val expiredDate =
-                            SimpleDateFormat(EXPIRED_DATE_FORMAT).parse(expiredDateString)
+                            SimpleDateFormat(EXPIRED_DATE_FORMAT).parse(
+                                expiredDateString,
+                            )
                                 ?: return@onEach
                         val currentDate = Calendar.getInstance().time
                         val daysDifference = TimeUnit.DAYS.convert(
                             expiredDate.time - currentDate.time,
                             TimeUnit.MILLISECONDS,
                         )
-                        if (daysDifference >= 1) {
+                        if (daysDifference <= 1) {
                             PayReSubsNoticeDialog.newInstance(expiredDateString)
                                 .show(supportFragmentManager, PAY_RESUBS_DIALOG)
                         }
                     }
 
-                    is Failure -> yelloSnackbar(binding.root, getString(R.string.msg_error))
+                    is Failure -> yelloSnackbar(
+                        binding.root,
+                        getString(R.string.msg_error),
+                    )
                 }
             }.launchIn(lifecycleScope)
     }
@@ -217,7 +227,11 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
         viewModel.getNoticeState.flowWithLifecycle(lifecycle)
             .onEach { state ->
                 when (state) {
-                    is Empty -> yelloSnackbar(binding.root, getString(R.string.msg_error))
+                    is Empty -> yelloSnackbar(
+                        binding.root,
+                        getString(R.string.msg_error),
+                    )
+
                     is Loading -> return@onEach
                     is Success -> {
                         if (!state.data.isAvailable) return@onEach
@@ -262,6 +276,10 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
         badgeDrawable.isVisible = count != 0
     }
 
+    fun resetUserSubsStateFlow() {
+        userSubsStateJob?.cancel()
+    }
+
     companion object {
         private const val EXTRA_TYPE = "type"
         private const val EXTRA_PATH = "path"
@@ -274,7 +292,8 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
         const val BACK_PRESSED_INTERVAL = 2000
         const val EXPIRED_DATE_FORMAT = "yyyy-MM-dd"
         const val PAY_RESUBS_DIALOG = "PayResubsNoticeDialog"
-        private const val EVENT_CLICK_RECOMMEND_NAVIGATION = "click_recommend_navigation"
+        private const val EVENT_CLICK_RECOMMEND_NAVIGATION =
+            "click_recommend_navigation"
 
         private const val TAG_NOTICE_DIALOG = "NOTICE_DIALOG"
 

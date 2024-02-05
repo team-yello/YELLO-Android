@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_gravity="center">
 
     <data>
@@ -18,50 +19,80 @@
             android:background="@drawable/shape_white_fill_10_rect"
             android:paddingHorizontal="2dp"
             android:paddingTop="2dp"
-            android:paddingBottom="50dp"
+            android:paddingBottom="36dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
             <TextView
                 android:id="@+id/tv_recommend_dialog_title"
+                style="@style/TextAppearance.Yello.Headline03"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:fontFamily="@font/pretendard_bold"
-                android:padding="3dp"
+                android:layout_marginTop="38dp"
+                android:padding="4dp"
                 android:text="@string/recommend_dialog_tv_title"
-                android:textAppearance="?textAppearanceSubtitle1"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/btn_invite_dialog_exit" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/tv_recommend_dialog_subtitle1"
+                android:id="@+id/tv_recommend_dialog_subtitle_up"
+                style="@style/TextAppearance.Yello.LabelLarge"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
-                android:fontFamily="@font/font_pretendard_medium"
                 android:gravity="center"
-                android:padding="3dp"
-                android:text="@string/recommend_dialog_tv_subtitle"
+                android:paddingVertical="2dp"
+                android:text="@string/recommend_dialog_tv_subtitle_up"
                 android:textColor="@color/grayscales_600"
-                android:textSize="13sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_recommend_dialog_title" />
 
             <TextView
-                android:id="@+id/tv_recommend_dialog_subtitle2"
+                android:id="@+id/tv_recommend_dialog_subtitle_up_box"
+                style="@style/TextAppearance.Yello.LabelLarge"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/font_pretendard_bold"
-                android:paddingVertical="3dp"
-                android:text="@string/recommend_dialog_tv_subtitle_2"
-                android:textSize="13sp"
+                android:layout_marginTop="1dp"
+                android:background="@color/purple_sub_500"
+                android:paddingHorizontal="6dp"
+                android:paddingVertical="4dp"
+                android:text="@string/recommend_dialog_tv_subtitle_up_box"
+                android:textColor="@color/white"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_recommend_dialog_subtitle1" />
+                app:layout_constraintTop_toBottomOf="@id/tv_recommend_dialog_subtitle_up" />
+
+            <TextView
+                android:id="@+id/tv_recommend_dialog_subtitle_down"
+                style="@style/TextAppearance.Yello.LabelLarge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                android:gravity="center"
+                android:paddingVertical="2dp"
+                android:text="@string/recommend_dialog_tv_subtitle_down"
+                android:textColor="@color/grayscales_600"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_recommend_dialog_subtitle_up_box" />
+
+            <TextView
+                android:id="@+id/tv_recommend_dialog_subtitle_down_box"
+                style="@style/TextAppearance.Yello.LabelLarge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:background="@color/purple_sub_500"
+                android:paddingHorizontal="6dp"
+                android:paddingVertical="4dp"
+                android:text="@string/recommend_dialog_tv_subtitle_down_box"
+                android:textColor="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_recommend_dialog_subtitle_down" />
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/layout_recommend_invite_code"
@@ -69,12 +100,12 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="12dp"
                 android:layout_marginTop="20dp"
-                android:backgroundTint="@color/grayscales_50"
+                android:backgroundTint="@color/grayscales_100"
                 app:cardCornerRadius="10dp"
                 app:cardElevation="0dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_recommend_dialog_subtitle2">
+                app:layout_constraintTop_toBottomOf="@id/tv_recommend_dialog_subtitle_down_box">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
@@ -89,7 +120,7 @@
                         android:fontFamily="@font/font_pretendard_bold"
                         android:paddingVertical="3dp"
                         android:text="@string/recommend_dialog_tv_code_title"
-                        android:textColor="@color/purple_sub_500"
+                        android:textColor="@color/grayscales_600"
                         android:textSize="13sp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -102,8 +133,8 @@
                         android:fontFamily="@font/font_pretendard_bold"
                         android:paddingVertical="4dp"
                         android:text="@string/recommend_dialog_tv_code_start"
-                        android:textColor="@color/black"
-                        android:textSize="28sp"
+                        android:textColor="@color/purple_sub_500"
+                        android:textSize="23sp"
                         app:layout_constraintEnd_toStartOf="@id/tv_recommend_dialog_invite_id"
                         app:layout_constraintHorizontal_chainStyle="packed"
                         app:layout_constraintStart_toStartOf="parent"
@@ -115,12 +146,12 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/font_pretendard_bold"
                         android:paddingVertical="4dp"
-                        android:text=""
-                        android:textColor="@color/black"
-                        android:textSize="28sp"
+                        android:textColor="@color/purple_sub_500"
+                        android:textSize="23sp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@id/tv_recommend_dialog_invite_subtitle"
-                        app:layout_constraintTop_toBottomOf="@id/tv_recommend_dialog_invite_title" />
+                        app:layout_constraintTop_toBottomOf="@id/tv_recommend_dialog_invite_title"
+                        tools:text="sangho.kk" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -131,7 +162,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="8dp"
-                android:layout_marginTop="27dp"
+                android:layout_marginTop="18dp"
                 android:src="@drawable/ic_kakao_share"
                 app:layout_constraintEnd_toStartOf="@id/btn_invite_link"
                 app:layout_constraintHorizontal_chainStyle="packed"
@@ -143,7 +174,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="8dp"
-                android:layout_marginTop="27dp"
+                android:layout_marginTop="18dp"
                 android:src="@drawable/ic_link_share"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/btn_invite_kakao"

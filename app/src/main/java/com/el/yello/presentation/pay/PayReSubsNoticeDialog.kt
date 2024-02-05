@@ -9,12 +9,16 @@ import android.view.ViewGroup
 import android.view.WindowManager
 import com.el.yello.R
 import com.el.yello.databinding.FragmentNoticeResubscribeBinding
+import com.el.yello.presentation.main.MainActivity
 import com.example.ui.base.BindingDialogFragment
 import com.example.ui.view.setOnSingleClickListener
 
 class PayReSubsNoticeDialog :
     BindingDialogFragment<FragmentNoticeResubscribeBinding>(R.layout.fragment_notice_resubscribe) {
 
+    private val mainActivity: MainActivity by lazy {
+        requireActivity() as MainActivity
+    }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setNoticeBtnClickListener()
@@ -38,12 +42,14 @@ class PayReSubsNoticeDialog :
     private fun setNoticeBtnClickListener() {
         binding.btnNoticeQuit.setOnSingleClickListener {
             dismiss()
+            mainActivity.resetUserSubsStateFlow()
         }
         binding.btnYelloplusSubscribe.setOnSingleClickListener {
             Intent(requireContext(), PayActivity::class.java).apply {
                 startActivity(this)
             }
             dismiss()
+            mainActivity.resetUserSubsStateFlow()
         }
     }
 
@@ -62,7 +68,6 @@ class PayReSubsNoticeDialog :
 
     companion object {
         private const val ARG_EXPIRED_DATE = "arg_expired_date"
-
         @JvmStatic
         fun newInstance(expiredDate: String): PayReSubsNoticeDialog {
             return PayReSubsNoticeDialog().apply {

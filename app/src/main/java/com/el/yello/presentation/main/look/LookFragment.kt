@@ -40,13 +40,16 @@ class LookFragment : BindingFragment<FragmentLookBinding>(R.layout.fragment_look
     private var isScrolled: Boolean = false
     private var isNoFriend: Boolean = false
 
+    private var isFilterSelected: Boolean = false
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         initAdapter()
         initInviteBtnListener()
+        initFilterBtnListener()
         setListBottomPadding()
-        observeTimelinePagingList()
+        observeTimelinePagingList(isFilterSelected)
         setPullToScrollListener()
         observePagingLoadingState()
         catchScrollForAmplitude()
@@ -59,6 +62,7 @@ class LookFragment : BindingFragment<FragmentLookBinding>(R.layout.fragment_look
         adapter.addLoadStateListener { combinedLoadStates ->
             if (combinedLoadStates.prepend.endOfPaginationReached) {
                 binding.layoutLookNoFriendsList.isVisible = adapter.itemCount < 1
+                binding.layoutLookListInfo.isGone = adapter.itemCount < 1
                 binding.rvLook.isGone = adapter.itemCount < 1
                 isNoFriend = adapter.itemCount < 1
             }
@@ -74,6 +78,16 @@ class LookFragment : BindingFragment<FragmentLookBinding>(R.layout.fragment_look
                 "click_invite", JSONObject().put("invite_view", TIMELINE_NO_FRIEND)
             )
             inviteFriendDialog?.show(parentFragmentManager, INVITE_DIALOG)
+        }
+    }
+
+    private fun initFilterBtnListener() {
+        binding.btnLookFilter.setOnSingleClickListener {
+            isFilterSelected = !isFilterSelected
+            adapter.refresh()
+            viewModel.setFirstLoading(true)
+            observeTimelinePagingList(isFilterSelected)
+            binding.tvLookFilterType.text = if(isFilterSelected) TYPE_MINE else TYPE_ALL
         }
     }
 
@@ -96,11 +110,10 @@ class LookFragment : BindingFragment<FragmentLookBinding>(R.layout.fragment_look
             }.launchIn(lifecycleScope)
     }
 
-    private fun observeTimelinePagingList() {
-        viewModel.getLookListWithPaging().flowWithLifecycle(lifecycle)
-            .onEach { pagingData ->
-                adapter.submitData(lifecycle, pagingData)
-            }.launchIn(lifecycleScope)
+    private fun observeTimelinePagingList(onlyMine: Boolean) {
+        viewModel.getLookListWithPaging(onlyMine).flowWithLifecycle(lifecycle).onEach { pagingData ->
+            adapter.submitData(lifecycle, pagingData)
+        }.launchIn(lifecycleScope)
     }
 
 
@@ -166,5 +179,8 @@ class LookFragment : BindingFragment<FragmentLookBinding>(R.layout.fragment_look
     companion object {
         const val INVITE_DIALOG = "inviteDialog"
         const val TIMELINE_NO_FRIEND = "timeline_0friend"
+
+        const val TYPE_ALL = "모든 쪽지"
+        const val TYPE_MINE = "내가 보낸 쪽지"
     }
 }

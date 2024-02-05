@@ -5,13 +5,14 @@ data class LookListModel(
     val friendVotes: List<LookModel>
 ) {
     data class LookModel(
-        val id: Int,
+        val id: Long,
         val receiverName: String,
         val senderGender: String,
         val receiverProfileImage: String,
         val vote: LookVoteModel,
         val isHintUsed: Boolean,
-        val createdAt: String
+        val createdAt: String,
+        val isUserSenderVote: Boolean
     ) {
         data class LookVoteModel(
             val nameHead: String?,

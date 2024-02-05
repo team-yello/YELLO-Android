@@ -5,6 +5,7 @@ import com.example.data.model.request.profile.toRequestDto
 import com.example.domain.entity.ProfileFriendsListModel
 import com.example.domain.entity.ProfileModRequestModel
 import com.example.domain.entity.ProfileModValidModel
+import com.example.domain.entity.ProfileQuitReasonModel
 import com.example.domain.entity.ProfileUserModel
 import com.example.domain.repository.ProfileRepository
 import javax.inject.Inject
@@ -20,21 +21,21 @@ class ProfileRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getFriendsData(
-        page: Int
+        page: Int,
     ): Result<ProfileFriendsListModel?> {
         return runCatching {
             profileDataSource.getFriendsData(page).data?.toProfileFriendsListModel()
         }
     }
 
-    override suspend fun deleteUserData(): Result<Unit> {
+    override suspend fun deleteUserData(request: ProfileQuitReasonModel): Result<Unit> {
         return runCatching {
-            profileDataSource.deleteUserData().data
+            profileDataSource.deleteUserData(request.toRequestDto())
         }
     }
 
     override suspend fun deleteFriendData(
-        friendId: Long
+        friendId: Long,
     ): Result<Unit> {
         return runCatching {
             profileDataSource.deleteFriendData(friendId).data
@@ -42,7 +43,7 @@ class ProfileRepositoryImpl @Inject constructor(
     }
 
     override suspend fun postToModUserData(
-        request: ProfileModRequestModel
+        request: ProfileModRequestModel,
     ): Result<Unit> {
         return runCatching {
             profileDataSource.postToModUserData(request.toRequestDto())
@@ -54,5 +55,4 @@ class ProfileRepositoryImpl @Inject constructor(
             profileDataSource.getModValidData().data?.toProfileModValidModel()
         }
     }
-
 }

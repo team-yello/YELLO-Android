@@ -5,7 +5,7 @@ import android.view.View
 import androidx.fragment.app.activityViewModels
 import com.el.yello.R
 import com.el.yello.databinding.FragmentDialogGroupBinding
-import com.el.yello.presentation.onboarding.activity.OnBoardingViewModel
+import com.el.yello.presentation.onboarding.OnBoardingViewModel
 import com.example.ui.base.BindingBottomSheetDialog
 
 class GroupDialogFragment :

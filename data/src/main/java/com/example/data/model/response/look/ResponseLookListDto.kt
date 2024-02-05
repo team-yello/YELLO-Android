@@ -14,11 +14,25 @@ data class ResponseLookListDto(
     @Serializable
     data class LookDto(
         @SerialName("id")
-        val id: Int,
-        @SerialName("receiverName")
-        val receiverName: String,
+        val id: Long,
+        @SerialName("senderId")
+        val senderId: Long,
+        @SerialName("senderName")
+        val senderName: String,
+        @SerialName("senderYelloId")
+        val senderYelloId: String,
         @SerialName("senderGender")
         val senderGender: String,
+        @SerialName("senderProfileImage")
+        val senderProfileImage: String,
+        @SerialName("receiverId")
+        val receiverId: Long,
+        @SerialName("receiverName")
+        val receiverName: String,
+        @SerialName("receiverYelloId")
+        val receiverYelloId: String,
+        @SerialName("receiverGender")
+        val receiverGender: String,
         @SerialName("receiverProfileImage")
         val receiverProfileImage: String,
         @SerialName("vote")
@@ -26,7 +40,9 @@ data class ResponseLookListDto(
         @SerialName("isHintUsed")
         val isHintUsed: Boolean,
         @SerialName("createdAt")
-        val createdAt: String
+        val createdAt: String,
+        @SerialName("isUserSenderVote")
+        val isUserSenderVote: Boolean
     ) {
         @Serializable
         data class LookVoteDto(
@@ -59,7 +75,8 @@ data class ResponseLookListDto(
                         it.vote.keywordFoot
                     ),
                     it.isHintUsed,
-                    it.createdAt
+                    it.createdAt,
+                    it.isUserSenderVote
                 )
             }
         )

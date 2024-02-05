@@ -1,6 +1,7 @@
 package com.example.data.datasource.remote
 
 import com.example.data.datasource.ProfileDataSource
+import com.example.data.model.request.profile.RequestQuitReasonDto
 import com.example.data.model.request.profile.ProfileModRequestDto
 import com.example.data.model.response.BaseResponse
 import com.example.data.model.response.profile.ResponseProfileFriendsListDto
@@ -23,9 +24,10 @@ class ProfileDataSourceImpl @Inject constructor(
         return profileService.getFriendsData(page)
     }
 
-    override suspend fun deleteUserData(): BaseResponse<Unit> {
-        return profileService.deleteUserData()
+    override suspend fun deleteUserData(request: RequestQuitReasonDto): BaseResponse<Unit> {
+        return profileService.deleteUserData(request)
     }
+
 
     override suspend fun deleteFriendData(
         friendId: Long

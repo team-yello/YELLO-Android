@@ -19,6 +19,7 @@ import com.el.yello.presentation.main.yello.vote.VoteActivity
 import com.el.yello.util.amplitude.AmplitudeUtils
 import com.example.ui.base.BindingFragment
 import com.example.ui.context.setMargins
+import com.example.ui.fragment.drawableOf
 import com.example.ui.fragment.getCompatibleRealSize
 import com.example.ui.view.UiState
 import com.example.ui.view.dpToPx
@@ -95,10 +96,7 @@ class YelloStartFragment :
             when (event.actionMasked) {
                 ACTION_DOWN -> {
                     with(binding.btnStartVote) {
-                        background = ContextCompat.getDrawable(
-                            context,
-                            R.drawable.shape_yello_main_500_fill_100_rect,
-                        )
+                        background = drawableOf(R.drawable.shape_yello_main_500_fill_100_rect)
                         setPadding(
                             0,
                             PADDING_HORIZONTAL_VOTE_BTN_PRESSED.dpToPx(requireContext()),
@@ -110,10 +108,7 @@ class YelloStartFragment :
 
                 ACTION_UP -> {
                     with(binding.btnStartVote) {
-                        background = ContextCompat.getDrawable(
-                            context,
-                            R.drawable.shape_yello_main_500_fill_500_botshadow_rect,
-                        )
+                        background = drawableOf(R.drawable.shape_yello_main_500_fill_500_botshadow_rect)
                         setPadding(
                             0,
                             PADDING_TOP_VOTE_BTN.dpToPx(requireContext()),

@@ -314,9 +314,12 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/btn_instagram"
+                android:paddingVertical="10dp"
+                android:paddingHorizontal="20dp"
+                android:background="@drawable/shape_white59_fill_100_rect"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="44dp"
+                android:layout_marginTop="16dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_chainStyle="packed"
                 app:layout_constraintStart_toStartOf="parent"
@@ -327,7 +330,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_instagram"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -335,14 +338,14 @@
                     android:id="@+id/tv_instagram"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:text="스토리 공유하기"
-                    android:textAppearance="@style/TextAppearance.Yello.BodySmall"
-                    android:textColor="@color/white"
+                    android:layout_marginStart="4dp"
+                    android:text="@string/my_yello_story_share"
+                    android:textAppearance="@style/TextAppearance.Yello.Button"
+                    android:textColor="@color/black"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/iv_instagram" />
+                    app:layout_constraintStart_toEndOf="@id/iv_instagram"
+                    app:layout_constraintTop_toTopOf="parent" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -352,9 +355,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="16dp"
                 android:background="@drawable/shape_white_35per_100dp"
+                android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:visibility="gone"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.60">

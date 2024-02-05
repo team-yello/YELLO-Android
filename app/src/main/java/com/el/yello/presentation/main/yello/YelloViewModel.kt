@@ -74,6 +74,7 @@ class YelloViewModel @Inject constructor(
                         return@launch
                     }
 
+                    Timber.tag("GET_VOTE_STATE_SUCCESS").d(voteState.toString())
                     _point.value = voteState.point
                     if (voteState.isStart || voteState.leftTime !in 1..SEC_MAX_LOCK_TIME) {
                         val currentState = yelloState.value
@@ -127,6 +128,10 @@ class YelloViewModel @Inject constructor(
     fun getYelloId() = authRepository.getYelloId()
 
     fun getStoredVote() = voteRepository.getStoredVote()
+
+    fun navigateToLockScreen() {
+        _yelloState.value = Success(Wait(SEC_MAX_LOCK_TIME))
+    }
 
     companion object {
         const val SEC_MAX_LOCK_TIME = 2400L

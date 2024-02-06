@@ -12,6 +12,9 @@ class NoticeDataSourceImpl @Inject constructor(
     override suspend fun getNotice(): BaseResponse<ResponseGetNotice> =
         service.getNotice(TAG_NOTICE)
 
+    override suspend fun getBanner(): BaseResponse<ResponseGetNotice> =
+        service.getNotice(TAG_BANNER)
+
     companion object {
         private const val TAG_NOTICE = "NOTICE"
         private const val TAG_BANNER = "BANNER"

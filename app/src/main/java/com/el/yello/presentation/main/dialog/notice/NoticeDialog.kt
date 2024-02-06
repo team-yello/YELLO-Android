@@ -58,7 +58,7 @@ class NoticeDialog :
 
             if (redirectUrl.isBlank()) return
             setOnSingleClickListener {
-                Intent(Intent.ACTION_VIEW, Uri.parse(redirectUrl))
+                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(redirectUrl)))
             }
         }
     }

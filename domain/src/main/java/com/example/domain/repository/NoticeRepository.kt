@@ -8,6 +8,8 @@ interface NoticeRepository {
 
     suspend fun getBanner(): Result<Banner?>
 
+    suspend fun getProfileBanner(): Result<Banner?>
+
     fun isDisabledNoticeUrl(url: String): Boolean
 
     fun setDisabledNoticeUrl(url: String)

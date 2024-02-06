@@ -15,8 +15,12 @@ class NoticeRepositoryImpl @Inject constructor(
         dataSource.getNotice().data?.toNotice()
     }
 
-    override suspend fun getBanner(): Result<Banner?> = kotlin.runCatching {
+    override suspend fun getBanner(): Result<Banner?> = runCatching {
         dataSource.getBanner().data?.toBanner()
+    }
+
+    override suspend fun getProfileBanner(): Result<Banner?> = runCatching {
+        dataSource.getProfileBanner().data?.toBanner()
     }
 
     override fun isDisabledNoticeUrl(url: String): Boolean =

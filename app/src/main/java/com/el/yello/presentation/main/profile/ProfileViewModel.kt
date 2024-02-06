@@ -11,7 +11,6 @@ import com.example.domain.entity.PayInfoModel
 import com.example.domain.entity.ProfileFriendsListModel
 import com.example.domain.entity.ProfileQuitReasonModel
 import com.example.domain.entity.ProfileUserModel
-import com.example.domain.entity.notice.Banner
 import com.example.domain.entity.notice.ProfileBanner
 import com.example.domain.repository.AuthRepository
 import com.example.domain.repository.NoticeRepository
@@ -25,10 +24,7 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import retrofit2.HttpException
-import timber.log.Timber
 import javax.inject.Inject
 import kotlin.math.ceil
 
@@ -47,7 +43,8 @@ class ProfileViewModel @Inject constructor(
     private val _getUserDataResult = MutableSharedFlow<Boolean>()
     val getUserDataResult: SharedFlow<Boolean> = _getUserDataResult
 
-    private val _getFriendListState = MutableStateFlow<UiState<ProfileFriendsListModel>>(UiState.Empty)
+    private val _getFriendListState =
+        MutableStateFlow<UiState<ProfileFriendsListModel>>(UiState.Empty)
     val getFriendListState: StateFlow<UiState<ProfileFriendsListModel>> = _getFriendListState
 
     private val _deleteUserState = MutableStateFlow<UiState<Unit>>(UiState.Empty)
@@ -244,14 +241,12 @@ class ProfileViewModel @Inject constructor(
         }
     }
 
-   fun getProfileBannerFromServer() {
+    fun getProfileBannerFromServer() {
         viewModelScope.launch {
             noticeRepository.getProfileBanner()
                 .onSuccess { banner ->
-                    Timber.tag("sangho").d("$banner")
-                    _getBannerState.emit(true)
                     profileBanner = banner ?: return@launch
-                    Timber.tag("sangho").d("$profileBanner")
+                    _getBannerState.emit(true)
                 }
                 .onFailure {
                     _getBannerState.emit(false)

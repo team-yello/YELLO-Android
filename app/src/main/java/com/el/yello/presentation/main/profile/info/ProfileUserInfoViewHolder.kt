@@ -21,10 +21,10 @@ class ProfileUserInfoViewHolder(
             ivSubsStar.isVisible = viewModel.isSubscribed
             ivSubsLine.isVisible = viewModel.isSubscribed
 
-            btnProfileShop.setOnSingleClickListener { shopClick }
-            btnProfileShopSale.setOnSingleClickListener { shopClick }
+            btnProfileShop.setOnSingleClickListener { shopClick(Unit) }
+            btnProfileShopSale.setOnSingleClickListener { shopClick(Unit) }
 
-            btnPrifileMod.setOnSingleClickListener { modClick }
+            btnPrifileMod.setOnSingleClickListener { modClick(Unit) }
 
             ivProfileInfoThumbnail.setImageOrBasicThumbnail(viewModel.myUserData.profileImageUrl)
 

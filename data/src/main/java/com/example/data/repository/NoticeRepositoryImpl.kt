@@ -4,6 +4,7 @@ import com.example.data.datasource.NoticeDataSource
 import com.example.domain.YelloDataStore
 import com.example.domain.entity.notice.Banner
 import com.example.domain.entity.notice.Notice
+import com.example.domain.entity.notice.ProfileBanner
 import com.example.domain.repository.NoticeRepository
 import javax.inject.Inject
 
@@ -19,8 +20,8 @@ class NoticeRepositoryImpl @Inject constructor(
         dataSource.getBanner().data?.toBanner()
     }
 
-    override suspend fun getProfileBanner(): Result<Banner?> = runCatching {
-        dataSource.getProfileBanner().data?.toBanner()
+    override suspend fun getProfileBanner(): Result<ProfileBanner?> = runCatching {
+        dataSource.getProfileBanner().data?.toProfileBanner()
     }
 
     override fun isDisabledNoticeUrl(url: String): Boolean =

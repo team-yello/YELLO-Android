@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".presentation.event.EventActivity">
 
     <data>
 
@@ -11,8 +12,7 @@
         android:id="@+id/layout_event"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/shape_gradient_event_bg"
-        tools:context=".presentation.event.EventActivity">
+        android:background="@drawable/shape_gradient_event_bg">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layout_event_content"
@@ -45,11 +45,11 @@
                 android:paddingHorizontal="6dp"
                 android:paddingVertical="3dp"
                 android:rotation="-3"
+                android:text="@string/event_event_time"
                 android:textColor="@color/black"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="@string/event_event_time" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/tv_event_title"

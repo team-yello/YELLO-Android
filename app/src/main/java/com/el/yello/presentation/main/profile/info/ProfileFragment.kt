@@ -20,6 +20,7 @@ import com.el.yello.util.Utils.setPullToScrollColor
 import com.el.yello.util.amplitude.AmplitudeUtils
 import com.el.yello.util.context.yelloSnackbar
 import com.example.domain.entity.ProfileUserModel
+import com.example.domain.entity.notice.ProfileBanner
 import com.example.ui.activity.navigateTo
 import com.example.ui.base.BindingFragment
 import com.example.ui.fragment.toast
@@ -60,6 +61,7 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
         observeFriendsDataState()
         observeFriendDeleteState()
         observeCheckIsSubscribed()
+        observeGetBannerState()
         AmplitudeUtils.trackEventWithProperties("view_profile")
     }
 
@@ -256,6 +258,29 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
                 is UiState.Empty -> return@onEach
             }
             adapter.notifyDataSetChanged()
+        }.launchIn(lifecycleScope)
+    }
+
+    private fun observeGetBannerState() {
+        viewModel.getBannerState.flowWithLifecycle(lifecycle).onEach { state ->
+            when (state) {
+                is UiState.Success -> {
+                    with(state.data) {
+                        if (!isAvailable) return@onEach
+                        adapter.notifyDataSetChanged()
+                    }
+                }
+
+                is UiState.Failure -> {
+                    yelloSnackbar(binding.root, getString(R.string.msg_error))
+                }
+
+                is UiState.Empty -> {
+                    yelloSnackbar(binding.root, getString(R.string.my_yello_get_banner_failure))
+                }
+
+                is UiState.Loading -> return@onEach
+            }
         }.launchIn(lifecycleScope)
     }
 

@@ -4,4 +4,6 @@ data class ProfileBanner(
     val imageUrl: String,
     val redirectUrl: String,
     val isAvailable: Boolean,
-)
+) {
+    constructor() : this("","",false)
+}

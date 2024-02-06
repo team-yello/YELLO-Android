@@ -1,7 +1,6 @@
 package com.el.yello.presentation.main.profile
 
 import android.content.Context
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -12,7 +11,10 @@ import com.example.domain.entity.PayInfoModel
 import com.example.domain.entity.ProfileFriendsListModel
 import com.example.domain.entity.ProfileQuitReasonModel
 import com.example.domain.entity.ProfileUserModel
+import com.example.domain.entity.notice.Banner
+import com.example.domain.entity.notice.ProfileBanner
 import com.example.domain.repository.AuthRepository
+import com.example.domain.repository.NoticeRepository
 import com.example.domain.repository.PayRepository
 import com.example.domain.repository.ProfileRepository
 import com.example.ui.view.UiState
@@ -23,7 +25,9 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import retrofit2.HttpException
 import javax.inject.Inject
 import kotlin.math.ceil
 
@@ -32,10 +36,12 @@ class ProfileViewModel @Inject constructor(
     private val profileRepository: ProfileRepository,
     private val authRepository: AuthRepository,
     private val payRepository: PayRepository,
+    private val noticeRepository: NoticeRepository
 ) : ViewModel() {
 
     init {
         resetPageVariable()
+        getProfileBanner()
     }
 
     private val _getUserDataResult = MutableSharedFlow<Boolean>()
@@ -79,12 +85,18 @@ class ProfileViewModel @Inject constructor(
     val etcText = MutableLiveData("")
     private val _quitReasonData: MutableLiveData<List<String>> = MutableLiveData()
     val quitReasonData: LiveData<List<String>> = _quitReasonData
+
+    private val _getBannerState = MutableStateFlow<UiState<ProfileBanner>>(UiState.Loading)
+    val getBannerState: StateFlow<UiState<ProfileBanner>> = _getBannerState.asStateFlow()
+
     fun setEtcText(etc: String) {
         etcText.value = etc
     }
+
     fun setQuitReason(reason: String) {
         quitReasonText.value = reason
     }
+
     fun addQuitReasonList(context: Context) {
         val quitReasonArray = context.resources.getStringArray(R.array.quit_reasons)
         _quitReasonData.value = quitReasonArray.toList()
@@ -225,6 +237,24 @@ class ProfileViewModel @Inject constructor(
                 }
                 .onFailure {
                     _getPurchaseInfoState.value = UiState.Failure(it.message.toString())
+                }
+        }
+    }
+
+    private fun getProfileBanner() {
+        viewModelScope.launch {
+            noticeRepository.getProfileBanner()
+                .onSuccess { banner ->
+                    if (banner == null) {
+                        _getBannerState.value = UiState.Empty
+                        return@onSuccess
+                    }
+                    _getBannerState.value = UiState.Success(banner)
+                }
+                .onFailure { t ->
+                    if (t is HttpException) {
+                        _getBannerState.value = UiState.Failure(t.code().toString())
+                    }
                 }
         }
     }

@@ -83,8 +83,8 @@ class ProfileViewModel @Inject constructor(
     private val _quitReasonData: MutableLiveData<List<String>> = MutableLiveData()
     val quitReasonData: LiveData<List<String>> = _quitReasonData
 
-    private val _getBannerState = MutableSharedFlow<Boolean>()
-    val getBannerState: SharedFlow<Boolean> = _getBannerState
+    private val _getBannerResult = MutableSharedFlow<Boolean>()
+    val getBannerResult: SharedFlow<Boolean> = _getBannerResult
 
     var profileBanner = ProfileBanner()
 
@@ -123,7 +123,7 @@ class ProfileViewModel @Inject constructor(
         _getFriendListState.value = UiState.Empty
         _getPurchaseInfoState.value = UiState.Empty
         _getUserDataResult.resetReplayCache()
-        _getBannerState.resetReplayCache()
+        _getBannerResult.resetReplayCache()
     }
 
     fun getUserDataFromServer() {
@@ -246,10 +246,10 @@ class ProfileViewModel @Inject constructor(
             noticeRepository.getProfileBanner()
                 .onSuccess { banner ->
                     profileBanner = banner ?: return@launch
-                    _getBannerState.emit(true)
+                    _getBannerResult.emit(true)
                 }
                 .onFailure {
-                    _getBannerState.emit(false)
+                    _getBannerResult.emit(false)
                 }
         }
     }

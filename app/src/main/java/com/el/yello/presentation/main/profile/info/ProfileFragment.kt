@@ -171,7 +171,6 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
             resetStateVariable()
             getPurchaseInfoFromServer()
             getUserDataFromServer()
-            getFriendsListFromServer()
             getProfileBannerFromServer()
         }
     }
@@ -269,12 +268,11 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
     }
 
     private fun observeGetBannerState() {
-        viewModel.getBannerState.flowWithLifecycle(lifecycle).onEach { state ->
-            if (state) {
-                adapter.notifyDataSetChanged()
-            } else {
+        viewModel.getBannerResult.flowWithLifecycle(lifecycle).onEach { result ->
+            if (!result) {
                 yelloSnackbar(binding.root, getString(R.string.my_yello_get_banner_failure))
             }
+            viewModel.getFriendsListFromServer()
         }.launchIn(lifecycleScope)
     }
 

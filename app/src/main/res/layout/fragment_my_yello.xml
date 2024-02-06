@@ -72,18 +72,68 @@
             app:layout_constraintEnd_toStartOf="@id/btn_shop"
             app:layout_constraintTop_toTopOf="@id/btn_shop" />
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_my_yello_banner"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="3dp"
+            android:background="@drawable/shape_grayscales700_line_8_rect"
+            android:paddingVertical="10dp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_my_yello_title"
+            tools:visibility="visible">
+
+            <ImageView
+                android:id="@+id/iv_my_yello_notice_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:contentDescription="@string/my_yello_banner_icon"
+                android:src="@drawable/ic_my_yello_notice"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_my_yello_banner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:textAppearance="@style/TextAppearance.Yello.LabelLarge"
+                android:textColor="@color/white"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@id/iv_my_yello_notice_icon"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="지금 옐로는 학교 대항전 진행 중!" />
+
+            <TextView
+                android:id="@+id/tv_my_yello_click_me"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="12dp"
+                android:text="@string/my_yello_click_me"
+                android:textAppearance="@style/TextAppearance.Yello.LabelLarge"
+                android:textColor="@color/yello_main_500"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
         <TextView
             android:id="@+id/tv_my_yello_receive"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="2dp"
+            android:layout_marginTop="3dp"
             android:paddingVertical="10dp"
             android:text="@string/my_yello_receive_title"
             android:textAppearance="@style/TextAppearance.Yello.LabelLarge"
             android:textColor="@color/grayscales_500"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_my_yello_title" />
+            app:layout_constraintTop_toBottomOf="@id/layout_my_yello_banner" />
 
         <TextView
             android:id="@+id/tv_count"

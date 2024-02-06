@@ -6,7 +6,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.el.yello.util.amplitude.AmplitudeUtils
 import com.example.domain.entity.MyYello
+import com.example.domain.entity.notice.Banner
 import com.example.domain.entity.vote.VoteCount
+import com.example.domain.repository.NoticeRepository
 import com.example.domain.repository.YelloRepository
 import com.example.ui.view.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -14,12 +16,14 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import retrofit2.HttpException
 import javax.inject.Inject
 import kotlin.math.ceil
 
 @HiltViewModel
 class MyYelloViewModel @Inject constructor(
-    private val repository: YelloRepository,
+    private val yelloRepository: YelloRepository,
+    private val noticeRepository: NoticeRepository,
 ) : ViewModel() {
 
     // Todo Flow 쓰면 상세보기 갔다 왔을 때 리스트 계속 관찰해서 임시로 LiveData로 구현
@@ -32,6 +36,9 @@ class MyYelloViewModel @Inject constructor(
     private val _voteCount = MutableStateFlow<UiState<VoteCount>>(UiState.Loading)
     val voteCount: StateFlow<UiState<VoteCount>> = _voteCount.asStateFlow()
 
+    private val _getBannerState = MutableStateFlow<UiState<Banner>>(UiState.Loading)
+    val getBannerState: StateFlow<UiState<Banner>> = _getBannerState.asStateFlow()
+
     var isFirstLoading = true
 
     var position: Int = -1
@@ -40,6 +47,11 @@ class MyYelloViewModel @Inject constructor(
     private var currentPage = -1
     private var isPagingFinish = false
     private var totalPage = Int.MAX_VALUE
+
+    init {
+        getMyYelloList()
+        getBanner()
+    }
 
     fun setPosition(pos: Int) {
         position = pos
@@ -55,7 +67,7 @@ class MyYelloViewModel @Inject constructor(
     fun getMyYelloList() {
         if (isPagingFinish) return
         viewModelScope.launch {
-            repository.getMyYelloList(++currentPage)
+            yelloRepository.getMyYelloList(++currentPage)
                 .onSuccess {
                     if (it == null) {
                         _myYelloData.value = UiState.Empty
@@ -78,12 +90,31 @@ class MyYelloViewModel @Inject constructor(
 
     fun getVoteCount() {
         viewModelScope.launch {
-            repository.voteCount()
+            yelloRepository.voteCount()
                 .onSuccess {
                     if (it != null) _voteCount.value = UiState.Success(it)
                 }
                 .onFailure {
                     _voteCount.value = UiState.Failure(it.message.toString())
+                }
+        }
+    }
+
+    fun getBanner() {
+        viewModelScope.launch {
+            noticeRepository.getBanner()
+                .onSuccess { banner ->
+                    if (banner == null) {
+                        _getBannerState.value = UiState.Empty
+                        return@onSuccess
+                    }
+
+                    _getBannerState.value = UiState.Success(banner)
+                }
+                .onFailure { t ->
+                    if (t is HttpException) {
+                        _getBannerState.value = UiState.Failure(t.code().toString())
+                    }
                 }
         }
     }

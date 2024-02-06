@@ -1,5 +1,7 @@
 package com.el.yello.presentation.main.profile.info
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.view.animation.AnimationUtils
@@ -20,7 +22,6 @@ import com.el.yello.util.Utils.setPullToScrollColor
 import com.el.yello.util.amplitude.AmplitudeUtils
 import com.el.yello.util.context.yelloSnackbar
 import com.example.domain.entity.ProfileUserModel
-import com.example.domain.entity.notice.ProfileBanner
 import com.example.ui.activity.navigateTo
 import com.example.ui.base.BindingFragment
 import com.example.ui.fragment.toast
@@ -115,6 +116,7 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
             },
             shopClick = { initShopClickListener() },
             modClick = { initProfileModClickListener() },
+            bannerClick = { redirectUrl -> initProfileBannerClickListener(redirectUrl) }
         )
         binding.rvProfileFriendsList.adapter = adapter
     }
@@ -145,6 +147,10 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
         viewModel.resetStateVariable()
     }
 
+    private fun initProfileBannerClickListener(redirectUrl: String) {
+        startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(redirectUrl)))
+    }
+
     private fun initPullToScrollListener() {
         binding.layoutProfileSwipe.apply {
             setOnRefreshListener {
@@ -166,6 +172,7 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
             getPurchaseInfoFromServer()
             getUserDataFromServer()
             getFriendsListFromServer()
+            getProfileBannerFromServer()
         }
     }
 

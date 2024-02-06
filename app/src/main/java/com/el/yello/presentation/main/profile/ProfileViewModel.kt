@@ -28,6 +28,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
+import timber.log.Timber
 import javax.inject.Inject
 import kotlin.math.ceil
 
@@ -41,7 +42,6 @@ class ProfileViewModel @Inject constructor(
 
     init {
         resetPageVariable()
-        getProfileBanner()
     }
 
     private val _getUserDataResult = MutableSharedFlow<Boolean>()
@@ -126,6 +126,7 @@ class ProfileViewModel @Inject constructor(
         _getFriendListState.value = UiState.Empty
         _getPurchaseInfoState.value = UiState.Empty
         _getUserDataResult.resetReplayCache()
+        _getBannerState.resetReplayCache()
     }
 
     fun getUserDataFromServer() {
@@ -243,12 +244,14 @@ class ProfileViewModel @Inject constructor(
         }
     }
 
-    private fun getProfileBanner() {
+   fun getProfileBannerFromServer() {
         viewModelScope.launch {
             noticeRepository.getProfileBanner()
                 .onSuccess { banner ->
+                    Timber.tag("sangho").d("$banner")
                     _getBannerState.emit(true)
                     profileBanner = banner ?: return@launch
+                    Timber.tag("sangho").d("$profileBanner")
                 }
                 .onFailure {
                     _getBannerState.emit(false)

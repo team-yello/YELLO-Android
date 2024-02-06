@@ -86,8 +86,10 @@ class ProfileViewModel @Inject constructor(
     private val _quitReasonData: MutableLiveData<List<String>> = MutableLiveData()
     val quitReasonData: LiveData<List<String>> = _quitReasonData
 
-    private val _getBannerState = MutableStateFlow<UiState<ProfileBanner>>(UiState.Loading)
-    val getBannerState: StateFlow<UiState<ProfileBanner>> = _getBannerState.asStateFlow()
+    private val _getBannerState = MutableSharedFlow<Boolean>()
+    val getBannerState: SharedFlow<Boolean> = _getBannerState
+
+    var profileBanner = ProfileBanner()
 
     fun setEtcText(etc: String) {
         etcText.value = etc
@@ -245,16 +247,11 @@ class ProfileViewModel @Inject constructor(
         viewModelScope.launch {
             noticeRepository.getProfileBanner()
                 .onSuccess { banner ->
-                    if (banner == null) {
-                        _getBannerState.value = UiState.Empty
-                        return@onSuccess
-                    }
-                    _getBannerState.value = UiState.Success(banner)
+                    _getBannerState.emit(true)
+                    profileBanner = banner ?: return@launch
                 }
-                .onFailure { t ->
-                    if (t is HttpException) {
-                        _getBannerState.value = UiState.Failure(t.code().toString())
-                    }
+                .onFailure {
+                    _getBannerState.emit(false)
                 }
         }
     }

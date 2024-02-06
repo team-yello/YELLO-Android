@@ -263,23 +263,10 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
 
     private fun observeGetBannerState() {
         viewModel.getBannerState.flowWithLifecycle(lifecycle).onEach { state ->
-            when (state) {
-                is UiState.Success -> {
-                    with(state.data) {
-                        if (!isAvailable) return@onEach
-                        adapter.notifyDataSetChanged()
-                    }
-                }
-
-                is UiState.Failure -> {
-                    yelloSnackbar(binding.root, getString(R.string.msg_error))
-                }
-
-                is UiState.Empty -> {
-                    yelloSnackbar(binding.root, getString(R.string.my_yello_get_banner_failure))
-                }
-
-                is UiState.Loading -> return@onEach
+            if (state) {
+                adapter.notifyDataSetChanged()
+            } else {
+                yelloSnackbar(binding.root, getString(R.string.my_yello_get_banner_failure))
             }
         }.launchIn(lifecycleScope)
     }

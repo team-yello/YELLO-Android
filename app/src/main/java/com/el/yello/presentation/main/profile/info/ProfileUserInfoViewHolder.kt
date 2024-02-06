@@ -25,6 +25,10 @@ class ProfileUserInfoViewHolder(
             btnPrifileMod.setOnSingleClickListener { modClick(Unit) }
 
             ivProfileInfoThumbnail.setImageOrBasicThumbnail(viewModel.myUserData.profileImageUrl)
+
+            if (viewModel.profileBanner.isAvailable) {
+
+            }
         }
     }
 }

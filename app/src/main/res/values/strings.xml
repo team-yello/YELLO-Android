@@ -408,6 +408,9 @@
     <string name="event_reward_description">최대 200P</string>
     <string name="event_subtitle">평일 12~14시 최대 1회까지 참여 가능</string>
     <string name="event_reward_image">이벤트 보상 이미지</string>
+    <string name="reward_title">열람권 1개를 얻었어요!</string>
+    <string name="reward_subtitle">다음 점심 시간에 또 만나요!</string>
+    <string name="reward_confirm">확인</string>
 
     <string-array name="quit_reasons">
         <item>앱에 아는 사람들이 없어서</item>

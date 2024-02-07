@@ -26,8 +26,8 @@ class EventActivity : BindingActivity<ActivityEventBinding>(R.layout.activity_ev
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        getEventExtra()
         initRewardAdapter()
+        getEventExtra()
     }
 
     private fun getEventExtra() {
@@ -39,13 +39,8 @@ class EventActivity : BindingActivity<ActivityEventBinding>(R.layout.activity_ev
             initEventLottieClickListener()
         }
 
-        Timber.d(
-            "REWARDLISTTEST : ${
-                intent.getParcelableArrayListExtra<ParcelableReward>(
-                    EXTRA_REWARD_LIST,
-                )
-            }",
-        )
+        Timber.d("REWARD_LIST_TEST : ${intent.getParcelableArrayListExtra<ParcelableReward>(EXTRA_REWARD_LIST)}")
+        // TODO : 보상 리스트 Extra로 못 받아오는 이슈 해결
         rewardAdapter?.submitList(
             intent.getParcelableArrayListExtra<ParcelableReward>(
                 EXTRA_REWARD_LIST,
@@ -80,7 +75,7 @@ class EventActivity : BindingActivity<ActivityEventBinding>(R.layout.activity_ev
                     }
 
                     override fun onAnimationEnd(p0: Animator) {
-                        RewardDialog.newInstance().show(supportFragmentManager, TAG_DIALOG_REWARD)
+                        startRewardDialog()
                     }
 
                     override fun onAnimationCancel(p0: Animator) {}
@@ -89,6 +84,10 @@ class EventActivity : BindingActivity<ActivityEventBinding>(R.layout.activity_ev
                 })
             }
         }
+    }
+
+    private fun startRewardDialog() {
+        RewardDialog.newInstance().show(supportFragmentManager, TAG_DIALOG_REWARD)
     }
 
     companion object {

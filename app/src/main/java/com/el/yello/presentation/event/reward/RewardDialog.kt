@@ -74,6 +74,12 @@ class RewardDialog :
         }
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+
+        requireActivity().finish()
+    }
+
     companion object {
         @JvmStatic
         fun newInstance() = RewardDialog()

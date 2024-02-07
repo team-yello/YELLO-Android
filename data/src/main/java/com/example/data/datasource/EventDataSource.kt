@@ -3,6 +3,7 @@ package com.example.data.datasource
 import com.example.data.model.request.event.RequestPostEventStateDto
 import com.example.data.model.response.BaseResponse
 import com.example.data.model.response.event.ResponseGetEventDto
+import com.example.data.model.response.event.ResponsePostEventDto
 import java.util.UUID
 
 interface EventDataSource {
@@ -12,4 +13,8 @@ interface EventDataSource {
         idempotencyKey: UUID,
         requestPostEventStateDto: RequestPostEventStateDto,
     ): BaseResponse<Unit>
+
+    suspend fun postEvent(
+        idempotencyKey: String,
+    ): BaseResponse<ResponsePostEventDto>
 }

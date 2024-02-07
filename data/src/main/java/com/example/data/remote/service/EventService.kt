@@ -3,6 +3,7 @@ package com.example.data.remote.service
 import com.example.data.model.request.event.RequestPostEventStateDto
 import com.example.data.model.response.BaseResponse
 import com.example.data.model.response.event.ResponseGetEventDto
+import com.example.data.model.response.event.ResponsePostEventDto
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Header
@@ -19,4 +20,10 @@ interface EventService {
         idempotencyKey: UUID,
         @Body requestPostEventStateDto: RequestPostEventStateDto,
     ): BaseResponse<Unit>
+
+    @POST("/api/v1/event/reward")
+    suspend fun postEvent(
+        @Header("IdempotencyKey")
+        idempotencyKey: String,
+    ): BaseResponse<ResponsePostEventDto>
 }

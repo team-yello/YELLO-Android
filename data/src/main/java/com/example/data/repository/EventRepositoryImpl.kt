@@ -4,6 +4,7 @@ import com.example.data.datasource.EventDataSource
 import com.example.data.model.request.event.RequestPostEventStateDto
 import com.example.data.model.response.event.ResponseGetEventDto
 import com.example.domain.entity.event.Event
+import com.example.domain.entity.event.EventResult
 import com.example.domain.repository.EventRepository
 import timber.log.Timber
 import java.util.UUID
@@ -47,6 +48,11 @@ class EventRepositoryImpl @Inject constructor(
     private fun String.toRequestPostEventStateDto() = RequestPostEventStateDto(
         tag = this,
     )
+
+    override suspend fun postEvent(idempotencyKey: String): Result<EventResult?> =
+        kotlin.runCatching {
+            dataSource.postEvent(idempotencyKey = idempotencyKey).data?.toEventResult()
+        }
 
     companion object {
         private const val TAG_LUNCH_EVENT = "LUNCH_EVENT"

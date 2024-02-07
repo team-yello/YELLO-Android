@@ -2,64 +2,62 @@ package com.el.yello.presentation.event
 
 import android.animation.Animator
 import android.os.Bundle
-import androidx.activity.viewModels
-import androidx.lifecycle.flowWithLifecycle
-import androidx.lifecycle.lifecycleScope
 import com.el.yello.R
 import com.el.yello.databinding.ActivityEventBinding
 import com.el.yello.presentation.event.reward.RewardDialog
-import com.el.yello.util.context.yelloSnackbar
+import com.el.yello.presentation.main.MainActivity.Companion.EXTRA_EVENT
+import com.el.yello.presentation.main.MainActivity.Companion.EXTRA_REWARD_LIST
+import com.el.yello.presentation.main.ParcelableEvent
+import com.el.yello.presentation.main.ParcelableReward
 import com.example.ui.base.BindingActivity
-import com.example.ui.view.UiState.Empty
-import com.example.ui.view.UiState.Failure
-import com.example.ui.view.UiState.Loading
-import com.example.ui.view.UiState.Success
+import com.example.ui.intent.getCompatibleParcelableExtra
 import com.example.ui.view.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
+import timber.log.Timber
 
 @AndroidEntryPoint
 class EventActivity : BindingActivity<ActivityEventBinding>(R.layout.activity_event) {
-    private val viewModel by viewModels<EventViewModel>()
-
     private var rewardAdapter: RewardAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        getEventExtra()
         initRewardAdapter()
-        setupGetEventState()
+    }
+
+    private fun getEventExtra() {
+        if (!intent.hasExtra(EXTRA_EVENT)) {
+            finish()
+            return
+        }
+
+        val event = intent.getCompatibleParcelableExtra<ParcelableEvent>(EXTRA_EVENT) ?: return
+        with(event) {
+            binding.tvEventTitle.text = title
+            binding.tvEventSubtitle.text = subTitle
+
+            initEventLottieClickListener()
+        }
+
+        Timber.d(
+            "REWARDLISTTEST : ${
+                intent.getParcelableArrayListExtra<ParcelableReward>(
+                    EXTRA_REWARD_LIST,
+                )
+            }",
+        )
+        if (!intent.hasExtra(EXTRA_REWARD_LIST)) return
+        rewardAdapter?.submitList(
+            intent.getParcelableArrayListExtra<ParcelableReward>(
+                EXTRA_REWARD_LIST,
+            )?.toList(),
+        )
     }
 
     private fun initRewardAdapter() {
         rewardAdapter = RewardAdapter()
         binding.rvEventRewardItem.adapter = rewardAdapter
-    }
-
-    private fun setupGetEventState() {
-        viewModel.getEventState.flowWithLifecycle(lifecycle)
-            .onEach { state ->
-                when (state) {
-                    is Success -> {
-                        binding.tvEventTitle.text = state.data.title
-                        binding.tvEventSubtitle.text = state.data.subTitle
-
-                        initEventLottieClickListener()
-                        rewardAdapter?.submitList(state.data.rewardList)
-                    }
-
-                    is Failure -> {
-                        yelloSnackbar(
-                            binding.root,
-                            getString(R.string.event_get_event_failure),
-                        )
-                    }
-
-                    is Empty -> {}
-                    is Loading -> {}
-                }
-            }.launchIn(lifecycleScope)
     }
 
     private fun initEventLottieClickListener() {

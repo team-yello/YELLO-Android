@@ -3,6 +3,7 @@ package com.el.yello.presentation.main
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.domain.entity.PayUserSubsInfoModel
+import com.example.domain.entity.event.Event
 import com.example.domain.entity.notice.Notice
 import com.example.domain.entity.vote.VoteCount
 import com.example.domain.repository.AuthRepository
@@ -42,8 +43,8 @@ class MainViewModel @Inject constructor(
     val voteCount: StateFlow<UiState<VoteCount>>
         get() = _voteCount
 
-    private val _isEventAvailable = MutableStateFlow(false)
-    val isEventAvailable: StateFlow<Boolean> get() = _isEventAvailable
+    private val _getEventState = MutableStateFlow<UiState<Event>>(UiState.Loading)
+    val getEventState: StateFlow<UiState<Event>> get() = _getEventState
 
     init {
         putDeviceToken()
@@ -129,13 +130,43 @@ class MainViewModel @Inject constructor(
         viewModelScope.launch {
             eventRepository.postEventState(UUID.randomUUID())
                 .onSuccess {
-                    Timber.tag("GET_EVENT_STATE").d("SUCCESS")
-                    _isEventAvailable.value = true
+                    getEvent()
                 }
+                // TODO : 테스트 후 지우기
                 .onFailure {
-                    Timber.tag("GET_EVENT_STATE").d("FAILURE")
-                    _isEventAvailable.value = false
+                    getEvent()
                 }
         }
+    }
+
+    private fun getEvent() {
+        viewModelScope.launch {
+            eventRepository.getEvent()
+                .onSuccess { event ->
+                    if (event == null) {
+                        _getEventState.value = UiState.Empty
+                        return@onSuccess
+                    }
+
+                    Timber.tag("GET_EVENT_SUCCESS").d(event.toString())
+                    if (!event.isAvailable) {
+                        _getEventState.value = UiState.Failure(CODE_UNAVAILABLE_EVENT)
+                        return@onSuccess
+                    }
+                    _getEventState.value = UiState.Success(event)
+                }
+                .onFailure { t ->
+                    if (t is HttpException) {
+                        UiState.Failure(t.code().toString())
+                        Timber.tag("GET_EVENT_FAILURE").e(t)
+                        return@onFailure
+                    }
+                    Timber.tag("GET_EVENT_ERROR").e(t)
+                }
+        }
+    }
+
+    companion object {
+        const val CODE_UNAVAILABLE_EVENT = "100"
     }
 }

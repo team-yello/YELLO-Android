@@ -26,6 +26,7 @@ import com.el.yello.presentation.pay.PayReSubsNoticeDialog
 import com.el.yello.presentation.util.dp
 import com.el.yello.util.amplitude.AmplitudeUtils
 import com.el.yello.util.context.yelloSnackbar
+import com.example.domain.entity.event.Event
 import com.example.domain.enum.SubscribeType.CANCELED
 import com.example.ui.base.BindingActivity
 import com.example.ui.context.toast
@@ -76,7 +77,7 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
         setupGetNoticeState()
         setupGetVoteCountState()
         setupGetNoticeState()
-        setupIsEventAvailable()
+        setupGetEventState()
     }
 
     private fun initBackPressedCallback() {
@@ -276,17 +277,45 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
             }.launchIn(lifecycleScope)
     }
 
-    private fun setupIsEventAvailable() {
-        viewModel.isEventAvailable.flowWithLifecycle(lifecycle)
-            .onEach { isAvailable ->
-                if (isAvailable) {
-                    // TODO : 이벤트 조회 후 액티비티 열기
-                    Intent(this, EventActivity::class.java).apply {
-                        startActivity(this)
+    private fun setupGetEventState() {
+        viewModel.getEventState.flowWithLifecycle(lifecycle)
+            .onEach { state ->
+                when (state) {
+                    is Success -> {
+                        Intent(this, EventActivity::class.java).apply {
+                            putExtra(EXTRA_EVENT, state.data.toParcelableEvent())
+                            val rewardList = ArrayList<ParcelableReward>()
+                            state.data.rewardList?.map { reward ->
+                                rewardList.add(reward.toParcelableReward())
+                            }
+                            putParcelableArrayListExtra(
+                                EXTRA_REWARD_LIST,
+                                rewardList,
+                            )
+                            startActivity(this)
+                        }
                     }
+
+                    is Failure -> yelloSnackbar(
+                        binding.root,
+                        getString(R.string.event_get_event_failure),
+                    )
+
+                    is Empty -> return@onEach
+                    is Loading -> return@onEach
                 }
             }.launchIn(lifecycleScope)
     }
+
+    private fun Event.toParcelableEvent() = ParcelableEvent(
+        title = title,
+        subTitle = subTitle,
+    )
+
+    private fun Event.Reward.toParcelableReward() = ParcelableReward(
+        imageUrl = imageUrl,
+        name = name,
+    )
 
     fun setBadgeCount(count: Int) {
         val badgeDrawable = binding.bnvMain.getOrCreateBadge(R.id.menu_my_yello)
@@ -301,6 +330,8 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
     companion object {
         private const val EXTRA_TYPE = "type"
         private const val EXTRA_PATH = "path"
+        const val EXTRA_EVENT = "EVENT"
+        const val EXTRA_REWARD_LIST = "REWARD_LIST"
 
         const val PUSH_TYPE_NEW_VOTE = "NEW_VOTE"
         const val PUSH_TYPE_NEW_FRIEND = "NEW_FRIEND"

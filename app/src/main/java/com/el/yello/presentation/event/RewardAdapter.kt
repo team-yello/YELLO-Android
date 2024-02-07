@@ -6,10 +6,10 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.el.yello.databinding.ItemEventRewardBinding
-import com.example.domain.entity.event.Event.Reward
+import com.el.yello.presentation.main.ParcelableReward
 import com.example.ui.diff.DiffCallback
 
-class RewardAdapter : ListAdapter<Reward, RewardAdapter.RewardViewHolder>(diffUtil) {
+class RewardAdapter : ListAdapter<ParcelableReward, RewardAdapter.RewardViewHolder>(diffUtil) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RewardViewHolder =
         RewardViewHolder(
             ItemEventRewardBinding.inflate(
@@ -25,14 +25,14 @@ class RewardAdapter : ListAdapter<Reward, RewardAdapter.RewardViewHolder>(diffUt
 
     class RewardViewHolder(private val binding: ItemEventRewardBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun setReward(reward: Reward) {
+        fun setReward(reward: ParcelableReward) {
             binding.ivEventReward.load(reward.imageUrl)
             binding.tvEventRewardDescription.text = reward.name
         }
     }
 
     companion object {
-        private val diffUtil = DiffCallback<Reward>(
+        private val diffUtil = DiffCallback<ParcelableReward>(
             onItemsTheSame = { old, new -> old.name == new.name },
             onContentsTheSame = { old, new -> old == new },
         )

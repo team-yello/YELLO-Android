@@ -2,10 +2,12 @@ package com.el.yello.presentation.event
 
 import android.animation.Animator
 import android.os.Bundle
+import androidx.activity.viewModels
 import com.el.yello.R
 import com.el.yello.databinding.ActivityEventBinding
 import com.el.yello.presentation.event.reward.RewardDialog
 import com.el.yello.presentation.main.MainActivity.Companion.EXTRA_EVENT
+import com.el.yello.presentation.main.MainActivity.Companion.EXTRA_IDEMPOTENCY_KEY
 import com.el.yello.presentation.main.MainActivity.Companion.EXTRA_REWARD_LIST
 import com.el.yello.presentation.main.ParcelableEvent
 import com.el.yello.presentation.main.ParcelableReward
@@ -17,6 +19,8 @@ import timber.log.Timber
 
 @AndroidEntryPoint
 class EventActivity : BindingActivity<ActivityEventBinding>(R.layout.activity_event) {
+    private val viewModel by viewModels<EventViewModel>()
+
     private var rewardAdapter: RewardAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -27,11 +31,6 @@ class EventActivity : BindingActivity<ActivityEventBinding>(R.layout.activity_ev
     }
 
     private fun getEventExtra() {
-        if (!intent.hasExtra(EXTRA_EVENT)) {
-            finish()
-            return
-        }
-
         val event = intent.getCompatibleParcelableExtra<ParcelableEvent>(EXTRA_EVENT) ?: return
         with(event) {
             binding.tvEventTitle.text = title
@@ -47,12 +46,13 @@ class EventActivity : BindingActivity<ActivityEventBinding>(R.layout.activity_ev
                 )
             }",
         )
-        if (!intent.hasExtra(EXTRA_REWARD_LIST)) return
         rewardAdapter?.submitList(
             intent.getParcelableArrayListExtra<ParcelableReward>(
                 EXTRA_REWARD_LIST,
             )?.toList(),
         )
+
+        viewModel.setIdempotencyKey(intent.getStringExtra(EXTRA_IDEMPOTENCY_KEY) ?: return)
     }
 
     private fun initRewardAdapter() {

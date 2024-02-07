@@ -8,4 +8,10 @@ import javax.inject.Inject
 @HiltViewModel
 class EventViewModel @Inject constructor(
     private val eventRepository: EventRepository,
-) : ViewModel()
+) : ViewModel() {
+    private var idempotencyKey = ""
+
+    fun setIdempotencyKey(key: String) {
+        idempotencyKey = key
+    }
+}

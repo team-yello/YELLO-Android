@@ -292,6 +292,7 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
                                 EXTRA_REWARD_LIST,
                                 rewardList,
                             )
+                            putExtra(EXTRA_IDEMPOTENCY_KEY, viewModel.idempotencyKey.toString())
                             startActivity(this)
                         }
                     }
@@ -332,6 +333,7 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
         private const val EXTRA_PATH = "path"
         const val EXTRA_EVENT = "EVENT"
         const val EXTRA_REWARD_LIST = "REWARD_LIST"
+        const val EXTRA_IDEMPOTENCY_KEY = "IDEMPOTENCY_KEY"
 
         const val PUSH_TYPE_NEW_VOTE = "NEW_VOTE"
         const val PUSH_TYPE_NEW_FRIEND = "NEW_FRIEND"

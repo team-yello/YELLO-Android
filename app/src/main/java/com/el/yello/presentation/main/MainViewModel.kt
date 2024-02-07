@@ -46,6 +46,9 @@ class MainViewModel @Inject constructor(
     private val _getEventState = MutableStateFlow<UiState<Event>>(UiState.Loading)
     val getEventState: StateFlow<UiState<Event>> get() = _getEventState
 
+    private var _idempotencyKey: UUID? = null
+    val idempotencyKey: UUID get() = requireNotNull(_idempotencyKey)
+
     init {
         putDeviceToken()
         getUserSubscriptionState()
@@ -128,12 +131,9 @@ class MainViewModel @Inject constructor(
 
     private fun getEventState() {
         viewModelScope.launch {
-            eventRepository.postEventState(UUID.randomUUID())
+            _idempotencyKey = UUID.randomUUID()
+            eventRepository.postEventState(idempotencyKey)
                 .onSuccess {
-                    getEvent()
-                }
-                // TODO : 테스트 후 지우기
-                .onFailure {
                     getEvent()
                 }
         }

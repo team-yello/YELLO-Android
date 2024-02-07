@@ -59,12 +59,12 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="14dp"
                 android:paddingVertical="2dp"
-                android:text="@string/event_title"
                 android:textAppearance="@style/TextAppearance.Yello.Headline00"
                 android:textColor="@color/white"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_event_tag" />
+                app:layout_constraintTop_toBottomOf="@id/tv_event_tag"
+                tools:text="@string/event_title" />
 
             <TextView
                 android:id="@+id/tv_event_subtitle"
@@ -72,12 +72,12 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp"
                 android:paddingVertical="2dp"
-                android:text="@string/event_subtitle"
                 android:textAppearance="@style/TextAppearance.Yello.LabelSmall"
                 android:textColor="@color/grayscales_500"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_event_title" />
+                app:layout_constraintTop_toBottomOf="@id/tv_event_title"
+                tools:text="@string/event_subtitle" />
 
             <TextView
                 android:id="@+id/tv_event_description"
@@ -117,7 +117,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/layout_event_reward_item"
+                    android:id="@+id/rv_event_reward_item"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="22dp"

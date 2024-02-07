@@ -23,10 +23,18 @@ import kotlinx.coroutines.flow.onEach
 class EventActivity : BindingActivity<ActivityEventBinding>(R.layout.activity_event) {
     private val viewModel by viewModels<EventViewModel>()
 
+    private var rewardAdapter: RewardAdapter? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        initRewardAdapter()
         setupGetEventState()
+    }
+
+    private fun initRewardAdapter() {
+        rewardAdapter = RewardAdapter()
+        binding.rvEventRewardItem.adapter = rewardAdapter
     }
 
     private fun setupGetEventState() {
@@ -38,7 +46,7 @@ class EventActivity : BindingActivity<ActivityEventBinding>(R.layout.activity_ev
                         binding.tvEventSubtitle.text = state.data.subTitle
 
                         initEventLottieClickListener()
-                        // TODO : reward items adapter 연결
+                        rewardAdapter?.submitList(state.data.rewardList)
                     }
 
                     is Failure -> {
@@ -58,6 +66,7 @@ class EventActivity : BindingActivity<ActivityEventBinding>(R.layout.activity_ev
         // TODO: 필요하면 터치 영역 조정
         with(binding.lottieEvent) {
             setOnSingleClickListener {
+                setOnClickListener(null)
                 setAnimation(R.raw.lottie_event_open)
                 loop(false)
                 playAnimation()

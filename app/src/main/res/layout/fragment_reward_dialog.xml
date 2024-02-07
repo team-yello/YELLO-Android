@@ -50,7 +50,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_reward_title" />
 
-            <!-- TODO : 이미지 연결 후 tools 제거 및 warp_content로 변경 -->
             <ImageView
                 android:id="@+id/iv_reward"
                 android:layout_width="wrap_content"
@@ -60,8 +59,7 @@
                 android:minHeight="200dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_reward_subtitle"
-                tools:scaleType="centerCrop" />
+                app:layout_constraintTop_toBottomOf="@id/tv_reward_subtitle" />
 
             <TextView
                 android:id="@+id/tv_reward_confirm"

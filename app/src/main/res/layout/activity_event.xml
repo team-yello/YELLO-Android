@@ -24,7 +24,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <!-- TODO : 피그마 실제 크기 반영 후 마진 재조정 -->
             <com.airbnb.lottie.LottieAnimationView
                 android:id="@+id/lottie_event"
                 android:layout_width="wrap_content"

@@ -15,7 +15,6 @@ import com.example.ui.base.BindingActivity
 import com.example.ui.intent.getCompatibleParcelableExtra
 import com.example.ui.view.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
-import timber.log.Timber
 
 @AndroidEntryPoint
 class EventActivity : BindingActivity<ActivityEventBinding>(R.layout.activity_event) {
@@ -39,8 +38,6 @@ class EventActivity : BindingActivity<ActivityEventBinding>(R.layout.activity_ev
             initEventLottieClickListener()
         }
 
-        Timber.d("REWARD_LIST_TEST : ${intent.getParcelableArrayListExtra<ParcelableReward>(EXTRA_REWARD_LIST)}")
-        // TODO : 보상 리스트 Extra로 못 받아오는 이슈 해결
         rewardAdapter?.submitList(
             intent.getParcelableArrayListExtra<ParcelableReward>(
                 EXTRA_REWARD_LIST,

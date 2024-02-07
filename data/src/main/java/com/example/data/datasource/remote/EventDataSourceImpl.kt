@@ -5,6 +5,7 @@ import com.example.data.model.request.event.RequestPostEventStateDto
 import com.example.data.model.response.BaseResponse
 import com.example.data.model.response.event.ResponseGetEventDto
 import com.example.data.remote.service.EventService
+import java.util.UUID
 import javax.inject.Inject
 
 class EventDataSourceImpl @Inject constructor(
@@ -13,6 +14,12 @@ class EventDataSourceImpl @Inject constructor(
     override suspend fun getEvent(): BaseResponse<List<ResponseGetEventDto>> =
         service.getEvent()
 
-    override suspend fun postEventState(requestPostEventStateDto: RequestPostEventStateDto): BaseResponse<Unit> =
-        service.postEventState(requestPostEventStateDto)
+    override suspend fun postEventState(
+        idempotencyKey: UUID,
+        requestPostEventStateDto: RequestPostEventStateDto,
+    ): BaseResponse<Unit> =
+        service.postEventState(
+            idempotencyKey,
+            requestPostEventStateDto,
+        )
 }

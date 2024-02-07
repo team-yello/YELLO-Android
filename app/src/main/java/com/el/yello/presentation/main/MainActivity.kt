@@ -75,10 +75,8 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
         setupGetUserSubsState()
         setupGetNoticeState()
         setupGetVoteCountState()
-
-        Intent(this, EventActivity::class.java).apply {
-            startActivity(this)
-        }
+        setupGetNoticeState()
+        setupIsEventAvailable()
     }
 
     private fun initBackPressedCallback() {
@@ -273,6 +271,18 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
 
                     is Failure -> {
                         yelloSnackbar(binding.root, state.msg)
+                    }
+                }
+            }.launchIn(lifecycleScope)
+    }
+
+    private fun setupIsEventAvailable() {
+        viewModel.isEventAvailable.flowWithLifecycle(lifecycle)
+            .onEach { isAvailable ->
+                if (isAvailable) {
+                    // TODO : 이벤트 조회 후 액티비티 열기
+                    Intent(this, EventActivity::class.java).apply {
+                        startActivity(this)
                     }
                 }
             }.launchIn(lifecycleScope)

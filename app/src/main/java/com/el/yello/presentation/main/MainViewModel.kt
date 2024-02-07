@@ -6,6 +6,7 @@ import com.example.domain.entity.PayUserSubsInfoModel
 import com.example.domain.entity.notice.Notice
 import com.example.domain.entity.vote.VoteCount
 import com.example.domain.repository.AuthRepository
+import com.example.domain.repository.EventRepository
 import com.example.domain.repository.NoticeRepository
 import com.example.domain.repository.PayRepository
 import com.example.domain.repository.YelloRepository
@@ -17,6 +18,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import timber.log.Timber
+import java.util.UUID
 import javax.inject.Inject
 
 @HiltViewModel
@@ -25,6 +27,7 @@ class MainViewModel @Inject constructor(
     private val payRepository: PayRepository,
     private val noticeRepository: NoticeRepository,
     private val yelloRepository: YelloRepository,
+    private val eventRepository: EventRepository,
 ) : ViewModel() {
     private val _getUserSubsState =
         MutableStateFlow<UiState<PayUserSubsInfoModel?>>(UiState.Loading)
@@ -39,11 +42,15 @@ class MainViewModel @Inject constructor(
     val voteCount: StateFlow<UiState<VoteCount>>
         get() = _voteCount
 
+    private val _isEventAvailable = MutableStateFlow(false)
+    val isEventAvailable: StateFlow<Boolean> get() = _isEventAvailable
+
     init {
         putDeviceToken()
         getUserSubscriptionState()
         getNotice()
         getVoteCount()
+        getEventState()
         authRepository.setIsFirstLoginData()
     }
 
@@ -114,6 +121,20 @@ class MainViewModel @Inject constructor(
                 }
                 .onFailure {
                     _voteCount.value = UiState.Failure(it.message.toString())
+                }
+        }
+    }
+
+    private fun getEventState() {
+        viewModelScope.launch {
+            eventRepository.postEventState(UUID.randomUUID())
+                .onSuccess {
+                    Timber.tag("GET_EVENT_STATE").d("SUCCESS")
+                    _isEventAvailable.value = true
+                }
+                .onFailure {
+                    Timber.tag("GET_EVENT_STATE").d("FAILURE")
+                    _isEventAvailable.value = false
                 }
         }
     }

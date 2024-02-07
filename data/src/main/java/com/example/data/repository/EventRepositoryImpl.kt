@@ -6,6 +6,7 @@ import com.example.data.model.response.event.ResponseGetEventDto
 import com.example.domain.entity.event.Event
 import com.example.domain.repository.EventRepository
 import timber.log.Timber
+import java.util.UUID
 import javax.inject.Inject
 
 class EventRepositoryImpl @Inject constructor(
@@ -36,8 +37,11 @@ class EventRepositoryImpl @Inject constructor(
         )
     }
 
-    override suspend fun postEventState(tag: String): Result<Unit> = kotlin.runCatching {
-        dataSource.postEventState(tag.toRequestPostEventStateDto())
+    override suspend fun postEventState(idempotencyKey: UUID): Result<Unit> = kotlin.runCatching {
+        dataSource.postEventState(
+            idempotencyKey = idempotencyKey,
+            TAG_LUNCH_EVENT.toRequestPostEventStateDto(),
+        )
     }
 
     private fun String.toRequestPostEventStateDto() = RequestPostEventStateDto(

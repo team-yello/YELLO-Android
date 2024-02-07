@@ -14,4 +14,6 @@ class EventViewModel @Inject constructor(
     fun setIdempotencyKey(key: String) {
         idempotencyKey = key
     }
+
+    fun getIdempotencyKey() = idempotencyKey
 }

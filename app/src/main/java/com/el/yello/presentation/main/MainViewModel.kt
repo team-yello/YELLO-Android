@@ -136,6 +136,9 @@ class MainViewModel @Inject constructor(
                 .onSuccess {
                     getEvent()
                 }
+                .onFailure {
+                    getEvent()
+                }
         }
     }
 

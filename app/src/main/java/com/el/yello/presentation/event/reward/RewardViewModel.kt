@@ -16,16 +16,10 @@ import javax.inject.Inject
 class RewardViewModel @Inject constructor(
     private val eventRepository: EventRepository,
 ) : ViewModel() {
-    private val idempotencyKey = ""
-
     private val _postEventState = MutableStateFlow<UiState<EventResult>>(UiState.Loading)
     val postEventState: StateFlow<UiState<EventResult>> get() = _postEventState
 
-    init {
-        postEvent()
-    }
-
-    private fun postEvent() {
+    fun postEvent(idempotencyKey: String) {
         viewModelScope.launch {
             eventRepository.postEvent(idempotencyKey)
                 .onSuccess { eventResult ->

@@ -294,6 +294,7 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
                             )
                             putExtra(EXTRA_IDEMPOTENCY_KEY, viewModel.idempotencyKey.toString())
                             startActivity(this)
+                            coroutineContext.job.cancel()
                         }
                     }
 

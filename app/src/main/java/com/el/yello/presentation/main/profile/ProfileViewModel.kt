@@ -1,7 +1,6 @@
 package com.el.yello.presentation.main.profile
 
 import android.content.Context
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -12,7 +11,9 @@ import com.example.domain.entity.PayInfoModel
 import com.example.domain.entity.ProfileFriendsListModel
 import com.example.domain.entity.ProfileQuitReasonModel
 import com.example.domain.entity.ProfileUserModel
+import com.example.domain.entity.notice.ProfileBanner
 import com.example.domain.repository.AuthRepository
+import com.example.domain.repository.NoticeRepository
 import com.example.domain.repository.PayRepository
 import com.example.domain.repository.ProfileRepository
 import com.example.ui.view.UiState
@@ -32,6 +33,7 @@ class ProfileViewModel @Inject constructor(
     private val profileRepository: ProfileRepository,
     private val authRepository: AuthRepository,
     private val payRepository: PayRepository,
+    private val noticeRepository: NoticeRepository
 ) : ViewModel() {
 
     init {
@@ -41,7 +43,8 @@ class ProfileViewModel @Inject constructor(
     private val _getUserDataResult = MutableSharedFlow<Boolean>()
     val getUserDataResult: SharedFlow<Boolean> = _getUserDataResult
 
-    private val _getFriendListState = MutableStateFlow<UiState<ProfileFriendsListModel>>(UiState.Empty)
+    private val _getFriendListState =
+        MutableStateFlow<UiState<ProfileFriendsListModel>>(UiState.Empty)
     val getFriendListState: StateFlow<UiState<ProfileFriendsListModel>> = _getFriendListState
 
     private val _deleteUserState = MutableStateFlow<UiState<Unit>>(UiState.Empty)
@@ -79,12 +82,20 @@ class ProfileViewModel @Inject constructor(
     val etcText = MutableLiveData("")
     private val _quitReasonData: MutableLiveData<List<String>> = MutableLiveData()
     val quitReasonData: LiveData<List<String>> = _quitReasonData
+
+    private val _getBannerResult = MutableSharedFlow<Boolean>()
+    val getBannerResult: SharedFlow<Boolean> = _getBannerResult
+
+    var profileBanner = ProfileBanner()
+
     fun setEtcText(etc: String) {
         etcText.value = etc
     }
+
     fun setQuitReason(reason: String) {
         quitReasonText.value = reason
     }
+
     fun addQuitReasonList(context: Context) {
         val quitReasonArray = context.resources.getStringArray(R.array.quit_reasons)
         _quitReasonData.value = quitReasonArray.toList()
@@ -112,6 +123,7 @@ class ProfileViewModel @Inject constructor(
         _getFriendListState.value = UiState.Empty
         _getPurchaseInfoState.value = UiState.Empty
         _getUserDataResult.resetReplayCache()
+        _getBannerResult.resetReplayCache()
     }
 
     fun getUserDataFromServer() {
@@ -225,6 +237,19 @@ class ProfileViewModel @Inject constructor(
                 }
                 .onFailure {
                     _getPurchaseInfoState.value = UiState.Failure(it.message.toString())
+                }
+        }
+    }
+
+    fun getProfileBannerFromServer() {
+        viewModelScope.launch {
+            noticeRepository.getProfileBanner()
+                .onSuccess { banner ->
+                    profileBanner = banner ?: return@launch
+                    _getBannerResult.emit(true)
+                }
+                .onFailure {
+                    _getBannerResult.emit(false)
                 }
         }
     }

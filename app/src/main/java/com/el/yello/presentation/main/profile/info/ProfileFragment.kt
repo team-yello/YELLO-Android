@@ -1,5 +1,7 @@
 package com.el.yello.presentation.main.profile.info
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.view.animation.AnimationUtils
@@ -60,6 +62,7 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
         observeFriendsDataState()
         observeFriendDeleteState()
         observeCheckIsSubscribed()
+        observeGetBannerState()
         AmplitudeUtils.trackEventWithProperties("view_profile")
     }
 
@@ -113,6 +116,7 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
             },
             shopClick = { initShopClickListener() },
             modClick = { initProfileModClickListener() },
+            bannerClick = { redirectUrl -> initProfileBannerClickListener(redirectUrl) }
         )
         binding.rvProfileFriendsList.adapter = adapter
     }
@@ -143,6 +147,10 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
         viewModel.resetStateVariable()
     }
 
+    private fun initProfileBannerClickListener(redirectUrl: String) {
+        startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(redirectUrl)))
+    }
+
     private fun initPullToScrollListener() {
         binding.layoutProfileSwipe.apply {
             setOnRefreshListener {
@@ -163,7 +171,7 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
             resetStateVariable()
             getPurchaseInfoFromServer()
             getUserDataFromServer()
-            getFriendsListFromServer()
+            getProfileBannerFromServer()
         }
     }
 
@@ -256,6 +264,15 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
                 is UiState.Empty -> return@onEach
             }
             adapter.notifyDataSetChanged()
+        }.launchIn(lifecycleScope)
+    }
+
+    private fun observeGetBannerState() {
+        viewModel.getBannerResult.flowWithLifecycle(lifecycle).onEach { result ->
+            if (!result) {
+                yelloSnackbar(binding.root, getString(R.string.my_yello_get_banner_failure))
+            }
+            viewModel.getFriendsListFromServer()
         }.launchIn(lifecycleScope)
     }
 

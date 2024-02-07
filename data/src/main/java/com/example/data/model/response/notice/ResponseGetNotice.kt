@@ -2,6 +2,7 @@ package com.example.data.model.response.notice
 
 import com.example.domain.entity.notice.Banner
 import com.example.domain.entity.notice.Notice
+import com.example.domain.entity.notice.ProfileBanner
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -32,5 +33,11 @@ data class ResponseGetNoticeDto(
         title = title,
         redirectUrl = redirectUrl,
         isAvailable = isAvailable,
+    )
+
+    fun toProfileBanner() : ProfileBanner = ProfileBanner(
+        imageUrl = imageUrl,
+        redirectUrl = redirectUrl,
+        isAvailable = isAvailable
     )
 }

@@ -7,4 +7,6 @@ interface NoticeDataSource {
     suspend fun getNotice(): BaseResponse<ResponseGetNotice>
 
     suspend fun getBanner(): BaseResponse<ResponseGetNotice>
+
+    suspend fun getProfileBanner(): BaseResponse<ResponseGetNotice>
 }

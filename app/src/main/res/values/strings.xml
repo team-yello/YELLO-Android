@@ -411,6 +411,7 @@
     <string name="reward_title">열람권 1개를 얻었어요!</string>
     <string name="reward_subtitle">다음 점심 시간에 또 만나요!</string>
     <string name="reward_confirm">확인</string>
+    <string name="event_get_event_failure">이벤트 불러오기에 실패했습니다.</string>
 
     <string-array name="quit_reasons">
         <item>앱에 아는 사람들이 없어서</item>

@@ -28,6 +28,11 @@ class NoticeDialog :
 
     override fun onStart() {
         super.onStart()
+
+        initContainerLayoutTransparent()
+    }
+
+    private fun initContainerLayoutTransparent() {
         dialog?.window?.apply {
             setLayout(
                 WindowManager.LayoutParams.MATCH_PARENT,

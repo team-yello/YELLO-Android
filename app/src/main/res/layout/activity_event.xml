@@ -33,6 +33,8 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_event_description"
+                app:lottie_autoPlay="true"
+                app:lottie_loop="true"
                 app:lottie_rawRes="@raw/lottie_event_default" />
 
             <TextView
@@ -57,12 +59,12 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="14dp"
                 android:paddingVertical="2dp"
+                android:text="@string/event_title"
                 android:textAppearance="@style/TextAppearance.Yello.Headline00"
                 android:textColor="@color/white"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_event_tag"
-                tools:text="@string/event_title" />
+                app:layout_constraintTop_toBottomOf="@id/tv_event_tag" />
 
             <TextView
                 android:id="@+id/tv_event_subtitle"
@@ -70,12 +72,12 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp"
                 android:paddingVertical="2dp"
+                android:text="@string/event_subtitle"
                 android:textAppearance="@style/TextAppearance.Yello.LabelSmall"
                 android:textColor="@color/grayscales_500"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_event_title"
-                tools:text="@string/event_subtitle" />
+                app:layout_constraintTop_toBottomOf="@id/tv_event_title" />
 
             <TextView
                 android:id="@+id/tv_event_description"

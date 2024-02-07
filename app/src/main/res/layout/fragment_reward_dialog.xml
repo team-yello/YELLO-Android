@@ -15,10 +15,10 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layout_reward"
             android:layout_width="wrap_content"
-            android:background="@drawable/shape_grayscales900_fill_10_rect"
             android:layout_height="wrap_content"
-            android:paddingBottom="12dp"
+            android:background="@drawable/shape_grayscales900_fill_10_rect"
             android:paddingHorizontal="20dp"
+            android:paddingBottom="12dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -50,11 +50,11 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_reward_title" />
 
-            <!-- TODO : 이미지 연결 후 tools 제거 -->
+            <!-- TODO : 이미지 연결 후 tools 제거 및 warp_content로 변경 -->
             <ImageView
                 android:id="@+id/iv_reward"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
                 android:layout_marginTop="20dp"
                 android:src="@drawable/img_notice_dummy"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -68,9 +68,9 @@
                 android:id="@+id/tv_reward_confirm"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingVertical="19dp"
-                android:paddingHorizontal="118dp"
                 android:layout_marginTop="12dp"
+                android:paddingHorizontal="118dp"
+                android:paddingVertical="19dp"
                 android:text="@string/reward_confirm"
                 android:textAppearance="@style/TextAppearance.Yello.BodySmall"
                 android:textColor="@color/grayscales_300"

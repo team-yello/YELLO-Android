@@ -14,6 +14,7 @@ import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import com.el.yello.R
 import com.el.yello.databinding.ActivityMainBinding
+import com.el.yello.presentation.event.EventActivity
 import com.el.yello.presentation.main.dialog.notice.NoticeDialog
 import com.el.yello.presentation.main.look.LookFragment
 import com.el.yello.presentation.main.myyello.MyYelloFragment
@@ -74,6 +75,10 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
         setupGetUserSubsState()
         setupGetNoticeState()
         setupGetVoteCountState()
+
+        Intent(this, EventActivity::class.java).apply {
+            startActivity(this)
+        }
     }
 
     private fun initBackPressedCallback() {

@@ -1,6 +1,7 @@
 package com.example.data.repository
 
 import com.example.data.datasource.EventDataSource
+import com.example.data.model.request.event.RequestPostEventStateDto
 import com.example.data.model.response.event.ResponseGetEventDto
 import com.example.domain.entity.event.Event
 import com.example.domain.repository.EventRepository
@@ -34,6 +35,14 @@ class EventRepositoryImpl @Inject constructor(
             isAvailable = false,
         )
     }
+
+    override suspend fun postEventState(tag: String): Result<Unit> = kotlin.runCatching {
+        dataSource.postEventState(tag.toRequestPostEventStateDto())
+    }
+
+    private fun String.toRequestPostEventStateDto() = RequestPostEventStateDto(
+        tag = this,
+    )
 
     companion object {
         private const val TAG_LUNCH_EVENT = "LUNCH_EVENT"

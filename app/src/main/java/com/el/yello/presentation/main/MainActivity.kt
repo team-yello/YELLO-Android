@@ -241,11 +241,11 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
                     is Loading -> return@onEach
                     is Success -> {
                         if (!state.data.isAvailable) return@onEach
+                        coroutineContext.job.cancel()
                         NoticeDialog.newInstance(
                             imageUrl = state.data.imageUrl,
                             redirectUrl = state.data.redirectUrl,
                         ).show(supportFragmentManager, TAG_NOTICE_DIALOG)
-                        coroutineContext.job.cancel()
                     }
 
                     is Failure -> yelloSnackbar(

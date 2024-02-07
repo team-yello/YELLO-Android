@@ -319,6 +319,6 @@ class VoteViewModel @Inject constructor(
         private const val ID_EMPTY_USER = -1
 
         // TODO: delay 없이 해결 가능한 방법 찾아보기
-        private const val DURATION_VIEW_SETTING = 500L
+        private const val DURATION_VIEW_SETTING = 600L
     }
 }

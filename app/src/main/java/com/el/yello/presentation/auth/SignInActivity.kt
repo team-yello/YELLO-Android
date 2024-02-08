@@ -166,7 +166,10 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
             putExtra(EXTRA_NAME, viewModel.kakaoUserInfo.kakaoAccount?.name.orEmpty())
             putExtra(EXTRA_GENDER, viewModel.kakaoUserInfo.kakaoAccount?.gender.toString())
             putExtra(EXTRA_EMAIL, viewModel.kakaoUserInfo.kakaoAccount?.email.orEmpty())
-            putExtra(EXTRA_PROFILE_IMAGE, viewModel.kakaoUserInfo.kakaoAccount?.profile?.profileImageUrl.orEmpty())
+            putExtra(
+                EXTRA_PROFILE_IMAGE,
+                viewModel.kakaoUserInfo.kakaoAccount?.profile?.profileImageUrl.orEmpty()
+            )
             addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         }
     }
@@ -177,7 +180,10 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
             putString(EXTRA_NAME, viewModel.kakaoUserInfo.kakaoAccount?.name.orEmpty())
             putString(EXTRA_GENDER, viewModel.kakaoUserInfo.kakaoAccount?.gender.toString())
             putString(EXTRA_EMAIL, viewModel.kakaoUserInfo.kakaoAccount?.email.orEmpty())
-            putString(EXTRA_PROFILE_IMAGE, viewModel.kakaoUserInfo.kakaoAccount?.profile?.profileImageUrl.orEmpty())
+            putString(
+                EXTRA_PROFILE_IMAGE,
+                viewModel.kakaoUserInfo.kakaoAccount?.profile?.profileImageUrl.orEmpty()
+            )
         }
     }
 

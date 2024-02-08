@@ -14,11 +14,10 @@
 
         <ImageView
             android:id="@+id/iv_event_reward"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="48dp"
+            android:layout_height="0dp"
             android:contentDescription="@string/event_reward_image"
-            android:minWidth="48dp"
-            android:minHeight="48dp"
+            app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"

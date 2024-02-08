@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.el.yello.databinding.ItemProfileUserInfoBinding
 import com.el.yello.presentation.main.profile.ProfileViewModel
+import com.el.yello.util.Image.loadUrl
 import com.el.yello.util.Utils.setImageOrBasicThumbnail
 import com.example.ui.view.setOnSingleClickListener
 
@@ -32,7 +33,7 @@ class ProfileUserInfoViewHolder(
         }
 
         if (viewModel.profileBanner.isAvailable) {
-            binding.ivProfileBanner.load(viewModel.profileBanner.imageUrl)
+            binding.ivProfileBanner.loadUrl(viewModel.profileBanner.imageUrl)
             binding.ivProfileBanner.setOnSingleClickListener { bannerClick(viewModel.profileBanner.redirectUrl) }
         }
     }

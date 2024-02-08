@@ -401,6 +401,18 @@
     <string name="notice_close">닫기</string>
     <string name="notice_do_not_see_it_again_icon">다시 보지 않기 아이콘</string>
 
+    <string name="event_event_time">EVENT TIME</string>
+    <string name="event_title">점심시간 깜짝 선물!</string>
+    <string name="event_description">어떤 게 나올까요? 아래 박스를 터치해보세요!</string>
+    <string name="event_reward_item">얻을 수 있는 아이템</string>
+    <string name="event_reward_description">최대 200P</string>
+    <string name="event_subtitle">평일 12~14시 최대 1회까지 참여 가능</string>
+    <string name="event_reward_image">이벤트 보상 이미지</string>
+    <string name="reward_title">열람권 1개를 얻었어요!</string>
+    <string name="reward_subtitle">다음 점심 시간에 또 만나요!</string>
+    <string name="reward_confirm">확인</string>
+    <string name="event_get_event_failure">이벤트 불러오기에 실패했습니다.</string>
+
     <string-array name="quit_reasons">
         <item>앱에 아는 사람들이 없어서</item>
         <item>구독권과 열람권의 가격이 비싸서</item>
@@ -411,5 +423,4 @@
         <item>다른 앱이 더 재밌어서</item>
         <item>기타</item>
     </string-array>
-
 </resources>

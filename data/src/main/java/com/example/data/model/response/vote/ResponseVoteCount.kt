@@ -4,8 +4,8 @@ import com.example.domain.entity.vote.VoteCount
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class ResponseVoteCount(
-    val totalCount: Int
+data class ResponseVoteCountDto(
+    val totalCount: Int,
 ) {
     fun toVoteCount(): VoteCount {
         return VoteCount(totalCount)

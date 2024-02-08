@@ -1,6 +1,7 @@
 package com.el.yello.di
 
 import com.example.data.datasource.AuthDataSource
+import com.example.data.datasource.EventDataSource
 import com.example.data.datasource.NoticeDataSource
 import com.example.data.datasource.OnboardingDataSource
 import com.example.data.datasource.PayDataSource
@@ -10,6 +11,7 @@ import com.example.data.datasource.SearchDataSource
 import com.example.data.datasource.VoteDataSource
 import com.example.data.datasource.YelloDataSource
 import com.example.data.datasource.remote.AuthDataSourceImpl
+import com.example.data.datasource.remote.EventDataSourceImpl
 import com.example.data.datasource.remote.NoticeDataSourceImpl
 import com.example.data.datasource.remote.OnboardingDataSourceImpl
 import com.example.data.datasource.remote.PayDataSourceImpl
@@ -71,4 +73,9 @@ object DataSourceModule {
     @Singleton
     fun provideNoticeDataSource(noticeDataSourceImpl: NoticeDataSourceImpl): NoticeDataSource =
         noticeDataSourceImpl
+
+    @Provides
+    @Singleton
+    fun provideEventDataSource(eventDataSourceImpl: EventDataSourceImpl): EventDataSource =
+        eventDataSourceImpl
 }

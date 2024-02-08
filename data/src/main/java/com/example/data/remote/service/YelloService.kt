@@ -1,7 +1,7 @@
 package com.example.data.remote.service
 
 import com.example.data.model.response.BaseResponse
-import com.example.data.model.response.vote.ResponseVoteCount
+import com.example.data.model.response.vote.ResponseVoteCountDto
 import com.example.data.model.response.yello.ResponseCheckKeyword
 import com.example.data.model.response.yello.ResponseCheckName
 import com.example.data.model.response.yello.ResponseFullName
@@ -34,7 +34,7 @@ interface YelloService {
     ): BaseResponse<ResponseCheckName>
 
     @GET("api/v1/vote/count")
-    suspend fun voteCount(): BaseResponse<ResponseVoteCount>
+    suspend fun voteCount(): BaseResponse<ResponseVoteCountDto>
 
     @PATCH("api/v1/vote/{voteId}/fullname")
     suspend fun postFullName(

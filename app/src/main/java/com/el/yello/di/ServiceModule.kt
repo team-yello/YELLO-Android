@@ -1,6 +1,7 @@
 package com.el.yello.di
 
 import com.example.data.remote.service.AuthService
+import com.example.data.remote.service.EventService
 import com.example.data.remote.service.LookService
 import com.example.data.remote.service.NoticeService
 import com.example.data.remote.service.OnboardingService
@@ -69,4 +70,9 @@ object ServiceModule {
     @Singleton
     fun provideNoticeService(retrofit: Retrofit): NoticeService =
         retrofit.create(NoticeService::class.java)
+
+    @Provides
+    @Singleton
+    fun provideEventService(retrofit: Retrofit): EventService =
+        retrofit.create(EventService::class.java)
 }

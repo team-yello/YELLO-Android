@@ -1,12 +1,12 @@
 package com.example.data.datasource
 
 import com.example.data.model.response.BaseResponse
-import com.example.data.model.response.notice.ResponseGetNotice
+import com.example.data.model.response.notice.ResponseGetNoticeDto
 
 interface NoticeDataSource {
-    suspend fun getNotice(): BaseResponse<ResponseGetNotice>
+    suspend fun getNotice(): BaseResponse<ResponseGetNoticeDto>
 
-    suspend fun getBanner(): BaseResponse<ResponseGetNotice>
+    suspend fun getBanner(): BaseResponse<ResponseGetNoticeDto>
 
-    suspend fun getProfileBanner(): BaseResponse<ResponseGetNotice>
+    suspend fun getProfileBanner(): BaseResponse<ResponseGetNoticeDto>
 }

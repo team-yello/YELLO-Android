@@ -14,6 +14,7 @@ import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import com.el.yello.R
 import com.el.yello.databinding.ActivityMainBinding
+import com.el.yello.presentation.event.EventActivity
 import com.el.yello.presentation.main.dialog.notice.NoticeDialog
 import com.el.yello.presentation.main.look.LookFragment
 import com.el.yello.presentation.main.myyello.MyYelloFragment
@@ -25,6 +26,7 @@ import com.el.yello.presentation.pay.PayReSubsNoticeDialog
 import com.el.yello.presentation.util.dp
 import com.el.yello.util.amplitude.AmplitudeUtils
 import com.el.yello.util.context.yelloSnackbar
+import com.example.domain.entity.event.Event
 import com.example.domain.enum.SubscribeType.CANCELED
 import com.example.ui.base.BindingActivity
 import com.example.ui.context.toast
@@ -74,6 +76,8 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
         setupGetUserSubsState()
         setupGetNoticeState()
         setupGetVoteCountState()
+        setupGetNoticeState()
+        setupGetEventState()
     }
 
     private fun initBackPressedCallback() {
@@ -237,11 +241,11 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
                     is Loading -> return@onEach
                     is Success -> {
                         if (!state.data.isAvailable) return@onEach
+                        coroutineContext.job.cancel()
                         NoticeDialog.newInstance(
                             imageUrl = state.data.imageUrl,
                             redirectUrl = state.data.redirectUrl,
                         ).show(supportFragmentManager, TAG_NOTICE_DIALOG)
-                        coroutineContext.job.cancel()
                     }
 
                     is Failure -> yelloSnackbar(
@@ -273,6 +277,48 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
             }.launchIn(lifecycleScope)
     }
 
+    private fun setupGetEventState() {
+        viewModel.getEventState.flowWithLifecycle(lifecycle)
+            .onEach { state ->
+                when (state) {
+                    is Success -> {
+                        Intent(this, EventActivity::class.java).apply {
+                            putExtra(EXTRA_EVENT, state.data.toParcelableEvent())
+                            val rewardList = ArrayList<ParcelableReward>()
+                            state.data.rewardList?.map { reward ->
+                                rewardList.add(reward.toParcelableReward())
+                            }
+                            putParcelableArrayListExtra(
+                                EXTRA_REWARD_LIST,
+                                rewardList,
+                            )
+                            putExtra(EXTRA_IDEMPOTENCY_KEY, viewModel.idempotencyKey.toString())
+                            startActivity(this)
+                            coroutineContext.job.cancel()
+                        }
+                    }
+
+                    is Failure -> yelloSnackbar(
+                        binding.root,
+                        getString(R.string.event_get_event_failure),
+                    )
+
+                    is Empty -> return@onEach
+                    is Loading -> return@onEach
+                }
+            }.launchIn(lifecycleScope)
+    }
+
+    private fun Event.toParcelableEvent() = ParcelableEvent(
+        title = title,
+        subTitle = subTitle,
+    )
+
+    private fun Event.Reward.toParcelableReward() = ParcelableReward(
+        imageUrl = imageUrl,
+        name = name,
+    )
+
     fun setBadgeCount(count: Int) {
         val badgeDrawable = binding.bnvMain.getOrCreateBadge(R.id.menu_my_yello)
         badgeDrawable.number = count
@@ -286,6 +332,9 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
     companion object {
         private const val EXTRA_TYPE = "type"
         private const val EXTRA_PATH = "path"
+        const val EXTRA_EVENT = "EVENT"
+        const val EXTRA_REWARD_LIST = "REWARD_LIST"
+        const val EXTRA_IDEMPOTENCY_KEY = "IDEMPOTENCY_KEY"
 
         const val PUSH_TYPE_NEW_VOTE = "NEW_VOTE"
         const val PUSH_TYPE_NEW_FRIEND = "NEW_FRIEND"

@@ -3,9 +3,11 @@ package com.el.yello.presentation.main
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.domain.entity.PayUserSubsInfoModel
+import com.example.domain.entity.event.Event
 import com.example.domain.entity.notice.Notice
 import com.example.domain.entity.vote.VoteCount
 import com.example.domain.repository.AuthRepository
+import com.example.domain.repository.EventRepository
 import com.example.domain.repository.NoticeRepository
 import com.example.domain.repository.PayRepository
 import com.example.domain.repository.YelloRepository
@@ -17,6 +19,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import timber.log.Timber
+import java.util.UUID
 import javax.inject.Inject
 
 @HiltViewModel
@@ -25,6 +28,7 @@ class MainViewModel @Inject constructor(
     private val payRepository: PayRepository,
     private val noticeRepository: NoticeRepository,
     private val yelloRepository: YelloRepository,
+    private val eventRepository: EventRepository,
 ) : ViewModel() {
     private val _getUserSubsState =
         MutableStateFlow<UiState<PayUserSubsInfoModel?>>(UiState.Loading)
@@ -39,11 +43,18 @@ class MainViewModel @Inject constructor(
     val voteCount: StateFlow<UiState<VoteCount>>
         get() = _voteCount
 
+    private val _getEventState = MutableStateFlow<UiState<Event>>(UiState.Loading)
+    val getEventState: StateFlow<UiState<Event>> get() = _getEventState
+
+    private var _idempotencyKey: UUID? = null
+    val idempotencyKey: UUID get() = requireNotNull(_idempotencyKey)
+
     init {
         putDeviceToken()
         getUserSubscriptionState()
         getNotice()
         getVoteCount()
+        getEventState()
         authRepository.setIsFirstLoginData()
     }
 
@@ -116,5 +127,46 @@ class MainViewModel @Inject constructor(
                     _voteCount.value = UiState.Failure(it.message.toString())
                 }
         }
+    }
+
+    private fun getEventState() {
+        viewModelScope.launch {
+            _idempotencyKey = UUID.randomUUID()
+            eventRepository.postEventState(idempotencyKey)
+                .onSuccess {
+                    getEvent()
+                }
+        }
+    }
+
+    private fun getEvent() {
+        viewModelScope.launch {
+            eventRepository.getEvent()
+                .onSuccess { event ->
+                    if (event == null) {
+                        _getEventState.value = UiState.Empty
+                        return@onSuccess
+                    }
+
+                    Timber.tag("GET_EVENT_SUCCESS").d(event.toString())
+                    if (!event.isAvailable) {
+                        _getEventState.value = UiState.Failure(CODE_UNAVAILABLE_EVENT)
+                        return@onSuccess
+                    }
+                    _getEventState.value = UiState.Success(event)
+                }
+                .onFailure { t ->
+                    if (t is HttpException) {
+                        UiState.Failure(t.code().toString())
+                        Timber.tag("GET_EVENT_FAILURE").e(t)
+                        return@onFailure
+                    }
+                    Timber.tag("GET_EVENT_ERROR").e(t)
+                }
+        }
+    }
+
+    companion object {
+        const val CODE_UNAVAILABLE_EVENT = "100"
     }
 }

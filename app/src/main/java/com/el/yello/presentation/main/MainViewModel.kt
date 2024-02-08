@@ -97,7 +97,6 @@ class MainViewModel @Inject constructor(
         viewModelScope.launch {
             noticeRepository.getNotice()
                 .onSuccess { notice ->
-                    Timber.d("NOTICETEST server success : $notice")
                     if (notice == null) {
                         _getNoticeState.value = UiState.Empty
                         return@onSuccess

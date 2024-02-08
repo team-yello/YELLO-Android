@@ -40,6 +40,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.job
+import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.concurrent.TimeUnit
@@ -68,6 +69,7 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         initBackPressedCallback()
         initBnvItemIconTintList()
         initBnvItemSelectedListener()
@@ -76,7 +78,6 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
         setupGetUserSubsState()
         setupGetNoticeState()
         setupGetVoteCountState()
-        setupGetNoticeState()
         setupGetEventState()
     }
 
@@ -240,8 +241,8 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
 
                     is Loading -> return@onEach
                     is Success -> {
-                        if (!state.data.isAvailable) return@onEach
                         coroutineContext.job.cancel()
+                        if (!state.data.isAvailable) return@onEach
                         NoticeDialog.newInstance(
                             imageUrl = state.data.imageUrl,
                             redirectUrl = state.data.redirectUrl,

@@ -32,7 +32,6 @@ firebaseVersion = "30.4.0"
 
 ## Third-party
 coilVersion = "1.2.0"
-coilSvgVersion = "1.2.0"
 retrofitVersion = "2.9.0"
 kotlinSerializationConverterVersion = "1.0.0"
 okHttpVersion = "4.11.0"

@@ -2,6 +2,7 @@ package com.el.yello.presentation.event
 
 import android.animation.Animator
 import android.os.Bundle
+import android.view.View
 import androidx.activity.viewModels
 import com.el.yello.R
 import com.el.yello.databinding.ActivityEventBinding
@@ -54,13 +55,13 @@ class EventActivity : BindingActivity<ActivityEventBinding>(R.layout.activity_ev
 
     private fun initEventLottieClickListener() {
         // TODO: 필요하면 터치 영역 조정
-        with(binding.lottieEvent) {
-            setOnSingleClickListener {
-                setOnClickListener(null)
-                setAnimation(R.raw.lottie_event_open)
-                loop(false)
-                playAnimation()
-                addAnimatorListener(object : Animator.AnimatorListener {
+        with(binding) {
+            lottieEventDefault.setOnSingleClickListener {
+                lottieEventDefault.setOnClickListener(null)
+                lottieEventDefault.visibility = View.INVISIBLE
+                lottieEventOpen.visibility = View.VISIBLE
+                lottieEventOpen.playAnimation()
+                lottieEventOpen.addAnimatorListener(object : Animator.AnimatorListener {
                     override fun onAnimationStart(animation: Animator, isReverse: Boolean) {
                         super.onAnimationStart(animation, isReverse)
                     }

@@ -25,7 +25,7 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <com.airbnb.lottie.LottieAnimationView
-                android:id="@+id/lottie_event"
+                android:id="@+id/lottie_event_default"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="-146dp"
@@ -35,6 +35,19 @@
                 app:lottie_autoPlay="true"
                 app:lottie_loop="true"
                 app:lottie_rawRes="@raw/lottie_event_default" />
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/lottie_event_open"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toBottomOf="@id/lottie_event_default"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/lottie_event_default"
+                app:lottie_autoPlay="false"
+                app:lottie_loop="false"
+                app:lottie_rawRes="@raw/lottie_event_open" />
 
             <TextView
                 android:id="@+id/tv_event_tag"
@@ -101,7 +114,7 @@
                 android:paddingVertical="16dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/lottie_event">
+                app:layout_constraintTop_toBottomOf="@id/lottie_event_default">
 
                 <TextView
                     android:id="@+id/tv_event_reward_title"

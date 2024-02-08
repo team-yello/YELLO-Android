@@ -7,11 +7,10 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
-import coil.load
 import com.el.yello.R
 import com.el.yello.databinding.FragmentRewardDialogBinding
 import com.el.yello.presentation.event.EventViewModel
-import com.el.yello.util.Image.loadSvg
+import com.el.yello.util.Image.loadUrl
 import com.example.ui.base.BindingDialogFragment
 import com.example.ui.view.UiState
 import com.example.ui.view.setOnSingleClickListener
@@ -39,7 +38,7 @@ class RewardDialog :
                 when (state) {
                     is UiState.Success -> {
                         binding.tvRewardTitle.text = state.data.title
-                        binding.ivReward.loadSvg(state.data.imageUrl)
+                        binding.ivReward.loadUrl(state.data.imageUrl)
                     }
 
                     is UiState.Failure -> dismiss()

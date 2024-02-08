@@ -3,8 +3,8 @@ package com.el.yello.util
 import android.widget.ImageView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import coil.load
-import coil.transform.CircleCropTransformation
 import com.el.yello.R
+import com.el.yello.util.Image.loadUrlWithCircleCrop
 import com.example.ui.context.colorOf
 
 object Utils {
@@ -31,9 +31,7 @@ object Utils {
     fun ImageView.setImageOrBasicThumbnail(thumbnail: String) {
         this.apply {
             if (thumbnail == URL_BASIC_THUMBNAIL) load(R.drawable.img_yello_basic)
-            else load(thumbnail) {
-                transformations(CircleCropTransformation())
-            }
+            else loadUrlWithCircleCrop(thumbnail)
         }
     }
 

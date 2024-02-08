@@ -6,6 +6,7 @@ import coil.load
 import coil.transform.CircleCropTransformation
 import com.el.yello.R
 import com.el.yello.databinding.ItemAddFriendBinding
+import com.el.yello.util.Image.loadUrlWithCircleCrop
 import com.example.domain.entity.onboarding.AddFriendListModel
 import com.example.ui.view.setOnSingleClickListener
 
@@ -16,9 +17,7 @@ class AddFriendViewHolder(
 
     fun onBind(friendModel: AddFriendListModel.FriendModel, position: Int) {
         with(binding) {
-            ivFriendProfile.load(friendModel.profileImage) {
-                transformations(CircleCropTransformation())
-            }
+            ivFriendProfile.loadUrlWithCircleCrop(friendModel.profileImage)
             tvFriendName.text = friendModel.name
             tvFriendDepartment.text = friendModel.groupName
             btnFriendCheck.isSelected = friendModel.isSelected

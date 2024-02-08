@@ -12,6 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import coil.load
 import com.el.yello.R
 import com.el.yello.databinding.FragmentNoticeDialogBinding
+import com.el.yello.util.Image.loadUrl
 import com.example.ui.base.BindingDialogFragment
 import com.example.ui.view.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
@@ -59,7 +60,7 @@ class NoticeDialog :
 
     private fun initNoticeImageView() {
         with(binding.ivNoticeImg) {
-            load(imageUrl)
+            loadUrl(imageUrl)
 
             if (redirectUrl.isBlank()) return
             setOnSingleClickListener {

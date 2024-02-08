@@ -31,7 +31,8 @@ billingVersion = "6.0.1"
 firebaseVersion = "30.4.0"
 
 ## Third-party
-coilVersion = "2.4.0"
+coilVersion = "1.2.0"
+coilSvgVersion = "1.2.0"
 retrofitVersion = "2.9.0"
 kotlinSerializationConverterVersion = "1.0.0"
 okHttpVersion = "4.11.0"
@@ -111,6 +112,7 @@ hiltAndroidCompiler = { group = "com.google.dagger", name = "hilt-compiler", ver
 hiltWorkManagerCompiler = { group = "androidx.hilt", name = "hilt-compiler", version.ref = "hiltWorkManagerVersion" }
 
 coil = { group = "io.coil-kt", name = "coil", version.ref = "coilVersion" }
+coil-svg = { group = "io.coil-kt", name = "coil-svg", version.ref = "coilVersion" }
 retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofitVersion" }
 retrofit-json-converter = { group = "com.jakewharton.retrofit", name = "retrofit2-kotlinx-serialization-converter", version.ref = "kotlinSerializationConverterVersion" }
 okhttp-Bom = { group = "com.squareup.okhttp3", name = "okhttp-bom", version.ref = "okHttpVersion" }
@@ -219,6 +221,7 @@ kakao = [
 
 appModuleLibraryEtc = [
     "coil",
+    "coil-svg",
     "timber",
     "progressView",
     "balloon",

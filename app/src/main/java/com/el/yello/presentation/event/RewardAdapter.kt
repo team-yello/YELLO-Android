@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.el.yello.databinding.ItemEventRewardBinding
 import com.el.yello.presentation.main.ParcelableReward
+import com.el.yello.util.Image.loadSvg
 import com.example.ui.diff.DiffCallback
 
 class RewardAdapter : ListAdapter<ParcelableReward, RewardAdapter.RewardViewHolder>(diffUtil) {
@@ -26,7 +27,7 @@ class RewardAdapter : ListAdapter<ParcelableReward, RewardAdapter.RewardViewHold
     class RewardViewHolder(private val binding: ItemEventRewardBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun setReward(reward: ParcelableReward) {
-            binding.ivEventReward.load(reward.imageUrl)
+            binding.ivEventReward.loadSvg(reward.imageUrl)
             binding.tvEventRewardDescription.text = reward.name
         }
     }

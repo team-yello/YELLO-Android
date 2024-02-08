@@ -30,7 +30,8 @@ object Utils {
 
     fun ImageView.setImageOrBasicThumbnail(thumbnail: String) {
         this.apply {
-            load(if (thumbnail == URL_BASIC_THUMBNAIL) R.drawable.img_yello_basic else thumbnail) {
+            if (thumbnail == URL_BASIC_THUMBNAIL) load(R.drawable.img_yello_basic)
+            else load(thumbnail) {
                 transformations(CircleCropTransformation())
             }
         }

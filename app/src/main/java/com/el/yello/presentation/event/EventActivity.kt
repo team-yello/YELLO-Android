@@ -30,6 +30,11 @@ class EventActivity : BindingActivity<ActivityEventBinding>(R.layout.activity_ev
         getEventExtra()
     }
 
+    private fun initRewardAdapter() {
+        rewardAdapter = RewardAdapter()
+        binding.rvEventRewardItem.adapter = rewardAdapter
+    }
+
     private fun getEventExtra() {
         val event = intent.getCompatibleParcelableExtra<ParcelableEvent>(EXTRA_EVENT) ?: return
         with(event) {
@@ -46,11 +51,6 @@ class EventActivity : BindingActivity<ActivityEventBinding>(R.layout.activity_ev
         )
 
         viewModel.setIdempotencyKey(intent.getStringExtra(EXTRA_IDEMPOTENCY_KEY) ?: return)
-    }
-
-    private fun initRewardAdapter() {
-        rewardAdapter = RewardAdapter()
-        binding.rvEventRewardItem.adapter = rewardAdapter
     }
 
     private fun initEventLottieClickListener() {

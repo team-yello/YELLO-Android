@@ -44,12 +44,11 @@ class UnivProfileModViewModel @Inject constructor(
     val school = MutableLiveData("")
     val subGroup = MutableLiveData("")
     val admYear = MutableLiveData("")
-    var groupId: Long = 0
 
     var isModAvailable = true
     var isChanged = false
 
-    private lateinit var myUserData: ProfileModRequestModel
+    lateinit var myUserData: ProfileModRequestModel
 
     val studentIdList = listOf(24, 23, 22, 21, 20, 19, 18, 17, 16, 15)
 
@@ -132,7 +131,6 @@ class UnivProfileModViewModel @Inject constructor(
                 _postToModProfileResult.emit(false)
                 return@launch
             }
-            myUserData.groupId = groupId
             myUserData.groupAdmissionYear = admYear.value?.toInt() ?: return@launch
 
             profileRepository.postToModUserData(myUserData)

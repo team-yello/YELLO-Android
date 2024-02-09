@@ -1,6 +1,8 @@
 package com.el.yello.presentation.onboarding.fragment.yelloid
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.View
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -24,13 +26,16 @@ class YelIoIdFragment : BindingFragment<FragmentYelloIdBinding>(R.layout.fragmen
         binding.vm = viewModel
         setDeleteBtnClickListener()
         setYelloIdBtnClickListener()
+        setYelloIdEditTextChangeListener()
         observeGetValidYelloIdState()
     }
 
     private fun setYelloIdBtnClickListener() {
         binding.btnYelloIdNext.setOnSingleClickListener {
+            findNavController().navigate(R.id.action_yelIoIdFragment_to_addFriendFragment)
+            val activity = requireActivity() as OnBoardingActivity
+            activity.progressBarPlus()
             amplitudeYelloIdInfo()
-            viewModel.getValidYelloId(viewModel.id)
         }
     }
 
@@ -38,6 +43,16 @@ class YelIoIdFragment : BindingFragment<FragmentYelloIdBinding>(R.layout.fragmen
         binding.btnIdDelete.setOnClickListener {
             binding.etId.text.clear()
         }
+    }
+
+    private fun setYelloIdEditTextChangeListener() {
+        binding.etId.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+                viewModel.getValidYelloId(s.toString())
+            }
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+        })
     }
 
     private fun observeGetValidYelloIdState() {
@@ -49,9 +64,6 @@ class YelIoIdFragment : BindingFragment<FragmentYelloIdBinding>(R.layout.fragmen
                         return@observe
                     }
                     viewModel.resetGetValidYelloId()
-                    findNavController().navigate(R.id.action_yelIoIdFragment_to_addFriendFragment)
-                    val activity = requireActivity() as OnBoardingActivity
-                    activity.progressBarPlus()
                 }
                 is UiState.Failure -> {
                     yelloSnackbar(binding.root, getString(R.string.msg_error))

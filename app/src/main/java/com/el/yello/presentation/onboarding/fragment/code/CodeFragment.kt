@@ -37,7 +37,7 @@ class CodeFragment : BindingFragment<FragmentCodeBinding>(R.layout.fragment_code
     }
 
     private fun setCodeBtnCLickListener() {
-        binding.btnCodeSkip.setOnClickListener {
+        binding.btnCodeSkip.setOnSingleClickListener {
             viewModel.postSignup()
             amplitudeCodeSkipInfo()
         }

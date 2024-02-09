@@ -2,7 +2,7 @@ name: YELLO Push Builder
 
 on:
   push:
-    branches: [ develop, production ]
+    branches: [ production ]
 
 defaults:
   run:

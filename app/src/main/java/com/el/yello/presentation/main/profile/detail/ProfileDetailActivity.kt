@@ -48,9 +48,9 @@ class ProfileDetailActivity :
     }
 
     private fun initProfileModBtnListener() {
-        binding.btnModSchool.setOnSingleClickListener { navigateToModActivity() }
-        binding.btnModSubgroup.setOnSingleClickListener { navigateToModActivity() }
-        binding.btnModYear.setOnSingleClickListener { navigateToModActivity() }
+        binding.layoutProfileDetailSchool.setOnSingleClickListener { navigateToModActivity() }
+        binding.layoutProfileModSchool.setOnSingleClickListener { navigateToModActivity() }
+        binding.layoutProfileModUniv.setOnSingleClickListener { navigateToModActivity() }
     }
 
     private fun navigateToModActivity() {

@@ -2,7 +2,6 @@ package com.el.yello.presentation.onboarding.fragment.yelloid
 
 import android.os.Bundle
 import android.view.View
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.el.yello.R

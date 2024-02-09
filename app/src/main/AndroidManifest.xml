@@ -84,10 +84,12 @@
         <activity
             android:name=".presentation.onboarding.activity.EditNameActivity"
             android:exported="true"
+            android:windowSoftInputMode="adjustResize"
             android:screenOrientation="portrait" />
         <activity
             android:name=".presentation.onboarding.activity.OnBoardingActivity"
             android:exported="true"
+            android:windowSoftInputMode="adjustResize"
             android:screenOrientation="portrait" />
         <activity
             android:name=".presentation.onboarding.activity.GetAlarmActivity"

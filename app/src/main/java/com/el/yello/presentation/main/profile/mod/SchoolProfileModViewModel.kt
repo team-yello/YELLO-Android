@@ -7,7 +7,6 @@ import com.el.yello.presentation.main.profile.info.ProfileFragment.Companion.TYP
 import com.el.yello.presentation.main.profile.info.ProfileFragment.Companion.TYPE_MIDDLE_SCHOOL
 import com.el.yello.presentation.main.profile.mod.UnivProfileModViewModel.Companion.TEXT_NONE
 import com.example.domain.entity.ProfileModRequestModel
-import com.example.domain.entity.onboarding.GroupHighSchool
 import com.example.domain.entity.onboarding.HighSchoolList
 import com.example.domain.repository.OnboardingRepository
 import com.example.domain.repository.ProfileRepository
@@ -30,8 +29,8 @@ class SchoolProfileModViewModel @Inject constructor(
     private val _getUserDataResult = MutableSharedFlow<Boolean>()
     val getUserDataResult: SharedFlow<Boolean> = _getUserDataResult
 
-    private val _getIsModValidResult = MutableSharedFlow<Boolean>()
-    val getIsModValidResult: SharedFlow<Boolean> = _getIsModValidResult
+    private val _getIsModValidState = MutableStateFlow<UiState<Unit>>(UiState.Empty)
+    val getIsModValidState: StateFlow<UiState<Unit>> = _getIsModValidState
 
     private val _getSchoolListState = MutableStateFlow<UiState<HighSchoolList>>(UiState.Empty)
     val getSchoolListState: StateFlow<UiState<HighSchoolList>> = _getSchoolListState
@@ -106,18 +105,24 @@ class SchoolProfileModViewModel @Inject constructor(
 
     fun getIsModValidFromServer() {
         viewModelScope.launch {
+            _getIsModValidState.value = UiState.Loading
             profileRepository.getModValidData()
                 .onSuccess {
                     if (it == null) {
-                        _getIsModValidResult.emit(false)
+                        _getIsModValidState.value = UiState.Empty
                         return@launch
                     }
                     val splitValue = it.value.split("|")
                     isModAvailable = splitValue[0].toBoolean()
-                    lastModDate.value = splitValue[1].replace("-", ".")
+                    if (splitValue[1] != "null") {
+                        lastModDate.value = splitValue[1].replace("-", ".")
+                        _getIsModValidState.value = UiState.Success(Unit)
+                    } else {
+                        _getIsModValidState.value = UiState.Empty
+                    }
                 }
                 .onFailure {
-                    _getIsModValidResult.emit(false)
+                    _getIsModValidState.value = UiState.Failure(it.message.orEmpty())
                 }
         }
     }

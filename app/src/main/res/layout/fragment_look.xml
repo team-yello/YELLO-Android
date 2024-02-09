@@ -166,7 +166,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_layout_title">
+            app:layout_constraintTop_toBottomOf="@id/layout_look_list_info"
+            tools:visibility="visible">
 
             <ImageView
                 android:id="@+id/iv_look_no_friend"

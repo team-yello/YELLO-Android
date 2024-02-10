@@ -192,7 +192,7 @@ class MyYelloReadActivity :
         }
 
         binding.clZeroInitialCheck.setOnSingleClickListener {
-            AmplitudeUtils.trackEventWithProperties("click_open_firstletter")
+            AmplitudeUtils.trackEventWithProperties(EVENT_CLICK_OPEN_FIRST_LETTER)
             PointUseDialog.newInstance(
                 true,
                 PointEnum.SUBSCRIBE.ordinal,
@@ -274,6 +274,11 @@ class MyYelloReadActivity :
         }
         binding.tvNameCheckFinish.isVisible = yello.nameHint == -2 || yello.nameHint == -3
 
+        if (yello.senderName == SENDER_YELLO_TEAM) {
+            binding.btnSendCheck.isVisible = true
+            binding.tvNameCheckFinish.isVisible = false
+        }
+
         trackAmplitudeEvent()
     }
 
@@ -353,10 +358,11 @@ class MyYelloReadActivity :
         private const val EVENT_CLICK_GO_SHOP = "click_go_shop"
         private const val EVENT_CLICK_OPEN_FULL_NAME = "click_open_fullname"
         private const val EVENT_CLICK_INSTAGRAM = "click_instagram"
+        private const val EVENT_CLICK_OPEN_FIRST_LETTER = "click_open_firstletter"
 
         private const val NAME_SUBSCRIPTION_TYPE = "subscription type"
         private const val NAME_SHOP_BUTTON = "shop_button"
-        private const val NAME_INSTA_VIEW = "click_instagram"
+        private const val NAME_INSTA_VIEW = "insta_view"
 
         private const val VALUE_SUB_NO = "sub_no"
         private const val VALUE_SUB_YES = "sub_yes"
@@ -380,6 +386,8 @@ class MyYelloReadActivity :
         private const val TYPE_IMAGE_JPEG = "image/jpeg"
 
         private const val URI_INSTAGRAM_DOWNLOAD = "market://details?id=com.instagram.android"
+
+        private const val SENDER_YELLO_TEAM = "옐로팀"
 
         @JvmStatic
         fun getIntent(

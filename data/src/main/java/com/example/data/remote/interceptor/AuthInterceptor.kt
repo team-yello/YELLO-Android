@@ -14,7 +14,7 @@ import okhttp3.Response
 import timber.log.Timber
 import javax.inject.Inject
 
-class 나AuthInterceptor @Inject constructor(
+class AuthInterceptor @Inject constructor(
     private val json: Json,
     private val dataStore: YelloDataStore,
     @ApplicationContext private val context: Context,

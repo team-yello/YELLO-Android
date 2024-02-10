@@ -140,6 +140,9 @@
     <string name="my_yello_click_me">CLICK ME</string>
     <string name="my_yello_get_banner_failure">배너 정보 불러오기에 실패했습니다.</string>
 
+    <string name="my_yello_read_open_first_letter_with_300_points">300포인트로 초성 1개 확인하기</string>
+    <string name="my_yello_read_open_keyword_with_100_points">100포인트로 키워드 확인하기</string>
+
     <string name="point_description">투표 포인트 적립!</string>
     <string name="point_sub_description">투표로 포인트를 모아 쪽지를 열어보세요.</string>
     <string name="point_plus">+</string>
@@ -408,10 +411,11 @@
     <string name="event_reward_description">최대 200P</string>
     <string name="event_subtitle">평일 12~14시 최대 1회까지 참여 가능</string>
     <string name="event_reward_image">이벤트 보상 이미지</string>
+    <string name="event_get_event_failure">이벤트 불러오기에 실패했습니다.</string>
+
     <string name="reward_title">열람권 1개를 얻었어요!</string>
     <string name="reward_subtitle">다음 점심 시간에 또 만나요!</string>
     <string name="reward_confirm">확인</string>
-    <string name="event_get_event_failure">이벤트 불러오기에 실패했습니다.</string>
 
     <string-array name="quit_reasons">
         <item>앱에 아는 사람들이 없어서</item>

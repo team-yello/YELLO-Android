@@ -223,9 +223,9 @@ class MyYelloReadActivity :
     }
 
     private fun setViewInstagram(isInstagram: Boolean) {
-        binding.clInstagramView.isVisible = isInstagram
-        binding.clTopView.isVisible = !isInstagram
-        binding.clBottomView.isVisible = !isInstagram
+        binding.clInstagramView.visibility = if (isInstagram) View.VISIBLE else View.INVISIBLE
+        binding.clTopView.visibility = if (isInstagram) View.INVISIBLE else View.VISIBLE
+        binding.clBottomView.visibility = if(isInstagram) View.INVISIBLE else View.VISIBLE
     }
 
     private fun setData(yello: YelloDetail) {

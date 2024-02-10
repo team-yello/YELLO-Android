@@ -22,6 +22,7 @@ import com.el.yello.presentation.main.yello.wait.YelloWaitFragment
 import com.el.yello.util.context.yelloSnackbar
 import com.example.ui.base.BindingFragment
 import com.example.ui.fragment.toast
+import com.example.ui.restart.restartApp
 import com.example.ui.view.UiState.Empty
 import com.example.ui.view.UiState.Failure
 import com.example.ui.view.UiState.Loading
@@ -73,14 +74,6 @@ class YelloFragment : BindingFragment<FragmentYelloBinding>(R.layout.fragment_ye
         requireActivity().supportFragmentManager.commit {
             replace<T>(R.id.fcv_yello, T::class.java.canonicalName)
         }
-    }
-
-    private fun restartApp(context: Context) {
-        val packageManager = context.packageManager
-        val packageName = context.packageName
-        val componentName = packageManager.getLaunchIntentForPackage(packageName)?.component
-        context.startActivity(Intent.makeRestartActivityTask(componentName))
-        Runtime.getRuntime().exit(0)
     }
 
     private fun checkStoredVote() {

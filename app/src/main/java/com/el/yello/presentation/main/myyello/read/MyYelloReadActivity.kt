@@ -26,9 +26,11 @@ import com.example.domain.entity.YelloDetail
 import com.example.domain.enum.PointEnum
 import com.example.ui.base.BindingActivity
 import com.example.ui.context.toast
+import com.example.ui.fragment.toast
 import com.example.ui.intent.boolExtra
 import com.example.ui.intent.intExtra
 import com.example.ui.intent.longExtra
+import com.example.ui.restart.restartApp
 import com.example.ui.view.UiState
 import com.example.ui.view.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
@@ -214,7 +216,8 @@ class MyYelloReadActivity :
                     }
 
                     is UiState.Failure -> {
-                        toast(it.msg)
+                        toast(getString(R.string.msg_auto_login_error))
+                        restartApp(this)
                     }
 
                     else -> return@onEach

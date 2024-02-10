@@ -15,6 +15,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import retrofit2.HttpException
 import javax.inject.Inject
 
 @HiltViewModel
@@ -89,9 +90,11 @@ class MyYelloReadViewModel @Inject constructor(
                     myPoint = it.currentPoint
                     yelloDetail = it
                     _yelloDetailData.value = UiState.Success(it)
-                    AmplitudeUtils.updateUserIntProperties("user_point", it.currentPoint)
-                }.onFailure {
-                    _yelloDetailData.value = UiState.Failure("옐로 상세보기 서버 통신 실패")
+                    AmplitudeUtils.updateUserIntProperties(NAME_USER_POINT, it.currentPoint)
+                }.onFailure { t ->
+                    if (t is HttpException) {
+                        _yelloDetailData.value = UiState.Failure(t.code().toString())
+                    }
                 }
         }
     }
@@ -144,5 +147,9 @@ class MyYelloReadViewModel @Inject constructor(
                     _fullNameData.value = UiState.Failure("열람권 사용하기 서버 통신 실패")
                 }
         }
+    }
+
+    companion object {
+        private const val NAME_USER_POINT = "user_point"
     }
 }

@@ -1,10 +1,10 @@
 package com.el.yello.presentation.onboarding.fragment.yelloid
 
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.View
+import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.findNavController
 import com.el.yello.R
 import com.el.yello.databinding.FragmentYelloIdBinding
@@ -16,18 +16,22 @@ import com.example.ui.base.BindingFragment
 import com.example.ui.fragment.colorOf
 import com.example.ui.view.UiState
 import com.example.ui.view.setOnSingleClickListener
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import org.json.JSONObject
 
 class YelIoIdFragment : BindingFragment<FragmentYelloIdBinding>(R.layout.fragment_yello_id) {
     private val viewModel by activityViewModels<OnBoardingViewModel>()
-
+    private var searchJob: Job? = null
+    private val debounceTime = 300L
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.vm = viewModel
         setDeleteBtnClickListener()
         setYelloIdBtnClickListener()
-        setYelloIdEditTextChangeListener()
         observeGetValidYelloIdState()
+        observeEditTextForValidId()
     }
 
     private fun setYelloIdBtnClickListener() {
@@ -45,14 +49,14 @@ class YelIoIdFragment : BindingFragment<FragmentYelloIdBinding>(R.layout.fragmen
         }
     }
 
-    private fun setYelloIdEditTextChangeListener() {
-        binding.etId.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(s: Editable?) {
-                viewModel.getValidYelloId(s.toString())
+    private fun observeEditTextForValidId() {
+        binding.etId.doAfterTextChanged { input ->
+            searchJob?.cancel()
+            searchJob = viewModel.viewModelScope.launch {
+                delay(debounceTime)
+                input?.toString()?.let { viewModel.getValidYelloId(it) }
             }
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-        })
+        }
     }
 
     private fun observeGetValidYelloIdState() {
@@ -60,7 +64,9 @@ class YelIoIdFragment : BindingFragment<FragmentYelloIdBinding>(R.layout.fragmen
             when (state) {
                 is UiState.Success -> {
                     if (state.data) {
-                        initIdEditTextViewError()
+                        if (viewModel.idText.value.toString().isNotBlank()) {
+                            initIdEditTextViewError()
+                        }
                         return@observe
                     }
                     viewModel.resetGetValidYelloId()
@@ -84,6 +90,9 @@ class YelIoIdFragment : BindingFragment<FragmentYelloIdBinding>(R.layout.fragmen
             tvIdErrorFirst.setTextColor(colorOf(R.color.semantic_red_500))
             tvIdErrorSecond.visibility = View.INVISIBLE
             tvIdErrorThird.visibility = View.INVISIBLE
+            btnYelloIdNext.setBackgroundResource(R.drawable.shape_grayscales_800_fill_100_rect)
+            btnYelloIdNext.setTextColor(colorOf(R.color.grayscales_700))
+            btnYelloIdNext.isEnabled = false
         }
     }
 

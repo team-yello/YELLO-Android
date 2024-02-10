@@ -3,7 +3,9 @@ package com.el.yello.presentation.onboarding.fragment.code
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.viewModelScope
 import com.el.yello.R
 import com.el.yello.databinding.FragmentCodeBinding
 import com.el.yello.presentation.onboarding.OnBoardingViewModel
@@ -15,10 +17,15 @@ import com.example.ui.base.BindingFragment
 import com.example.ui.fragment.colorOf
 import com.example.ui.view.UiState
 import com.example.ui.view.setOnSingleClickListener
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import org.json.JSONObject
 
 class CodeFragment : BindingFragment<FragmentCodeBinding>(R.layout.fragment_code) {
     private val viewModel by activityViewModels<OnBoardingViewModel>()
+    private var searchJob: Job? = null
+    private val debounceTime = 300L
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -28,6 +35,7 @@ class CodeFragment : BindingFragment<FragmentCodeBinding>(R.layout.fragment_code
         observeGetValidYelloIdState()
         setCodeBtnCLickListener()
         setDeleteCodeBtnClickListener()
+        observeEditTextForValidCode()
     }
 
     override fun onResume() {
@@ -37,12 +45,25 @@ class CodeFragment : BindingFragment<FragmentCodeBinding>(R.layout.fragment_code
 
     private fun setCodeBtnCLickListener() {
         binding.btnCodeSkip.setOnSingleClickListener {
-            viewModel.postSignup()
             amplitudeCodeSkipInfo()
+            viewModel.postSignup()
         }
         binding.btnCodeNext.setOnSingleClickListener {
-            viewModel.getValidYelloId(viewModel.codeText.value.toString())
             amplitudeCodeNextInfo()
+            viewModel.postSignup()
+        }
+    }
+
+    private fun observeEditTextForValidCode() {
+        binding.etCode.doAfterTextChanged { input ->
+            searchJob?.cancel()
+            searchJob = viewModel.viewModelScope.launch {
+                delay(debounceTime)
+                input?.toString()?.let {
+                    viewModel.getValidYelloId(it)
+                    binding.btnCodeNext.isEnabled = true
+                }
+            }
         }
     }
 
@@ -54,7 +75,6 @@ class CodeFragment : BindingFragment<FragmentCodeBinding>(R.layout.fragment_code
                         initIdEditTextViewError()
                         return@observe
                     }
-                    viewModel.postSignup()
                 }
 
                 is UiState.Failure -> {
@@ -100,6 +120,9 @@ class CodeFragment : BindingFragment<FragmentCodeBinding>(R.layout.fragment_code
             ivCodeDelete.setBackgroundResource(R.drawable.ic_onboarding_delete_red)
             tvCodeWarning.text = getString(R.string.onboarding_code_duplicate_msg)
             tvCodeWarning.setTextColor(colorOf(R.color.semantic_red_500))
+            btnCodeNext.setBackgroundResource(R.drawable.shape_grayscales_800_fill_100_rect)
+            btnCodeNext.setTextColor(colorOf(R.color.grayscales_700))
+            btnCodeNext.isEnabled = false
         }
     }
 

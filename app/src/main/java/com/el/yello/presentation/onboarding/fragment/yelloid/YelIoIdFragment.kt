@@ -54,7 +54,10 @@ class YelIoIdFragment : BindingFragment<FragmentYelloIdBinding>(R.layout.fragmen
             searchJob?.cancel()
             searchJob = viewModel.viewModelScope.launch {
                 delay(debounceTime)
-                input?.toString()?.let { viewModel.getValidYelloId(it) }
+                input?.toString()?.let {
+                    viewModel.getValidYelloId(it)
+                    binding.btnYelloIdNext.isEnabled = true
+                }
             }
         }
     }

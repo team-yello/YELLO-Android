@@ -79,36 +79,37 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/iv_profile_mod_alert" />
 
-        <TextView
-            android:id="@+id/tv_profile_mod_last_date_title"
-            style="@style/TextAppearance.Yello.LabelMedium"
+        <LinearLayout
+            android:id="@+id/layout_profile_mod_last_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:gravity="center"
+            android:orientation="horizontal"
             android:paddingVertical="2dp"
-            android:text="@string/profile_mod_tv_date_title"
-            android:textColor="@color/grayscales_400"
-            app:layout_constraintEnd_toStartOf="@id/tv_profile_mod_last_date"
-            app:layout_constraintHorizontal_chainStyle="packed"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_profile_mod_alert" />
-
-        <TextView
-            android:id="@+id/tv_profile_mod_last_date"
-            style="@style/TextAppearance.Yello.LabelMedium"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:gravity="center"
-            android:paddingVertical="2dp"
-            android:text="@={vm.lastModDate}"
-            android:textColor="@color/grayscales_400"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_chainStyle="packed"
-            app:layout_constraintStart_toEndOf="@id/tv_profile_mod_last_date_title"
-            app:layout_constraintTop_toBottomOf="@id/tv_profile_mod_alert"
-            tools:text="2023.12.26." />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_profile_mod_alert">
+
+            <TextView
+                android:id="@+id/tv_profile_mod_last_date_title"
+                style="@style/TextAppearance.Yello.LabelMedium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/profile_mod_tv_date_title"
+                android:textColor="@color/grayscales_400" />
+
+            <TextView
+                android:id="@+id/tv_profile_mod_last_date"
+                style="@style/TextAppearance.Yello.LabelMedium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="2dp"
+                android:text="@={vm.lastModDate}"
+                android:textColor="@color/grayscales_400"
+                tools:text="2023.12.26." />
+
+        </LinearLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layout_profile_mod_school"
@@ -121,7 +122,7 @@
             android:paddingVertical="12dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_profile_mod_last_date">
+            app:layout_constraintTop_toBottomOf="@id/layout_profile_mod_last_date">
 
             <TextView
                 android:id="@+id/tv_profile_mod_school_title"

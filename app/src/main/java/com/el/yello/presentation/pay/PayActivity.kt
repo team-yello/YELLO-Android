@@ -79,7 +79,7 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
         binding.clNameCheckOne.setOnSingleClickListener { startPurchase(TYPE_ONE, YELLO_ONE) }
         binding.clNameCheckTwo.setOnSingleClickListener { startPurchase(TYPE_TWO, YELLO_TWO) }
         binding.clNameCheckFive.setOnSingleClickListener { startPurchase(TYPE_FIVE, YELLO_FIVE) }
-        binding.ivBack.setOnSingleClickListener { finish() }
+        binding.btnBack.setOnSingleClickListener { finish() }
     }
 
     private fun startPurchase(amplitude: String, productId: String) {
@@ -179,6 +179,8 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
                         binding.layoutShowSubs.visibility = View.INVISIBLE
                     }
                     viewModel.setTicketCount(state.data?.ticketCount ?: 0)
+                    binding.tvKeyAmount.text = state.data?.ticketCount.toString()
+                    // TODO: 포인트 개수 설정
                 }
 
                 is UiState.Failure -> {

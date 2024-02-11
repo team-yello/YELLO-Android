@@ -12,15 +12,107 @@
         android:layout_height="match_parent"
         android:background="@color/black">
 
-        <ImageView
-            android:id="@+id/iv_back"
-            android:layout_width="wrap_content"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_pay_toolbar"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:paddingVertical="12dp"
-            android:src="@drawable/ic_arrow_left"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/btn_back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:padding="12dp"
+                android:src="@drawable/ic_arrow_left"
+                app:layout_constraintBottom_toBottomOf="@id/tv_profile_manage_title"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/tv_profile_manage_title" />
+
+            <TextView
+                android:id="@+id/tv_pay_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="-4dp"
+                android:layout_marginTop="1dp"
+                android:paddingVertical="15dp"
+                android:text="@string/profile_btn_shop"
+                android:textAppearance="?textAppearanceSubtitle1"
+                android:textColor="@color/white"
+                app:layout_constraintStart_toEndOf="@id/btn_back"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <LinearLayout
+                android:id="@+id/layout_point_amount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/shape_grayscales900_fill_22_rect"
+                android:orientation="horizontal"
+                android:paddingHorizontal="10dp"
+                android:paddingVertical="6dp"
+                android:layout_marginEnd="16dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:id="@+id/iv_point"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:layout_gravity="center"
+                    android:layout_marginEnd="2dp"
+                    android:src="@drawable/ic_yello_start_point" />
+
+                <TextView
+                    android:id="@+id/tv_point_amount"
+                    android:gravity="center"
+                    style="@style/TextAppearance.Yello.BodySmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="2dp"
+                    android:paddingVertical="3dp"
+                    android:textColor="@color/white"
+                    tools:text="333" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_key_amount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/shape_grayscales900_fill_22_rect"
+                android:orientation="horizontal"
+                android:paddingHorizontal="10dp"
+                android:paddingVertical="6dp"
+                android:layout_marginEnd="4dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/layout_point_amount"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:id="@+id/iv_key"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:layout_gravity="center"
+                    android:layout_marginEnd="2dp"
+                    android:src="@drawable/ic_key_1" />
+
+                <TextView
+                    android:id="@+id/tv_key_amount"
+                    android:gravity="center"
+                    style="@style/TextAppearance.Yello.BodySmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="2dp"
+                    android:paddingVertical="3dp"
+                    android:textColor="@color/white"
+                    tools:text="333" />
+
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <ScrollView
             android:layout_width="match_parent"
@@ -29,7 +121,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/iv_back">
+            app:layout_constraintTop_toBottomOf="@id/layout_pay_toolbar">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -165,11 +257,11 @@
                     android:layout_marginVertical="9dp"
                     android:drawableStart="@drawable/ic_purple_star"
                     android:drawablePadding="4dp"
+                    android:paddingHorizontal="10dp"
                     android:paddingVertical="7dp"
                     android:text="@string/pay_is_subs"
                     android:textAppearance="@style/TextAppearance.Yello.BodySmall"
                     android:textColor="@color/grayscales_100"
-                    android:paddingHorizontal="10dp"
                     android:visibility="gone"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"

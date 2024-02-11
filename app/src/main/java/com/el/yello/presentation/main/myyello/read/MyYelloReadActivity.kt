@@ -343,9 +343,9 @@ class MyYelloReadActivity :
 
     companion object {
         private const val EXTRA_ID = "id"
-        const val EXTRA_NAME_INDEX = "NAME_INDEX"
-        const val EXTRA_IS_HINT_USED = "IS_HINT_USED"
-        const val EXTRA_TICKET_COUNT = "ticketCount"
+        const val EXTRA_NAME_INDEX = "nameIndex"
+        const val EXTRA_IS_HINT_USED = "isHintUsed"
+        const val EXTRA_TICKET_COUNT = "TICKET_COUNT"
 
         private const val TAG_POINT_USE_DIALOG = "POINT_USE_DIALOG"
         private const val TAG_READING_TICKET_USE_DIALOG = "READING_TICKET_USE_DIALOG"

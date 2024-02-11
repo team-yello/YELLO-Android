@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -20,41 +21,6 @@
             android:src="@drawable/ic_arrow_left"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/layout_show_subs"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_marginVertical="9dp"
-            android:layout_marginEnd="16dp"
-            android:background="@drawable/shape_grayscales900_fill_8_rect"
-            android:paddingHorizontal="10dp"
-            android:visibility="gone"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <TextView
-                android:id="@+id/tv_pay_subs_check"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingVertical="7dp"
-                android:text="@string/pay_is_subs"
-                android:textAppearance="?textAppearanceBodySmall"
-                android:textColor="@color/grayscales_100"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="4dp"
-                android:src="@drawable/ic_purple_star"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/tv_pay_subs_check"
-                app:layout_constraintTop_toTopOf="parent" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <ScrollView
             android:layout_width="match_parent"
@@ -106,7 +72,7 @@
                     app:layout_constraintTop_toBottomOf="@id/vp_banner" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/cl_subscribe"
+                    android:id="@+id/layout_subscribe"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="16dp"
@@ -189,8 +155,26 @@
                     android:layout_marginStart="10dp"
                     android:layout_marginTop="-8dp"
                     android:src="@drawable/ic_special"
-                    app:layout_constraintStart_toStartOf="@id/cl_subscribe"
-                    app:layout_constraintTop_toTopOf="@id/cl_subscribe" />
+                    app:layout_constraintStart_toStartOf="@id/layout_subscribe"
+                    app:layout_constraintTop_toTopOf="@id/layout_subscribe" />
+
+                <com.el.yello.presentation.util.GradientStrokeButton
+                    android:id="@+id/layout_show_subs"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="9dp"
+                    android:drawableStart="@drawable/ic_purple_star"
+                    android:drawablePadding="4dp"
+                    android:paddingVertical="7dp"
+                    android:text="@string/pay_is_subs"
+                    android:textAppearance="@style/TextAppearance.Yello.BodySmall"
+                    android:textColor="@color/grayscales_100"
+                    android:paddingHorizontal="10dp"
+                    android:visibility="gone"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/layout_subscribe"
+                    tools:visibility="visible" />
 
                 <TextView
                     android:id="@+id/tv_yello_discount"
@@ -203,7 +187,7 @@
                     android:textAppearance="@style/TextAppearance.Yello.Headline03"
                     android:textColor="@color/yello_main_500"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/cl_subscribe" />
+                    app:layout_constraintTop_toBottomOf="@id/layout_show_subs" />
 
                 <TextView
                     android:id="@+id/tv_yello_know"
@@ -511,8 +495,8 @@
                     android:id="@+id/cl_btn_guide"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    app:layout_constraintEnd_toEndOf="parent"
                     android:layout_marginTop="14dp"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tv_pay_guide_2">
 
@@ -520,35 +504,35 @@
                         android:id="@+id/divider_guide"
                         android:layout_width="1dp"
                         android:layout_height="0dp"
-                        app:layout_constraintTop_toTopOf="parent"
+                        android:layout_marginVertical="14dp"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        android:layout_marginVertical="14dp"/>
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
                         android:id="@+id/btn_pay_guide_service"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/pay_btn_guide_service"
                         android:padding="12dp"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:text="@string/pay_btn_guide_service"
                         android:textAppearance="@style/TextAppearance.Yello.LabelMedium"
                         android:textColor="@color/white"
-                        app:layout_constraintEnd_toStartOf="@id/divider_guide"/>
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/divider_guide"
+                        app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
                         android:id="@+id/btn_pay_guide_privacy"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/pay_btn_guide_privacy"
                         android:padding="12dp"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:text="@string/pay_btn_guide_privacy"
                         android:textAppearance="@style/TextAppearance.Yello.LabelMedium"
                         android:textColor="@color/white"
-                        app:layout_constraintStart_toEndOf="@id/divider_guide"/>
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/divider_guide"
+                        app:layout_constraintTop_toTopOf="parent" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 

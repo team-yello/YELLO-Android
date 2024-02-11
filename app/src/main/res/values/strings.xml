@@ -338,8 +338,8 @@
     <string name="pay_dialog_in_app_title_5">열람권 5개를 얻었어요!</string>
 
     <string name="pay_title">옐로플러스의 특별한 혜택은?</string>
-    <string name="pay_is_subs">옐로플러스 구독중</string>
-    <string name="pay_subtitle">쪽지 보낸 사람을 알고 싶다면?</string>
+    <string name="pay_is_subs">구독 중</string>
+    <string name="pay_subtitle">쪽지를 열고 싶다면?</string>
     <string name="pay_discount">SALE!</string>
 
     <string name="pay_banner_item_1">이름 열람권 매주 3회</string>

@@ -139,6 +139,7 @@
     <string name="my_yello_banner_icon">내 쪽지 배너 아이콘</string>
     <string name="my_yello_click_me">CLICK ME</string>
     <string name="my_yello_get_banner_failure">배너 정보 불러오기에 실패했습니다.</string>
+    <string name="my_yello_send_open_click">무슨 쪽지가 궁금한가요?</string>
 
     <string name="my_yello_read_open_first_letter_with_300_points">300포인트로 초성 1개 확인하기</string>
     <string name="my_yello_read_open_keyword_with_100_points">100포인트로 키워드 확인하기</string>

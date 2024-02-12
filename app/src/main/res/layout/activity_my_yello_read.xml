@@ -314,12 +314,12 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/btn_instagram"
-                android:paddingVertical="10dp"
-                android:paddingHorizontal="20dp"
-                android:background="@drawable/shape_white59_fill_100_rect"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
+                android:background="@drawable/shape_white59_fill_100_rect"
+                android:paddingHorizontal="20dp"
+                android:paddingVertical="10dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_chainStyle="packed"
                 app:layout_constraintStart_toStartOf="parent"
@@ -418,7 +418,8 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.60" />
+                app:layout_constraintVertical_bias="0.60"
+                tools:visibility="visible" />
 
             <com.el.yello.presentation.util.YelloAnimationButton
                 android:id="@+id/btn_send_check"

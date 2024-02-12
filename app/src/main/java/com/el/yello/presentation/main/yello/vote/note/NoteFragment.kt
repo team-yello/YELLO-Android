@@ -32,7 +32,6 @@ class NoteFragment : BindingFragment<FragmentNoteBinding>(R.layout.fragment_note
     }
 
     companion object {
-        // TODO : 자주 사용되는 상수들 파일로 빼기
         private const val ARGS_NOTE_INDEX = "NOTE_INDEX"
 
         @JvmStatic

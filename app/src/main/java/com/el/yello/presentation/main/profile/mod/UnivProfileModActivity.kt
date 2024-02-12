@@ -1,6 +1,7 @@
 package com.el.yello.presentation.main.profile.mod
 
 import android.os.Bundle
+import android.view.View
 import androidx.activity.viewModels
 import androidx.core.view.isVisible
 import androidx.lifecycle.flowWithLifecycle
@@ -12,6 +13,7 @@ import com.example.ui.activity.navigateTo
 import com.example.ui.base.BindingActivity
 import com.example.ui.context.drawableOf
 import com.example.ui.context.toast
+import com.example.ui.view.UiState
 import com.example.ui.view.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
@@ -102,8 +104,20 @@ class UnivProfileModActivity :
     }
 
     private fun observeGetIsModValidResult() {
-        viewModel.getIsModValidResult.flowWithLifecycle(lifecycle).onEach { result ->
-            if (!result) toast(getString(R.string.msg_error))
+        viewModel.getIsModValidState.flowWithLifecycle(lifecycle).onEach { state ->
+            when (state) {
+                is UiState.Success -> {
+                    binding.tvProfileModLastDateTitle.visibility = View.VISIBLE
+                }
+
+                is UiState.Empty -> {
+                    binding.tvProfileModLastDateTitle.visibility = View.INVISIBLE
+                }
+
+                is UiState.Failure -> toast(getString(R.string.msg_error))
+
+                is UiState.Loading -> return@onEach
+            }
         }.launchIn(lifecycleScope)
     }
 

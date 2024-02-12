@@ -60,7 +60,7 @@
                 android:paddingVertical="15dp"
                 android:textAppearance="?textAppearanceBodySmall"
                 android:textColor="@color/white"
-                android:textColorHint="@color/grayscales_300"
+                android:textColorHint="@color/grayscales_500"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/btn_recommend_search_box"
                 app:layout_constraintStart_toStartOf="parent"

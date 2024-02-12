@@ -1,11 +1,8 @@
 package com.el.yello.presentation.event
 
 import android.animation.Animator
-import android.content.Context
 import android.os.Bundle
 import android.os.VibrationEffect
-import android.os.Vibrator
-import android.os.VibratorManager
 import android.view.View
 import androidx.activity.viewModels
 import com.el.yello.R
@@ -69,7 +66,7 @@ class EventActivity : BindingActivity<ActivityEventBinding>(R.layout.activity_ev
                 val vib = getVibrator()
                 vib.vibrate(
                     VibrationEffect.createOneShot(
-                        500,
+                        DURATION_EVENT_VIBRATE,
                         VibrationEffect.DEFAULT_AMPLITUDE
                     )
                 )
@@ -104,5 +101,6 @@ class EventActivity : BindingActivity<ActivityEventBinding>(R.layout.activity_ev
 
     companion object {
         private const val TAG_DIALOG_REWARD = "DIALOG_REWARD"
+        private const val DURATION_EVENT_VIBRATE = 500L
     }
 }

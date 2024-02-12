@@ -22,7 +22,6 @@ class EditNameActivity :
     BindingActivity<ActivityNameEditBinding>(R.layout.activity_name_edit) {
 
     private val viewModel by viewModels<OnBoardingViewModel>()
-
     private var backPressedTime: Long = 0
 
     private val onBackPressedCallback = object : OnBackPressedCallback(true) {

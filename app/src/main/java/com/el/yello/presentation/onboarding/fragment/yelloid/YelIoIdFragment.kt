@@ -29,12 +29,12 @@ class YelIoIdFragment : BindingFragment<FragmentYelloIdBinding>(R.layout.fragmen
         super.onViewCreated(view, savedInstanceState)
         binding.vm = viewModel
         setDeleteBtnClickListener()
-        setYelloIdBtnClickListener()
+        setConfirmBtnClickListener()
         observeGetValidYelloIdState()
         observeEditTextForValidId()
     }
 
-    private fun setYelloIdBtnClickListener() {
+    private fun setConfirmBtnClickListener() {
         binding.btnYelloIdNext.setOnSingleClickListener {
             findNavController().navigate(R.id.action_yelIoIdFragment_to_addFriendFragment)
             val activity = requireActivity() as OnBoardingActivity

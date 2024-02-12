@@ -50,22 +50,6 @@ class SearchDialogDepartmentFragment :
         setListWithInfinityScroll()
     }
 
-    private fun initDepartmentDialogView() {
-        setHideKeyboard()
-        binding.etDepartmentSearch.doAfterTextChanged { it ->
-            searchJob?.cancel()
-            searchJob = viewModel.viewModelScope.launch {
-                delay(debounceTime)
-                it?.toString()?.let { viewModel.getUniversityGroupId(it) }
-            }
-        }
-        adapter = DepartmentAdapter(storeDepartment = ::storeUniversityGroup)
-        binding.rvDepartmentList.adapter = adapter
-        binding.btnBackDialog.setOnSingleClickListener {
-            dismiss()
-        }
-    }
-
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialog = BottomSheetDialog(requireContext(), theme)
         dialog.setOnShowListener {
@@ -81,6 +65,21 @@ class SearchDialogDepartmentFragment :
         return dialog
     }
 
+    private fun initDepartmentDialogView() {
+        setHideKeyboard()
+        binding.etDepartmentSearch.doAfterTextChanged { it ->
+            searchJob?.cancel()
+            searchJob = viewModel.viewModelScope.launch {
+                delay(debounceTime)
+                it?.toString()?.let { viewModel.getUniversityGroupId(it) }
+            }
+        }
+        adapter = DepartmentAdapter(storeDepartment = ::storeUniversityGroup)
+        binding.rvDepartmentList.adapter = adapter
+        binding.btnBackDialog.setOnSingleClickListener {
+            dismiss()
+        }
+    }
     private fun setupDepartmentData() {
         viewModel.departmentState.flowWithLifecycle(viewLifecycleOwner.lifecycle)
             .onEach { state ->

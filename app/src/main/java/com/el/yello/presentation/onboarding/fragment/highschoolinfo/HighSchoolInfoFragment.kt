@@ -6,8 +6,8 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.el.yello.R
 import com.el.yello.databinding.FragmentHighschoolBinding
-import com.el.yello.presentation.onboarding.activity.OnBoardingActivity
 import com.el.yello.presentation.onboarding.OnBoardingViewModel
+import com.el.yello.presentation.onboarding.activity.OnBoardingActivity
 import com.el.yello.presentation.onboarding.fragment.highschoolinfo.group.GroupDialogFragment
 import com.el.yello.presentation.onboarding.fragment.highschoolinfo.school.SearchDialogHighSchoolFragment
 import com.el.yello.util.amplitude.AmplitudeUtils
@@ -26,13 +26,13 @@ class HighSchoolInfoFragment :
         super.onViewCreated(view, savedInstanceState)
         binding.vm = viewModel
         with(binding) {
-            firstGrade = Grade.A.toInt()
-            secondGrade = Grade.B.toInt()
-            thirdGrade = Grade.C.toInt()
+            first = Grade.First.toInt()
+            second = Grade.Second.toInt()
+            third = Grade.Third.toInt()
         }
         setupHighSchool()
         setupGrade()
-        setupHighSchoolGroup()
+        setupGroup()
         initSearchInfoBtnClickListener()
         setConfirmBtnClickListener()
     }
@@ -50,7 +50,10 @@ class HighSchoolInfoFragment :
             if (binding.tvHighschoolSearch.text.isNotBlank()) {
                 GroupDialogFragment().show(parentFragmentManager, this.tag)
             } else {
-                yelloSnackbar(binding.root.rootView, "학교와 학년을 선택해야 반을 선택할 수 있어요!")
+                yelloSnackbar(
+                    binding.root.rootView,
+                    getString(R.string.onboarding_group_select_warning),
+                )
             }
         }
     }
@@ -64,22 +67,22 @@ class HighSchoolInfoFragment :
     private fun setupGrade() {
         viewModel.studentIdText.observe(viewLifecycleOwner) { grade ->
             when (grade) {
-                Grade.A.toInt() -> {
+                Grade.First.toInt() -> {
                     changeFirstGradeBtn()
                 }
 
-                Grade.B.toInt() -> {
+                Grade.Second.toInt() -> {
                     changeSecondGradeBtn()
                 }
 
-                Grade.C.toInt() -> {
+                Grade.Third.toInt() -> {
                     changeThirdGradeBtn()
                 }
             }
         }
     }
 
-    private fun setupHighSchoolGroup() {
+    private fun setupGroup() {
         viewModel.highSchoolGroupText.observe(viewLifecycleOwner) { group ->
             binding.tvGroupSearch.text = getString(R.string.onboarding_group, group)
         }

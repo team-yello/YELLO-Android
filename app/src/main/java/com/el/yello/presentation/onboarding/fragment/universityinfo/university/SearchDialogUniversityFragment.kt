@@ -48,22 +48,6 @@ class SearchDialogUniversityFragment :
         recyclerviewScroll()
     }
 
-    private fun initUniversityDialogView() {
-        setHideKeyboard()
-        binding.etSchoolSearch.doAfterTextChanged { input ->
-            searchJob?.cancel()
-            searchJob = viewModel.viewModelScope.launch {
-                delay(debounceTime)
-                input?.toString()?.let { viewModel.getUniversityList(it) }
-            }
-        }
-        adapter = UniversityAdapter(storeUniversity = ::storeUniversity)
-        binding.rvSchoolList.adapter = adapter
-        binding.btnBackDialog.setOnSingleClickListener {
-            dismiss()
-        }
-    }
-
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialog = BottomSheetDialog(requireContext(), theme)
         dialog.setOnShowListener {
@@ -79,6 +63,21 @@ class SearchDialogUniversityFragment :
         return dialog
     }
 
+    private fun initUniversityDialogView() {
+        setHideKeyboard()
+        binding.etSchoolSearch.doAfterTextChanged { input ->
+            searchJob?.cancel()
+            searchJob = viewModel.viewModelScope.launch {
+                delay(debounceTime)
+                input?.toString()?.let { viewModel.getUniversityList(it) }
+            }
+        }
+        adapter = UniversityAdapter(storeUniversity = ::storeUniversity)
+        binding.rvSchoolList.adapter = adapter
+        binding.btnBackDialog.setOnSingleClickListener {
+            dismiss()
+        }
+    }
     private fun setupUniversityData() {
         viewModel.universityState.flowWithLifecycle(viewLifecycleOwner.lifecycle)
             .onEach { state ->
@@ -162,7 +161,6 @@ class SearchDialogUniversityFragment :
     companion object {
         @JvmStatic
         fun newInstance() = SearchDialogUniversityFragment()
-
         const val SCHOOL_FORM_URL = "https://bit.ly/46Yv0Hc"
     }
 }

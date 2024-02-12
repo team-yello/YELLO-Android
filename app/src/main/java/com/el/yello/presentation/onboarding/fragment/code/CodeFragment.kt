@@ -31,11 +31,11 @@ class CodeFragment : BindingFragment<FragmentCodeBinding>(R.layout.fragment_code
         super.onViewCreated(view, savedInstanceState)
 
         binding.vm = viewModel
-        observePostSignupState()
         observeGetValidYelloIdState()
-        setCodeBtnCLickListener()
-        setDeleteCodeBtnClickListener()
         observeEditTextForValidCode()
+        setDeleteCodeBtnClickListener()
+        observePostSignupState()
+        setConfirmBtnCLickListener()
     }
 
     override fun onResume() {
@@ -43,7 +43,7 @@ class CodeFragment : BindingFragment<FragmentCodeBinding>(R.layout.fragment_code
         (activity as? OnBoardingActivity)?.hideBackBtn()
     }
 
-    private fun setCodeBtnCLickListener() {
+    private fun setConfirmBtnCLickListener() {
         binding.btnCodeSkip.setOnSingleClickListener {
             amplitudeCodeSkipInfo()
             viewModel.postSignup()
@@ -76,13 +76,10 @@ class CodeFragment : BindingFragment<FragmentCodeBinding>(R.layout.fragment_code
                         return@observe
                     }
                 }
-
                 is UiState.Failure -> {
                     yelloSnackbar(binding.root, getString(R.string.msg_error))
                 }
-
                 is UiState.Loading -> {}
-
                 is UiState.Empty -> {
                     yelloSnackbar(binding.root, getString(R.string.msg_error))
                 }

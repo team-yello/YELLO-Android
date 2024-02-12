@@ -94,8 +94,8 @@ class UnivModSearchBottomSheet :
     }
 
     private fun storeDepartment(department: String, groupId: Long) {
-        if (viewModel.groupId != groupId) {
-            viewModel.groupId = groupId
+        if (viewModel.myUserData.groupId != groupId) {
+            viewModel.myUserData.groupId  = groupId
             viewModel.subGroup.value = department
             viewModel.isChanged = true
             (activity as UnivProfileModActivity).checkIsTextNone()

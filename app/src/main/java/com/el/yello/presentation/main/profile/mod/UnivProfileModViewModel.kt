@@ -28,8 +28,8 @@ class UnivProfileModViewModel @Inject constructor(
     private val _getUserDataResult = MutableSharedFlow<Boolean>()
     val getUserDataResult: SharedFlow<Boolean> = _getUserDataResult
 
-    private val _getIsModValidResult = MutableSharedFlow<Boolean>()
-    val getIsModValidResult: SharedFlow<Boolean> = _getIsModValidResult
+    private val _getIsModValidState = MutableStateFlow<UiState<Unit>>(UiState.Empty)
+    val getIsModValidState: StateFlow<UiState<Unit>> = _getIsModValidState
 
     private val _postToModProfileResult = MutableSharedFlow<Boolean>()
     val postToModProfileResult: SharedFlow<Boolean> = _postToModProfileResult
@@ -44,12 +44,11 @@ class UnivProfileModViewModel @Inject constructor(
     val school = MutableLiveData("")
     val subGroup = MutableLiveData("")
     val admYear = MutableLiveData("")
-    var groupId: Long = 0
 
     var isModAvailable = true
     var isChanged = false
 
-    private lateinit var myUserData: ProfileModRequestModel
+    lateinit var myUserData: ProfileModRequestModel
 
     val studentIdList = listOf(24, 23, 22, 21, 20, 19, 18, 17, 16, 15)
 
@@ -104,18 +103,24 @@ class UnivProfileModViewModel @Inject constructor(
 
     fun getIsModValidFromServer() {
         viewModelScope.launch {
+            _getIsModValidState.value = UiState.Loading
             profileRepository.getModValidData()
                 .onSuccess {
                     if (it == null) {
-                        _getIsModValidResult.emit(false)
+                        _getIsModValidState.value = UiState.Empty
                         return@launch
                     }
                     val splitValue = it.value.split("|")
                     isModAvailable = splitValue[0].toBoolean()
-                    lastModDate.value = splitValue[1].replace("-", ".")
+                    if (splitValue[1] != "null") {
+                        lastModDate.value = splitValue[1].replace("-", ".")
+                        _getIsModValidState.value = UiState.Success(Unit)
+                    } else {
+                        _getIsModValidState.value = UiState.Empty
+                    }
                 }
                 .onFailure {
-                    _getIsModValidResult.emit(false)
+                    _getIsModValidState.value = UiState.Failure(it.message.orEmpty())
                 }
         }
     }
@@ -126,7 +131,6 @@ class UnivProfileModViewModel @Inject constructor(
                 _postToModProfileResult.emit(false)
                 return@launch
             }
-            myUserData.groupId = groupId
             myUserData.groupAdmissionYear = admYear.value?.toInt() ?: return@launch
 
             profileRepository.postToModUserData(myUserData)

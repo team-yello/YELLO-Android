@@ -30,12 +30,15 @@ object Utils {
 
     fun ImageView.setImageOrBasicThumbnail(thumbnail: String) {
         this.apply {
-            if (thumbnail == URL_BASIC_THUMBNAIL) load(R.drawable.img_yello_basic)
-            else loadUrlWithCircleCrop(thumbnail)
+            if (thumbnail == URL_BASIC_THUMBNAIL) {
+                load(R.drawable.img_yello_basic)
+            } else {
+                loadUrlWithCircleCrop(thumbnail)
+            }
         }
     }
 
     private const val URL_BASIC_THUMBNAIL =
-        "https://k.kakaocdn.net/dn/dpk9l1/btqmGhA2lKL/Oz0wDuJn1YV2DIn92f6DVK/img_640x640.jpg"
+        "https://k.kakaocdn.net/dn/1G9kp/btsAot8liOn/8CWudi3uy07rvFNUkk3ER0/img_640x640.jpg"
 
 }

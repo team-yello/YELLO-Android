@@ -2,6 +2,7 @@ package com.el.yello.presentation.onboarding.fragment.code
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.activityViewModels
@@ -46,6 +47,9 @@ class CodeFragment : BindingFragment<FragmentCodeBinding>(R.layout.fragment_code
     private fun setConfirmBtnCLickListener() {
         binding.btnCodeSkip.setOnSingleClickListener {
             amplitudeCodeSkipInfo()
+            if (viewModel.getValidYelloIdState.value is UiState.Success && !(viewModel.getValidYelloIdState.value as UiState.Success).data) {
+                viewModel.codeText.value = ""
+            }
             viewModel.postSignup()
         }
         binding.btnCodeNext.setOnSingleClickListener {

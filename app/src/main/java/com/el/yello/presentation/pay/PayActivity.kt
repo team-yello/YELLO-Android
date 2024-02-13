@@ -170,7 +170,7 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
     }
 
     private fun observePurchaseInfoState() {
-        viewModel.getPurchaseInfoState.flowWithLifecycle(lifecycle).onEach { state ->
+        viewModel.getUserInfoState.flowWithLifecycle(lifecycle).onEach { state ->
             when (state) {
                 is UiState.Success -> {
                     if (state.data?.isSubscribe == true) {

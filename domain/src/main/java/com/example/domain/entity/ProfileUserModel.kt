@@ -15,7 +15,9 @@ data class ProfileUserModel(
     val groupType: String,
     val groupName: String,
     val subGroupName: String,
-    val groupAdmissionYear: Int
+    val groupAdmissionYear: Int,
+    val subscribe: String,
+    val ticketCount: Int
 ) {
-    constructor() : this(0, "", "","","", "", "", 0, 0, 0, 0,"", "", "", 0)
+    constructor() : this(0, "", "","","", "", "", 0, 0, 0, 0,"", "", "", 0,"",0)
 }

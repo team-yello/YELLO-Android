@@ -3,10 +3,11 @@ package com.el.yello.presentation.pay
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.domain.entity.PayInAppModel
-import com.example.domain.entity.PayInfoModel
 import com.example.domain.entity.PayRequestModel
 import com.example.domain.entity.PaySubsModel
+import com.example.domain.entity.ProfileUserModel
 import com.example.domain.repository.PayRepository
+import com.example.domain.repository.ProfileRepository
 import com.example.ui.view.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -17,6 +18,7 @@ import javax.inject.Inject
 @HiltViewModel
 class PayViewModel @Inject constructor(
     private val payRepository: PayRepository,
+    private val profileRepository: ProfileRepository
 ) : ViewModel() {
 
     var currentInAppItem = String()
@@ -27,8 +29,8 @@ class PayViewModel @Inject constructor(
     private val _postInAppCheckState = MutableStateFlow<UiState<PayInAppModel?>>(UiState.Empty)
     val postInAppCheckState: StateFlow<UiState<PayInAppModel?>> = _postInAppCheckState
 
-    private val _getPurchaseInfoState = MutableStateFlow<UiState<PayInfoModel?>>(UiState.Empty)
-    val getPurchaseInfoState: StateFlow<UiState<PayInfoModel?>> = _getPurchaseInfoState
+    private val _getUserInfoState = MutableStateFlow<UiState<ProfileUserModel?>>(UiState.Empty)
+    val getUserInfoState: StateFlow<UiState<ProfileUserModel?>> = _getUserInfoState
 
     var ticketCount = 0
         private set
@@ -67,16 +69,21 @@ class PayViewModel @Inject constructor(
         }
     }
 
-    fun getPurchaseInfoFromServer() {
+    fun getUserDataFromServer() {
         viewModelScope.launch {
-            payRepository.getPurchaseInfo()
-                .onSuccess {
-                    it ?: return@launch
-                    _getPurchaseInfoState.value = UiState.Success(it)
+            _getUserInfoState.value = UiState.Loading
+            profileRepository.getUserData()
+                .onSuccess { info ->
+                    if (info == null) {
+                        _getUserInfoState.value = UiState.Empty
+                    } else {
+                        _getUserInfoState.value = UiState.Success(info)
+                    }
                 }
-                .onFailure {
-                    _getPurchaseInfoState.value = UiState.Failure(it.message.toString())
+                .onFailure { t ->
+                    _getUserInfoState.value = UiState.Failure(t.message.orEmpty())
                 }
         }
     }
+
 }

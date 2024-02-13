@@ -366,6 +366,7 @@
                         android:background="@color/purple_sub_800"
                         android:fontFamily="@font/font_pretendard_medium"
                         android:paddingHorizontal="6dp"
+                        android:rotation="-3"
                         android:paddingVertical="3dp"
                         android:text="@string/pay_in_app_discount"
                         android:textColor="@color/white"
@@ -451,6 +452,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="5dp"
                         android:layout_marginTop="7dp"
+                        android:rotation="-3"
                         android:background="@color/purple_sub_800"
                         android:fontFamily="@font/font_pretendard_medium"
                         android:paddingHorizontal="6dp"
@@ -543,6 +545,7 @@
                         android:background="@color/purple_sub_800"
                         android:fontFamily="@font/font_pretendard_medium"
                         android:paddingHorizontal="6dp"
+                        android:rotation="-3"
                         android:paddingVertical="3dp"
                         android:text="@string/pay_in_app_discount"
                         android:textColor="@color/white"
@@ -601,13 +604,13 @@
                         android:id="@+id/tv_vote_reward"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:fontFamily="@font/font_pretendard_medium"
                         android:text="@string/pay_tv_vote_for_point_reward"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        android:textSize="15dp"
                         android:textColor="@color/white"
-                        android:fontFamily="@font/font_pretendard_medium"/>
+                        android:textSize="15dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -638,15 +641,15 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"
-                        android:paddingVertical="3dp"
                         android:fontFamily="@font/font_pretendard_bold"
+                        android:paddingVertical="3dp"
                         android:text="@string/pay_tv_ad_for_point"
                         android:textColor="@color/purple_sub_100"
                         android:textSize="16dp"
                         app:layout_constraintBottom_toTopOf="@id/tv_ad_time"
-                        app:layout_constraintVertical_chainStyle="packed"
                         app:layout_constraintStart_toEndOf="@id/iv_ad_coin"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_chainStyle="packed" />
 
                     <TextView
                         android:id="@+id/tv_ad_time"
@@ -660,19 +663,19 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toEndOf="@id/iv_ad_coin"
                         app:layout_constraintTop_toBottomOf="@id/tv_ad_title"
-                        app:layout_constraintVertical_chainStyle="packed"/>
+                        app:layout_constraintVertical_chainStyle="packed" />
 
                     <TextView
                         android:id="@+id/tv_ad_reward"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:fontFamily="@font/font_pretendard_medium"
                         android:text="@string/pay_ad_vote_for_point_reward"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        android:textSize="15dp"
                         android:textColor="@color/white"
-                        android:fontFamily="@font/font_pretendard_medium"/>
+                        android:textSize="15dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 

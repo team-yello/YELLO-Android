@@ -29,8 +29,18 @@ class SelectStudentFragment :
 
     override fun onResume() {
         super.onResume()
-        (activity as? OnBoardingActivity)?.hideBackBtn()
+        callParentActivity {
+            hideBackBtn()
+        }
     }
+
+    private fun callParentActivity(callback: OnBoardingActivity.() -> Unit) {
+        val activity = requireActivity()
+        if (activity is OnBoardingActivity) {
+            activity.callback()
+        }
+    }
+
     private fun setupStudentType() {
         viewModel.studentType.observe(viewLifecycleOwner) { studentType ->
             when (studentType) {

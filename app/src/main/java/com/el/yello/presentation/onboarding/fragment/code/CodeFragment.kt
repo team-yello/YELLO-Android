@@ -39,7 +39,16 @@ class CodeFragment : BindingFragment<FragmentCodeBinding>(R.layout.fragment_code
 
     override fun onResume() {
         super.onResume()
-        (activity as? OnBoardingActivity)?.hideBackBtn()
+        callParentActivity {
+            hideBackBtn()
+        }
+    }
+
+    private fun callParentActivity(callback: OnBoardingActivity.() -> Unit) {
+        val activity = requireActivity()
+        if (activity is OnBoardingActivity) {
+            activity.callback()
+        }
     }
 
     private fun setConfirmBtnCLickListener() {

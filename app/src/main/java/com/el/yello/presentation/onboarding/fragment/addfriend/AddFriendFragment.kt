@@ -49,7 +49,16 @@ class AddFriendFragment : BindingFragment<FragmentAddFriendBinding>(R.layout.fra
 
     override fun onResume() {
         super.onResume()
-        (activity as? OnBoardingActivity)?.showBackBtn()
+        callParentActivity {
+            showBackBtn()
+        }
+    }
+
+    private fun callParentActivity(callback: OnBoardingActivity.() -> Unit) {
+        val activity = requireActivity()
+        if (activity is OnBoardingActivity) {
+            activity.callback()
+        }
     }
 
     private fun initFriendAdapter() {

@@ -29,7 +29,6 @@ import com.el.yello.util.context.yelloSnackbar
 import com.example.domain.entity.event.Event
 import com.example.domain.enum.SubscribeType.CANCELED
 import com.example.ui.base.BindingActivity
-import com.example.ui.context.toast
 import com.example.ui.intent.stringExtra
 import com.example.ui.view.UiState.Empty
 import com.example.ui.view.UiState.Failure
@@ -223,7 +222,7 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
 
                     is Failure -> yelloSnackbar(
                         binding.root,
-                        getString(R.string.error_msg),
+                        getString(R.string.internet_connection_error_msg),
                     )
                 }
             }.launchIn(lifecycleScope)
@@ -235,7 +234,7 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
                 when (state) {
                     is Empty -> yelloSnackbar(
                         binding.root,
-                        getString(R.string.error_msg),
+                        getString(R.string.internet_connection_error_msg),
                     )
 
                     is Loading -> return@onEach

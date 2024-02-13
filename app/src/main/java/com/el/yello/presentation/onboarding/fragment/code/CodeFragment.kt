@@ -58,13 +58,13 @@ class CodeFragment : BindingFragment<FragmentCodeBinding>(R.layout.fragment_code
                 }
 
                 is UiState.Failure -> {
-                    yelloSnackbar(binding.root, getString(R.string.error_msg))
+                    yelloSnackbar(binding.root, getString(R.string.internet_connection_error_msg))
                 }
 
                 is UiState.Loading -> {}
 
                 is UiState.Empty -> {
-                    yelloSnackbar(binding.root, getString(R.string.error_msg))
+                    yelloSnackbar(binding.root, getString(R.string.internet_connection_error_msg))
                 }
             }
         }
@@ -80,7 +80,7 @@ class CodeFragment : BindingFragment<FragmentCodeBinding>(R.layout.fragment_code
                     (activity as? OnBoardingActivity)?.endTutorialActivity()
                 }
                 is UiState.Failure -> {
-                    yelloSnackbar(binding.root, getString(R.string.error_msg))
+                    yelloSnackbar(binding.root, getString(R.string.internet_connection_error_msg))
                 }
                 is UiState.Loading -> {}
                 is UiState.Empty -> {}

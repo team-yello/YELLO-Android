@@ -100,7 +100,7 @@ class UnivProfileModActivity :
 
     private fun observeGetUserDataResult() {
         viewModel.getUserDataResult.flowWithLifecycle(lifecycle).onEach { result ->
-            if (!result) yelloSnackbar(binding.root, getString(R.string.error_msg))
+            if (!result) yelloSnackbar(binding.root, getString(R.string.internet_connection_error_msg))
         }.launchIn(lifecycleScope)
     }
 
@@ -115,7 +115,7 @@ class UnivProfileModActivity :
                     binding.tvProfileModLastDateTitle.visibility = View.INVISIBLE
                 }
 
-                is UiState.Failure -> yelloSnackbar(binding.root, getString(R.string.error_msg))
+                is UiState.Failure -> yelloSnackbar(binding.root, getString(R.string.internet_connection_error_msg))
 
                 is UiState.Loading -> return@onEach
             }
@@ -128,7 +128,7 @@ class UnivProfileModActivity :
                 toast(getString(R.string.profile_mod_success))
                 finish()
             } else {
-                toast(getString(R.string.error_msg))
+                toast(getString(R.string.internet_connection_error_msg))
             }
             viewModel.resetStateVariables()
         }.launchIn(lifecycleScope)

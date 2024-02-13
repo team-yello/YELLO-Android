@@ -54,11 +54,11 @@ class YelIoIdFragment : BindingFragment<FragmentYelloIdBinding>(R.layout.fragmen
                     activity.progressBarPlus()
                 }
                 is UiState.Failure -> {
-                    yelloSnackbar(binding.root, getString(R.string.error_msg))
+                    yelloSnackbar(binding.root, getString(R.string.internet_connection_error_msg))
                 }
                 is UiState.Loading -> {}
                 is UiState.Empty -> {
-                    yelloSnackbar(binding.root, getString(R.string.error_msg))
+                    yelloSnackbar(binding.root, getString(R.string.internet_connection_error_msg))
                 }
             }
         }

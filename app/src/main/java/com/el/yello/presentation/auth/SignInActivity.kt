@@ -17,7 +17,6 @@ import com.el.yello.presentation.tutorial.TutorialAActivity
 import com.el.yello.util.amplitude.AmplitudeUtils
 import com.el.yello.util.context.yelloSnackbar
 import com.example.ui.base.BindingActivity
-import com.example.ui.context.toast
 import com.example.ui.view.UiState
 import com.example.ui.view.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
@@ -71,7 +70,7 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
 
     private fun observeKakaoUserInfoResult() {
         viewModel.getKakaoInfoResult.flowWithLifecycle(lifecycle).onEach { result ->
-            if (!result) yelloSnackbar(binding.root, getString(R.string.error_msg))
+            if (!result) yelloSnackbar(binding.root, getString(R.string.internet_connection_error_msg))
         }.launchIn(lifecycleScope)
     }
 
@@ -88,7 +87,7 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
                     }
                 }
 
-                is UiState.Failure -> yelloSnackbar(binding.root, getString(R.string.error_msg))
+                is UiState.Failure -> yelloSnackbar(binding.root, getString(R.string.internet_connection_error_msg))
 
                 is UiState.Empty -> return@onEach
 
@@ -113,7 +112,7 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
                     }
                 }
 
-                is UiState.Failure -> yelloSnackbar(binding.root, getString(R.string.error_msg))
+                is UiState.Failure -> yelloSnackbar(binding.root, getString(R.string.internet_connection_error_msg))
 
                 is UiState.Empty -> return@onEach
 

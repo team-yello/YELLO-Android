@@ -6,7 +6,6 @@ import com.example.data.model.response.event.ResponseGetEventDto
 import com.example.domain.entity.event.Event
 import com.example.domain.entity.event.EventResult
 import com.example.domain.repository.EventRepository
-import timber.log.Timber
 import java.util.UUID
 import javax.inject.Inject
 
@@ -21,11 +20,11 @@ class EventRepositoryImpl @Inject constructor(
         this?.onEach { eventDto ->
             with(eventDto) {
                 if (tag == TAG_LUNCH_EVENT && eventReward != null) {
-                    Timber.d("JSONTEST : ${this.animationList}")
                     return Event(
                         isAvailable = true,
                         title = title,
                         subTitle = subTitle,
+                        animationUrlList = animationList,
                         rewardList = eventReward.eventRewardItem.map { rewardItemDto ->
                             rewardItemDto.toReward()
                         },
@@ -35,6 +34,7 @@ class EventRepositoryImpl @Inject constructor(
         }
         return Event(
             isAvailable = false,
+            animationUrlList = emptyList()
         )
     }
 

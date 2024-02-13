@@ -42,6 +42,8 @@ class EventActivity : BindingActivity<ActivityEventBinding>(R.layout.activity_ev
         with(event) {
             binding.tvEventTitle.text = title
             binding.tvEventSubtitle.text = subTitle
+            binding.lottieEventDefault.setAnimationFromUrl(defaultLottieUrl)
+            binding.lottieEventOpen.setAnimationFromUrl(openLottieUrl)
 
             initEventLottieClickListener()
         }

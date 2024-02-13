@@ -7,4 +7,6 @@ import kotlinx.parcelize.Parcelize
 data class ParcelableEvent(
     val title: String,
     val subTitle: String,
+    val defaultLottieUrl: String,
+    val openLottieUrl: String,
 ) : Parcelable

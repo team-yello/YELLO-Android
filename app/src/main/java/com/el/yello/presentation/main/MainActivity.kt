@@ -311,6 +311,8 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
     private fun Event.toParcelableEvent() = ParcelableEvent(
         title = title,
         subTitle = subTitle,
+        defaultLottieUrl = animationUrlList[0],
+        openLottieUrl = animationUrlList[1]
     )
 
     private fun Event.Reward.toParcelableReward() = ParcelableReward(

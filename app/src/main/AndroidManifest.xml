@@ -84,12 +84,12 @@
         </activity>
         <activity
             android:name=".presentation.onboarding.activity.EditNameActivity"
-            android:exported="true"
+            android:exported="false"
             android:windowSoftInputMode="adjustResize"
             android:screenOrientation="portrait" />
         <activity
             android:name=".presentation.onboarding.activity.OnBoardingActivity"
-            android:exported="true"
+            android:exported="false"
             android:windowSoftInputMode="adjustResize"
             android:screenOrientation="portrait" />
         <activity
@@ -98,27 +98,27 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".presentation.tutorial.TutorialAActivity"
-            android:exported="true"
+            android:exported="false"
             android:screenOrientation="portrait" />
         <activity
             android:name=".presentation.tutorial.TutorialBActivity"
-            android:exported="true"
+            android:exported="false"
             android:screenOrientation="portrait" />
         <activity
             android:name=".presentation.tutorial.TutorialCActivity"
-            android:exported="true"
+            android:exported="false"
             android:screenOrientation="portrait" />
         <activity
             android:name=".presentation.tutorial.TutorialDActivity"
-            android:exported="true"
+            android:exported="false"
             android:screenOrientation="portrait" />
         <activity
             android:name=".presentation.tutorial.TutorialEndActivity"
-            android:exported="true"
+            android:exported="false"
             android:screenOrientation="portrait" />
         <activity
             android:name=".presentation.tutorial.TutorialEndPlusActivity"
-            android:exported="true"
+            android:exported="false"
             android:screenOrientation="portrait" />
         <activity
             android:name=".presentation.main.MainActivity"

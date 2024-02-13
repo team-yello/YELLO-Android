@@ -22,6 +22,8 @@
         <item name="textAppearanceLabelSmall">@style/TextAppearance.Yello.LabelSmall</item>
         <item name="textAppearanceButton">@style/TextAppearance.Yello.Button</item>
         <item name="bottomSheetDialogTheme">@style/AppBottomSheetDialogTheme</item>
+
+        <item name="android:windowBackground">@color/black</item>
     </style>
 
     <style name="Theme.YELLO" parent="Base.Theme.YELLO" />

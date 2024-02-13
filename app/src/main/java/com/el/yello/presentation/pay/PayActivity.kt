@@ -20,6 +20,7 @@ import com.el.yello.presentation.main.MainActivity
 import com.el.yello.presentation.main.profile.manage.ProfileManageActivity
 import com.el.yello.util.amplitude.AmplitudeUtils
 import com.example.data.model.request.pay.toRequestPayModel
+import com.example.ui.activity.navigateTo
 import com.example.ui.base.BindingActivity
 import com.example.ui.context.toast
 import com.example.ui.view.UiState
@@ -97,10 +98,7 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
 
     private fun initVoteBtnListener() {
         binding.layoutVoteForPoint.setOnSingleClickListener {
-            Intent(this, MainActivity::class.java).apply {
-                addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
-                startActivity(this)
-            }
+            navigateTo<MainActivity>()
             finish()
         }
     }

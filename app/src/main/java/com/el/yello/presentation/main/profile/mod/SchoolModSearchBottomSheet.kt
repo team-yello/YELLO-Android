@@ -127,7 +127,7 @@ class SchoolModSearchBottomSheet :
             when (state) {
                 is UiState.Success -> adapter.addList(state.data.groupNameList)
 
-                is UiState.Failure -> toast(getString(R.string.recommend_search_error))
+                is UiState.Failure -> toast(getString(R.string.internet_connection_error_msg))
 
                 is UiState.Loading -> return@onEach
 

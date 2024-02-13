@@ -14,8 +14,6 @@ import com.el.yello.util.Utils.setImageOrBasicThumbnail
 import com.el.yello.util.context.yelloSnackbar
 import com.example.ui.activity.navigateTo
 import com.example.ui.base.BindingActivity
-import com.example.ui.context.snackBar
-import com.example.ui.context.toast
 import com.example.ui.view.UiState
 import com.example.ui.view.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
@@ -85,7 +83,7 @@ class ProfileDetailActivity :
                 }
 
                 is UiState.Failure -> {
-                    yelloSnackbar(binding.root, getString(R.string.profile_error_user_data))
+                    yelloSnackbar(binding.root, getString(R.string.internet_connection_error_msg))
                 }
 
                 is UiState.Empty -> return@onEach

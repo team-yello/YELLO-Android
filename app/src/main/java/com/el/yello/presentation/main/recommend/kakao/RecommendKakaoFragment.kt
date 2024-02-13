@@ -166,7 +166,7 @@ class RecommendKakaoFragment :
     private fun observeKakaoError() {
         viewModel.getKakaoErrorResult.flowWithLifecycle(lifecycle).onEach { result ->
             if (result) {
-                yelloSnackbar(requireView(), getString(R.string.recommend_error_friends_list))
+                yelloSnackbar(requireView(), getString(R.string.internet_connection_error_msg))
                 showShimmerView(isLoading = true, hasList = true)
             }
         }.launchIn(lifecycleScope)
@@ -189,7 +189,7 @@ class RecommendKakaoFragment :
                     showShimmerView(isLoading = true, hasList = true)
                     yelloSnackbar(
                         requireView(),
-                        getString(R.string.recommend_error_friend_connection),
+                        getString(R.string.internet_connection_error_msg),
                     )
                 }
 
@@ -216,7 +216,7 @@ class RecommendKakaoFragment :
                 is UiState.Failure -> {
                     yelloSnackbar(
                         requireView(),
-                        getString(R.string.recommend_error_add_friend_connection),
+                        getString(R.string.internet_connection_error_msg),
                     )
                     activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
                 }
@@ -247,7 +247,7 @@ class RecommendKakaoFragment :
                 }
 
                 is UiState.Failure -> {
-                    yelloSnackbar(requireView(), getString(R.string.profile_error_user_data))
+                    yelloSnackbar(requireView(), getString(R.string.internet_connection_error_msg))
                 }
 
                 is UiState.Empty -> return@onEach

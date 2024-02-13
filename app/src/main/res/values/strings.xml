@@ -5,11 +5,10 @@
     <string name="to_string">%s</string>
     <string name="dummy">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</string>
 
-    <string name="get_info_failure_msg">정보 불러오기에 실패했습니다.</string>
     <string name="token_expire_error_msg">로그인 상태를 확인해주세요!</string>
+    <string name="internet_connection_error_msg">인터넷 연결을 확인해주세요!</string>
     <string name="adapter_not_initialized_error_msg">Adapter is not initialized</string>
     <string name="manager_not_initialized_error_msg">Billing Manager is not initialized</string>
-    <string name="internet_connection_error_msg">인터넷 연결을 확인해주세요!</string>
 
     <string name="splash_title">지금 누군가 당신을 생각하고 있어요!</string>
 
@@ -28,7 +27,6 @@
     <string name="main_my_yello">내 쪽지</string>
     <string name="main_profile">프로필</string>
     <string name="main_toast_back_pressed">버튼을 한번 더 누르면 종료됩니다.</string>
-    <string name="main_get_notice_failure">공지 조회에 실패했습니다.</string>
 
     <string name="onboarding_tv_search_department">학과 검색하기</string>
     <string name="onboarding_btn_add_department"><u>찾는 과가 없다면 클릭하세요!</u></string>
@@ -117,7 +115,6 @@
     <string name="my_yello_story_share">스토리 공유</string>
     <string name="my_yello_banner_icon">내 쪽지 배너 아이콘</string>
     <string name="my_yello_click_me">CLICK ME</string>
-    <string name="my_yello_get_banner_failure">배너 정보 불러오기에 실패했습니다.</string>
     <string name="my_yello_send_open_click">무슨 쪽지가 궁금한가요?</string>
 
     <string name="my_yello_read_open_first_letter_with_300_points">300포인트로 초성 1개 확인하기</string>
@@ -140,18 +137,11 @@
     <string name="note_msg_invalid_shuffle">이름을 선택하면 셔플을 사용할 수 없어요.</string>
 
     <string name="look_title">타임라인</string>
-    <string name="look_error_friend_list">타임라인 불러오기에 실패했습니다.</string>
     <string name="look_invite_no_title">친구들이 받은 쪽지가 궁금하다면\n친구를 초대해볼까요?</string>
     <string name="look_tv_info">쪽지를 보낸 사람의 이름은 공개되지 않아요.</string>
     <string name="look_tv_filter_basic">모든 쪽지</string>
 
     <string name="view_type_error_msg">Unknown View Type : %d</string>
-
-    <string name="profile_error_user_data">유저 정보 불러오기에 실패했습니다.</string>
-    <string name="profile_error_friend_list">친구 목록 불러오기에 실패했습니다.</string>
-    <string name="profile_error_delete_friend">친구 삭제하기에 실패했습니다.</string>
-    <string name="profile_error_unlink">회원 탈퇴하기에 실패했습니다.</string>
-    <string name="profile_error_unlink_kakao">카카오 연동 끊기에 실패했습니다.</string>
 
     <string name="profile_detail_tv_title">프로필 정보</string>
     <string name="profile_detail_btn_kakao_change">카카오톡 동기화</string>
@@ -182,11 +172,6 @@
 
     <string name="invite_error_kakao">카카오톡 공유하기에 실패했습니다.</string>
     <string name="invite_error_browser">사용 가능한 브라우저가 없습니다.</string>
-
-    <string name="recommend_error_friends_list">카카오 친구 목록 불러오기에 실패했습니다.</string>
-    <string name="recommend_error_friend_connection">카카오 추천친구 목록 불러오기에 실패했습니다.</string>
-    <string name="recommend_error_school_friend_connection">학교 추천친구 목록 불러오기에 실패했습니다.</string>
-    <string name="recommend_error_add_friend_connection">친구 추가하기에 실패했습니다.</string>
 
     <string name="profile_manage_tv_title">설정</string>
     <string name="profile_manage_tv_center">고객센터</string>
@@ -261,7 +246,6 @@
 
     <string name="recommend_search_title">친구 검색</string>
     <string name="recommend_search_hint">| 이름 / 학교 / 아이디로 검색해보세요!</string>
-    <string name="recommend_search_error">검색 결과 불러오기에 실패했습니다.</string>
     <string name="recommend_search_friend">내 친구</string>
 
     <string name="onboarding_highschool_hint">ex. 옐로중/고등학교</string>
@@ -379,7 +363,6 @@
     <string name="event_reward_description">최대 200P</string>
     <string name="event_subtitle">평일 12~14시 최대 1회까지 참여 가능</string>
     <string name="event_reward_image">이벤트 보상 이미지</string>
-    <string name="event_get_event_failure">이벤트 불러오기에 실패했습니다.</string>
 
     <string name="reward_title">열람권 1개를 얻었어요!</string>
     <string name="reward_subtitle">다음 점심 시간에 또 만나요!</string>

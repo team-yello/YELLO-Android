@@ -68,7 +68,7 @@ class ProfileFriendDeleteBottomSheet :
                         this@ProfileFriendDeleteBottomSheet.dismiss()
                     }
 
-                    is UiState.Failure -> toast(getString(R.string.profile_error_delete_friend))
+                    is UiState.Failure -> toast(getString(R.string.internet_connection_error_msg))
 
                     is UiState.Loading -> return@onEach
 

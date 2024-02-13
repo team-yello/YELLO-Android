@@ -184,7 +184,7 @@ class UnivModSearchBottomSheet :
             when (state) {
                 is UiState.Success -> univAdapter.addList(state.data.schoolList)
 
-                is UiState.Failure -> toast(getString(R.string.recommend_search_error))
+                is UiState.Failure -> toast(getString(R.string.internet_connection_error_msg))
 
                 is UiState.Loading -> return@onEach
 
@@ -198,7 +198,7 @@ class UnivModSearchBottomSheet :
             when (state) {
                 is UiState.Success -> groupAdapter.addList(state.data.groupList)
 
-                is UiState.Failure -> toast(getString(R.string.recommend_search_error))
+                is UiState.Failure -> toast(getString(R.string.internet_connection_error_msg))
 
                 is UiState.Loading -> return@onEach
 

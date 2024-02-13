@@ -165,7 +165,7 @@ class MyYelloFragment : BindingFragment<FragmentMyYelloBinding>(R.layout.fragmen
                     }
 
                     is UiState.Empty -> {
-                        yelloSnackbar(binding.root, getString(R.string.my_yello_get_banner_failure))
+                        yelloSnackbar(binding.root, getString(R.string.internet_connection_error_msg))
                     }
 
                     is UiState.Loading -> return@onEach

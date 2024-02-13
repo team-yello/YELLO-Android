@@ -180,7 +180,7 @@ class RecommendSchoolFragment :
                     showShimmerView(isLoading = true, hasList = true)
                     yelloSnackbar(
                         requireView(),
-                        getString(R.string.recommend_error_school_friend_connection),
+                        getString(R.string.internet_connection_error_msg),
                     )
                 }
 
@@ -207,7 +207,7 @@ class RecommendSchoolFragment :
                 is UiState.Failure -> {
                     yelloSnackbar(
                         requireView(),
-                        getString(R.string.recommend_error_add_friend_connection),
+                        getString(R.string.internet_connection_error_msg),
                     )
                     activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
                 }

@@ -249,7 +249,7 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
 
                     is Failure -> yelloSnackbar(
                         binding.root,
-                        getString(R.string.main_get_notice_failure),
+                        getString(R.string.internet_connection_error_msg),
                     )
                 }
             }.launchIn(lifecycleScope)
@@ -299,7 +299,7 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
 
                     is Failure -> yelloSnackbar(
                         binding.root,
-                        getString(R.string.event_get_event_failure),
+                        getString(R.string.internet_connection_error_msg),
                     )
 
                     is Empty -> return@onEach

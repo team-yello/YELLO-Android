@@ -57,7 +57,7 @@ class YelloFragment : BindingFragment<FragmentYelloBinding>(R.layout.fragment_ye
                     is Empty -> {
                         yelloSnackbar(
                             binding.root,
-                            getString(R.string.get_info_failure_msg),
+                            getString(R.string.internet_connection_error_msg),
                         )
                     }
 

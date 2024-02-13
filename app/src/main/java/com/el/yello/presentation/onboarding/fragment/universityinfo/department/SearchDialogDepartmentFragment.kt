@@ -36,7 +36,6 @@ class SearchDialogDepartmentFragment :
     private val viewModel by activityViewModels<OnBoardingViewModel>()
     private var adapter: DepartmentAdapter? = null
     private var inputText: String = ""
-    private val debounceTime = 500L
     private var searchJob: Job? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -70,7 +69,7 @@ class SearchDialogDepartmentFragment :
         binding.etDepartmentSearch.doAfterTextChanged { it ->
             searchJob?.cancel()
             searchJob = viewModel.viewModelScope.launch {
-                delay(debounceTime)
+                delay(Companion.debounceTime)
                 it?.toString()?.let { viewModel.getUniversityGroupId(it) }
             }
         }
@@ -169,5 +168,6 @@ class SearchDialogDepartmentFragment :
         @JvmStatic
         fun newInstance() = SearchDialogDepartmentFragment()
         const val DEPARTMENT_FORM_URL = "https://bit.ly/3pO0ijD"
+        private const val debounceTime = 500L
     }
 }

@@ -35,7 +35,6 @@ class SearchDialogHighSchoolFragment :
     private val viewModel by activityViewModels<OnBoardingViewModel>()
     private var adapter: HighSchoolAdapter? = null
     private var inputText: String = ""
-    private val debounceTime = 500L
     private var searchJob: Job? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -68,7 +67,7 @@ class SearchDialogHighSchoolFragment :
         binding.etHighschoolSearch.doAfterTextChanged { input ->
             searchJob?.cancel()
             searchJob = viewModel.viewModelScope.launch {
-                delay(debounceTime)
+                delay(Companion.debounceTime)
                 input?.toString()?.let { viewModel.getHighSchoolList(it) }
             }
         }
@@ -166,5 +165,6 @@ class SearchDialogHighSchoolFragment :
         @JvmStatic
         fun newInstance() = SearchDialogHighSchoolFragment()
         const val HIGH_SCHOOL_FORM_URL = "https://forms.gle/sMyn6uq7oHDovSdi8"
+        private const val debounceTime = 500L
     }
 }

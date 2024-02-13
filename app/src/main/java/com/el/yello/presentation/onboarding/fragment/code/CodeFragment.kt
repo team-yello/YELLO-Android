@@ -25,7 +25,6 @@ import org.json.JSONObject
 class CodeFragment : BindingFragment<FragmentCodeBinding>(R.layout.fragment_code) {
     private val viewModel by activityViewModels<OnBoardingViewModel>()
     private var searchJob: Job? = null
-    private val debounceTime = 300L
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -170,5 +169,6 @@ class CodeFragment : BindingFragment<FragmentCodeBinding>(R.layout.fragment_code
         private const val VALUE_YES = "yes"
         private const val PROPERTY_USER_NAME = "user_name"
         private const val PROPERTY_USER_SEX = "user_sex"
+        private const val debounceTime = 300L
     }
 }

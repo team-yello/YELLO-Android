@@ -27,9 +27,9 @@
                 android:layout_marginStart="4dp"
                 android:padding="12dp"
                 android:src="@drawable/ic_arrow_left"
-                app:layout_constraintBottom_toBottomOf="@id/tv_profile_manage_title"
+                app:layout_constraintBottom_toBottomOf="@id/tv_pay_title"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@id/tv_profile_manage_title" />
+                app:layout_constraintTop_toTopOf="@id/tv_pay_title" />
 
             <TextView
                 android:id="@+id/tv_pay_title"
@@ -48,11 +48,11 @@
                 android:id="@+id/layout_point_amount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
                 android:background="@drawable/shape_grayscales900_fill_22_rect"
                 android:orientation="horizontal"
                 android:paddingHorizontal="10dp"
                 android:paddingVertical="6dp"
-                android:layout_marginEnd="16dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
@@ -67,13 +67,14 @@
 
                 <TextView
                     android:id="@+id/tv_point_amount"
-                    android:gravity="center"
                     style="@style/TextAppearance.Yello.BodySmall"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="2dp"
+                    android:gravity="center"
                     android:paddingVertical="3dp"
                     android:textColor="@color/white"
+                    android:textSize="14dp"
                     tools:text="333" />
 
             </LinearLayout>
@@ -82,11 +83,11 @@
                 android:id="@+id/layout_key_amount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="4dp"
                 android:background="@drawable/shape_grayscales900_fill_22_rect"
                 android:orientation="horizontal"
                 android:paddingHorizontal="10dp"
                 android:paddingVertical="6dp"
-                android:layout_marginEnd="4dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/layout_point_amount"
                 app:layout_constraintTop_toTopOf="parent">
@@ -101,13 +102,14 @@
 
                 <TextView
                     android:id="@+id/tv_key_amount"
-                    android:gravity="center"
                     style="@style/TextAppearance.Yello.BodySmall"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="2dp"
+                    android:gravity="center"
                     android:paddingVertical="3dp"
                     android:textColor="@color/white"
+                    android:textSize="14dp"
                     tools:text="333" />
 
             </LinearLayout>
@@ -262,6 +264,7 @@
                     android:text="@string/pay_is_subs"
                     android:textAppearance="@style/TextAppearance.Yello.BodySmall"
                     android:textColor="@color/grayscales_100"
+                    android:textSize="14dp"
                     android:visibility="gone"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -294,253 +297,270 @@
                     app:layout_constraintTop_toBottomOf="@id/tv_yello_discount" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/cl_name_check_one"
-                    android:layout_width="match_parent"
+                    android:id="@+id/layout_name_check_one"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="16dp"
-                    android:layout_marginTop="12dp"
+                    android:layout_marginStart="16dp"
+                    app:layout_constraintEnd_toStartOf="@id/layout_name_check_two"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginTop="26dp"
+                    app:layout_constraintHorizontal_chainStyle="packed"
                     android:background="@drawable/shape_black_fill_purple_line_10_rect"
+                    android:paddingBottom="12dp"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tv_yello_know">
 
                     <TextView
                         android:id="@+id/tv_check_one"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginVertical="19dp"
-                        android:layout_marginStart="16dp"
+                        android:layout_marginHorizontal="16dp"
+                        android:layout_marginTop="42dp"
+                        android:fontFamily="@font/font_pretendard_medium"
+                        android:gravity="center"
+                        android:lineSpacingMultiplier="1.2"
                         android:paddingVertical="3dp"
                         android:text="@string/pay_in_app_one_title"
-                        android:textAppearance="@style/TextAppearance.Yello.BodyMedium"
                         android:textColor="@color/grayscales_100"
-                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:textSize="14dp"
+                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <ImageView
-                        android:id="@+id/iv_check_one"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="5dp"
-                        android:src="@drawable/ic_key_1"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toEndOf="@id/tv_check_one"
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
                         android:id="@+id/tv_original_price_one"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="2dp"
-                        android:layout_marginEnd="7dp"
-                        android:ellipsize="end"
-                        android:gravity="end"
-                        android:maxLines="1"
+                        android:fontFamily="@font/font_pretendard_medium"
+                        android:gravity="center"
                         android:paddingVertical="3dp"
                         android:text="@string/pay_in_app_one_original_price"
-                        android:textAppearance="@style/TextAppearance.Yello.Body02"
-                        android:textColor="@color/grayscales_600"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toStartOf="@id/tv_price_one"
-                        app:layout_constraintStart_toEndOf="@id/iv_check_one"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        android:textColor="@color/grayscales_400"
+                        android:textSize="11dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_check_one" />
 
                     <TextView
                         android:id="@+id/tv_price_one"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="12dp"
+                        android:layout_marginTop="20dp"
                         android:background="@drawable/shape_purple_gradient_30dp"
+                        android:fontFamily="@font/font_pretendard_medium"
                         android:paddingHorizontal="18dp"
                         android:paddingVertical="7dp"
                         android:text="@string/pay_in_app_one_price"
-                        android:textAppearance="?textAppearanceBodyLarge"
                         android:textColor="@color/white"
-                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:textSize="16dp"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_original_price_one" />
 
                     <TextView
                         android:id="@+id/tv_discount_one"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/shape_purple_fill_10_left_top_right_bot"
-                        android:paddingStart="7dp"
-                        android:paddingTop="3dp"
-                        android:paddingEnd="5dp"
-                        android:paddingBottom="3dp"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginTop="7dp"
+                        android:background="@color/purple_sub_800"
+                        android:fontFamily="@font/font_pretendard_medium"
+                        android:paddingHorizontal="6dp"
+                        android:paddingVertical="3dp"
                         android:text="@string/pay_in_app_discount"
-                        android:textAppearance="?textAppearanceLabelMedium"
                         android:textColor="@color/white"
+                        android:textSize="11dp"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toBottomOf="@id/tv_original_price_one" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
+                <ImageView
+                    android:id="@+id/iv_key_one"
+                    android:layout_width="0dp"
+                    android:layout_height="42dp"
+                    android:layout_marginTop="16dp"
+                    android:src="@drawable/ic_key_1"
+                    app:layout_constraintEnd_toEndOf="@id/layout_name_check_one"
+                    app:layout_constraintStart_toStartOf="@id/layout_name_check_one"
+                    app:layout_constraintTop_toBottomOf="@id/tv_yello_know" />
+
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/cl_name_check_two"
-                    android:layout_width="match_parent"
+                    android:id="@+id/layout_name_check_two"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="16dp"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginHorizontal="5dp"
+                    app:layout_constraintHorizontal_chainStyle="packed"
+                    android:layout_marginTop="26dp"
+                    app:layout_constraintEnd_toStartOf="@id/layout_name_check_five"
                     android:background="@drawable/shape_black_fill_purple_line_10_rect"
-                    app:layout_constraintTop_toBottomOf="@id/cl_name_check_one">
+                    android:paddingBottom="12dp"
+                    app:layout_constraintStart_toEndOf="@id/layout_name_check_one"
+                    app:layout_constraintTop_toBottomOf="@id/tv_yello_know">
 
                     <TextView
                         android:id="@+id/tv_check_two"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginVertical="19dp"
-                        android:layout_marginStart="16dp"
+                        android:layout_marginHorizontal="16dp"
+                        android:layout_marginTop="42dp"
+                        android:fontFamily="@font/font_pretendard_medium"
+                        android:gravity="center"
+                        android:lineSpacingMultiplier="1.2"
                         android:paddingVertical="3dp"
                         android:text="@string/pay_in_app_two_title"
-                        android:textAppearance="@style/TextAppearance.Yello.BodyMedium"
                         android:textColor="@color/grayscales_100"
-                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:textSize="14dp"
+                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <ImageView
-                        android:id="@+id/iv_check_two"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="5dp"
-                        android:src="@drawable/ic_key_2"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toEndOf="@id/tv_check_two"
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
                         android:id="@+id/tv_original_price_two"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="2dp"
-                        android:layout_marginEnd="7dp"
-                        android:ellipsize="end"
-                        android:gravity="end"
-                        android:maxLines="1"
+                        android:fontFamily="@font/font_pretendard_medium"
+                        android:gravity="center"
                         android:paddingVertical="3dp"
                         android:text="@string/pay_in_app_two_original_price"
-                        android:textAppearance="@style/TextAppearance.Yello.Body02"
-                        android:textColor="@color/grayscales_600"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toStartOf="@id/tv_price_two"
-                        app:layout_constraintStart_toEndOf="@id/iv_check_two"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        android:textColor="@color/grayscales_400"
+                        android:textSize="11dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_check_two" />
 
                     <TextView
                         android:id="@+id/tv_price_two"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="12dp"
+                        android:layout_marginTop="20dp"
                         android:background="@drawable/shape_purple_gradient_30dp"
-                        android:paddingHorizontal="14dp"
+                        android:fontFamily="@font/font_pretendard_medium"
+                        android:paddingHorizontal="18dp"
                         android:paddingVertical="7dp"
                         android:text="@string/pay_in_app_two_price"
-                        android:textAppearance="?textAppearanceBodyLarge"
                         android:textColor="@color/white"
-                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:textSize="16dp"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_original_price_two" />
 
                     <TextView
                         android:id="@+id/tv_discount_two"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/shape_purple_fill_10_left_top_right_bot"
-                        android:paddingStart="7dp"
-                        android:paddingTop="3dp"
-                        android:paddingEnd="5dp"
-                        android:paddingBottom="3dp"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginTop="7dp"
+                        android:background="@color/purple_sub_800"
+                        android:fontFamily="@font/font_pretendard_medium"
+                        android:paddingHorizontal="6dp"
+                        android:paddingVertical="3dp"
                         android:text="@string/pay_in_app_discount"
-                        android:textAppearance="?textAppearanceLabelMedium"
                         android:textColor="@color/white"
+                        android:textSize="11dp"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toBottomOf="@id/tv_original_price_two" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
+                <ImageView
+                    android:id="@+id/iv_key_two"
+                    android:layout_width="0dp"
+                    android:layout_height="42dp"
+                    android:layout_marginTop="16dp"
+                    android:src="@drawable/ic_key_2"
+                    app:layout_constraintEnd_toEndOf="@id/layout_name_check_two"
+                    app:layout_constraintStart_toStartOf="@id/layout_name_check_two"
+                    app:layout_constraintTop_toBottomOf="@id/tv_yello_know" />
+
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/cl_name_check_five"
-                    android:layout_width="match_parent"
+                    android:id="@+id/layout_name_check_five"
+                    app:layout_constraintHorizontal_chainStyle="packed"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="16dp"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="26dp"
                     android:background="@drawable/shape_black_fill_purple_line_10_rect"
-                    app:layout_constraintTop_toBottomOf="@id/cl_name_check_two">
+                    android:paddingBottom="12dp"
+                    app:layout_constraintStart_toEndOf="@id/layout_name_check_two"
+                    app:layout_constraintTop_toBottomOf="@id/tv_yello_know">
 
                     <TextView
                         android:id="@+id/tv_check_five"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginVertical="19dp"
-                        android:layout_marginStart="16dp"
+                        android:layout_marginHorizontal="16dp"
+                        android:layout_marginTop="42dp"
+                        android:fontFamily="@font/font_pretendard_medium"
+                        android:gravity="center"
+                        android:lineSpacingMultiplier="1.2"
                         android:paddingVertical="3dp"
                         android:text="@string/pay_in_app_five_title"
-                        android:textAppearance="@style/TextAppearance.Yello.BodyMedium"
                         android:textColor="@color/grayscales_100"
-                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:textSize="14dp"
+                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <ImageView
-                        android:id="@+id/iv_check_five"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="5dp"
-                        android:src="@drawable/ic_key_5"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toEndOf="@id/tv_check_five"
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
                         android:id="@+id/tv_original_price_five"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="2dp"
-                        android:layout_marginEnd="7dp"
-                        android:ellipsize="end"
-                        android:gravity="end"
-                        android:maxLines="1"
+                        android:fontFamily="@font/font_pretendard_medium"
+                        android:gravity="center"
                         android:paddingVertical="3dp"
                         android:text="@string/pay_in_app_five_original_price"
-                        android:textAppearance="@style/TextAppearance.Yello.Body02"
-                        android:textColor="@color/grayscales_600"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toStartOf="@id/tv_price_five"
-                        app:layout_constraintStart_toEndOf="@id/iv_check_five"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        android:textColor="@color/grayscales_400"
+                        android:textSize="11dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_check_five" />
 
                     <TextView
                         android:id="@+id/tv_price_five"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="12dp"
+                        android:layout_marginTop="20dp"
                         android:background="@drawable/shape_purple_gradient_30dp"
-                        android:paddingHorizontal="13dp"
+                        android:fontFamily="@font/font_pretendard_medium"
+                        android:paddingHorizontal="18dp"
                         android:paddingVertical="7dp"
                         android:text="@string/pay_in_app_five_price"
-                        android:textAppearance="?textAppearanceBodyLarge"
                         android:textColor="@color/white"
-                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:textSize="16dp"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_original_price_five" />
 
                     <TextView
                         android:id="@+id/tv_discount_five"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/shape_purple_fill_10_left_top_right_bot"
-                        android:paddingStart="7dp"
-                        android:paddingTop="3dp"
-                        android:paddingEnd="5dp"
-                        android:paddingBottom="3dp"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginTop="7dp"
+                        android:background="@color/purple_sub_800"
+                        android:fontFamily="@font/font_pretendard_medium"
+                        android:paddingHorizontal="6dp"
+                        android:paddingVertical="3dp"
                         android:text="@string/pay_in_app_discount"
-                        android:textAppearance="?textAppearanceLabelMedium"
                         android:textColor="@color/white"
+                        android:textSize="11dp"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toBottomOf="@id/tv_original_price_five" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <ImageView
+                    android:id="@+id/iv_key_five"
+                    android:layout_width="0dp"
+                    android:layout_height="42dp"
+                    android:layout_marginTop="16dp"
+                    android:src="@drawable/ic_key_5"
+                    app:layout_constraintEnd_toEndOf="@id/layout_name_check_five"
+                    app:layout_constraintStart_toStartOf="@id/layout_name_check_five"
+                    app:layout_constraintTop_toBottomOf="@id/tv_yello_know" />
 
                 <TextView
                     android:id="@+id/tv_pay_guide_title"
@@ -555,7 +575,7 @@
                     android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/cl_name_check_five" />
+                    app:layout_constraintTop_toBottomOf="@id/layout_name_check_one" />
 
                 <TextView
                     android:id="@+id/tv_pay_guide_1"

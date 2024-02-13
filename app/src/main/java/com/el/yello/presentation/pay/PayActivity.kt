@@ -76,9 +76,9 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
 
     private fun initPurchaseBtnListener() {
         binding.layoutSubscribe.setOnSingleClickListener { startPurchase(TYPE_PLUS, YELLO_PLUS) }
-        binding.clNameCheckOne.setOnSingleClickListener { startPurchase(TYPE_ONE, YELLO_ONE) }
-        binding.clNameCheckTwo.setOnSingleClickListener { startPurchase(TYPE_TWO, YELLO_TWO) }
-        binding.clNameCheckFive.setOnSingleClickListener { startPurchase(TYPE_FIVE, YELLO_FIVE) }
+        binding.layoutNameCheckOne.setOnSingleClickListener { startPurchase(TYPE_ONE, YELLO_ONE) }
+        binding.layoutNameCheckTwo.setOnSingleClickListener { startPurchase(TYPE_TWO, YELLO_TWO) }
+        binding.layoutNameCheckFive.setOnSingleClickListener { startPurchase(TYPE_FIVE, YELLO_FIVE) }
         binding.btnBack.setOnSingleClickListener { finish() }
     }
 

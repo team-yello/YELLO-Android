@@ -17,6 +17,11 @@ import com.el.yello.R
 import com.el.yello.databinding.FragmentMyYelloBinding
 import com.el.yello.presentation.main.MainActivity
 import com.el.yello.presentation.main.myyello.read.MyYelloReadActivity
+import com.el.yello.presentation.main.myyello.read.MyYelloReadActivity.Companion.EVENT_CLICK_GO_SHOP
+import com.el.yello.presentation.main.myyello.read.MyYelloReadActivity.Companion.EXTRA_IS_HINT_USED
+import com.el.yello.presentation.main.myyello.read.MyYelloReadActivity.Companion.EXTRA_NAME_INDEX
+import com.el.yello.presentation.main.myyello.read.MyYelloReadActivity.Companion.EXTRA_TICKET_COUNT
+import com.el.yello.presentation.main.myyello.read.MyYelloReadActivity.Companion.JSON_SHOP_BUTTON
 import com.el.yello.presentation.pay.PayActivity
 import com.el.yello.presentation.util.BaseLinearRcvItemDeco
 import com.el.yello.util.Utils.setPullToScrollColor
@@ -42,7 +47,7 @@ class MyYelloFragment : BindingFragment<FragmentMyYelloBinding>(R.layout.fragmen
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        AmplitudeUtils.trackEventWithProperties("view_all_messages")
+        AmplitudeUtils.trackEventWithProperties(EVENT_VIEW_ALL_MESSAGES)
         initView()
         initEvent()
         observe()
@@ -72,20 +77,27 @@ class MyYelloFragment : BindingFragment<FragmentMyYelloBinding>(R.layout.fragmen
 
     private fun initEvent() {
         binding.btnSendCheck.setOnSingleClickListener {
-            setClickGoShopAmplitude("cta_main")
+            setClickGoShopAmplitude(VALUE_CTA_MAIN)
             Intent(requireContext(), PayActivity::class.java).apply {
                 payActivityLauncher.launch(this)
             }
         }
 
         binding.clSendOpen.setOnSingleClickListener {
-            yelloSnackbar(binding.root, "무슨 쪽지가 궁금한가요?")
+            yelloSnackbar(binding.root, getString(R.string.my_yello_send_open_click))
         }
 
         binding.btnShop.setOnSingleClickListener {
-            setClickGoShopAmplitude("message_shop")
+            setClickGoShopAmplitude(VALUE_MESSAGE_SHOP)
             goToPayActivity()
         }
+    }
+
+    private fun setClickGoShopAmplitude(value: String) {
+        AmplitudeUtils.trackEventWithProperties(
+            EVENT_CLICK_GO_SHOP,
+            JSONObject().put(JSON_SHOP_BUTTON, value),
+        )
     }
 
     private fun observe() {
@@ -189,7 +201,7 @@ class MyYelloFragment : BindingFragment<FragmentMyYelloBinding>(R.layout.fragmen
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
                 if (newState == RecyclerView.SCROLL_STATE_IDLE && !isScrolled) {
-                    AmplitudeUtils.trackEventWithProperties("scroll_all_messages")
+                    AmplitudeUtils.trackEventWithProperties(EVENT_SCROLL_ALL_MESSAGES)
                     isScrolled = true
                 }
             }
@@ -207,9 +219,9 @@ class MyYelloFragment : BindingFragment<FragmentMyYelloBinding>(R.layout.fragmen
     ) {
         if (it.resultCode == Activity.RESULT_OK) {
             it.data?.let { intent ->
-                val isHintUsed = intent.getBooleanExtra("isHintUsed", false)
-                val nameIndex = intent.getIntExtra("nameIndex", -1)
-                val ticketCount = intent.getIntExtra("ticketCount", -1)
+                val isHintUsed = intent.getBooleanExtra(EXTRA_IS_HINT_USED, false)
+                val nameIndex = intent.getIntExtra(EXTRA_NAME_INDEX, -1)
+                val ticketCount = intent.getIntExtra(EXTRA_TICKET_COUNT, -1)
                 val list = adapter?.currentList()
                 val selectItem = list?.get(viewModel.position)
                 selectItem?.apply {
@@ -236,7 +248,7 @@ class MyYelloFragment : BindingFragment<FragmentMyYelloBinding>(R.layout.fragmen
     ) {
         if (it.resultCode == Activity.RESULT_OK) {
             it.data?.let { intent ->
-                val ticketCount = intent.getIntExtra("ticketCount", -1)
+                val ticketCount = intent.getIntExtra(EXTRA_TICKET_COUNT, -1)
                 if (ticketCount != -1) {
                     binding.tvKeyNumber.text = ticketCount.toString()
                 }
@@ -253,7 +265,7 @@ class MyYelloFragment : BindingFragment<FragmentMyYelloBinding>(R.layout.fragmen
                     adapter?.clearList()
                     viewModel.setToFirstPage()
                     viewModel.getMyYelloList()
-                    delay(200)
+                    delay(DELAY_MY_YELLO_SWIPE)
                     binding.layoutMyYelloSwipe.isRefreshing = false
                 }
             }
@@ -270,15 +282,16 @@ class MyYelloFragment : BindingFragment<FragmentMyYelloBinding>(R.layout.fragmen
         binding.rvMyYelloReceive.smoothScrollToPosition(0)
     }
 
-    private fun setClickGoShopAmplitude(value: String) {
-        AmplitudeUtils.trackEventWithProperties(
-            "click_go_shop",
-            JSONObject().put("shop_button", value),
-        )
-    }
-
     override fun onDestroyView() {
         adapter = null
         super.onDestroyView()
+    }
+
+    companion object {
+        private const val EVENT_VIEW_ALL_MESSAGES = "view_all_messages"
+        private const val VALUE_CTA_MAIN = "cta_main"
+        private const val VALUE_MESSAGE_SHOP = "message_shop"
+        private const val EVENT_SCROLL_ALL_MESSAGES = "scroll_all_messages"
+        private const val DELAY_MY_YELLO_SWIPE = 200L
     }
 }

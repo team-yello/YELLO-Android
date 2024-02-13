@@ -3,6 +3,7 @@ package com.example.ui.view
 import android.content.Context
 import android.util.TypedValue
 import android.view.View
+import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 
 inline fun View.setOnSingleClickListener(
@@ -34,7 +35,10 @@ class ItemDiffCallback<T : Any>(
     ): Boolean = onContentsTheSame(oldItem, newItem)
 }
 
-fun Int.dpToPx(context: Context): Int {
-    val metrics = context.resources.displayMetrics
-    return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, this.toFloat(), metrics).toInt()
+fun View.setMargins(left: Int, top: Int, right: Int, bottom: Int) {
+    if (layoutParams is ViewGroup.MarginLayoutParams) {
+        val p = layoutParams as ViewGroup.MarginLayoutParams
+        p.setMargins(left, top, right, bottom)
+        requestLayout()
+    }
 }

@@ -2,6 +2,10 @@ package com.example.ui.context
 
 import android.app.Activity
 import android.content.Context
+import android.content.Context.VIBRATOR_SERVICE
+import android.os.Build
+import android.os.Vibrator
+import android.os.VibratorManager
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
@@ -35,10 +39,11 @@ fun Context.hideKeyboard(view: View) {
     inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
 }
 
-fun setMargins(view: View, left: Int, top: Int, right: Int, bottom: Int) {
-    if (view.layoutParams is ViewGroup.MarginLayoutParams) {
-        val p = view.layoutParams as ViewGroup.MarginLayoutParams
-        p.setMargins(left, top, right, bottom)
-        view.requestLayout()
+fun Context.getVibrator(): Vibrator {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+        val vibratorManager =
+            getSystemService(Context.VIBRATOR_MANAGER_SERVICE) as VibratorManager
+        return vibratorManager.defaultVibrator
     }
+    return getSystemService(VIBRATOR_SERVICE) as Vibrator
 }

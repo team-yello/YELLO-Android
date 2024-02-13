@@ -17,11 +17,11 @@ import com.el.yello.presentation.main.yello.YelloViewModel
 import com.el.yello.presentation.main.yello.vote.VoteActivity
 import com.el.yello.util.amplitude.AmplitudeUtils
 import com.example.ui.base.BindingFragment
-import com.example.ui.context.setMargins
 import com.example.ui.fragment.drawableOf
 import com.example.ui.fragment.getCompatibleRealSize
+import com.example.ui.number.dpToPx
 import com.example.ui.view.UiState
-import com.example.ui.view.dpToPx
+import com.example.ui.view.setMargins
 import com.example.ui.view.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
@@ -63,7 +63,7 @@ class YelloStartFragment :
             val displayHeight = size.y
 
             layoutParams.width = (2.22 * displayWidth).toInt()
-            setMargins(this, 0, 0, 0, (-0.435 * displayHeight).toInt())
+            setMargins(0, 0, 0, (-0.435 * displayHeight).toInt())
         }
     }
 
@@ -72,8 +72,7 @@ class YelloStartFragment :
         val size = Point()
         getCompatibleRealSize(size)
         val displayWidth = size.x
-        setMargins(
-            view = binding.layoutSubsDouble,
+        binding.layoutSubsDouble.setMargins(
             left = 0,
             top = displayWidth + MARGIN_TOP_SUBSCRIBE_LAYOUT.dpToPx(requireContext()),
             right = 0,
@@ -107,7 +106,8 @@ class YelloStartFragment :
 
                 ACTION_UP -> {
                     with(binding.btnStartVote) {
-                        background = drawableOf(R.drawable.shape_yello_main_500_fill_500_botshadow_rect)
+                        background =
+                            drawableOf(R.drawable.shape_yello_main_500_fill_500_botshadow_rect)
                         setPadding(
                             0,
                             PADDING_TOP_VOTE_BTN.dpToPx(requireContext()),

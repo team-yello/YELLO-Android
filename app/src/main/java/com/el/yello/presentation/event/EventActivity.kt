@@ -2,6 +2,7 @@ package com.el.yello.presentation.event
 
 import android.animation.Animator
 import android.os.Bundle
+import android.os.VibrationEffect
 import android.view.View
 import androidx.activity.viewModels
 import com.el.yello.R
@@ -13,6 +14,7 @@ import com.el.yello.presentation.main.MainActivity.Companion.EXTRA_REWARD_LIST
 import com.el.yello.presentation.main.ParcelableEvent
 import com.el.yello.presentation.main.ParcelableReward
 import com.example.ui.base.BindingActivity
+import com.example.ui.context.getVibrator
 import com.example.ui.intent.getCompatibleParcelableExtra
 import com.example.ui.view.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
@@ -60,6 +62,15 @@ class EventActivity : BindingActivity<ActivityEventBinding>(R.layout.activity_ev
                 lottieEventDefault.setOnClickListener(null)
                 lottieEventDefault.visibility = View.INVISIBLE
                 lottieEventOpen.visibility = View.VISIBLE
+
+                val vib = getVibrator()
+                vib.vibrate(
+                    VibrationEffect.createOneShot(
+                        DURATION_EVENT_VIBRATE,
+                        VibrationEffect.DEFAULT_AMPLITUDE
+                    )
+                )
+
                 lottieEventOpen.playAnimation()
                 lottieEventOpen.addAnimatorListener(object : Animator.AnimatorListener {
                     override fun onAnimationStart(animation: Animator, isReverse: Boolean) {
@@ -90,5 +101,6 @@ class EventActivity : BindingActivity<ActivityEventBinding>(R.layout.activity_ev
 
     companion object {
         private const val TAG_DIALOG_REWARD = "DIALOG_REWARD"
+        private const val DURATION_EVENT_VIBRATE = 500L
     }
 }

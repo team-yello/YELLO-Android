@@ -3,7 +3,6 @@ package com.el.yello.presentation.onboarding.fragment.code
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import com.el.yello.R
 import com.el.yello.databinding.FragmentCodeBinding
@@ -59,13 +58,13 @@ class CodeFragment : BindingFragment<FragmentCodeBinding>(R.layout.fragment_code
                 }
 
                 is UiState.Failure -> {
-                    yelloSnackbar(binding.root, getString(R.string.msg_error))
+                    yelloSnackbar(binding.root, getString(R.string.error_msg))
                 }
 
                 is UiState.Loading -> {}
 
                 is UiState.Empty -> {
-                    yelloSnackbar(binding.root, getString(R.string.msg_error))
+                    yelloSnackbar(binding.root, getString(R.string.error_msg))
                 }
             }
         }
@@ -81,7 +80,7 @@ class CodeFragment : BindingFragment<FragmentCodeBinding>(R.layout.fragment_code
                     (activity as? OnBoardingActivity)?.endTutorialActivity()
                 }
                 is UiState.Failure -> {
-                    yelloSnackbar(binding.root, getString(R.string.msg_error))
+                    yelloSnackbar(binding.root, getString(R.string.error_msg))
                 }
                 is UiState.Loading -> {}
                 is UiState.Empty -> {}

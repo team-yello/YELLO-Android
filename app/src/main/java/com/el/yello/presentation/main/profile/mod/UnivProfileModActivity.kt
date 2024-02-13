@@ -99,7 +99,7 @@ class UnivProfileModActivity :
 
     private fun observeGetUserDataResult() {
         viewModel.getUserDataResult.flowWithLifecycle(lifecycle).onEach { result ->
-            if (!result) toast(getString(R.string.msg_error))
+            if (!result) toast(getString(R.string.error_msg))
         }.launchIn(lifecycleScope)
     }
 
@@ -114,7 +114,7 @@ class UnivProfileModActivity :
                     binding.tvProfileModLastDateTitle.visibility = View.INVISIBLE
                 }
 
-                is UiState.Failure -> toast(getString(R.string.msg_error))
+                is UiState.Failure -> toast(getString(R.string.error_msg))
 
                 is UiState.Loading -> return@onEach
             }
@@ -127,7 +127,7 @@ class UnivProfileModActivity :
                 toast(getString(R.string.profile_mod_success))
                 finish()
             } else {
-                toast(getString(R.string.msg_error))
+                toast(getString(R.string.error_msg))
             }
             viewModel.resetStateVariables()
         }.launchIn(lifecycleScope)

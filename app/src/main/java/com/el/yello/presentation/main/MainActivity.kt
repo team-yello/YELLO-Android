@@ -223,7 +223,7 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
 
                     is Failure -> yelloSnackbar(
                         binding.root,
-                        getString(R.string.msg_error),
+                        getString(R.string.error_msg),
                     )
                 }
             }.launchIn(lifecycleScope)
@@ -235,7 +235,7 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
                 when (state) {
                     is Empty -> yelloSnackbar(
                         binding.root,
-                        getString(R.string.msg_error),
+                        getString(R.string.error_msg),
                     )
 
                     is Loading -> return@onEach

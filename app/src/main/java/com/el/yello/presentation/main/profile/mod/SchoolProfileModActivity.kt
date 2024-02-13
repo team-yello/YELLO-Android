@@ -108,7 +108,7 @@ class SchoolProfileModActivity :
 
     private fun observeGetUserDataResult() {
         viewModel.getUserDataResult.flowWithLifecycle(lifecycle).onEach { result ->
-            if (!result) toast(getString(R.string.msg_error))
+            if (!result) toast(getString(R.string.error_msg))
         }.launchIn(lifecycleScope)
     }
 
@@ -123,7 +123,7 @@ class SchoolProfileModActivity :
                     binding.tvProfileModLastDateTitle.visibility = View.INVISIBLE
                 }
 
-                is UiState.Failure -> toast(getString(R.string.msg_error))
+                is UiState.Failure -> toast(getString(R.string.error_msg))
 
                 is UiState.Loading -> return@onEach
             }
@@ -132,7 +132,7 @@ class SchoolProfileModActivity :
 
     private fun observeGetSchoolGroupIdResult() {
         viewModel.getSchoolGroupIdResult.flowWithLifecycle(lifecycle).onEach { result ->
-            if (!result) toast(getString(R.string.msg_error))
+            if (!result) toast(getString(R.string.error_msg))
         }.launchIn(lifecycleScope)
     }
 
@@ -142,7 +142,7 @@ class SchoolProfileModActivity :
                 toast(getString(R.string.profile_mod_success))
                 finish()
             } else {
-                toast(getString(R.string.msg_error))
+                toast(getString(R.string.error_msg))
             }
         }.launchIn(lifecycleScope)
     }

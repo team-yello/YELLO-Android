@@ -215,7 +215,7 @@ class MyYelloReadActivity :
                     }
 
                     is UiState.Failure -> {
-                        toast(getString(R.string.msg_auto_login_error))
+                        toast(getString(R.string.token_expire_error_msg))
                         restartApp(this)
                     }
 

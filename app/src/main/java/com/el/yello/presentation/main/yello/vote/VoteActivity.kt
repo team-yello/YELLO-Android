@@ -57,7 +57,7 @@ class VoteActivity : BindingActivity<ActivityVoteBinding>(R.layout.activity_vote
                     is UiState.Empty -> {}
                     is UiState.Failure -> {
                         // TODO: 커스텀 스낵바로 변경
-                        toast(getString(R.string.msg_error))
+                        toast(getString(R.string.error_msg))
                         finish()
                     }
                 }
@@ -94,11 +94,11 @@ class VoteActivity : BindingActivity<ActivityVoteBinding>(R.layout.activity_vote
                 when (state) {
                     is UiState.Loading -> {}
                     is UiState.Failure -> {
-                        yelloSnackbar(binding.root, getString(R.string.msg_error))
+                        yelloSnackbar(binding.root, getString(R.string.error_msg))
                     }
 
                     is UiState.Empty -> {
-                        yelloSnackbar(binding.root, getString(R.string.msg_error))
+                        yelloSnackbar(binding.root, getString(R.string.error_msg))
                     }
 
                     is UiState.Success -> {}

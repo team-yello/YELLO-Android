@@ -23,7 +23,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class EventActivity : BindingActivity<ActivityEventBinding>(R.layout.activity_event) {
     private val viewModel by viewModels<EventViewModel>()
 
-    private var rewardAdapter: RewardAdapter? = null
+    private var rewardAdapter: RewardAdapter? = null // TODO : backing property 만들기
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

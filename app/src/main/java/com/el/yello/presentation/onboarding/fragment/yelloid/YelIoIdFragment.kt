@@ -2,7 +2,6 @@ package com.el.yello.presentation.onboarding.fragment.yelloid
 
 import android.os.Bundle
 import android.view.View
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.el.yello.R
@@ -55,11 +54,11 @@ class YelIoIdFragment : BindingFragment<FragmentYelloIdBinding>(R.layout.fragmen
                     activity.progressBarPlus()
                 }
                 is UiState.Failure -> {
-                    yelloSnackbar(binding.root, getString(R.string.msg_error))
+                    yelloSnackbar(binding.root, getString(R.string.error_msg))
                 }
                 is UiState.Loading -> {}
                 is UiState.Empty -> {
-                    yelloSnackbar(binding.root, getString(R.string.msg_error))
+                    yelloSnackbar(binding.root, getString(R.string.error_msg))
                 }
             }
         }

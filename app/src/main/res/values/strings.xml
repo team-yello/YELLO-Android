@@ -1,33 +1,27 @@
 <resources>
     <string name="app_name">YELL:O</string>
 
-    <string name="splash_title">지금 누군가 당신을 생각하고 있어요!</string>
-
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="msg_error">오류가 발생하였습니다.</string>
-    <string name="msg_failure">정보 불러오기에 실패했습니다.</string>
     <string name="to_string">%s</string>
-    <string name="msg_auto_login_error">다시 한 번 로그인해주세요.</string>
     <string name="dummy">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</string>
+
+    <string name="error_msg">오류가 발생하였습니다.</string>
+    <string name="get_info_failure_msg">정보 불러오기에 실패했습니다.</string>
+    <string name="token_expire_error_msg">로그인 상태를 확인해주세요!</string>
     <string name="adapter_not_initialized_error_msg">Adapter is not initialized</string>
     <string name="manager_not_initialized_error_msg">Billing Manager is not initialized</string>
+    <string name="internet_connection_error_msg">인터넷 연결을 확인해주세요!</string>
+
+    <string name="splash_title">지금 누군가 당신을 생각하고 있어요!</string>
 
     <string name="sign_in_tv_title">Yell:o에 오신 걸 환영해요!</string>
     <string name="sign_in_tv_subtitle">가입을 시작해볼까요?</string>
     <string name="sign_in_tv_btn">카카오로 시작하기</string>
-    <string name="sign_in_error_kakao_account_login">카카오 계정으로 로그인 실패</string>
-    <string name="sign_in_error_kakao_app_login">카카오톡으로 로그인 실패</string>
-    <string name="sign_in_error_cancelled">유저가 로그인 취소</string>
-    <string name="sign_in_error_empty_kakao_token">빈 카카오 토큰</string>
-    <string name="sign_in_error_connection">서버 통신에 실패했습니다</string>
-    <string name="sign_in_error_kakao_token">카카오 토큰 받기 실패</string>
-    <string name="sign_in_error_kakao_user_data">카카오 유저 정보 받기 실패</string>
 
     <string name="social_sync_tv_title">나의 옐로 친구는 어디 있을까?</string>
     <string name="social_sync_tv_subtitle">친구 목록을 불러와봐요!</string>
     <string name="social_sync_tv_btn">카카오톡 친구 연결하기</string>
     <string name="social_sync_tv_info"><u>개인정보처리방침</u></string>
-    <string name="social_sync_error_kakao_profile">카카오 프로필 가져오기 실패</string>
 
     <string name="main_recommend">추천친구</string>
     <string name="main_look">타임라인</string>
@@ -37,15 +31,11 @@
     <string name="main_toast_back_pressed">버튼을 한번 더 누르면 종료됩니다.</string>
     <string name="main_get_notice_failure">공지 조회에 실패했습니다.</string>
 
-    <string name="onboarding_tv_what_studentid">몇 학번인가요?</string>
     <string name="onboarding_tv_search_department">학과 검색하기</string>
     <string name="onboarding_btn_add_department"><u>찾는 과가 없다면 클릭하세요!</u></string>
-    <string name="onboarding_tv_select_studentid">학번을 선택해주세요.</string>
     <string name="onboarding_tv_search_school">우리 학교 검색하기</string>
     <string name="onboarding_tv_add_school"><u>우리 학교가 없나요? 학교를 추가해보세요!</u></string>
-    <string name="onboarding_tv_readyto_login">옐로에 가입하기 위한 첫 절차예요.</string>
     <string name="onboarding_tv_what_school">학교가 어디인가요?</string>
-    <string name="onboarding_tv_what_department">무슨 학과인가요?</string>
     <string name="onboarding_btn_next">다음</string>
     <string name="onboarding_btn_edit_name_next">수정 완료</string>
     <string name="onboarding_tv_name">나의 이름은?</string>
@@ -57,7 +47,6 @@
     <string name="onboarding_yelloid_hint_middle">로 하면 친구들이 찾기 쉬워요!</string>
     <string name="onboarding_yelloid_hint_end">(최대 20자)</string>
     <string name="onboarding_et_id">yelloworld</string>
-    <string name="onboarding_tv_gender">나의 성별은?</string>
     <string name="onboarding_tv_code">추천인 코드</string>
     <string name="onboarding_tv_code_hint">yelloworld</string>
     <string name="onboarding_tv_code_skip">추천인이 없다면 건너뛰어도 돼요.</string>
@@ -69,8 +58,6 @@
     <string name="onboarding_tv_startapp_subtitle">친구들이 비밀 쪽지를 보내면\n 알림을 드릴게요. </string>
     <string name="onboarding_tv_start_yello">쪽지 알림 받기</string>
     <string name="onboarding_btn_gender_done">다음</string>
-    <string name="onboarding_tv_gender_x">남자</string>
-    <string name="onboarding_tv_gender_y">여자</string>
     <string name="onboarding_tv_addfriend">친구를 추가하세요!</string>
     <string name="onboarding_tv_addfriend_subtitle">친구가 많을수록 쪽지도 많이 받아요.</string>
     <string name="onboarding_btn_addfriend_next">다음</string>
@@ -83,8 +70,6 @@
     <string name="onboarding_name_id_name_hint">ex.김옐로</string>
     <string name="onboarding_name_id_hangul_error">특수문자,한글 외 문자는 입력할 수 없어요.</string>
     <string name="onboarding_name_id_id_error">문자, 숫자, 밑줄, 마침표만 사용할 수 있어요.</string>
-    <string name="onboarding_gender_female">여자</string>
-    <string name="onboarding_gender_male">남자</string>
     <string name="onboarding_name_id_duplicate_id_msg">이미 사용하고 있는 아이디에요.</string>
     <string name="onboarding_code_duplicate_msg">존재하지 않는 추천인 코드입니다.</string>
     <string name="onboarding_add_friend_error">추천친구 서버통신 실패</string>
@@ -100,7 +85,6 @@
     <string name="onboarding_name_edit_dialog_tv_title_end">"님이 맞으신가요?"</string>
 
     <string name="yello_start_my_point">내 포인트</string>
-    <string name="yello_start_description">누구에게 어떤 메시지를 보낼까?</string>
     <string name="yello_start_point_label">Point</string>
     <string name="yello_start_vote">START!</string>
     <string name="yello_start_balloon_top">오늘은</string>
@@ -113,7 +97,6 @@
     <string name="yello_lock_invite">친구 초대하고 100포인트 받기</string>
     <string name="yello_lock_sub_description">친구가 1명 이상 모이면 투표할 수 있어요.\n친구들을 초대해볼까요?</string>
 
-    <string name="note_index_of_vote">&#160;of %s</string>
     <string name="note_friend_shuffle">친구 셔플</string>
     <string name="note_shuffle_count">%d/3</string>
     <string name="note_skip">이 질문 건너뛰기</string>
@@ -126,13 +109,11 @@
     <string name="my_yello_send_check">누가 보냈는지 확인하기</string>
     <string name="my_yello_send_open">누가 보냈는지 열어보기</string>
     <string name="my_yello_you">너</string>
-    <string name="my_yello_not_yet">아직 쪽지가 온 게 없어요.</string>
     <string name="my_yello_question">\???</string>
     <string name="my_yello_zero">0</string>
     <string name="my_yello_send">님이 보냄</string>
     <string name="my_yello_female">익명의 여학생</string>
     <string name="my_yello_male">익명의 남학생</string>
-    <string name="my_yello_instagram">인스타그램 공유하기</string>
     <string name="my_yello_point_check">100포인트로 키워드 확인하기</string>
     <string name="my_yello_300">300</string>
     <string name="my_yello_story_share">스토리 공유</string>
@@ -171,7 +152,6 @@
     <string name="profile_error_user_data">유저 정보 가져오기 실패</string>
     <string name="profile_error_friend_list">친구 목록 가져오기 실패</string>
     <string name="profile_error_delete_friend">친구 삭제하기 실패</string>
-    <string name="profile_error_logout">로그아웃 실패 : %s</string>
     <string name="profile_error_unlink">회원 탈퇴하기 실패</string>
     <string name="profile_error_unlink_kakao">카카오 연동 끊기 실패</string>
 
@@ -205,10 +185,7 @@
     <string name="invite_error_kakao">카카오톡 공유하기 실패</string>
     <string name="invite_error_browser">가능한 브라우저 없음</string>
 
-    <string name="recommend_tab_kakao">카톡 친구들</string>
-    <string name="recommend_tab_school">학교 친구들</string>
     <string name="recommend_error_friends_list">카카오 친구 목록 가져오기 실패</string>
-    <string name="recommend_error_no_kakao_friend">연동 가능한 카카오톡 친구 없음</string>
     <string name="recommend_error_friend_connection">카카오 추천친구 목록 가져오기 실패</string>
     <string name="recommend_error_school_friend_connection">학교 추천친구 목록 가져오기 실패</string>
     <string name="recommend_error_add_friend_connection">친구 추가하기 실패</string>
@@ -257,7 +234,6 @@
     <string name="profile_user_info_total_msg">받은 쪽지</string>
     <string name="profile_user_info_total_point">내 포인트</string>
     <string name="profile_user_info_total_friends">내 친구</string>
-    <string name="profile_user_info_add_group">그룹 추가</string>
     <string name="profile_user_info_friends_list_title">내 친구들</string>
     <string name="profile_user_info_friends_list_subtitle_2">명</string>
     <string name="profile_user_info_friends_list_subtitle_1">친구 수</string>
@@ -291,8 +267,6 @@
     <string name="recommend_search_friend">내 친구</string>
 
     <string name="onboarding_highschool_hint">ex. 옐로중/고등학교</string>
-    <string name="onboarding_grade_title">몇 학년인가요?</string>
-    <string name="onboarding_group_title">몇 반인가요?</string>
     <string name="onboarding_group_hint">ex. 1반</string>
     <string name="onboarding_highschool_firstgrade">1학년</string>
     <string name="onboarding_highschool_secondgrade">2학년</string>
@@ -309,7 +283,6 @@
     <string name="dialog_get_name">이름 알아내기</string>
     <string name="dialog_get_initial_question">300 포인트로 초성을 얻을까요?</string>
     <string name="dialog_get_initial">초성 얻기</string>
-    <string name="dialog_key_title">열람권</string>
     <string name="dialog_vote_get_point">투표하고 포인트 받기</string>
     <string name="dialog_initial_sub_title">이름 중 랜덤으로 뽑은 초성이에요.</string>
     <string name="dialog_initial_title">보낸 사람의 초성을 얻었어요!</string>
@@ -323,14 +296,11 @@
     <string name="tutorial_third_title">앞으로 투표가 끝날 때마다 포인트를 줄게요!</string>
     <string name="tutorial_tv_end_btn">옐로하러 가기</string>
     <string name="tutorial_end_title_point">가입 포인트 지급</string>
-    <string name="tutorial_title_b">100포인트</string>
-    <string name="tutorial_title_C"> 지급</string>
 
     <string name="profile_btn_shop">상점</string>
     <string name="profile_btn_shop_sale">SALE</string>
     <string name="recommend_search_no_result">찾는 친구의 결과가 없어요</string>
 
-    <string name="pay_error_during">구매 도중 오류가 발생하였습니다.</string>
     <string name="pay_error_no_item">구매 가능한 상품이 없습니다.</string>
 
     <string name="pay_dialog_subs_title">구독권을 얻었어요!</string>
@@ -368,7 +338,6 @@
     <string name="pay_in_app_discount">할인!</string>
 
     <string name="pay_check_error">잘못된 접근입니다.</string>
-    <string name="pay_error_subs">구독 여부 가져오기 실패</string>
 
     <string name="dialog_reading_ticket">열람권</string>
     <string name="dialog_reading_ticket_after">남은 열람권</string>

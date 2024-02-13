@@ -1,6 +1,5 @@
 package com.el.yello.presentation.main.yello
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -58,12 +57,12 @@ class YelloFragment : BindingFragment<FragmentYelloBinding>(R.layout.fragment_ye
                     is Empty -> {
                         yelloSnackbar(
                             binding.root,
-                            getString(R.string.msg_failure),
+                            getString(R.string.get_info_failure_msg),
                         )
                     }
 
                     is Failure -> {
-                        toast(getString(R.string.msg_auto_login_error))
+                        toast(getString(R.string.token_expire_error_msg))
                         restartApp(requireContext())
                     }
                 }

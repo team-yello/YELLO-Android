@@ -87,7 +87,7 @@ class SearchDialogUniversityFragment :
                         adapter?.submitList(state.data.schoolList)
                     }
                     is UiState.Failure -> {
-                        yelloSnackbar(binding.root, getString(R.string.msg_error))
+                        yelloSnackbar(binding.root, getString(R.string.error_msg))
                     }
                     is UiState.Loading -> return@onEach
                     is UiState.Empty -> return@onEach

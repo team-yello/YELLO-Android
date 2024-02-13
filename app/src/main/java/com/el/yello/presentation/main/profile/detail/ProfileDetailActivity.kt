@@ -11,8 +11,10 @@ import com.el.yello.presentation.main.profile.info.ProfileFragment.Companion.TYP
 import com.el.yello.presentation.main.profile.mod.SchoolProfileModActivity
 import com.el.yello.presentation.main.profile.mod.UnivProfileModActivity
 import com.el.yello.util.Utils.setImageOrBasicThumbnail
+import com.el.yello.util.context.yelloSnackbar
 import com.example.ui.activity.navigateTo
 import com.example.ui.base.BindingActivity
+import com.example.ui.context.snackBar
 import com.example.ui.context.toast
 import com.example.ui.view.UiState
 import com.example.ui.view.setOnSingleClickListener
@@ -83,7 +85,7 @@ class ProfileDetailActivity :
                 }
 
                 is UiState.Failure -> {
-                    toast(getString(R.string.profile_error_user_data))
+                    yelloSnackbar(binding.root, getString(R.string.profile_error_user_data))
                 }
 
                 is UiState.Empty -> return@onEach
@@ -101,11 +103,11 @@ class ProfileDetailActivity :
                 }
 
                 is ImageChangeState.NotChanged -> {
-                    toast(getString(R.string.profile_mod_already_changed))
+                    yelloSnackbar(binding.root, getString(R.string.profile_mod_already_changed))
                 }
 
                 is ImageChangeState.Error -> {
-                    toast(getString(R.string.internet_connection_error_msg))
+                    yelloSnackbar(binding.root, getString(R.string.internet_connection_error_msg))
                 }
             }
         }.launchIn(lifecycleScope)
@@ -116,11 +118,11 @@ class ProfileDetailActivity :
             when (state) {
                 is UiState.Success -> {
                     binding.ivProfileDetailThumbnail.setImageOrBasicThumbnail(state.data)
-                    toast(getString(R.string.profile_detail_image_change))
+                    yelloSnackbar(binding.root, getString(R.string.profile_detail_image_change))
                 }
 
                 is UiState.Failure -> {
-                    toast(getString(R.string.internet_connection_error_msg))
+                    yelloSnackbar(binding.root, getString(R.string.internet_connection_error_msg))
                 }
 
                 is UiState.Empty -> return@onEach

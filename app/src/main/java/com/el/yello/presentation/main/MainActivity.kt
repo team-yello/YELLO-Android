@@ -59,7 +59,7 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
         override fun handleOnBackPressed() {
             if (System.currentTimeMillis() - backPressedTime >= BACK_PRESSED_INTERVAL) {
                 backPressedTime = System.currentTimeMillis()
-                toast(getString(R.string.main_toast_back_pressed))
+                yelloSnackbar(binding.root, getString(R.string.main_toast_back_pressed))
             } else {
                 finish()
             }

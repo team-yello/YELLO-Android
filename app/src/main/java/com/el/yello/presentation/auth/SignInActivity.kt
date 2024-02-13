@@ -53,7 +53,7 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
 
     private fun observeDeviceTokenError() {
         viewModel.getDeviceTokenError.flowWithLifecycle(lifecycle).onEach { error ->
-            if (error) toast(getString(R.string.internet_connection_error_msg))
+            if (error) yelloSnackbar(binding.root, getString(R.string.internet_connection_error_msg))
         }.launchIn(lifecycleScope)
     }
 
@@ -65,7 +65,7 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
 
     private fun observeChangeTokenResult() {
         viewModel.postChangeTokenResult.flowWithLifecycle(lifecycle).onEach { result ->
-            if (!result) toast(getString(R.string.internet_connection_error_msg))
+            if (!result) yelloSnackbar(binding.root, getString(R.string.internet_connection_error_msg))
         }.launchIn(lifecycleScope)
     }
 

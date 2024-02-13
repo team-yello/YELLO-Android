@@ -18,6 +18,7 @@ import com.el.yello.R
 import com.el.yello.databinding.ActivitySearchBinding
 import com.el.yello.util.Utils.setPullToScrollColor
 import com.el.yello.util.amplitude.AmplitudeUtils
+import com.el.yello.util.context.yelloSnackbar
 import com.example.ui.base.BindingActivity
 import com.example.ui.context.toast
 import com.example.ui.view.UiState
@@ -142,7 +143,7 @@ class SearchActivity : BindingActivity<ActivitySearchBinding>(R.layout.activity_
                     }
 
                     is UiState.Failure -> {
-                        toast(getString(R.string.recommend_search_error))
+                        yelloSnackbar(binding.root, getString(R.string.recommend_search_error))
                         showShimmerView(isLoading = false, hasList = true)
                     }
 
@@ -180,7 +181,7 @@ class SearchActivity : BindingActivity<ActivitySearchBinding>(R.layout.activity_
                     }
                 }
 
-                is UiState.Failure -> toast(getString(R.string.recommend_error_add_friend_connection))
+                is UiState.Failure -> yelloSnackbar(binding.root, getString(R.string.recommend_error_add_friend_connection))
 
                 is UiState.Loading -> return@onEach
 

@@ -9,6 +9,7 @@ import androidx.lifecycle.lifecycleScope
 import com.el.yello.R
 import com.el.yello.databinding.ActivityProfileSchoolModBinding
 import com.el.yello.presentation.main.profile.mod.UnivProfileModViewModel.Companion.TEXT_NONE
+import com.el.yello.util.context.yelloSnackbar
 import com.example.ui.activity.navigateTo
 import com.example.ui.base.BindingActivity
 import com.example.ui.context.drawableOf
@@ -61,11 +62,11 @@ class SchoolProfileModActivity :
         binding.btnProfileModSave.setOnSingleClickListener {
             when {
                 !viewModel.isChanged -> {
-                    toast(getString(R.string.profile_mod_no_change))
+                    yelloSnackbar(binding.root, getString(R.string.profile_mod_no_change))
                 }
 
                 !viewModel.isModAvailable -> {
-                    toast(getString(R.string.profile_mod_no_valid))
+                    yelloSnackbar(binding.root, getString(R.string.profile_mod_no_valid))
                 }
 
                 viewModel.grade.value == TEXT_NONE -> {
@@ -108,7 +109,7 @@ class SchoolProfileModActivity :
 
     private fun observeGetUserDataResult() {
         viewModel.getUserDataResult.flowWithLifecycle(lifecycle).onEach { result ->
-            if (!result) toast(getString(R.string.error_msg))
+            if (!result) yelloSnackbar(binding.root, getString(R.string.error_msg))
         }.launchIn(lifecycleScope)
     }
 
@@ -123,7 +124,7 @@ class SchoolProfileModActivity :
                     binding.tvProfileModLastDateTitle.visibility = View.INVISIBLE
                 }
 
-                is UiState.Failure -> toast(getString(R.string.error_msg))
+                is UiState.Failure -> yelloSnackbar(binding.root, getString(R.string.error_msg))
 
                 is UiState.Loading -> return@onEach
             }
@@ -132,7 +133,7 @@ class SchoolProfileModActivity :
 
     private fun observeGetSchoolGroupIdResult() {
         viewModel.getSchoolGroupIdResult.flowWithLifecycle(lifecycle).onEach { result ->
-            if (!result) toast(getString(R.string.error_msg))
+            if (!result) yelloSnackbar(binding.root, getString(R.string.error_msg))
         }.launchIn(lifecycleScope)
     }
 
@@ -142,7 +143,7 @@ class SchoolProfileModActivity :
                 toast(getString(R.string.profile_mod_success))
                 finish()
             } else {
-                toast(getString(R.string.error_msg))
+                yelloSnackbar(binding.root, getString(R.string.error_msg))
             }
         }.launchIn(lifecycleScope)
     }

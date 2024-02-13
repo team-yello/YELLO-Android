@@ -55,7 +55,7 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
         initView()
         initPurchaseBtnListener()
         initBannerOnChangeListener()
-        viewModel.getPurchaseInfoFromServer()
+        viewModel.getUserDataFromServer()
         setBannerAutoScroll()
         setBillingManager()
         observeIsPurchasing()
@@ -173,14 +173,14 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
         viewModel.getUserInfoState.flowWithLifecycle(lifecycle).onEach { state ->
             when (state) {
                 is UiState.Success -> {
-                    if (state.data?.isSubscribe == true) {
+                    if (state.data?.subscribe != SUBS_NORMAL) {
                         binding.layoutShowSubs.visibility = View.VISIBLE
                     } else {
                         binding.layoutShowSubs.visibility = View.INVISIBLE
                     }
                     viewModel.setTicketCount(state.data?.ticketCount ?: 0)
                     binding.tvKeyAmount.text = state.data?.ticketCount.toString()
-                    // TODO: 포인트 개수 설정
+                    binding.tvPointAmount.text = state.data?.point.toString()
                 }
 
                 is UiState.Failure -> {
@@ -357,5 +357,7 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
         const val DIALOG_IN_APP = "inAppDialog"
 
         const val SERVER_ERROR = "HTTP 500 "
+
+        const val SUBS_NORMAL = "NORMAL"
     }
 }

@@ -16,6 +16,7 @@ import com.android.billingclient.api.ProductDetails
 import com.android.billingclient.api.Purchase
 import com.el.yello.R
 import com.el.yello.databinding.ActivityPayBinding
+import com.el.yello.presentation.main.MainActivity
 import com.el.yello.presentation.main.profile.manage.ProfileManageActivity
 import com.el.yello.util.amplitude.AmplitudeUtils
 import com.example.data.model.request.pay.toRequestPayModel
@@ -54,6 +55,8 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
 
         initView()
         initPurchaseBtnListener()
+        initVoteBtnListener()
+        initAdBtnListener()
         initBannerOnChangeListener()
         viewModel.getUserDataFromServer()
         setBannerAutoScroll()
@@ -89,6 +92,22 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
                 manager.purchaseProduct(productDetails.index, productDetails.value)
             } ?: also {
             toast(getString(R.string.pay_error_no_item))
+        }
+    }
+
+    private fun initVoteBtnListener() {
+        binding.layoutVoteForPoint.setOnSingleClickListener {
+            Intent(this, MainActivity::class.java).apply {
+                addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+                startActivity(this)
+            }
+            finish()
+        }
+    }
+
+    private fun initAdBtnListener() {
+        binding.layoutAdForPoint.setOnSingleClickListener {
+
         }
     }
 

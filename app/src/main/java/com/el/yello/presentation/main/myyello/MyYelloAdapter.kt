@@ -12,6 +12,7 @@ import com.el.yello.util.Utils
 import com.example.domain.entity.Yello
 import com.example.domain.enum.Gender
 import com.example.ui.view.setOnSingleClickListener
+import dagger.hilt.android.qualifiers.ApplicationContext
 
 class MyYelloAdapter(private val itemClick: (Yello, Int) -> (Unit)) :
     RecyclerView.Adapter<MyYelloAdapter.MyYelloViewHolder>() {
@@ -93,7 +94,7 @@ class MyYelloAdapter(private val itemClick: (Yello, Int) -> (Unit)) :
                         R.drawable.ic_yello_blue
                     )
                 )
-                binding.tvGender.text = "남학생이 보냄"
+                binding.tvGender.text = binding.root.context.getString(R.string.my_yello_send_by_boy)
             } else {
                 if ((item.isHintUsed || item.nameHint != -1) && item.isRead) {
                     binding.cardMyYello.setCardBackgroundColor(
@@ -114,7 +115,7 @@ class MyYelloAdapter(private val itemClick: (Yello, Int) -> (Unit)) :
                         R.drawable.ic_yello_pink
                     )
                 )
-                binding.tvGender.text = "여학생이 보냄"
+                binding.tvGender.text = binding.root.context.getString(R.string.my_yello_send_by_girl)
             }
 
             if (item.isHintUsed) {

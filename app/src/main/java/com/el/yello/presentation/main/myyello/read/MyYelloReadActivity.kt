@@ -60,7 +60,6 @@ class MyYelloReadActivity :
 
     private fun trackAmplitudeEvent() {
         with(viewModel.yelloDetail ?: return) {
-            // TODO : 커스텀 스테이트로 분기 처리
             if (nameHint != -3) {
                 AmplitudeUtils.trackEventWithProperties(EVENT_VIEW_OPEN_MESSAGE)
             }

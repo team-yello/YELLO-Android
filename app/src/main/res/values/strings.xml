@@ -72,7 +72,6 @@
     <string name="onboarding_name_id_id_error">문자, 숫자, 밑줄, 마침표만 사용할 수 있어요.</string>
     <string name="onboarding_name_id_duplicate_id_msg">이미 사용하고 있는 아이디에요.</string>
     <string name="onboarding_code_duplicate_msg">존재하지 않는 추천인 코드입니다.</string>
-    <string name="onboarding_add_friend_error">추천친구 서버통신 실패</string>
     <string name="onboarding_select_student_Type_title">해당되는 곳에 체크해주세요.</string>
     <string name="onboarding_tv_select_student_highschool">중/고등학생</string>
     <string name="onboarding_tv_select_student_university">대학생</string>
@@ -142,18 +141,18 @@
     <string name="note_msg_invalid_shuffle">이름을 선택하면 셔플을 사용할 수 없어요.</string>
 
     <string name="look_title">타임라인</string>
-    <string name="look_error_friend_list">타임라인 가져오기 실패</string>
+    <string name="look_error_friend_list">타임라인 불러오기에 실패했습니다.</string>
     <string name="look_invite_no_title">친구들이 받은 쪽지가 궁금하다면\n친구를 초대해볼까요?</string>
     <string name="look_tv_info">쪽지를 보낸 사람의 이름은 공개되지 않아요.</string>
     <string name="look_tv_filter_basic">모든 쪽지</string>
 
     <string name="view_type_error_msg">Unknown View Type : %d</string>
 
-    <string name="profile_error_user_data">유저 정보 가져오기 실패</string>
-    <string name="profile_error_friend_list">친구 목록 가져오기 실패</string>
-    <string name="profile_error_delete_friend">친구 삭제하기 실패</string>
-    <string name="profile_error_unlink">회원 탈퇴하기 실패</string>
-    <string name="profile_error_unlink_kakao">카카오 연동 끊기 실패</string>
+    <string name="profile_error_user_data">유저 정보 불러오기에 실패했습니다.</string>
+    <string name="profile_error_friend_list">친구 목록 불러오기에 실패했습니다.</string>
+    <string name="profile_error_delete_friend">친구 삭제하기에 실패했습니다.</string>
+    <string name="profile_error_unlink">회원 탈퇴하기에 실패했습니다.</string>
+    <string name="profile_error_unlink_kakao">카카오 연동 끊기에 실패했습니다.</string>
 
     <string name="profile_detail_tv_title">프로필 정보</string>
     <string name="profile_detail_btn_kakao_change">카카오톡 동기화</string>
@@ -182,13 +181,13 @@
     <string name="profile_mod_tv_school_classroom">반</string>
     <string name="profile_mod_btn_school_change">대학생으로 전환</string>
 
-    <string name="invite_error_kakao">카카오톡 공유하기 실패</string>
-    <string name="invite_error_browser">가능한 브라우저 없음</string>
+    <string name="invite_error_kakao">카카오톡 공유하기에 실패했습니다.</string>
+    <string name="invite_error_browser">사용 가능한 브라우저가 없습니다.</string>
 
-    <string name="recommend_error_friends_list">카카오 친구 목록 가져오기 실패</string>
-    <string name="recommend_error_friend_connection">카카오 추천친구 목록 가져오기 실패</string>
-    <string name="recommend_error_school_friend_connection">학교 추천친구 목록 가져오기 실패</string>
-    <string name="recommend_error_add_friend_connection">친구 추가하기 실패</string>
+    <string name="recommend_error_friends_list">카카오 친구 목록 불러오기에 실패했습니다.</string>
+    <string name="recommend_error_friend_connection">카카오 추천친구 목록 불러오기에 실패했습니다.</string>
+    <string name="recommend_error_school_friend_connection">학교 추천친구 목록 불러오기에 실패했습니다.</string>
+    <string name="recommend_error_add_friend_connection">친구 추가하기에 실패했습니다.</string>
 
     <string name="profile_manage_tv_title">설정</string>
     <string name="profile_manage_tv_center">고객센터</string>
@@ -263,7 +262,7 @@
 
     <string name="recommend_search_title">친구 검색</string>
     <string name="recommend_search_hint">| 이름 / 학교 / 아이디로 검색해보세요!</string>
-    <string name="recommend_search_error">검색 결과 가져오기 실패</string>
+    <string name="recommend_search_error">검색 결과 불러오기에 실패했습니다.</string>
     <string name="recommend_search_friend">내 친구</string>
 
     <string name="onboarding_highschool_hint">ex. 옐로중/고등학교</string>
@@ -342,7 +341,7 @@
     <string name="dialog_reading_ticket">열람권</string>
     <string name="dialog_reading_ticket_after">남은 열람권</string>
     <string name="pay_error_dialog_title">상품 지급 오류</string>
-    <string name="pay_error_dialog_msg">오류로 인해 상품이 지급되지 않았어요. 옐로 공식 카카오 채널로 문의주시면 해결을 도와드리겠습니다.</string>
+    <string name="pay_error_dialog_msg">오류로 인해 상품이 지급되지 않았어요. 옐로 공식 카카오 채널로 문의 주시면 해결을 도와드리겠습니다.</string>
     <string name="pay_error_dialog_btn">확인</string>
 
     <string name="pay_tv_guide_title">옐로플러스 구독 안내</string>

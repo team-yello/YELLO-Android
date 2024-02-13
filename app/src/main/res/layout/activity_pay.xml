@@ -301,12 +301,12 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    app:layout_constraintEnd_toStartOf="@id/layout_name_check_two"
-                    android:layout_marginEnd="5dp"
                     android:layout_marginTop="26dp"
-                    app:layout_constraintHorizontal_chainStyle="packed"
+                    android:layout_marginEnd="5dp"
                     android:background="@drawable/shape_black_fill_purple_line_10_rect"
                     android:paddingBottom="12dp"
+                    app:layout_constraintEnd_toStartOf="@id/layout_name_check_two"
+                    app:layout_constraintHorizontal_chainStyle="packed"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tv_yello_know">
 
@@ -321,7 +321,7 @@
                         android:lineSpacingMultiplier="1.2"
                         android:paddingVertical="3dp"
                         android:text="@string/pay_in_app_one_title"
-                        android:textColor="@color/grayscales_100"
+                        android:textColor="@color/purple_sub_100"
                         android:textSize="14dp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -390,11 +390,11 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="5dp"
-                    app:layout_constraintHorizontal_chainStyle="packed"
                     android:layout_marginTop="26dp"
-                    app:layout_constraintEnd_toStartOf="@id/layout_name_check_five"
                     android:background="@drawable/shape_black_fill_purple_line_10_rect"
                     android:paddingBottom="12dp"
+                    app:layout_constraintEnd_toStartOf="@id/layout_name_check_five"
+                    app:layout_constraintHorizontal_chainStyle="packed"
                     app:layout_constraintStart_toEndOf="@id/layout_name_check_one"
                     app:layout_constraintTop_toBottomOf="@id/tv_yello_know">
 
@@ -409,7 +409,7 @@
                         android:lineSpacingMultiplier="1.2"
                         android:paddingVertical="3dp"
                         android:text="@string/pay_in_app_two_title"
-                        android:textColor="@color/grayscales_100"
+                        android:textColor="@color/purple_sub_100"
                         android:textSize="14dp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -475,15 +475,15 @@
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/layout_name_check_five"
-                    app:layout_constraintHorizontal_chainStyle="packed"
-                    app:layout_constraintEnd_toEndOf="parent"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="16dp"
                     android:layout_marginStart="5dp"
                     android:layout_marginTop="26dp"
+                    android:layout_marginEnd="16dp"
                     android:background="@drawable/shape_black_fill_purple_line_10_rect"
                     android:paddingBottom="12dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_chainStyle="packed"
                     app:layout_constraintStart_toEndOf="@id/layout_name_check_two"
                     app:layout_constraintTop_toBottomOf="@id/tv_yello_know">
 
@@ -498,7 +498,7 @@
                         android:lineSpacingMultiplier="1.2"
                         android:paddingVertical="3dp"
                         android:text="@string/pay_in_app_five_title"
-                        android:textColor="@color/grayscales_100"
+                        android:textColor="@color/purple_sub_100"
                         android:textSize="14dp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -562,12 +562,126 @@
                     app:layout_constraintStart_toStartOf="@id/layout_name_check_five"
                     app:layout_constraintTop_toBottomOf="@id/tv_yello_know" />
 
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/layout_vote_for_point"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginTop="12dp"
+                    android:background="@drawable/shape_black_fill_purple_line_10_rect"
+                    android:paddingHorizontal="16dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/layout_name_check_one">
+
+                    <ImageView
+                        android:id="@+id/iv_vote_coin"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingVertical="20dp"
+                        android:src="@drawable/ic_coin"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tv_vote_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:fontFamily="@font/font_pretendard_bold"
+                        android:text="@string/pay_tv_vote_for_point"
+                        android:textColor="@color/purple_sub_100"
+                        android:textSize="16dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/iv_vote_coin"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tv_vote_reward"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/pay_tv_vote_for_point_reward"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:textSize="15dp"
+                        android:textColor="@color/white"
+                        android:fontFamily="@font/font_pretendard_medium"/>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/layout_ad_for_point"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginTop="12dp"
+                    android:background="@drawable/shape_black_fill_purple_line_10_rect"
+                    android:paddingHorizontal="16dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/layout_vote_for_point">
+
+                    <ImageView
+                        android:id="@+id/iv_ad_coin"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingVertical="20dp"
+                        android:src="@drawable/ic_coin"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tv_ad_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:paddingVertical="3dp"
+                        android:fontFamily="@font/font_pretendard_bold"
+                        android:text="@string/pay_tv_ad_for_point"
+                        android:textColor="@color/purple_sub_100"
+                        android:textSize="16dp"
+                        app:layout_constraintBottom_toTopOf="@id/tv_ad_time"
+                        app:layout_constraintVertical_chainStyle="packed"
+                        app:layout_constraintStart_toEndOf="@id/iv_ad_coin"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tv_ad_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:fontFamily="@font/font_pretendard_medium"
+                        android:text="@string/pay_tv_ad_for_point_time"
+                        android:textColor="@color/yello_main_500"
+                        android:textSize="11dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/iv_ad_coin"
+                        app:layout_constraintTop_toBottomOf="@id/tv_ad_title"
+                        app:layout_constraintVertical_chainStyle="packed"/>
+
+                    <TextView
+                        android:id="@+id/tv_ad_reward"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/pay_ad_vote_for_point_reward"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:textSize="15dp"
+                        android:textColor="@color/white"
+                        android:fontFamily="@font/font_pretendard_medium"/>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
                 <TextView
                     android:id="@+id/tv_pay_guide_title"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="20dp"
-                    android:layout_marginTop="40dp"
+                    android:layout_marginTop="20dp"
                     android:paddingVertical="2dp"
                     android:text="@string/pay_tv_guide_title"
                     android:textAppearance="@style/TextAppearance.Yello.LabelLarge"
@@ -575,7 +689,7 @@
                     android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/layout_name_check_one" />
+                    app:layout_constraintTop_toBottomOf="@id/layout_ad_for_point" />
 
                 <TextView
                     android:id="@+id/tv_pay_guide_1"

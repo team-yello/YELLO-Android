@@ -6,6 +6,7 @@ import com.example.domain.entity.PayInAppModel
 import com.example.domain.entity.PayRequestModel
 import com.example.domain.entity.PaySubsModel
 import com.example.domain.entity.ProfileUserModel
+import com.example.domain.entity.event.RewardAdModel
 import com.example.domain.entity.event.RewardAdRequestModel
 import com.example.domain.repository.EventRepository
 import com.example.domain.repository.PayRepository
@@ -36,10 +37,16 @@ class PayViewModel @Inject constructor(
     private val _getUserInfoState = MutableStateFlow<UiState<ProfileUserModel?>>(UiState.Empty)
     val getUserInfoState: StateFlow<UiState<ProfileUserModel?>> = _getUserInfoState
 
+    private val _postRewardAdState = MutableStateFlow<UiState<RewardAdModel?>>(UiState.Empty)
+    val postRewardAdState: StateFlow<UiState<RewardAdModel?>> = _postRewardAdState
+
     private var _idempotencyKey: UUID? = null
     val idempotencyKey: UUID get() = requireNotNull(_idempotencyKey)
 
     var ticketCount = 0
+        private set
+
+    var pointCount = 0
         private set
 
     fun setTicketCount(count: Int) {
@@ -48,6 +55,14 @@ class PayViewModel @Inject constructor(
 
     fun addTicketCount(count: Int) {
         ticketCount += count
+    }
+
+    fun setPointCount(count:Int) {
+        pointCount = count
+    }
+
+    fun addPointCount() {
+        pointCount += 10
     }
 
     fun checkSubsValidToServer(request: PayRequestModel) {
@@ -99,6 +114,7 @@ class PayViewModel @Inject constructor(
 
     fun postRewardAdToCheck() {
         viewModelScope.launch {
+            _postRewardAdState.value = UiState.Loading
             eventRepository.postRewardAd(
                 idempotencyKey.toString(),
                 RewardAdRequestModel(
@@ -108,6 +124,16 @@ class PayViewModel @Inject constructor(
                     REWARD_NUMBER
                 )
             )
+                .onSuccess { reward ->
+                    if (reward == null) {
+                        _postRewardAdState.value = UiState.Empty
+                    } else {
+                        _postRewardAdState.value = UiState.Success(reward)
+                    }
+                }
+                .onFailure {
+                    _postRewardAdState.value = UiState.Failure(it.message.orEmpty())
+                }
         }
     }
 

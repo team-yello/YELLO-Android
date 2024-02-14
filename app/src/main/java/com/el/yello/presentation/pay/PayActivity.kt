@@ -25,6 +25,7 @@ import com.example.data.model.request.pay.toRequestPayModel
 import com.example.ui.activity.navigateTo
 import com.example.ui.base.BindingActivity
 import com.example.ui.context.toast
+import com.example.ui.fragment.toast
 import com.example.ui.view.UiState
 import com.example.ui.view.setOnSingleClickListener
 import com.google.android.gms.ads.AdRequest
@@ -70,6 +71,7 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
         initAdBtnListener()
         loadRewardAd()
         setRewardAdFinishCallback()
+        observePostRewardAdState()
         initBannerOnChangeListener()
         viewModel.getUserDataFromServer()
         setBannerAutoScroll()
@@ -150,8 +152,31 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
         rewardedAd?.fullScreenContentCallback = object : FullScreenContentCallback() {
             override fun onAdDismissedFullScreenContent() {
                 rewardedAd = null
+                viewModel.postRewardAdToCheck()
             }
+            // TODO: 종료 감지 못함 !
         }
+    }
+
+    private fun observePostRewardAdState() {
+        viewModel.postRewardAdState.flowWithLifecycle(lifecycle).onEach { state ->
+            when (state) {
+                is UiState.Success -> {
+                    // TODO; 다이얼로그 띄우기
+                    toast("검증 성공 !")
+                    viewModel.addPointCount()
+                    binding.tvPointAmount.text = viewModel.pointCount.toString()
+                }
+
+                is UiState.Failure -> {
+                    toast(getString(R.string.internet_connection_error_msg))
+                }
+
+                is UiState.Loading -> return@onEach
+
+                is UiState.Empty -> return@onEach
+            }
+        }.launchIn(lifecycleScope)
     }
 
     // BillingManager 설정 시 BillingClient 연결 & 콜백 응답 설정 -> 검증 진행
@@ -242,6 +267,7 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
                     }
                     viewModel.setTicketCount(state.data?.ticketCount ?: 0)
                     binding.tvKeyAmount.text = state.data?.ticketCount.toString()
+                    viewModel.setPointCount(state.data?.point ?: 0)
                     binding.tvPointAmount.text = state.data?.point.toString()
                 }
 

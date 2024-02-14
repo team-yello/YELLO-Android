@@ -1,18 +1,20 @@
 package com.el.yello.presentation.main.yello.vote
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import com.el.yello.R
 import com.el.yello.databinding.ActivityVoteBinding
+import com.el.yello.presentation.main.yello.YelloFragment
 import com.el.yello.presentation.main.yello.vote.frame.NoteFrameAdapter
 import com.el.yello.presentation.main.yello.vote.note.NoteAdapter
 import com.el.yello.presentation.util.setCurrentItemWithDuration
 import com.el.yello.util.amplitude.AmplitudeUtils
 import com.el.yello.util.context.yelloSnackbar
 import com.example.ui.base.BindingActivity
-import com.example.ui.context.toast
 import com.example.ui.transformation.FadeOutTransformation
 import com.example.ui.view.UiState
 import dagger.hilt.android.AndroidEntryPoint
@@ -56,9 +58,10 @@ class VoteActivity : BindingActivity<ActivityVoteBinding>(R.layout.activity_vote
                     is UiState.Success -> initNoteViewPager()
                     is UiState.Empty -> {}
                     is UiState.Failure -> {
-                        // TODO: 커스텀 스낵바로 변경
-                        toast(getString(R.string.internet_connection_error_msg))
-                        finish()
+                        Intent(this, YelloFragment::class.java).apply {
+                            setResult(Activity.RESULT_CANCELED, this)
+                            if (!isFinishing) finish()
+                        }
                     }
                 }
             }.launchIn(lifecycleScope)
@@ -94,11 +97,17 @@ class VoteActivity : BindingActivity<ActivityVoteBinding>(R.layout.activity_vote
                 when (state) {
                     is UiState.Loading -> {}
                     is UiState.Failure -> {
-                        yelloSnackbar(binding.root, getString(R.string.internet_connection_error_msg))
+                        yelloSnackbar(
+                            binding.root,
+                            getString(R.string.internet_connection_error_msg)
+                        )
                     }
 
                     is UiState.Empty -> {
-                        yelloSnackbar(binding.root, getString(R.string.internet_connection_error_msg))
+                        yelloSnackbar(
+                            binding.root,
+                            getString(R.string.internet_connection_error_msg)
+                        )
                     }
 
                     is UiState.Success -> {}

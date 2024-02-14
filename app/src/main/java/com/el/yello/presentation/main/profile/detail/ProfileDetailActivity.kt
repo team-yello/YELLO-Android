@@ -1,6 +1,9 @@
 package com.el.yello.presentation.main.profile.detail
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.core.view.isVisible
 import androidx.lifecycle.flowWithLifecycle
@@ -12,7 +15,6 @@ import com.el.yello.presentation.main.profile.mod.SchoolProfileModActivity
 import com.el.yello.presentation.main.profile.mod.UnivProfileModActivity
 import com.el.yello.util.Utils.setImageOrBasicThumbnail
 import com.el.yello.util.context.yelloSnackbar
-import com.example.ui.activity.navigateTo
 import com.example.ui.base.BindingActivity
 import com.example.ui.view.UiState
 import com.example.ui.view.setOnSingleClickListener
@@ -28,6 +30,21 @@ class ProfileDetailActivity :
     private val viewModel by viewModels<ProfileDetailViewModel>()
 
     private var isUnivProfile = false
+
+    private val profileModifyResultLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            when (result.resultCode) {
+                Activity.RESULT_OK -> yelloSnackbar(
+                    binding.root,
+                    getString(R.string.profile_mod_success)
+                )
+
+                Activity.RESULT_CANCELED -> yelloSnackbar(
+                    binding.root,
+                    getString(R.string.internet_connection_error_msg)
+                )
+            }
+        }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,9 +72,9 @@ class ProfileDetailActivity :
 
     private fun navigateToModActivity() {
         if (isUnivProfile) {
-            this.navigateTo<UnivProfileModActivity>()
+            profileModifyResultLauncher.launch(Intent(this, UnivProfileModActivity::class.java))
         } else {
-            this.navigateTo<SchoolProfileModActivity>()
+            profileModifyResultLauncher.launch(Intent(this, SchoolProfileModActivity::class.java))
         }
         viewModel.resetViewModelState()
     }

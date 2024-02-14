@@ -26,10 +26,10 @@ import com.example.ui.activity.navigateTo
 import com.example.ui.base.BindingActivity
 import com.example.ui.view.UiState
 import com.example.ui.view.setOnSingleClickListener
-import com.google.android.gms.ads.AdError
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.FullScreenContentCallback
 import com.google.android.gms.ads.LoadAdError
+import com.google.android.gms.ads.OnUserEarnedRewardListener
 import com.google.android.gms.ads.rewarded.RewardedAd
 import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback
 import dagger.hilt.android.AndroidEntryPoint
@@ -67,6 +67,7 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
         initPurchaseBtnListener()
         initVoteBtnListener()
         initAdBtnListener()
+        loadRewardAd()
         setRewardAdCallback()
         initBannerOnChangeListener()
         viewModel.getUserDataFromServer()
@@ -115,21 +116,37 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
 
     private fun initAdBtnListener() {
         binding.layoutAdForPoint.setOnSingleClickListener {
-            val adRequest = AdRequest.Builder().build()
-            RewardedAd.load(this, ADMOB_REWARD_KEY, adRequest, object : RewardedAdLoadCallback() {
-                override fun onAdFailedToLoad(adError: LoadAdError) {
-                    rewardedAd = null
+            if (rewardedAd != null) {
+                rewardedAd.let { ad ->
+                    ad?.show(this, OnUserEarnedRewardListener { rewardItem ->
+                        // Handle the reward.
+                        val rewardAmount = rewardItem.amount
+                        val rewardType = rewardItem.type
+                    })
+                } ?: run {
+                    Timber.tag("admob").d("rewardedAd is not ready")
                 }
-
-                override fun onAdLoaded(ad: RewardedAd) {
-                    rewardedAd = ad
-                }
-            })
+            } else {
+                Timber.tag("admob").d("rewardedAd is null")
+            }
         }
     }
 
+    private fun loadRewardAd() {
+        val adRequest = AdRequest.Builder().build()
+        RewardedAd.load(this, ADMOB_REWARD_KEY, adRequest, object : RewardedAdLoadCallback() {
+            override fun onAdLoaded(ad: RewardedAd) {
+                rewardedAd = ad
+            }
+
+            override fun onAdFailedToLoad(adError: LoadAdError) {
+                rewardedAd = null
+            }
+        })
+    }
+
     private fun setRewardAdCallback() {
-        rewardedAd?.fullScreenContentCallback = object: FullScreenContentCallback() {
+        rewardedAd?.fullScreenContentCallback = object : FullScreenContentCallback() {
 
             override fun onAdDismissedFullScreenContent() {
                 // Called when ad is dismissed.

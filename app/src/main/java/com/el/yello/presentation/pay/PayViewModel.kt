@@ -13,6 +13,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import java.util.UUID
 import javax.inject.Inject
 
 @HiltViewModel
@@ -31,6 +32,9 @@ class PayViewModel @Inject constructor(
 
     private val _getUserInfoState = MutableStateFlow<UiState<ProfileUserModel?>>(UiState.Empty)
     val getUserInfoState: StateFlow<UiState<ProfileUserModel?>> = _getUserInfoState
+
+    private var _idempotencyKey: UUID? = null
+    val idempotencyKey: UUID get() = requireNotNull(_idempotencyKey)
 
     var ticketCount = 0
         private set
@@ -84,6 +88,10 @@ class PayViewModel @Inject constructor(
                     _getUserInfoState.value = UiState.Failure(t.message.orEmpty())
                 }
         }
+    }
+
+    fun setUuid() {
+        _idempotencyKey = UUID.randomUUID()
     }
 
 }

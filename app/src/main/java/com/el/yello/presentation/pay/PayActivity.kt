@@ -69,7 +69,7 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
         initVoteBtnListener()
         initAdBtnListener()
         loadRewardAd()
-        setRewardAdCallback()
+        setRewardAdFinishCallback()
         initBannerOnChangeListener()
         viewModel.getUserDataFromServer()
         setBannerAutoScroll()
@@ -126,15 +126,17 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
     }
 
     private fun loadRewardAd() {
+        viewModel.setUuid()
         val adRequest = AdRequest.Builder().build()
         RewardedAd.load(this, ADMOB_REWARD_KEY, adRequest, object : RewardedAdLoadCallback() {
+
             override fun onAdLoaded(ad: RewardedAd) {
                 rewardedAd = ad
-                val options = ServerSideVerificationOptions.Builder()
-                    .setCustomData("SAMPLE_CUSTOM_DATA_STRING")
-                    .build()
-                rewardedAd?.setServerSideVerificationOptions(options)
-                Timber.tag("admob").d("${rewardedAd?.responseInfo}")
+                rewardedAd?.setServerSideVerificationOptions(
+                    ServerSideVerificationOptions.Builder()
+                        .setCustomData(viewModel.idempotencyKey.toString())
+                        .build()
+                )
             }
 
             override fun onAdFailedToLoad(adError: LoadAdError) {
@@ -144,21 +146,10 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
         })
     }
 
-    private fun setRewardAdCallback() {
+    private fun setRewardAdFinishCallback() {
         rewardedAd?.fullScreenContentCallback = object : FullScreenContentCallback() {
-
             override fun onAdDismissedFullScreenContent() {
-                // Called when ad is dismissed.
-                // Set the ad reference to null so you don't show the ad a second time.
                 rewardedAd = null
-            }
-
-            override fun onAdImpression() {
-                // Called when an impression is recorded for an ad.
-            }
-
-            override fun onAdShowedFullScreenContent() {
-                // Called when ad is shown.
             }
         }
     }

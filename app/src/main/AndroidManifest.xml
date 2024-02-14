@@ -180,10 +180,9 @@
             android:name="com.google.firebase.messaging.default_notification_channel_id"
             android:value="@string/default_notification_channel_id" />
 
-        <!-- Sample AdMob app ID: ca-app-pub-3940256099942544/5224354917 -->
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="ca-app-pub-3940256099942544/5224354917"/>
+            android:value="${ADMOB_REWARD_KEY}"/>
 
     </application>
 

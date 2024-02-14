@@ -24,14 +24,15 @@ import com.el.yello.util.context.yelloSnackbar
 import com.example.data.model.request.pay.toRequestPayModel
 import com.example.ui.activity.navigateTo
 import com.example.ui.base.BindingActivity
+import com.example.ui.context.toast
 import com.example.ui.view.UiState
 import com.example.ui.view.setOnSingleClickListener
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.FullScreenContentCallback
 import com.google.android.gms.ads.LoadAdError
-import com.google.android.gms.ads.OnUserEarnedRewardListener
 import com.google.android.gms.ads.rewarded.RewardedAd
 import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback
+import com.google.android.gms.ads.rewarded.ServerSideVerificationOptions
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.launchIn
@@ -116,18 +117,10 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
 
     private fun initAdBtnListener() {
         binding.layoutAdForPoint.setOnSingleClickListener {
-            if (rewardedAd != null) {
-                rewardedAd.let { ad ->
-                    ad?.show(this, OnUserEarnedRewardListener { rewardItem ->
-                        // Handle the reward.
-                        val rewardAmount = rewardItem.amount
-                        val rewardType = rewardItem.type
-                    })
-                } ?: run {
-                    Timber.tag("admob").d("rewardedAd is not ready")
-                }
-            } else {
-                Timber.tag("admob").d("rewardedAd is null")
+            rewardedAd?.let { ad ->
+                ad.show(this) {}
+            } ?: run {
+                toast("광고 조회에 실패했습니다.")
             }
         }
     }
@@ -137,10 +130,16 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
         RewardedAd.load(this, ADMOB_REWARD_KEY, adRequest, object : RewardedAdLoadCallback() {
             override fun onAdLoaded(ad: RewardedAd) {
                 rewardedAd = ad
+                val options = ServerSideVerificationOptions.Builder()
+                    .setCustomData("SAMPLE_CUSTOM_DATA_STRING")
+                    .build()
+                rewardedAd?.setServerSideVerificationOptions(options)
+                Timber.tag("admob").d("${rewardedAd?.responseInfo}")
             }
 
             override fun onAdFailedToLoad(adError: LoadAdError) {
                 rewardedAd = null
+                toast("광고 조회에 실패했습니다.")
             }
         })
     }

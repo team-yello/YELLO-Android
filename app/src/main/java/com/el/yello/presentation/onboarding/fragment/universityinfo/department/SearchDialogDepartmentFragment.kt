@@ -36,7 +36,6 @@ class SearchDialogDepartmentFragment :
     private val viewModel by activityViewModels<OnBoardingViewModel>()
     private var adapter: DepartmentAdapter? = null
     private var inputText: String = ""
-    private val debounceTime = 500L
     private var searchJob: Job? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -48,22 +47,6 @@ class SearchDialogDepartmentFragment :
         recyclerviewScroll()
         setClickToDepartmentForm()
         setListWithInfinityScroll()
-    }
-
-    private fun initDepartmentDialogView() {
-        setHideKeyboard()
-        binding.etDepartmentSearch.doAfterTextChanged { it ->
-            searchJob?.cancel()
-            searchJob = viewModel.viewModelScope.launch {
-                delay(debounceTime)
-                it?.toString()?.let { viewModel.getUniversityGroupId(it) }
-            }
-        }
-        adapter = DepartmentAdapter(storeDepartment = ::storeUniversityGroup)
-        binding.rvDepartmentList.adapter = adapter
-        binding.btnBackDialog.setOnSingleClickListener {
-            dismiss()
-        }
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -81,6 +64,21 @@ class SearchDialogDepartmentFragment :
         return dialog
     }
 
+    private fun initDepartmentDialogView() {
+        setHideKeyboard()
+        binding.etDepartmentSearch.doAfterTextChanged { it ->
+            searchJob?.cancel()
+            searchJob = viewModel.viewModelScope.launch {
+                delay(Companion.debounceTime)
+                it?.toString()?.let { viewModel.getUniversityGroupId(it) }
+            }
+        }
+        adapter = DepartmentAdapter(storeDepartment = ::storeUniversityGroup)
+        binding.rvDepartmentList.adapter = adapter
+        binding.btnBackDialog.setOnSingleClickListener {
+            dismiss()
+        }
+    }
     private fun setupDepartmentData() {
         viewModel.departmentState.flowWithLifecycle(viewLifecycleOwner.lifecycle)
             .onEach { state ->
@@ -170,5 +168,6 @@ class SearchDialogDepartmentFragment :
         @JvmStatic
         fun newInstance() = SearchDialogDepartmentFragment()
         const val DEPARTMENT_FORM_URL = "https://bit.ly/3pO0ijD"
+        private const val debounceTime = 500L
     }
 }

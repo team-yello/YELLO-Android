@@ -2,8 +2,9 @@ package com.el.yello.presentation.onboarding.fragment.yelloid
 
 import android.os.Bundle
 import android.view.View
-import androidx.core.content.ContextCompat
+import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.findNavController
 import com.el.yello.R
 import com.el.yello.databinding.FragmentYelloIdBinding
@@ -15,23 +16,29 @@ import com.example.ui.base.BindingFragment
 import com.example.ui.fragment.colorOf
 import com.example.ui.view.UiState
 import com.example.ui.view.setOnSingleClickListener
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import org.json.JSONObject
 
 class YelIoIdFragment : BindingFragment<FragmentYelloIdBinding>(R.layout.fragment_yello_id) {
     private val viewModel by activityViewModels<OnBoardingViewModel>()
-
+    private var searchJob: Job? = null
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.vm = viewModel
         setDeleteBtnClickListener()
-        setYelloIdBtnClickListener()
+        setConfirmBtnClickListener()
         observeGetValidYelloIdState()
+        observeEditTextForValidId()
     }
 
-    private fun setYelloIdBtnClickListener() {
+    private fun setConfirmBtnClickListener() {
         binding.btnYelloIdNext.setOnSingleClickListener {
+            findNavController().navigate(R.id.action_yelIoIdFragment_to_addFriendFragment)
+            val activity = requireActivity() as OnBoardingActivity
+            activity.progressBarPlus()
             amplitudeYelloIdInfo()
-            viewModel.getValidYelloId(viewModel.id)
         }
     }
 
@@ -41,18 +48,30 @@ class YelIoIdFragment : BindingFragment<FragmentYelloIdBinding>(R.layout.fragmen
         }
     }
 
+    private fun observeEditTextForValidId() {
+        binding.etId.doAfterTextChanged { input ->
+            searchJob?.cancel()
+            searchJob = viewModel.viewModelScope.launch {
+                delay(Companion.debounceTime)
+                input?.toString()?.let {
+                    viewModel.getValidYelloId(it)
+                    binding.btnYelloIdNext.isEnabled = true
+                }
+            }
+        }
+    }
+
     private fun observeGetValidYelloIdState() {
         viewModel.getValidYelloIdState.observe(viewLifecycleOwner) { state ->
             when (state) {
                 is UiState.Success -> {
                     if (state.data) {
-                        initIdEditTextViewError()
+                        if (viewModel.idText.value.toString().isNotBlank()) {
+                            initIdEditTextViewError()
+                        }
                         return@observe
                     }
                     viewModel.resetGetValidYelloId()
-                    findNavController().navigate(R.id.action_yelIoIdFragment_to_addFriendFragment)
-                    val activity = requireActivity() as OnBoardingActivity
-                    activity.progressBarPlus()
                 }
                 is UiState.Failure -> {
                     yelloSnackbar(binding.root, getString(R.string.msg_error))
@@ -73,6 +92,9 @@ class YelIoIdFragment : BindingFragment<FragmentYelloIdBinding>(R.layout.fragmen
             tvIdErrorFirst.setTextColor(colorOf(R.color.semantic_red_500))
             tvIdErrorSecond.visibility = View.INVISIBLE
             tvIdErrorThird.visibility = View.INVISIBLE
+            btnYelloIdNext.setBackgroundResource(R.drawable.shape_grayscales_800_fill_100_rect)
+            btnYelloIdNext.setTextColor(colorOf(R.color.grayscales_700))
+            btnYelloIdNext.isEnabled = false
         }
     }
 
@@ -89,5 +111,6 @@ class YelIoIdFragment : BindingFragment<FragmentYelloIdBinding>(R.layout.fragmen
         private const val NAME_ONBOARD_VIEW = "onboard_view"
         private const val VALUE_ID = "id"
         private const val PROPERTY_USER_ID = "user_id"
+        private const val debounceTime = 300L
     }
 }

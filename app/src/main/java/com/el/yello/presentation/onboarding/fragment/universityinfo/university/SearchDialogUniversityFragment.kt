@@ -35,7 +35,6 @@ class SearchDialogUniversityFragment :
     private var adapter: UniversityAdapter? = null
     private val viewModel by activityViewModels<OnBoardingViewModel>()
     private var inputText: String = ""
-    private val debounceTime = 500L
     private var searchJob: Job? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -46,22 +45,6 @@ class SearchDialogUniversityFragment :
         setClickToSchoolForm()
         setListWithInfinityScroll()
         recyclerviewScroll()
-    }
-
-    private fun initUniversityDialogView() {
-        setHideKeyboard()
-        binding.etSchoolSearch.doAfterTextChanged { input ->
-            searchJob?.cancel()
-            searchJob = viewModel.viewModelScope.launch {
-                delay(debounceTime)
-                input?.toString()?.let { viewModel.getUniversityList(it) }
-            }
-        }
-        adapter = UniversityAdapter(storeUniversity = ::storeUniversity)
-        binding.rvSchoolList.adapter = adapter
-        binding.btnBackDialog.setOnSingleClickListener {
-            dismiss()
-        }
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -79,6 +62,21 @@ class SearchDialogUniversityFragment :
         return dialog
     }
 
+    private fun initUniversityDialogView() {
+        setHideKeyboard()
+        binding.etSchoolSearch.doAfterTextChanged { input ->
+            searchJob?.cancel()
+            searchJob = viewModel.viewModelScope.launch {
+                delay(Companion.debounceTime)
+                input?.toString()?.let { viewModel.getUniversityList(it) }
+            }
+        }
+        adapter = UniversityAdapter(storeUniversity = ::storeUniversity)
+        binding.rvSchoolList.adapter = adapter
+        binding.btnBackDialog.setOnSingleClickListener {
+            dismiss()
+        }
+    }
     private fun setupUniversityData() {
         viewModel.universityState.flowWithLifecycle(viewLifecycleOwner.lifecycle)
             .onEach { state ->
@@ -87,7 +85,7 @@ class SearchDialogUniversityFragment :
                         adapter?.submitList(state.data.schoolList)
                     }
                     is UiState.Failure -> {
-                        yelloSnackbar(binding.root, getString(R.string.msg_error))
+                        yelloSnackbar(binding.root, getString(R.string.internet_connection_error_msg))
                     }
                     is UiState.Loading -> return@onEach
                     is UiState.Empty -> return@onEach
@@ -162,7 +160,7 @@ class SearchDialogUniversityFragment :
     companion object {
         @JvmStatic
         fun newInstance() = SearchDialogUniversityFragment()
-
         const val SCHOOL_FORM_URL = "https://bit.ly/46Yv0Hc"
+        private const val debounceTime = 500L
     }
 }

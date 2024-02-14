@@ -24,6 +24,11 @@ class CheckNameDialog :
         setDialogBackground()
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        initEditNameBtnListener()
+    }
+
     private fun setDialogBackground() {
         val deviceWidth = Resources.getSystem().displayMetrics.widthPixels
         val dialogHorizontalMargin = (Resources.getSystem().displayMetrics.density * 16) * 2
@@ -39,13 +44,7 @@ class CheckNameDialog :
         dialog?.setCancelable(false)
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        initEditBtnListener()
-    }
-
-    private fun initEditBtnListener() {
+    private fun initEditNameBtnListener() {
         val bundle = arguments
         if (bundle != null) {
             with(binding) {
@@ -70,7 +69,7 @@ class CheckNameDialog :
                 }
             }
         } else {
-            toast(getString(R.string.sign_in_error_connection))
+            toast(getString(R.string.internet_connection_error_msg))
         }
     }
 }

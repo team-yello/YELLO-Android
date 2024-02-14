@@ -17,7 +17,6 @@ import com.el.yello.presentation.tutorial.TutorialAActivity
 import com.el.yello.util.amplitude.AmplitudeUtils
 import com.el.yello.util.context.yelloSnackbar
 import com.example.ui.base.BindingActivity
-import com.example.ui.context.toast
 import com.example.ui.view.UiState
 import com.example.ui.view.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
@@ -53,7 +52,7 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
 
     private fun observeDeviceTokenError() {
         viewModel.getDeviceTokenError.flowWithLifecycle(lifecycle).onEach { error ->
-            if (error) toast(getString(R.string.sign_in_error_connection))
+            if (error) yelloSnackbar(binding.root, getString(R.string.internet_connection_error_msg))
         }.launchIn(lifecycleScope)
     }
 
@@ -65,13 +64,13 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
 
     private fun observeChangeTokenResult() {
         viewModel.postChangeTokenResult.flowWithLifecycle(lifecycle).onEach { result ->
-            if (!result) toast(getString(R.string.sign_in_error_connection))
+            if (!result) yelloSnackbar(binding.root, getString(R.string.internet_connection_error_msg))
         }.launchIn(lifecycleScope)
     }
 
     private fun observeKakaoUserInfoResult() {
         viewModel.getKakaoInfoResult.flowWithLifecycle(lifecycle).onEach { result ->
-            if (!result) yelloSnackbar(binding.root, getString(R.string.msg_error))
+            if (!result) yelloSnackbar(binding.root, getString(R.string.internet_connection_error_msg))
         }.launchIn(lifecycleScope)
     }
 
@@ -88,7 +87,7 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
                     }
                 }
 
-                is UiState.Failure -> yelloSnackbar(binding.root, getString(R.string.msg_error))
+                is UiState.Failure -> yelloSnackbar(binding.root, getString(R.string.internet_connection_error_msg))
 
                 is UiState.Empty -> return@onEach
 
@@ -113,7 +112,7 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
                     }
                 }
 
-                is UiState.Failure -> yelloSnackbar(binding.root, getString(R.string.msg_error))
+                is UiState.Failure -> yelloSnackbar(binding.root, getString(R.string.internet_connection_error_msg))
 
                 is UiState.Empty -> return@onEach
 

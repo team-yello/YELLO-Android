@@ -1,5 +1,7 @@
 package com.el.yello.presentation.main.profile.mod
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.activity.viewModels
@@ -8,11 +10,12 @@ import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import com.el.yello.R
 import com.el.yello.databinding.ActivityProfileUnivModBinding
+import com.el.yello.presentation.main.profile.detail.ProfileDetailActivity
 import com.el.yello.presentation.main.profile.mod.UnivProfileModViewModel.Companion.TEXT_NONE
+import com.el.yello.util.context.yelloSnackbar
 import com.example.ui.activity.navigateTo
 import com.example.ui.base.BindingActivity
 import com.example.ui.context.drawableOf
-import com.example.ui.context.toast
 import com.example.ui.view.UiState
 import com.example.ui.view.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
@@ -58,11 +61,11 @@ class UnivProfileModActivity :
         binding.btnProfileModSave.setOnSingleClickListener {
             when {
                 !viewModel.isChanged -> {
-                    toast(getString(R.string.profile_mod_no_change))
+                    yelloSnackbar(binding.root, getString(R.string.profile_mod_no_change))
                 }
 
                 !viewModel.isModAvailable -> {
-                    toast(getString(R.string.profile_mod_no_valid))
+                    yelloSnackbar(binding.root, getString(R.string.profile_mod_no_valid))
                 }
 
                 viewModel.subGroup.value == TEXT_NONE -> {
@@ -99,7 +102,10 @@ class UnivProfileModActivity :
 
     private fun observeGetUserDataResult() {
         viewModel.getUserDataResult.flowWithLifecycle(lifecycle).onEach { result ->
-            if (!result) toast(getString(R.string.msg_error))
+            if (!result) yelloSnackbar(
+                binding.root,
+                getString(R.string.internet_connection_error_msg)
+            )
         }.launchIn(lifecycleScope)
     }
 
@@ -114,7 +120,10 @@ class UnivProfileModActivity :
                     binding.tvProfileModLastDateTitle.visibility = View.INVISIBLE
                 }
 
-                is UiState.Failure -> toast(getString(R.string.msg_error))
+                is UiState.Failure -> yelloSnackbar(
+                    binding.root,
+                    getString(R.string.internet_connection_error_msg)
+                )
 
                 is UiState.Loading -> return@onEach
             }
@@ -122,12 +131,17 @@ class UnivProfileModActivity :
     }
 
     private fun observePostNewProfileResult() {
-        viewModel.postToModProfileResult.flowWithLifecycle(lifecycle).onEach { result ->
-            if (result) {
-                toast(getString(R.string.profile_mod_success))
-                finish()
+        viewModel.postToModProfileResult.flowWithLifecycle(lifecycle).onEach { isModified ->
+            if (isModified) {
+                Intent(this, ProfileDetailActivity::class.java).apply {
+                    setResult(Activity.RESULT_OK, this)
+                    if (!isFinishing) finish()
+                }
             } else {
-                toast(getString(R.string.msg_error))
+                Intent(this, ProfileDetailActivity::class.java).apply {
+                    setResult(Activity.RESULT_CANCELED, this)
+                    if (!isFinishing) finish()
+                }
             }
             viewModel.resetStateVariables()
         }.launchIn(lifecycleScope)

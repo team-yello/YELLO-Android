@@ -106,7 +106,7 @@ class ProfileManageActivity :
                     }
                 }
 
-                is UiState.Failure -> yelloSnackbar(binding.root, getString(R.string.msg_error))
+                is UiState.Failure -> yelloSnackbar(binding.root, getString(R.string.internet_connection_error_msg))
 
                 is UiState.Empty -> return@onEach
 

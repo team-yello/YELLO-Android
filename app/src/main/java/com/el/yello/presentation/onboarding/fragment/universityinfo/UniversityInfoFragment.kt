@@ -7,8 +7,8 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.el.yello.R
 import com.el.yello.databinding.FragmentUniversityBinding
-import com.el.yello.presentation.onboarding.activity.OnBoardingActivity
 import com.el.yello.presentation.onboarding.OnBoardingViewModel
+import com.el.yello.presentation.onboarding.activity.OnBoardingActivity
 import com.el.yello.presentation.onboarding.fragment.universityinfo.department.SearchDialogDepartmentFragment
 import com.el.yello.presentation.onboarding.fragment.universityinfo.studentid.StudentIdDialogFragment
 import com.el.yello.presentation.onboarding.fragment.universityinfo.university.SearchDialogUniversityFragment
@@ -34,7 +34,16 @@ class UniversityInfoFragment :
     }
     override fun onResume() {
         super.onResume()
-        (activity as? OnBoardingActivity)?.showBackBtn()
+        callParentActivity {
+            showBackBtn()
+        }
+    }
+
+    private fun callParentActivity(callback: OnBoardingActivity.() -> Unit) {
+        val activity = requireActivity()
+        if (activity is OnBoardingActivity) {
+            activity.callback()
+        }
     }
 
     private fun initSearchInfoBtnClickListener() {
@@ -45,7 +54,7 @@ class UniversityInfoFragment :
             if (binding.tvUniversitySearch.text.isNotBlank()) {
                 SearchDialogDepartmentFragment().show(parentFragmentManager, this.tag)
             } else {
-                yelloSnackbar(binding.root.rootView, "학교를 선택해야 학과를 선택할 수 있어요!")
+                yelloSnackbar(binding.root.rootView, getString(R.string.onboarding_department_select_warning))
             }
         }
         binding.tvStudentidSearch.setOnSingleClickListener {
@@ -56,7 +65,7 @@ class UniversityInfoFragment :
     private fun setupUniversity() {
         viewModel.universityText.observe(viewLifecycleOwner) { school ->
             binding.tvUniversitySearch.text = school
-            binding.tvDepartmentSearch.text = ""
+            binding.tvDepartmentSearch.text = INITIAL_TEXT
         }
     }
 
@@ -72,7 +81,7 @@ class UniversityInfoFragment :
     private fun setupStudentId() {
         viewModel.studentIdText.observe(viewLifecycleOwner) { studentId ->
             if (studentId in OVERLAP_MIN_ID..OVERLAP_MAX_ID) {
-                binding.tvStudentidSearch.text = ""
+                binding.tvStudentidSearch.text = INITIAL_TEXT
             } else {
                 binding.tvStudentidSearch.text = getString(R.string.onboarding_student_id, studentId)
             }
@@ -111,5 +120,6 @@ class UniversityInfoFragment :
         private const val PROPERTY_USER_SCHOOL = "user_school"
         private const val PROPERTY_USER_DEPARTMENT = "user_department"
         private const val PROPERTY_USER_GRADE = "user_grade"
+        private const val INITIAL_TEXT = ""
     }
 }

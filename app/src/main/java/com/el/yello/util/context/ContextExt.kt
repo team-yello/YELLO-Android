@@ -6,7 +6,7 @@ import androidx.fragment.app.Fragment
 import com.el.yello.util.view.YelloSnackbar
 
 fun Context.yelloSnackbar(anchorView: View, message: String) {
-    YelloSnackbar.make(anchorView, message)
+    YelloSnackbar.make(anchorView, message).show()
 }
 
 fun Fragment.yelloSnackbar(anchorView: View, message: String) {

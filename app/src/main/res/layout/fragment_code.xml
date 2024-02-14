@@ -163,7 +163,6 @@
             android:layout_marginHorizontal="16dp"
             android:text="@string/onboarding_btn_code_skip"
             android:textAlignment="center"
-            android:clickable="@{vm.codeText.isEmpty()}"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             android:textColor="@color/grayscales_200"
             app:layout_constraintBottom_toTopOf="@+id/btn_code_next"

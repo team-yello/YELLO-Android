@@ -1,11 +1,11 @@
 package com.example.domain.enum
 
 enum class Grade {
-    A, B, C;
+    First, Second, Third;
 
     fun toInt() = when (this) {
-        A -> 1
-        B -> 2
-        C -> 3
+        First -> 1
+        Second -> 2
+        Third -> 3
     }
 }

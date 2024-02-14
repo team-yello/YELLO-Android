@@ -1,9 +1,10 @@
 package com.el.yello.presentation.main.yello
 
-import android.content.Context
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.commit
@@ -21,7 +22,7 @@ import com.el.yello.presentation.main.yello.vote.VoteActivity
 import com.el.yello.presentation.main.yello.wait.YelloWaitFragment
 import com.el.yello.util.context.yelloSnackbar
 import com.example.ui.base.BindingFragment
-import com.example.ui.fragment.toast
+import com.example.ui.restart.restartApp
 import com.example.ui.view.UiState.Empty
 import com.example.ui.view.UiState.Failure
 import com.example.ui.view.UiState.Loading
@@ -33,6 +34,16 @@ import kotlinx.coroutines.flow.onEach
 @AndroidEntryPoint
 class YelloFragment : BindingFragment<FragmentYelloBinding>(R.layout.fragment_yello) {
     private val viewModel by activityViewModels<YelloViewModel>()
+
+    private val voteResultLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_CANCELED) {
+                yelloSnackbar(
+                    binding.root,
+                    getString(R.string.internet_connection_error_msg)
+                )
+            }
+        }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -57,13 +68,12 @@ class YelloFragment : BindingFragment<FragmentYelloBinding>(R.layout.fragment_ye
                     is Empty -> {
                         yelloSnackbar(
                             binding.root,
-                            getString(R.string.msg_failure),
+                            getString(R.string.internet_connection_error_msg),
                         )
                     }
 
                     is Failure -> {
-                        toast(getString(R.string.msg_auto_login_error))
-                        restartApp(requireContext())
+                        restartApp(requireContext(), getString(R.string.token_expire_error_msg))
                     }
                 }
             }.launchIn(viewLifecycleOwner.lifecycleScope)
@@ -75,23 +85,13 @@ class YelloFragment : BindingFragment<FragmentYelloBinding>(R.layout.fragment_ye
         }
     }
 
-    private fun restartApp(context: Context) {
-        val packageManager = context.packageManager
-        val packageName = context.packageName
-        val componentName = packageManager.getLaunchIntentForPackage(packageName)?.component
-        context.startActivity(Intent.makeRestartActivityTask(componentName))
-        Runtime.getRuntime().exit(0)
-    }
-
     private fun checkStoredVote() {
         viewModel.getStoredVote() ?: return
         intentToVoteScreen()
     }
 
     private fun intentToVoteScreen() {
-        Intent(activity, VoteActivity::class.java).apply {
-            startActivity(this)
-        }
+        voteResultLauncher.launch(Intent(activity, VoteActivity::class.java))
     }
 
     override fun onResume() {

@@ -6,12 +6,11 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.el.yello.R
 import com.el.yello.databinding.FragmentSelectStudentTypeBinding
-import com.el.yello.presentation.onboarding.activity.OnBoardingActivity
 import com.el.yello.presentation.onboarding.OnBoardingViewModel
+import com.el.yello.presentation.onboarding.activity.OnBoardingActivity
 import com.el.yello.util.amplitude.AmplitudeUtils
 import com.example.domain.enum.StudentType
 import com.example.ui.base.BindingFragment
-import com.example.ui.context.colorOf
 import com.example.ui.fragment.colorOf
 import com.example.ui.view.setOnSingleClickListener
 import org.json.JSONObject
@@ -23,19 +22,29 @@ class SelectStudentFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.vm = viewModel
-        binding.highschool = StudentType.H.toString()
-        binding.university = StudentType.U.toString()
+        binding.highschool = StudentType.HIGHSCHOOL.toString()
+        binding.university = StudentType.UNIVERSITY.toString()
         setupStudentType()
     }
 
     override fun onResume() {
         super.onResume()
-        (activity as? OnBoardingActivity)?.hideBackBtn()
+        callParentActivity {
+            hideBackBtn()
+        }
     }
+
+    private fun callParentActivity(callback: OnBoardingActivity.() -> Unit) {
+        val activity = requireActivity()
+        if (activity is OnBoardingActivity) {
+            activity.callback()
+        }
+    }
+
     private fun setupStudentType() {
         viewModel.studentType.observe(viewLifecycleOwner) { studentType ->
             when (studentType) {
-                StudentType.H.toString() -> {
+                StudentType.HIGHSCHOOL.toString() -> {
                     changeHighSchoolBtn()
                     binding.btnSelectTypeNext.setOnSingleClickListener {
                         findNavController().navigate(R.id.action_selectStudentFragment_to_highschoolInfoFragment)
@@ -46,7 +55,7 @@ class SelectStudentFragment :
                     }
                 }
 
-                StudentType.U.toString() -> {
+                StudentType.UNIVERSITY.toString() -> {
                     changeUniversityBtn()
                     binding.btnSelectTypeNext.setOnSingleClickListener {
                         findNavController().navigate(R.id.action_selectStudentFragment_to_universityInfoFragment)

@@ -17,15 +17,10 @@ data class ResponseGetEventDto(
     @SerialName("subTitle")
     val subTitle: String,
     @SerialName("animationList")
-    val animationList: List<AnimationDto>,
+    val animationList: List<String>,
     @SerialName("eventReward")
     val eventReward: RewardDto?,
 ) {
-    @Serializable
-    data class AnimationDto(
-        @SerialName("v")
-        val lottieRes: String,
-    )
 
     @Serializable
     data class RewardDto(

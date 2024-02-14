@@ -26,7 +26,7 @@ class MyYelloViewModel @Inject constructor(
     private val noticeRepository: NoticeRepository,
 ) : ViewModel() {
 
-    // Todo Flow 쓰면 상세보기 갔다 왔을 때 리스트 계속 관찰해서 임시로 LiveData로 구현
+    // Todo Flow 쓰면 상세 보기 갔다 왔을 때 리스트 계속 관찰해서 임시로 LiveData로 구현
     private val _myYelloData = MutableLiveData<UiState<MyYello>>(UiState.Loading)
     val myYelloData: LiveData<UiState<MyYello>> = _myYelloData
 
@@ -82,8 +82,10 @@ class MyYelloViewModel @Inject constructor(
                     _totalCount.value = it.totalCount
                     setAmplitude(it)
                 }
-                .onFailure {
-                    _myYelloData.value = UiState.Failure("내 쪽지 목록 서버 통신 실패")
+                .onFailure { t ->
+                    if (t is HttpException) {
+                        _myYelloData.value = UiState.Failure(t.code().toString())
+                    }
                 }
         }
     }
@@ -100,7 +102,7 @@ class MyYelloViewModel @Inject constructor(
         }
     }
 
-    fun getBanner() {
+    private fun getBanner() {
         viewModelScope.launch {
             noticeRepository.getBanner()
                 .onSuccess { banner ->
@@ -121,28 +123,36 @@ class MyYelloViewModel @Inject constructor(
 
     private fun setAmplitude(myYello: MyYello) {
         AmplitudeUtils.updateUserIntProperties(
-            "user_message_received",
+            NAME_USER_MESSAGE_RECEIVED,
             myYello.totalCount,
         )
         AmplitudeUtils.updateUserIntProperties(
-            "user_message_open",
+            NAME_USER_MESSAGE_OPEN,
             myYello.openCount,
         )
         AmplitudeUtils.updateUserIntProperties(
-            "user_message_open_keyword",
+            NAME_USER_MESSAGE_OPEN_KEYWORD,
             myYello.openKeywordCount,
         )
         AmplitudeUtils.updateUserIntProperties(
-            "user_message_open_firstletter",
+            NAME_USER_MESSAGE_OPEN_FIRST_LETTER,
             myYello.openNameCount,
         )
         AmplitudeUtils.updateUserIntProperties(
-            "user_message_open_fullname",
+            NAME_USER_MESSAGE_OPEN_FULL_NAME,
             myYello.openFullNameCount,
         )
         AmplitudeUtils.updateUserIntProperties(
-            "user_message_open_fullname",
+            NAME_USER_MESSAGE_OPEN_FULL_NAME,
             myYello.openFullNameCount,
         )
+    }
+
+    companion object {
+        private const val NAME_USER_MESSAGE_RECEIVED = "user_message_received"
+        private const val NAME_USER_MESSAGE_OPEN = "user_message_open"
+        private const val NAME_USER_MESSAGE_OPEN_KEYWORD = "user_message_open_keyword"
+        private const val NAME_USER_MESSAGE_OPEN_FIRST_LETTER = "user_message_open_first_letter"
+        private const val NAME_USER_MESSAGE_OPEN_FULL_NAME = "user_message_open_fullname"
     }
 }

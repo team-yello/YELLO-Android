@@ -8,12 +8,14 @@ import android.os.Looper
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.el.yello.BuildConfig
 import com.el.yello.R
 import com.el.yello.databinding.ActivitySplashBinding
 import com.el.yello.presentation.auth.SignInActivity
 import com.el.yello.presentation.main.MainActivity
 import com.el.yello.util.NetworkManager
+import com.el.yello.util.context.yelloSnackbar
 import com.example.ui.base.BindingActivity
 import com.example.ui.context.toast
 import com.google.android.play.core.appupdate.AppUpdateInfo
@@ -31,9 +33,15 @@ class SplashActivity : BindingActivity<ActivitySplashBinding>(R.layout.activity_
     private val appUpdateManager by lazy { AppUpdateManagerFactory.create(this) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        installSplashScreen()
         super.onCreate(savedInstanceState)
 
+        showExtraToastMsg()
         initAppUpdate()
+    }
+
+    private fun showExtraToastMsg() {
+        yelloSnackbar(binding.root, intent.getStringExtra(EXTRA_TOAST_MSG) ?: return)
     }
 
     private fun initAppUpdate() {
@@ -142,5 +150,9 @@ class SplashActivity : BindingActivity<ActivitySplashBinding>(R.layout.activity_
                 }
             }
         }
+    }
+
+    companion object {
+        private const val EXTRA_TOAST_MSG = "TOAST_MSG"
     }
 }

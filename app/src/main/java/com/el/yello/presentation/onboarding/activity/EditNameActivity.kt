@@ -12,6 +12,7 @@ import com.el.yello.presentation.auth.SignInActivity.Companion.EXTRA_KAKAO_ID
 import com.el.yello.presentation.auth.SignInActivity.Companion.EXTRA_NAME
 import com.el.yello.presentation.auth.SignInActivity.Companion.EXTRA_PROFILE_IMAGE
 import com.el.yello.presentation.onboarding.OnBoardingViewModel
+import com.el.yello.util.context.yelloSnackbar
 import com.example.ui.base.BindingActivity
 import com.example.ui.context.toast
 import com.example.ui.view.setOnSingleClickListener
@@ -22,14 +23,13 @@ class EditNameActivity :
     BindingActivity<ActivityNameEditBinding>(R.layout.activity_name_edit) {
 
     private val viewModel by viewModels<OnBoardingViewModel>()
-
     private var backPressedTime: Long = 0
 
     private val onBackPressedCallback = object : OnBackPressedCallback(true) {
         override fun handleOnBackPressed() {
             if (System.currentTimeMillis() - backPressedTime >= BACK_PRESSED_INTERVAL) {
                 backPressedTime = System.currentTimeMillis()
-                toast(getString(R.string.main_toast_back_pressed))
+                yelloSnackbar(binding.root, getString(R.string.main_toast_back_pressed))
             } else {
                 finish()
             }

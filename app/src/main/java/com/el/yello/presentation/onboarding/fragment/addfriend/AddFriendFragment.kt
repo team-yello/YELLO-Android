@@ -11,8 +11,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.el.yello.R
 import com.el.yello.databinding.FragmentAddFriendBinding
-import com.el.yello.presentation.onboarding.activity.OnBoardingActivity
 import com.el.yello.presentation.onboarding.OnBoardingViewModel
+import com.el.yello.presentation.onboarding.activity.OnBoardingActivity
 import com.el.yello.util.amplitude.AmplitudeUtils
 import com.example.domain.entity.onboarding.AddFriendListModel.FriendModel
 import com.example.ui.base.BindingFragment
@@ -45,7 +45,20 @@ class AddFriendFragment : BindingFragment<FragmentAddFriendBinding>(R.layout.fra
         setConfirmBtnClickListener()
         setKakaoRecommendList()
         observeAddListState()
-        (activity as? OnBoardingActivity)?.showBackBtn()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        callParentActivity {
+            showBackBtn()
+        }
+    }
+
+    private fun callParentActivity(callback: OnBoardingActivity.() -> Unit) {
+        val activity = requireActivity()
+        if (activity is OnBoardingActivity) {
+            activity.callback()
+        }
     }
 
     private fun initFriendAdapter() {
@@ -110,7 +123,7 @@ class AddFriendFragment : BindingFragment<FragmentAddFriendBinding>(R.layout.fra
 
                     is UiState.Failure -> {
                         stopShimmerView()
-                        toast(getString(R.string.onboarding_add_friend_error))
+                        toast(getString(R.string.internet_connection_error_msg))
                     }
 
                     is UiState.Loading -> startShimmerView()

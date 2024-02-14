@@ -1,11 +1,8 @@
 package com.el.yello.presentation.main.yello.vote.frame
 
-import android.graphics.Point
 import android.os.Bundle
 import android.view.View
 import androidx.core.os.bundleOf
-import androidx.core.view.marginLeft
-import androidx.core.view.marginRight
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
@@ -16,14 +13,11 @@ import com.el.yello.presentation.main.yello.vote.VoteViewModel
 import com.el.yello.util.amplitude.AmplitudeUtils
 import com.el.yello.util.context.yelloSnackbar
 import com.example.ui.base.BindingFragment
-import com.example.ui.context.setMargins
-import com.example.ui.fragment.getCompatibleRealSize
 import com.example.ui.view.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import org.json.JSONObject
-import timber.log.Timber
 
 @AndroidEntryPoint
 class NoteFrameFragment : BindingFragment<FragmentNoteFrameBinding>(R.layout.fragment_note_frame) {
@@ -78,29 +72,6 @@ class NoteFrameFragment : BindingFragment<FragmentNoteFrameBinding>(R.layout.fra
         }
     }
 
-//    private fun setupNoteHeight() {
-//        viewModel.noteHeight.flowWithLifecycle(viewLifecycleOwner.lifecycle)
-//            .onEach { noteHeight ->
-//                if (noteHeight == 0) return@onEach
-//                Timber.tag("HEIGHT_TEST").d("note height : $noteHeight")
-//
-//                val size = Point()
-//                getCompatibleRealSize(size)
-//                val displayHeight = size.y
-//                Timber.tag("HEIGHT_TEST").d("display height : $displayHeight")
-//
-//                with(binding) {
-//                    val componentHeight =
-//                        20 + lottieNoteBalloon.height + ivNoteFace.height + noteHeight + flowVoteOption.height
-//                    Timber.tag("HEIGHT_TEST").d("component height : $componentHeight")
-//                    val spaceHeight = displayHeight - componentHeight
-//                    Timber.tag("HEIGHT_TEST").d("space height : $spaceHeight")
-//                    setMargins(lottieNoteBalloon, 0, spaceHeight / 2, 0, 0)
-//                    setMargins(flowVoteOption, flowVoteOption.marginLeft, 0, flowVoteOption.marginRight, spaceHeight / 2)
-//                }
-//            }.launchIn(viewLifecycleOwner.lifecycleScope)
-//    }
-
     private fun initShuffleBtnClickListener() {
         binding.btnVoteShuffle.setOnSingleClickListener {
             viewModel.shuffle()
@@ -154,7 +125,7 @@ class NoteFrameFragment : BindingFragment<FragmentNoteFrameBinding>(R.layout.fra
 
                     NoteState.Failure -> yelloSnackbar(
                         binding.root,
-                        getString(R.string.msg_error),
+                        getString(R.string.internet_connection_error_msg),
                     )
                 }
             }.launchIn(viewLifecycleOwner.lifecycleScope)
@@ -169,9 +140,6 @@ class NoteFrameFragment : BindingFragment<FragmentNoteFrameBinding>(R.layout.fra
 
         private const val EVENT_CLICK_VOTE_SHUFFLE = "click_vote_shuffle"
         private const val EVENT_CLICK_VOTE_SKIP = "click_vote_skip"
-
-        private const val MARGIN_TOP_IV_FACE = 10
-        private const val HEIGHT_PROGRESS_BAR = 20
 
         private val progressDegree =
             listOf(165f, -30f, -120f, -165f, -60f, -20f, -117f, 24f, -45f, 12f)

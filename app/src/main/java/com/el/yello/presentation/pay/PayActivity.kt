@@ -105,7 +105,7 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
 
     private fun initAdBtnListener() {
         binding.layoutAdForPoint.setOnSingleClickListener {
-
+            // TODO: 만들기~
         }
     }
 

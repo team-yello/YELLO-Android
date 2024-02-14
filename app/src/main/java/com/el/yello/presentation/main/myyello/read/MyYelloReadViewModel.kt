@@ -109,8 +109,10 @@ class MyYelloReadViewModel @Inject constructor(
                         minusPoint()
                         _keywordData.value = UiState.Success(it)
                     }
-                }.onFailure {
-                    _keywordData.value = UiState.Failure("키워드 확인 서버 통신 실패")
+                }.onFailure { t ->
+                    if (t is HttpException) {
+                        _keywordData.value = UiState.Failure(t.code().toString())
+                    }
                 }
         }
     }
@@ -127,8 +129,10 @@ class MyYelloReadViewModel @Inject constructor(
                         }
                         _nameData.value = UiState.Success(it)
                     }
-                }.onFailure {
-                    _nameData.value = UiState.Failure("이름 확인 서버 통신 실패")
+                }.onFailure { t ->
+                    if (t is HttpException) {
+                        _nameData.value = UiState.Failure(t.code().toString())
+                    }
                 }
         }
     }
@@ -143,8 +147,10 @@ class MyYelloReadViewModel @Inject constructor(
                         minusTicket()
                         _fullNameData.value = UiState.Success(it)
                     }
-                }.onFailure {
-                    _fullNameData.value = UiState.Failure("열람권 사용하기 서버 통신 실패")
+                }.onFailure { t ->
+                    if (t is HttpException) {
+                        _fullNameData.value = UiState.Failure(t.code().toString())
+                    }
                 }
         }
     }

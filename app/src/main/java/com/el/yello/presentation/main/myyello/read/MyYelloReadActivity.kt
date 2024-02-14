@@ -25,7 +25,6 @@ import com.el.yello.util.amplitude.AmplitudeUtils
 import com.example.domain.entity.YelloDetail
 import com.example.domain.enum.PointEnum
 import com.example.ui.base.BindingActivity
-import com.example.ui.context.toast
 import com.example.ui.intent.boolExtra
 import com.example.ui.intent.intExtra
 import com.example.ui.intent.longExtra
@@ -60,7 +59,6 @@ class MyYelloReadActivity :
 
     private fun trackAmplitudeEvent() {
         with(viewModel.yelloDetail ?: return) {
-            // TODO : 커스텀 스테이트로 분기 처리
             if (nameHint != -3) {
                 AmplitudeUtils.trackEventWithProperties(EVENT_VIEW_OPEN_MESSAGE)
             }
@@ -215,8 +213,7 @@ class MyYelloReadActivity :
                     }
 
                     is UiState.Failure -> {
-                        toast(getString(R.string.msg_auto_login_error))
-                        restartApp(this)
+                        restartApp(this, getString(R.string.token_expire_error_msg))
                     }
 
                     else -> return@onEach
@@ -227,7 +224,7 @@ class MyYelloReadActivity :
     private fun setViewInstagram(isInstagram: Boolean) {
         binding.clInstagramView.visibility = if (isInstagram) View.VISIBLE else View.INVISIBLE
         binding.clTopView.visibility = if (isInstagram) View.INVISIBLE else View.VISIBLE
-        binding.clBottomView.visibility = if(isInstagram) View.INVISIBLE else View.VISIBLE
+        binding.clBottomView.visibility = if (isInstagram) View.INVISIBLE else View.VISIBLE
     }
 
     private fun setData(yello: YelloDetail) {

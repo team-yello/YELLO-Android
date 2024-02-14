@@ -177,7 +177,7 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
 
     private fun observeUserDataResult() {
         viewModel.getUserDataResult.flowWithLifecycle(lifecycle).onEach { result ->
-            if (!result) yelloSnackbar(requireView(), getString(R.string.profile_error_user_data))
+            if (!result) yelloSnackbar(requireView(), getString(R.string.internet_connection_error_msg))
         }.launchIn(lifecycleScope)
     }
 
@@ -191,7 +191,7 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
                 }
 
                 is UiState.Failure -> {
-                    yelloSnackbar(requireView(), getString(R.string.profile_error_friend_list))
+                    yelloSnackbar(requireView(), getString(R.string.internet_connection_error_msg))
                 }
 
                 is UiState.Loading -> {
@@ -243,7 +243,7 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
                     AmplitudeUtils.trackEventWithProperties("complete_profile_delete_friend")
                 }
 
-                is UiState.Failure -> toast(getString(R.string.profile_error_delete_friend))
+                is UiState.Failure -> toast(getString(R.string.internet_connection_error_msg))
 
                 is UiState.Loading -> return@onEach
 
@@ -270,7 +270,7 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
     private fun observeGetBannerState() {
         viewModel.getBannerResult.flowWithLifecycle(lifecycle).onEach { result ->
             if (!result) {
-                yelloSnackbar(binding.root, getString(R.string.my_yello_get_banner_failure))
+                yelloSnackbar(binding.root, getString(R.string.internet_connection_error_msg))
             }
             viewModel.getFriendsListFromServer()
         }.launchIn(lifecycleScope)

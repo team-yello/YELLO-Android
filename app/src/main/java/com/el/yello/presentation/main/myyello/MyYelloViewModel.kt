@@ -82,8 +82,10 @@ class MyYelloViewModel @Inject constructor(
                     _totalCount.value = it.totalCount
                     setAmplitude(it)
                 }
-                .onFailure {
-                    _myYelloData.value = UiState.Failure("내 쪽지 목록 서버 통신 실패")
+                .onFailure { t ->
+                    if (t is HttpException) {
+                        _myYelloData.value = UiState.Failure(t.code().toString())
+                    }
                 }
         }
     }

@@ -17,9 +17,9 @@ import com.el.yello.R
 import com.el.yello.databinding.ActivityPayBinding
 import com.el.yello.presentation.main.profile.manage.ProfileManageActivity
 import com.el.yello.util.amplitude.AmplitudeUtils
+import com.el.yello.util.context.yelloSnackbar
 import com.example.data.model.request.pay.toRequestPayModel
 import com.example.ui.base.BindingActivity
-import com.example.ui.context.toast
 import com.example.ui.view.UiState
 import com.example.ui.view.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
@@ -87,7 +87,7 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
             ?.let { productDetails ->
                 manager.purchaseProduct(productDetails.index, productDetails.value)
             } ?: also {
-            toast(getString(R.string.pay_error_no_item))
+            yelloSnackbar(binding.root, getString(R.string.pay_error_no_item))
         }
     }
 
@@ -203,7 +203,7 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
                     if (state.msg == SERVER_ERROR) {
                         showErrorDialog()
                     } else {
-                        toast(getString(R.string.pay_check_error))
+                        yelloSnackbar(binding.root, getString(R.string.pay_check_error))
                     }
                 }
 
@@ -248,7 +248,7 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
                     if (state.msg == SERVER_ERROR) {
                         showErrorDialog()
                     } else {
-                        toast(getString(R.string.pay_check_error))
+                        yelloSnackbar(binding.root, getString(R.string.pay_check_error))
                     }
                 }
 

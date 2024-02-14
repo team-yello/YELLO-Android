@@ -87,7 +87,7 @@ class SearchDialogHighSchoolFragment :
                     }
 
                     is UiState.Failure -> {
-                        yelloSnackbar(binding.root, getString(R.string.msg_error))
+                        yelloSnackbar(binding.root, getString(R.string.internet_connection_error_msg))
                     }
 
                     is UiState.Loading -> return@onEach

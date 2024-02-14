@@ -29,7 +29,6 @@ import com.el.yello.util.context.yelloSnackbar
 import com.example.domain.entity.event.Event
 import com.example.domain.enum.SubscribeType.CANCELED
 import com.example.ui.base.BindingActivity
-import com.example.ui.context.toast
 import com.example.ui.intent.stringExtra
 import com.example.ui.view.UiState.Empty
 import com.example.ui.view.UiState.Failure
@@ -59,7 +58,7 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
         override fun handleOnBackPressed() {
             if (System.currentTimeMillis() - backPressedTime >= BACK_PRESSED_INTERVAL) {
                 backPressedTime = System.currentTimeMillis()
-                toast(getString(R.string.main_toast_back_pressed))
+                yelloSnackbar(binding.root, getString(R.string.main_toast_back_pressed))
             } else {
                 finish()
             }
@@ -223,7 +222,7 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
 
                     is Failure -> yelloSnackbar(
                         binding.root,
-                        getString(R.string.msg_error),
+                        getString(R.string.internet_connection_error_msg),
                     )
                 }
             }.launchIn(lifecycleScope)
@@ -235,7 +234,7 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
                 when (state) {
                     is Empty -> yelloSnackbar(
                         binding.root,
-                        getString(R.string.msg_error),
+                        getString(R.string.internet_connection_error_msg),
                     )
 
                     is Loading -> return@onEach
@@ -250,7 +249,7 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
 
                     is Failure -> yelloSnackbar(
                         binding.root,
-                        getString(R.string.main_get_notice_failure),
+                        getString(R.string.internet_connection_error_msg),
                     )
                 }
             }.launchIn(lifecycleScope)
@@ -300,7 +299,7 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
 
                     is Failure -> yelloSnackbar(
                         binding.root,
-                        getString(R.string.event_get_event_failure),
+                        getString(R.string.internet_connection_error_msg),
                     )
 
                     is Empty -> return@onEach
@@ -312,6 +311,8 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
     private fun Event.toParcelableEvent() = ParcelableEvent(
         title = title,
         subTitle = subTitle,
+        defaultLottieUrl = animationUrlList[0],
+        openLottieUrl = animationUrlList[1]
     )
 
     private fun Event.Reward.toParcelableReward() = ParcelableReward(

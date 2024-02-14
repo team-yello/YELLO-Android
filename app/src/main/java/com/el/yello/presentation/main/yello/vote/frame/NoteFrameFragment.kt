@@ -125,7 +125,7 @@ class NoteFrameFragment : BindingFragment<FragmentNoteFrameBinding>(R.layout.fra
 
                     NoteState.Failure -> yelloSnackbar(
                         binding.root,
-                        getString(R.string.msg_error),
+                        getString(R.string.internet_connection_error_msg),
                     )
                 }
             }.launchIn(viewLifecycleOwner.lifecycleScope)

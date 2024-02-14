@@ -87,8 +87,11 @@ class MainViewModel @Inject constructor(
                         _getUserSubsState.value = UiState.Success(userInfo)
                     }
                 }
-                .onFailure {
-                    _getUserSubsState.value = UiState.Failure(it.message.toString())
+                .onFailure { t ->
+                    if (t is HttpException) {
+                        Timber.d("SUBS_FAIL : $t")
+                        _getUserSubsState.value = UiState.Failure(t.message.toString())
+                    }
                 }
         }
     }

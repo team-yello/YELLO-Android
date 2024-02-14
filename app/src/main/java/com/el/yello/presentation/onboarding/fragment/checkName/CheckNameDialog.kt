@@ -69,7 +69,7 @@ class CheckNameDialog :
                 }
             }
         } else {
-            toast(getString(R.string.sign_in_error_connection))
+            toast(getString(R.string.internet_connection_error_msg))
         }
     }
 }

@@ -123,7 +123,7 @@ class AddFriendFragment : BindingFragment<FragmentAddFriendBinding>(R.layout.fra
 
                     is UiState.Failure -> {
                         stopShimmerView()
-                        toast(getString(R.string.onboarding_add_friend_error))
+                        toast(getString(R.string.internet_connection_error_msg))
                     }
 
                     is UiState.Loading -> startShimmerView()

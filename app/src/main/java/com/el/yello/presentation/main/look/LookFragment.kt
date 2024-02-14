@@ -135,7 +135,7 @@ class LookFragment : BindingFragment<FragmentLookBinding>(R.layout.fragment_look
 
                     is LoadState.Error -> {
                         showShimmerView(true)
-                        yelloSnackbar(requireView(), getString(R.string.look_error_friend_list))
+                        yelloSnackbar(requireView(), getString(R.string.internet_connection_error_msg))
                     }
                 }
             }.launchIn(lifecycleScope)

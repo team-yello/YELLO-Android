@@ -75,7 +75,7 @@ class ProfileQuitDialog :
             when (state) {
                 is UiState.Success -> viewModel.quitKakaoAccount()
 
-                is UiState.Failure -> toast(getString(R.string.profile_error_unlink))
+                is UiState.Failure -> toast(getString(R.string.internet_connection_error_msg))
 
                 is UiState.Loading -> return@onEach
 
@@ -92,7 +92,7 @@ class ProfileQuitDialog :
                     restartApp(requireContext())
                 }
 
-                is UiState.Failure -> toast(getString(R.string.profile_error_unlink_kakao))
+                is UiState.Failure -> toast(getString(R.string.internet_connection_error_msg))
 
                 is UiState.Empty -> return@onEach
 

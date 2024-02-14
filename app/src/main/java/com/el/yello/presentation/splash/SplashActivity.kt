@@ -8,6 +8,7 @@ import android.os.Looper
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.el.yello.BuildConfig
 import com.el.yello.R
 import com.el.yello.databinding.ActivitySplashBinding
@@ -32,6 +33,7 @@ class SplashActivity : BindingActivity<ActivitySplashBinding>(R.layout.activity_
     private val appUpdateManager by lazy { AppUpdateManagerFactory.create(this) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        installSplashScreen()
         super.onCreate(savedInstanceState)
 
         showExtraToastMsg()

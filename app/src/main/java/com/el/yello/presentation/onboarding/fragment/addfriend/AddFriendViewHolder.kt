@@ -2,8 +2,6 @@ package com.el.yello.presentation.onboarding.fragment.addfriend
 
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
-import coil.load
-import coil.transform.CircleCropTransformation
 import com.el.yello.R
 import com.el.yello.databinding.ItemAddFriendBinding
 import com.el.yello.util.Image.loadUrlWithCircleCrop

@@ -26,7 +26,9 @@ import com.example.ui.base.BindingActivity
 import com.example.ui.context.toast
 import com.example.ui.view.UiState
 import com.example.ui.view.setOnSingleClickListener
+import com.google.android.gms.ads.AdError
 import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.FullScreenContentCallback
 import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.rewarded.RewardedAd
 import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback
@@ -65,6 +67,7 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
         initPurchaseBtnListener()
         initVoteBtnListener()
         initAdBtnListener()
+        setRewardAdCallback()
         initBannerOnChangeListener()
         viewModel.getUserDataFromServer()
         setBannerAutoScroll()
@@ -122,6 +125,25 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
                     rewardedAd = ad
                 }
             })
+        }
+    }
+
+    private fun setRewardAdCallback() {
+        rewardedAd?.fullScreenContentCallback = object: FullScreenContentCallback() {
+
+            override fun onAdDismissedFullScreenContent() {
+                // Called when ad is dismissed.
+                // Set the ad reference to null so you don't show the ad a second time.
+                rewardedAd = null
+            }
+
+            override fun onAdImpression() {
+                // Called when an impression is recorded for an ad.
+            }
+
+            override fun onAdShowedFullScreenContent() {
+                // Called when ad is shown.
+            }
         }
     }
 

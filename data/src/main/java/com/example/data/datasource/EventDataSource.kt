@@ -1,9 +1,11 @@
 package com.example.data.datasource
 
 import com.example.data.model.request.event.RequestPostEventStateDto
+import com.example.data.model.request.event.RequestRewardAdDto
 import com.example.data.model.response.BaseResponse
 import com.example.data.model.response.event.ResponseGetEventDto
 import com.example.data.model.response.event.ResponsePostEventDto
+import com.example.data.model.response.event.ResponseRewardAdDto
 import java.util.UUID
 
 interface EventDataSource {
@@ -17,4 +19,9 @@ interface EventDataSource {
     suspend fun postEvent(
         idempotencyKey: String,
     ): BaseResponse<ResponsePostEventDto>
+
+    suspend fun postRewardAd(
+        idempotencyKey: String,
+        requestRewardAdDto: RequestRewardAdDto
+    ): BaseResponse<ResponseRewardAdDto>
 }

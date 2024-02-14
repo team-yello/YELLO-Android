@@ -6,6 +6,8 @@ import com.example.domain.entity.PayInAppModel
 import com.example.domain.entity.PayRequestModel
 import com.example.domain.entity.PaySubsModel
 import com.example.domain.entity.ProfileUserModel
+import com.example.domain.entity.event.RewardAdRequestModel
+import com.example.domain.repository.EventRepository
 import com.example.domain.repository.PayRepository
 import com.example.domain.repository.ProfileRepository
 import com.example.ui.view.UiState
@@ -19,7 +21,8 @@ import javax.inject.Inject
 @HiltViewModel
 class PayViewModel @Inject constructor(
     private val payRepository: PayRepository,
-    private val profileRepository: ProfileRepository
+    private val profileRepository: ProfileRepository,
+    private val eventRepository: EventRepository
 ) : ViewModel() {
 
     var currentInAppItem = String()
@@ -92,6 +95,26 @@ class PayViewModel @Inject constructor(
 
     fun setUuid() {
         _idempotencyKey = UUID.randomUUID()
+    }
+
+    fun postRewardAdToCheck() {
+        viewModelScope.launch {
+            eventRepository.postRewardAd(
+                idempotencyKey.toString(),
+                RewardAdRequestModel(
+                    REWARD_TYPE_POINT,
+                    RANDOM_TYPE_FIXED,
+                    idempotencyKey.toString(),
+                    REWARD_NUMBER
+                )
+            )
+        }
+    }
+
+    companion object {
+        const val REWARD_TYPE_POINT = "ADMOB_POINT"
+        const val RANDOM_TYPE_FIXED = "FIXED"
+        const val REWARD_NUMBER = 10
     }
 
 }

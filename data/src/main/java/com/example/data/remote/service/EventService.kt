@@ -1,9 +1,11 @@
 package com.example.data.remote.service
 
 import com.example.data.model.request.event.RequestPostEventStateDto
+import com.example.data.model.request.event.RequestRewardAdDto
 import com.example.data.model.response.BaseResponse
 import com.example.data.model.response.event.ResponseGetEventDto
 import com.example.data.model.response.event.ResponsePostEventDto
+import com.example.data.model.response.event.ResponseRewardAdDto
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Header
@@ -26,4 +28,11 @@ interface EventService {
         @Header("IdempotencyKey")
         idempotencyKey: String,
     ): BaseResponse<ResponsePostEventDto>
+
+    @POST("/api/v1/admob/reward")
+    suspend fun postRewardAd(
+        @Header("IdempotencyKey")
+        idempotencyKey: String,
+        @Body request: RequestRewardAdDto,
+    ): BaseResponse<ResponseRewardAdDto>
 }

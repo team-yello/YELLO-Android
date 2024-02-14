@@ -2,9 +2,11 @@ package com.example.data.datasource.remote
 
 import com.example.data.datasource.EventDataSource
 import com.example.data.model.request.event.RequestPostEventStateDto
+import com.example.data.model.request.event.RequestRewardAdDto
 import com.example.data.model.response.BaseResponse
 import com.example.data.model.response.event.ResponseGetEventDto
 import com.example.data.model.response.event.ResponsePostEventDto
+import com.example.data.model.response.event.ResponseRewardAdDto
 import com.example.data.remote.service.EventService
 import java.util.UUID
 import javax.inject.Inject
@@ -26,4 +28,13 @@ class EventDataSourceImpl @Inject constructor(
 
     override suspend fun postEvent(idempotencyKey: String): BaseResponse<ResponsePostEventDto> =
         service.postEvent(idempotencyKey)
+
+    override suspend fun postRewardAd(
+        idempotencyKey: String,
+        requestRewardAdDto: RequestRewardAdDto
+    ): BaseResponse<ResponseRewardAdDto> =
+        service.postRewardAd(
+            idempotencyKey,
+            requestRewardAdDto
+        )
 }

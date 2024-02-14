@@ -1,4 +1,4 @@
-package com.example.domain.entity
+package com.example.domain.entity.event
 
 data class RewardAdModel(
     val rewardTag: String,

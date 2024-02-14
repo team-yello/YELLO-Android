@@ -1,7 +1,7 @@
 package com.example.domain.repository
 
-import com.example.domain.entity.RewardAdModel
-import com.example.domain.entity.RewardAdRequestModel
+import com.example.domain.entity.event.RewardAdModel
+import com.example.domain.entity.event.RewardAdRequestModel
 import com.example.domain.entity.event.Event
 import com.example.domain.entity.event.EventResult
 import java.util.UUID

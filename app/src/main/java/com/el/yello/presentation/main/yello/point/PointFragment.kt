@@ -146,6 +146,12 @@ class PointFragment : BindingFragment<FragmentPointBinding>(R.layout.fragment_po
                 is UiState.Success -> {
                     stopLoadingScreen()
                     showDoubleConfirm(true)
+                    val originalPoint = voteViewModel.totalPoint
+                    val doubledPoint = originalPoint + voteViewModel.votePointSum
+                    with(binding) {
+                        tvPointMyPoint.text = doubledPoint.toString()
+                        tvPointCurrentPoint.text= doubledPoint.toString()
+                    }
                 }
 
                 is UiState.Failure -> {

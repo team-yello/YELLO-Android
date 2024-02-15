@@ -345,7 +345,6 @@ class VoteViewModel @Inject constructor(
                     if (reward == null) {
                         _postRewardAdState.value = UiState.Failure(toString())
                     } else {
-                        //TODO: @@ 전체포인트 2배
                         _postRewardAdState.value = UiState.Success(reward)
                     }
                 }

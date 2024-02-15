@@ -146,7 +146,7 @@ class MyYelloFragment : BindingFragment<FragmentMyYelloBinding>(R.layout.fragmen
 
     private fun loadThirdReadWithAd() {
         viewModel.addReadCount()
-        if(viewModel.readCount % 5 == 2 && interstitialAd != null) {
+        if(viewModel.readCount % 5 == 3 && interstitialAd != null) {
             interstitialAd?.show(requireActivity())
         } else {
             navigateToMyYelloReadActivity()

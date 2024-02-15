@@ -40,6 +40,8 @@ class PayViewModel @Inject constructor(
     private val _postRewardAdState = MutableStateFlow<UiState<RewardAdModel?>>(UiState.Empty)
     val postRewardAdState: StateFlow<UiState<RewardAdModel?>> = _postRewardAdState
 
+    var rewardAdModel = RewardAdModel()
+
     private var _idempotencyKey: UUID? = null
     val idempotencyKey: UUID get() = requireNotNull(_idempotencyKey)
 
@@ -57,11 +59,11 @@ class PayViewModel @Inject constructor(
         ticketCount += count
     }
 
-    fun setPointCount(count:Int) {
+    fun setPointCount(count: Int) {
         pointCount = count
     }
 
-    fun addPointCount(count:Int) {
+    fun addPointCount(count: Int) {
         pointCount += count
     }
 
@@ -128,6 +130,7 @@ class PayViewModel @Inject constructor(
                     if (reward == null) {
                         _postRewardAdState.value = UiState.Empty
                     } else {
+                        rewardAdModel = reward
                         _postRewardAdState.value = UiState.Success(reward)
                     }
                 }

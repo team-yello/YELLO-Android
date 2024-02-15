@@ -337,6 +337,9 @@
     <string name="pay_tv_ad_for_point_time">1시간에 한 번</string>
     <string name="pay_ad_vote_for_point_reward">10p</string>
 
+    <string name="pay_ad_vote_for_point_reward_title">10 포인트를 얻었어요!</string>
+    <string name="pay_ad_vote_for_point_reward_subtitle">1시간 뒤에 다시 이용 가능해요.</string>
+
     <string name="pay_tv_guide_title">옐로플러스 구독 안내</string>
     <string name="pay_tv_guide_body_1">- 결제를 진행하시면 관련 약관에 동의하는 것으로 간주됩니다.</string>
     <string name="pay_tv_guide_body_2">- 구독은 매주 자동으로 갱신되며, Google Playstore를 통해 해지하실 수 있습니다.</string>

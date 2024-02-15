@@ -20,6 +20,7 @@ import com.el.yello.databinding.ActivityPayBinding
 import com.el.yello.presentation.main.MainActivity
 import com.el.yello.presentation.main.profile.manage.ProfileManageActivity
 import com.el.yello.presentation.pay.dialog.PayInAppDialog
+import com.el.yello.presentation.pay.dialog.PayPointDialog
 import com.el.yello.presentation.pay.dialog.PaySubsDialog
 import com.el.yello.util.amplitude.AmplitudeUtils
 import com.el.yello.util.context.yelloSnackbar
@@ -60,6 +61,7 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
 
     private var paySubsDialog: PaySubsDialog? = null
     private var payInAppDialog: PayInAppDialog? = null
+    private var payPointDialog: PayPointDialog? = null
 
     private var rewardedAd: RewardedAd? = null
 
@@ -168,7 +170,8 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
         viewModel.postRewardAdState.flowWithLifecycle(lifecycle).onEach { state ->
             when (state) {
                 is UiState.Success -> {
-                    // TODO; 다이얼로그 띄우기
+                    payPointDialog = PayPointDialog()
+                    payPointDialog?.show(supportFragmentManager, DIALOG_POINT)
                     viewModel.addPointCount(state.data?.rewardValue ?: 0)
                     binding.tvPointAmount.text = viewModel.pointCount.toString()
                 }
@@ -428,6 +431,7 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
         _manager = null
         payInAppDialog?.dismiss()
         paySubsDialog?.dismiss()
+        payPointDialog?.dismiss()
         rewardedAd = null
     }
 
@@ -449,6 +453,7 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
 
         const val DIALOG_SUBS = "subsDialog"
         const val DIALOG_IN_APP = "inAppDialog"
+        const val DIALOG_POINT = "pointDialog"
 
         const val SERVER_ERROR = "HTTP 500 "
 

@@ -40,6 +40,9 @@ class PayViewModel @Inject constructor(
     private val _postRewardAdState = MutableStateFlow<UiState<RewardAdModel?>>(UiState.Empty)
     val postRewardAdState: StateFlow<UiState<RewardAdModel?>> = _postRewardAdState
 
+    private val _getRewardAdPossibleState = MutableStateFlow<UiState<Boolean>>(UiState.Empty)
+    val getRewardAdPossibleState: StateFlow<UiState<Boolean>> = _getRewardAdPossibleState
+
     private var _idempotencyKey: UUID? = null
     val idempotencyKey: UUID get() = requireNotNull(_idempotencyKey)
 
@@ -133,6 +136,23 @@ class PayViewModel @Inject constructor(
                 }
                 .onFailure {
                     _postRewardAdState.value = UiState.Failure(it.message.orEmpty())
+                }
+        }
+    }
+
+    fun getRewardAdPossible() {
+        viewModelScope.launch {
+            _getRewardAdPossibleState.value = UiState.Loading
+            eventRepository.getRewardAdPossible()
+                .onSuccess { result ->
+                    if (result == null) {
+                        _getRewardAdPossibleState.value = UiState.Empty
+                    } else {
+                        _getRewardAdPossibleState.value = UiState.Success(result.isPossible)
+                    }
+                }
+                .onFailure {
+                    _getRewardAdPossibleState.value = UiState.Failure(it.message.orEmpty())
                 }
         }
     }

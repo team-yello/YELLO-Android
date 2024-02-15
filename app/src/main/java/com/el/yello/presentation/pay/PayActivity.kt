@@ -73,6 +73,7 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
         initVoteBtnListener()
         initAdBtnListener()
         observePostRewardAdState()
+        observeRewardAdPossibleState()
         initBannerOnChangeListener()
         setBannerAutoScroll()
         viewModel.getUserDataFromServer()
@@ -186,6 +187,26 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
                 }
 
                 is UiState.Loading -> startLoadingScreen(AD)
+
+                is UiState.Empty -> return@onEach
+            }
+        }.launchIn(lifecycleScope)
+    }
+
+    private fun observeRewardAdPossibleState() {
+        viewModel.getRewardAdPossibleState.flowWithLifecycle(lifecycle).onEach { state ->
+            when (state) {
+                is UiState.Success -> {
+                    if (state.data) {
+                        
+                    }
+                }
+
+                is UiState.Failure -> {
+                    toast(getString(R.string.internet_connection_error_msg))
+                }
+
+                is UiState.Loading -> return@onEach
 
                 is UiState.Empty -> return@onEach
             }

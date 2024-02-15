@@ -68,6 +68,7 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        startLoadingScreen()
         initView()
         initPurchaseBtnListener()
         initVoteBtnListener()
@@ -75,8 +76,8 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
         loadRewardAd()
         observePostRewardAdState()
         initBannerOnChangeListener()
-        viewModel.getUserDataFromServer()
         setBannerAutoScroll()
+        viewModel.getUserDataFromServer()
         setBillingManager()
         observeIsPurchasing()
         observePurchaseInfoState()
@@ -140,11 +141,14 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
                     setSSV()
                     setRewardAdFinishCallback()
                 }
+                stopLoadingScreen()
             }
 
             override fun onAdFailedToLoad(adError: LoadAdError) {
+                //TODO : 광고 1시간 제한
                 rewardedAd = null
-                toast("광고 조회에 실패했습니다.")
+                toast(getString(R.string.pay_ad_fail_to_load))
+                stopLoadingScreen()
             }
         })
     }
@@ -162,6 +166,7 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
             override fun onAdDismissedFullScreenContent() {
                 rewardedAd = null
                 viewModel.postRewardAdToCheck()
+                startLoadingScreen()
             }
         }
     }
@@ -170,6 +175,7 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
         viewModel.postRewardAdState.flowWithLifecycle(lifecycle).onEach { state ->
             when (state) {
                 is UiState.Success -> {
+                    stopLoadingScreen()
                     payPointDialog = PayPointDialog()
                     payPointDialog?.show(supportFragmentManager, DIALOG_POINT)
                     viewModel.addPointCount(state.data?.rewardValue ?: 0)
@@ -177,10 +183,11 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
                 }
 
                 is UiState.Failure -> {
+                    stopLoadingScreen()
                     toast(getString(R.string.internet_connection_error_msg))
                 }
 
-                is UiState.Loading -> return@onEach
+                is UiState.Loading -> startLoadingScreen()
 
                 is UiState.Empty -> return@onEach
             }

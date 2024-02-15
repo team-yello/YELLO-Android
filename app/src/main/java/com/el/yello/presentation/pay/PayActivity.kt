@@ -25,7 +25,6 @@ import com.example.data.model.request.pay.toRequestPayModel
 import com.example.ui.activity.navigateTo
 import com.example.ui.base.BindingActivity
 import com.example.ui.context.toast
-import com.example.ui.fragment.toast
 import com.example.ui.view.UiState
 import com.example.ui.view.setOnSingleClickListener
 import com.google.android.gms.ads.AdRequest
@@ -70,7 +69,6 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
         initVoteBtnListener()
         initAdBtnListener()
         loadRewardAd()
-        setRewardAdFinishCallback()
         observePostRewardAdState()
         initBannerOnChangeListener()
         viewModel.getUserDataFromServer()
@@ -134,11 +132,10 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
 
             override fun onAdLoaded(ad: RewardedAd) {
                 rewardedAd = ad
-                rewardedAd?.setServerSideVerificationOptions(
-                    ServerSideVerificationOptions.Builder()
-                        .setCustomData(viewModel.idempotencyKey.toString())
-                        .build()
-                )
+                rewardedAd?.apply {
+                    setSSV()
+                    setRewardAdFinishCallback()
+                }
             }
 
             override fun onAdFailedToLoad(adError: LoadAdError) {
@@ -148,13 +145,20 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
         })
     }
 
-    private fun setRewardAdFinishCallback() {
-        rewardedAd?.fullScreenContentCallback = object : FullScreenContentCallback() {
+    private fun RewardedAd.setSSV() {
+        setServerSideVerificationOptions(
+            ServerSideVerificationOptions.Builder()
+                .setCustomData(viewModel.idempotencyKey.toString())
+                .build()
+        )
+    }
+
+    private fun RewardedAd.setRewardAdFinishCallback() {
+        fullScreenContentCallback = object : FullScreenContentCallback() {
             override fun onAdDismissedFullScreenContent() {
                 rewardedAd = null
                 viewModel.postRewardAdToCheck()
             }
-            // TODO: 종료 감지 못함 !
         }
     }
 

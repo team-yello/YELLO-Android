@@ -40,8 +40,6 @@ class PayViewModel @Inject constructor(
     private val _postRewardAdState = MutableStateFlow<UiState<RewardAdModel?>>(UiState.Empty)
     val postRewardAdState: StateFlow<UiState<RewardAdModel?>> = _postRewardAdState
 
-    var rewardAdModel = RewardAdModel()
-
     private var _idempotencyKey: UUID? = null
     val idempotencyKey: UUID get() = requireNotNull(_idempotencyKey)
 
@@ -130,7 +128,6 @@ class PayViewModel @Inject constructor(
                     if (reward == null) {
                         _postRewardAdState.value = UiState.Failure(toString())
                     } else {
-                        rewardAdModel = reward
                         _postRewardAdState.value = UiState.Success(reward)
                     }
                 }

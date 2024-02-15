@@ -125,10 +125,13 @@
     <string name="my_yello_read_open_keyword_with_100_points">100포인트로 키워드 확인하기</string>
 
     <string name="point_description">투표 포인트 적립!</string>
+    <string name="point_description_double">투표 포인트 추가 적립!</string>
     <string name="point_sub_description">투표로 포인트를 모아 쪽지를 열어보세요.</string>
     <string name="point_plus">+</string>
     <string name="point_vote_point_label">Point</string>
     <string name="point_confirm">확인</string>
+    <string name="point_tv_ad_to_double">광고보고 2배로 받기</string>
+    <string name="point_tv_just_confirm">그냥 받기</string>
 
     <string name="wait_balloon_tooltip">🤩 친구가 가입하면 바로 투표할 수 있어요!</string>
     <string name="wait_time_format">%02d:%02d</string>

@@ -143,7 +143,7 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
             }
 
             override fun onAdFailedToLoad(adError: LoadAdError) {
-                //TODO : 광고 1시간 제한
+                //TODO : @@ 광고 1시간 제한
                 rewardedAd = null
                 toast(getString(R.string.pay_ad_fail_to_load))
                 stopLoadingScreen(AD)
@@ -389,7 +389,7 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
         } else {
             binding.layoutAdCheckLoading.isVisible = true
         }
-        this.window?.setFlags(
+        window?.setFlags(
             WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
             WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
         )

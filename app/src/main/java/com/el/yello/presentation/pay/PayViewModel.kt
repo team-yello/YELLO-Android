@@ -141,9 +141,9 @@ class PayViewModel @Inject constructor(
     }
 
     companion object {
-        const val REWARD_TYPE_POINT = "ADMOB_POINT"
+        private const val REWARD_TYPE_POINT = "ADMOB_POINT"
         const val RANDOM_TYPE_FIXED = "FIXED"
-        const val REWARD_NUMBER = 10
+        private const val REWARD_NUMBER = 10
     }
 
 }

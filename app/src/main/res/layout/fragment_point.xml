@@ -253,7 +253,7 @@
             android:fontFamily="@font/font_pretendard_bold"
             android:paddingHorizontal="40dp"
             android:paddingVertical="16dp"
-            android:text="광고보고 2배로 받기"
+            android:text="@string/point_tv_ad_to_double"
             android:textColor="@color/black"
             android:textSize="15sp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -265,7 +265,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/font_pretendard_bold"
             android:padding="12dp"
-            android:text="그냥 받기"
+            android:text="@string/point_tv_just_confirm"
             android:textColor="@color/white"
             android:textSize="15sp"
             app:layout_constraintBottom_toBottomOf="@id/btn_point_ad_to_double"
@@ -273,5 +273,31 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/btn_point_ad_to_double" />
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_ad_check_loading"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/transparent_70"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/iv_profile_ad_loading"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:lottie_autoPlay="true"
+                app:lottie_loop="true"
+                app:lottie_rawRes="@raw/lottie_spinner_loading_profile" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </layout>

@@ -34,22 +34,20 @@ class PointFragment : BindingFragment<FragmentPointBinding>(R.layout.fragment_po
         binding.btnPointConfirmDouble.setOnSingleClickListener {
             requireActivity().finish()
         }
+        binding.btnPointJustConfirm.setOnSingleClickListener {
+            requireActivity().finish()
+        }
     }
 
     private fun observeCheckIsSubscribed() {
         yelloViewModel.getPurchaseInfoState.flowWithLifecycle(lifecycle).onEach { state ->
             when (state) {
                 is UiState.Success -> {
+                    showDoubleConfirm(state.data.isSubscribe)
                     binding.tvPointPlusLabel.isVisible = state.data.isSubscribe
-                    if (state.data.isSubscribe) {
-                        binding.tvPointVotePoint.text =
-                            voteViewModel.votePointSum.times(2).toString()
-                    }
                 }
 
-                is UiState.Failure -> {
-                    binding.tvPointPlusLabel.isVisible = false
-                }
+                is UiState.Failure -> showDoubleConfirm(false)
 
                 is UiState.Loading -> return@onEach
 
@@ -62,6 +60,17 @@ class PointFragment : BindingFragment<FragmentPointBinding>(R.layout.fragment_po
                 tvPointVotePointLabel.isVisible = true
             }
         }.launchIn(lifecycleScope)
+    }
+
+    private fun showDoubleConfirm(isDouble: Boolean) {
+        with(binding) {
+            btnPointJustConfirm.isVisible = !isDouble
+            btnPointAdToDouble.isVisible = !isDouble
+            btnPointConfirmDouble.isVisible = isDouble
+        }
+        if (isDouble) {
+            binding.tvPointVotePoint.text = voteViewModel.votePointSum.times(2).toString()
+        }
     }
 
     companion object {

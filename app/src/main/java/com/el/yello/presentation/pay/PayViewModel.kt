@@ -43,6 +43,9 @@ class PayViewModel @Inject constructor(
     private val _getRewardAdPossibleState = MutableStateFlow<UiState<Boolean>>(UiState.Empty)
     val getRewardAdPossibleState: StateFlow<UiState<Boolean>> = _getRewardAdPossibleState
 
+    var isAdAvailable: Boolean = true
+    var leftTime: Long = 3600
+
     private var _idempotencyKey: UUID? = null
     val idempotencyKey: UUID get() = requireNotNull(_idempotencyKey)
 
@@ -148,6 +151,7 @@ class PayViewModel @Inject constructor(
                     if (result == null) {
                         _getRewardAdPossibleState.value = UiState.Empty
                     } else {
+                        isAdAvailable = result.isPossible
                         _getRewardAdPossibleState.value = UiState.Success(result.isPossible)
                     }
                 }

@@ -29,6 +29,7 @@ import com.example.ui.activity.navigateTo
 import com.example.ui.base.BindingActivity
 import com.example.ui.context.colorOf
 import com.example.ui.context.drawableOf
+import com.example.ui.context.snackBar
 import com.example.ui.context.toast
 import com.example.ui.view.UiState
 import com.example.ui.view.setOnSingleClickListener
@@ -73,6 +74,7 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
         initView()
         initPurchaseBtnListener()
         initVoteBtnListener()
+        viewModel.getRewardAdPossible()
         initAdBtnListener()
         observePostRewardAdState()
         observeRewardAdPossibleState()
@@ -123,8 +125,12 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
 
     private fun initAdBtnListener() {
         binding.layoutAdForPoint.setOnSingleClickListener {
-            startLoadingScreen(AD)
-            loadRewardAd()
+            if (viewModel.isAdAvailable) {
+                startLoadingScreen(AD)
+                loadRewardAd()
+            } else {
+                yelloSnackbar(binding.root, getString(R.string.pay_ad_not_available_yet))
+            }
         }
     }
 
@@ -146,7 +152,6 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
             }
 
             override fun onAdFailedToLoad(adError: LoadAdError) {
-                //TODO : @@ 광고 1시간 제한
                 rewardedAd = null
                 toast(getString(R.string.pay_ad_fail_to_load))
                 stopLoadingScreen(AD)

@@ -13,7 +13,6 @@ import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.el.yello.BuildConfig
 import com.el.yello.BuildConfig.ADMOB_FULLSCREEN_KEY
 import com.el.yello.R
 import com.el.yello.databinding.FragmentMyYelloBinding
@@ -29,8 +28,8 @@ import com.el.yello.presentation.util.BaseLinearRcvItemDeco
 import com.el.yello.util.Utils.setPullToScrollColor
 import com.el.yello.util.amplitude.AmplitudeUtils
 import com.el.yello.util.context.yelloSnackbar
+import com.example.domain.entity.Yello
 import com.example.ui.base.BindingFragment
-import com.example.ui.fragment.toast
 import com.example.ui.view.UiState
 import com.example.ui.view.setOnSingleClickListener
 import com.google.android.gms.ads.AdRequest
@@ -38,8 +37,6 @@ import com.google.android.gms.ads.FullScreenContentCallback
 import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.interstitial.InterstitialAd
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
-import com.google.android.gms.ads.rewarded.RewardedAd
-import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.launchIn
@@ -55,6 +52,7 @@ class MyYelloFragment : BindingFragment<FragmentMyYelloBinding>(R.layout.fragmen
     private var isScrolled: Boolean = false
 
     private var interstitialAd: InterstitialAd? = null
+    private var clickedYello: Yello? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -71,14 +69,8 @@ class MyYelloFragment : BindingFragment<FragmentMyYelloBinding>(R.layout.fragmen
         adapter = MyYelloAdapter { it, pos ->
             viewModel.setPosition(pos)
             interstitialAd?.show(requireActivity())
-            myYelloReadActivityLauncher.launch(
-                MyYelloReadActivity.getIntent(
-                    requireContext(),
-                    it.id,
-                    it.nameHint,
-                    it.isHintUsed,
-                ),
-            )
+            clickedYello = it
+            if (interstitialAd == null) navigateToMyYelloReadActivity()
         }
         binding.rvMyYelloReceive.addItemDecoration(
             BaseLinearRcvItemDeco(8, 8, 0, 0, 5, RecyclerView.VERTICAL, 110),
@@ -87,6 +79,19 @@ class MyYelloFragment : BindingFragment<FragmentMyYelloBinding>(R.layout.fragmen
         binding.rvMyYelloReceive.adapter = adapter
 
         infinityScroll()
+    }
+
+    private fun navigateToMyYelloReadActivity() {
+        if (clickedYello != null) {
+            myYelloReadActivityLauncher.launch(
+                MyYelloReadActivity.getIntent(
+                    requireContext(),
+                    clickedYello?.id ?: 0,
+                    clickedYello?.nameHint,
+                    clickedYello?.isHintUsed,
+                ),
+            )
+        }
     }
 
     private fun initEvent() {
@@ -133,13 +138,12 @@ class MyYelloFragment : BindingFragment<FragmentMyYelloBinding>(R.layout.fragmen
     private fun InterstitialAd.setRewardAdFinishCallback() {
         fullScreenContentCallback = object : FullScreenContentCallback() {
             override fun onAdDismissedFullScreenContent() {
+                navigateToMyYelloReadActivity()
                 interstitialAd = null
                 loadRewardAd()
             }
         }
     }
-
-
 
     private fun observe() {
         setupMyYelloData()

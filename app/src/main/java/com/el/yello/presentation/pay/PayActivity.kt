@@ -68,12 +68,10 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        startLoadingScreen(AD)
         initView()
         initPurchaseBtnListener()
         initVoteBtnListener()
         initAdBtnListener()
-        loadRewardAd()
         observePostRewardAdState()
         initBannerOnChangeListener()
         setBannerAutoScroll()
@@ -122,11 +120,8 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
 
     private fun initAdBtnListener() {
         binding.layoutAdForPoint.setOnSingleClickListener {
-            rewardedAd?.let { ad ->
-                ad.show(this) {}
-            } ?: run {
-                toast("광고 조회에 실패했습니다.")
-            }
+            startLoadingScreen(AD)
+            loadRewardAd()
         }
     }
 
@@ -142,6 +137,9 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
                     setRewardAdFinishCallback()
                 }
                 stopLoadingScreen(AD)
+
+                rewardedAd?.show(this@PayActivity) {}
+                    ?: toast(getString(R.string.pay_ad_fail_to_load))
             }
 
             override fun onAdFailedToLoad(adError: LoadAdError) {
@@ -472,9 +470,9 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
 
         const val SERVER_ERROR = "HTTP 500 "
 
-        const val SUBS_NORMAL = "NORMAL"
+        const val SUBS_NORMAL = "normal"
 
         const val AD = "AD"
-        const val PAY ="PAY"
+        const val PAY = "PAY"
     }
 }

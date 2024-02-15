@@ -23,11 +23,11 @@ class PointFragment : BindingFragment<FragmentPointBinding>(R.layout.fragment_po
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.vm = voteViewModel
 
+        binding.vm = voteViewModel
+        yelloViewModel.getPurchaseInfoFromServer()
         setConfirmBtnClickListener()
         observeCheckIsSubscribed()
-        yelloViewModel.getPurchaseInfoFromServer()
     }
 
     private fun setConfirmBtnClickListener() {
@@ -72,6 +72,8 @@ class PointFragment : BindingFragment<FragmentPointBinding>(R.layout.fragment_po
             binding.tvPointVotePoint.text = voteViewModel.votePointSum.times(2).toString()
         }
     }
+
+
 
     companion object {
         @JvmStatic

@@ -13,8 +13,10 @@ import com.example.domain.repository.PayRepository
 import com.example.domain.repository.ProfileRepository
 import com.example.ui.view.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import java.util.UUID
 import javax.inject.Inject
@@ -44,7 +46,14 @@ class PayViewModel @Inject constructor(
     val getRewardAdPossibleState: StateFlow<UiState<Boolean>> = _getRewardAdPossibleState
 
     var isAdAvailable: Boolean = true
-    var leftTime: Long = 3600
+
+    private val _leftTime = MutableStateFlow<Long>(0)
+    val leftTime: StateFlow<Long>
+        get() = _leftTime.asStateFlow()
+
+    private val _isDecreasing = MutableStateFlow(false)
+    private val isDecreasing: Boolean
+        get() = _isDecreasing.value
 
     private var _idempotencyKey: UUID? = null
     val idempotencyKey: UUID get() = requireNotNull(_idempotencyKey)
@@ -152,12 +161,28 @@ class PayViewModel @Inject constructor(
                         _getRewardAdPossibleState.value = UiState.Empty
                     } else {
                         isAdAvailable = result.isPossible
+                        if (!result.isPossible) _leftTime.value = result.leftTime
+                        decreaseTime()
                         _getRewardAdPossibleState.value = UiState.Success(result.isPossible)
                     }
                 }
                 .onFailure {
                     _getRewardAdPossibleState.value = UiState.Failure(it.message.orEmpty())
                 }
+        }
+    }
+
+    private fun decreaseTime() {
+        if (isDecreasing) return
+        viewModelScope.launch {
+            _isDecreasing.value = true
+            while (requireNotNull(leftTime.value) > 0) {
+                delay(1000L)
+                if (requireNotNull(leftTime.value) <= 0) return@launch
+                _leftTime.value = leftTime.value - 1
+            }
+            getRewardAdPossible()
+            _isDecreasing.value = false
         }
     }
 

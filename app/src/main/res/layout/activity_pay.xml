@@ -5,6 +5,10 @@
 
     <data>
 
+        <variable
+            name="vm"
+            type="com.el.yello.presentation.pay.PayViewModel" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -366,8 +370,8 @@
                         android:background="@color/purple_sub_800"
                         android:fontFamily="@font/font_pretendard_medium"
                         android:paddingHorizontal="6dp"
-                        android:rotation="-3"
                         android:paddingVertical="3dp"
+                        android:rotation="-3"
                         android:text="@string/pay_in_app_discount"
                         android:textColor="@color/white"
                         android:textSize="11dp"
@@ -452,11 +456,11 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="5dp"
                         android:layout_marginTop="7dp"
-                        android:rotation="-3"
                         android:background="@color/purple_sub_800"
                         android:fontFamily="@font/font_pretendard_medium"
                         android:paddingHorizontal="6dp"
                         android:paddingVertical="3dp"
+                        android:rotation="-3"
                         android:text="@string/pay_in_app_discount"
                         android:textColor="@color/white"
                         android:textSize="11dp"
@@ -545,8 +549,8 @@
                         android:background="@color/purple_sub_800"
                         android:fontFamily="@font/font_pretendard_medium"
                         android:paddingHorizontal="6dp"
-                        android:rotation="-3"
                         android:paddingVertical="3dp"
+                        android:rotation="-3"
                         android:text="@string/pay_in_app_discount"
                         android:textColor="@color/white"
                         android:textSize="11dp"
@@ -667,18 +671,19 @@
 
                     <TextView
                         android:id="@+id/tv_ad_time_remain"
+                        convertToMinAndSec="@{vm.leftTime}"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"
                         android:fontFamily="@font/font_pretendard_medium"
-                        tools:text="59:20"
                         android:textColor="@color/yello_main_500"
-                        android:visibility="gone"
                         android:textSize="11dp"
-                        app:layout_constraintTop_toTopOf="@id/tv_ad_time_available"
+                        android:visibility="gone"
                         app:layout_constraintBottom_toBottomOf="@id/tv_ad_time_available"
                         app:layout_constraintStart_toEndOf="@id/iv_ad_coin"
-                        app:layout_constraintVertical_chainStyle="packed" />
+                        app:layout_constraintTop_toTopOf="@id/tv_ad_time_available"
+                        app:layout_constraintVertical_chainStyle="packed"
+                        tools:text="59:20" />
 
                     <TextView
                         android:id="@+id/tv_ad_reward"

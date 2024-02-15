@@ -96,6 +96,7 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
         binding.dotIndicator.setViewPager(binding.vpBanner)
         binding.tvOriginalPrice.paintFlags =
             binding.tvOriginalPrice.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+        binding.vm = viewModel
     }
 
     private fun initPurchaseBtnListener() {
@@ -186,6 +187,7 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
                     payPointDialog?.show(supportFragmentManager, DIALOG_POINT)
                     viewModel.addPointCount(state.data?.rewardValue ?: 0)
                     binding.tvPointAmount.text = viewModel.pointCount.toString()
+                    viewModel.getRewardAdPossible()
                 }
 
                 is UiState.Failure -> {

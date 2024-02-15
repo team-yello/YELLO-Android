@@ -68,7 +68,7 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        startLoadingScreen()
+        startLoadingScreen(AD)
         initView()
         initPurchaseBtnListener()
         initVoteBtnListener()
@@ -141,14 +141,14 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
                     setSSV()
                     setRewardAdFinishCallback()
                 }
-                stopLoadingScreen()
+                stopLoadingScreen(AD)
             }
 
             override fun onAdFailedToLoad(adError: LoadAdError) {
                 //TODO : 광고 1시간 제한
                 rewardedAd = null
                 toast(getString(R.string.pay_ad_fail_to_load))
-                stopLoadingScreen()
+                stopLoadingScreen(AD)
             }
         })
     }
@@ -166,7 +166,7 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
             override fun onAdDismissedFullScreenContent() {
                 rewardedAd = null
                 viewModel.postRewardAdToCheck()
-                startLoadingScreen()
+                startLoadingScreen(AD)
             }
         }
     }
@@ -175,7 +175,7 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
         viewModel.postRewardAdState.flowWithLifecycle(lifecycle).onEach { state ->
             when (state) {
                 is UiState.Success -> {
-                    stopLoadingScreen()
+                    stopLoadingScreen(AD)
                     payPointDialog = PayPointDialog()
                     payPointDialog?.show(supportFragmentManager, DIALOG_POINT)
                     viewModel.addPointCount(state.data?.rewardValue ?: 0)
@@ -183,11 +183,11 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
                 }
 
                 is UiState.Failure -> {
-                    stopLoadingScreen()
+                    stopLoadingScreen(AD)
                     toast(getString(R.string.internet_connection_error_msg))
                 }
 
-                is UiState.Loading -> startLoadingScreen()
+                is UiState.Loading -> startLoadingScreen(AD)
 
                 is UiState.Empty -> return@onEach
             }
@@ -267,7 +267,7 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
 
     private fun observeIsPurchasing() {
         manager.isPurchasing.flowWithLifecycle(lifecycle).onEach { isPurchasing ->
-            if (isPurchasing) startLoadingScreen()
+            if (isPurchasing) startLoadingScreen(PAY)
         }.launchIn(lifecycleScope)
     }
 
@@ -299,7 +299,7 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
 
     private fun observeCheckSubsValidState() {
         viewModel.postSubsCheckState.flowWithLifecycle(lifecycle).onEach { state ->
-            stopLoadingScreen()
+            stopLoadingScreen(PAY)
             when (state) {
                 is UiState.Success -> {
                     setCompleteShopBuyAmplitude(TYPE_PLUS, PRICE_PLUS)
@@ -309,7 +309,7 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
                 }
 
                 is UiState.Failure -> {
-                    stopLoadingScreen()
+                    stopLoadingScreen(PAY)
                     if (state.msg == SERVER_ERROR) {
                         showErrorDialog()
                     } else {
@@ -328,7 +328,7 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
         viewModel.postInAppCheckState.flowWithLifecycle(lifecycle).onEach { state ->
             when (state) {
                 is UiState.Success -> {
-                    stopLoadingScreen()
+                    stopLoadingScreen(PAY)
                     when (state.data?.productId) {
                         YELLO_ONE -> {
                             setCompleteShopBuyAmplitude(TYPE_ONE, PRICE_ONE)
@@ -354,7 +354,7 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
                 }
 
                 is UiState.Failure -> {
-                    stopLoadingScreen()
+                    stopLoadingScreen(PAY)
                     if (state.msg == SERVER_ERROR) {
                         showErrorDialog()
                     } else {
@@ -385,17 +385,25 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
         }
     }
 
-    private fun startLoadingScreen() {
-        binding.layoutPayCheckLoading.isVisible = true
+    private fun startLoadingScreen(type: String) {
+        if (type == PAY) {
+            binding.layoutPayCheckLoading.isVisible = true
+        } else {
+            binding.layoutAdCheckLoading.isVisible = true
+        }
         this.window?.setFlags(
             WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
             WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
         )
     }
 
-    private fun stopLoadingScreen() {
-        manager.setIsPurchasing(false)
-        binding.layoutPayCheckLoading.isVisible = false
+    private fun stopLoadingScreen(type: String) {
+        if (type == PAY) {
+            manager.setIsPurchasing(false)
+            binding.layoutPayCheckLoading.isVisible = false
+        } else {
+            binding.layoutAdCheckLoading.isVisible = false
+        }
         window?.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
     }
 
@@ -465,5 +473,8 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
         const val SERVER_ERROR = "HTTP 500 "
 
         const val SUBS_NORMAL = "NORMAL"
+
+        const val AD = "AD"
+        const val PAY ="PAY"
     }
 }

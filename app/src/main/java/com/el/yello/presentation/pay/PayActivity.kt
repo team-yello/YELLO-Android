@@ -27,6 +27,8 @@ import com.el.yello.util.context.yelloSnackbar
 import com.example.data.model.request.pay.toRequestPayModel
 import com.example.ui.activity.navigateTo
 import com.example.ui.base.BindingActivity
+import com.example.ui.context.colorOf
+import com.example.ui.context.drawableOf
 import com.example.ui.context.toast
 import com.example.ui.view.UiState
 import com.example.ui.view.setOnSingleClickListener
@@ -198,7 +200,21 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
             when (state) {
                 is UiState.Success -> {
                     if (state.data) {
-                        
+                        with(binding) {
+                            layoutAdForPoint.background = drawableOf(R.drawable.shape_black_fill_purple_line_10_rect)
+                            tvAdTitle.setTextColor(colorOf(R.color.purple_sub_100))
+                            tvAdReward.setTextColor(colorOf(R.color.white))
+                            tvAdTimeAvailable.visibility = View.VISIBLE
+                            tvAdTimeRemain.visibility = View.INVISIBLE
+                        }
+                    } else {
+                        with(binding) {
+                            layoutAdForPoint.background = drawableOf(R.drawable.shape_black_fill_grayscales800_line_10_rect)
+                            tvAdTitle.setTextColor(colorOf(R.color.grayscales_600))
+                            tvAdReward.setTextColor(colorOf(R.color.grayscales_600))
+                            tvAdTimeAvailable.visibility = View.INVISIBLE
+                            tvAdTimeRemain.visibility = View.VISIBLE
+                        }
                     }
                 }
 

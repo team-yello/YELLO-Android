@@ -74,6 +74,12 @@ class AndroidApplicationPlugin : Plugin<Project> {
                             gradleLocalProperties(rootDir).getProperty("test.admob.reward.key"),
                         )
 
+                        buildConfigField(
+                            "String",
+                            "ADMOB_FULLSCREEN_KEY",
+                            gradleLocalProperties(rootDir).getProperty("test.admob.fullscreen.key"),
+                        )
+
                         manifestPlaceholders["NATIVE_APP_KEY"] =
                             gradleLocalProperties(rootDir).getProperty("testNativeAppKey")
 
@@ -104,6 +110,12 @@ class AndroidApplicationPlugin : Plugin<Project> {
                             "String",
                             "ADMOB_REWARD_KEY",
                             gradleLocalProperties(rootDir).getProperty("admob.reward.key"),
+                        )
+
+                        buildConfigField(
+                            "String",
+                            "ADMOB_FULLSCREEN_KEY",
+                            gradleLocalProperties(rootDir).getProperty("admob.fullscreen.key"),
                         )
 
                         manifestPlaceholders["NATIVE_APP_KEY"] =

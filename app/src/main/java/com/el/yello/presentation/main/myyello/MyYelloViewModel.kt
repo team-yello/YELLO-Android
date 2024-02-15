@@ -44,6 +44,9 @@ class MyYelloViewModel @Inject constructor(
     var position: Int = -1
         private set
 
+    var readCount: Int = 0
+        private set
+
     private var currentPage = -1
     private var isPagingFinish = false
     private var totalPage = Int.MAX_VALUE
@@ -51,10 +54,19 @@ class MyYelloViewModel @Inject constructor(
     init {
         getMyYelloList()
         getBanner()
+        resetReadCount()
     }
 
     fun setPosition(pos: Int) {
         position = pos
+    }
+
+    private fun resetReadCount() {
+        readCount = 0
+    }
+
+    fun addReadCount() {
+        readCount += 1
     }
 
     fun setToFirstPage() {

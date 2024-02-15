@@ -68,9 +68,8 @@ class MyYelloFragment : BindingFragment<FragmentMyYelloBinding>(R.layout.fragmen
     private fun initView() {
         adapter = MyYelloAdapter { it, pos ->
             viewModel.setPosition(pos)
-            interstitialAd?.show(requireActivity())
             clickedYello = it
-            if (interstitialAd == null) navigateToMyYelloReadActivity()
+            loadThirdReadWithAd()
         }
         binding.rvMyYelloReceive.addItemDecoration(
             BaseLinearRcvItemDeco(8, 8, 0, 0, 5, RecyclerView.VERTICAL, 110),
@@ -142,6 +141,15 @@ class MyYelloFragment : BindingFragment<FragmentMyYelloBinding>(R.layout.fragmen
                 interstitialAd = null
                 loadRewardAd()
             }
+        }
+    }
+
+    private fun loadThirdReadWithAd() {
+        viewModel.addReadCount()
+        if(viewModel.readCount % 5 == 2 && interstitialAd != null) {
+            interstitialAd?.show(requireActivity())
+        } else {
+            navigateToMyYelloReadActivity()
         }
     }
 

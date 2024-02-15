@@ -61,8 +61,8 @@ class PayViewModel @Inject constructor(
         pointCount = count
     }
 
-    fun addPointCount() {
-        pointCount += 10
+    fun addPointCount(count:Int) {
+        pointCount += count
     }
 
     fun checkSubsValidToServer(request: PayRequestModel) {

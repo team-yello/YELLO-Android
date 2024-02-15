@@ -1,4 +1,4 @@
-package com.el.yello.presentation.pay
+package com.el.yello.presentation.pay.dialog
 
 import android.content.Intent
 import android.graphics.Color
@@ -10,6 +10,7 @@ import android.view.WindowManager
 import com.el.yello.R
 import com.el.yello.databinding.FragmentNoticeResubscribeBinding
 import com.el.yello.presentation.main.MainActivity
+import com.el.yello.presentation.pay.PayActivity
 import com.example.ui.base.BindingDialogFragment
 import com.example.ui.view.setOnSingleClickListener
 

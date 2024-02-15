@@ -7,7 +7,6 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
-import coil.load
 import com.el.yello.R
 import com.el.yello.databinding.FragmentRewardDialogBinding
 import com.el.yello.presentation.event.EventViewModel

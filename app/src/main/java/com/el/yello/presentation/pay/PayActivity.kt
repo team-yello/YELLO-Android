@@ -19,6 +19,8 @@ import com.el.yello.R
 import com.el.yello.databinding.ActivityPayBinding
 import com.el.yello.presentation.main.MainActivity
 import com.el.yello.presentation.main.profile.manage.ProfileManageActivity
+import com.el.yello.presentation.pay.dialog.PayInAppDialog
+import com.el.yello.presentation.pay.dialog.PaySubsDialog
 import com.el.yello.util.amplitude.AmplitudeUtils
 import com.el.yello.util.context.yelloSnackbar
 import com.example.data.model.request.pay.toRequestPayModel
@@ -167,8 +169,7 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
             when (state) {
                 is UiState.Success -> {
                     // TODO; 다이얼로그 띄우기
-                    toast("검증 성공 !")
-                    viewModel.addPointCount()
+                    viewModel.addPointCount(state.data?.rewardValue ?: 0)
                     binding.tvPointAmount.text = viewModel.pointCount.toString()
                 }
 

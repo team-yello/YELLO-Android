@@ -1,4 +1,4 @@
-package com.el.yello.presentation.pay
+package com.el.yello.presentation.pay.dialog
 
 import android.content.res.Resources
 import android.os.Bundle
@@ -6,6 +6,7 @@ import android.view.View
 import android.view.WindowManager
 import com.el.yello.R
 import com.el.yello.databinding.FragmentPaySubsDialogBinding
+import com.el.yello.presentation.pay.PayActivity
 import com.example.ui.base.BindingDialogFragment
 import com.example.ui.view.setOnSingleClickListener
 

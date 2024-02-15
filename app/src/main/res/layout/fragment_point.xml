@@ -46,9 +46,8 @@
             android:id="@+id/layout_point_welcome"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="16dp"
-            android:layout_marginTop="44dp"
-            app:layout_constraintBottom_toTopOf="@id/btn_point_confirm"
+            android:layout_marginBottom="100dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -86,7 +85,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="44dp"
                 android:fontFamily="@font/unbounded_medium"
-                android:lineHeight="22sp"
                 android:paddingVertical="3dp"
                 android:text="@string/point_plus"
                 android:textColor="@color/white"
@@ -95,7 +93,8 @@
                 app:layout_constraintEnd_toStartOf="@id/tv_point_vote_point"
                 app:layout_constraintHorizontal_chainStyle="packed"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_point_sub_description" />
+                app:layout_constraintTop_toBottomOf="@id/tv_point_sub_description"
+                tools:visibility="visible" />
 
             <TextView
                 android:id="@+id/tv_point_vote_point"
@@ -104,7 +103,6 @@
                 android:layout_marginStart="4dp"
                 android:layout_marginTop="44dp"
                 android:fontFamily="@font/unbounded_medium"
-                android:lineHeight="22sp"
                 android:paddingVertical="3dp"
                 android:text="@{@string/to_string(vm.votePointSum)}"
                 android:textColor="@color/yello_main_500"
@@ -113,7 +111,8 @@
                 app:layout_constraintEnd_toStartOf="@id/tv_point_vote_point_label"
                 app:layout_constraintStart_toEndOf="@id/tv_point_vote_point_plus"
                 app:layout_constraintTop_toBottomOf="@id/tv_point_sub_description"
-                tools:text="400" />
+                tools:text="400"
+                tools:visibility="visible" />
 
             <TextView
                 android:id="@+id/tv_point_vote_point_label"
@@ -122,7 +121,6 @@
                 android:layout_marginStart="4dp"
                 android:layout_marginTop="44dp"
                 android:fontFamily="@font/unbounded_medium"
-                android:lineHeight="22sp"
                 android:paddingVertical="3dp"
                 android:text="@string/point_vote_point_label"
                 android:textColor="@color/white"
@@ -130,7 +128,8 @@
                 android:visibility="invisible"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/tv_point_vote_point"
-                app:layout_constraintTop_toBottomOf="@id/tv_point_sub_description" />
+                app:layout_constraintTop_toBottomOf="@id/tv_point_sub_description"
+                tools:visibility="visible" />
 
             <TextView
                 android:id="@+id/tv_point_plus_label"
@@ -147,7 +146,8 @@
                 android:textSize="14sp"
                 android:visibility="gone"
                 app:layout_constraintBottom_toTopOf="@id/tv_point_vote_point_label"
-                app:layout_constraintStart_toEndOf="@id/tv_point_vote_point_label" />
+                app:layout_constraintStart_toEndOf="@id/tv_point_vote_point_label"
+                tools:visibility="visible" />
 
             <ImageView
                 android:id="@+id/iv_point_description"
@@ -170,6 +170,7 @@
                 android:paddingHorizontal="24dp"
                 android:paddingVertical="18dp"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/iv_point_description">
 
@@ -225,7 +226,7 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <TextView
-            android:id="@+id/btn_point_confirm"
+            android:id="@+id/btn_point_confirm_double"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"

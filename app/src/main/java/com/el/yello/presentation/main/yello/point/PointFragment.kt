@@ -17,6 +17,7 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
 class PointFragment : BindingFragment<FragmentPointBinding>(R.layout.fragment_point) {
+
     private val yelloViewModel by activityViewModels<YelloViewModel>()
     private val voteViewModel by activityViewModels<VoteViewModel>()
 
@@ -30,36 +31,37 @@ class PointFragment : BindingFragment<FragmentPointBinding>(R.layout.fragment_po
     }
 
     private fun setConfirmBtnClickListener() {
-        binding.btnPointConfirm.setOnSingleClickListener {
+        binding.btnPointConfirmDouble.setOnSingleClickListener {
             requireActivity().finish()
         }
     }
 
     private fun observeCheckIsSubscribed() {
-        yelloViewModel.getPurchaseInfoState.flowWithLifecycle(viewLifecycleOwner.lifecycle)
-            .onEach { state ->
-                when (state) {
-                    is UiState.Success -> {
-                        binding.tvPointPlusLabel.isVisible = state.data.isSubscribe
-                        if (state.data.isSubscribe) {
-                            binding.tvPointVotePoint.text =
-                                voteViewModel.votePointSum.times(2).toString()
-                        }
+        yelloViewModel.getPurchaseInfoState.flowWithLifecycle(lifecycle).onEach { state ->
+            when (state) {
+                is UiState.Success -> {
+                    binding.tvPointPlusLabel.isVisible = state.data.isSubscribe
+                    if (state.data.isSubscribe) {
+                        binding.tvPointVotePoint.text =
+                            voteViewModel.votePointSum.times(2).toString()
                     }
-
-                    is UiState.Failure -> {
-                        binding.tvPointPlusLabel.visibility = View.GONE
-                        binding.tvPointVotePoint.text = voteViewModel.votePointSum.toString()
-                    }
-
-                    is UiState.Loading -> {}
-
-                    is UiState.Empty -> {}
                 }
-                binding.tvPointVotePoint.visibility = View.VISIBLE
-                binding.tvPointVotePointPlus.visibility = View.VISIBLE
-                binding.tvPointVotePointLabel.visibility = View.VISIBLE
-            }.launchIn(viewLifecycleOwner.lifecycleScope)
+
+                is UiState.Failure -> {
+                    binding.tvPointPlusLabel.isVisible = false
+                }
+
+                is UiState.Loading -> return@onEach
+
+                is UiState.Empty -> return@onEach
+            }
+
+            with(binding) {
+                tvPointVotePoint.isVisible = true
+                tvPointVotePointPlus.isVisible = true
+                tvPointVotePointLabel.isVisible = true
+            }
+        }.launchIn(lifecycleScope)
     }
 
     companion object {

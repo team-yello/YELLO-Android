@@ -6,10 +6,12 @@ import com.example.data.model.response.BaseResponse
 import com.example.data.model.response.event.ResponseGetEventDto
 import com.example.data.model.response.event.ResponsePostEventDto
 import com.example.data.model.response.event.ResponseRewardAdDto
+import com.example.data.model.response.event.ResponseRewardAdPossibleDto
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.POST
+import retrofit2.http.Path
 import java.util.UUID
 
 interface EventService {
@@ -35,4 +37,9 @@ interface EventService {
         idempotencyKey: String,
         @Body request: RequestRewardAdDto,
     ): BaseResponse<ResponseRewardAdDto>
+
+    @GET("api/vi/admob/{tag}")
+    suspend fun getRewardAdPossible(
+        @Path("tag") tag: String
+    ): BaseResponse<ResponseRewardAdPossibleDto>
 }

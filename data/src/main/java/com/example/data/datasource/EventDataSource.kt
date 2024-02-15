@@ -6,6 +6,7 @@ import com.example.data.model.response.BaseResponse
 import com.example.data.model.response.event.ResponseGetEventDto
 import com.example.data.model.response.event.ResponsePostEventDto
 import com.example.data.model.response.event.ResponseRewardAdDto
+import com.example.data.model.response.event.ResponseRewardAdPossibleDto
 import java.util.UUID
 
 interface EventDataSource {
@@ -24,4 +25,8 @@ interface EventDataSource {
         idempotencyKey: String,
         requestRewardAdDto: RequestRewardAdDto
     ): BaseResponse<ResponseRewardAdDto>
+
+    suspend fun getRewardAdPossible(
+        tag: String
+    ): BaseResponse<ResponseRewardAdPossibleDto>
 }

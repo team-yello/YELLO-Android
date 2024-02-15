@@ -7,6 +7,7 @@ import com.example.data.model.response.event.ResponseGetEventDto
 import com.example.domain.entity.event.Event
 import com.example.domain.entity.event.EventResult
 import com.example.domain.entity.event.RewardAdModel
+import com.example.domain.entity.event.RewardAdPossibleModel
 import com.example.domain.entity.event.RewardAdRequestModel
 import com.example.domain.repository.EventRepository
 import java.util.UUID
@@ -70,7 +71,13 @@ class EventRepositoryImpl @Inject constructor(
             ).data?.toRewardAdModel()
         }
 
+    override suspend fun getRewardAdPossible(): Result<RewardAdPossibleModel?> =
+        runCatching {
+            dataSource.getRewardAdPossible(TAG_SHOP).data?.toRewardAdPossibleModel()
+        }
+
     companion object {
         private const val TAG_LUNCH_EVENT = "LUNCH_EVENT"
+        private const val TAG_SHOP = "shop"
     }
 }

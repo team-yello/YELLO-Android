@@ -4,6 +4,7 @@ import com.example.domain.entity.event.RewardAdModel
 import com.example.domain.entity.event.RewardAdRequestModel
 import com.example.domain.entity.event.Event
 import com.example.domain.entity.event.EventResult
+import com.example.domain.entity.event.RewardAdPossibleModel
 import java.util.UUID
 
 interface EventRepository {
@@ -17,4 +18,6 @@ interface EventRepository {
         idempotencyKey: String,
         rewardAdRequestModel: RewardAdRequestModel
     ): Result<RewardAdModel?>
+
+    suspend fun getRewardAdPossible(): Result<RewardAdPossibleModel?>
 }

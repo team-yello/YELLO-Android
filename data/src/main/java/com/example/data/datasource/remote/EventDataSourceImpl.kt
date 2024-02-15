@@ -7,6 +7,7 @@ import com.example.data.model.response.BaseResponse
 import com.example.data.model.response.event.ResponseGetEventDto
 import com.example.data.model.response.event.ResponsePostEventDto
 import com.example.data.model.response.event.ResponseRewardAdDto
+import com.example.data.model.response.event.ResponseRewardAdPossibleDto
 import com.example.data.remote.service.EventService
 import java.util.UUID
 import javax.inject.Inject
@@ -37,4 +38,9 @@ class EventDataSourceImpl @Inject constructor(
             idempotencyKey,
             requestRewardAdDto
         )
+
+    override suspend fun getRewardAdPossible(
+        tag: String
+    ): BaseResponse<ResponseRewardAdPossibleDto> =
+        service.getRewardAdPossible(tag)
 }

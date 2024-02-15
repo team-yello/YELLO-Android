@@ -62,9 +62,6 @@ class AndroidApplicationPlugin : Plugin<Project> {
                             gradleLocalProperties(rootDir).getProperty("test.native.app.key"),
                         )
 
-                        manifestPlaceholders["NATIVE_APP_KEY"] =
-                            gradleLocalProperties(rootDir).getProperty("testNativeAppKey")
-
                         buildConfigField(
                             "String",
                             "AMPLITUDE_API_KEY",
@@ -77,8 +74,11 @@ class AndroidApplicationPlugin : Plugin<Project> {
                             gradleLocalProperties(rootDir).getProperty("test.admob.reward.key"),
                         )
 
-                        manifestPlaceholders["ADMOB_REWARD_KEY"] =
-                            gradleLocalProperties(rootDir).getProperty("testAdmobRewardKey")
+                        manifestPlaceholders["NATIVE_APP_KEY"] =
+                            gradleLocalProperties(rootDir).getProperty("testNativeAppKey")
+
+                        manifestPlaceholders["ADMOB_APP_ID"] =
+                            gradleLocalProperties(rootDir).getProperty("admobAppId")
                     }
 
                     release {
@@ -94,9 +94,6 @@ class AndroidApplicationPlugin : Plugin<Project> {
                             gradleLocalProperties(rootDir).getProperty("native.app.key"),
                         )
 
-                        manifestPlaceholders["NATIVE_APP_KEY"] =
-                            gradleLocalProperties(rootDir).getProperty("nativeAppKey")
-
                         buildConfigField(
                             "String",
                             "AMPLITUDE_API_KEY",
@@ -109,8 +106,11 @@ class AndroidApplicationPlugin : Plugin<Project> {
                             gradleLocalProperties(rootDir).getProperty("admob.reward.key"),
                         )
 
-                        manifestPlaceholders["ADMOB_REWARD_KEY"] =
-                            gradleLocalProperties(rootDir).getProperty("admobRewardKey")
+                        manifestPlaceholders["NATIVE_APP_KEY"] =
+                            gradleLocalProperties(rootDir).getProperty("nativeAppKey")
+
+                        manifestPlaceholders["ADMOB_APP_ID"] =
+                            gradleLocalProperties(rootDir).getProperty("admobAppId")
 
                         isMinifyEnabled = false
                         proguardFiles(

@@ -17,9 +17,6 @@ import com.example.ui.view.setOnSingleClickListener
 class PayReSubsNoticeDialog :
     BindingDialogFragment<FragmentNoticeResubscribeBinding>(R.layout.fragment_notice_resubscribe) {
 
-    private val mainActivity: MainActivity by lazy {
-        requireActivity() as MainActivity
-    }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setNoticeBtnClickListener()
@@ -43,14 +40,12 @@ class PayReSubsNoticeDialog :
     private fun setNoticeBtnClickListener() {
         binding.btnNoticeQuit.setOnSingleClickListener {
             dismiss()
-            mainActivity.resetUserSubsStateFlow()
         }
         binding.btnYelloplusSubscribe.setOnSingleClickListener {
             Intent(requireContext(), PayActivity::class.java).apply {
                 startActivity(this)
             }
             dismiss()
-            mainActivity.resetUserSubsStateFlow()
         }
     }
 

@@ -83,14 +83,16 @@ class MainViewModel @Inject constructor(
                 .onSuccess { userInfo ->
                     if (userInfo == null) {
                         _getUserSubsState.value = UiState.Empty
-                    } else {
-                        _getUserSubsState.value = UiState.Success(userInfo)
+                        _getUserSubsState.value = UiState.Loading
+                        return@onSuccess
                     }
+                    _getUserSubsState.value = UiState.Success(userInfo)
+                    _getUserSubsState.value = UiState.Loading
                 }
                 .onFailure { t ->
                     if (t is HttpException) {
-                        Timber.d("SUBS_FAIL : $t")
-                        _getUserSubsState.value = UiState.Failure(t.message.toString())
+                        _getUserSubsState.value = UiState.Failure(t.code().toString())
+                        _getUserSubsState.value = UiState.Loading
                     }
                 }
         }
@@ -102,18 +104,22 @@ class MainViewModel @Inject constructor(
                 .onSuccess { notice ->
                     if (notice == null) {
                         _getNoticeState.value = UiState.Empty
+                        _getNoticeState.value = UiState.Loading
                         return@onSuccess
                     }
 
                     if (noticeRepository.isDisabledNoticeUrl(notice.imageUrl)) return@onSuccess
                     _getNoticeState.value = UiState.Success(notice)
+                    _getNoticeState.value = UiState.Loading
                 }
                 .onFailure { t ->
                     if (t is HttpException) {
                         _getNoticeState.value = UiState.Failure(t.code().toString())
+                        _getNoticeState.value = UiState.Loading
                         return@onFailure
                     }
                     _getNoticeState.value = UiState.Failure(t.message.toString())
+                    _getNoticeState.value = UiState.Loading
                 }
         }
     }
@@ -124,10 +130,12 @@ class MainViewModel @Inject constructor(
                 .onSuccess {
                     if (it != null) {
                         _voteCount.value = UiState.Success(it)
+                        _voteCount.value = UiState.Loading
                     }
                 }
                 .onFailure {
                     _voteCount.value = UiState.Failure(it.message.toString())
+                    _voteCount.value = UiState.Loading
                 }
         }
     }
@@ -148,19 +156,23 @@ class MainViewModel @Inject constructor(
                 .onSuccess { event ->
                     if (event == null) {
                         _getEventState.value = UiState.Empty
+                        _getEventState.value = UiState.Loading
                         return@onSuccess
                     }
 
                     Timber.tag("GET_EVENT_SUCCESS").d(event.toString())
                     if (!event.isAvailable) {
                         _getEventState.value = UiState.Failure(CODE_UNAVAILABLE_EVENT)
+                        _getEventState.value = UiState.Loading
                         return@onSuccess
                     }
                     _getEventState.value = UiState.Success(event)
+                    _getEventState.value = UiState.Loading
                 }
                 .onFailure { t ->
                     if (t is HttpException) {
-                        UiState.Failure(t.code().toString())
+                        _getEventState.value = UiState.Failure(t.code().toString())
+                        _getEventState.value = UiState.Loading
                         Timber.tag("GET_EVENT_FAILURE").e(t)
                         return@onFailure
                     }

@@ -15,6 +15,7 @@ import androidx.lifecycle.lifecycleScope
 import com.el.yello.R
 import com.el.yello.databinding.ActivityMainBinding
 import com.el.yello.presentation.event.EventActivity
+import com.el.yello.presentation.main.MainViewModel.Companion.CODE_UNAVAILABLE_EVENT
 import com.el.yello.presentation.main.dialog.notice.NoticeDialog
 import com.el.yello.presentation.main.look.LookFragment
 import com.el.yello.presentation.main.myyello.MyYelloFragment
@@ -38,11 +39,9 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.job
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.concurrent.TimeUnit
-import kotlin.coroutines.coroutineContext
 
 @AndroidEntryPoint
 class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main) {
@@ -239,7 +238,6 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
 
                     is Loading -> return@onEach
                     is Success -> {
-                        coroutineContext.job.cancel()
                         if (!state.data.isAvailable) return@onEach
                         NoticeDialog.newInstance(
                             imageUrl = state.data.imageUrl,
@@ -270,7 +268,7 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
                     }
 
                     is Failure -> {
-                        yelloSnackbar(binding.root, state.msg)
+                        yelloSnackbar(binding.root, getString(R.string.internet_connection_error_msg))
                     }
                 }
             }.launchIn(lifecycleScope)
@@ -293,14 +291,18 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
                             )
                             putExtra(EXTRA_IDEMPOTENCY_KEY, viewModel.idempotencyKey.toString())
                             startActivity(this)
-                            coroutineContext.job.cancel()
                         }
                     }
 
-                    is Failure -> yelloSnackbar(
-                        binding.root,
-                        getString(R.string.internet_connection_error_msg),
-                    )
+                    is Failure -> {
+                        when (state.msg) {
+                            CODE_UNAVAILABLE_EVENT -> return@onEach
+                            else -> yelloSnackbar(
+                                binding.root,
+                                getString(R.string.internet_connection_error_msg),
+                            )
+                        }
+                    }
 
                     is Empty -> return@onEach
                     is Loading -> return@onEach
@@ -324,10 +326,6 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
         val badgeDrawable = binding.bnvMain.getOrCreateBadge(R.id.menu_my_yello)
         badgeDrawable.number = count
         badgeDrawable.isVisible = count != 0
-    }
-
-    fun resetUserSubsStateFlow() {
-        userSubsStateJob?.cancel()
     }
 
     companion object {

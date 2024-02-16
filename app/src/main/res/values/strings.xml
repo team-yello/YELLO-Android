@@ -65,7 +65,7 @@
     <string name="onboarding_group">%s반</string>
     <string name="onboarding_code_complete">완료</string>
     <string name="onboarding_name_id_name_hint">ex.김옐로</string>
-    <string name="onboarding_name_id_hangul_error">특수문자, 한글 외 문자는 입력할 수 없어요.</string>
+    <string name="onboarding_name_id_hangul_error">한글만 입력 가능해요.</string>
     <string name="onboarding_name_id_id_error">문자, 숫자, 밑줄, 마침표만 사용할 수 있어요.</string>
     <string name="onboarding_name_id_duplicate_id_msg">이미 사용하고 있는 아이디에요.</string>
     <string name="onboarding_code_duplicate_msg">존재하지 않는 추천인 코드입니다.</string>

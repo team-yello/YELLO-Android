@@ -72,7 +72,7 @@
     <string name="onboarding_select_student_Type_title">해당되는 곳에 체크해주세요.</string>
     <string name="onboarding_tv_select_student_highschool">중/고등학생</string>
     <string name="onboarding_tv_select_student_university">대학생</string>
-    <string name="onboarding_department_select_warning">"학교를 선택해야 학과를 선택할 수 있어요!"</string>
+    <string name="onboarding_department_select_warning">"학교를 먼저 선택해주세요."</string>
     <string name="onboarding_group_select_warning">"학교와 학년을 선택해야 반을 선택할 수 있어요!"</string>
     <string name="onboarding_school_hint">ex. 옐로대학교</string>
     <string name="onboarding_department_hint">ex. 노랑학과</string>

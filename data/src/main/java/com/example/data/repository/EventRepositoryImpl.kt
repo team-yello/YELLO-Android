@@ -73,11 +73,11 @@ class EventRepositoryImpl @Inject constructor(
 
     override suspend fun getRewardAdPossible(): Result<RewardAdPossibleModel?> =
         runCatching {
-            dataSource.getRewardAdPossible(TAG_SHOP).data?.toRewardAdPossibleModel()
+            dataSource.getRewardAdPossible(TAG_ADMOB_POINT).data?.toRewardAdPossibleModel()
         }
 
     companion object {
         private const val TAG_LUNCH_EVENT = "LUNCH_EVENT"
-        private const val TAG_SHOP = "shop"
+        private const val TAG_ADMOB_POINT = "ADMOB_POINT"
     }
 }

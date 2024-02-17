@@ -38,7 +38,7 @@ interface EventService {
         @Body request: RequestRewardAdDto,
     ): BaseResponse<ResponseRewardAdDto>
 
-    @GET("api/vi/admob/{tag}")
+    @GET("/api/v1/admob/possible/{tag}")
     suspend fun getRewardAdPossible(
         @Path("tag") tag: String
     ): BaseResponse<ResponseRewardAdPossibleDto>

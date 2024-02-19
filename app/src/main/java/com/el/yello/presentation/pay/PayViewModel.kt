@@ -159,12 +159,14 @@ class PayViewModel @Inject constructor(
                 .onSuccess { result ->
                     if (result == null) {
                         _getRewardAdPossibleState.value = UiState.Empty
-                    } else {
-                        isAdAvailable = result.isPossible
-                        if (!result.isPossible) _leftTime.value = result.leftTime
-                        decreaseTime()
-                        _getRewardAdPossibleState.value = UiState.Success(result.isPossible)
+                        return@launch
                     }
+                    if (!result.isPossible) {
+                        _leftTime.value = result.leftTime
+                        decreaseTime()
+                    }
+                    isAdAvailable = result.isPossible
+                    _getRewardAdPossibleState.value = UiState.Success(result.isPossible)
                 }
                 .onFailure {
                     _getRewardAdPossibleState.value = UiState.Failure(it.message.orEmpty())

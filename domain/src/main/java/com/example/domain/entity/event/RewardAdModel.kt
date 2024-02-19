@@ -5,6 +5,4 @@ data class RewardAdModel(
     val rewardValue: Int,
     val rewardTitle: String,
     val rewardImage: String
-) {
-    constructor() : this("",0,"","")
-}
+)

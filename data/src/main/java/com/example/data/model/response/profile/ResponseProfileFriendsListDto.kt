@@ -50,7 +50,9 @@ data class ResponseProfileFriendsListDto(
                     groupType = "",
                     groupName = "",
                     subGroupName = "",
-                    groupAdmissionYear = 0
+                    groupAdmissionYear = 0,
+                    subscribe = "",
+                    ticketCount = 0
                 )
             },
         )

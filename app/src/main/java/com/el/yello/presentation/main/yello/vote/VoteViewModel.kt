@@ -7,11 +7,16 @@ import com.el.yello.presentation.main.yello.vote.NoteState.InvalidCancel
 import com.el.yello.presentation.main.yello.vote.NoteState.InvalidName
 import com.el.yello.presentation.main.yello.vote.NoteState.InvalidShuffle
 import com.el.yello.presentation.main.yello.vote.NoteState.InvalidSkip
+import com.el.yello.presentation.pay.PayViewModel
+import com.el.yello.presentation.pay.PayViewModel.Companion.RANDOM_TYPE_FIXED
 import com.el.yello.util.amplitude.AmplitudeUtils
+import com.example.domain.entity.event.RewardAdModel
+import com.example.domain.entity.event.RewardAdRequestModel
 import com.example.domain.entity.vote.Choice
 import com.example.domain.entity.vote.ChoiceList
 import com.example.domain.entity.vote.Note
 import com.example.domain.entity.vote.StoredVote
+import com.example.domain.repository.EventRepository
 import com.example.domain.repository.VoteRepository
 import com.example.ui.view.UiState
 import com.example.ui.view.UiState.Empty
@@ -27,11 +32,13 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import timber.log.Timber
+import java.util.UUID
 import javax.inject.Inject
 
 @HiltViewModel
 class VoteViewModel @Inject constructor(
     private val voteRepository: VoteRepository,
+    private val eventRepository: EventRepository
 ) : ViewModel() {
     private val _noteState = MutableSharedFlow<NoteState>()
     val noteState: SharedFlow<NoteState> get() = _noteState.asSharedFlow()
@@ -73,6 +80,12 @@ class VoteViewModel @Inject constructor(
 
     var totalListCount = Int.MAX_VALUE
         private set
+
+    private val _postRewardAdState = MutableStateFlow<UiState<RewardAdModel?>>(UiState.Empty)
+    val postRewardAdState: StateFlow<UiState<RewardAdModel?>> = _postRewardAdState
+
+    private var _idempotencyKey: UUID? = null
+    val idempotencyKey: UUID get() = requireNotNull(_idempotencyKey)
 
     init {
         getStoredVote()
@@ -312,11 +325,42 @@ class VoteViewModel @Inject constructor(
 
     private fun isOptionSelected() = currentChoice.keywordName != null
 
+    fun setUuid() {
+        _idempotencyKey = UUID.randomUUID()
+    }
+
+    fun postRewardAdToCheck() {
+        viewModelScope.launch {
+            _postRewardAdState.value = UiState.Loading
+            eventRepository.postRewardAd(
+                idempotencyKey.toString(),
+                RewardAdRequestModel(
+                    REWARD_TYPE_MULTI_POINT,
+                    RANDOM_TYPE_FIXED,
+                    idempotencyKey.toString(),
+                    votePointSum
+                )
+            )
+                .onSuccess { reward ->
+                    if (reward == null) {
+                        _postRewardAdState.value = UiState.Failure(toString())
+                    } else {
+                        _postRewardAdState.value = UiState.Success(reward)
+                    }
+                }
+                .onFailure {
+                    _postRewardAdState.value = UiState.Failure(it.message.orEmpty())
+                }
+        }
+    }
+
     companion object {
         private const val MAX_COUNT_SHUFFLE = 3
         private const val DELAY_OPTION_SELECTION = 1000L
         private const val ID_EMPTY_USER = -1
         private const val EVENT_CLICK_VOTE_FINISH = "click_vote_finish"
+
+        private const val REWARD_TYPE_MULTI_POINT = "ADMOB_MULTIPLE_POINT"
 
         // TODO: delay 없이 해결 가능한 방법 찾아보기
         private const val DURATION_VIEW_SETTING = 600L

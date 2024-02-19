@@ -5,6 +5,7 @@ import com.amplitude.api.Amplitude
 import com.el.yello.BuildConfig.AMPLITUDE_API_KEY
 import com.el.yello.BuildConfig.NATIVE_APP_KEY
 import com.el.yello.presentation.util.ResolutionMetrics
+import com.google.android.gms.ads.MobileAds
 import com.kakao.sdk.common.KakaoSdk
 import dagger.hilt.android.HiltAndroidApp
 import timber.log.Timber
@@ -25,6 +26,8 @@ class MyApp : Application() {
 
         Amplitude.getInstance().initialize(this, AMPLITUDE_API_KEY)
             .enableForegroundTracking(this)
+
+        MobileAds.initialize(this) {}
     }
 
     companion object {

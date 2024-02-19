@@ -44,11 +44,14 @@ jobs:
       - name: Access Local Properties
         env:
           base_url: ${{ secrets.BASE_URL }}
-          native_app_key: ${{ secrets.NATIVE_APP_KEY }}
           test_base_url: ${{ secrets.TEST_BASE_URL }}
+          native_app_key: ${{ secrets.NATIVE_APP_KEY }}
           test_native_app_key: ${{ secrets.TEST_NATIVE_APP_KEY }}
           amplitude_api_key: ${{ secrets.AMPLITUDE_API_KEY }}
           amplitude_api_test_key: ${{ secrets.AMPLITUDE_API_TEST_KEY }}
+          admob_app_id: ${{ secrets.ADMOB_APP_ID }}
+          admob_reward_key: ${{ secrets.ADMOB_REWARD_KEY }}
+          admob_fullscreen_key: ${{ secrets.ADMOB_FULLSCREEN_KEY }}
         run: |
           echo base.url=\"$base_url\" >> local.properties
           echo native.app.key=\"$native_app_key\" >> local.properties
@@ -58,6 +61,11 @@ jobs:
           echo testNativeAppKey=$test_native_app_key >> local.properties
           echo amplitude.api.key=$amplitude_api_key >> local.properties
           echo amplitude.api.test.key=$amplitude_api_test_key >> local.properties
+          echo admobAppId=$admob_app_id >> local.properties
+          echo admob.reward.key=\"$admob_reward_key\" >> local.properties
+          echo test.admob.reward.key=\"$admob_reward_key\" >> local.properties
+          echo admob.fullscreen.key=\"$admob_fullscreen_key\" >> local.properties
+          echo test.admob.fullscreen.key=\"$admob_fullscreen_key\" >> local.properties
 
       - name: Access Firebase Service
         run: echo '${{ secrets.GOOGLE_SERVICES_JSON }}' > ./app/google-services.json

@@ -59,8 +59,8 @@ jobs:
           echo test.base.url=\"$test_base_url\" >> local.properties
           echo test.native.app.key=\"$test_native_app_key\" >> local.properties
           echo testNativeAppKey=$test_native_app_key >> local.properties
-          echo amplitude.api.key=\"$amplitude_api_key\" >> local.properties
-          echo amplitude.api.test.key=\"$amplitude_api_test_key\" >> local.properties
+          echo amplitude.api.key=$amplitude_api_key >> local.properties
+          echo amplitude.api.test.key=$amplitude_api_test_key >> local.properties
           echo admobAppId=$admob_app_id >> local.properties
           echo admob.reward.key=\"$admob_reward_key\" >> local.properties
           echo test.admob.reward.key=\"$admob_reward_key\" >> local.properties

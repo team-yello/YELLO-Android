@@ -68,8 +68,23 @@ class AndroidApplicationPlugin : Plugin<Project> {
                             gradleLocalProperties(rootDir).getProperty("amplitude.api.test.key"),
                         )
 
+                        buildConfigField(
+                            "String",
+                            "ADMOB_REWARD_KEY",
+                            gradleLocalProperties(rootDir).getProperty("test.admob.reward.key"),
+                        )
+
+                        buildConfigField(
+                            "String",
+                            "ADMOB_FULLSCREEN_KEY",
+                            gradleLocalProperties(rootDir).getProperty("test.admob.fullscreen.key"),
+                        )
+
                         manifestPlaceholders["NATIVE_APP_KEY"] =
                             gradleLocalProperties(rootDir).getProperty("testNativeAppKey")
+
+                        manifestPlaceholders["ADMOB_APP_ID"] =
+                            gradleLocalProperties(rootDir).getProperty("admobAppId")
                     }
 
                     release {
@@ -91,8 +106,23 @@ class AndroidApplicationPlugin : Plugin<Project> {
                             gradleLocalProperties(rootDir).getProperty("amplitude.api.key"),
                         )
 
+                        buildConfigField(
+                            "String",
+                            "ADMOB_REWARD_KEY",
+                            gradleLocalProperties(rootDir).getProperty("admob.reward.key"),
+                        )
+
+                        buildConfigField(
+                            "String",
+                            "ADMOB_FULLSCREEN_KEY",
+                            gradleLocalProperties(rootDir).getProperty("admob.fullscreen.key"),
+                        )
+
                         manifestPlaceholders["NATIVE_APP_KEY"] =
                             gradleLocalProperties(rootDir).getProperty("nativeAppKey")
+
+                        manifestPlaceholders["ADMOB_APP_ID"] =
+                            gradleLocalProperties(rootDir).getProperty("admobAppId")
 
                         isMinifyEnabled = false
                         proguardFiles(

@@ -4,6 +4,7 @@ import android.content.Intent
 import android.graphics.Paint
 import android.net.Uri
 import android.os.Bundle
+import android.view.View
 import android.view.WindowManager
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
@@ -13,15 +14,31 @@ import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.widget.ViewPager2
 import com.android.billingclient.api.ProductDetails
 import com.android.billingclient.api.Purchase
+import com.el.yello.BuildConfig.ADMOB_REWARD_KEY
 import com.el.yello.R
 import com.el.yello.databinding.ActivityPayBinding
+import com.el.yello.presentation.main.MainActivity
 import com.el.yello.presentation.main.profile.manage.ProfileManageActivity
+import com.el.yello.presentation.pay.dialog.PayInAppDialog
+import com.el.yello.presentation.pay.dialog.PayPointDialog
+import com.el.yello.presentation.pay.dialog.PaySubsDialog
 import com.el.yello.util.amplitude.AmplitudeUtils
 import com.el.yello.util.context.yelloSnackbar
 import com.example.data.model.request.pay.toRequestPayModel
+import com.example.ui.activity.navigateTo
 import com.example.ui.base.BindingActivity
+import com.example.ui.context.colorOf
+import com.example.ui.context.drawableOf
+import com.example.ui.context.snackBar
+import com.example.ui.context.toast
 import com.example.ui.view.UiState
 import com.example.ui.view.setOnSingleClickListener
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.FullScreenContentCallback
+import com.google.android.gms.ads.LoadAdError
+import com.google.android.gms.ads.rewarded.RewardedAd
+import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback
+import com.google.android.gms.ads.rewarded.ServerSideVerificationOptions
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.launchIn
@@ -47,15 +64,23 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
 
     private var paySubsDialog: PaySubsDialog? = null
     private var payInAppDialog: PayInAppDialog? = null
+    private var payPointDialog: PayPointDialog? = null
+
+    private var rewardedAd: RewardedAd? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         initView()
         initPurchaseBtnListener()
+        initVoteBtnListener()
+        viewModel.getRewardAdPossible()
+        initAdBtnListener()
+        observePostRewardAdState()
+        observeRewardAdPossibleState()
         initBannerOnChangeListener()
-        viewModel.getPurchaseInfoFromServer()
         setBannerAutoScroll()
+        viewModel.getUserDataFromServer()
         setBillingManager()
         observeIsPurchasing()
         observePurchaseInfoState()
@@ -71,14 +96,15 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
         binding.dotIndicator.setViewPager(binding.vpBanner)
         binding.tvOriginalPrice.paintFlags =
             binding.tvOriginalPrice.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+        binding.vm = viewModel
     }
 
     private fun initPurchaseBtnListener() {
-        binding.clSubscribe.setOnSingleClickListener { startPurchase(TYPE_PLUS, YELLO_PLUS) }
-        binding.clNameCheckOne.setOnSingleClickListener { startPurchase(TYPE_ONE, YELLO_ONE) }
-        binding.clNameCheckTwo.setOnSingleClickListener { startPurchase(TYPE_TWO, YELLO_TWO) }
-        binding.clNameCheckFive.setOnSingleClickListener { startPurchase(TYPE_FIVE, YELLO_FIVE) }
-        binding.ivBack.setOnSingleClickListener { finish() }
+        binding.layoutSubscribe.setOnSingleClickListener { startPurchase(TYPE_PLUS, YELLO_PLUS) }
+        binding.layoutNameCheckOne.setOnSingleClickListener { startPurchase(TYPE_ONE, YELLO_ONE) }
+        binding.layoutNameCheckTwo.setOnSingleClickListener { startPurchase(TYPE_TWO, YELLO_TWO) }
+        binding.layoutNameCheckFive.setOnSingleClickListener { startPurchase(TYPE_FIVE, YELLO_FIVE) }
+        binding.btnBack.setOnSingleClickListener { finish() }
     }
 
     private fun startPurchase(amplitude: String, productId: String) {
@@ -89,6 +115,125 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
             } ?: also {
             yelloSnackbar(binding.root, getString(R.string.pay_error_no_item))
         }
+    }
+
+    private fun initVoteBtnListener() {
+        binding.layoutVoteForPoint.setOnSingleClickListener {
+            navigateTo<MainActivity>()
+            finish()
+        }
+    }
+
+    private fun initAdBtnListener() {
+        binding.layoutAdForPoint.setOnSingleClickListener {
+            if (viewModel.isAdAvailable) {
+                startLoadingScreen(AD)
+                loadRewardAd()
+            } else {
+                yelloSnackbar(binding.root, getString(R.string.pay_ad_not_available_yet))
+            }
+        }
+    }
+
+    private fun loadRewardAd() {
+        viewModel.setUuid()
+        val adRequest = AdRequest.Builder().build()
+        RewardedAd.load(this, ADMOB_REWARD_KEY, adRequest, object : RewardedAdLoadCallback() {
+
+            override fun onAdLoaded(ad: RewardedAd) {
+                rewardedAd = ad
+                rewardedAd?.apply {
+                    setSSV()
+                    setRewardAdFinishCallback()
+                }
+                stopLoadingScreen(AD)
+
+                rewardedAd?.show(this@PayActivity) {}
+                    ?: toast(getString(R.string.pay_ad_fail_to_load))
+            }
+
+            override fun onAdFailedToLoad(adError: LoadAdError) {
+                rewardedAd = null
+                toast(getString(R.string.pay_ad_fail_to_load))
+                stopLoadingScreen(AD)
+            }
+        })
+    }
+
+    private fun RewardedAd.setSSV() {
+        setServerSideVerificationOptions(
+            ServerSideVerificationOptions.Builder()
+                .setCustomData(viewModel.idempotencyKey.toString())
+                .build()
+        )
+    }
+
+    private fun RewardedAd.setRewardAdFinishCallback() {
+        fullScreenContentCallback = object : FullScreenContentCallback() {
+            override fun onAdDismissedFullScreenContent() {
+                rewardedAd = null
+                viewModel.postRewardAdToCheck()
+                startLoadingScreen(AD)
+            }
+        }
+    }
+
+    private fun observePostRewardAdState() {
+        viewModel.postRewardAdState.flowWithLifecycle(lifecycle).onEach { state ->
+            when (state) {
+                is UiState.Success -> {
+                    stopLoadingScreen(AD)
+                    payPointDialog = PayPointDialog()
+                    payPointDialog?.show(supportFragmentManager, DIALOG_POINT)
+                    viewModel.addPointCount(state.data?.rewardValue ?: 0)
+                    binding.tvPointAmount.text = viewModel.pointCount.toString()
+                    viewModel.getRewardAdPossible()
+                }
+
+                is UiState.Failure -> {
+                    stopLoadingScreen(AD)
+                    toast(getString(R.string.internet_connection_error_msg))
+                }
+
+                is UiState.Loading -> startLoadingScreen(AD)
+
+                is UiState.Empty -> return@onEach
+            }
+        }.launchIn(lifecycleScope)
+    }
+
+    private fun observeRewardAdPossibleState() {
+        viewModel.getRewardAdPossibleState.flowWithLifecycle(lifecycle).onEach { state ->
+            when (state) {
+                is UiState.Success -> {
+                    if (state.data) {
+                        with(binding) {
+                            layoutAdForPoint.background = drawableOf(R.drawable.shape_black_fill_purple_line_10_rect)
+                            tvAdTitle.setTextColor(colorOf(R.color.purple_sub_100))
+                            tvAdReward.setTextColor(colorOf(R.color.white))
+                            tvAdTimeAvailable.visibility = View.VISIBLE
+                            tvAdTimeRemain.visibility = View.INVISIBLE
+                        }
+                    } else {
+                        with(binding) {
+                            layoutAdForPoint.background = drawableOf(R.drawable.shape_black_fill_grayscales800_line_10_rect)
+                            tvAdTitle.setTextColor(colorOf(R.color.grayscales_600))
+                            tvAdReward.setTextColor(colorOf(R.color.grayscales_600))
+                            tvAdTimeAvailable.visibility = View.INVISIBLE
+                            tvAdTimeRemain.visibility = View.VISIBLE
+                        }
+                    }
+                }
+
+                is UiState.Failure -> {
+                    toast(getString(R.string.internet_connection_error_msg))
+                }
+
+                is UiState.Loading -> return@onEach
+
+                is UiState.Empty -> return@onEach
+            }
+        }.launchIn(lifecycleScope)
     }
 
     // BillingManager 설정 시 BillingClient 연결 & 콜백 응답 설정 -> 검증 진행
@@ -164,16 +309,23 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
 
     private fun observeIsPurchasing() {
         manager.isPurchasing.flowWithLifecycle(lifecycle).onEach { isPurchasing ->
-            if (isPurchasing) startLoadingScreen()
+            if (isPurchasing) startLoadingScreen(PAY)
         }.launchIn(lifecycleScope)
     }
 
     private fun observePurchaseInfoState() {
-        viewModel.getPurchaseInfoState.flowWithLifecycle(lifecycle).onEach { state ->
+        viewModel.getUserInfoState.flowWithLifecycle(lifecycle).onEach { state ->
             when (state) {
                 is UiState.Success -> {
-                    binding.layoutShowSubs.isVisible = state.data?.isSubscribe == true
+                    if (state.data?.subscribe != SUBS_NORMAL) {
+                        binding.layoutShowSubs.visibility = View.VISIBLE
+                    } else {
+                        binding.layoutShowSubs.visibility = View.INVISIBLE
+                    }
                     viewModel.setTicketCount(state.data?.ticketCount ?: 0)
+                    binding.tvKeyAmount.text = state.data?.ticketCount.toString()
+                    viewModel.setPointCount(state.data?.point ?: 0)
+                    binding.tvPointAmount.text = state.data?.point.toString()
                 }
 
                 is UiState.Failure -> {
@@ -189,7 +341,7 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
 
     private fun observeCheckSubsValidState() {
         viewModel.postSubsCheckState.flowWithLifecycle(lifecycle).onEach { state ->
-            stopLoadingScreen()
+            stopLoadingScreen(PAY)
             when (state) {
                 is UiState.Success -> {
                     setCompleteShopBuyAmplitude(TYPE_PLUS, PRICE_PLUS)
@@ -199,7 +351,7 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
                 }
 
                 is UiState.Failure -> {
-                    stopLoadingScreen()
+                    stopLoadingScreen(PAY)
                     if (state.msg == SERVER_ERROR) {
                         showErrorDialog()
                     } else {
@@ -218,7 +370,7 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
         viewModel.postInAppCheckState.flowWithLifecycle(lifecycle).onEach { state ->
             when (state) {
                 is UiState.Success -> {
-                    stopLoadingScreen()
+                    stopLoadingScreen(PAY)
                     when (state.data?.productId) {
                         YELLO_ONE -> {
                             setCompleteShopBuyAmplitude(TYPE_ONE, PRICE_ONE)
@@ -244,7 +396,7 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
                 }
 
                 is UiState.Failure -> {
-                    stopLoadingScreen()
+                    stopLoadingScreen(PAY)
                     if (state.msg == SERVER_ERROR) {
                         showErrorDialog()
                     } else {
@@ -275,17 +427,25 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
         }
     }
 
-    private fun startLoadingScreen() {
-        binding.layoutPayCheckLoading.isVisible = true
-        this.window?.setFlags(
+    private fun startLoadingScreen(type: String) {
+        if (type == PAY) {
+            binding.layoutPayCheckLoading.isVisible = true
+        } else {
+            binding.layoutAdCheckLoading.isVisible = true
+        }
+        window?.setFlags(
             WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
             WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
         )
     }
 
-    private fun stopLoadingScreen() {
-        manager.setIsPurchasing(false)
-        binding.layoutPayCheckLoading.isVisible = false
+    private fun stopLoadingScreen(type: String) {
+        if (type == PAY) {
+            manager.setIsPurchasing(false)
+            binding.layoutPayCheckLoading.isVisible = false
+        } else {
+            binding.layoutAdCheckLoading.isVisible = false
+        }
         window?.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
     }
 
@@ -328,6 +488,8 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
         _manager = null
         payInAppDialog?.dismiss()
         paySubsDialog?.dismiss()
+        payPointDialog?.dismiss()
+        rewardedAd = null
     }
 
     companion object {
@@ -348,7 +510,13 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
 
         const val DIALOG_SUBS = "subsDialog"
         const val DIALOG_IN_APP = "inAppDialog"
+        const val DIALOG_POINT = "pointDialog"
 
         const val SERVER_ERROR = "HTTP 500 "
+
+        const val SUBS_NORMAL = "normal"
+
+        const val AD = "AD"
+        const val PAY = "PAY"
     }
 }

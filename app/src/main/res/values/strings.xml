@@ -125,10 +125,13 @@
     <string name="my_yello_read_open_keyword_with_100_points">100포인트로 키워드 확인하기</string>
 
     <string name="point_description">투표 포인트 적립!</string>
+    <string name="point_description_double">투표 포인트 추가 적립!</string>
     <string name="point_sub_description">투표로 포인트를 모아 쪽지를 열어보세요.</string>
     <string name="point_plus">+</string>
     <string name="point_vote_point_label">Point</string>
     <string name="point_confirm">확인</string>
+    <string name="point_tv_ad_to_double">광고보고 2배로 받기</string>
+    <string name="point_tv_just_confirm">그냥 받기</string>
 
     <string name="wait_balloon_tooltip">🤩 친구가 가입하면 바로 투표할 수 있어요!</string>
     <string name="wait_time_format">%02d:%02d</string>
@@ -298,8 +301,8 @@
     <string name="pay_dialog_in_app_title_5">열람권 5개를 얻었어요!</string>
 
     <string name="pay_title">옐로플러스의 특별한 혜택은?</string>
-    <string name="pay_is_subs">옐로플러스 구독중</string>
-    <string name="pay_subtitle">쪽지 보낸 사람을 알고 싶다면?</string>
+    <string name="pay_is_subs">구독 중</string>
+    <string name="pay_subtitle">쪽지를 열고 싶다면?</string>
     <string name="pay_discount">SALE!</string>
 
     <string name="pay_banner_item_1">이름 열람권 매주 3회</string>
@@ -312,14 +315,14 @@
     <string name="pay_subs_price">2900원</string>
     <string name="pay_subs_price_per">/주</string>
 
-    <string name="pay_in_app_one_title">이름 열람권 1개</string>
-    <string name="pay_in_app_one_original_price"><strike>1400원</strike></string>
+    <string name="pay_in_app_one_title">이름 열람권\n1개</string>
+    <string name="pay_in_app_one_original_price"><strike>  1400원  </strike></string>
     <string name="pay_in_app_one_price">990원</string>
-    <string name="pay_in_app_two_title">이름 열람권 2개</string>
-    <string name="pay_in_app_two_original_price"><strike>2800원</strike></string>
+    <string name="pay_in_app_two_title">이름 열람권\n2개</string>
+    <string name="pay_in_app_two_original_price"><strike>  2800원  </strike></string>
     <string name="pay_in_app_two_price">1900원</string>
-    <string name="pay_in_app_five_title">이름 열람권 5개</string>
-    <string name="pay_in_app_five_original_price"><strike>7000원</strike></string>
+    <string name="pay_in_app_five_title">이름 열람권\n5개</string>
+    <string name="pay_in_app_five_original_price"><strike>  7000원  </strike></string>
     <string name="pay_in_app_five_price">3900원</string>
     <string name="pay_in_app_discount">할인!</string>
 
@@ -330,6 +333,17 @@
     <string name="pay_error_dialog_title">상품 지급 오류</string>
     <string name="pay_error_dialog_msg">오류로 인해 상품이 지급되지 않았어요. 옐로 공식 카카오 채널로 문의 주시면 해결을 도와드리겠습니다.</string>
     <string name="pay_error_dialog_btn">확인</string>
+
+    <string name="pay_tv_vote_for_point">투표하고 포인트 얻기</string>
+    <string name="pay_tv_vote_for_point_reward">최대 200p</string>
+    <string name="pay_tv_ad_for_point">광고 보고 포인트 얻기</string>
+    <string name="pay_tv_ad_for_point_time">1시간에 한 번</string>
+    <string name="pay_ad_vote_for_point_reward">10p</string>
+    <string name="pay_ad_not_available_yet">1시간에 한 번 재생할 수 있어요.</string>
+
+    <string name="pay_ad_vote_for_point_reward_title">10 포인트를 얻었어요!</string>
+    <string name="pay_ad_vote_for_point_reward_subtitle">1시간 뒤에 다시 이용 가능해요.</string>
+    <string name="pay_ad_fail_to_load">광고 조회에 실패했습니다.</string>
 
     <string name="pay_tv_guide_title">옐로플러스 구독 안내</string>
     <string name="pay_tv_guide_body_1">- 결제를 진행하시면 관련 약관에 동의하는 것으로 간주됩니다.</string>

@@ -66,7 +66,9 @@ data class ResponseProfileUserDto(
             groupType = groupType,
             groupName = groupName,
             subGroupName = subGroupName,
-            groupAdmissionYear = groupAdmissionYear
+            groupAdmissionYear = groupAdmissionYear,
+            subscribe = subscribe,
+            ticketCount = ticketCount
         )
     }
 }

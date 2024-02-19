@@ -26,6 +26,7 @@ splashVersion = "1.0.0-beta01"
 composeVersion = "1.4.3"
 workManagerVersion = "2.8.1"
 billingVersion = "6.0.1"
+admobVersion = "21.5.0"
 
 ## Firebase
 firebaseVersion = "30.4.0"
@@ -137,6 +138,7 @@ shimmer = { group = "com.facebook.shimmer", name = "shimmer", version.ref = "shi
 amplitude = { group = "com.amplitude", name = "android-sdk", version.ref = "amplitudeVersion" }
 gson = { group = "com.google.code.gson", name = "gson", version.ref = "gsonVersion" }
 ossLicense = { group = "com.google.android.gms", name = "play-services-oss-licenses", version.ref = "ossVersion" }
+admob = { group = "com.google.android.gms", name= "play-services-ads", version.ref = "admobVersion"}
 
 inAppUpdate = { group = "com.google.android.play", name = "app-update-ktx", version.ref = "inAppUpdateVersion" }
 
@@ -195,6 +197,7 @@ androidx = [
     "androidx-navigationUi",
     "androidx-navigationDynamic",
     "billing",
+    "admob"
 ]
 
 compose = [
@@ -230,6 +233,7 @@ appModuleLibraryEtc = [
     "shimmer",
     "amplitude"
 ]
+
 okhttp = ["okhttp", "okhttp-logging-interceptor"]
 firebase = ["firebase-analytics", "firebase-crashlytics", "firebase-messaging", "firebase-remoteConfig"]
 flipper = ["flipper", "soloader", "flipper-network", "flipper-leakcanary"]

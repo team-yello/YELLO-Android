@@ -19,6 +19,7 @@ import com.el.yello.R
 import com.el.yello.databinding.ActivityPayBinding
 import com.el.yello.presentation.main.MainActivity
 import com.el.yello.presentation.main.profile.manage.ProfileManageActivity
+import com.el.yello.presentation.pay.PayAdapter.Companion.TOTAL_BANNER_COUNT
 import com.el.yello.presentation.pay.dialog.PayInAppDialog
 import com.el.yello.presentation.pay.dialog.PayPointDialog
 import com.el.yello.presentation.pay.dialog.PaySubsDialog
@@ -29,7 +30,6 @@ import com.example.ui.activity.navigateTo
 import com.example.ui.base.BindingActivity
 import com.example.ui.context.colorOf
 import com.example.ui.context.drawableOf
-import com.example.ui.context.snackBar
 import com.example.ui.context.toast
 import com.example.ui.view.UiState
 import com.example.ui.view.setOnSingleClickListener
@@ -262,13 +262,12 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
         )
     }
 
-    // 배너 자동 스크롤 로직
     private fun setBannerAutoScroll() {
         lifecycleScope.launch {
             while (true) {
                 delay(2500)
                 binding.vpBanner.currentItem.let {
-                    binding.vpBanner.currentItem = it.plus(1) % 3
+                    binding.vpBanner.currentItem = it.plus(1) % TOTAL_BANNER_COUNT
                 }
             }
         }
@@ -278,6 +277,7 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
         binding.vpBanner.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             private var currentPosition = 0
             private var currentState = 0
+
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
                 currentPosition = position
@@ -285,24 +285,11 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
 
             override fun onPageScrollStateChanged(state: Int) {
                 super.onPageScrollStateChanged(state)
-                handleScrollState(state)
-                currentState = state
-            }
-
-            private fun handleScrollState(state: Int) {
-                // 평소엔 1(DRAG), 2(SETTING), 0(IDLE) but 막혀있을 땐 1(DRAG), 0(IDLE), 2(SETTING) 이걸 이용
                 if (state == ViewPager2.SCROLL_STATE_IDLE && currentState == ViewPager2.SCROLL_STATE_DRAGGING) {
-                    setNextPage()
+                    binding.vpBanner.currentItem =
+                        if (currentPosition == 0) TOTAL_BANNER_COUNT - 1 else if (currentPosition == TOTAL_BANNER_COUNT - 1) 0 else currentPosition
                 }
-            }
-
-            private fun setNextPage() {
-                val lastPosition = 2
-                if (currentPosition == 0) {
-                    binding.vpBanner.currentItem = lastPosition
-                } else if (currentPosition == lastPosition) {
-                    binding.vpBanner.currentItem = 0
-                }
+                currentState = state
             }
         })
     }

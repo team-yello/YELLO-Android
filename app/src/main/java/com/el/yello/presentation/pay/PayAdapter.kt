@@ -62,7 +62,11 @@ class PayAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         }
     }
 
-    override fun getItemCount(): Int = 3
+    override fun getItemCount(): Int = TOTAL_BANNER_COUNT
+
+    companion object {
+        const val TOTAL_BANNER_COUNT = 4
+    }
 }
 
 class PayOneViewHolder(

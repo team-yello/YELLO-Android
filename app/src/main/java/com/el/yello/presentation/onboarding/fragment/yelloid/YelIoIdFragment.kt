@@ -52,7 +52,7 @@ class YelIoIdFragment : BindingFragment<FragmentYelloIdBinding>(R.layout.fragmen
         binding.etId.doAfterTextChanged { input ->
             searchJob?.cancel()
             searchJob = viewModel.viewModelScope.launch {
-                delay(Companion.debounceTime)
+                delay(debounceTime)
                 input?.toString()?.let {
                     viewModel.getValidYelloId(it)
                     binding.btnYelloIdNext.isEnabled = true
@@ -113,6 +113,6 @@ class YelIoIdFragment : BindingFragment<FragmentYelloIdBinding>(R.layout.fragmen
         private const val NAME_ONBOARD_VIEW = "onboard_view"
         private const val VALUE_ID = "id"
         private const val PROPERTY_USER_ID = "user_id"
-        private const val debounceTime = 300L
+        private const val debounceTime = 100L
     }
 }

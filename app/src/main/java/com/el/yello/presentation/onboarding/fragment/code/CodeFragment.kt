@@ -182,6 +182,6 @@ class CodeFragment : BindingFragment<FragmentCodeBinding>(R.layout.fragment_code
         private const val VALUE_YES = "yes"
         private const val PROPERTY_USER_NAME = "user_name"
         private const val PROPERTY_USER_SEX = "user_sex"
-        private const val debounceTime = 300L
+        private const val debounceTime = 100L
     }
 }

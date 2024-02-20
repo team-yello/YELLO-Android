@@ -15,6 +15,10 @@ import androidx.activity.viewModels
 import androidx.core.view.isGone
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
+import androidx.core.view.marginBottom
+import androidx.core.view.marginLeft
+import androidx.core.view.marginRight
+import androidx.core.view.marginTop
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import com.el.yello.R
@@ -28,8 +32,10 @@ import com.example.ui.base.BindingActivity
 import com.example.ui.intent.boolExtra
 import com.example.ui.intent.intExtra
 import com.example.ui.intent.longExtra
+import com.example.ui.number.dpToPx
 import com.example.ui.restart.restartApp
 import com.example.ui.view.UiState
+import com.example.ui.view.setMargins
 import com.example.ui.view.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
@@ -225,6 +231,19 @@ class MyYelloReadActivity :
         binding.clInstagramView.visibility = if (isInstagram) View.VISIBLE else View.INVISIBLE
         binding.clTopView.visibility = if (isInstagram) View.INVISIBLE else View.VISIBLE
         binding.clBottomView.visibility = if (isInstagram) View.INVISIBLE else View.VISIBLE
+        with(binding.tvSendEnd) {
+            if (isInstagram) setMargins(
+                left = marginLeft,
+                top = marginTop + MARGIN_TOP_INSTAGRAM_SEND.dpToPx(context),
+                right = marginRight,
+                bottom = marginBottom,
+            ) else setMargins(
+                left = marginLeft,
+                top = MARGIN_TOP_TV_SEND_END.dpToPx(context),
+                right = marginRight,
+                bottom = marginBottom,
+            )
+        }
     }
 
     private fun setData(yello: YelloDetail) {
@@ -387,6 +406,9 @@ class MyYelloReadActivity :
         private const val URI_INSTAGRAM_DOWNLOAD = "market://details?id=com.instagram.android"
 
         const val SENDER_YELLO_TEAM = "옐로팀"
+
+        private const val MARGIN_TOP_TV_SEND_END = 120
+        private const val MARGIN_TOP_INSTAGRAM_SEND = 24
 
         @JvmStatic
         fun getIntent(

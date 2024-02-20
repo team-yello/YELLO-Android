@@ -43,7 +43,6 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import org.json.JSONObject
-import timber.log.Timber
 
 @AndroidEntryPoint
 class MyYelloFragment : BindingFragment<FragmentMyYelloBinding>(R.layout.fragment_my_yello) {
@@ -295,7 +294,7 @@ class MyYelloFragment : BindingFragment<FragmentMyYelloBinding>(R.layout.fragmen
                 if (ticketCount != -1) {
                     binding.tvKeyNumber.text = ticketCount.toString()
                 }
-                Timber.d("TICKET_COUNT : $ticketCount")
+
                 binding.clSendOpen.isVisible = ticketCount != 0
                 binding.btnSendCheck.isVisible = ticketCount == 0
 

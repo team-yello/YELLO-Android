@@ -19,7 +19,8 @@ import com.el.yello.R
 import com.el.yello.databinding.ActivityPayBinding
 import com.el.yello.presentation.main.MainActivity
 import com.el.yello.presentation.main.profile.manage.ProfileManageActivity
-import com.el.yello.presentation.pay.PayAdapter.Companion.TOTAL_BANNER_COUNT
+import com.el.yello.presentation.pay.banner.PayBannerAdapter
+import com.el.yello.presentation.pay.banner.PayBannerAdapter.Companion.TOTAL_BANNER_COUNT
 import com.el.yello.presentation.pay.dialog.PayInAppDialog
 import com.el.yello.presentation.pay.dialog.PayPointDialog
 import com.el.yello.presentation.pay.dialog.PaySubsDialog
@@ -52,7 +53,7 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
 
     private val viewModel by viewModels<PayViewModel>()
 
-    private var _adapter: PayAdapter? = null
+    private var _adapter: PayBannerAdapter? = null
     private val adapter
         get() = requireNotNull(_adapter) { getString(R.string.adapter_not_initialized_error_msg) }
 
@@ -91,7 +92,7 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
     }
 
     private fun initView() {
-        _adapter = PayAdapter()
+        _adapter = PayBannerAdapter()
         binding.vpBanner.adapter = adapter
         binding.dotIndicator.setViewPager(binding.vpBanner)
         binding.tvOriginalPrice.paintFlags =

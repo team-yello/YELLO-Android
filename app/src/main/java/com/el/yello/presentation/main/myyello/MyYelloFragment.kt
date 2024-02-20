@@ -43,6 +43,7 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import org.json.JSONObject
+import timber.log.Timber
 
 @AndroidEntryPoint
 class MyYelloFragment : BindingFragment<FragmentMyYelloBinding>(R.layout.fragment_my_yello) {
@@ -146,7 +147,7 @@ class MyYelloFragment : BindingFragment<FragmentMyYelloBinding>(R.layout.fragmen
 
     private fun loadThirdReadWithAd() {
         viewModel.addReadCount()
-        if(viewModel.readCount % 5 == 3 && interstitialAd != null) {
+        if (viewModel.readCount % 5 == 3 && interstitialAd != null) {
             interstitialAd?.show(requireActivity())
         } else {
             navigateToMyYelloReadActivity()
@@ -214,11 +215,17 @@ class MyYelloFragment : BindingFragment<FragmentMyYelloBinding>(R.layout.fragmen
                     }
 
                     is UiState.Failure -> {
-                        yelloSnackbar(binding.root, getString(R.string.internet_connection_error_msg))
+                        yelloSnackbar(
+                            binding.root,
+                            getString(R.string.internet_connection_error_msg)
+                        )
                     }
 
                     is UiState.Empty -> {
-                        yelloSnackbar(binding.root, getString(R.string.internet_connection_error_msg))
+                        yelloSnackbar(
+                            binding.root,
+                            getString(R.string.internet_connection_error_msg)
+                        )
                     }
 
                     is UiState.Loading -> return@onEach
@@ -288,6 +295,7 @@ class MyYelloFragment : BindingFragment<FragmentMyYelloBinding>(R.layout.fragmen
                 if (ticketCount != -1) {
                     binding.tvKeyNumber.text = ticketCount.toString()
                 }
+                Timber.d("TICKET_COUNT : $ticketCount")
                 binding.clSendOpen.isVisible = ticketCount != 0
                 binding.btnSendCheck.isVisible = ticketCount == 0
 

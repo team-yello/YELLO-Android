@@ -4,20 +4,18 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.el.yello.databinding.ItemPayFirstBinding
+import com.el.yello.databinding.ItemPayFourthBinding
 import com.el.yello.databinding.ItemPaySecondBinding
 import com.el.yello.databinding.ItemPayThirdBinding
 
 class PayBannerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    enum class BannerItem {
-        ONE, TWO, THREE,
-    }
-
     override fun getItemViewType(position: Int): Int {
         return when (position) {
             0 -> BannerItem.ONE.ordinal
             1 -> BannerItem.TWO.ordinal
-            else -> BannerItem.THREE.ordinal
+            2 -> BannerItem.THREE.ordinal
+            else -> BannerItem.FOUR.ordinal
         }
     }
 
@@ -34,9 +32,14 @@ class PayBannerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                 PayThreeViewHolder(binding)
             }
 
-            else -> {
+            BannerItem.THREE.ordinal -> {
                 val binding = ItemPaySecondBinding.inflate(inflater, parent, false)
                 PayTwoViewHolder(binding)
+            }
+
+            else -> {
+                val binding = ItemPayFourthBinding.inflate(inflater, parent, false)
+                PayFourViewHolder(binding)
             }
         }
     }
@@ -46,6 +49,7 @@ class PayBannerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             is PayOneViewHolder -> holder.onBind()
             is PayTwoViewHolder -> holder.onBind()
             is PayThreeViewHolder -> holder.onBind()
+            is PayFourViewHolder -> holder.onBind()
         }
     }
 

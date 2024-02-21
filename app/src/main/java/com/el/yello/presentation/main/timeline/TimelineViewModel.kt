@@ -1,4 +1,4 @@
-package com.el.yello.presentation.main.look
+package com.el.yello.presentation.main.timeline
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -17,7 +17,7 @@ import kotlinx.coroutines.flow.StateFlow
 import javax.inject.Inject
 
 @HiltViewModel
-class LookViewModel @Inject constructor(
+class TimelineViewModel @Inject constructor(
     private val lookService: LookService,
     private val authRepository: AuthRepository
 ) : ViewModel() {

@@ -16,7 +16,7 @@ import com.el.yello.databinding.ActivityMainBinding
 import com.el.yello.presentation.event.EventActivity
 import com.el.yello.presentation.main.MainViewModel.Companion.CODE_UNAVAILABLE_EVENT
 import com.el.yello.presentation.main.dialog.notice.NoticeDialog
-import com.el.yello.presentation.main.look.LookFragment
+import com.el.yello.presentation.main.timeline.TimelineFragment
 import com.el.yello.presentation.main.myyello.MyYelloFragment
 import com.el.yello.presentation.main.myyello.read.MyYelloReadActivity
 import com.el.yello.presentation.main.profile.info.ProfileFragment
@@ -99,7 +99,7 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
                     navigateTo<RecommendFragment>()
                 }
 
-                R.id.menu_look -> navigateTo<LookFragment>()
+                R.id.menu_look -> navigateTo<TimelineFragment>()
 
                 R.id.menu_yello -> {
                     navigateTo<YelloFragment>()
@@ -127,7 +127,7 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
                 }
 
                 R.id.menu_look -> {
-                    if (currentFragment is LookFragment) {
+                    if (currentFragment is TimelineFragment) {
                         currentFragment.scrollToTop()
                     }
                 }

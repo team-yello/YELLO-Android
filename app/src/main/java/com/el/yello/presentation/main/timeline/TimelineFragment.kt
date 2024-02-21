@@ -1,4 +1,4 @@
-package com.el.yello.presentation.main.look
+package com.el.yello.presentation.main.timeline
 
 import android.os.Bundle
 import android.view.View
@@ -11,7 +11,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.RecyclerView
 import com.el.yello.R
-import com.el.yello.databinding.FragmentLookBinding
+import com.el.yello.databinding.FragmentTimelineBinding
 import com.el.yello.presentation.main.dialog.invite.InviteFriendDialog
 import com.el.yello.presentation.util.BaseLinearRcvItemDeco
 import com.el.yello.util.Utils.setPullToScrollColor
@@ -27,13 +27,13 @@ import kotlinx.coroutines.flow.onEach
 import org.json.JSONObject
 
 @AndroidEntryPoint
-class LookFragment : BindingFragment<FragmentLookBinding>(R.layout.fragment_look) {
+class TimelineFragment : BindingFragment<FragmentTimelineBinding>(R.layout.fragment_timeline) {
 
-    private var _adapter: LookPageAdapter? = null
+    private var _adapter: TimelinePageAdapter? = null
     private val adapter
         get() = requireNotNull(_adapter) { getString(R.string.adapter_not_initialized_error_msg) }
 
-    private val viewModel by viewModels<LookViewModel>()
+    private val viewModel by viewModels<TimelineViewModel>()
 
     private var inviteFriendDialog: InviteFriendDialog? = null
 
@@ -58,7 +58,7 @@ class LookFragment : BindingFragment<FragmentLookBinding>(R.layout.fragment_look
 
     private fun initAdapter() {
         viewModel.setFirstLoading(true)
-        _adapter = LookPageAdapter()
+        _adapter = TimelinePageAdapter()
         adapter.addLoadStateListener { combinedLoadStates ->
             if (combinedLoadStates.prepend.endOfPaginationReached) {
                 binding.layoutLookNoFriendsList.isVisible = adapter.itemCount < 1
@@ -86,7 +86,7 @@ class LookFragment : BindingFragment<FragmentLookBinding>(R.layout.fragment_look
             adapter.refresh()
             viewModel.setFirstLoading(true)
             observeTimelinePagingList(isFilterSelected)
-            binding.tvLookFilterType.text = if(isFilterSelected) TYPE_MINE else TYPE_ALL
+            binding.tvLookFilterType.text = if (isFilterSelected) TYPE_MINE else TYPE_ALL
         }
     }
 
@@ -102,41 +102,41 @@ class LookFragment : BindingFragment<FragmentLookBinding>(R.layout.fragment_look
             }
             setPullToScrollColor(R.color.grayscales_500, R.color.grayscales_700)
         }
-        adapter.loadStateFlow.flowWithLifecycle(lifecycle)
-            .distinctUntilChangedBy { it.refresh }.onEach {
+        adapter.loadStateFlow.flowWithLifecycle(lifecycle).distinctUntilChangedBy { it.refresh }
+            .onEach {
                 delay(200)
                 binding.layoutLookSwipe.isRefreshing = false
             }.launchIn(lifecycleScope)
     }
 
     private fun observeTimelinePagingList(onlyMine: Boolean) {
-        viewModel.getLookListWithPaging(onlyMine).flowWithLifecycle(lifecycle).onEach { pagingData ->
-            adapter.submitData(lifecycle, pagingData)
-        }.launchIn(lifecycleScope)
+        viewModel.getLookListWithPaging(onlyMine).flowWithLifecycle(lifecycle)
+            .onEach { pagingData ->
+                adapter.submitData(lifecycle, pagingData)
+            }.launchIn(lifecycleScope)
     }
 
     private fun observePagingLoadingState() {
-        adapter.loadStateFlow.flowWithLifecycle(lifecycle)
-            .onEach { loadStates ->
-                when (loadStates.refresh) {
-                    is LoadState.Loading -> {
-                        if (!isNoFriend) showShimmerView(true)
-                    }
-
-                    is LoadState.NotLoading -> {
-                        if (viewModel.isFirstLoading.value) {
-                            startFadeIn()
-                            viewModel.setFirstLoading(false)
-                        }
-                        showShimmerView(false)
-                    }
-
-                    is LoadState.Error -> {
-                        showShimmerView(true)
-                        yelloSnackbar(requireView(), getString(R.string.internet_connection_error_msg))
-                    }
+        adapter.loadStateFlow.flowWithLifecycle(lifecycle).onEach { loadStates ->
+            when (loadStates.refresh) {
+                is LoadState.Loading -> {
+                    if (!isNoFriend) showShimmerView(true)
                 }
-            }.launchIn(lifecycleScope)
+
+                is LoadState.NotLoading -> {
+                    if (viewModel.isFirstLoading.value) {
+                        startFadeIn()
+                        viewModel.setFirstLoading(false)
+                    }
+                    showShimmerView(false)
+                }
+
+                is LoadState.Error -> {
+                    showShimmerView(true)
+                    yelloSnackbar(requireView(), getString(R.string.internet_connection_error_msg))
+                }
+            }
+        }.launchIn(lifecycleScope)
     }
 
     private fun catchScrollForAmplitude() {

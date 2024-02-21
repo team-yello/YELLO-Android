@@ -1,22 +1,22 @@
-package com.el.yello.presentation.main.look
+package com.el.yello.presentation.main.timeline
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
-import com.el.yello.databinding.ItemLookBinding
+import com.el.yello.databinding.ItemTimelineBinding
 import com.example.domain.entity.LookListModel.LookModel
 import com.example.ui.view.ItemDiffCallback
 
-class LookPageAdapter : PagingDataAdapter<LookModel, LookViewHolder>(diffUtil) {
+class TimelinePageAdapter : PagingDataAdapter<LookModel, TimelineViewHolder>(diffUtil) {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LookViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TimelineViewHolder {
         val inflater by lazy { LayoutInflater.from(parent.context) }
-        val binding: ItemLookBinding = ItemLookBinding.inflate(inflater, parent, false)
-        return LookViewHolder(binding)
+        val binding: ItemTimelineBinding = ItemTimelineBinding.inflate(inflater, parent, false)
+        return TimelineViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: LookViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: TimelineViewHolder, position: Int) {
         holder.binding.tvNameHead.visibility = View.VISIBLE
         holder.binding.tvKeywordHead.visibility = View.VISIBLE
         val item = getItem(position) ?: return

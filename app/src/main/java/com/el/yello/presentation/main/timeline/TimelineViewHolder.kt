@@ -1,16 +1,16 @@
-package com.el.yello.presentation.main.look
+package com.el.yello.presentation.main.timeline
 
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.el.yello.R
-import com.el.yello.databinding.ItemLookBinding
+import com.el.yello.databinding.ItemTimelineBinding
 import com.el.yello.util.Utils.setImageOrBasicThumbnail
 import com.example.domain.entity.LookListModel.LookModel
 import com.example.ui.context.colorOf
 import com.example.ui.context.drawableOf
 
-class LookViewHolder(
-    val binding: ItemLookBinding
+class TimelineViewHolder(
+    val binding: ItemTimelineBinding
 ) : RecyclerView.ViewHolder(binding.root) {
 
     fun onBind(item: LookModel) {

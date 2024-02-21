@@ -1,4 +1,4 @@
-package com.el.yello.presentation.main.profile.mod
+package com.el.yello.presentation.main.profile.schoolmod
 
 import android.app.Activity
 import android.content.Intent
@@ -12,7 +12,8 @@ import com.el.yello.R
 import com.el.yello.databinding.ActivityProfileSchoolModBinding
 import com.el.yello.presentation.main.profile.detail.ProfileDetailActivity
 import com.el.yello.presentation.main.profile.detail.ProfileDetailActivity.Companion.RESULT_PROFILE_MODIFY_FAILURE
-import com.el.yello.presentation.main.profile.mod.UnivProfileModViewModel.Companion.TEXT_NONE
+import com.el.yello.presentation.main.profile.univmod.UnivProfileModViewModel.Companion.TEXT_NONE
+import com.el.yello.presentation.main.profile.univmod.UnivProfileModActivity
 import com.el.yello.util.context.yelloSnackbar
 import com.example.ui.activity.navigateTo
 import com.example.ui.base.BindingActivity

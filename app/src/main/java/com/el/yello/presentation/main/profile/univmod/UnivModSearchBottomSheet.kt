@@ -1,4 +1,4 @@
-package com.el.yello.presentation.main.profile.mod
+package com.el.yello.presentation.main.profile.univmod
 
 import android.app.Dialog
 import android.content.Intent
@@ -17,7 +17,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.el.yello.R
 import com.el.yello.databinding.FragmentModSearchBottomSheetBinding
-import com.el.yello.presentation.main.profile.mod.UnivProfileModViewModel.Companion.TEXT_NONE
+import com.el.yello.presentation.main.profile.univmod.UnivProfileModViewModel.Companion.TEXT_NONE
 import com.el.yello.presentation.onboarding.fragment.universityinfo.department.DepartmentAdapter
 import com.el.yello.presentation.onboarding.fragment.universityinfo.department.SearchDialogDepartmentFragment.Companion.DEPARTMENT_FORM_URL
 import com.el.yello.presentation.onboarding.fragment.universityinfo.university.SearchDialogUniversityFragment.Companion.SCHOOL_FORM_URL

@@ -1,4 +1,4 @@
-package com.el.yello.presentation.main.profile
+package com.el.yello.presentation.main.profile.info
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

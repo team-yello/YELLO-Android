@@ -3,7 +3,6 @@ package com.el.yello.presentation.main.profile.info
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.el.yello.databinding.ItemProfileUserInfoBinding
-import com.el.yello.presentation.main.profile.ProfileViewModel
 import com.el.yello.util.Image.loadUrl
 import com.el.yello.util.Utils.setImageOrBasicThumbnail
 import com.example.ui.view.setOnSingleClickListener

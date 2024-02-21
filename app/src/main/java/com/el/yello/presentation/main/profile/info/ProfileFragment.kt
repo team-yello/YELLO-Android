@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.el.yello.R
 import com.el.yello.databinding.FragmentProfileBinding
-import com.el.yello.presentation.main.profile.ProfileViewModel
 import com.el.yello.presentation.main.profile.detail.ProfileDetailActivity
 import com.el.yello.presentation.setting.SettingActivity
 import com.el.yello.presentation.pay.PayActivity

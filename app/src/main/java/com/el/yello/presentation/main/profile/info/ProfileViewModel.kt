@@ -72,6 +72,14 @@ class ProfileViewModel @Inject constructor(
         _deleteFriendState.value = UiState.Empty
     }
 
+    fun resetProfileData() {
+        resetPageVariable()
+        resetStateVariable()
+        getPurchaseInfoFromServer()
+        getUserDataFromServer()
+        getProfileBannerFromServer()
+    }
+
     fun resetPageVariable() {
         currentPage = -1
         isPagingFinish = false

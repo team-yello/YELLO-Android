@@ -11,6 +11,7 @@ import androidx.lifecycle.lifecycleScope
 import com.el.yello.R
 import com.el.yello.databinding.ActivityProfileUnivModBinding
 import com.el.yello.presentation.main.profile.detail.ProfileDetailActivity
+import com.el.yello.presentation.main.profile.detail.ProfileDetailActivity.Companion.RESULT_PROFILE_MODIFY_FAILURE
 import com.el.yello.presentation.main.profile.mod.UnivProfileModViewModel.Companion.TEXT_NONE
 import com.el.yello.util.context.yelloSnackbar
 import com.example.ui.activity.navigateTo
@@ -139,7 +140,7 @@ class UnivProfileModActivity :
                 }
             } else {
                 Intent(this, ProfileDetailActivity::class.java).apply {
-                    setResult(Activity.RESULT_CANCELED, this)
+                    setResult(RESULT_PROFILE_MODIFY_FAILURE, this)
                     if (!isFinishing) finish()
                 }
             }

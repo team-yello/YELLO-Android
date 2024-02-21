@@ -92,7 +92,7 @@
     <string name="yello_start_double">x2</string>
 
     <string name="yello_lock_description">옐로를 시작하고 싶다면?</string>
-    <string name="yello_lock_invite">친구 초대하고 100포인트 받기</string>
+    <string name="yello_lock_invite">친구 초대하고 옐로 시작하기</string>
     <string name="yello_lock_sub_description">친구가 1명 이상 모이면 투표할 수 있어요.\n친구들을 초대해볼까요?</string>
 
     <string name="note_friend_shuffle">친구 셔플</string>

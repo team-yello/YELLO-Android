@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import com.el.yello.databinding.ItemAddFriendBinding
 import com.example.domain.entity.onboarding.AddFriendListModel.FriendModel
-import com.example.ui.view.ItemDiffCallback
+import com.example.ui.extension.ItemDiffCallback
 
 class AddFriendAdapter(private val itemClick: (FriendModel, Int) -> (Unit)) :
     ListAdapter<FriendModel, AddFriendViewHolder>(diffUtil) {

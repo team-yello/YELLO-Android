@@ -4,7 +4,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.el.yello.databinding.ItemProfileFriendsListBinding
 import com.el.yello.util.Utils.setImageOrBasicThumbnail
 import com.example.domain.entity.ProfileUserModel
-import com.example.ui.view.setOnSingleClickListener
+import com.example.ui.extension.setOnSingleClickListener
 
 class ProfileListInfoViewHolder(
     val binding: ItemProfileFriendsListBinding,

@@ -12,7 +12,7 @@ import androidx.core.view.isVisible
 import androidx.databinding.BindingAdapter
 import com.airbnb.lottie.LottieAnimationView
 import com.el.yello.R
-import com.example.ui.view.setMargins
+import com.example.ui.extension.setMargins
 
 object BindingAdapter {
     @JvmStatic

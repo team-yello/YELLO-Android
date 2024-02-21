@@ -4,7 +4,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.el.yello.databinding.ItemRecommendListBinding
 import com.el.yello.util.Utils.setImageOrBasicThumbnail
 import com.example.domain.entity.RecommendListModel.RecommendFriend
-import com.example.ui.view.setOnSingleClickListener
+import com.example.ui.extension.setOnSingleClickListener
 
 class RecommendViewHolder(
     val binding: ItemRecommendListBinding,

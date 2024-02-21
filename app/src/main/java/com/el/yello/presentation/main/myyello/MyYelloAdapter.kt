@@ -11,8 +11,7 @@ import com.el.yello.databinding.ItemMyYelloBinding
 import com.el.yello.util.Utils
 import com.example.domain.entity.Yello
 import com.example.domain.enum.Gender
-import com.example.ui.view.setOnSingleClickListener
-import dagger.hilt.android.qualifiers.ApplicationContext
+import com.example.ui.extension.setOnSingleClickListener
 
 class MyYelloAdapter(private val itemClick: (Yello, Int) -> (Unit)) :
     RecyclerView.Adapter<MyYelloAdapter.MyYelloViewHolder>() {

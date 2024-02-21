@@ -22,11 +22,11 @@ import com.el.yello.presentation.main.yello.vote.VoteActivity
 import com.el.yello.presentation.main.yello.wait.YelloWaitFragment
 import com.el.yello.util.context.yelloSnackbar
 import com.example.ui.base.BindingFragment
-import com.example.ui.restart.restartApp
-import com.example.ui.view.UiState.Empty
-import com.example.ui.view.UiState.Failure
-import com.example.ui.view.UiState.Loading
-import com.example.ui.view.UiState.Success
+import com.example.ui.extension.restartApp
+import com.example.ui.state.UiState.Empty
+import com.example.ui.state.UiState.Failure
+import com.example.ui.state.UiState.Loading
+import com.example.ui.state.UiState.Success
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach

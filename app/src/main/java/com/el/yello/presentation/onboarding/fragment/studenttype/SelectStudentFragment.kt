@@ -11,8 +11,8 @@ import com.el.yello.presentation.onboarding.activity.OnBoardingActivity
 import com.el.yello.util.amplitude.AmplitudeUtils
 import com.example.domain.enum.StudentType
 import com.example.ui.base.BindingFragment
-import com.example.ui.fragment.colorOf
-import com.example.ui.view.setOnSingleClickListener
+import com.example.ui.extension.colorOf
+import com.example.ui.extension.setOnSingleClickListener
 import org.json.JSONObject
 
 class SelectStudentFragment :

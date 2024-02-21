@@ -7,7 +7,7 @@ import com.el.yello.databinding.ActivityTutorialEndPluspointBinding
 import com.el.yello.presentation.main.MainActivity
 import com.el.yello.util.amplitude.AmplitudeUtils
 import com.example.ui.base.BindingActivity
-import com.example.ui.view.setOnSingleClickListener
+import com.example.ui.extension.setOnSingleClickListener
 
 class TutorialEndPlusActivity :
     BindingActivity<ActivityTutorialEndPluspointBinding>(R.layout.activity_tutorial_end_pluspoint) {

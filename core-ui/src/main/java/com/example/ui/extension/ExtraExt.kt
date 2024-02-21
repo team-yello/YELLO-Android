@@ -1,4 +1,4 @@
-package com.example.ui.intent
+package com.example.ui.extension
 
 import android.app.Activity
 import android.content.Intent
@@ -36,11 +36,6 @@ fun stringExtra(defaultValue: String? = null) =
         } else {
             thisRef.intent.extras?.getString(property.name, defaultValue)
         }
-    }
-
-fun <P : Parcelable> parcelableExtra(defaultValue: P? = null) =
-    ReadOnlyProperty<Activity, P?> { thisRef, property ->
-        thisRef.intent.extras?.getParcelable<P>(property.name) ?: defaultValue
     }
 
 inline fun <reified T : Parcelable> Intent.getCompatibleParcelableExtra(key: String): T? = when {

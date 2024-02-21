@@ -13,8 +13,8 @@ import com.el.yello.databinding.ActivityGetAlarmBinding
 import com.el.yello.presentation.tutorial.TutorialAActivity
 import com.el.yello.util.amplitude.AmplitudeUtils
 import com.example.ui.base.BindingActivity
-import com.example.ui.intent.boolExtra
-import com.example.ui.view.setOnSingleClickListener
+import com.example.ui.extension.boolExtra
+import com.example.ui.extension.setOnSingleClickListener
 
 class GetAlarmActivity :
     BindingActivity<ActivityGetAlarmBinding>(R.layout.activity_get_alarm) {

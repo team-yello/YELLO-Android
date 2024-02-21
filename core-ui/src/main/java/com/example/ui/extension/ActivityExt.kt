@@ -1,4 +1,4 @@
-package com.example.ui.activity
+package com.example.ui.extension
 
 import android.app.Activity
 import android.content.Intent

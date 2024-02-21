@@ -9,10 +9,9 @@ import android.view.ViewGroup
 import android.view.WindowManager
 import com.el.yello.R
 import com.el.yello.databinding.FragmentNoticeResubscribeBinding
-import com.el.yello.presentation.main.MainActivity
 import com.el.yello.presentation.pay.PayActivity
 import com.example.ui.base.BindingDialogFragment
-import com.example.ui.view.setOnSingleClickListener
+import com.example.ui.extension.setOnSingleClickListener
 
 class PayReSubsNoticeDialog :
     BindingDialogFragment<FragmentNoticeResubscribeBinding>(R.layout.fragment_notice_resubscribe) {

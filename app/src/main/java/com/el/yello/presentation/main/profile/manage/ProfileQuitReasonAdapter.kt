@@ -8,8 +8,8 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.el.yello.R
 import com.el.yello.databinding.ItemProfileQuitReasonBinding
-import com.example.ui.view.ItemDiffCallback
-import com.example.ui.view.setOnSingleClickListener
+import com.example.ui.extension.ItemDiffCallback
+import com.example.ui.extension.setOnSingleClickListener
 
 class ProfileQuitReasonAdapter(
     private val storeQuitReason: (String) -> Unit,

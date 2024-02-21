@@ -30,11 +30,11 @@ import com.el.yello.util.context.yelloSnackbar
 import com.example.domain.entity.event.Event
 import com.example.domain.enum.SubscribeType.CANCELED
 import com.example.ui.base.BindingActivity
-import com.example.ui.intent.stringExtra
-import com.example.ui.view.UiState.Empty
-import com.example.ui.view.UiState.Failure
-import com.example.ui.view.UiState.Loading
-import com.example.ui.view.UiState.Success
+import com.example.ui.extension.stringExtra
+import com.example.ui.state.UiState.Empty
+import com.example.ui.state.UiState.Failure
+import com.example.ui.state.UiState.Loading
+import com.example.ui.state.UiState.Success
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.launchIn

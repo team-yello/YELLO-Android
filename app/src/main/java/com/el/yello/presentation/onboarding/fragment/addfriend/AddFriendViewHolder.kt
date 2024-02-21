@@ -6,7 +6,7 @@ import com.el.yello.R
 import com.el.yello.databinding.ItemAddFriendBinding
 import com.el.yello.util.Image.loadUrlWithCircleCrop
 import com.example.domain.entity.onboarding.AddFriendListModel
-import com.example.ui.view.setOnSingleClickListener
+import com.example.ui.extension.setOnSingleClickListener
 
 class AddFriendViewHolder(
     private val binding: ItemAddFriendBinding,

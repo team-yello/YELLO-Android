@@ -8,8 +8,8 @@ import com.el.yello.databinding.ActivityTutorialABinding
 import com.el.yello.presentation.onboarding.activity.OnBoardingActivity.Companion.EXTRA_CODE_TEXT_EMPTY
 import com.el.yello.util.amplitude.AmplitudeUtils
 import com.example.ui.base.BindingActivity
-import com.example.ui.intent.boolExtra
-import com.example.ui.view.setOnSingleClickListener
+import com.example.ui.extension.boolExtra
+import com.example.ui.extension.setOnSingleClickListener
 import org.json.JSONObject
 
 class TutorialAActivity : BindingActivity<ActivityTutorialABinding>(R.layout.activity_tutorial_a) {

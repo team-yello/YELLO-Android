@@ -6,7 +6,7 @@ import com.el.yello.R
 import com.el.yello.databinding.ActivityProfileQuitTwoBinding
 import com.el.yello.util.amplitude.AmplitudeUtils
 import com.example.ui.base.BindingActivity
-import com.example.ui.view.setOnSingleClickListener
+import com.example.ui.extension.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
 import org.json.JSONObject
 

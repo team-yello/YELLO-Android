@@ -5,7 +5,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import coil.load
 import com.el.yello.R
 import com.el.yello.util.Image.loadUrlWithCircleCrop
-import com.example.ui.context.colorOf
+import com.example.ui.extension.colorOf
 
 object Utils {
     fun setChosungText(name: String, number: Int): String {

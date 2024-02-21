@@ -7,7 +7,6 @@ import com.el.yello.presentation.main.yello.vote.NoteState.InvalidCancel
 import com.el.yello.presentation.main.yello.vote.NoteState.InvalidName
 import com.el.yello.presentation.main.yello.vote.NoteState.InvalidShuffle
 import com.el.yello.presentation.main.yello.vote.NoteState.InvalidSkip
-import com.el.yello.presentation.pay.PayViewModel
 import com.el.yello.presentation.pay.PayViewModel.Companion.RANDOM_TYPE_FIXED
 import com.el.yello.util.amplitude.AmplitudeUtils
 import com.example.domain.entity.event.RewardAdModel
@@ -18,9 +17,9 @@ import com.example.domain.entity.vote.Note
 import com.example.domain.entity.vote.StoredVote
 import com.example.domain.repository.EventRepository
 import com.example.domain.repository.VoteRepository
-import com.example.ui.view.UiState
-import com.example.ui.view.UiState.Empty
-import com.example.ui.view.UiState.Success
+import com.example.ui.state.UiState
+import com.example.ui.state.UiState.Empty
+import com.example.ui.state.UiState.Success
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow

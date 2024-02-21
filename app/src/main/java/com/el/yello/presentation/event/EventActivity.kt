@@ -14,9 +14,9 @@ import com.el.yello.presentation.main.MainActivity.Companion.EXTRA_REWARD_LIST
 import com.el.yello.presentation.main.ParcelableEvent
 import com.el.yello.presentation.main.ParcelableReward
 import com.example.ui.base.BindingActivity
-import com.example.ui.context.getVibrator
-import com.example.ui.intent.getCompatibleParcelableExtra
-import com.example.ui.view.setOnSingleClickListener
+import com.example.ui.extension.getVibrator
+import com.example.ui.extension.getCompatibleParcelableExtra
+import com.example.ui.extension.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

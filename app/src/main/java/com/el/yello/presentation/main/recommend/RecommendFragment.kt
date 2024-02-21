@@ -13,7 +13,7 @@ import com.el.yello.presentation.main.recommend.school.RecommendSchoolViewModel
 import com.el.yello.presentation.search.SearchActivity
 import com.el.yello.util.amplitude.AmplitudeUtils
 import com.example.ui.base.BindingFragment
-import com.example.ui.view.setOnSingleClickListener
+import com.example.ui.extension.setOnSingleClickListener
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
 

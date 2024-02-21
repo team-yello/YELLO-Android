@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import com.el.yello.databinding.ItemLookBinding
 import com.example.domain.entity.LookListModel.LookModel
-import com.example.ui.view.ItemDiffCallback
+import com.example.ui.extension.ItemDiffCallback
 
 class LookPageAdapter : PagingDataAdapter<LookModel, LookViewHolder>(diffUtil) {
 

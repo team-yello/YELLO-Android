@@ -14,7 +14,7 @@ import com.el.yello.presentation.auth.SignInActivity.Companion.EXTRA_PROFILE_IMA
 import com.el.yello.presentation.onboarding.OnBoardingViewModel
 import com.el.yello.util.context.yelloSnackbar
 import com.example.ui.base.BindingActivity
-import com.example.ui.view.setOnSingleClickListener
+import com.example.ui.extension.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

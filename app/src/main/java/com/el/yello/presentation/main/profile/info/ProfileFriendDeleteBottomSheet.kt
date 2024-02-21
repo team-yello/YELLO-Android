@@ -10,9 +10,9 @@ import com.el.yello.databinding.FragmentProfileDeleteBottomSheetBinding
 import com.el.yello.presentation.main.profile.ProfileViewModel
 import com.el.yello.util.Utils.setImageOrBasicThumbnail
 import com.example.ui.base.BindingBottomSheetDialog
-import com.example.ui.fragment.toast
-import com.example.ui.view.UiState
-import com.example.ui.view.setOnSingleClickListener
+import com.example.ui.extension.toast
+import com.example.ui.state.UiState
+import com.example.ui.extension.setOnSingleClickListener
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 

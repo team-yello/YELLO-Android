@@ -1,4 +1,4 @@
-package com.example.ui.transformation
+package com.example.ui.animation
 
 import android.view.View
 import androidx.viewpager2.widget.ViewPager2

@@ -6,7 +6,7 @@ import com.el.yello.databinding.ItemProfileUserInfoBinding
 import com.el.yello.presentation.main.profile.ProfileViewModel
 import com.el.yello.util.Image.loadUrl
 import com.el.yello.util.Utils.setImageOrBasicThumbnail
-import com.example.ui.view.setOnSingleClickListener
+import com.example.ui.extension.setOnSingleClickListener
 
 class ProfileUserInfoViewHolder(
     val binding: ItemProfileUserInfoBinding,

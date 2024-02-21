@@ -9,7 +9,7 @@ import com.example.domain.entity.FullName
 import com.example.domain.entity.YelloDetail
 import com.example.domain.enum.PointEnum
 import com.example.domain.repository.YelloRepository
-import com.example.ui.view.UiState
+import com.example.ui.state.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

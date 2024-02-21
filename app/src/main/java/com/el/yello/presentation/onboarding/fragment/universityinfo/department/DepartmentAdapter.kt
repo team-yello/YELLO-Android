@@ -6,8 +6,8 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.el.yello.databinding.ItemDepartmentListBinding
 import com.example.domain.entity.onboarding.Group
-import com.example.ui.view.ItemDiffCallback
-import com.example.ui.view.setOnSingleClickListener
+import com.example.ui.extension.ItemDiffCallback
+import com.example.ui.extension.setOnSingleClickListener
 
 class DepartmentAdapter(
     private val storeDepartment: (String, Long) -> Unit,

@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import com.el.yello.databinding.ItemRecommendSearchBinding
 import com.example.domain.entity.SearchListModel.SearchFriendModel
-import com.example.ui.view.ItemDiffCallback
+import com.example.ui.extension.ItemDiffCallback
 
 class SearchAdapter(
     private val itemClick: (SearchFriendModel, Int, SearchViewHolder) -> Unit

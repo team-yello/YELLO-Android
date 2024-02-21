@@ -19,9 +19,9 @@ import com.el.yello.databinding.FragmentDialogHighschoolBinding
 import com.el.yello.presentation.onboarding.OnBoardingViewModel
 import com.el.yello.util.context.yelloSnackbar
 import com.example.ui.base.BindingBottomSheetDialog
-import com.example.ui.context.hideKeyboard
-import com.example.ui.view.UiState
-import com.example.ui.view.setOnSingleClickListener
+import com.example.ui.extension.hideKeyboard
+import com.example.ui.state.UiState
+import com.example.ui.extension.setOnSingleClickListener
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import kotlinx.coroutines.Job

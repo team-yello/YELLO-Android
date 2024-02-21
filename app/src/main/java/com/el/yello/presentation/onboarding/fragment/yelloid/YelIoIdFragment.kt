@@ -13,9 +13,9 @@ import com.el.yello.presentation.onboarding.activity.OnBoardingActivity
 import com.el.yello.util.amplitude.AmplitudeUtils
 import com.el.yello.util.context.yelloSnackbar
 import com.example.ui.base.BindingFragment
-import com.example.ui.fragment.colorOf
-import com.example.ui.view.UiState
-import com.example.ui.view.setOnSingleClickListener
+import com.example.ui.extension.colorOf
+import com.example.ui.state.UiState
+import com.example.ui.extension.setOnSingleClickListener
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch

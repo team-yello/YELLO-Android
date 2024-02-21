@@ -14,7 +14,7 @@ import com.el.yello.presentation.pay.PayActivity.Companion.YELLO_ONE
 import com.el.yello.presentation.pay.PayActivity.Companion.YELLO_TWO
 import com.el.yello.presentation.pay.PayViewModel
 import com.example.ui.base.BindingDialogFragment
-import com.example.ui.view.setOnSingleClickListener
+import com.example.ui.extension.setOnSingleClickListener
 
 class PayInAppDialog :
     BindingDialogFragment<FragmentPayInAppDialogBinding>(R.layout.fragment_pay_in_app_dialog) {

@@ -8,7 +8,7 @@ import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.el.yello.R
-import com.example.ui.number.dpToPx
+import com.example.ui.extension.dpToPx
 
 class RecommendItemDecoration(context: Context) : RecyclerView.ItemDecoration() {
     private val dividerHeight = 1.dpToPx(context)

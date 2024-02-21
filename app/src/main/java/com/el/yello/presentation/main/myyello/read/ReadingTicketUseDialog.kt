@@ -10,7 +10,7 @@ import com.el.yello.R
 import com.el.yello.databinding.DialogReadingTicketUseBinding
 import com.el.yello.util.amplitude.AmplitudeUtils
 import com.example.ui.base.BindingDialogFragment
-import com.example.ui.view.setOnSingleClickListener
+import com.example.ui.extension.setOnSingleClickListener
 
 class ReadingTicketUseDialog :
     BindingDialogFragment<DialogReadingTicketUseBinding>(R.layout.dialog_reading_ticket_use) {

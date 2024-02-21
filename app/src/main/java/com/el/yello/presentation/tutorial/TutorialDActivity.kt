@@ -8,7 +8,7 @@ import com.el.yello.presentation.main.MainActivity
 import com.el.yello.presentation.onboarding.activity.OnBoardingActivity
 import com.el.yello.util.amplitude.AmplitudeUtils
 import com.example.ui.base.BindingActivity
-import com.example.ui.view.setOnSingleClickListener
+import com.example.ui.extension.setOnSingleClickListener
 import org.json.JSONObject
 
 class TutorialDActivity : BindingActivity<ActivityTutorialDBinding>(R.layout.activity_tutorial_d) {

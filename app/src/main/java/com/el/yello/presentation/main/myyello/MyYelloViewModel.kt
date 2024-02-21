@@ -10,7 +10,7 @@ import com.example.domain.entity.notice.Banner
 import com.example.domain.entity.vote.VoteCount
 import com.example.domain.repository.NoticeRepository
 import com.example.domain.repository.YelloRepository
-import com.example.ui.view.UiState
+import com.example.ui.state.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

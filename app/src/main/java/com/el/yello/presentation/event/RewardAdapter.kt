@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.el.yello.databinding.ItemEventRewardBinding
 import com.el.yello.presentation.main.ParcelableReward
 import com.el.yello.util.Image.loadUrl
-import com.example.ui.diff.DiffCallback
+import com.example.ui.extension.ItemDiffCallback
 
 class RewardAdapter : ListAdapter<ParcelableReward, RewardAdapter.RewardViewHolder>(diffUtil) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RewardViewHolder =
@@ -32,7 +32,7 @@ class RewardAdapter : ListAdapter<ParcelableReward, RewardAdapter.RewardViewHold
     }
 
     companion object {
-        private val diffUtil = DiffCallback<ParcelableReward>(
+        private val diffUtil = ItemDiffCallback<ParcelableReward>(
             onItemsTheSame = { old, new -> old.name == new.name },
             onContentsTheSame = { old, new -> old == new },
         )

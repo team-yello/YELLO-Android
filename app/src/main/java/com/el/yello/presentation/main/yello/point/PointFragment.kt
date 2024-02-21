@@ -12,13 +12,11 @@ import com.el.yello.R
 import com.el.yello.databinding.FragmentPointBinding
 import com.el.yello.presentation.main.yello.YelloViewModel
 import com.el.yello.presentation.main.yello.vote.VoteViewModel
-import com.el.yello.presentation.pay.PayActivity
 import com.el.yello.util.context.yelloSnackbar
 import com.example.ui.base.BindingFragment
-import com.example.ui.context.toast
-import com.example.ui.fragment.toast
-import com.example.ui.view.UiState
-import com.example.ui.view.setOnSingleClickListener
+import com.example.ui.extension.toast
+import com.example.ui.state.UiState
+import com.example.ui.extension.setOnSingleClickListener
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.FullScreenContentCallback
 import com.google.android.gms.ads.LoadAdError

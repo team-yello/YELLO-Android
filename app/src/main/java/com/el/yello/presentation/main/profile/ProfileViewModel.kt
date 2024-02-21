@@ -16,7 +16,7 @@ import com.example.domain.repository.AuthRepository
 import com.example.domain.repository.NoticeRepository
 import com.example.domain.repository.PayRepository
 import com.example.domain.repository.ProfileRepository
-import com.example.ui.view.UiState
+import com.example.ui.state.UiState
 import com.kakao.sdk.user.UserApiClient
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay

@@ -1,4 +1,4 @@
-package com.example.ui.fragment
+package com.example.ui.extension
 
 import android.graphics.Point
 import android.os.Build

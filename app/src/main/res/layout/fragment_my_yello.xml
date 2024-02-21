@@ -8,7 +8,7 @@
 
         <variable
             name="uiState"
-            type="com.example.ui.view.UiStateModel" />
+            type="com.example.ui.state.UiStateModel" />
 
         <import type="android.view.View" />
     </data>

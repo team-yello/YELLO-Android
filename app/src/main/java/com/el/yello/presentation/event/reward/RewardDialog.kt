@@ -12,8 +12,8 @@ import com.el.yello.databinding.FragmentRewardDialogBinding
 import com.el.yello.presentation.event.EventViewModel
 import com.el.yello.util.Image.loadUrl
 import com.example.ui.base.BindingDialogFragment
-import com.example.ui.view.UiState
-import com.example.ui.view.setOnSingleClickListener
+import com.example.ui.state.UiState
+import com.example.ui.extension.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach

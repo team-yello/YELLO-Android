@@ -1,7 +1,5 @@
-package com.example.ui.view
+package com.example.ui.extension
 
-import android.content.Context
-import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -18,21 +16,6 @@ inline fun View.setOnSingleClickListener(
             previousClickedTime = clickedTime
         }
     }
-}
-
-class ItemDiffCallback<T : Any>(
-    val onItemsTheSame: (T, T) -> Boolean,
-    val onContentsTheSame: (T, T) -> Boolean,
-) : DiffUtil.ItemCallback<T>() {
-    override fun areItemsTheSame(
-        oldItem: T,
-        newItem: T,
-    ): Boolean = onItemsTheSame(oldItem, newItem)
-
-    override fun areContentsTheSame(
-        oldItem: T,
-        newItem: T,
-    ): Boolean = onContentsTheSame(oldItem, newItem)
 }
 
 fun View.setMargins(left: Int, top: Int, right: Int, bottom: Int) {

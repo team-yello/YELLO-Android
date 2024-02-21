@@ -8,7 +8,7 @@ import com.el.yello.presentation.main.yello.vote.NoteState.InvalidName
 import com.el.yello.presentation.main.yello.vote.NoteState.InvalidShuffle
 import com.el.yello.presentation.main.yello.vote.NoteState.InvalidSkip
 import com.el.yello.presentation.pay.PayViewModel.Companion.RANDOM_TYPE_FIXED
-import com.el.yello.util.AmplitudeManager
+import com.el.yello.util.manager.AmplitudeManager
 import com.example.domain.entity.event.RewardAdModel
 import com.example.domain.entity.event.RewardAdRequestModel
 import com.example.domain.entity.vote.Choice

@@ -1,4 +1,4 @@
-package com.el.yello.util
+package com.el.yello.util.manager
 
 import com.amplitude.api.Amplitude
 import com.amplitude.api.Identify

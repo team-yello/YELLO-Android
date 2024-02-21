@@ -11,7 +11,7 @@ import com.el.yello.presentation.main.recommend.kakao.RecommendKakaoViewModel
 import com.el.yello.presentation.main.recommend.school.RecommendSchoolFragment
 import com.el.yello.presentation.main.recommend.school.RecommendSchoolViewModel
 import com.el.yello.presentation.search.SearchActivity
-import com.el.yello.util.AmplitudeManager
+import com.el.yello.util.manager.AmplitudeManager
 import com.example.ui.base.BindingFragment
 import com.example.ui.extension.setOnSingleClickListener
 import com.google.android.material.tabs.TabLayoutMediator

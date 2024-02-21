@@ -6,7 +6,7 @@ import android.os.Bundle
 import com.el.yello.R
 import com.el.yello.databinding.ActivityTutorialABinding
 import com.el.yello.presentation.onboarding.activity.OnBoardingActivity.Companion.EXTRA_CODE_TEXT_EMPTY
-import com.el.yello.util.AmplitudeManager
+import com.el.yello.util.manager.AmplitudeManager
 import com.example.ui.base.BindingActivity
 import com.example.ui.extension.boolExtra
 import com.example.ui.extension.setOnSingleClickListener

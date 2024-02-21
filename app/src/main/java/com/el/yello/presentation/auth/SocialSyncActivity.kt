@@ -18,7 +18,7 @@ import com.el.yello.presentation.auth.SignInActivity.Companion.EXTRA_PROFILE_IMA
 import com.el.yello.presentation.main.profile.manage.ProfileManageActivity.Companion.PRIVACY_URL
 import com.el.yello.presentation.onboarding.activity.EditNameActivity
 import com.el.yello.presentation.onboarding.fragment.checkName.CheckNameDialog
-import com.el.yello.util.AmplitudeManager
+import com.el.yello.util.manager.AmplitudeManager
 import com.el.yello.util.extension.yelloSnackbar
 import com.example.ui.base.BindingActivity
 import com.example.ui.state.UiState

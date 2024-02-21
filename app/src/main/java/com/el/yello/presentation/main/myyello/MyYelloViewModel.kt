@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.el.yello.util.AmplitudeManager
+import com.el.yello.util.manager.AmplitudeManager
 import com.example.domain.entity.MyYello
 import com.example.domain.entity.notice.Banner
 import com.example.domain.entity.vote.VoteCount

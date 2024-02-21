@@ -10,7 +10,7 @@ import com.el.yello.R
 import com.el.yello.databinding.FragmentNoteFrameBinding
 import com.el.yello.presentation.main.yello.vote.NoteState
 import com.el.yello.presentation.main.yello.vote.VoteViewModel
-import com.el.yello.util.AmplitudeManager
+import com.el.yello.util.manager.AmplitudeManager
 import com.el.yello.util.extension.yelloSnackbar
 import com.example.ui.base.BindingFragment
 import com.example.ui.extension.setOnSingleClickListener

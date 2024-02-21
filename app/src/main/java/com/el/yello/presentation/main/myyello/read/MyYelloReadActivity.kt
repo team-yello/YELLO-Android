@@ -24,7 +24,7 @@ import androidx.lifecycle.lifecycleScope
 import com.el.yello.R
 import com.el.yello.databinding.ActivityMyYelloReadBinding
 import com.el.yello.presentation.pay.PayActivity
-import com.el.yello.util.AmplitudeManager
+import com.el.yello.util.manager.AmplitudeManager
 import com.example.domain.entity.YelloDetail
 import com.example.domain.enum.PointEnum
 import com.example.ui.base.BindingActivity

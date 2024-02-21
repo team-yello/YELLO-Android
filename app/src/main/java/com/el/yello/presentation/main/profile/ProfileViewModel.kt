@@ -6,7 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.el.yello.R
-import com.el.yello.util.AmplitudeManager
+import com.el.yello.util.manager.AmplitudeManager
 import com.example.domain.entity.PayInfoModel
 import com.example.domain.entity.ProfileFriendsListModel
 import com.example.domain.entity.ProfileQuitReasonModel

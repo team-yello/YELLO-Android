@@ -12,7 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import com.el.yello.R
 import com.el.yello.databinding.FragmentProfileQuitDialogBinding
 import com.el.yello.presentation.main.profile.ProfileViewModel
-import com.el.yello.util.AmplitudeManager
+import com.el.yello.util.manager.AmplitudeManager
 import com.example.ui.base.BindingDialogFragment
 import com.example.ui.extension.toast
 import com.example.ui.state.UiState

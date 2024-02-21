@@ -7,7 +7,7 @@ import com.el.yello.R
 import com.el.yello.databinding.FragmentYelloLockBinding
 import com.el.yello.presentation.main.dialog.invite.InviteFriendDialog
 import com.el.yello.presentation.main.yello.YelloViewModel
-import com.el.yello.util.AmplitudeManager
+import com.el.yello.util.manager.AmplitudeManager
 import com.example.ui.base.BindingFragment
 import com.example.ui.extension.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint

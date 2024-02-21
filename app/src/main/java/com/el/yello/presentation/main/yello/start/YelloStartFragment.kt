@@ -15,7 +15,7 @@ import com.el.yello.databinding.FragmentYelloStartBinding
 import com.el.yello.presentation.main.yello.YelloState
 import com.el.yello.presentation.main.yello.YelloViewModel
 import com.el.yello.presentation.main.yello.vote.VoteActivity
-import com.el.yello.util.AmplitudeManager
+import com.el.yello.util.manager.AmplitudeManager
 import com.example.ui.base.BindingFragment
 import com.example.ui.extension.drawableOf
 import com.example.ui.extension.getCompatibleRealSize

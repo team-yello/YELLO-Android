@@ -1,4 +1,4 @@
-package com.el.yello.util
+package com.el.yello.util.manager
 
 import android.content.Context
 import android.net.ConnectivityManager

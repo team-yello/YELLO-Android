@@ -12,7 +12,7 @@ import com.el.yello.presentation.main.yello.YelloViewModel
 import com.el.yello.presentation.main.yello.lock.YelloLockFragment.Companion.EVENT_CLICK_INVITE
 import com.el.yello.presentation.main.yello.lock.YelloLockFragment.Companion.JSON_INVITE_VIEW
 import com.el.yello.presentation.main.yello.lock.YelloLockFragment.Companion.TAG_UNLOCK_DIALOG
-import com.el.yello.util.AmplitudeManager
+import com.el.yello.util.manager.AmplitudeManager
 import com.example.ui.base.BindingFragment
 import com.example.ui.extension.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint

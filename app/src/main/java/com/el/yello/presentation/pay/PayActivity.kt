@@ -22,8 +22,10 @@ import com.el.yello.presentation.main.profile.manage.ProfileManageActivity
 import com.el.yello.presentation.pay.dialog.PayInAppDialog
 import com.el.yello.presentation.pay.dialog.PayPointDialog
 import com.el.yello.presentation.pay.dialog.PaySubsDialog
-import com.el.yello.util.AmplitudeManager
+import com.el.yello.util.manager.AmplitudeManager
 import com.el.yello.util.extension.yelloSnackbar
+import com.el.yello.util.manager.BillingCallback
+import com.el.yello.util.manager.BillingManager
 import com.example.data.model.request.pay.toRequestPayModel
 import com.example.ui.extension.navigateTo
 import com.example.ui.base.BindingActivity

@@ -11,7 +11,7 @@ import com.el.yello.databinding.FragmentCodeBinding
 import com.el.yello.presentation.onboarding.OnBoardingViewModel
 import com.el.yello.presentation.onboarding.activity.GetAlarmActivity
 import com.el.yello.presentation.onboarding.activity.OnBoardingActivity
-import com.el.yello.util.AmplitudeManager
+import com.el.yello.util.manager.AmplitudeManager
 import com.el.yello.util.extension.yelloSnackbar
 import com.example.ui.base.BindingFragment
 import com.example.ui.extension.colorOf

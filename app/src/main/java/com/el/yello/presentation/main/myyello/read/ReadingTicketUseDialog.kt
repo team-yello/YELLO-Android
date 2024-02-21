@@ -8,7 +8,7 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.activityViewModels
 import com.el.yello.R
 import com.el.yello.databinding.DialogReadingTicketUseBinding
-import com.el.yello.util.AmplitudeManager
+import com.el.yello.util.manager.AmplitudeManager
 import com.example.ui.base.BindingDialogFragment
 import com.example.ui.extension.setOnSingleClickListener
 

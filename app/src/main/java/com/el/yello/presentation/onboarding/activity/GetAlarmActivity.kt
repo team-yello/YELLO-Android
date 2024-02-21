@@ -11,7 +11,7 @@ import androidx.core.content.ContextCompat
 import com.el.yello.R
 import com.el.yello.databinding.ActivityGetAlarmBinding
 import com.el.yello.presentation.tutorial.TutorialAActivity
-import com.el.yello.util.AmplitudeManager
+import com.el.yello.util.manager.AmplitudeManager
 import com.example.ui.base.BindingActivity
 import com.example.ui.extension.boolExtra
 import com.example.ui.extension.setOnSingleClickListener

@@ -8,7 +8,7 @@ import com.el.yello.R
 import com.el.yello.databinding.FragmentSelectStudentTypeBinding
 import com.el.yello.presentation.onboarding.OnBoardingViewModel
 import com.el.yello.presentation.onboarding.activity.OnBoardingActivity
-import com.el.yello.util.AmplitudeManager
+import com.el.yello.util.manager.AmplitudeManager
 import com.example.domain.enum.StudentType
 import com.example.ui.base.BindingFragment
 import com.example.ui.extension.colorOf

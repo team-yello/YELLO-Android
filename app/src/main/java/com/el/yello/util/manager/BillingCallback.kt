@@ -1,4 +1,4 @@
-package com.el.yello.presentation.pay
+package com.el.yello.util.manager
 
 import com.android.billingclient.api.Purchase
 

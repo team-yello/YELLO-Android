@@ -12,7 +12,7 @@ import androidx.core.os.bundleOf
 import com.el.yello.BuildConfig
 import com.el.yello.R
 import com.el.yello.databinding.FragmentInviteFriendDialogBinding
-import com.el.yello.util.AmplitudeManager
+import com.el.yello.util.manager.AmplitudeManager
 import com.example.ui.base.BindingDialogFragment
 import com.example.ui.extension.toast
 import com.example.ui.extension.setOnSingleClickListener

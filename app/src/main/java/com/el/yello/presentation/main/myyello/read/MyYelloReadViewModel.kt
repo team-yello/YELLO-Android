@@ -2,7 +2,7 @@ package com.el.yello.presentation.main.myyello.read
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.el.yello.util.AmplitudeManager
+import com.el.yello.util.manager.AmplitudeManager
 import com.example.domain.entity.CheckKeyword
 import com.example.domain.entity.CheckName
 import com.example.domain.entity.FullName

@@ -25,7 +25,7 @@ import com.el.yello.presentation.main.recommend.RecommendFragment
 import com.el.yello.presentation.main.yello.YelloFragment
 import com.el.yello.presentation.pay.dialog.PayReSubsNoticeDialog
 import com.el.yello.presentation.util.dp
-import com.el.yello.util.AmplitudeManager
+import com.el.yello.util.manager.AmplitudeManager
 import com.el.yello.util.extension.yelloSnackbar
 import com.example.domain.entity.event.Event
 import com.example.domain.enum.SubscribeType.CANCELED

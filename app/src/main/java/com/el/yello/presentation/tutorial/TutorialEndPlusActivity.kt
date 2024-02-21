@@ -5,7 +5,7 @@ import android.os.Bundle
 import com.el.yello.R
 import com.el.yello.databinding.ActivityTutorialEndPluspointBinding
 import com.el.yello.presentation.main.MainActivity
-import com.el.yello.util.AmplitudeManager
+import com.el.yello.util.manager.AmplitudeManager
 import com.example.ui.base.BindingActivity
 import com.example.ui.extension.setOnSingleClickListener
 

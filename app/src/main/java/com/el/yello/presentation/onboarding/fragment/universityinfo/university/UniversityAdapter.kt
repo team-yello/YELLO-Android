@@ -5,8 +5,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.el.yello.databinding.ItemUniversityListBinding
-import com.example.ui.extension.ItemDiffCallback
 import com.example.ui.extension.setOnSingleClickListener
+import com.example.ui.util.ItemDiffCallback
 
 class UniversityAdapter(
     private val storeUniversity: (String) -> Unit,

@@ -36,6 +36,7 @@ import com.example.ui.extension.setMargins
 import com.example.ui.extension.setOnSingleClickListener
 import com.example.ui.state.UiState
 import com.example.ui.util.Utils.restartApp
+import com.example.ui.util.Utils.setChosungText
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.launchIn
@@ -252,8 +253,7 @@ class MyYelloReadActivity :
         binding.btnSendCheck.isVisible = yello.ticketCount == 0
         binding.tvKeyNumber.text = yello.ticketCount.toString()
         if (yello.nameHint >= 0) {
-            binding.tvSendName.text =
-                Utils.setChosungText(yello.senderName, yello.nameHint)
+            binding.tvSendName.text = setChosungText(yello.senderName, yello.nameHint)
         } else if (yello.nameHint == -2 || yello.nameHint == -3) {
             binding.tvSendName.text = yello.senderName
         }

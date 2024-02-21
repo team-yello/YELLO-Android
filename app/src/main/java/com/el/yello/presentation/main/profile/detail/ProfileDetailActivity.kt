@@ -12,6 +12,7 @@ import com.el.yello.databinding.ActivityProfileDetailBinding
 import com.el.yello.presentation.main.profile.info.ProfileFragment.Companion.TYPE_UNIVERSITY
 import com.el.yello.presentation.main.profile.mod.SchoolProfileModActivity
 import com.el.yello.presentation.main.profile.mod.UnivProfileModActivity
+import com.el.yello.util.extension.setImageOrBasicThumbnail
 import com.el.yello.util.extension.yelloSnackbar
 import com.example.ui.base.BindingActivity
 import com.example.ui.state.UiState

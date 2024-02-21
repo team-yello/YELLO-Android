@@ -2,6 +2,7 @@ package com.el.yello.presentation.main.recommend.list
 
 import androidx.recyclerview.widget.RecyclerView
 import com.el.yello.databinding.ItemRecommendListBinding
+import com.el.yello.util.extension.setImageOrBasicThumbnail
 import com.example.domain.entity.RecommendListModel.RecommendFriend
 import com.example.ui.extension.setOnSingleClickListener
 

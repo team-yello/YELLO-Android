@@ -6,8 +6,8 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.el.yello.R
 import com.el.yello.databinding.ItemStudentidListBinding
-import com.example.ui.extension.ItemDiffCallback
 import com.example.ui.extension.setOnSingleClickListener
+import com.example.ui.util.ItemDiffCallback
 
 class StudentIdDialogAdapter(
     private val storeStudentId: (Int) -> Unit,

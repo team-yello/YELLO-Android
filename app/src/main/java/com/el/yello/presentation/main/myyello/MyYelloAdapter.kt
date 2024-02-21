@@ -11,6 +11,7 @@ import com.el.yello.databinding.ItemMyYelloBinding
 import com.example.domain.entity.Yello
 import com.example.domain.enum.Gender
 import com.example.ui.extension.setOnSingleClickListener
+import com.example.ui.util.Utils.setChosungText
 
 class MyYelloAdapter(private val itemClick: (Yello, Int) -> (Unit)) :
     RecyclerView.Adapter<MyYelloAdapter.MyYelloViewHolder>() {
@@ -123,7 +124,7 @@ class MyYelloAdapter(private val itemClick: (Yello, Int) -> (Unit)) :
                 binding.tvKeyword.text = item.vote.keyword
                 binding.tvKeywordFoot.text = item.vote.keywordFoot
                 if (item.nameHint >= 0) {
-                    binding.tvSendName.text = Utils.setChosungText(item.senderName, item.nameHint)
+                    binding.tvSendName.text = setChosungText(item.senderName, item.nameHint)
                 }
                 binding.clSendName.isVisible = item.nameHint != -1
             }

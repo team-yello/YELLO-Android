@@ -16,6 +16,7 @@ import com.example.ui.base.BindingDialogFragment
 import com.example.ui.extension.toast
 import com.example.ui.state.UiState
 import com.example.ui.extension.setOnSingleClickListener
+import com.example.ui.util.Utils.setChosungText
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
@@ -70,7 +71,7 @@ class PointAfterDialog :
             when (it) {
                 is UiState.Success -> {
                     binding.tvPoint.text = viewModel.myPoint.toString()
-                    binding.tvInitial.text = Utils.setChosungText(it.data.name, 0)
+                    binding.tvInitial.text = setChosungText(it.data.name, 0)
                     viewModel.getYelloDetail()
                     viewModel.setNameIndex(it.data.index)
                 }

@@ -2,6 +2,7 @@ package com.el.yello.presentation.main.profile.info
 
 import androidx.recyclerview.widget.RecyclerView
 import com.el.yello.databinding.ItemProfileFriendsListBinding
+import com.el.yello.util.extension.setImageOrBasicThumbnail
 import com.example.domain.entity.ProfileUserModel
 import com.example.ui.extension.setOnSingleClickListener
 

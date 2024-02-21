@@ -5,8 +5,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.el.yello.databinding.ItemHighschoolListBinding
-import com.example.ui.extension.ItemDiffCallback
 import com.example.ui.extension.setOnSingleClickListener
+import com.example.ui.util.ItemDiffCallback
 
 class HighSchoolAdapter(
     private val storeHighSchool: (String) -> Unit,

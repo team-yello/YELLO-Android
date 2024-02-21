@@ -14,6 +14,7 @@ import com.el.yello.R
 import com.el.yello.databinding.FragmentLookBinding
 import com.el.yello.presentation.main.dialog.invite.InviteFriendDialog
 import com.el.yello.presentation.util.BaseLinearRcvItemDeco
+import com.el.yello.util.extension.setPullToScrollColor
 import com.el.yello.util.manager.AmplitudeManager
 import com.el.yello.util.extension.yelloSnackbar
 import com.example.ui.base.BindingFragment

@@ -17,7 +17,7 @@ import com.el.yello.presentation.main.dialog.invite.InviteFriendDialog
 import com.el.yello.presentation.main.recommend.list.RecommendAdapter
 import com.el.yello.presentation.main.recommend.list.RecommendItemDecoration
 import com.el.yello.presentation.main.recommend.list.RecommendViewHolder
-import com.el.yello.presentation.util.BaseLinearRcvItemDeco
+import com.el.yello.util.util.BaseLinearRcvItemDeco
 import com.el.yello.util.extension.setPullToScrollColor
 import com.el.yello.util.manager.AmplitudeManager
 import com.el.yello.util.extension.yelloSnackbar

@@ -24,7 +24,7 @@ import com.el.yello.presentation.main.myyello.read.MyYelloReadActivity.Companion
 import com.el.yello.presentation.main.myyello.read.MyYelloReadActivity.Companion.EXTRA_TICKET_COUNT
 import com.el.yello.presentation.main.myyello.read.MyYelloReadActivity.Companion.JSON_SHOP_BUTTON
 import com.el.yello.presentation.pay.PayActivity
-import com.el.yello.presentation.util.BaseLinearRcvItemDeco
+import com.el.yello.util.util.BaseLinearRcvItemDeco
 import com.el.yello.util.extension.setPullToScrollColor
 import com.el.yello.util.manager.AmplitudeManager
 import com.el.yello.util.extension.yelloSnackbar

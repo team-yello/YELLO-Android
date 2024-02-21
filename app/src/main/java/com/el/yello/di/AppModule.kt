@@ -3,7 +3,7 @@ package com.el.yello.di
 import android.app.Application
 import android.content.Context
 import com.example.data.util.FileParser
-import com.el.yello.presentation.util.ResolutionMetrics
+import com.el.yello.util.util.ResolutionMetrics
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

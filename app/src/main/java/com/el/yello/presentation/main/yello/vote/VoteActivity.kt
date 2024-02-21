@@ -11,7 +11,7 @@ import com.el.yello.databinding.ActivityVoteBinding
 import com.el.yello.presentation.main.yello.YelloFragment
 import com.el.yello.presentation.main.yello.vote.frame.NoteFrameAdapter
 import com.el.yello.presentation.main.yello.vote.note.NoteAdapter
-import com.el.yello.presentation.util.setCurrentItemWithDuration
+import com.el.yello.util.extension.setCurrentItemWithDuration
 import com.el.yello.util.manager.AmplitudeManager
 import com.el.yello.util.extension.yelloSnackbar
 import com.example.ui.base.BindingActivity

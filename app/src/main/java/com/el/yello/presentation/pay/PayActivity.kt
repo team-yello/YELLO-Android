@@ -464,9 +464,9 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
     }
 
     override fun finish() {
+        super.finish()
         intent.putExtra("ticketCount", viewModel.ticketCount)
         setResult(RESULT_OK, intent)
-        super.finish()
     }
 
     override fun onDestroy() {

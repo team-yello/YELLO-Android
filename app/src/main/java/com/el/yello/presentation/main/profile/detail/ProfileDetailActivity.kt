@@ -1,6 +1,6 @@
 package com.el.yello.presentation.main.profile.detail
 
-import android.app.Activity
+import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.result.contract.ActivityResultContracts
@@ -34,12 +34,12 @@ class ProfileDetailActivity :
     private val profileModifyResultLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             when (result.resultCode) {
-                Activity.RESULT_OK -> yelloSnackbar(
+                RESULT_OK -> yelloSnackbar(
                     binding.root,
                     getString(R.string.profile_mod_success)
                 )
 
-                Activity.RESULT_CANCELED -> yelloSnackbar(
+                RESULT_PROFILE_MODIFY_FAILURE -> yelloSnackbar(
                     binding.root,
                     getString(R.string.internet_connection_error_msg)
                 )
@@ -147,5 +147,9 @@ class ProfileDetailActivity :
             delay(500)
             binding.ivProfileDetailThumbnailEmpty.isVisible = false
         }.launchIn(lifecycleScope)
+    }
+
+    companion object {
+        const val RESULT_PROFILE_MODIFY_FAILURE = 2
     }
 }

@@ -214,11 +214,17 @@ class MyYelloFragment : BindingFragment<FragmentMyYelloBinding>(R.layout.fragmen
                     }
 
                     is UiState.Failure -> {
-                        yelloSnackbar(binding.root, getString(R.string.internet_connection_error_msg))
+                        yelloSnackbar(
+                            binding.root,
+                            getString(R.string.internet_connection_error_msg)
+                        )
                     }
 
                     is UiState.Empty -> {
-                        yelloSnackbar(binding.root, getString(R.string.internet_connection_error_msg))
+                        yelloSnackbar(
+                            binding.root,
+                            getString(R.string.internet_connection_error_msg)
+                        )
                     }
 
                     is UiState.Loading -> return@onEach
@@ -288,6 +294,7 @@ class MyYelloFragment : BindingFragment<FragmentMyYelloBinding>(R.layout.fragmen
                 if (ticketCount != -1) {
                     binding.tvKeyNumber.text = ticketCount.toString()
                 }
+
                 binding.clSendOpen.isVisible = ticketCount != 0
                 binding.btnSendCheck.isVisible = ticketCount == 0
 

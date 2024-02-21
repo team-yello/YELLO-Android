@@ -13,6 +13,7 @@ import com.el.yello.databinding.FragmentPointBinding
 import com.el.yello.presentation.main.yello.YelloViewModel
 import com.el.yello.presentation.main.yello.vote.VoteViewModel
 import com.el.yello.presentation.pay.PayActivity
+import com.el.yello.util.context.yelloSnackbar
 import com.example.ui.base.BindingFragment
 import com.example.ui.context.toast
 import com.example.ui.fragment.toast
@@ -111,12 +112,12 @@ class PointFragment : BindingFragment<FragmentPointBinding>(R.layout.fragment_po
                     stopLoadingScreen()
 
                     rewardedAd?.show(requireActivity()) {}
-                        ?: toast(getString(R.string.pay_ad_fail_to_load))
+                        ?: yelloSnackbar(binding.root, getString(R.string.pay_ad_fail_to_load))
                 }
 
                 override fun onAdFailedToLoad(adError: LoadAdError) {
                     rewardedAd = null
-                    toast(getString(R.string.pay_ad_fail_to_load))
+                    yelloSnackbar(binding.root, getString(R.string.pay_ad_fail_to_load))
                     stopLoadingScreen()
                 }
             })
@@ -150,7 +151,7 @@ class PointFragment : BindingFragment<FragmentPointBinding>(R.layout.fragment_po
                     val doubledPoint = originalPoint + voteViewModel.votePointSum
                     with(binding) {
                         tvPointMyPoint.text = doubledPoint.toString()
-                        tvPointCurrentPoint.text= doubledPoint.toString()
+                        tvPointCurrentPoint.text = doubledPoint.toString()
                     }
                 }
 

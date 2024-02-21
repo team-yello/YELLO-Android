@@ -243,7 +243,7 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
                     AmplitudeUtils.trackEventWithProperties("complete_profile_delete_friend")
                 }
 
-                is UiState.Failure -> toast(getString(R.string.internet_connection_error_msg))
+                is UiState.Failure -> yelloSnackbar(binding.root, getString(R.string.internet_connection_error_msg))
 
                 is UiState.Loading -> return@onEach
 

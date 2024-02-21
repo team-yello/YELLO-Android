@@ -5,7 +5,6 @@ import androidx.activity.viewModels
 import androidx.recyclerview.widget.RecyclerView
 import com.el.yello.R
 import com.el.yello.databinding.ActivityProfileQuitReasonBinding
-import com.el.yello.presentation.main.profile.ProfileViewModel
 import com.example.ui.base.BindingActivity
 import com.example.ui.context.colorOf
 import com.example.ui.view.setOnSingleClickListener
@@ -15,9 +14,11 @@ import dagger.hilt.android.AndroidEntryPoint
 class ProfileQuitReasonActivity :
     BindingActivity<ActivityProfileQuitReasonBinding>(R.layout.activity_profile_quit_reason) {
 
-    private lateinit var quitReasonList: List<String>
-
     private val viewModel by viewModels<SettingViewModel>()
+
+    private var _adapter: ProfileQuitReasonAdapter? = null
+    private val adapter
+        get() = requireNotNull(_adapter) { getString(R.string.adapter_not_initialized_error_msg) }
 
     private var clickedItemPosition: Int = RecyclerView.NO_POSITION
     private var isItemClicked: Boolean = false
@@ -30,27 +31,36 @@ class ProfileQuitReasonActivity :
         initQuitReasonAdapter()
         initBackBtnListener()
         initInviteDialogBtnListener()
+        setQuitReasonList()
     }
 
     private fun initQuitReasonAdapter() {
-        viewModel.addQuitReasonList(this)
-        quitReasonList = viewModel.quitReasonData.value ?: emptyList()
-        val adapter = ProfileQuitReasonAdapter(
+        _adapter = ProfileQuitReasonAdapter(
             storeQuitReason = ::storeQuitReason,
             setEtcText = ::setEtcText,
-        ) { position, clicked ->
-            clickedItemPosition = position
-            isItemClicked = clicked
-            if (isItemClicked) {
-                if (clickedItemPosition == 7) {
-                    nonClickedButtonUI()
-                } else {
-                    clickedButtonUI()
-                }
+            onItemClickListener = ::setClickedItemUI
+        )
+        binding.rvQuitReason.adapter = adapter
+    }
+
+    private fun storeQuitReason(reason: String) {
+        viewModel.quitReasonText = reason
+    }
+
+    private fun setEtcText(etc: String) {
+        viewModel.etcText.value = etc
+    }
+
+    private fun setClickedItemUI(position: Int, isClicked: Boolean) {
+        clickedItemPosition = position
+        isItemClicked = isClicked
+        if (isItemClicked) {
+            if (clickedItemPosition == 7) {
+                nonClickedButtonUI()
+            } else {
+                clickedButtonUI()
             }
         }
-        binding.rvQuitReason.adapter = adapter
-        adapter.submitList(ArrayList(quitReasonList))
     }
 
     private fun initInviteDialogBtnListener() {
@@ -62,6 +72,10 @@ class ProfileQuitReasonActivity :
 
     private fun initBackBtnListener() {
         binding.btnProfileQuitReasonBack.setOnSingleClickListener { finish() }
+    }
+
+    private fun setQuitReasonList() {
+        adapter.submitList(resources.getStringArray(R.array.quit_reasons).toList())
     }
 
     private fun clickedButtonUI() {
@@ -80,17 +94,10 @@ class ProfileQuitReasonActivity :
         }
     }
 
-    private fun storeQuitReason(reason: String) {
-        viewModel.setQuitReason(reason)
-    }
-
-    private fun setEtcText(etc: String) {
-        viewModel.setEtcText(etc)
-    }
-
     override fun onDestroy() {
         super.onDestroy()
         profileQuitDialog?.dismiss()
+        _adapter = null
     }
 
     private companion object {

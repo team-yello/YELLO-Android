@@ -9,10 +9,10 @@ import androidx.lifecycle.lifecycleScope
 import com.el.yello.BuildConfig
 import com.el.yello.R
 import com.el.yello.databinding.ActivitySettingBinding
-import com.el.yello.presentation.main.profile.ProfileViewModel
 import com.el.yello.util.amplitude.AmplitudeUtils
 import com.el.yello.util.context.yelloSnackbar
 import com.example.ui.base.BindingActivity
+import com.example.ui.restart.restartApp
 import com.example.ui.view.UiState
 import com.example.ui.view.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
@@ -102,7 +102,7 @@ class SettingActivity :
                     AmplitudeUtils.trackEventWithProperties("complete_profile_logout")
                     lifecycleScope.launch {
                         delay(500)
-                        restartApp()
+                        restartApp(binding.root.context, null)
                     }
                 }
 
@@ -116,12 +116,6 @@ class SettingActivity :
                 is UiState.Loading -> return@onEach
             }
         }.launchIn(lifecycleScope)
-    }
-
-    private fun restartApp() {
-        val componentName = packageManager.getLaunchIntentForPackage(packageName)?.component
-        startActivity(Intent.makeRestartActivityTask(componentName))
-        Runtime.getRuntime().exit(0)
     }
 
     companion object {

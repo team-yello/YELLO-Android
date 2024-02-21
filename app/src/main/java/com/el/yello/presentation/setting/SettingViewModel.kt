@@ -1,11 +1,8 @@
 package com.el.yello.presentation.setting
 
-import android.content.Context
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.el.yello.R
 import com.example.domain.entity.ProfileQuitReasonModel
 import com.example.domain.repository.AuthRepository
 import com.example.domain.repository.ProfileRepository
@@ -33,24 +30,8 @@ class SettingViewModel @Inject constructor(
     private val _deleteUserState = MutableStateFlow<UiState<Unit>>(UiState.Empty)
     val deleteUserState: StateFlow<UiState<Unit>> = _deleteUserState
 
-    private val quitReasonText = MutableLiveData<String>()
+    var quitReasonText = ""
     val etcText = MutableLiveData("")
-
-    private val _quitReasonData: MutableLiveData<List<String>> = MutableLiveData()
-    val quitReasonData: LiveData<List<String>> = _quitReasonData
-
-    fun setEtcText(etc: String) {
-        etcText.value = etc
-    }
-
-    fun setQuitReason(reason: String) {
-        quitReasonText.value = reason
-    }
-
-    fun addQuitReasonList(context: Context) {
-        val quitReasonArray = context.resources.getStringArray(R.array.quit_reasons)
-        _quitReasonData.value = quitReasonArray.toList()
-    }
 
     fun logoutKakaoAccount() {
         UserApiClient.instance.logout { error ->
@@ -67,10 +48,10 @@ class SettingViewModel @Inject constructor(
     fun deleteUserDataToServer() {
         viewModelScope.launch {
             _deleteUserState.value = UiState.Loading
-            val quitReason = if (quitReasonText.value.toString().equals("기타")) {
+            val quitReason = if (quitReasonText == "기타") {
                 etcText.value.toString()
             } else {
-                quitReasonText.value.toString()
+                quitReasonText
             }
             profileRepository.deleteUserData(
                 ProfileQuitReasonModel(

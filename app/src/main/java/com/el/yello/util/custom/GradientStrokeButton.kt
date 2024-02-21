@@ -1,4 +1,4 @@
-package com.el.yello.presentation.util
+package com.el.yello.util.custom
 
 import android.content.Context
 import android.graphics.Canvas
@@ -11,6 +11,7 @@ import androidx.appcompat.widget.AppCompatButton
 import androidx.core.content.ContextCompat
 import androidx.core.content.withStyledAttributes
 import com.el.yello.R
+import com.el.yello.util.util.dp
 
 /**
  * made 2023.08.07

@@ -1,4 +1,4 @@
-package com.el.yello.presentation.util
+package com.el.yello.util.util
 
 import android.app.Application
 import androidx.annotation.Px

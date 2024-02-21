@@ -1,16 +1,14 @@
-package com.el.yello.presentation.util
+package com.el.yello.util.custom
 
 import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
 import android.content.Context
-import android.graphics.Color
-import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatButton
 import androidx.core.content.ContextCompat
 import com.el.yello.R
-import com.google.android.material.button.MaterialButton
+import com.el.yello.util.util.dp
 
 /**
  * made 2023.08.07

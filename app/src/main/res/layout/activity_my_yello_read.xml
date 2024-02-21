@@ -421,7 +421,7 @@
                 app:layout_constraintVertical_bias="0.60"
                 tools:visibility="visible" />
 
-            <com.el.yello.presentation.util.YelloAnimationButton
+            <com.el.yello.util.custom.YelloAnimationButton
                 android:id="@+id/btn_send_check"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

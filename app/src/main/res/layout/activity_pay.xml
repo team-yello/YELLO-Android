@@ -256,7 +256,7 @@
                     app:layout_constraintStart_toStartOf="@id/layout_subscribe"
                     app:layout_constraintTop_toTopOf="@id/layout_subscribe" />
 
-                <com.el.yello.presentation.util.GradientStrokeButton
+                <com.el.yello.util.custom.GradientStrokeButton
                     android:id="@+id/layout_show_subs"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

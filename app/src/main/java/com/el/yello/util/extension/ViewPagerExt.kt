@@ -1,4 +1,4 @@
-package com.el.yello.presentation.util
+package com.el.yello.util.extension
 
 import android.animation.Animator
 import android.animation.TimeInterpolator

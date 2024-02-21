@@ -1,4 +1,4 @@
-package com.el.yello.util.util
+package com.el.yello.presentation.main
 
 import android.app.Application
 import androidx.annotation.Px
@@ -29,15 +29,3 @@ class ResolutionMetrics @Inject constructor(
     fun toPixel(dp: Int) = (dp * displayMetrics.density).roundToInt()
     fun toDP(@Px pixel: Int) = (pixel / displayMetrics.density).roundToInt()
 }
-
-val Number.pixel: Int
-    @Px get() = MyApp.resolutionMetrics.toDP(this.toInt())
-
-val Number.dp: Int
-    get() = MyApp.resolutionMetrics.toPixel(this.toInt())
-
-val Number.pixelFloat: Float
-    @Px get() = MyApp.resolutionMetrics.toDP(this.toInt()).toFloat()
-
-val Number.dpFloat: Float
-    get() = MyApp.resolutionMetrics.toPixel(this.toInt()).toFloat()

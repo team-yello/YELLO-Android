@@ -1,4 +1,4 @@
-package com.el.yello.util.util
+package com.el.yello.util.extension
 
 import android.graphics.Rect
 import android.view.View

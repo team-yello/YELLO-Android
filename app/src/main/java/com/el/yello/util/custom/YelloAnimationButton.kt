@@ -8,7 +8,7 @@ import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatButton
 import androidx.core.content.ContextCompat
 import com.el.yello.R
-import com.el.yello.util.util.dp
+import com.el.yello.util.extension.dp
 
 /**
  * made 2023.08.07
@@ -26,19 +26,31 @@ class YelloAnimationButton @JvmOverloads constructor(
     }
 
     private fun setupBackground() {
-        val colors = intArrayOf(ContextCompat.getColor(context, R.color.yello_main_500), ContextCompat.getColor(context, R.color.yello_main_500))
+        val colors = intArrayOf(
+            ContextCompat.getColor(context, R.color.yello_main_500),
+            ContextCompat.getColor(context, R.color.yello_main_500)
+        )
         val gradientDrawable = GradientDrawable(
             GradientDrawable.Orientation.LEFT_RIGHT,
             colors
         )
         gradientDrawable.cornerRadius = 100.dp.toFloat()
-        gradientDrawable.setStroke(2.dp, ContextCompat.getColor(context, R.color.white)) // 초기 테두리 색상
+        gradientDrawable.setStroke(
+            2.dp,
+            ContextCompat.getColor(context, R.color.white)
+        ) // 초기 테두리 색상
 
         background = gradientDrawable
     }
 
     private fun setupAnimation() {
-        val animator = ObjectAnimator.ofArgb(this, "strokeColor", ContextCompat.getColor(context, R.color.white), ContextCompat.getColor(context, R.color.transparent),  ContextCompat.getColor(context, R.color.white))
+        val animator = ObjectAnimator.ofArgb(
+            this,
+            "strokeColor",
+            ContextCompat.getColor(context, R.color.white),
+            ContextCompat.getColor(context, R.color.transparent),
+            ContextCompat.getColor(context, R.color.white)
+        )
         animator.duration = 2000 // 애니메이션 지속시간
         animator.repeatCount = ValueAnimator.INFINITE // 무한 반복
 

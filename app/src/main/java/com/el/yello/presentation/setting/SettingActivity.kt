@@ -26,7 +26,7 @@ import org.json.JSONObject
 class SettingActivity :
     BindingActivity<ActivitySettingBinding>(R.layout.activity_setting) {
 
-    private val viewModel by viewModels<ProfileViewModel>()
+    private val viewModel by viewModels<SettingViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

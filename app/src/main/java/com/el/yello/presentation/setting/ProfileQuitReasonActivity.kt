@@ -14,13 +14,18 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class ProfileQuitReasonActivity :
     BindingActivity<ActivityProfileQuitReasonBinding>(R.layout.activity_profile_quit_reason) {
+
     private lateinit var quitReasonList: List<String>
-    private val viewModel by viewModels<ProfileViewModel>()
+
+    private val viewModel by viewModels<SettingViewModel>()
+
     private var clickedItemPosition: Int = RecyclerView.NO_POSITION
     private var isItemClicked: Boolean = false
     private var profileQuitDialog: ProfileQuitDialog? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         binding.vm = viewModel
         initQuitReasonAdapter()
         initBackBtnListener()

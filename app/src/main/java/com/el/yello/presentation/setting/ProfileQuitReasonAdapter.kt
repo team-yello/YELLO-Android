@@ -1,4 +1,4 @@
-package com.el.yello.presentation.main.profile.manage
+package com.el.yello.presentation.setting
 
 import android.view.LayoutInflater
 import android.view.View

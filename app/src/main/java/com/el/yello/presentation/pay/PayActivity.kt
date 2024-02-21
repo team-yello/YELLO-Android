@@ -18,7 +18,7 @@ import com.el.yello.BuildConfig.ADMOB_REWARD_KEY
 import com.el.yello.R
 import com.el.yello.databinding.ActivityPayBinding
 import com.el.yello.presentation.main.MainActivity
-import com.el.yello.presentation.main.profile.manage.ProfileManageActivity
+import com.el.yello.presentation.setting.SettingActivity
 import com.el.yello.presentation.pay.dialog.PayInAppDialog
 import com.el.yello.presentation.pay.dialog.PayPointDialog
 import com.el.yello.presentation.pay.dialog.PaySubsDialog
@@ -29,7 +29,6 @@ import com.example.ui.activity.navigateTo
 import com.example.ui.base.BindingActivity
 import com.example.ui.context.colorOf
 import com.example.ui.context.drawableOf
-import com.example.ui.context.snackBar
 import com.example.ui.context.toast
 import com.example.ui.view.UiState
 import com.example.ui.view.setOnSingleClickListener
@@ -414,7 +413,7 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
     private fun initServiceBtnListener() {
         binding.btnPayGuideService.setOnSingleClickListener {
             startActivity(
-                Intent(Intent.ACTION_VIEW, Uri.parse(ProfileManageActivity.SERVICE_URL)),
+                Intent(Intent.ACTION_VIEW, Uri.parse(SettingActivity.SERVICE_URL)),
             )
         }
     }
@@ -422,7 +421,7 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
     private fun initPrivacyBtnListener() {
         binding.btnPayGuidePrivacy.setOnSingleClickListener {
             startActivity(
-                Intent(Intent.ACTION_VIEW, Uri.parse(ProfileManageActivity.PRIVACY_URL)),
+                Intent(Intent.ACTION_VIEW, Uri.parse(SettingActivity.PRIVACY_URL)),
             )
         }
     }

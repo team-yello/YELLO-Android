@@ -129,15 +129,15 @@
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".presentation.main.profile.manage.ProfileManageActivity"
+            android:name=".presentation.setting.SettingActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".presentation.main.profile.manage.ProfileQuitTwoActivity"
+            android:name=".presentation.setting.ProfileQuitTwoActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".presentation.main.profile.manage.ProfileQuitOneActivity"
+            android:name=".presentation.setting.ProfileQuitOneActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
@@ -153,7 +153,7 @@
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".presentation.main.profile.manage.ProfileQuitReasonActivity"
+            android:name=".presentation.setting.ProfileQuitReasonActivity"
             android:exported="false"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />

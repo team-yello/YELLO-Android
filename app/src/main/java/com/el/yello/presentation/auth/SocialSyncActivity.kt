@@ -15,7 +15,7 @@ import com.el.yello.presentation.auth.SignInActivity.Companion.EXTRA_GENDER
 import com.el.yello.presentation.auth.SignInActivity.Companion.EXTRA_KAKAO_ID
 import com.el.yello.presentation.auth.SignInActivity.Companion.EXTRA_NAME
 import com.el.yello.presentation.auth.SignInActivity.Companion.EXTRA_PROFILE_IMAGE
-import com.el.yello.presentation.main.profile.manage.ProfileManageActivity.Companion.PRIVACY_URL
+import com.el.yello.presentation.setting.SettingActivity.Companion.PRIVACY_URL
 import com.el.yello.presentation.onboarding.activity.EditNameActivity
 import com.el.yello.presentation.onboarding.fragment.checkName.CheckNameDialog
 import com.el.yello.util.amplitude.AmplitudeUtils

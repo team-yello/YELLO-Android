@@ -1,4 +1,4 @@
-package com.el.yello.presentation.main.profile.manage
+package com.el.yello.presentation.setting
 
 import android.content.Intent
 import android.net.Uri
@@ -8,7 +8,7 @@ import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import com.el.yello.BuildConfig
 import com.el.yello.R
-import com.el.yello.databinding.ActivityProfileManageBinding
+import com.el.yello.databinding.ActivitySettingBinding
 import com.el.yello.presentation.main.profile.ProfileViewModel
 import com.el.yello.util.amplitude.AmplitudeUtils
 import com.el.yello.util.context.yelloSnackbar
@@ -23,8 +23,8 @@ import kotlinx.coroutines.launch
 import org.json.JSONObject
 
 @AndroidEntryPoint
-class ProfileManageActivity :
-    BindingActivity<ActivityProfileManageBinding>(R.layout.activity_profile_manage) {
+class SettingActivity :
+    BindingActivity<ActivitySettingBinding>(R.layout.activity_setting) {
 
     private val viewModel by viewModels<ProfileViewModel>()
 
@@ -106,7 +106,10 @@ class ProfileManageActivity :
                     }
                 }
 
-                is UiState.Failure -> yelloSnackbar(binding.root, getString(R.string.internet_connection_error_msg))
+                is UiState.Failure -> yelloSnackbar(
+                    binding.root,
+                    getString(R.string.internet_connection_error_msg)
+                )
 
                 is UiState.Empty -> return@onEach
 

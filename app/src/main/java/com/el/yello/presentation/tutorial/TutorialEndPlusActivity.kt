@@ -5,7 +5,7 @@ import android.os.Bundle
 import com.el.yello.R
 import com.el.yello.databinding.ActivityTutorialEndPluspointBinding
 import com.el.yello.presentation.main.MainActivity
-import com.el.yello.util.amplitude.AmplitudeUtils
+import com.el.yello.util.AmplitudeManager
 import com.example.ui.base.BindingActivity
 import com.example.ui.extension.setOnSingleClickListener
 
@@ -24,7 +24,7 @@ class TutorialEndPlusActivity :
 
     private fun initEndPlusClickListener() {
         binding.btnEndTutorial.setOnSingleClickListener {
-            AmplitudeUtils.trackEventWithProperties(EVENT_CLICK_ONBOARDING_YELLO_START)
+            AmplitudeManager.trackEventWithProperties(EVENT_CLICK_ONBOARDING_YELLO_START)
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
         }

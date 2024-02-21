@@ -2,7 +2,6 @@ package com.example.ui.extension
 
 import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.DiffUtil
 
 inline fun View.setOnSingleClickListener(
     delay: Long = 1000L,

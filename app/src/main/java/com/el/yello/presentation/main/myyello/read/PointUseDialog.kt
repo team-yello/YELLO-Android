@@ -10,7 +10,7 @@ import androidx.fragment.app.activityViewModels
 import com.el.yello.R
 import com.el.yello.databinding.DialogPointUseBinding
 import com.el.yello.presentation.main.MainActivity
-import com.el.yello.util.amplitude.AmplitudeUtils
+import com.el.yello.util.AmplitudeManager
 import com.example.domain.enum.PointEnum
 import com.example.ui.base.BindingDialogFragment
 import com.example.ui.extension.setOnSingleClickListener
@@ -70,13 +70,13 @@ class PointUseDialog : BindingDialogFragment<DialogPointUseBinding>(R.layout.dia
                 dismiss()
                 when (viewModel.pointType) {
                     PointEnum.INITIAL.ordinal -> {
-                        AmplitudeUtils.trackEventWithProperties("click_modal_firstletter_yes")
+                        AmplitudeManager.trackEventWithProperties("click_modal_firstletter_yes")
                     }
                     PointEnum.SUBSCRIBE.ordinal -> {
-                        AmplitudeUtils.trackEventWithProperties("click_modal_firstletter_yes")
+                        AmplitudeManager.trackEventWithProperties("click_modal_firstletter_yes")
                     }
                     PointEnum.KEYWORD.ordinal -> {
-                        AmplitudeUtils.trackEventWithProperties("click_modal_keyword_yes")
+                        AmplitudeManager.trackEventWithProperties("click_modal_keyword_yes")
                     }
                 }
                 PointAfterDialog.newInstance().show(parentFragmentManager, "dialog")
@@ -85,9 +85,9 @@ class PointUseDialog : BindingDialogFragment<DialogPointUseBinding>(R.layout.dia
 
         binding.tvNo.setOnSingleClickListener {
             if (viewModel.pointType == PointEnum.INITIAL.ordinal) {
-                AmplitudeUtils.trackEventWithProperties("click_modal_firstletter_no")
+                AmplitudeManager.trackEventWithProperties("click_modal_firstletter_no")
             } else {
-                AmplitudeUtils.trackEventWithProperties("click_modal_keyword_no")
+                AmplitudeManager.trackEventWithProperties("click_modal_keyword_no")
             }
             dismiss()
         }

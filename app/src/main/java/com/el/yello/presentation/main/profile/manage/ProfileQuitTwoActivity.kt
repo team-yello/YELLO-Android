@@ -4,7 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import com.el.yello.R
 import com.el.yello.databinding.ActivityProfileQuitTwoBinding
-import com.el.yello.util.amplitude.AmplitudeUtils
+import com.el.yello.util.AmplitudeManager
 import com.example.ui.base.BindingActivity
 import com.example.ui.extension.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
@@ -26,7 +26,7 @@ class ProfileQuitTwoActivity :
 
     private fun initQuitBtnListener() {
         binding.btnProfileQuitForSure.setOnSingleClickListener {
-            AmplitudeUtils.trackEventWithProperties(
+            AmplitudeManager.trackEventWithProperties(
                 "click_profile_withdrawal",
                 JSONObject().put("withdrawal_button", "withdrawal3"),
             )

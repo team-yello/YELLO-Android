@@ -8,7 +8,6 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.el.yello.R
 import com.el.yello.databinding.ItemMyYelloBinding
-import com.el.yello.util.Utils
 import com.example.domain.entity.Yello
 import com.example.domain.enum.Gender
 import com.example.ui.extension.setOnSingleClickListener

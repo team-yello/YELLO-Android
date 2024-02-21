@@ -1,4 +1,4 @@
-package com.el.yello.util.Image
+package com.el.yello.util.extension
 
 import android.widget.ImageView
 import coil.ImageLoader
@@ -6,6 +6,7 @@ import coil.decode.SvgDecoder
 import coil.load
 import coil.request.ImageRequest
 import coil.transform.CircleCropTransformation
+import com.el.yello.R
 
 fun ImageView.loadUrl(url: String) {
     if (url.endsWith(".svg")) {
@@ -49,3 +50,16 @@ fun ImageView.loadUrlWithCircleCrop(url: String) {
 
     imageLoader.enqueue(request)
 }
+
+fun ImageView.setImageOrBasicThumbnail(thumbnail: String) {
+    this.apply {
+        if (thumbnail == URL_BASIC_THUMBNAIL) {
+            load(R.drawable.img_yello_basic)
+        } else {
+            loadUrlWithCircleCrop(thumbnail)
+        }
+    }
+}
+
+private const val URL_BASIC_THUMBNAIL =
+    "https://k.kakaocdn.net/dn/1G9kp/btsAot8liOn/8CWudi3uy07rvFNUkk3ER0/img_640x640.jpg"

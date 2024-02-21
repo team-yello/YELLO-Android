@@ -8,7 +8,6 @@ import androidx.lifecycle.lifecycleScope
 import com.el.yello.R
 import com.el.yello.databinding.FragmentProfileDeleteBottomSheetBinding
 import com.el.yello.presentation.main.profile.ProfileViewModel
-import com.el.yello.util.Utils.setImageOrBasicThumbnail
 import com.example.ui.base.BindingBottomSheetDialog
 import com.example.ui.extension.toast
 import com.example.ui.state.UiState

@@ -13,7 +13,7 @@ import com.el.yello.databinding.ActivityProfileSchoolModBinding
 import com.el.yello.presentation.main.profile.detail.ProfileDetailActivity
 import com.el.yello.presentation.main.profile.detail.ProfileDetailActivity.Companion.RESULT_PROFILE_MODIFY_FAILURE
 import com.el.yello.presentation.main.profile.mod.UnivProfileModViewModel.Companion.TEXT_NONE
-import com.el.yello.util.context.yelloSnackbar
+import com.el.yello.util.extension.yelloSnackbar
 import com.example.ui.extension.navigateTo
 import com.example.ui.base.BindingActivity
 import com.example.ui.extension.drawableOf

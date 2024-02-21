@@ -17,7 +17,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.el.yello.R
 import com.el.yello.databinding.FragmentDialogDepartmentBinding
 import com.el.yello.presentation.onboarding.OnBoardingViewModel
-import com.el.yello.util.context.yelloSnackbar
+import com.el.yello.util.extension.yelloSnackbar
 import com.example.ui.base.BindingBottomSheetDialog
 import com.example.ui.extension.hideKeyboard
 import com.example.ui.state.UiState

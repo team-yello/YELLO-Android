@@ -4,7 +4,6 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.el.yello.R
 import com.el.yello.databinding.ItemLookBinding
-import com.el.yello.util.Utils.setImageOrBasicThumbnail
 import com.example.domain.entity.LookListModel.LookModel
 import com.example.ui.extension.colorOf
 import com.example.ui.extension.drawableOf

@@ -11,7 +11,7 @@ import androidx.core.content.ContextCompat
 import com.el.yello.R
 import com.el.yello.databinding.ActivityGetAlarmBinding
 import com.el.yello.presentation.tutorial.TutorialAActivity
-import com.el.yello.util.amplitude.AmplitudeUtils
+import com.el.yello.util.AmplitudeManager
 import com.example.ui.base.BindingActivity
 import com.example.ui.extension.boolExtra
 import com.example.ui.extension.setOnSingleClickListener
@@ -28,10 +28,10 @@ class GetAlarmActivity :
     private val requestPermissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
             if (isGranted) {
-                AmplitudeUtils.updateUserProperties(EVENT_PUSH_NOTIFICATION, VALUE_ENABLED)
+                AmplitudeManager.updateUserProperties(EVENT_PUSH_NOTIFICATION, VALUE_ENABLED)
                 startTutorialActivity()
             } else {
-                AmplitudeUtils.updateUserProperties(EVENT_PUSH_NOTIFICATION, VALUE_DISABLED)
+                AmplitudeManager.updateUserProperties(EVENT_PUSH_NOTIFICATION, VALUE_DISABLED)
                 startTutorialActivity()
             }
         }
@@ -50,7 +50,7 @@ class GetAlarmActivity :
 
     private fun askNotificationPermission() {
         binding.btnStartYello.setOnSingleClickListener {
-            AmplitudeUtils.trackEventWithProperties(EVENT_CLICK_ONBOARDING_NOTIFICATION)
+            AmplitudeManager.trackEventWithProperties(EVENT_CLICK_ONBOARDING_NOTIFICATION)
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                 if (ContextCompat.checkSelfPermission(
                         this,

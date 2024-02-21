@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.el.yello.util.amplitude.AmplitudeUtils
+import com.el.yello.util.AmplitudeManager
 import com.example.domain.entity.MyYello
 import com.example.domain.entity.notice.Banner
 import com.example.domain.entity.vote.VoteCount
@@ -134,27 +134,27 @@ class MyYelloViewModel @Inject constructor(
     }
 
     private fun setAmplitude(myYello: MyYello) {
-        AmplitudeUtils.updateUserIntProperties(
+        AmplitudeManager.updateUserIntProperties(
             NAME_USER_MESSAGE_RECEIVED,
             myYello.totalCount,
         )
-        AmplitudeUtils.updateUserIntProperties(
+        AmplitudeManager.updateUserIntProperties(
             NAME_USER_MESSAGE_OPEN,
             myYello.openCount,
         )
-        AmplitudeUtils.updateUserIntProperties(
+        AmplitudeManager.updateUserIntProperties(
             NAME_USER_MESSAGE_OPEN_KEYWORD,
             myYello.openKeywordCount,
         )
-        AmplitudeUtils.updateUserIntProperties(
+        AmplitudeManager.updateUserIntProperties(
             NAME_USER_MESSAGE_OPEN_FIRST_LETTER,
             myYello.openNameCount,
         )
-        AmplitudeUtils.updateUserIntProperties(
+        AmplitudeManager.updateUserIntProperties(
             NAME_USER_MESSAGE_OPEN_FULL_NAME,
             myYello.openFullNameCount,
         )
-        AmplitudeUtils.updateUserIntProperties(
+        AmplitudeManager.updateUserIntProperties(
             NAME_USER_MESSAGE_OPEN_FULL_NAME,
             myYello.openFullNameCount,
         )

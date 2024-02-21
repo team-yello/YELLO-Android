@@ -7,7 +7,7 @@ import com.el.yello.R
 import com.el.yello.databinding.FragmentYelloLockBinding
 import com.el.yello.presentation.main.dialog.invite.InviteFriendDialog
 import com.el.yello.presentation.main.yello.YelloViewModel
-import com.el.yello.util.amplitude.AmplitudeUtils
+import com.el.yello.util.AmplitudeManager
 import com.example.ui.base.BindingFragment
 import com.example.ui.extension.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
@@ -25,7 +25,7 @@ class YelloLockFragment : BindingFragment<FragmentYelloLockBinding>(R.layout.fra
 
     private fun initInviteBtnClickListener() {
         binding.btnLockVote.setOnSingleClickListener {
-            AmplitudeUtils.trackEventWithProperties(
+            AmplitudeManager.trackEventWithProperties(
                 EVENT_CLICK_INVITE,
                 JSONObject().put(JSON_INVITE_VIEW, VALUE_VOTE_4_DOWN),
             )

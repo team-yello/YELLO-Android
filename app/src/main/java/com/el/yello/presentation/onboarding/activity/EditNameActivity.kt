@@ -12,7 +12,7 @@ import com.el.yello.presentation.auth.SignInActivity.Companion.EXTRA_KAKAO_ID
 import com.el.yello.presentation.auth.SignInActivity.Companion.EXTRA_NAME
 import com.el.yello.presentation.auth.SignInActivity.Companion.EXTRA_PROFILE_IMAGE
 import com.el.yello.presentation.onboarding.OnBoardingViewModel
-import com.el.yello.util.context.yelloSnackbar
+import com.el.yello.util.extension.yelloSnackbar
 import com.example.ui.base.BindingActivity
 import com.example.ui.extension.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint

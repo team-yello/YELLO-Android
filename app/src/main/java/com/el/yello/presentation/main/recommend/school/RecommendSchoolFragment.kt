@@ -18,9 +18,8 @@ import com.el.yello.presentation.main.recommend.list.RecommendAdapter
 import com.el.yello.presentation.main.recommend.list.RecommendItemDecoration
 import com.el.yello.presentation.main.recommend.list.RecommendViewHolder
 import com.el.yello.presentation.util.BaseLinearRcvItemDeco
-import com.el.yello.util.Utils.setPullToScrollColor
-import com.el.yello.util.amplitude.AmplitudeUtils
-import com.el.yello.util.context.yelloSnackbar
+import com.el.yello.util.AmplitudeManager
+import com.el.yello.util.extension.yelloSnackbar
 import com.example.domain.entity.RecommendListModel.RecommendFriend
 import com.example.ui.base.BindingFragment
 import com.example.ui.state.UiState
@@ -66,7 +65,7 @@ class RecommendSchoolFragment :
         observeAddFriendState()
         observeUserDataState()
         setDeleteAnimation()
-        AmplitudeUtils.trackEventWithProperties("view_recommend_school")
+        AmplitudeManager.trackEventWithProperties("view_recommend_school")
     }
 
     override fun onResume() {
@@ -83,7 +82,7 @@ class RecommendSchoolFragment :
         binding.layoutInviteFriend.setOnSingleClickListener {
             inviteYesFriendDialog =
                 InviteFriendDialog.newInstance(viewModel.getYelloId(), SCHOOL_YES_FRIEND)
-            AmplitudeUtils.trackEventWithProperties(
+            AmplitudeManager.trackEventWithProperties(
                 "click_invite",
                 JSONObject().put("invite_view", SCHOOL_YES_FRIEND),
             )
@@ -93,7 +92,7 @@ class RecommendSchoolFragment :
         binding.btnRecommendNoFriend.setOnSingleClickListener {
             inviteNoFriendDialog =
                 InviteFriendDialog.newInstance(viewModel.getYelloId(), SCHOOL_NO_FRIEND)
-            AmplitudeUtils.trackEventWithProperties(
+            AmplitudeManager.trackEventWithProperties(
                 "click_invite",
                 JSONObject().put("invite_view", SCHOOL_NO_FRIEND),
             )

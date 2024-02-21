@@ -1,4 +1,4 @@
-package com.el.yello.util.amplitude
+package com.el.yello.util
 
 import com.amplitude.api.Amplitude
 import com.amplitude.api.Identify
@@ -6,7 +6,7 @@ import org.json.JSONObject
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
-object AmplitudeUtils {
+object AmplitudeManager {
 
     private val amplitude = Amplitude.getInstance()
 

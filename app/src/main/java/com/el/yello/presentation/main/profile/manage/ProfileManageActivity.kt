@@ -10,8 +10,8 @@ import com.el.yello.BuildConfig
 import com.el.yello.R
 import com.el.yello.databinding.ActivityProfileManageBinding
 import com.el.yello.presentation.main.profile.ProfileViewModel
-import com.el.yello.util.amplitude.AmplitudeUtils
-import com.el.yello.util.context.yelloSnackbar
+import com.el.yello.util.AmplitudeManager
+import com.el.yello.util.extension.yelloSnackbar
 import com.example.ui.base.BindingActivity
 import com.example.ui.state.UiState
 import com.example.ui.extension.setOnSingleClickListener
@@ -67,7 +67,7 @@ class ProfileManageActivity :
 
     private fun initLogoutBtnListener() {
         binding.btnProfileManageLogout.setOnSingleClickListener {
-            AmplitudeUtils.trackEventWithProperties("click_profile_logout")
+            AmplitudeManager.trackEventWithProperties("click_profile_logout")
             viewModel.logoutKakaoAccount()
         }
     }
@@ -78,7 +78,7 @@ class ProfileManageActivity :
 
     private fun initQuitBtnListener() {
         binding.btnProfileManageQuit.setOnSingleClickListener {
-            AmplitudeUtils.trackEventWithProperties(
+            AmplitudeManager.trackEventWithProperties(
                 "click_profile_withdrawal",
                 JSONObject().put("withdrawal_button", "withdrawal1"),
             )
@@ -99,7 +99,7 @@ class ProfileManageActivity :
         viewModel.kakaoLogoutState.flowWithLifecycle(lifecycle).onEach { state ->
             when (state) {
                 is UiState.Success -> {
-                    AmplitudeUtils.trackEventWithProperties("complete_profile_logout")
+                    AmplitudeManager.trackEventWithProperties("complete_profile_logout")
                     lifecycleScope.launch {
                         delay(500)
                         restartApp()

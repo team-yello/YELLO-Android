@@ -18,9 +18,8 @@ import com.el.yello.presentation.main.profile.ProfileViewModel
 import com.el.yello.presentation.main.profile.detail.ProfileDetailActivity
 import com.el.yello.presentation.main.profile.manage.ProfileManageActivity
 import com.el.yello.presentation.pay.PayActivity
-import com.el.yello.util.Utils.setPullToScrollColor
-import com.el.yello.util.amplitude.AmplitudeUtils
-import com.el.yello.util.context.yelloSnackbar
+import com.el.yello.util.AmplitudeManager
+import com.el.yello.util.extension.yelloSnackbar
 import com.example.domain.entity.ProfileUserModel
 import com.example.ui.extension.navigateTo
 import com.example.ui.base.BindingFragment
@@ -62,7 +61,7 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
         observeFriendDeleteState()
         observeCheckIsSubscribed()
         observeGetBannerState()
-        AmplitudeUtils.trackEventWithProperties("view_profile")
+        AmplitudeManager.trackEventWithProperties("view_profile")
     }
 
     override fun onResume() {
@@ -86,7 +85,7 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
 
     private fun initProfileManageBtnListener() {
         binding.btnProfileManage.setOnSingleClickListener {
-            AmplitudeUtils.trackEventWithProperties("click_profile_manage")
+            AmplitudeManager.trackEventWithProperties("click_profile_manage")
             activity?.navigateTo<ProfileManageActivity>()
             viewModel.resetStateVariable()
         }
@@ -126,14 +125,14 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
             if (!this.yelloId.startsWith("@")) this.yelloId = "@" + this.yelloId
         }
         if (!viewModel.isItemBottomSheetRunning) {
-            AmplitudeUtils.trackEventWithProperties("click_profile_friend")
+            AmplitudeManager.trackEventWithProperties("click_profile_friend")
             profileFriendItemBottomSheet = ProfileFriendItemBottomSheet()
             profileFriendItemBottomSheet?.show(parentFragmentManager, ITEM_BOTTOM_SHEET)
         }
     }
 
     private fun initShopClickListener() {
-        AmplitudeUtils.trackEventWithProperties(
+        AmplitudeManager.trackEventWithProperties(
             "click_go_shop",
             JSONObject().put("shop_button", "profile_shop"),
         )
@@ -218,7 +217,7 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
                 if (newState == RecyclerView.SCROLL_STATE_IDLE && !isScrolled) {
-                    AmplitudeUtils.trackEventWithProperties("scroll_profile_friends")
+                    AmplitudeManager.trackEventWithProperties("scroll_profile_friends")
                     isScrolled = true
                 }
             }
@@ -239,7 +238,7 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
                         viewModel.myFriendCount -= 1
                         adapter.notifyDataSetChanged()
                     }
-                    AmplitudeUtils.trackEventWithProperties("complete_profile_delete_friend")
+                    AmplitudeManager.trackEventWithProperties("complete_profile_delete_friend")
                 }
 
                 is UiState.Failure -> yelloSnackbar(binding.root, getString(R.string.internet_connection_error_msg))

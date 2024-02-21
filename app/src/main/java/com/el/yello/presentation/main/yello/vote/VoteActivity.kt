@@ -12,8 +12,8 @@ import com.el.yello.presentation.main.yello.YelloFragment
 import com.el.yello.presentation.main.yello.vote.frame.NoteFrameAdapter
 import com.el.yello.presentation.main.yello.vote.note.NoteAdapter
 import com.el.yello.presentation.util.setCurrentItemWithDuration
-import com.el.yello.util.amplitude.AmplitudeUtils
-import com.el.yello.util.context.yelloSnackbar
+import com.el.yello.util.AmplitudeManager
+import com.el.yello.util.extension.yelloSnackbar
 import com.example.ui.base.BindingActivity
 import com.example.ui.animation.FadeOutTransformation
 import com.example.ui.state.UiState
@@ -86,7 +86,7 @@ class VoteActivity : BindingActivity<ActivityVoteBinding>(R.layout.activity_vote
                 binding.vpVoteNoteFrame.setCurrentItemWithDuration(index, DURATION_FRAME_TRANSITION)
                 if (index <= viewModel.totalListCount) {
                     val properties = JSONObject().put(JSON_VOTE_STEP, index + 1)
-                    AmplitudeUtils.trackEventWithProperties(EVENT_VIEW_VOTE_QUESTION, properties)
+                    AmplitudeManager.trackEventWithProperties(EVENT_VIEW_VOTE_QUESTION, properties)
                 }
             }.launchIn(lifecycleScope)
     }

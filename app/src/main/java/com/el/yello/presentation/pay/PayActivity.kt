@@ -22,8 +22,8 @@ import com.el.yello.presentation.main.profile.manage.ProfileManageActivity
 import com.el.yello.presentation.pay.dialog.PayInAppDialog
 import com.el.yello.presentation.pay.dialog.PayPointDialog
 import com.el.yello.presentation.pay.dialog.PaySubsDialog
-import com.el.yello.util.amplitude.AmplitudeUtils
-import com.el.yello.util.context.yelloSnackbar
+import com.el.yello.util.AmplitudeManager
+import com.el.yello.util.extension.yelloSnackbar
 import com.example.data.model.request.pay.toRequestPayModel
 import com.example.ui.extension.navigateTo
 import com.example.ui.base.BindingActivity
@@ -457,21 +457,21 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
     }
 
     private fun setClickShopBuyAmplitude(buyType: String) {
-        AmplitudeUtils.trackEventWithProperties(
+        AmplitudeManager.trackEventWithProperties(
             "click_shop_buy",
             JSONObject().put("buy_type", buyType),
         )
     }
 
     private fun setCompleteShopBuyAmplitude(buyType: String, buyPrice: String) {
-        AmplitudeUtils.trackEventWithProperties(
+        AmplitudeManager.trackEventWithProperties(
             "complete_shop_buy",
             JSONObject().put("buy_type", buyType).put("buy_price", buyPrice),
         )
     }
 
     private fun updateBuyDateAmplitude() {
-        AmplitudeUtils.setUserDataProperties("user_buy_date")
+        AmplitudeManager.setUserDataProperties("user_buy_date")
     }
 
     override fun finish() {

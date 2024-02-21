@@ -12,7 +12,7 @@ import com.el.yello.R
 import com.el.yello.databinding.FragmentPointBinding
 import com.el.yello.presentation.main.yello.YelloViewModel
 import com.el.yello.presentation.main.yello.vote.VoteViewModel
-import com.el.yello.util.context.yelloSnackbar
+import com.el.yello.util.extension.yelloSnackbar
 import com.example.ui.base.BindingFragment
 import com.example.ui.extension.toast
 import com.example.ui.state.UiState

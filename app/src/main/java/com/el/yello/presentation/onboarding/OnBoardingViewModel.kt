@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
-import com.el.yello.util.amplitude.AmplitudeUtils
+import com.el.yello.util.AmplitudeManager
 import com.example.domain.entity.onboarding.AddFriendListModel.FriendModel
 import com.example.domain.entity.onboarding.GroupHighSchool
 import com.example.domain.entity.onboarding.GroupList
@@ -389,8 +389,8 @@ class OnBoardingViewModel @Inject constructor(
                     Timber.e("POST SIGN UP ERROR : $t")
                 }
         }
-        AmplitudeUtils.updateUserProperties("user_sex", gender)
-        AmplitudeUtils.updateUserProperties("user_name", nameText.value.toString())
+        AmplitudeManager.updateUserProperties("user_sex", gender)
+        AmplitudeManager.updateUserProperties("user_name", nameText.value.toString())
     }
 
     companion object {

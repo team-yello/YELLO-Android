@@ -6,7 +6,6 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import com.el.yello.R
 import com.el.yello.databinding.FragmentRecommendKakaoItemBottomSheetBinding
-import com.el.yello.util.Utils.setImageOrBasicThumbnail
 import com.example.ui.base.BindingBottomSheetDialog
 import com.example.ui.extension.setOnSingleClickListener
 import kotlinx.coroutines.delay

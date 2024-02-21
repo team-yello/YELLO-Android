@@ -20,7 +20,7 @@ import com.el.yello.presentation.main.yello.lock.YelloLockFragment
 import com.el.yello.presentation.main.yello.start.YelloStartFragment
 import com.el.yello.presentation.main.yello.vote.VoteActivity
 import com.el.yello.presentation.main.yello.wait.YelloWaitFragment
-import com.el.yello.util.context.yelloSnackbar
+import com.el.yello.util.extension.yelloSnackbar
 import com.example.ui.base.BindingFragment
 import com.example.ui.extension.restartApp
 import com.example.ui.state.UiState.Empty

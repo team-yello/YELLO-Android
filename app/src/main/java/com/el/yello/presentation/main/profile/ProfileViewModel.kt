@@ -6,7 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.el.yello.R
-import com.el.yello.util.amplitude.AmplitudeUtils
+import com.el.yello.util.AmplitudeManager
 import com.example.domain.entity.PayInfoModel
 import com.example.domain.entity.ProfileFriendsListModel
 import com.example.domain.entity.ProfileQuitReasonModel
@@ -157,7 +157,7 @@ class ProfileViewModel @Inject constructor(
                     totalPage = ceil((it.totalCount * 0.1)).toInt() - 1
                     if (totalPage == currentPage) isPagingFinish = true
                     _getFriendListState.value = UiState.Success(it)
-                    AmplitudeUtils.updateUserIntProperties("user_friends", it.totalCount)
+                    AmplitudeManager.updateUserIntProperties("user_friends", it.totalCount)
                 }
                 .onFailure {
                     _getFriendListState.value = UiState.Failure(it.message.toString())
@@ -231,8 +231,8 @@ class ProfileViewModel @Inject constructor(
                 .onSuccess {
                     it ?: return@launch
                     val subStatus: String = if (it.isSubscribe) "yes" else "no"
-                    AmplitudeUtils.updateUserProperties("user_subscription", subStatus)
-                    AmplitudeUtils.updateUserIntProperties("user_ticket", it.ticketCount)
+                    AmplitudeManager.updateUserProperties("user_subscription", subStatus)
+                    AmplitudeManager.updateUserIntProperties("user_ticket", it.ticketCount)
                     _getPurchaseInfoState.value = UiState.Success(it)
                 }
                 .onFailure {

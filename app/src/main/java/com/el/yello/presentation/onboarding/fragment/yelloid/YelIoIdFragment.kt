@@ -10,8 +10,8 @@ import com.el.yello.R
 import com.el.yello.databinding.FragmentYelloIdBinding
 import com.el.yello.presentation.onboarding.OnBoardingViewModel
 import com.el.yello.presentation.onboarding.activity.OnBoardingActivity
-import com.el.yello.util.amplitude.AmplitudeUtils
-import com.el.yello.util.context.yelloSnackbar
+import com.el.yello.util.AmplitudeManager
+import com.el.yello.util.extension.yelloSnackbar
 import com.example.ui.base.BindingFragment
 import com.example.ui.extension.colorOf
 import com.example.ui.state.UiState
@@ -101,11 +101,11 @@ class YelIoIdFragment : BindingFragment<FragmentYelloIdBinding>(R.layout.fragmen
     }
 
     private fun amplitudeYelloIdInfo() {
-        AmplitudeUtils.trackEventWithProperties(
+        AmplitudeManager.trackEventWithProperties(
             EVENT_CLICK_ONBOARDING_NEXT,
             JSONObject().put(NAME_ONBOARD_VIEW, VALUE_ID),
         )
-        AmplitudeUtils.updateUserProperties(PROPERTY_USER_ID, viewModel.id)
+        AmplitudeManager.updateUserProperties(PROPERTY_USER_ID, viewModel.id)
     }
 
     companion object {

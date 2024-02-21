@@ -6,7 +6,7 @@ import android.os.Bundle
 import com.el.yello.R
 import com.el.yello.databinding.ActivityTutorialABinding
 import com.el.yello.presentation.onboarding.activity.OnBoardingActivity.Companion.EXTRA_CODE_TEXT_EMPTY
-import com.el.yello.util.amplitude.AmplitudeUtils
+import com.el.yello.util.AmplitudeManager
 import com.example.ui.base.BindingActivity
 import com.example.ui.extension.boolExtra
 import com.example.ui.extension.setOnSingleClickListener
@@ -40,7 +40,7 @@ class TutorialAActivity : BindingActivity<ActivityTutorialABinding>(R.layout.act
     }
 
     private fun amplitudeATutorial() {
-        AmplitudeUtils.trackEventWithProperties(
+        AmplitudeManager.trackEventWithProperties(
             EVENT_VIEW_ONBOARDING_TUTORIAL,
             JSONObject().put(NAME_TUTORIAL_STEP, VALUE_TUTORIAL_ONE),
         )

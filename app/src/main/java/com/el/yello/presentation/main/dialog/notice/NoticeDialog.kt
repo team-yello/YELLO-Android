@@ -11,7 +11,7 @@ import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import com.el.yello.R
 import com.el.yello.databinding.FragmentNoticeDialogBinding
-import com.el.yello.util.Image.loadUrl
+import com.el.yello.util.extension.loadUrl
 import com.example.ui.base.BindingDialogFragment
 import com.example.ui.extension.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint

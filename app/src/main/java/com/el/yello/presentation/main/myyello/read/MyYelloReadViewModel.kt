@@ -2,7 +2,7 @@ package com.el.yello.presentation.main.myyello.read
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.el.yello.util.amplitude.AmplitudeUtils
+import com.el.yello.util.AmplitudeManager
 import com.example.domain.entity.CheckKeyword
 import com.example.domain.entity.CheckName
 import com.example.domain.entity.FullName
@@ -90,7 +90,7 @@ class MyYelloReadViewModel @Inject constructor(
                     myPoint = it.currentPoint
                     yelloDetail = it
                     _yelloDetailData.value = UiState.Success(it)
-                    AmplitudeUtils.updateUserIntProperties(NAME_USER_POINT, it.currentPoint)
+                    AmplitudeManager.updateUserIntProperties(NAME_USER_POINT, it.currentPoint)
                 }.onFailure { t ->
                     if (t is HttpException) {
                         _yelloDetailData.value = UiState.Failure(t.code().toString())

@@ -12,7 +12,7 @@ import com.el.yello.presentation.main.yello.YelloViewModel
 import com.el.yello.presentation.main.yello.lock.YelloLockFragment.Companion.EVENT_CLICK_INVITE
 import com.el.yello.presentation.main.yello.lock.YelloLockFragment.Companion.JSON_INVITE_VIEW
 import com.el.yello.presentation.main.yello.lock.YelloLockFragment.Companion.TAG_UNLOCK_DIALOG
-import com.el.yello.util.amplitude.AmplitudeUtils
+import com.el.yello.util.AmplitudeManager
 import com.example.ui.base.BindingFragment
 import com.example.ui.extension.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
@@ -42,7 +42,7 @@ class YelloWaitFragment : BindingFragment<FragmentYelloWaitBinding>(R.layout.fra
 
     private fun initInviteBtnClickListener() {
         binding.btnWaitInvite.setOnSingleClickListener {
-            AmplitudeUtils.trackEventWithProperties(
+            AmplitudeManager.trackEventWithProperties(
                 EVENT_CLICK_INVITE,
                 JSONObject().put(JSON_INVITE_VIEW, VALUE_VOTE_40MIN_SCREEN),
             )

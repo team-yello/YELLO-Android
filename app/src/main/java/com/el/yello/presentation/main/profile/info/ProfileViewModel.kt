@@ -80,7 +80,7 @@ class ProfileViewModel @Inject constructor(
         getProfileBannerFromServer()
     }
 
-    fun resetPageVariable() {
+    private fun resetPageVariable() {
         currentPage = -1
         isPagingFinish = false
         totalPage = Int.MAX_VALUE
@@ -146,7 +146,7 @@ class ProfileViewModel @Inject constructor(
         }
     }
 
-    fun getPurchaseInfoFromServer() {
+    private fun getPurchaseInfoFromServer() {
         viewModelScope.launch {
             payRepository.getPurchaseInfo()
                 .onSuccess {
@@ -162,7 +162,7 @@ class ProfileViewModel @Inject constructor(
         }
     }
 
-    fun getProfileBannerFromServer() {
+    private fun getProfileBannerFromServer() {
         viewModelScope.launch {
             noticeRepository.getProfileBanner()
                 .onSuccess { banner ->

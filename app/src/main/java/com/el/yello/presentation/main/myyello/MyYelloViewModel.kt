@@ -8,7 +8,9 @@ import com.el.yello.util.manager.AmplitudeManager
 import com.example.domain.entity.MyYello
 import com.example.domain.entity.notice.Banner
 import com.example.domain.entity.vote.VoteCount
+import com.example.domain.enum.SubscribeType
 import com.example.domain.repository.NoticeRepository
+import com.example.domain.repository.PayRepository
 import com.example.domain.repository.YelloRepository
 import com.example.ui.state.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -24,6 +26,7 @@ import kotlin.math.ceil
 class MyYelloViewModel @Inject constructor(
     private val yelloRepository: YelloRepository,
     private val noticeRepository: NoticeRepository,
+    private val payRepository: PayRepository
 ) : ViewModel() {
 
     // Todo Flow 쓰면 상세 보기 갔다 왔을 때 리스트 계속 관찰해서 임시로 LiveData로 구현
@@ -38,6 +41,8 @@ class MyYelloViewModel @Inject constructor(
 
     private val _getBannerState = MutableStateFlow<UiState<Banner>>(UiState.Loading)
     val getBannerState: StateFlow<UiState<Banner>> = _getBannerState.asStateFlow()
+
+    var isSubscribed = false
 
     var isFirstLoading = true
 
@@ -55,6 +60,7 @@ class MyYelloViewModel @Inject constructor(
         getMyYelloList()
         getBanner()
         resetReadCount()
+        getUserSubscriptionState()
     }
 
     fun setPosition(pos: Int) {
@@ -129,6 +135,15 @@ class MyYelloViewModel @Inject constructor(
                     if (t is HttpException) {
                         _getBannerState.value = UiState.Failure(t.code().toString())
                     }
+                }
+        }
+    }
+
+    private fun getUserSubscriptionState() {
+        viewModelScope.launch {
+            payRepository.getUserSubsInfo()
+                .onSuccess { userInfo ->
+                    isSubscribed = userInfo?.subscribe != SubscribeType.NORMAL
                 }
         }
     }

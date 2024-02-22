@@ -158,11 +158,9 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
     private fun setDeleteAnimation() {
         binding.rvProfileFriendsList.itemAnimator = object : DefaultItemAnimator() {
             override fun animateRemove(holder: RecyclerView.ViewHolder): Boolean {
-                holder.itemView.animation =
-                    AnimationUtils.loadAnimation(
-                        holder.itemView.context,
-                        R.anim.slide_out_right
-                    )
+                holder.itemView.animation = AnimationUtils.loadAnimation(
+                    holder.itemView.context, R.anim.slide_out_right
+                )
                 return super.animateRemove(holder)
             }
         }
@@ -170,10 +168,9 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
 
     private fun observeUserDataResult() {
         viewModel.getUserDataResult.flowWithLifecycle(lifecycle).onEach { result ->
-            if (!result) yelloSnackbar(
-                requireView(),
-                getString(R.string.internet_connection_error_msg)
-            )
+            if (!result) {
+                yelloSnackbar(requireView(), getString(R.string.internet_connection_error_msg))
+            }
         }.launchIn(lifecycleScope)
     }
 
@@ -187,10 +184,7 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
                 }
 
                 is UiState.Failure -> {
-                    yelloSnackbar(
-                        requireView(),
-                        getString(R.string.internet_connection_error_msg)
-                    )
+                    yelloSnackbar(requireView(), getString(R.string.internet_connection_error_msg))
                 }
 
                 is UiState.Loading -> {
@@ -203,8 +197,7 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
     }
 
     private fun setInfinityScroll() {
-        binding.rvProfileFriendsList.addOnScrollListener(object :
-            RecyclerView.OnScrollListener() {
+        binding.rvProfileFriendsList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
                 if (dy > 0) {
@@ -244,8 +237,7 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
                 }
 
                 is UiState.Failure -> yelloSnackbar(
-                    binding.root,
-                    getString(R.string.internet_connection_error_msg)
+                    binding.root, getString(R.string.internet_connection_error_msg)
                 )
 
                 is UiState.Loading -> return@onEach

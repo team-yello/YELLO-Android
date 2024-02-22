@@ -6,7 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.domain.entity.ProfileQuitReasonModel
 import com.example.domain.repository.AuthRepository
 import com.example.domain.repository.ProfileRepository
-import com.example.ui.view.UiState
+import com.example.ui.state.UiState
 import com.kakao.sdk.user.UserApiClient
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay

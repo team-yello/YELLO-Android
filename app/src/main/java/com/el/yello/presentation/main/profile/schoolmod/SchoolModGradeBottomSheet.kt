@@ -6,7 +6,7 @@ import androidx.fragment.app.activityViewModels
 import com.el.yello.R
 import com.el.yello.databinding.FragmentModGradeBottomSheetBinding
 import com.example.ui.base.BindingBottomSheetDialog
-import com.example.ui.view.setOnSingleClickListener
+import com.example.ui.extension.setOnSingleClickListener
 
 class SchoolModGradeBottomSheet :
     BindingBottomSheetDialog<FragmentModGradeBottomSheetBinding>(R.layout.fragment_mod_grade_bottom_sheet) {

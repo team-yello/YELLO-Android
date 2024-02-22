@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
-import com.el.yello.util.amplitude.AmplitudeUtils
+import com.el.yello.util.manager.AmplitudeManager
 import com.example.domain.entity.onboarding.AddFriendListModel.FriendModel
 import com.example.domain.entity.onboarding.GroupHighSchool
 import com.example.domain.entity.onboarding.GroupList
@@ -16,7 +16,7 @@ import com.example.domain.entity.onboarding.SignupInfo
 import com.example.domain.entity.onboarding.UserInfo
 import com.example.domain.repository.AuthRepository
 import com.example.domain.repository.OnboardingRepository
-import com.example.ui.view.UiState
+import com.example.ui.state.UiState
 import com.kakao.sdk.talk.TalkApiClient
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -389,8 +389,8 @@ class OnBoardingViewModel @Inject constructor(
                     Timber.e("POST SIGN UP ERROR : $t")
                 }
         }
-        AmplitudeUtils.updateUserProperties("user_sex", gender)
-        AmplitudeUtils.updateUserProperties("user_name", nameText.value.toString())
+        AmplitudeManager.updateUserProperties("user_sex", gender)
+        AmplitudeManager.updateUserProperties("user_name", nameText.value.toString())
     }
 
     companion object {

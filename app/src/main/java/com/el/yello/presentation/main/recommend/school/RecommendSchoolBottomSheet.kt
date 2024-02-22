@@ -7,9 +7,9 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import com.el.yello.R
 import com.el.yello.databinding.FragmentRecommendSchoolItemBottomSheetBinding
-import com.el.yello.util.Utils.setImageOrBasicThumbnail
+import com.el.yello.util.extension.setImageOrBasicThumbnail
 import com.example.ui.base.BindingBottomSheetDialog
-import com.example.ui.view.setOnSingleClickListener
+import com.example.ui.extension.setOnSingleClickListener
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 

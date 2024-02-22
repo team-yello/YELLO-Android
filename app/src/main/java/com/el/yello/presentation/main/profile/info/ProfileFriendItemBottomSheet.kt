@@ -6,9 +6,9 @@ import android.view.View
 import androidx.fragment.app.activityViewModels
 import com.el.yello.R
 import com.el.yello.databinding.FragmentProfileItemBottomSheetBinding
-import com.el.yello.util.Utils.setImageOrBasicThumbnail
+import com.el.yello.util.extension.setImageOrBasicThumbnail
 import com.example.ui.base.BindingBottomSheetDialog
-import com.example.ui.view.setOnSingleClickListener
+import com.example.ui.extension.setOnSingleClickListener
 
 class ProfileFriendItemBottomSheet :
     BindingBottomSheetDialog<FragmentProfileItemBottomSheetBinding>(R.layout.fragment_profile_item_bottom_sheet) {

@@ -14,10 +14,10 @@ import com.el.yello.R
 import com.el.yello.databinding.ActivitySplashBinding
 import com.el.yello.presentation.auth.SignInActivity
 import com.el.yello.presentation.main.MainActivity
-import com.el.yello.util.NetworkManager
-import com.el.yello.util.context.yelloSnackbar
+import com.el.yello.util.manager.NetworkManager
+import com.el.yello.util.extension.yelloSnackbar
 import com.example.ui.base.BindingActivity
-import com.example.ui.context.toast
+import com.example.ui.extension.toast
 import com.google.android.play.core.appupdate.AppUpdateInfo
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory
 import com.google.android.play.core.appupdate.AppUpdateOptions

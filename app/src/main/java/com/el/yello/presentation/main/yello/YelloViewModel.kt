@@ -9,10 +9,10 @@ import com.example.domain.entity.PayInfoModel
 import com.example.domain.repository.AuthRepository
 import com.example.domain.repository.PayRepository
 import com.example.domain.repository.VoteRepository
-import com.example.ui.view.UiState
-import com.example.ui.view.UiState.Empty
-import com.example.ui.view.UiState.Failure
-import com.example.ui.view.UiState.Success
+import com.example.ui.state.UiState
+import com.example.ui.state.UiState.Empty
+import com.example.ui.state.UiState.Failure
+import com.example.ui.state.UiState.Success
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow

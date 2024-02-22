@@ -2,7 +2,7 @@ package com.el.yello.presentation.main.profile.info
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.el.yello.util.amplitude.AmplitudeUtils
+import com.el.yello.util.manager.AmplitudeManager
 import com.example.domain.entity.PayInfoModel
 import com.example.domain.entity.ProfileFriendsListModel
 import com.example.domain.entity.ProfileUserModel
@@ -10,7 +10,7 @@ import com.example.domain.entity.notice.ProfileBanner
 import com.example.domain.repository.NoticeRepository
 import com.example.domain.repository.PayRepository
 import com.example.domain.repository.ProfileRepository
-import com.example.ui.view.UiState
+import com.example.ui.state.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -125,7 +125,7 @@ class ProfileViewModel @Inject constructor(
                     totalPage = ceil((it.totalCount * 0.1)).toInt() - 1
                     if (totalPage == currentPage) isPagingFinish = true
                     _getFriendListState.value = UiState.Success(it)
-                    AmplitudeUtils.updateUserIntProperties("user_friends", it.totalCount)
+                    AmplitudeManager.updateUserIntProperties("user_friends", it.totalCount)
                 }
                 .onFailure {
                     _getFriendListState.value = UiState.Failure(it.message.toString())
@@ -152,8 +152,8 @@ class ProfileViewModel @Inject constructor(
                 .onSuccess {
                     it ?: return@launch
                     val subStatus: String = if (it.isSubscribe) "yes" else "no"
-                    AmplitudeUtils.updateUserProperties("user_subscription", subStatus)
-                    AmplitudeUtils.updateUserIntProperties("user_ticket", it.ticketCount)
+                    AmplitudeManager.updateUserProperties("user_subscription", subStatus)
+                    AmplitudeManager.updateUserIntProperties("user_ticket", it.ticketCount)
                     _getPurchaseInfoState.value = UiState.Success(it)
                 }
                 .onFailure {

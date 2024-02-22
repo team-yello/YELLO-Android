@@ -262,7 +262,7 @@
             app:layout_constraintEnd_toEndOf="@id/btn_profile_shop"
             app:layout_constraintTop_toTopOf="@id/btn_profile_shop" />
 
-        <com.el.yello.presentation.util.GradientStrokeButton
+        <com.el.yello.util.custom.GradientStrokeButton
             android:id="@+id/btn_profile_shop"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

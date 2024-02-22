@@ -12,10 +12,10 @@ import androidx.core.os.bundleOf
 import com.el.yello.BuildConfig
 import com.el.yello.R
 import com.el.yello.databinding.FragmentInviteFriendDialogBinding
-import com.el.yello.util.amplitude.AmplitudeUtils
+import com.el.yello.util.manager.AmplitudeManager
 import com.example.ui.base.BindingDialogFragment
-import com.example.ui.fragment.toast
-import com.example.ui.view.setOnSingleClickListener
+import com.example.ui.extension.toast
+import com.example.ui.extension.setOnSingleClickListener
 import com.kakao.sdk.common.util.KakaoCustomTabsClient
 import com.kakao.sdk.share.ShareClient
 import com.kakao.sdk.share.WebSharerClient
@@ -79,7 +79,7 @@ class InviteFriendDialog :
 
     private fun initKakaoInviteBtnListener() {
         binding.btnInviteKakao.setOnSingleClickListener {
-            AmplitudeUtils.trackEventWithProperties(
+            AmplitudeManager.trackEventWithProperties(
                 "click_invite_kakao",
                 JSONObject().put("invite_view", previousScreen),
             )
@@ -89,7 +89,7 @@ class InviteFriendDialog :
 
     private fun initLinkInviteBtnListener() {
         binding.btnInviteLink.setOnSingleClickListener {
-            AmplitudeUtils.trackEventWithProperties(
+            AmplitudeManager.trackEventWithProperties(
                 "click_invite_link",
                 JSONObject().put("invite_view", previousScreen),
             )

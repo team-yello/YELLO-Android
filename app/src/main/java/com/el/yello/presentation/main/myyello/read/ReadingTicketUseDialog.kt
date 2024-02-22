@@ -8,9 +8,9 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.activityViewModels
 import com.el.yello.R
 import com.el.yello.databinding.DialogReadingTicketUseBinding
-import com.el.yello.util.amplitude.AmplitudeUtils
+import com.el.yello.util.manager.AmplitudeManager
 import com.example.ui.base.BindingDialogFragment
-import com.example.ui.view.setOnSingleClickListener
+import com.example.ui.extension.setOnSingleClickListener
 
 class ReadingTicketUseDialog :
     BindingDialogFragment<DialogReadingTicketUseBinding>(R.layout.dialog_reading_ticket_use) {
@@ -41,9 +41,9 @@ class ReadingTicketUseDialog :
     private fun initEvent() {
         binding.tvOk.setOnSingleClickListener {
             if (isKeywordOpened) {
-                AmplitudeUtils.trackEventWithProperties("click_modal_fullname_yes")
+                AmplitudeManager.trackEventWithProperties("click_modal_fullname_yes")
             } else {
-                AmplitudeUtils.trackEventWithProperties("click_modal_fullnamefirst_yes")
+                AmplitudeManager.trackEventWithProperties("click_modal_fullnamefirst_yes")
             }
             dismiss()
             ReadingTicketAfterDialog.newInstance().show(parentFragmentManager, "dialog")
@@ -51,9 +51,9 @@ class ReadingTicketUseDialog :
 
         binding.tvNo.setOnSingleClickListener {
             if (isKeywordOpened) {
-                AmplitudeUtils.trackEventWithProperties("click_modal_fullname_no")
+                AmplitudeManager.trackEventWithProperties("click_modal_fullname_no")
             } else {
-                AmplitudeUtils.trackEventWithProperties("click_modal_fullnamefirst_no")
+                AmplitudeManager.trackEventWithProperties("click_modal_fullnamefirst_no")
             }
             dismiss()
         }

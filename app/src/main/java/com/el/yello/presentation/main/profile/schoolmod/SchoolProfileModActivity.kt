@@ -14,12 +14,12 @@ import com.el.yello.presentation.main.profile.detail.ProfileDetailActivity
 import com.el.yello.presentation.main.profile.detail.ProfileDetailActivity.Companion.RESULT_PROFILE_MODIFY_FAILURE
 import com.el.yello.presentation.main.profile.univmod.UnivProfileModViewModel.Companion.TEXT_NONE
 import com.el.yello.presentation.main.profile.univmod.UnivProfileModActivity
-import com.el.yello.util.context.yelloSnackbar
-import com.example.ui.activity.navigateTo
+import com.el.yello.util.extension.yelloSnackbar
+import com.example.ui.extension.navigateTo
 import com.example.ui.base.BindingActivity
-import com.example.ui.context.drawableOf
-import com.example.ui.view.UiState
-import com.example.ui.view.setOnSingleClickListener
+import com.example.ui.extension.drawableOf
+import com.example.ui.state.UiState
+import com.example.ui.extension.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach

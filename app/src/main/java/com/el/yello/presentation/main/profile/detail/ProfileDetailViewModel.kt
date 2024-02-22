@@ -7,7 +7,7 @@ import com.el.yello.presentation.main.profile.info.ProfileFragment.Companion.TYP
 import com.example.domain.entity.ProfileModRequestModel
 import com.example.domain.entity.ProfileUserModel
 import com.example.domain.repository.ProfileRepository
-import com.example.ui.view.UiState
+import com.example.ui.state.UiState
 import com.kakao.sdk.user.UserApiClient
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow

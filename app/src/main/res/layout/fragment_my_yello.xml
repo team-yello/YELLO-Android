@@ -8,7 +8,7 @@
 
         <variable
             name="uiState"
-            type="com.example.ui.view.UiStateModel" />
+            type="com.example.ui.state.UiStateModel" />
 
         <import type="android.view.View" />
     </data>
@@ -31,7 +31,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <com.el.yello.presentation.util.GradientStrokeButton
+        <com.el.yello.util.custom.GradientStrokeButton
             android:id="@+id/btn_shop"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -187,7 +187,7 @@
                     app:layout_constraintTop_toTopOf="parent"
                     tools:listitem="@layout/item_my_yello" />
 
-                <com.el.yello.presentation.util.YelloAnimationButton
+                <com.el.yello.util.custom.YelloAnimationButton
                     android:id="@+id/btn_send_check"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import com.el.yello.databinding.ItemTimelineBinding
 import com.example.domain.entity.LookListModel.LookModel
-import com.example.ui.view.ItemDiffCallback
+import com.example.ui.util.ItemDiffCallback
 
 class TimelinePageAdapter : PagingDataAdapter<LookModel, TimelineViewHolder>(diffUtil) {
 

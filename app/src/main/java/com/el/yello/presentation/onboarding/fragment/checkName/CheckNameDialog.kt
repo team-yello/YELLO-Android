@@ -11,8 +11,8 @@ import com.el.yello.presentation.auth.SignInActivity.Companion.EXTRA_NAME
 import com.el.yello.presentation.onboarding.activity.EditNameActivity
 import com.el.yello.presentation.onboarding.activity.OnBoardingActivity
 import com.example.ui.base.BindingDialogFragment
-import com.example.ui.fragment.toast
-import com.example.ui.view.setOnSingleClickListener
+import com.example.ui.extension.toast
+import com.example.ui.extension.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

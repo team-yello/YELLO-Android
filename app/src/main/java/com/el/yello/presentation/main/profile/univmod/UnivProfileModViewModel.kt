@@ -9,7 +9,7 @@ import com.example.domain.entity.onboarding.GroupList
 import com.example.domain.entity.onboarding.SchoolList
 import com.example.domain.repository.OnboardingRepository
 import com.example.domain.repository.ProfileRepository
-import com.example.ui.view.UiState
+import com.example.ui.state.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow

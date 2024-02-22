@@ -10,12 +10,12 @@ import com.el.yello.presentation.onboarding.OnBoardingViewModel
 import com.el.yello.presentation.onboarding.activity.OnBoardingActivity
 import com.el.yello.presentation.onboarding.fragment.highschoolinfo.group.GroupDialogFragment
 import com.el.yello.presentation.onboarding.fragment.highschoolinfo.school.SearchDialogHighSchoolFragment
-import com.el.yello.util.amplitude.AmplitudeUtils
-import com.el.yello.util.context.yelloSnackbar
+import com.el.yello.util.manager.AmplitudeManager
+import com.el.yello.util.extension.yelloSnackbar
 import com.example.domain.enum.Grade
 import com.example.ui.base.BindingFragment
-import com.example.ui.context.colorOf
-import com.example.ui.view.setOnSingleClickListener
+import com.example.ui.extension.colorOf
+import com.example.ui.extension.setOnSingleClickListener
 import org.json.JSONObject
 
 class HighSchoolInfoFragment :
@@ -140,7 +140,7 @@ class HighSchoolInfoFragment :
     }
 
     private fun amplitudeHighSchoolInfo() {
-        with(AmplitudeUtils) {
+        with(AmplitudeManager) {
             trackEventWithProperties(
                 EVENT_CLICK_ONBOARDING_NEXT,
                 JSONObject().put(NAME_ONBOARD_VIEW, VALUE_SCHOOL),

@@ -23,18 +23,18 @@ import com.el.yello.presentation.main.profile.info.ProfileFragment
 import com.el.yello.presentation.main.recommend.RecommendFragment
 import com.el.yello.presentation.main.yello.YelloFragment
 import com.el.yello.presentation.pay.dialog.PayReSubsNoticeDialog
-import com.el.yello.presentation.util.dp
-import com.el.yello.util.amplitude.AmplitudeUtils
-import com.el.yello.util.context.yelloSnackbar
+import com.el.yello.util.extension.dp
+import com.el.yello.util.extension.yelloSnackbar
+import com.el.yello.util.manager.AmplitudeManager
 import com.example.domain.entity.event.Event
 import com.example.domain.enum.SubscribeType.CANCELED
 import com.example.ui.base.BindingActivity
-import com.example.ui.context.colorOf
-import com.example.ui.intent.stringExtra
-import com.example.ui.view.UiState.Empty
-import com.example.ui.view.UiState.Failure
-import com.example.ui.view.UiState.Loading
-import com.example.ui.view.UiState.Success
+import com.example.ui.extension.colorOf
+import com.example.ui.extension.stringExtra
+import com.example.ui.state.UiState.Empty
+import com.example.ui.state.UiState.Failure
+import com.example.ui.state.UiState.Loading
+import com.example.ui.state.UiState.Success
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.launchIn
@@ -93,7 +93,7 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
         binding.bnvMain.setOnItemSelectedListener { menu ->
             when (menu.itemId) {
                 R.id.menu_recommend -> {
-                    AmplitudeUtils.trackEventWithProperties(
+                    AmplitudeManager.trackEventWithProperties(
                         EVENT_CLICK_RECOMMEND_NAVIGATION,
                     )
                     navigateTo<RecommendFragment>()

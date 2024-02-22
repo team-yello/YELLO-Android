@@ -6,8 +6,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.el.yello.R
 import com.el.yello.databinding.ActivityProfileQuitReasonBinding
 import com.example.ui.base.BindingActivity
-import com.example.ui.context.colorOf
-import com.example.ui.view.setOnSingleClickListener
+import com.example.ui.extension.colorOf
+import com.example.ui.extension.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

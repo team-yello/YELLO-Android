@@ -8,7 +8,7 @@ import com.example.domain.entity.ProfileUserModel
 import com.example.domain.repository.AuthRepository
 import com.example.domain.repository.OnboardingRepository
 import com.example.domain.repository.ProfileRepository
-import com.example.ui.view.UiState
+import com.example.ui.state.UiState
 import com.google.firebase.messaging.FirebaseMessaging
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.model.ClientError

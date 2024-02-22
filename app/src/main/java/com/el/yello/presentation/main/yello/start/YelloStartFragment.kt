@@ -15,14 +15,14 @@ import com.el.yello.databinding.FragmentYelloStartBinding
 import com.el.yello.presentation.main.yello.YelloState
 import com.el.yello.presentation.main.yello.YelloViewModel
 import com.el.yello.presentation.main.yello.vote.VoteActivity
-import com.el.yello.util.amplitude.AmplitudeUtils
+import com.el.yello.util.manager.AmplitudeManager
 import com.example.ui.base.BindingFragment
-import com.example.ui.fragment.drawableOf
-import com.example.ui.fragment.getCompatibleRealSize
-import com.example.ui.number.dpToPx
-import com.example.ui.view.UiState
-import com.example.ui.view.setMargins
-import com.example.ui.view.setOnSingleClickListener
+import com.example.ui.extension.drawableOf
+import com.example.ui.extension.getCompatibleRealSize
+import com.example.ui.extension.dpToPx
+import com.example.ui.state.UiState
+import com.example.ui.extension.setMargins
+import com.example.ui.extension.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -82,7 +82,7 @@ class YelloStartFragment :
 
     private fun initVoteBtnClickListener() {
         binding.btnStartVote.setOnSingleClickListener {
-            AmplitudeUtils.trackEventWithProperties(EVENT_CLICK_VOTE_START)
+            AmplitudeManager.trackEventWithProperties(EVENT_CLICK_VOTE_START)
             intentToVoteScreen()
         }
     }

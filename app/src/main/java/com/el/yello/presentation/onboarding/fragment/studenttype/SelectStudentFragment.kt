@@ -8,11 +8,11 @@ import com.el.yello.R
 import com.el.yello.databinding.FragmentSelectStudentTypeBinding
 import com.el.yello.presentation.onboarding.OnBoardingViewModel
 import com.el.yello.presentation.onboarding.activity.OnBoardingActivity
-import com.el.yello.util.amplitude.AmplitudeUtils
+import com.el.yello.util.manager.AmplitudeManager
 import com.example.domain.enum.StudentType
 import com.example.ui.base.BindingFragment
-import com.example.ui.fragment.colorOf
-import com.example.ui.view.setOnSingleClickListener
+import com.example.ui.extension.colorOf
+import com.example.ui.extension.setOnSingleClickListener
 import org.json.JSONObject
 
 class SelectStudentFragment :
@@ -49,7 +49,7 @@ class SelectStudentFragment :
                     binding.btnSelectTypeNext.setOnSingleClickListener {
                         findNavController().navigate(R.id.action_selectStudentFragment_to_highschoolInfoFragment)
                         amplitudeSelectStudent()
-                        AmplitudeUtils.updateUserProperties(EVENT_STUDENT_TYPE, VALUE_HIGH_SCHOOL)
+                        AmplitudeManager.updateUserProperties(EVENT_STUDENT_TYPE, VALUE_HIGH_SCHOOL)
                         val activity = requireActivity() as OnBoardingActivity
                         activity.progressBarPlus()
                     }
@@ -60,7 +60,7 @@ class SelectStudentFragment :
                     binding.btnSelectTypeNext.setOnSingleClickListener {
                         findNavController().navigate(R.id.action_selectStudentFragment_to_universityInfoFragment)
                         amplitudeSelectStudent()
-                        AmplitudeUtils.updateUserProperties(EVENT_STUDENT_TYPE, VALUE_UNIVERSITY)
+                        AmplitudeManager.updateUserProperties(EVENT_STUDENT_TYPE, VALUE_UNIVERSITY)
                         val activity = requireActivity() as OnBoardingActivity
                         activity.progressBarPlus()
                     }
@@ -92,7 +92,7 @@ class SelectStudentFragment :
     }
 
     private fun amplitudeSelectStudent() {
-        AmplitudeUtils.trackEventWithProperties(
+        AmplitudeManager.trackEventWithProperties(
             "click_onboarding_next",
             JSONObject().put("onboard_view", "student_type"),
         )

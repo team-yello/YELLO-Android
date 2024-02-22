@@ -18,22 +18,24 @@ import com.el.yello.BuildConfig.ADMOB_REWARD_KEY
 import com.el.yello.R
 import com.el.yello.databinding.ActivityPayBinding
 import com.el.yello.presentation.main.MainActivity
-import com.el.yello.presentation.main.profile.manage.ProfileManageActivity
 import com.el.yello.presentation.pay.banner.PayBannerAdapter
 import com.el.yello.presentation.pay.banner.PayBannerAdapter.Companion.TOTAL_BANNER_COUNT
+import com.el.yello.presentation.setting.SettingActivity
 import com.el.yello.presentation.pay.dialog.PayInAppDialog
 import com.el.yello.presentation.pay.dialog.PayPointDialog
 import com.el.yello.presentation.pay.dialog.PaySubsDialog
-import com.el.yello.util.amplitude.AmplitudeUtils
-import com.el.yello.util.context.yelloSnackbar
+import com.el.yello.util.manager.AmplitudeManager
+import com.el.yello.util.extension.yelloSnackbar
+import com.el.yello.util.manager.BillingCallback
+import com.el.yello.util.manager.BillingManager
 import com.example.data.model.request.pay.toRequestPayModel
-import com.example.ui.activity.navigateTo
+import com.example.ui.extension.navigateTo
 import com.example.ui.base.BindingActivity
-import com.example.ui.context.colorOf
-import com.example.ui.context.drawableOf
-import com.example.ui.context.toast
-import com.example.ui.view.UiState
-import com.example.ui.view.setOnSingleClickListener
+import com.example.ui.extension.colorOf
+import com.example.ui.extension.drawableOf
+import com.example.ui.extension.toast
+import com.example.ui.state.UiState
+import com.example.ui.extension.setOnSingleClickListener
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.FullScreenContentCallback
 import com.google.android.gms.ads.LoadAdError
@@ -402,7 +404,7 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
     private fun initServiceBtnListener() {
         binding.btnPayGuideService.setOnSingleClickListener {
             startActivity(
-                Intent(Intent.ACTION_VIEW, Uri.parse(ProfileManageActivity.SERVICE_URL)),
+                Intent(Intent.ACTION_VIEW, Uri.parse(SettingActivity.SERVICE_URL)),
             )
         }
     }
@@ -410,7 +412,7 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
     private fun initPrivacyBtnListener() {
         binding.btnPayGuidePrivacy.setOnSingleClickListener {
             startActivity(
-                Intent(Intent.ACTION_VIEW, Uri.parse(ProfileManageActivity.PRIVACY_URL)),
+                Intent(Intent.ACTION_VIEW, Uri.parse(SettingActivity.PRIVACY_URL)),
             )
         }
     }
@@ -446,21 +448,21 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
     }
 
     private fun setClickShopBuyAmplitude(buyType: String) {
-        AmplitudeUtils.trackEventWithProperties(
+        AmplitudeManager.trackEventWithProperties(
             "click_shop_buy",
             JSONObject().put("buy_type", buyType),
         )
     }
 
     private fun setCompleteShopBuyAmplitude(buyType: String, buyPrice: String) {
-        AmplitudeUtils.trackEventWithProperties(
+        AmplitudeManager.trackEventWithProperties(
             "complete_shop_buy",
             JSONObject().put("buy_type", buyType).put("buy_price", buyPrice),
         )
     }
 
     private fun updateBuyDateAmplitude() {
-        AmplitudeUtils.setUserDataProperties("user_buy_date")
+        AmplitudeManager.setUserDataProperties("user_buy_date")
     }
 
     override fun finish() {

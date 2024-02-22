@@ -11,12 +11,12 @@ import com.el.yello.databinding.ActivityVoteBinding
 import com.el.yello.presentation.main.yello.YelloFragment
 import com.el.yello.presentation.main.yello.vote.frame.NoteFrameAdapter
 import com.el.yello.presentation.main.yello.vote.note.NoteAdapter
-import com.el.yello.presentation.util.setCurrentItemWithDuration
-import com.el.yello.util.amplitude.AmplitudeUtils
-import com.el.yello.util.context.yelloSnackbar
+import com.el.yello.util.extension.setCurrentItemWithDuration
+import com.el.yello.util.manager.AmplitudeManager
+import com.el.yello.util.extension.yelloSnackbar
 import com.example.ui.base.BindingActivity
-import com.example.ui.transformation.FadeOutTransformation
-import com.example.ui.view.UiState
+import com.example.ui.animation.FadeOutTransformation
+import com.example.ui.state.UiState
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -86,7 +86,7 @@ class VoteActivity : BindingActivity<ActivityVoteBinding>(R.layout.activity_vote
                 binding.vpVoteNoteFrame.setCurrentItemWithDuration(index, DURATION_FRAME_TRANSITION)
                 if (index <= viewModel.totalListCount) {
                     val properties = JSONObject().put(JSON_VOTE_STEP, index + 1)
-                    AmplitudeUtils.trackEventWithProperties(EVENT_VIEW_VOTE_QUESTION, properties)
+                    AmplitudeManager.trackEventWithProperties(EVENT_VIEW_VOTE_QUESTION, properties)
                 }
             }.launchIn(lifecycleScope)
     }

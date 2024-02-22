@@ -14,11 +14,11 @@ import com.el.yello.presentation.onboarding.activity.EditNameActivity
 import com.el.yello.presentation.onboarding.activity.GetAlarmActivity
 import com.el.yello.presentation.onboarding.fragment.checkName.CheckNameDialog
 import com.el.yello.presentation.tutorial.TutorialAActivity
-import com.el.yello.util.amplitude.AmplitudeUtils
-import com.el.yello.util.context.yelloSnackbar
+import com.el.yello.util.manager.AmplitudeManager
+import com.el.yello.util.extension.yelloSnackbar
 import com.example.ui.base.BindingActivity
-import com.example.ui.view.UiState
-import com.example.ui.view.setOnSingleClickListener
+import com.example.ui.state.UiState
+import com.example.ui.extension.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -45,7 +45,7 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
 
     private fun initSignInBtnListener() {
         binding.btnSignIn.setOnSingleClickListener {
-            AmplitudeUtils.trackEventWithProperties("click_onboarding_kakao")
+            AmplitudeManager.trackEventWithProperties("click_onboarding_kakao")
             viewModel.startLogInWithKakao(this)
         }
     }

@@ -6,7 +6,7 @@
     <data>
         <variable
             name="vm"
-            type="com.el.yello.presentation.main.profile.ProfileViewModel" />
+            type="com.el.yello.presentation.setting.SettingViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

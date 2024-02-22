@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.viewModels
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
@@ -17,24 +16,25 @@ import com.el.yello.databinding.ActivityMainBinding
 import com.el.yello.presentation.event.EventActivity
 import com.el.yello.presentation.main.MainViewModel.Companion.CODE_UNAVAILABLE_EVENT
 import com.el.yello.presentation.main.dialog.notice.NoticeDialog
-import com.el.yello.presentation.main.look.LookFragment
+import com.el.yello.presentation.main.timeline.TimelineFragment
 import com.el.yello.presentation.main.myyello.MyYelloFragment
 import com.el.yello.presentation.main.myyello.read.MyYelloReadActivity
 import com.el.yello.presentation.main.profile.info.ProfileFragment
 import com.el.yello.presentation.main.recommend.RecommendFragment
 import com.el.yello.presentation.main.yello.YelloFragment
 import com.el.yello.presentation.pay.dialog.PayReSubsNoticeDialog
-import com.el.yello.presentation.util.dp
-import com.el.yello.util.amplitude.AmplitudeUtils
-import com.el.yello.util.context.yelloSnackbar
+import com.el.yello.util.extension.dp
+import com.el.yello.util.extension.yelloSnackbar
+import com.el.yello.util.manager.AmplitudeManager
 import com.example.domain.entity.event.Event
 import com.example.domain.enum.SubscribeType.CANCELED
 import com.example.ui.base.BindingActivity
-import com.example.ui.intent.stringExtra
-import com.example.ui.view.UiState.Empty
-import com.example.ui.view.UiState.Failure
-import com.example.ui.view.UiState.Loading
-import com.example.ui.view.UiState.Success
+import com.example.ui.extension.colorOf
+import com.example.ui.extension.stringExtra
+import com.example.ui.state.UiState.Empty
+import com.example.ui.state.UiState.Failure
+import com.example.ui.state.UiState.Loading
+import com.example.ui.state.UiState.Success
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.launchIn
@@ -88,19 +88,19 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
     }
 
     private fun initBnvItemSelectedListener() {
-        supportFragmentManager.findFragmentById(R.id.fcv_main)
-            ?: navigateTo<YelloFragment>()
+        supportFragmentManager.findFragmentById(R.id.fcv_main) ?: navigateTo<YelloFragment>()
 
         binding.bnvMain.setOnItemSelectedListener { menu ->
             when (menu.itemId) {
                 R.id.menu_recommend -> {
-                    AmplitudeUtils.trackEventWithProperties(
+                    AmplitudeManager.trackEventWithProperties(
                         EVENT_CLICK_RECOMMEND_NAVIGATION,
                     )
                     navigateTo<RecommendFragment>()
                 }
 
-                R.id.menu_look -> navigateTo<LookFragment>()
+                R.id.menu_look -> navigateTo<TimelineFragment>()
+
                 R.id.menu_yello -> {
                     navigateTo<YelloFragment>()
                     binding.btnMainYelloActive.visibility = View.VISIBLE
@@ -108,6 +108,7 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
                 }
 
                 R.id.menu_my_yello -> navigateTo<MyYelloFragment>()
+
                 R.id.menu_profile -> navigateTo<ProfileFragment>()
             }
             binding.btnMainYelloActive.visibility = View.INVISIBLE
@@ -126,7 +127,7 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
                 }
 
                 R.id.menu_look -> {
-                    if (currentFragment is LookFragment) {
+                    if (currentFragment is TimelineFragment) {
                         currentFragment.scrollToTop()
                     }
                 }
@@ -147,18 +148,13 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
     }
 
     private fun initBadge(voteCount: Int) {
-        val badgeDrawable = binding.bnvMain.getOrCreateBadge(R.id.menu_my_yello)
-        badgeDrawable.verticalOffset = 12.dp
-        badgeDrawable.horizontalOffset = 10.dp
-        badgeDrawable.number = voteCount
-        badgeDrawable.backgroundColor = ContextCompat.getColor(
-            this,
-            R.color.semantic_red_500,
-        )
-        badgeDrawable.badgeTextColor = ContextCompat.getColor(
-            this,
-            R.color.white,
-        )
+        binding.bnvMain.getOrCreateBadge(R.id.menu_my_yello).run {
+            verticalOffset = 12.dp
+            horizontalOffset = 10.dp
+            number = voteCount
+            backgroundColor = colorOf(R.color.semantic_red_500)
+            badgeTextColor = colorOf(R.color.white)
+        }
     }
 
     private fun initPushNotificationEvent() {
@@ -194,120 +190,108 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
     }
 
     private fun setupGetUserSubsState() {
-        userSubsStateJob = viewModel.getUserSubsState.flowWithLifecycle(lifecycle)
-            .onEach { state ->
-                when (state) {
-                    is Empty -> return@onEach
-                    is Loading -> return@onEach
-                    is Success -> {
-                        if (state.data?.subscribe != CANCELED) return@onEach
-                        // TODO : 도메인 모델에 변환된 날짜로 파싱되도록 보완
-                        val expiredDateString = state.data?.expiredDate.toString()
-                        val expiredDate =
-                            SimpleDateFormat(EXPIRED_DATE_FORMAT).parse(
-                                expiredDateString,
-                            )
-                                ?: return@onEach
-                        val currentDate = Calendar.getInstance().time
-                        val daysDifference = TimeUnit.DAYS.convert(
-                            expiredDate.time - currentDate.time,
-                            TimeUnit.MILLISECONDS,
-                        )
-                        if (daysDifference <= 1) {
-                            PayReSubsNoticeDialog.newInstance(expiredDateString)
-                                .show(supportFragmentManager, PAY_RESUBS_DIALOG)
-                        }
-                    }
+        userSubsStateJob = viewModel.getUserSubsState.flowWithLifecycle(lifecycle).onEach { state ->
+            when (state) {
+                is Empty -> return@onEach
 
-                    is Failure -> yelloSnackbar(
-                        binding.root,
-                        getString(R.string.internet_connection_error_msg),
+                is Loading -> return@onEach
+
+                is Success -> {
+                    if (state.data?.subscribe != CANCELED) return@onEach
+                    // TODO : 도메인 모델에 변환된 날짜로 파싱되도록 보완
+                    val expiredDateString = state.data?.expiredDate.toString()
+                    val expiredDate = SimpleDateFormat(EXPIRED_DATE_FORMAT).parse(expiredDateString)
+                        ?: return@onEach
+                    val currentDate = Calendar.getInstance().time
+                    val daysDifference = TimeUnit.DAYS.convert(
+                        expiredDate.time - currentDate.time,
+                        TimeUnit.MILLISECONDS,
                     )
+                    if (daysDifference <= 1) {
+                        PayReSubsNoticeDialog.newInstance(expiredDateString)
+                            .show(supportFragmentManager, PAY_RESUBS_DIALOG)
+                    }
                 }
-            }.launchIn(lifecycleScope)
+
+                is Failure -> {
+                    yelloSnackbar(binding.root, getString(R.string.internet_connection_error_msg))
+                }
+            }
+        }.launchIn(lifecycleScope)
     }
 
     private fun setupGetNoticeState() {
-        viewModel.getNoticeState.flowWithLifecycle(lifecycle)
-            .onEach { state ->
-                when (state) {
-                    is Empty -> yelloSnackbar(
-                        binding.root,
-                        getString(R.string.internet_connection_error_msg),
-                    )
-
-                    is Loading -> return@onEach
-                    is Success -> {
-                        if (!state.data.isAvailable) return@onEach
-                        NoticeDialog.newInstance(
-                            imageUrl = state.data.imageUrl,
-                            redirectUrl = state.data.redirectUrl,
-                        ).show(supportFragmentManager, TAG_NOTICE_DIALOG)
-                    }
-
-                    is Failure -> yelloSnackbar(
-                        binding.root,
-                        getString(R.string.internet_connection_error_msg),
-                    )
+        viewModel.getNoticeState.flowWithLifecycle(lifecycle).onEach { state ->
+            when (state) {
+                is Empty -> {
+                    yelloSnackbar(binding.root, getString(R.string.internet_connection_error_msg))
                 }
-            }.launchIn(lifecycleScope)
+
+                is Loading -> return@onEach
+
+                is Success -> {
+                    if (!state.data.isAvailable) return@onEach
+                    NoticeDialog.newInstance(
+                        imageUrl = state.data.imageUrl,
+                        redirectUrl = state.data.redirectUrl,
+                    ).show(supportFragmentManager, TAG_NOTICE_DIALOG)
+                }
+
+                is Failure -> {
+                    yelloSnackbar(binding.root, getString(R.string.internet_connection_error_msg))
+                }
+            }
+        }.launchIn(lifecycleScope)
     }
 
     private fun setupGetVoteCountState() {
-        viewModel.voteCount.flowWithLifecycle(lifecycle)
-            .onEach { state ->
-                when (state) {
-                    is Empty -> return@onEach
+        viewModel.voteCount.flowWithLifecycle(lifecycle).onEach { state ->
+            when (state) {
+                is Empty -> return@onEach
 
-                    is Loading -> return@onEach
+                is Loading -> return@onEach
 
-                    is Success -> {
-                        if (state.data.totalCount != 0) {
-                            initBadge(state.data.totalCount)
-                        }
-                    }
-
-                    is Failure -> {
-                        yelloSnackbar(binding.root, getString(R.string.internet_connection_error_msg))
-                    }
+                is Success -> {
+                    if (state.data.totalCount != 0) initBadge(state.data.totalCount)
                 }
-            }.launchIn(lifecycleScope)
+
+                is Failure -> {
+                    yelloSnackbar(binding.root, getString(R.string.internet_connection_error_msg))
+                }
+            }
+        }.launchIn(lifecycleScope)
     }
 
     private fun setupGetEventState() {
-        viewModel.getEventState.flowWithLifecycle(lifecycle)
-            .onEach { state ->
-                when (state) {
-                    is Success -> {
-                        Intent(this, EventActivity::class.java).apply {
-                            putExtra(EXTRA_EVENT, state.data.toParcelableEvent())
-                            val rewardList = ArrayList<ParcelableReward>()
-                            state.data.rewardList?.map { reward ->
-                                rewardList.add(reward.toParcelableReward())
-                            }
-                            putParcelableArrayListExtra(
-                                EXTRA_REWARD_LIST,
-                                rewardList,
-                            )
-                            putExtra(EXTRA_IDEMPOTENCY_KEY, viewModel.idempotencyKey.toString())
-                            startActivity(this)
+        viewModel.getEventState.flowWithLifecycle(lifecycle).onEach { state ->
+            when (state) {
+                is Success -> {
+                    Intent(this, EventActivity::class.java).apply {
+                        putExtra(EXTRA_EVENT, state.data.toParcelableEvent())
+                        val rewardList = ArrayList<ParcelableReward>()
+                        state.data.rewardList?.map { reward ->
+                            rewardList.add(reward.toParcelableReward())
                         }
+                        putParcelableArrayListExtra(EXTRA_REWARD_LIST, rewardList)
+                        putExtra(EXTRA_IDEMPOTENCY_KEY, viewModel.idempotencyKey.toString())
+                        startActivity(this)
                     }
-
-                    is Failure -> {
-                        when (state.msg) {
-                            CODE_UNAVAILABLE_EVENT -> return@onEach
-                            else -> yelloSnackbar(
-                                binding.root,
-                                getString(R.string.internet_connection_error_msg),
-                            )
-                        }
-                    }
-
-                    is Empty -> return@onEach
-                    is Loading -> return@onEach
                 }
-            }.launchIn(lifecycleScope)
+
+                is Failure -> {
+                    when (state.msg) {
+                        CODE_UNAVAILABLE_EVENT -> return@onEach
+                        else -> yelloSnackbar(
+                            binding.root,
+                            getString(R.string.internet_connection_error_msg),
+                        )
+                    }
+                }
+
+                is Empty -> return@onEach
+                is Loading -> return@onEach
+            }
+        }.launchIn(lifecycleScope)
     }
 
     private fun Event.toParcelableEvent() = ParcelableEvent(
@@ -323,9 +307,10 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
     )
 
     fun setBadgeCount(count: Int) {
-        val badgeDrawable = binding.bnvMain.getOrCreateBadge(R.id.menu_my_yello)
-        badgeDrawable.number = count
-        badgeDrawable.isVisible = count != 0
+        binding.bnvMain.getOrCreateBadge(R.id.menu_my_yello).run {
+            number = count
+            isVisible = count != 0
+        }
     }
 
     companion object {
@@ -343,8 +328,7 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
         const val BACK_PRESSED_INTERVAL = 2000
         const val EXPIRED_DATE_FORMAT = "yyyy-MM-dd"
         const val PAY_RESUBS_DIALOG = "PayResubsNoticeDialog"
-        private const val EVENT_CLICK_RECOMMEND_NAVIGATION =
-            "click_recommend_navigation"
+        private const val EVENT_CLICK_RECOMMEND_NAVIGATION = "click_recommend_navigation"
 
         private const val TAG_NOTICE_DIALOG = "NOTICE_DIALOG"
 

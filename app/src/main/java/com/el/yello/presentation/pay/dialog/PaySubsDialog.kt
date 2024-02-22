@@ -8,7 +8,7 @@ import com.el.yello.R
 import com.el.yello.databinding.FragmentPaySubsDialogBinding
 import com.el.yello.presentation.pay.PayActivity
 import com.example.ui.base.BindingDialogFragment
-import com.example.ui.view.setOnSingleClickListener
+import com.example.ui.extension.setOnSingleClickListener
 
 class PaySubsDialog :
     BindingDialogFragment<FragmentPaySubsDialogBinding>(R.layout.fragment_pay_subs_dialog) {

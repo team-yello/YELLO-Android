@@ -14,19 +14,17 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.el.yello.R
 import com.el.yello.databinding.FragmentProfileBinding
-import com.el.yello.presentation.main.profile.ProfileViewModel
 import com.el.yello.presentation.main.profile.detail.ProfileDetailActivity
-import com.el.yello.presentation.main.profile.manage.ProfileManageActivity
 import com.el.yello.presentation.pay.PayActivity
-import com.el.yello.util.Utils.setPullToScrollColor
-import com.el.yello.util.amplitude.AmplitudeUtils
-import com.el.yello.util.context.yelloSnackbar
+import com.el.yello.presentation.setting.SettingActivity
+import com.el.yello.util.extension.setPullToScrollColor
+import com.el.yello.util.extension.yelloSnackbar
+import com.el.yello.util.manager.AmplitudeManager
 import com.example.domain.entity.ProfileUserModel
-import com.example.ui.activity.navigateTo
 import com.example.ui.base.BindingFragment
-import com.example.ui.fragment.toast
-import com.example.ui.view.UiState
-import com.example.ui.view.setOnSingleClickListener
+import com.example.ui.extension.navigateTo
+import com.example.ui.extension.setOnSingleClickListener
+import com.example.ui.state.UiState
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.launchIn
@@ -54,8 +52,12 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        initProfileSetting()
+        initSettingBtnListener()
+        initUpwardBtnListener()
+        initUpwardBtnVisibility()
+        initAdapter()
         initPullToScrollListener()
+        setItemDivider()
         setInfinityScroll()
         setDeleteAnimation()
         observeUserDataResult()
@@ -63,32 +65,20 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
         observeFriendDeleteState()
         observeCheckIsSubscribed()
         observeGetBannerState()
-        AmplitudeUtils.trackEventWithProperties("view_profile")
+        AmplitudeManager.trackEventWithProperties("view_profile")
     }
 
     override fun onResume() {
         super.onResume()
 
-        resetProfileData()
+        adapter.setItemList(listOf())
+        viewModel.resetProfileData()
     }
 
-    private fun initProfileSetting() {
-        initProfileManageBtnListener()
-        initUpwardBtnListener()
-        initUpwardBtnVisibility()
-        initAdapter()
-        setItemDivider()
-    }
-
-    private fun setItemDivider() {
-        itemDivider = ProfileItemDecoration(requireContext())
-        binding.rvProfileFriendsList.addItemDecoration(itemDivider)
-    }
-
-    private fun initProfileManageBtnListener() {
+    private fun initSettingBtnListener() {
         binding.btnProfileManage.setOnSingleClickListener {
-            AmplitudeUtils.trackEventWithProperties("click_profile_manage")
-            activity?.navigateTo<ProfileManageActivity>()
+            AmplitudeManager.trackEventWithProperties("click_profile_manage")
+            activity?.navigateTo<SettingActivity>()
             viewModel.resetStateVariable()
         }
     }
@@ -108,15 +98,10 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
     private fun initAdapter() {
         _adapter = ProfileFriendAdapter(
             viewModel,
-            itemClick = { profileUserModel, position ->
-                initItemClickListener(
-                    profileUserModel,
-                    position,
-                )
-            },
-            shopClick = { initShopClickListener() },
-            modClick = { initProfileModClickListener() },
-            bannerClick = { redirectUrl -> initProfileBannerClickListener(redirectUrl) }
+            itemClick = ::initItemClickListener,
+            shopClick = ::initShopClickListener,
+            modClick = ::initProfileModClickListener,
+            bannerClick = ::initProfileBannerClickListener
         )
         binding.rvProfileFriendsList.adapter = adapter
     }
@@ -127,14 +112,14 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
             if (!this.yelloId.startsWith("@")) this.yelloId = "@" + this.yelloId
         }
         if (!viewModel.isItemBottomSheetRunning) {
-            AmplitudeUtils.trackEventWithProperties("click_profile_friend")
+            AmplitudeManager.trackEventWithProperties("click_profile_friend")
             profileFriendItemBottomSheet = ProfileFriendItemBottomSheet()
             profileFriendItemBottomSheet?.show(parentFragmentManager, ITEM_BOTTOM_SHEET)
         }
     }
 
-    private fun initShopClickListener() {
-        AmplitudeUtils.trackEventWithProperties(
+    private fun initShopClickListener(unit: Unit) {
+        AmplitudeManager.trackEventWithProperties(
             "click_go_shop",
             JSONObject().put("shop_button", "profile_shop"),
         )
@@ -142,7 +127,7 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
         viewModel.resetStateVariable()
     }
 
-    private fun initProfileModClickListener() {
+    private fun initProfileModClickListener(unit: Unit) {
         activity?.navigateTo<ProfileDetailActivity>()
         viewModel.resetStateVariable()
     }
@@ -155,7 +140,8 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
         binding.layoutProfileSwipe.apply {
             setOnRefreshListener {
                 lifecycleScope.launch {
-                    resetProfileData()
+                    adapter.setItemList(listOf())
+                    viewModel.resetProfileData()
                     delay(200)
                     binding.layoutProfileSwipe.isRefreshing = false
                 }
@@ -164,20 +150,27 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
         }
     }
 
-    private fun resetProfileData() {
-        adapter.setItemList(listOf())
-        viewModel.run {
-            resetPageVariable()
-            resetStateVariable()
-            getPurchaseInfoFromServer()
-            getUserDataFromServer()
-            getProfileBannerFromServer()
+    private fun setItemDivider() {
+        itemDivider = ProfileItemDecoration(requireContext())
+        binding.rvProfileFriendsList.addItemDecoration(itemDivider)
+    }
+
+    private fun setDeleteAnimation() {
+        binding.rvProfileFriendsList.itemAnimator = object : DefaultItemAnimator() {
+            override fun animateRemove(holder: RecyclerView.ViewHolder): Boolean {
+                holder.itemView.animation = AnimationUtils.loadAnimation(
+                    holder.itemView.context, R.anim.slide_out_right
+                )
+                return super.animateRemove(holder)
+            }
         }
     }
 
     private fun observeUserDataResult() {
         viewModel.getUserDataResult.flowWithLifecycle(lifecycle).onEach { result ->
-            if (!result) yelloSnackbar(requireView(), getString(R.string.internet_connection_error_msg))
+            if (!result) {
+                yelloSnackbar(requireView(), getString(R.string.internet_connection_error_msg))
+            }
         }.launchIn(lifecycleScope)
     }
 
@@ -219,7 +212,7 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
                 if (newState == RecyclerView.SCROLL_STATE_IDLE && !isScrolled) {
-                    AmplitudeUtils.trackEventWithProperties("scroll_profile_friends")
+                    AmplitudeManager.trackEventWithProperties("scroll_profile_friends")
                     isScrolled = true
                 }
             }
@@ -240,10 +233,12 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
                         viewModel.myFriendCount -= 1
                         adapter.notifyDataSetChanged()
                     }
-                    AmplitudeUtils.trackEventWithProperties("complete_profile_delete_friend")
+                    AmplitudeManager.trackEventWithProperties("complete_profile_delete_friend")
                 }
 
-                is UiState.Failure -> yelloSnackbar(binding.root, getString(R.string.internet_connection_error_msg))
+                is UiState.Failure -> yelloSnackbar(
+                    binding.root, getString(R.string.internet_connection_error_msg)
+                )
 
                 is UiState.Loading -> return@onEach
 
@@ -274,16 +269,6 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
             }
             viewModel.getFriendsListFromServer()
         }.launchIn(lifecycleScope)
-    }
-
-    private fun setDeleteAnimation() {
-        binding.rvProfileFriendsList.itemAnimator = object : DefaultItemAnimator() {
-            override fun animateRemove(holder: RecyclerView.ViewHolder): Boolean {
-                holder.itemView.animation =
-                    AnimationUtils.loadAnimation(holder.itemView.context, R.anim.slide_out_right)
-                return super.animateRemove(holder)
-            }
-        }
     }
 
     fun scrollToTop() {

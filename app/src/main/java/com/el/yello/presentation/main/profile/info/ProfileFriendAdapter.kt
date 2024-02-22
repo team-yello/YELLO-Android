@@ -7,9 +7,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.el.yello.R
 import com.el.yello.databinding.ItemProfileFriendsListBinding
 import com.el.yello.databinding.ItemProfileUserInfoBinding
-import com.el.yello.presentation.main.profile.ProfileViewModel
 import com.example.domain.entity.ProfileUserModel
-import com.example.ui.view.ItemDiffCallback
+import com.example.ui.util.ItemDiffCallback
 
 class ProfileFriendAdapter(
     private val viewModel: ProfileViewModel,

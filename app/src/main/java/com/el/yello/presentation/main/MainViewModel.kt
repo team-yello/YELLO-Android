@@ -11,7 +11,7 @@ import com.example.domain.repository.EventRepository
 import com.example.domain.repository.NoticeRepository
 import com.example.domain.repository.PayRepository
 import com.example.domain.repository.YelloRepository
-import com.example.ui.view.UiState
+import com.example.ui.state.UiState
 import com.google.firebase.messaging.FirebaseMessaging
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow

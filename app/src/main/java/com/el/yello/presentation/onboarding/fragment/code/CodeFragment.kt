@@ -11,12 +11,12 @@ import com.el.yello.databinding.FragmentCodeBinding
 import com.el.yello.presentation.onboarding.OnBoardingViewModel
 import com.el.yello.presentation.onboarding.activity.GetAlarmActivity
 import com.el.yello.presentation.onboarding.activity.OnBoardingActivity
-import com.el.yello.util.amplitude.AmplitudeUtils
-import com.el.yello.util.context.yelloSnackbar
+import com.el.yello.util.manager.AmplitudeManager
+import com.el.yello.util.extension.yelloSnackbar
 import com.example.ui.base.BindingFragment
-import com.example.ui.fragment.colorOf
-import com.example.ui.view.UiState
-import com.example.ui.view.setOnSingleClickListener
+import com.example.ui.extension.colorOf
+import com.example.ui.state.UiState
+import com.example.ui.extension.setOnSingleClickListener
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -104,7 +104,7 @@ class CodeFragment : BindingFragment<FragmentCodeBinding>(R.layout.fragment_code
         viewModel.postSignupState.observe(viewLifecycleOwner) { state ->
             when (state) {
                 is UiState.Success -> {
-                    AmplitudeUtils.setUserDataProperties(PROPERTY_USER_SIGHUP_DATE)
+                    AmplitudeManager.setUserDataProperties(PROPERTY_USER_SIGHUP_DATE)
                     val intent = Intent(activity, GetAlarmActivity::class.java)
                     startActivity(intent)
                     (activity as? OnBoardingActivity)?.endTutorialActivity()
@@ -139,7 +139,7 @@ class CodeFragment : BindingFragment<FragmentCodeBinding>(R.layout.fragment_code
     }
 
     private fun amplitudeCodeSkipInfo() {
-        with(AmplitudeUtils) {
+        with(AmplitudeManager) {
             trackEventWithProperties(EVENT_COMPLETE_ONBOARDING_FINISH)
             trackEventWithProperties(
                 EVENT_CLICK_ONBOARDING_RECOMMEND,
@@ -155,7 +155,7 @@ class CodeFragment : BindingFragment<FragmentCodeBinding>(R.layout.fragment_code
     }
 
     private fun amplitudeCodeNextInfo() {
-        with(AmplitudeUtils) {
+        with(AmplitudeManager) {
             trackEventWithProperties(EVENT_COMPLETE_ONBOARDING_FINISH)
             trackEventWithProperties(
                 EVENT_CLICK_ONBOARDING_RECOMMEND,

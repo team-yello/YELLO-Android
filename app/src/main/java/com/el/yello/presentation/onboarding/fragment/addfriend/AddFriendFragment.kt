@@ -13,13 +13,12 @@ import com.el.yello.R
 import com.el.yello.databinding.FragmentAddFriendBinding
 import com.el.yello.presentation.onboarding.OnBoardingViewModel
 import com.el.yello.presentation.onboarding.activity.OnBoardingActivity
-import com.el.yello.util.amplitude.AmplitudeUtils
-import com.el.yello.util.context.yelloSnackbar
+import com.el.yello.util.manager.AmplitudeManager
+import com.el.yello.util.extension.yelloSnackbar
 import com.example.domain.entity.onboarding.AddFriendListModel.FriendModel
 import com.example.ui.base.BindingFragment
-import com.example.ui.fragment.toast
-import com.example.ui.view.UiState
-import com.example.ui.view.setOnSingleClickListener
+import com.example.ui.state.UiState
+import com.example.ui.extension.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -79,7 +78,7 @@ class AddFriendFragment : BindingFragment<FragmentAddFriendBinding>(R.layout.fra
 
     private fun setConfirmBtnClickListener() {
         binding.btnAddFriendNext.setOnSingleClickListener {
-            AmplitudeUtils.trackEventWithProperties(
+            AmplitudeManager.trackEventWithProperties(
                 EVENT_CLICK_ONBOARDING_NEXT,
                 JSONObject().put(NAME_ONBOARD_VIEW, VALUE_FRIENDS),
             )

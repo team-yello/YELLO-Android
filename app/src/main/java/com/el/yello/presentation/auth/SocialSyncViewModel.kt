@@ -1,7 +1,7 @@
 package com.el.yello.presentation.auth
 
 import androidx.lifecycle.ViewModel
-import com.example.ui.view.UiState
+import com.example.ui.state.UiState
 import com.kakao.sdk.talk.TalkApiClient
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow

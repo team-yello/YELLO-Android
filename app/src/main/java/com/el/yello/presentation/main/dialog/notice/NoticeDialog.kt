@@ -9,12 +9,11 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
-import coil.load
 import com.el.yello.R
 import com.el.yello.databinding.FragmentNoticeDialogBinding
-import com.el.yello.util.Image.loadUrl
+import com.el.yello.util.extension.loadUrl
 import com.example.ui.base.BindingDialogFragment
-import com.example.ui.view.setOnSingleClickListener
+import com.example.ui.extension.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach

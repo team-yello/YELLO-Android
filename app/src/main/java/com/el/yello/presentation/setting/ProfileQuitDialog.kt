@@ -14,7 +14,7 @@ import com.example.ui.base.BindingDialogFragment
 import com.example.ui.extension.toast
 import com.example.ui.state.UiState
 import com.example.ui.extension.setOnSingleClickListener
-import com.example.ui.restart.restartApp
+import com.example.ui.util.Utils.restartApp
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach

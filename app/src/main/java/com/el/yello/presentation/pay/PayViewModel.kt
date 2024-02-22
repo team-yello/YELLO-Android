@@ -11,7 +11,7 @@ import com.example.domain.entity.event.RewardAdRequestModel
 import com.example.domain.repository.EventRepository
 import com.example.domain.repository.PayRepository
 import com.example.domain.repository.ProfileRepository
-import com.example.ui.view.UiState
+import com.example.ui.state.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow

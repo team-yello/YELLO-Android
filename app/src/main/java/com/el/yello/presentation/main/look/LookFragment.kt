@@ -13,12 +13,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.el.yello.R
 import com.el.yello.databinding.FragmentLookBinding
 import com.el.yello.presentation.main.dialog.invite.InviteFriendDialog
-import com.el.yello.presentation.util.BaseLinearRcvItemDeco
-import com.el.yello.util.Utils.setPullToScrollColor
-import com.el.yello.util.amplitude.AmplitudeUtils
-import com.el.yello.util.context.yelloSnackbar
+import com.el.yello.util.extension.BaseLinearRcvItemDeco
+import com.el.yello.util.extension.setPullToScrollColor
+import com.el.yello.util.manager.AmplitudeManager
+import com.el.yello.util.extension.yelloSnackbar
 import com.example.ui.base.BindingFragment
-import com.example.ui.view.setOnSingleClickListener
+import com.example.ui.extension.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.distinctUntilChangedBy
@@ -53,7 +53,7 @@ class LookFragment : BindingFragment<FragmentLookBinding>(R.layout.fragment_look
         setPullToScrollListener()
         observePagingLoadingState()
         catchScrollForAmplitude()
-        AmplitudeUtils.trackEventWithProperties("view_timeline")
+        AmplitudeManager.trackEventWithProperties("view_timeline")
     }
 
     private fun initAdapter() {
@@ -73,7 +73,7 @@ class LookFragment : BindingFragment<FragmentLookBinding>(R.layout.fragment_look
         binding.btnLookNoFriend.setOnSingleClickListener {
             inviteFriendDialog =
                 InviteFriendDialog.newInstance(viewModel.getYelloId(), TIMELINE_NO_FRIEND)
-            AmplitudeUtils.trackEventWithProperties(
+            AmplitudeManager.trackEventWithProperties(
                 "click_invite", JSONObject().put("invite_view", TIMELINE_NO_FRIEND)
             )
             inviteFriendDialog?.show(parentFragmentManager, INVITE_DIALOG)
@@ -144,7 +144,7 @@ class LookFragment : BindingFragment<FragmentLookBinding>(R.layout.fragment_look
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
                 if (newState == RecyclerView.SCROLL_STATE_IDLE && !isScrolled) {
-                    AmplitudeUtils.trackEventWithProperties("scroll_profile_friends")
+                    AmplitudeManager.trackEventWithProperties("scroll_profile_friends")
                     isScrolled = true
                 }
             }

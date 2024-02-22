@@ -45,7 +45,7 @@
             app:lottie_repeatMode="restart"
             tools:layout_marginBottom="-348dp" />
 
-        <com.el.yello.util.view.YelloStartShadowView
+        <com.el.yello.util.custom.YelloStartShadowView
             tools:visibility="invisible"
             android:id="@+id/shadow_start"
             android:layout_width="0dp"

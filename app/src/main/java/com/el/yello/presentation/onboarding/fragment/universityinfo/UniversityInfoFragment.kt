@@ -12,10 +12,10 @@ import com.el.yello.presentation.onboarding.activity.OnBoardingActivity
 import com.el.yello.presentation.onboarding.fragment.universityinfo.department.SearchDialogDepartmentFragment
 import com.el.yello.presentation.onboarding.fragment.universityinfo.studentid.StudentIdDialogFragment
 import com.el.yello.presentation.onboarding.fragment.universityinfo.university.SearchDialogUniversityFragment
-import com.el.yello.util.amplitude.AmplitudeUtils
-import com.el.yello.util.context.yelloSnackbar
+import com.el.yello.util.manager.AmplitudeManager
+import com.el.yello.util.extension.yelloSnackbar
 import com.example.ui.base.BindingFragment
-import com.example.ui.view.setOnSingleClickListener
+import com.example.ui.extension.setOnSingleClickListener
 import org.json.JSONObject
 
 class UniversityInfoFragment :
@@ -98,7 +98,7 @@ class UniversityInfoFragment :
     }
 
     private fun amplitudeUniversityInfo() {
-        with(AmplitudeUtils) {
+        with(AmplitudeManager) {
             trackEventWithProperties(
                 EVENT_CLICK_ONBOARDING_NEXT,
                 JSONObject().put(NAME_ONBOARD_VIEW, VALUE_SCHOOL),

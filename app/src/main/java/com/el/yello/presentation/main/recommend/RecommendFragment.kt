@@ -11,9 +11,9 @@ import com.el.yello.presentation.main.recommend.kakao.RecommendKakaoViewModel
 import com.el.yello.presentation.main.recommend.school.RecommendSchoolFragment
 import com.el.yello.presentation.main.recommend.school.RecommendSchoolViewModel
 import com.el.yello.presentation.search.SearchActivity
-import com.el.yello.util.amplitude.AmplitudeUtils
+import com.el.yello.util.manager.AmplitudeManager
 import com.example.ui.base.BindingFragment
-import com.example.ui.view.setOnSingleClickListener
+import com.example.ui.extension.setOnSingleClickListener
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -39,7 +39,7 @@ class RecommendFragment : BindingFragment<FragmentRecommendBinding>(R.layout.fra
 
     private fun initSearchBtnListener() {
         binding.btnRecommendSearch.setOnSingleClickListener {
-            AmplitudeUtils.trackEventWithProperties("click_search_button")
+            AmplitudeManager.trackEventWithProperties("click_search_button")
             kakaoViewModel.isSearchViewShowed = true
             schoolViewModel.isSearchViewShowed = true
             Intent(activity, SearchActivity::class.java).apply {

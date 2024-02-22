@@ -12,11 +12,11 @@ import androidx.lifecycle.lifecycleScope
 import com.el.yello.R
 import com.el.yello.databinding.FragmentProfileQuitDialogBinding
 import com.el.yello.presentation.main.profile.ProfileViewModel
-import com.el.yello.util.amplitude.AmplitudeUtils
+import com.el.yello.util.manager.AmplitudeManager
 import com.example.ui.base.BindingDialogFragment
-import com.example.ui.fragment.toast
-import com.example.ui.view.UiState
-import com.example.ui.view.setOnSingleClickListener
+import com.example.ui.extension.toast
+import com.example.ui.state.UiState
+import com.example.ui.extension.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -63,7 +63,7 @@ class ProfileQuitDialog :
 
     private fun initQuitBtnListener() {
         binding.btnProfileDialogQuit.setOnSingleClickListener {
-            AmplitudeUtils.trackEventWithProperties(
+            AmplitudeManager.trackEventWithProperties(
                 "click_profile_withdrawal",
                 JSONObject().put("withdrawal_button", "withdrawal4"),
             )
@@ -88,7 +88,7 @@ class ProfileQuitDialog :
         viewModel.kakaoQuitState.flowWithLifecycle(lifecycle).onEach { state ->
             when (state) {
                 is UiState.Success -> {
-                    AmplitudeUtils.trackEventWithProperties("complete_withdrawal")
+                    AmplitudeManager.trackEventWithProperties("complete_withdrawal")
                     restartApp(requireContext())
                 }
 

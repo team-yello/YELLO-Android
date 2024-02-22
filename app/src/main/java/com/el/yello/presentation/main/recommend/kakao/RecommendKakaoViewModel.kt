@@ -8,7 +8,7 @@ import com.example.domain.entity.RecommendRequestModel
 import com.example.domain.entity.RecommendUserInfoModel
 import com.example.domain.repository.AuthRepository
 import com.example.domain.repository.RecommendRepository
-import com.example.ui.view.UiState
+import com.example.ui.state.UiState
 import com.kakao.sdk.talk.TalkApiClient
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow

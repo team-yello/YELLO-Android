@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.domain.entity.SearchListModel
 import com.example.domain.repository.RecommendRepository
 import com.example.domain.repository.SearchRepository
-import com.example.ui.view.UiState
+import com.example.ui.state.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

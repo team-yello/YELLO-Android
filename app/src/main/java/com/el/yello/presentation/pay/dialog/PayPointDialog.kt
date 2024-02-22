@@ -6,7 +6,7 @@ import android.view.WindowManager
 import com.el.yello.R
 import com.el.yello.databinding.FragmentPayPointDialogBinding
 import com.example.ui.base.BindingDialogFragment
-import com.example.ui.view.setOnSingleClickListener
+import com.example.ui.extension.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

@@ -4,7 +4,7 @@ import android.app.Application
 import com.amplitude.api.Amplitude
 import com.el.yello.BuildConfig.AMPLITUDE_API_KEY
 import com.el.yello.BuildConfig.NATIVE_APP_KEY
-import com.el.yello.presentation.util.ResolutionMetrics
+import com.el.yello.presentation.main.ResolutionMetrics
 import com.google.android.gms.ads.MobileAds
 import com.kakao.sdk.common.KakaoSdk
 import dagger.hilt.android.HiltAndroidApp

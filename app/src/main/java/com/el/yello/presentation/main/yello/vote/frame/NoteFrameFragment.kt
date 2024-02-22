@@ -10,10 +10,10 @@ import com.el.yello.R
 import com.el.yello.databinding.FragmentNoteFrameBinding
 import com.el.yello.presentation.main.yello.vote.NoteState
 import com.el.yello.presentation.main.yello.vote.VoteViewModel
-import com.el.yello.util.amplitude.AmplitudeUtils
-import com.el.yello.util.context.yelloSnackbar
+import com.el.yello.util.manager.AmplitudeManager
+import com.el.yello.util.extension.yelloSnackbar
 import com.example.ui.base.BindingFragment
-import com.example.ui.view.setOnSingleClickListener
+import com.example.ui.extension.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -77,7 +77,7 @@ class NoteFrameFragment : BindingFragment<FragmentNoteFrameBinding>(R.layout.fra
             viewModel.shuffle()
             if (noteIndex in 1..8) {
                 val properties = JSONObject().put(JSON_QUESTION_ID, noteIndex + 1)
-                AmplitudeUtils.trackEventWithProperties(EVENT_CLICK_VOTE_SHUFFLE, properties)
+                AmplitudeManager.trackEventWithProperties(EVENT_CLICK_VOTE_SHUFFLE, properties)
             }
         }
     }
@@ -87,7 +87,7 @@ class NoteFrameFragment : BindingFragment<FragmentNoteFrameBinding>(R.layout.fra
             viewModel.skip()
             if (noteIndex in 1..8) {
                 val properties = JSONObject().put(JSON_QUESTION_ID, noteIndex + 1)
-                AmplitudeUtils.trackEventWithProperties(EVENT_CLICK_VOTE_SKIP, properties)
+                AmplitudeManager.trackEventWithProperties(EVENT_CLICK_VOTE_SKIP, properties)
             }
         }
     }

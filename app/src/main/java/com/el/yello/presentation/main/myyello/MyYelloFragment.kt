@@ -24,14 +24,14 @@ import com.el.yello.presentation.main.myyello.read.MyYelloReadActivity.Companion
 import com.el.yello.presentation.main.myyello.read.MyYelloReadActivity.Companion.EXTRA_TICKET_COUNT
 import com.el.yello.presentation.main.myyello.read.MyYelloReadActivity.Companion.JSON_SHOP_BUTTON
 import com.el.yello.presentation.pay.PayActivity
-import com.el.yello.presentation.util.BaseLinearRcvItemDeco
-import com.el.yello.util.Utils.setPullToScrollColor
-import com.el.yello.util.amplitude.AmplitudeUtils
-import com.el.yello.util.context.yelloSnackbar
+import com.el.yello.util.extension.BaseLinearRcvItemDeco
+import com.el.yello.util.extension.setPullToScrollColor
+import com.el.yello.util.manager.AmplitudeManager
+import com.el.yello.util.extension.yelloSnackbar
 import com.example.domain.entity.Yello
 import com.example.ui.base.BindingFragment
-import com.example.ui.view.UiState
-import com.example.ui.view.setOnSingleClickListener
+import com.example.ui.state.UiState
+import com.example.ui.extension.setOnSingleClickListener
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.FullScreenContentCallback
 import com.google.android.gms.ads.LoadAdError
@@ -57,7 +57,7 @@ class MyYelloFragment : BindingFragment<FragmentMyYelloBinding>(R.layout.fragmen
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        AmplitudeUtils.trackEventWithProperties(EVENT_VIEW_ALL_MESSAGES)
+        AmplitudeManager.trackEventWithProperties(EVENT_VIEW_ALL_MESSAGES)
         initView()
         initEvent()
         loadRewardAd()
@@ -112,7 +112,7 @@ class MyYelloFragment : BindingFragment<FragmentMyYelloBinding>(R.layout.fragmen
     }
 
     private fun setClickGoShopAmplitude(value: String) {
-        AmplitudeUtils.trackEventWithProperties(
+        AmplitudeManager.trackEventWithProperties(
             EVENT_CLICK_GO_SHOP,
             JSONObject().put(JSON_SHOP_BUTTON, value),
         )
@@ -260,7 +260,7 @@ class MyYelloFragment : BindingFragment<FragmentMyYelloBinding>(R.layout.fragmen
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
                 if (newState == RecyclerView.SCROLL_STATE_IDLE && !isScrolled) {
-                    AmplitudeUtils.trackEventWithProperties(EVENT_SCROLL_ALL_MESSAGES)
+                    AmplitudeManager.trackEventWithProperties(EVENT_SCROLL_ALL_MESSAGES)
                     isScrolled = true
                 }
             }

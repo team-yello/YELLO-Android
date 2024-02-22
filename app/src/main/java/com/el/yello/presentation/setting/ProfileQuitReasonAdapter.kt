@@ -1,4 +1,4 @@
-package com.el.yello.presentation.main.profile.manage
+package com.el.yello.presentation.setting
 
 import android.view.LayoutInflater
 import android.view.View
@@ -16,7 +16,9 @@ class ProfileQuitReasonAdapter(
     private val setEtcText: (String) -> Unit,
     private val onItemClickListener: (Int, Boolean) -> Unit,
 ) : ListAdapter<String, ProfileQuitReasonAdapter.QuitReasonViewHolder>(diffUtil) {
+
     private var selectedItemPosition: Int = RecyclerView.NO_POSITION
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): QuitReasonViewHolder {
         return QuitReasonViewHolder(
             ItemProfileQuitReasonBinding.inflate(

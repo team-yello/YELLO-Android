@@ -1,7 +1,5 @@
-package com.el.yello.presentation.main.profile.manage
+package com.el.yello.presentation.setting
 
-import android.content.Context
-import android.content.Intent
 import android.content.res.Resources
 import android.os.Bundle
 import android.view.View
@@ -11,12 +9,12 @@ import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import com.el.yello.R
 import com.el.yello.databinding.FragmentProfileQuitDialogBinding
-import com.el.yello.presentation.main.profile.ProfileViewModel
 import com.el.yello.util.manager.AmplitudeManager
 import com.example.ui.base.BindingDialogFragment
 import com.example.ui.extension.toast
 import com.example.ui.state.UiState
 import com.example.ui.extension.setOnSingleClickListener
+import com.example.ui.restart.restartApp
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -26,7 +24,7 @@ import org.json.JSONObject
 class ProfileQuitDialog :
     BindingDialogFragment<FragmentProfileQuitDialogBinding>(R.layout.fragment_profile_quit_dialog) {
 
-    private val viewModel by activityViewModels<ProfileViewModel>()
+    private val viewModel by activityViewModels<SettingViewModel>()
 
     override fun onStart() {
         super.onStart()
@@ -70,6 +68,7 @@ class ProfileQuitDialog :
             viewModel.deleteUserDataToServer()
         }
     }
+
     private fun observeUserDeleteState() {
         viewModel.deleteUserState.flowWithLifecycle(lifecycle).onEach { state ->
             when (state) {
@@ -89,7 +88,7 @@ class ProfileQuitDialog :
             when (state) {
                 is UiState.Success -> {
                     AmplitudeManager.trackEventWithProperties("complete_withdrawal")
-                    restartApp(requireContext())
+                    restartApp(requireContext(),null)
                 }
 
                 is UiState.Failure -> toast(getString(R.string.internet_connection_error_msg))
@@ -99,13 +98,5 @@ class ProfileQuitDialog :
                 is UiState.Loading -> return@onEach
             }
         }.launchIn(lifecycleScope)
-    }
-
-    private fun restartApp(context: Context) {
-        val packageManager = context.packageManager
-        val packageName = context.packageName
-        val componentName = packageManager.getLaunchIntentForPackage(packageName)?.component
-        context.startActivity(Intent.makeRestartActivityTask(componentName))
-        Runtime.getRuntime().exit(0)
     }
 }

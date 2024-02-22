@@ -1,4 +1,4 @@
-package com.el.yello.presentation.main.profile.manage
+package com.el.yello.presentation.setting
 
 import android.content.Intent
 import android.net.Uri
@@ -8,13 +8,13 @@ import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import com.el.yello.BuildConfig
 import com.el.yello.R
-import com.el.yello.databinding.ActivityProfileManageBinding
-import com.el.yello.presentation.main.profile.ProfileViewModel
+import com.el.yello.databinding.ActivitySettingBinding
 import com.el.yello.util.manager.AmplitudeManager
 import com.el.yello.util.extension.yelloSnackbar
 import com.example.ui.base.BindingActivity
 import com.example.ui.state.UiState
 import com.example.ui.extension.setOnSingleClickListener
+import com.example.ui.util.Utils.restartApp
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.launchIn
@@ -23,10 +23,10 @@ import kotlinx.coroutines.launch
 import org.json.JSONObject
 
 @AndroidEntryPoint
-class ProfileManageActivity :
-    BindingActivity<ActivityProfileManageBinding>(R.layout.activity_profile_manage) {
+class SettingActivity :
+    BindingActivity<ActivitySettingBinding>(R.layout.activity_setting) {
 
-    private val viewModel by viewModels<ProfileViewModel>()
+    private val viewModel by viewModels<SettingViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -102,23 +102,20 @@ class ProfileManageActivity :
                     AmplitudeManager.trackEventWithProperties("complete_profile_logout")
                     lifecycleScope.launch {
                         delay(500)
-                        restartApp()
+                        restartApp(binding.root.context, null)
                     }
                 }
 
-                is UiState.Failure -> yelloSnackbar(binding.root, getString(R.string.internet_connection_error_msg))
+                is UiState.Failure -> yelloSnackbar(
+                    binding.root,
+                    getString(R.string.internet_connection_error_msg)
+                )
 
                 is UiState.Empty -> return@onEach
 
                 is UiState.Loading -> return@onEach
             }
         }.launchIn(lifecycleScope)
-    }
-
-    private fun restartApp() {
-        val componentName = packageManager.getLaunchIntentForPackage(packageName)?.component
-        startActivity(Intent.makeRestartActivityTask(componentName))
-        Runtime.getRuntime().exit(0)
     }
 
     companion object {

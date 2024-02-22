@@ -1,4 +1,4 @@
-package com.el.yello.presentation.main.profile.mod
+package com.el.yello.presentation.main.profile.schoolmod
 
 import android.os.Bundle
 import android.view.View

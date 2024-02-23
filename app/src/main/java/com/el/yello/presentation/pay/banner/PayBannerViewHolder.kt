@@ -1,6 +1,7 @@
 package com.el.yello.presentation.pay.banner
 
 import androidx.recyclerview.widget.RecyclerView
+import com.el.yello.databinding.ItemPayBannerBinding
 import com.el.yello.databinding.ItemPayFirstBinding
 import com.el.yello.databinding.ItemPayFourthBinding
 import com.el.yello.databinding.ItemPaySecondBinding
@@ -28,4 +29,13 @@ class PayFourViewHolder(
     binding: ItemPayFourthBinding,
 ) : RecyclerView.ViewHolder(binding.root) {
     fun onBind() {}
+}
+
+class PayBannerViewHolder (
+    binding: ItemPayBannerBinding
+) : RecyclerView.ViewHolder(binding.root) {
+
+    fun onBind() {
+
+    }
 }

@@ -19,13 +19,15 @@
 - Android App Architecture
 - Multi-Module
 - Hilt
-- Coroutine
+- Coroutine & Flow
 - Paging3
 - Data Binding
 - Timber,  Coil,  Lottie,  Shimmer
+- Amplitude
 - Firebase Cloud Messaging
 - Kakao Open API
-- Google Play Billing API (in-app purchases API) 
+- Google Play Billing API (in-app purchases API)
+- Google Admob Mobile Ads SDK
 <br>
 
 ## SCREENSHOTS

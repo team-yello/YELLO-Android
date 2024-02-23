@@ -25,7 +25,7 @@
 - Timber,  Coil,  Lottie,  Shimmer
 - Firebase Cloud Messaging
 - Kakao Open API
-- Google Play Billing API (in-app purchases API)
+- Google Play Billing API (in-app purchases API) 
 <br>
 
 ## SCREENSHOTS

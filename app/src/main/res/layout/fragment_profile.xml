@@ -68,7 +68,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="26dp"
-            android:background="@drawable/shape_fab_circle"
+            android:background="@drawable/shape_white_oval"
             android:backgroundTint="@color/white"
             android:padding="12dp"
             android:src="@drawable/ic_arrow_upward"

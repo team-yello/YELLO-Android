@@ -110,7 +110,7 @@ class HighSchoolInfoFragment :
         with(binding) {
             tvGradeFirst.setBackgroundResource(R.drawable.shape_grayscales900_fill_yello_main600_line_8_leftrect)
             tvGradeFirst.setTextColor(binding.root.context.colorOf(R.color.yello_main_600))
-            tvGradeSecond.setBackgroundResource(R.drawable.shape_grayscales900_fill_grayscales700_line_8_square)
+            tvGradeSecond.setBackgroundResource(R.drawable.shape_grayscales900_fill_grayscales700_line_rect)
             tvGradeSecond.setTextColor(binding.root.context.colorOf(R.color.grayscales_700))
             tvGradeThird.setBackgroundResource(R.drawable.shape_grayscales900_fill_grayscales700_line_8_rightrect)
             tvGradeThird.setTextColor(binding.root.context.colorOf(R.color.grayscales_700))
@@ -119,9 +119,9 @@ class HighSchoolInfoFragment :
 
     private fun changeSecondGradeBtn() {
         with(binding) {
-            tvGradeFirst.setBackgroundResource(R.drawable.shape_grayscales900_fill_grayscales700_line_8_leftrect)
+            tvGradeFirst.setBackgroundResource(R.drawable.shape_grayscales900_fill_grayscales700_line_left8_rect)
             tvGradeFirst.setTextColor(binding.root.context.colorOf(R.color.grayscales_700))
-            tvGradeSecond.setBackgroundResource(R.drawable.shape_grayscales900_fill_yello_main600_line_8_square)
+            tvGradeSecond.setBackgroundResource(R.drawable.shape_grayscales900_fill_yello600_line_rect)
             tvGradeSecond.setTextColor(binding.root.context.colorOf(R.color.yello_main_600))
             tvGradeThird.setBackgroundResource(R.drawable.shape_grayscales900_fill_grayscales700_line_8_rightrect)
             tvGradeThird.setTextColor(binding.root.context.colorOf(R.color.grayscales_700))
@@ -130,11 +130,11 @@ class HighSchoolInfoFragment :
 
     private fun changeThirdGradeBtn() {
         with(binding) {
-            tvGradeFirst.setBackgroundResource(R.drawable.shape_grayscales900_fill_grayscales700_line_8_leftrect)
+            tvGradeFirst.setBackgroundResource(R.drawable.shape_grayscales900_fill_grayscales700_line_left8_rect)
             tvGradeFirst.setTextColor(binding.root.context.colorOf(R.color.grayscales_700))
-            tvGradeSecond.setBackgroundResource(R.drawable.shape_grayscales900_fill_grayscales700_line_8_square)
+            tvGradeSecond.setBackgroundResource(R.drawable.shape_grayscales900_fill_grayscales700_line_rect)
             tvGradeSecond.setTextColor(binding.root.context.colorOf(R.color.grayscales_700))
-            tvGradeThird.setBackgroundResource(R.drawable.shape_grayscales900_fill_yello_main600_line_8_rightrect)
+            tvGradeThird.setBackgroundResource(R.drawable.shape_grayscales900_fill_yello600_line_right8_rect)
             tvGradeThird.setTextColor(binding.root.context.colorOf(R.color.yello_main_600))
         }
     }

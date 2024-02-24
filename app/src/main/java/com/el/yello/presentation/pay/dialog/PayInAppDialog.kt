@@ -59,17 +59,17 @@ class PayInAppDialog :
         when (viewModel.currentInAppItem) {
            YELLO_ONE -> {
                 binding.tvPayDialogSubtitle1.text = getString(R.string.pay_dialog_in_app_title_1)
-                binding.ivPayInApp.load(R.drawable.ic_pay_in_app_1)
+                binding.ivPayInApp.load(R.drawable.img_pay_in_app_1)
             }
 
             YELLO_TWO -> {
                 binding.tvPayDialogSubtitle1.text = getString(R.string.pay_dialog_in_app_title_2)
-                binding.ivPayInApp.load(R.drawable.ic_pay_in_app_2)
+                binding.ivPayInApp.load(R.drawable.img_pay_in_app_2)
             }
 
             YELLO_FIVE -> {
                 binding.tvPayDialogSubtitle1.text = getString(R.string.pay_dialog_in_app_title_5)
-                binding.ivPayInApp.load(R.drawable.ic_pay_in_app_5)
+                binding.ivPayInApp.load(R.drawable.img_pay_in_app_5)
             }
 
             else -> dismiss()

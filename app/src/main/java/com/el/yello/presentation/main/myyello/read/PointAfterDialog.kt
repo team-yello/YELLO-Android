@@ -107,7 +107,7 @@ class PointAfterDialog :
                 (deviceWidth - dialogHorizontalMargin * 2).toInt(),
                 WindowManager.LayoutParams.WRAP_CONTENT,
             )
-            setBackgroundDrawableResource(R.drawable.shape_fill_gray900_12dp)
+            setBackgroundDrawableResource(R.drawable.shape_grayscales900_fill_12_rect)
         }
         dialog?.setCancelable(true)
     }

@@ -211,7 +211,7 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
                 is UiState.Success -> {
                     if (state.data) {
                         with(binding) {
-                            layoutAdForPoint.background = drawableOf(R.drawable.shape_black_fill_purple_line_10_rect)
+                            layoutAdForPoint.background = drawableOf(R.drawable.shape_black_fill_purple700_line_10_rect)
                             tvAdTitle.setTextColor(colorOf(R.color.purple_sub_100))
                             tvAdReward.setTextColor(colorOf(R.color.white))
                             tvAdTimeAvailable.visibility = View.VISIBLE

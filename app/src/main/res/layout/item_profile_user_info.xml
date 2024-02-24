@@ -35,7 +35,7 @@
                 android:id="@+id/iv_subs_line"
                 android:layout_width="match_parent"
                 android:layout_height="6dp"
-                android:src="@drawable/shape_purple_gradient_8dp"
+                android:src="@drawable/shape_gradient_purple_fill_8_rect"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -252,7 +252,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="-6dp"
             android:layout_marginEnd="16dp"
-            android:background="@drawable/shape_purple_sub500_fill_4_rect"
+            android:background="@drawable/shape_purple500_fill_4_rect"
             android:elevation="2dp"
             android:paddingHorizontal="6dp"
             android:paddingVertical="3dp"

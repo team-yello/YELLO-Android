@@ -1,31 +1,22 @@
 package com.el.yello.presentation.pay.banner
 
 import androidx.recyclerview.widget.RecyclerView
-import com.el.yello.databinding.ItemPayFirstBinding
-import com.el.yello.databinding.ItemPayFourthBinding
-import com.el.yello.databinding.ItemPaySecondBinding
-import com.el.yello.databinding.ItemPayThirdBinding
+import coil.load
+import com.el.yello.R
+import com.el.yello.databinding.ItemPayBannerBinding
 
-class PayOneViewHolder(
-    binding: ItemPayFirstBinding,
+class PayBannerViewHolder(
+    val binding: ItemPayBannerBinding
 ) : RecyclerView.ViewHolder(binding.root) {
-    fun onBind() {}
-}
 
-class PayTwoViewHolder(
-    binding: ItemPaySecondBinding,
-) : RecyclerView.ViewHolder(binding.root) {
-    fun onBind() {}
-}
-
-class PayThreeViewHolder(
-    binding: ItemPayThirdBinding,
-) : RecyclerView.ViewHolder(binding.root) {
-    fun onBind() {}
-}
-
-class PayFourViewHolder(
-    binding: ItemPayFourthBinding,
-) : RecyclerView.ViewHolder(binding.root) {
-    fun onBind() {}
+    fun onBind(position: Int) {
+        binding.ivPayBanner.load(
+            when (position) {
+                0 -> R.drawable.img_pay_banner_first
+                1 -> R.drawable.img_pay_banner_second
+                2 -> R.drawable.img_pay_banner_third
+                else -> R.drawable.img_pay_banner_fourth
+            }
+        )
+    }
 }

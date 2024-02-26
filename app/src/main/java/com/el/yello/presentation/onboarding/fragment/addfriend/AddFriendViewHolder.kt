@@ -4,7 +4,7 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.el.yello.R
 import com.el.yello.databinding.ItemAddFriendBinding
-import com.el.yello.util.extension.loadUrlWithCircleCrop
+import com.el.yello.util.extension.setImageOrBasicThumbnail
 import com.example.domain.entity.onboarding.AddFriendListModel
 import com.example.ui.extension.setOnSingleClickListener
 
@@ -15,7 +15,7 @@ class AddFriendViewHolder(
 
     fun onBind(friendModel: AddFriendListModel.FriendModel, position: Int) {
         with(binding) {
-            ivFriendProfile.loadUrlWithCircleCrop(friendModel.profileImage)
+            ivFriendProfile.setImageOrBasicThumbnail(friendModel.profileImage)
             tvFriendName.text = friendModel.name
             tvFriendDepartment.text = friendModel.groupName
             btnFriendCheck.isSelected = friendModel.isSelected

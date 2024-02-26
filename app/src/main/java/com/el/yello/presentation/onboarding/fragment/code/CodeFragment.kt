@@ -128,11 +128,11 @@ class CodeFragment : BindingFragment<FragmentCodeBinding>(R.layout.fragment_code
 
     private fun initIdEditTextViewError() {
         with(binding) {
-            etCode.setBackgroundResource(R.drawable.shape_fill_red20_line_semantic_status_red500_rect_8)
+            etCode.setBackgroundResource(R.drawable.shape_red_fill_red500_line_8_rect)
             ivCodeDelete.setBackgroundResource(R.drawable.ic_onboarding_delete_red)
             tvCodeWarning.text = getString(R.string.onboarding_code_duplicate_msg)
             tvCodeWarning.setTextColor(colorOf(R.color.semantic_red_500))
-            btnCodeNext.setBackgroundResource(R.drawable.shape_grayscales_800_fill_100_rect)
+            btnCodeNext.setBackgroundResource(R.drawable.shape_grayscales800_fill_100_rect)
             btnCodeNext.setTextColor(colorOf(R.color.grayscales_700))
             btnCodeNext.isEnabled = false
         }

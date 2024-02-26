@@ -37,7 +37,7 @@ class GroupDialogAdapter(
             binding.group = group
             binding.root.setOnSingleClickListener {
                 storeHighSchoolGroup(group)
-                binding.tvItemGroup.setBackgroundResource(R.drawable.shape_grayscales_800_fill_100_rect)
+                binding.tvItemGroup.setBackgroundResource(R.drawable.shape_grayscales800_fill_100_rect)
             }
         }
     }

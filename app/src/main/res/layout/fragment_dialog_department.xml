@@ -14,7 +14,7 @@
         android:id="@+id/layout_department_dialog"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/shape_rounded_dialog"
+        android:background="@drawable/shape_grayscales900_fill_top10_rect"
         android:minHeight="700dp">
 
         <ImageView

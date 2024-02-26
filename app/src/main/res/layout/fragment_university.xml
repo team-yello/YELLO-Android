@@ -21,7 +21,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:src="@drawable/ic_onboarding_school_yello_bubble"
+            android:src="@drawable/img_onboarding_school_yello_bubble"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -112,8 +112,8 @@
             android:layout_marginHorizontal="16dp"
             android:layout_marginBottom="32dp"
             android:textAlignment="center"
-            tools:background="@drawable/shape_yello_main_500_fill_100_rect"
-            android:background="@{vm.universityText.isEmpty() || vm.departmentText.isEmpty() || vm.studentIdText == null ? @drawable/shape_grayscales_800_fill_100_rect : @drawable/shape_yello_main_500_fill_100_rect}"
+            tools:background="@drawable/shape_yello500_fill_100_rect"
+            android:background="@{vm.universityText.isEmpty() || vm.departmentText.isEmpty() || vm.studentIdText == null ? @drawable/shape_grayscales800_fill_100_rect : @drawable/shape_yello500_fill_100_rect}"
             android:clickable="@{!vm.universityText.isEmpty() &amp; !vm.departmentText.isEmpty() &amp; vm.studentIdText != null }"
             android:paddingVertical="16dp"
             android:text="@string/onboarding_btn_next"

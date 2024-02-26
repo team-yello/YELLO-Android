@@ -164,7 +164,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
             android:layout_marginTop="42dp"
-            android:background="@drawable/shape_purple_gradient_100dp"
+            android:background="@drawable/shape_gradient_purple_fill_100_rect"
             android:paddingVertical="20dp"
             android:text="@string/notice_resubscribe_button_tv"
             android:textAlignment="center"

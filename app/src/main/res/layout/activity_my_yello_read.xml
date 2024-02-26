@@ -149,7 +149,7 @@
             android:layout_height="154dp"
             android:layout_marginHorizontal="8dp"
             android:layout_marginTop="42dp"
-            android:background="@drawable/shape_fill_black_32dp"
+            android:background="@drawable/shape_black_fill_32_rect"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_gender">
@@ -354,7 +354,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="16dp"
-                android:background="@drawable/shape_white_35per_100dp"
+                android:background="@drawable/shape_white35_fill_100_rect"
                 android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -407,7 +407,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="16dp"
-                android:background="@drawable/shape_white_35per_100dp"
+                android:background="@drawable/shape_white35_fill_100_rect"
                 android:gravity="center"
                 android:paddingVertical="16dp"
                 android:text="@string/my_yello_point_check"
@@ -446,7 +446,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="16dp"
                 android:layout_marginTop="8dp"
-                android:background="@drawable/shape_purple_gradient_100dp"
+                android:background="@drawable/shape_gradient_purple_fill_100_rect"
                 android:visibility="gone"
                 app:layout_constraintTop_toBottomOf="@id/tv_initial_check">
 

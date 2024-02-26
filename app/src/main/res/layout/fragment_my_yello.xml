@@ -52,7 +52,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="-2dp"
-            android:background="@drawable/shape_purple_sub500_fill_4_rect"
+            android:background="@drawable/shape_purple500_fill_4_rect"
             android:paddingHorizontal="8dp"
             android:paddingVertical="3dp"
             android:text="@string/profile_btn_shop_sale"
@@ -78,7 +78,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
             android:layout_marginTop="3dp"
-            android:background="@drawable/shape_grayscales700_line_8_rect"
+            android:background="@drawable/shape_black_fill_grayscales700_line_8_rect"
             android:paddingVertical="10dp"
             android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
@@ -212,7 +212,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="16dp"
                     android:layout_marginBottom="32dp"
-                    android:background="@drawable/shape_purple_gradient_100dp"
+                    android:background="@drawable/shape_gradient_purple_fill_100_rect"
                     android:visibility="gone"
                     app:layout_constraintBottom_toBottomOf="parent">
 

@@ -88,13 +88,13 @@ class YelIoIdFragment : BindingFragment<FragmentYelloIdBinding>(R.layout.fragmen
 
     private fun initIdEditTextViewError() {
         with(binding) {
-            etId.setBackgroundResource(R.drawable.shape_fill_red20_line_semantic_status_red500_rect_8)
+            etId.setBackgroundResource(R.drawable.shape_red_fill_red500_line_8_rect)
             btnIdDelete.setBackgroundResource(R.drawable.ic_onboarding_delete_red)
             tvIdErrorFirst.text = getString(R.string.onboarding_name_id_duplicate_id_msg)
             tvIdErrorFirst.setTextColor(colorOf(R.color.semantic_red_500))
             tvIdErrorSecond.visibility = View.INVISIBLE
             tvIdErrorThird.visibility = View.INVISIBLE
-            btnYelloIdNext.setBackgroundResource(R.drawable.shape_grayscales_800_fill_100_rect)
+            btnYelloIdNext.setBackgroundResource(R.drawable.shape_grayscales800_fill_100_rect)
             btnYelloIdNext.setTextColor(colorOf(R.color.grayscales_700))
             btnYelloIdNext.isEnabled = false
         }

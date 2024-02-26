@@ -11,7 +11,7 @@
         android:layout_height="0dp"
         android:layout_marginVertical="17dp"
         android:layout_marginStart="24dp"
-        android:src="@drawable/shape_shimmer_greyscale800_circle"
+        android:src="@drawable/shape_grayscales800_fill_oval"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintDimensionRatio="1"
         app:layout_constraintStart_toStartOf="parent"
@@ -23,7 +23,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="12dp"
         android:layout_marginTop="19dp"
-        android:background="@drawable/shape_shimmer_greyscale800_fill_2_rect"
+        android:background="@drawable/shape_grayscales800_fill_2_rect"
         android:text="             "
         android:textAppearance="@style/TextAppearance.Yello.Subtitle02"
         app:layout_constraintStart_toEndOf="@id/iv_recommend_item_thumbnail"
@@ -37,7 +37,7 @@
         android:layout_marginStart="12dp"
         android:layout_marginEnd="65dp"
         android:layout_marginBottom="18dp"
-        android:background="@drawable/shape_shimmer_greyscale800_fill_2_rect"
+        android:background="@drawable/shape_grayscales800_fill_2_rect"
         android:paddingVertical="2dp"
         android:textAppearance="@style/TextAppearance.Yello.LabelMedium"
         android:textColor="@color/grayscales_600"
@@ -50,7 +50,7 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_marginHorizontal="24dp"
-        android:background="@drawable/shape_shimmer_greyscale800_fill_2_rect"
+        android:background="@drawable/shape_grayscales800_fill_2_rect"
         app:layout_constraintBottom_toBottomOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

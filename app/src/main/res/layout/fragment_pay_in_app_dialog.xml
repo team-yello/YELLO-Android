@@ -56,7 +56,7 @@
             app:layout_constraintEnd_toEndOf="@id/tv_pay_dialog_subtitle2"
             app:layout_constraintStart_toStartOf="@id/tv_pay_dialog_subtitle2"
             app:layout_constraintTop_toBottomOf="@id/tv_pay_dialog_subtitle2"
-            tools:src="@drawable/ic_pay_in_app_1" />
+            tools:src="@drawable/img_pay_in_app_1" />
 
         <TextView
             android:id="@+id/btn_pay_confirm"

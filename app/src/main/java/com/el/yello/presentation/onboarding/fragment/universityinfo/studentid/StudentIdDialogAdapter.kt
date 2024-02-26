@@ -36,7 +36,7 @@ class StudentIdDialogAdapter(
             binding.studentId = id
             binding.root.setOnSingleClickListener {
                 storeStudentId(id)
-                binding.tvItemStudentId.setBackgroundResource(R.drawable.shape_grayscales_800_fill_100_rect)
+                binding.tvItemStudentId.setBackgroundResource(R.drawable.shape_grayscales800_fill_100_rect)
             }
         }
     }

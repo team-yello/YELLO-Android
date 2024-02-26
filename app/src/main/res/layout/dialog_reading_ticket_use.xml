@@ -115,7 +115,7 @@
             android:layout_marginTop="32dp"
             android:layout_marginEnd="18dp"
             android:layout_marginBottom="40dp"
-            android:background="@drawable/shape_fill_yello500_8dp"
+            android:background="@drawable/shape_yello500_fill_8_rect"
             android:gravity="center"
             android:paddingVertical="11dp"
             android:text="@string/dialog_get_name"

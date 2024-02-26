@@ -19,6 +19,7 @@ import com.el.yello.util.manager.AmplitudeManager
 import com.el.yello.util.extension.yelloSnackbar
 import com.example.ui.base.BindingFragment
 import com.example.ui.extension.setOnSingleClickListener
+import com.example.ui.extension.stringOf
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.distinctUntilChangedBy
@@ -86,7 +87,15 @@ class TimelineFragment : BindingFragment<FragmentTimelineBinding>(R.layout.fragm
             adapter.refresh()
             viewModel.setFirstLoading(true)
             observeTimelinePagingList(isFilterSelected)
-            binding.tvLookFilterType.text = if (isFilterSelected) TYPE_MINE else TYPE_ALL
+            with(binding) {
+                if (isFilterSelected) {
+                    tvLookFilterType.text = TYPE_MINE
+                    tvLookNoFriendTitle.text = stringOf(R.string.look_invite_no_title_mine)
+                } else {
+                    tvLookFilterType.text = TYPE_ALL
+                    tvLookNoFriendTitle.text = stringOf(R.string.look_invite_no_title)
+                }
+            }
         }
     }
 

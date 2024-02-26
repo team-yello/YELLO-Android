@@ -52,7 +52,7 @@
             android:id="@+id/tab_recommend"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/shape_unselected_tab_indicator"
+            android:background="@drawable/layerlist_unselected_tab_indicator"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/layout_recommend_title"

@@ -71,7 +71,7 @@ class SelectStudentFragment :
 
     private fun changeHighSchoolBtn() {
         with(binding) {
-            btnSchoolHighschool.setBackgroundResource(R.drawable.shape_black_fill_yello_main_500_line_8_rect)
+            btnSchoolHighschool.setBackgroundResource(R.drawable.shape_black_fill_yello500_line_8_rect)
             btnSchoolUniversity.setBackgroundResource(R.drawable.shape_black_fill_grayscales700_line_8_rect)
             ivStudentHighschool.setImageResource(R.drawable.ic_student_highschool_face_select)
             ivStudentUniversity.setImageResource(R.drawable.ic_student_university_face_unselected)
@@ -82,7 +82,7 @@ class SelectStudentFragment :
 
     private fun changeUniversityBtn() {
         with(binding) {
-            btnSchoolUniversity.setBackgroundResource(R.drawable.shape_black_fill_yello_main_500_line_8_rect)
+            btnSchoolUniversity.setBackgroundResource(R.drawable.shape_black_fill_yello500_line_8_rect)
             btnSchoolHighschool.setBackgroundResource(R.drawable.shape_black_fill_grayscales700_line_8_rect)
             ivStudentUniversity.setImageResource(R.drawable.ic_student_university_face_select)
             ivStudentHighschool.setImageResource(R.drawable.ic_student_highschool_face_unselected)

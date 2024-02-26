@@ -45,7 +45,7 @@
             android:layout_width="0dp"
             android:layout_height="200dp"
             android:layout_marginTop="20dp"
-            android:src="@drawable/ic_tutorial_point"
+            android:src="@drawable/img_tutorial_point"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_tutorial_subtitle" />
@@ -68,7 +68,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
             android:layout_marginBottom="34dp"
-            android:background="@drawable/shape_yello_main_500_fill_100_rect"
+            android:background="@drawable/shape_yello500_fill_100_rect"
             android:paddingVertical="6dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

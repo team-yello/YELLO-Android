@@ -134,7 +134,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="18dp"
-                        android:src="@drawable/ic_point_zero"
+                        android:src="@drawable/img_point_zero"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/tv_profile_upper_title" />
@@ -200,7 +200,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="42dp"
                         android:layout_marginTop="6dp"
-                        android:src="@drawable/ic_quit_for_sure_1"
+                        android:src="@drawable/img_quit_for_sure_1"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/tv_profile_quit_for_sure_reason_1" />
@@ -226,7 +226,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="42dp"
                         android:layout_marginTop="6dp"
-                        android:src="@drawable/ic_quit_for_sure_2"
+                        android:src="@drawable/img_quit_for_sure_2"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/tv_profile_quit_for_sure_reason_2" />
@@ -253,7 +253,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="42dp"
                         android:layout_marginTop="6dp"
-                        android:src="@drawable/ic_quit_for_sure_3"
+                        android:src="@drawable/img_quit_for_sure_3"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/tv_profile_quit_for_sure_reason_3" />

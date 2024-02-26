@@ -197,7 +197,7 @@
                 android:layout_marginHorizontal="40dp"
                 android:layout_marginTop="30dp"
                 android:layout_marginBottom="60dp"
-                android:background="@drawable/shape_grayscales_800_fill_100_rect"
+                android:background="@drawable/shape_grayscales800_fill_100_rect"
                 android:gravity="center"
                 android:paddingHorizontal="30dp"
                 android:paddingVertical="17dp"

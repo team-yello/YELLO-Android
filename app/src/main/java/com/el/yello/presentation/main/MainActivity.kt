@@ -213,9 +213,7 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
                     }
                 }
 
-                is Failure -> {
-                    yelloSnackbar(binding.root, getString(R.string.internet_connection_error_msg))
-                }
+                is Failure -> return@onEach
             }
         }.launchIn(lifecycleScope)
     }

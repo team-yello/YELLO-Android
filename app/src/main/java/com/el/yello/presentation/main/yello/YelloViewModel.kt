@@ -12,6 +12,7 @@ import com.example.domain.repository.VoteRepository
 import com.example.ui.state.UiState
 import com.example.ui.state.UiState.Empty
 import com.example.ui.state.UiState.Failure
+import com.example.ui.state.UiState.Loading
 import com.example.ui.state.UiState.Success
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
@@ -46,7 +47,7 @@ class YelloViewModel @Inject constructor(
         get() = _isDecreasing.value
 
     private val _getPurchaseInfoState =
-        MutableStateFlow<UiState<PayInfoModel>>(UiState.Loading)
+        MutableStateFlow<UiState<PayInfoModel>>(Loading)
     val getPurchaseInfoState: StateFlow<UiState<PayInfoModel>> =
         _getPurchaseInfoState.asStateFlow()
 
@@ -71,6 +72,7 @@ class YelloViewModel @Inject constructor(
                 .onSuccess { voteState ->
                     if (voteState == null) {
                         _yelloState.value = Empty
+                        _yelloState.value = Loading
                         return@launch
                     }
 
@@ -83,10 +85,12 @@ class YelloViewModel @Inject constructor(
                         }
                         _yelloState.value =
                             Success(Valid(voteState.point, voteState.hasFourFriends))
+                        _yelloState.value = Loading
                         return@launch
                     }
 
                     _yelloState.value = Success(Wait(voteState.leftTime))
+                    _yelloState.value = Loading
                     _leftTime.value = voteState.leftTime
                     decreaseTime()
                 }
@@ -94,11 +98,16 @@ class YelloViewModel @Inject constructor(
                     if (t is HttpException) {
                         Timber.e("GET VOTE STATE FAILURE : $t")
                         when (t.code()) {
-                            CODE_NO_FRIEND -> _yelloState.value = Success(Lock)
+                            CODE_NO_FRIEND -> {
+                                _yelloState.value = Success(Lock)
+                                _yelloState.value = Loading
+                            }
+
                             else -> {
                                 authRepository.clearLocalPref()
                                 delay(500)
                                 _yelloState.value = Failure(t.code().toString())
+                                _yelloState.value = Loading
                             }
                         }
                     }
@@ -113,13 +122,19 @@ class YelloViewModel @Inject constructor(
                 .onSuccess { purchaseInfo ->
                     if (purchaseInfo == null) {
                         _getPurchaseInfoState.value = Empty
+                        _getPurchaseInfoState.value = Loading
                         return@onSuccess
                     }
+
+                    Timber.d("GET_PURCHASE_INFO_SUCCESS : $purchaseInfo")
+
                     _getPurchaseInfoState.value = Success(purchaseInfo)
+                    _getPurchaseInfoState.value = Loading
                 }
                 .onFailure { t ->
                     if (t is HttpException) {
                         _getPurchaseInfoState.value = Failure(t.code().toString())
+                        _getPurchaseInfoState.value = Loading
                     }
                 }
         }

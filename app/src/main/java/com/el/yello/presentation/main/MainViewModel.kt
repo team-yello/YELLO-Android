@@ -91,6 +91,7 @@ class MainViewModel @Inject constructor(
                 }
                 .onFailure { t ->
                     if (t is HttpException) {
+                        Timber.d("GET_USER_SUBS_INFO_FAILURE : $t")
                         _getUserSubsState.value = UiState.Failure(t.code().toString())
                         _getUserSubsState.value = UiState.Loading
                     }

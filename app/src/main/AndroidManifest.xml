@@ -33,10 +33,12 @@
         android:theme="@style/Theme.YELLO"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
+
         <activity
             android:name=".presentation.event.EventActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
+
         <activity
             android:name=".presentation.splash.SplashActivity"
             android:exported="true"
@@ -59,14 +61,23 @@
                     android:scheme="kakao${NATIVE_APP_KEY}" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".presentation.auth.SignInActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
+
         <activity
             android:name=".presentation.auth.SocialSyncActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".presentation.onboarding.activity.EditNameActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize"
+            android:screenOrientation="portrait" />
+
         <activity
             android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"
             android:exported="true"
@@ -82,20 +93,18 @@
                     android:scheme="kakao${NATIVE_APP_KEY}" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".presentation.onboarding.activity.EditNameActivity"
-            android:exported="false"
-            android:windowSoftInputMode="adjustResize"
-            android:screenOrientation="portrait" />
+
         <activity
             android:name=".presentation.onboarding.activity.OnBoardingActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize"
             android:screenOrientation="portrait" />
+
         <activity
             android:name=".presentation.onboarding.activity.GetAlarmActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
+
         <activity
             android:name=".presentation.tutorial.TutorialAActivity"
             android:exported="false"
@@ -120,51 +129,63 @@
             android:name=".presentation.tutorial.TutorialEndPlusActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
+
         <activity
             android:name=".presentation.main.MainActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
+
         <activity
             android:name=".presentation.main.yello.vote.VoteActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
+
         <activity
             android:name=".presentation.setting.SettingActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
+
         <activity
             android:name=".presentation.setting.ProfileQuitTwoActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
+
         <activity
             android:name=".presentation.setting.ProfileQuitOneActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
+
         <activity
             android:name=".presentation.main.profile.detail.ProfileDetailActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
+
         <activity
             android:name=".presentation.main.profile.schoolmod.SchoolProfileModActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
+
         <activity
             android:name=".presentation.main.profile.univmod.UnivProfileModActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
+
         <activity
             android:name=".presentation.setting.ProfileQuitReasonActivity"
             android:exported="false"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
+
         <activity
             android:name=".presentation.main.myyello.read.MyYelloReadActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
+
         <activity
             android:name=".presentation.pay.PayActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
+
         <activity
             android:name=".presentation.search.SearchActivity"
             android:exported="false"

@@ -15,8 +15,8 @@ import com.el.yello.databinding.FragmentTimelineBinding
 import com.el.yello.presentation.main.dialog.invite.InviteFriendDialog
 import com.el.yello.util.extension.BaseLinearRcvItemDeco
 import com.el.yello.util.extension.setPullToScrollColor
-import com.el.yello.util.manager.AmplitudeManager
 import com.el.yello.util.extension.yelloSnackbar
+import com.el.yello.util.manager.AmplitudeManager
 import com.example.ui.base.BindingFragment
 import com.example.ui.extension.setOnSingleClickListener
 import com.example.ui.extension.stringOf
@@ -41,7 +41,7 @@ class TimelineFragment : BindingFragment<FragmentTimelineBinding>(R.layout.fragm
     private var isScrolled: Boolean = false
     private var isNoFriend: Boolean = false
 
-    private var isFilterSelected: Boolean = false
+    var isFilterSelected: Boolean = false
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -75,7 +75,8 @@ class TimelineFragment : BindingFragment<FragmentTimelineBinding>(R.layout.fragm
             inviteFriendDialog =
                 InviteFriendDialog.newInstance(viewModel.getYelloId(), TIMELINE_NO_FRIEND)
             AmplitudeManager.trackEventWithProperties(
-                "click_invite", JSONObject().put("invite_view", TIMELINE_NO_FRIEND)
+                "click_invite",
+                JSONObject().put("invite_view", TIMELINE_NO_FRIEND),
             )
             inviteFriendDialog?.show(parentFragmentManager, INVITE_DIALOG)
         }

@@ -188,11 +188,10 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
             }
             PUSH_TYPE_OPEN_VOTE -> {
                 binding.bnvMain.menu.getItem(1).isChecked = true
-                // TODO: 내가 보낸 쪽지 필터링 이동하는지 확인
-                timelineFragment?.isFilterSelected = true
-                navigateTo<TimelineFragment>()
+                val bundle = Bundle().apply { putBoolean("isFilterSelected", true) }
+                val timelineFragment = TimelineFragment().apply { arguments = bundle }
+                supportFragmentManager.commit { replace(R.id.fcv_main, timelineFragment) }
             }
-            // 어차피 12시에 점심시간 이벤트 공지 알림 뜨고 누르면 옐로하기로 이동 후 공지 팝업 뜸 따라서 시간에 관계 없이 옐로하기로 이동
             PUSH_TYPE_LUNCH_EVENT -> {
                 binding.bnvMain.menu.getItem(2).isChecked = true
                 navigateTo<YelloFragment>()

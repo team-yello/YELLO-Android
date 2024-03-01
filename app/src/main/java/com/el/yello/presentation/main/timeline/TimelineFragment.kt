@@ -49,6 +49,7 @@ class TimelineFragment : BindingFragment<FragmentTimelineBinding>(R.layout.fragm
         initAdapter()
         initInviteBtnListener()
         initFilterBtnListener()
+        initFromPushNotification()
         setListBottomPadding()
         observeTimelinePagingList(isFilterSelected)
         setPullToScrollListener()
@@ -97,6 +98,14 @@ class TimelineFragment : BindingFragment<FragmentTimelineBinding>(R.layout.fragm
                     tvLookNoFriendTitle.text = stringOf(R.string.look_invite_no_title)
                 }
             }
+        }
+    }
+
+    private fun initFromPushNotification() {
+        isFilterSelected = arguments?.getBoolean("isFilterSelected", false) ?: false
+        if (isFilterSelected) {
+            binding.tvLookFilterType.text = TYPE_MINE
+            binding.tvLookNoFriendTitle.text = stringOf(R.string.look_invite_no_title_mine)
         }
     }
 

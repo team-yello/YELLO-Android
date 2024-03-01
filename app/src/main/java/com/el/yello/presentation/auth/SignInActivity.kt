@@ -14,11 +14,11 @@ import com.el.yello.presentation.onboarding.activity.EditNameActivity
 import com.el.yello.presentation.onboarding.activity.GetAlarmActivity
 import com.el.yello.presentation.onboarding.fragment.checkName.CheckNameDialog
 import com.el.yello.presentation.tutorial.TutorialAActivity
-import com.el.yello.util.manager.AmplitudeManager
 import com.el.yello.util.extension.yelloSnackbar
+import com.el.yello.util.manager.AmplitudeManager
 import com.example.ui.base.BindingActivity
-import com.example.ui.state.UiState
 import com.example.ui.extension.setOnSingleClickListener
+import com.example.ui.state.UiState
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -52,7 +52,9 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
 
     private fun observeDeviceTokenError() {
         viewModel.getDeviceTokenError.flowWithLifecycle(lifecycle).onEach { error ->
-            if (error) yelloSnackbar(binding.root, getString(R.string.internet_connection_error_msg))
+            if (error) {
+                yelloSnackbar(binding.root, getString(R.string.internet_connection_error_msg))
+            }
         }.launchIn(lifecycleScope)
     }
 
@@ -64,13 +66,17 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
 
     private fun observeChangeTokenResult() {
         viewModel.postChangeTokenResult.flowWithLifecycle(lifecycle).onEach { result ->
-            if (!result) yelloSnackbar(binding.root, getString(R.string.internet_connection_error_msg))
+            if (!result) {
+                yelloSnackbar(binding.root, getString(R.string.internet_connection_error_msg))
+            }
         }.launchIn(lifecycleScope)
     }
 
     private fun observeKakaoUserInfoResult() {
         viewModel.getKakaoInfoResult.flowWithLifecycle(lifecycle).onEach { result ->
-            if (!result) yelloSnackbar(binding.root, getString(R.string.internet_connection_error_msg))
+            if (!result) {
+                yelloSnackbar(binding.root, getString(R.string.internet_connection_error_msg))
+            }
         }.launchIn(lifecycleScope)
     }
 
@@ -87,7 +93,9 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
                     }
                 }
 
-                is UiState.Failure -> yelloSnackbar(binding.root, getString(R.string.internet_connection_error_msg))
+                is UiState.Failure -> {
+                    yelloSnackbar(binding.root, getString(R.string.internet_connection_error_msg))
+                }
 
                 is UiState.Empty -> return@onEach
 
@@ -112,7 +120,9 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
                     }
                 }
 
-                is UiState.Failure -> yelloSnackbar(binding.root, getString(R.string.internet_connection_error_msg))
+                is UiState.Failure -> {
+                    yelloSnackbar(binding.root, getString(R.string.internet_connection_error_msg))
+                }
 
                 is UiState.Empty -> return@onEach
 
@@ -141,19 +151,21 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
     private fun startCheckNameDialog() {
         val bundle = Bundle().apply { addPutExtra() }
         if (viewModel.isUserNameBlank()) {
-            Intent(SignInActivity(), EditNameActivity::class.java).apply {
+            Intent(this, EditNameActivity::class.java).apply {
                 putExtras(bundle)
                 addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                 startActivity(this)
             }
             finish()
         } else {
+            with(binding) {
+                btnSignIn.visibility = View.GONE
+                ivSignIn.visibility = View.GONE
+                ivSignInKakao.visibility = View.GONE
+                tvSignInTitle.visibility = View.GONE
+                tvSignInSubtitle.visibility = View.GONE
+            }
             checkNameDialog = CheckNameDialog()
-            binding.btnSignIn.visibility = View.GONE
-            binding.ivSignIn.visibility = View.GONE
-            binding.ivSignInKakao.visibility = View.GONE
-            binding.tvSignInTitle.visibility = View.GONE
-            binding.tvSignInSubtitle.visibility = View.GONE
             checkNameDialog?.arguments = bundle
             checkNameDialog?.show(supportFragmentManager, CHECK_NAME_DIALOG)
         }

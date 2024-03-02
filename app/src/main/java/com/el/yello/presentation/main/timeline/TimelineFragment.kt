@@ -41,7 +41,7 @@ class TimelineFragment : BindingFragment<FragmentTimelineBinding>(R.layout.fragm
     private var isScrolled: Boolean = false
     private var isNoFriend: Boolean = false
 
-    var isFilterSelected: Boolean = false
+    private var isFilterSelected: Boolean = false
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -102,7 +102,7 @@ class TimelineFragment : BindingFragment<FragmentTimelineBinding>(R.layout.fragm
     }
 
     private fun initFromPushNotification() {
-        isFilterSelected = arguments?.getBoolean("isFilterSelected", false) ?: false
+        isFilterSelected = arguments?.getBoolean(IS_FILTER_SELECTED, false) ?: false
         if (isFilterSelected) {
             binding.tvLookFilterType.text = TYPE_MINE
             binding.tvLookNoFriendTitle.text = stringOf(R.string.look_invite_no_title_mine)
@@ -199,5 +199,6 @@ class TimelineFragment : BindingFragment<FragmentTimelineBinding>(R.layout.fragm
 
         const val TYPE_ALL = "모든 쪽지"
         const val TYPE_MINE = "내가 보낸 쪽지"
+        const val IS_FILTER_SELECTED = "isFilterSelected"
     }
 }

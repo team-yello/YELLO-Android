@@ -180,6 +180,11 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
                 binding.bnvMain.menu.getItem(2).isChecked = true
                 navigateTo<YelloFragment>()
             }
+
+            PUSH_TYPE_FIRST_RECOMMEND -> {
+                binding.bnvMain.menu.getItem(2).isChecked = true
+                navigateTo<YelloFragment>()
+            }
             PUSH_TYPE_RECOMMEND -> {
                 binding.bnvMain.menu.getItem(3).isChecked = true
                 navigateTo<MyYelloFragment>()
@@ -332,6 +337,7 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
         const val PUSH_TYPE_NEW_FRIEND = "NEW_FRIEND"
         const val PUSH_TYPE_VOTE_AVAILABLE = "VOTE_AVAILABLE"
         const val PUSH_TYPE_RECOMMEND = "RECOMMEND"
+        const val PUSH_TYPE_FIRST_RECOMMEND = "FIRST_RECOMMEND"
         const val PUSH_TYPE_OPEN_VOTE = "OPEN_VOTE"
 
         const val BACK_PRESSED_INTERVAL = 2000

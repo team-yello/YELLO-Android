@@ -53,8 +53,6 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
     private var backPressedTime: Long = 0
     private var userSubsStateJob: Job? = null
 
-    private var timelineFragment: TimelineFragment? = null
-
     private val onBackPressedCallback = object : OnBackPressedCallback(true) {
         override fun handleOnBackPressed() {
             if (System.currentTimeMillis() - backPressedTime >= BACK_PRESSED_INTERVAL) {
@@ -191,10 +189,6 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
                 val bundle = Bundle().apply { putBoolean("isFilterSelected", true) }
                 val timelineFragment = TimelineFragment().apply { arguments = bundle }
                 supportFragmentManager.commit { replace(R.id.fcv_main, timelineFragment) }
-            }
-            PUSH_TYPE_LUNCH_EVENT -> {
-                binding.bnvMain.menu.getItem(2).isChecked = true
-                navigateTo<YelloFragment>()
             }
         }
     }
@@ -338,14 +332,12 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
         const val PUSH_TYPE_NEW_FRIEND = "NEW_FRIEND"
         const val PUSH_TYPE_VOTE_AVAILABLE = "VOTE_AVAILABLE"
         const val PUSH_TYPE_RECOMMEND = "RECOMMEND"
-        const val PUSH_TYPE_LUNCH_EVENT = "LUNCH_EVENT"
         const val PUSH_TYPE_OPEN_VOTE = "OPEN_VOTE"
 
         const val BACK_PRESSED_INTERVAL = 2000
         const val EXPIRED_DATE_FORMAT = "yyyy-MM-dd"
         const val PAY_RESUBS_DIALOG = "PayResubsNoticeDialog"
         private const val EVENT_CLICK_RECOMMEND_NAVIGATION = "click_recommend_navigation"
-
         private const val TAG_NOTICE_DIALOG = "NOTICE_DIALOG"
 
         @JvmStatic

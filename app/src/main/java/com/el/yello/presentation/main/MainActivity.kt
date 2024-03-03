@@ -16,11 +16,11 @@ import com.el.yello.databinding.ActivityMainBinding
 import com.el.yello.presentation.event.EventActivity
 import com.el.yello.presentation.main.MainViewModel.Companion.CODE_UNAVAILABLE_EVENT
 import com.el.yello.presentation.main.dialog.notice.NoticeDialog
-import com.el.yello.presentation.main.timeline.TimelineFragment
 import com.el.yello.presentation.main.myyello.MyYelloFragment
 import com.el.yello.presentation.main.myyello.read.MyYelloReadActivity
 import com.el.yello.presentation.main.profile.info.ProfileFragment
 import com.el.yello.presentation.main.recommend.RecommendFragment
+import com.el.yello.presentation.main.timeline.TimelineFragment
 import com.el.yello.presentation.main.yello.YelloFragment
 import com.el.yello.presentation.pay.dialog.PayReSubsNoticeDialog
 import com.el.yello.util.extension.dp
@@ -176,9 +176,24 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
                 navigateTo<ProfileFragment>()
             }
 
-            PUSH_TYPE_VOTE_AVAILABLE, PUSH_TYPE_RECOMMEND -> {
+            PUSH_TYPE_VOTE_AVAILABLE -> {
                 binding.bnvMain.menu.getItem(2).isChecked = true
                 navigateTo<YelloFragment>()
+            }
+
+            PUSH_TYPE_FIRST_RECOMMEND -> {
+                binding.bnvMain.menu.getItem(2).isChecked = true
+                navigateTo<YelloFragment>()
+            }
+            PUSH_TYPE_RECOMMEND -> {
+                binding.bnvMain.menu.getItem(3).isChecked = true
+                navigateTo<MyYelloFragment>()
+            }
+            PUSH_TYPE_OPEN_VOTE -> {
+                binding.bnvMain.menu.getItem(1).isChecked = true
+                val bundle = Bundle().apply { putBoolean("isFilterSelected", true) }
+                val timelineFragment = TimelineFragment().apply { arguments = bundle }
+                supportFragmentManager.commit { replace(R.id.fcv_main, timelineFragment) }
             }
         }
     }
@@ -296,7 +311,7 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
         title = title,
         subTitle = subTitle,
         defaultLottieUrl = animationUrlList[0],
-        openLottieUrl = animationUrlList[1]
+        openLottieUrl = animationUrlList[1],
     )
 
     private fun Event.Reward.toParcelableReward() = ParcelableReward(
@@ -322,12 +337,13 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
         const val PUSH_TYPE_NEW_FRIEND = "NEW_FRIEND"
         const val PUSH_TYPE_VOTE_AVAILABLE = "VOTE_AVAILABLE"
         const val PUSH_TYPE_RECOMMEND = "RECOMMEND"
+        const val PUSH_TYPE_FIRST_RECOMMEND = "FIRST_RECOMMEND"
+        const val PUSH_TYPE_OPEN_VOTE = "OPEN_VOTE"
 
         const val BACK_PRESSED_INTERVAL = 2000
         const val EXPIRED_DATE_FORMAT = "yyyy-MM-dd"
         const val PAY_RESUBS_DIALOG = "PayResubsNoticeDialog"
         private const val EVENT_CLICK_RECOMMEND_NAVIGATION = "click_recommend_navigation"
-
         private const val TAG_NOTICE_DIALOG = "NOTICE_DIALOG"
 
         @JvmStatic

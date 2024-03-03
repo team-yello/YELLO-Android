@@ -35,7 +35,7 @@ class YelloMessagingService : FirebaseMessagingService() {
             GlobalScope.launch {
                 runCatching {
                     authService.putDeviceToken(
-                        token.toDeviceToken()
+                        token.toDeviceToken(),
                     )
                 }.onFailure(Timber::e)
             }
@@ -66,7 +66,7 @@ class YelloMessagingService : FirebaseMessagingService() {
                 this,
                 notifyId,
                 intent,
-                PendingIntent.FLAG_ONE_SHOT or PendingIntent.FLAG_MUTABLE
+                PendingIntent.FLAG_ONE_SHOT or PendingIntent.FLAG_MUTABLE,
             )
 
         val channelId = getString(R.string.default_notification_channel_id)
@@ -82,7 +82,9 @@ class YelloMessagingService : FirebaseMessagingService() {
 
         val notificationManager = getSystemService<NotificationManager>()
         val channel = NotificationChannel(
-            channelId, channelId, NotificationManager.IMPORTANCE_HIGH
+            channelId,
+            channelId,
+            NotificationManager.IMPORTANCE_HIGH,
         )
 
         notificationManager?.run {
@@ -96,7 +98,7 @@ class YelloMessagingService : FirebaseMessagingService() {
         var body: String,
         var type: String,
         var path: String? = null,
-        var badge: Int? = null
+        var badge: Int? = null,
     )
 
     companion object {

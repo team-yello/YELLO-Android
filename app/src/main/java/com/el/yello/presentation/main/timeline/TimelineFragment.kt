@@ -15,8 +15,8 @@ import com.el.yello.databinding.FragmentTimelineBinding
 import com.el.yello.presentation.main.dialog.invite.InviteFriendDialog
 import com.el.yello.util.extension.BaseLinearRcvItemDeco
 import com.el.yello.util.extension.setPullToScrollColor
-import com.el.yello.util.manager.AmplitudeManager
 import com.el.yello.util.extension.yelloSnackbar
+import com.el.yello.util.manager.AmplitudeManager
 import com.example.ui.base.BindingFragment
 import com.example.ui.extension.setOnSingleClickListener
 import com.example.ui.extension.stringOf
@@ -49,6 +49,7 @@ class TimelineFragment : BindingFragment<FragmentTimelineBinding>(R.layout.fragm
         initAdapter()
         initInviteBtnListener()
         initFilterBtnListener()
+        initFromPushNotification()
         setListBottomPadding()
         observeTimelinePagingList(isFilterSelected)
         setPullToScrollListener()
@@ -75,7 +76,8 @@ class TimelineFragment : BindingFragment<FragmentTimelineBinding>(R.layout.fragm
             inviteFriendDialog =
                 InviteFriendDialog.newInstance(viewModel.getYelloId(), TIMELINE_NO_FRIEND)
             AmplitudeManager.trackEventWithProperties(
-                "click_invite", JSONObject().put("invite_view", TIMELINE_NO_FRIEND)
+                "click_invite",
+                JSONObject().put("invite_view", TIMELINE_NO_FRIEND),
             )
             inviteFriendDialog?.show(parentFragmentManager, INVITE_DIALOG)
         }
@@ -96,6 +98,14 @@ class TimelineFragment : BindingFragment<FragmentTimelineBinding>(R.layout.fragm
                     tvLookNoFriendTitle.text = stringOf(R.string.look_invite_no_title)
                 }
             }
+        }
+    }
+
+    private fun initFromPushNotification() {
+        isFilterSelected = arguments?.getBoolean(IS_FILTER_SELECTED, false) ?: false
+        if (isFilterSelected) {
+            binding.tvLookFilterType.text = TYPE_MINE
+            binding.tvLookNoFriendTitle.text = stringOf(R.string.look_invite_no_title_mine)
         }
     }
 
@@ -189,5 +199,6 @@ class TimelineFragment : BindingFragment<FragmentTimelineBinding>(R.layout.fragm
 
         const val TYPE_ALL = "모든 쪽지"
         const val TYPE_MINE = "내가 보낸 쪽지"
+        const val IS_FILTER_SELECTED = "isFilterSelected"
     }
 }

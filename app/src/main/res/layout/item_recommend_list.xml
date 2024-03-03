@@ -51,38 +51,43 @@
         app:layout_constraintTop_toBottomOf="@id/tv_recommend_item_name"
         tools:text="고려대학교 산업경영공학부 19학번" />
 
-    <com.google.android.material.button.MaterialButton
+    <LinearLayout
         android:id="@+id/btn_recommend_item_add"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginVertical="23dp"
+        android:layout_height="0dp"
         android:layout_marginEnd="24dp"
-        android:backgroundTint="@color/yello_main_500"
-        android:includeFontPadding="false"
-        android:insetTop="0dp"
-        android:insetBottom="0dp"
-        android:minWidth="0dp"
-        android:minHeight="0dp"
-        android:paddingHorizontal="15dp"
-        android:paddingVertical="9dp"
-        android:text="@string/recommend_item_btn_add"
-        android:textAppearance="@style/TextAppearance.Yello.Button"
-        android:textColor="@color/black"
-        android:textSize="12sp"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="23dp"
+            android:background="@drawable/shape_yello500_fill_100_rect"
+            android:includeFontPadding="false"
+            android:paddingHorizontal="15dp"
+            android:paddingVertical="9dp"
+            android:text="@string/recommend_item_btn_add"
+            android:textAppearance="@style/TextAppearance.Yello.Button"
+            android:textColor="@color/black"
+            android:textSize="12sp" />
+
+    </LinearLayout>
 
     <ImageView
         android:id="@+id/btn_recommend_item_add_pressed"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginVertical="23dp"
         android:layout_marginEnd="24dp"
         android:src="@drawable/ic_onboarding_friend_check"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@id/btn_recommend_item_add"
         app:layout_constraintDimensionRatio="1"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/btn_recommend_item_add" />
+        app:layout_constraintTop_toTopOf="@id/btn_recommend_item_add"
+        tools:visibility="visible" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

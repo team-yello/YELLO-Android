@@ -1,10 +1,12 @@
 package com.el.yello.presentation.main.profile.info
 
 import android.content.Intent
+import android.content.res.Resources
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.view.animation.AnimationUtils
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.flowWithLifecycle
@@ -101,7 +103,8 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
             itemClick = ::initItemClickListener,
             shopClick = ::initShopClickListener,
             modClick = ::initProfileModClickListener,
-            bannerClick = ::initProfileBannerClickListener
+            bannerClick = ::initProfileBannerClickListener,
+            setHeight = ::setSpinnerHeight
         )
         binding.rvProfileFriendsList.adapter = adapter
     }
@@ -180,6 +183,7 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
                 is UiState.Success -> {
                     binding.ivProfileLoading.isVisible = false
                     friendsList = state.data.friends
+                    binding.tvProfileNoFriend.isVisible = friendsList.isEmpty()
                     adapter.addItemList(friendsList)
                 }
 
@@ -231,6 +235,7 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
                         delay(450)
                         binding.rvProfileFriendsList.addItemDecoration(itemDivider)
                         viewModel.myFriendCount -= 1
+                        binding.tvProfileNoFriend.isVisible = viewModel.myFriendCount == 0
                         adapter.notifyDataSetChanged()
                     }
                     AmplitudeManager.trackEventWithProperties("complete_profile_delete_friend")
@@ -269,6 +274,18 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
             }
             viewModel.getFriendsListFromServer()
         }.launchIn(lifecycleScope)
+    }
+
+    private fun setSpinnerHeight(userInfoHeight: Int) {
+        val screenHeight = Resources.getSystem().displayMetrics.heightPixels
+        binding.ivProfileLoading.layoutParams =
+            (binding.ivProfileLoading.layoutParams as ConstraintLayout.LayoutParams).apply {
+                bottomMargin = (screenHeight - userInfoHeight) / 2
+            }
+        binding.tvProfileNoFriend.layoutParams =
+            (binding.tvProfileNoFriend.layoutParams as ConstraintLayout.LayoutParams).apply {
+                bottomMargin = (screenHeight - userInfoHeight) / 2
+            }
     }
 
     fun scrollToTop() {

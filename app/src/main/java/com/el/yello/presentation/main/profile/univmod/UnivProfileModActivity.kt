@@ -15,11 +15,11 @@ import com.el.yello.presentation.main.profile.detail.ProfileDetailActivity.Compa
 import com.el.yello.presentation.main.profile.schoolmod.SchoolProfileModActivity
 import com.el.yello.presentation.main.profile.univmod.UnivProfileModViewModel.Companion.TEXT_NONE
 import com.el.yello.util.extension.yelloSnackbar
-import com.example.ui.extension.navigateTo
 import com.example.ui.base.BindingActivity
 import com.example.ui.extension.drawableOf
-import com.example.ui.state.UiState
+import com.example.ui.extension.navigateTo
 import com.example.ui.extension.setOnSingleClickListener
+import com.example.ui.state.UiState
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -32,6 +32,7 @@ class UnivProfileModActivity :
 
     private var univModSearchBottomSheet: UnivModSearchBottomSheet? = null
     private var univModSelectBottomSheet: UnivModSelectBottomSheet? = null
+    private var univModDialog: UnivModDialog? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -77,7 +78,8 @@ class UnivProfileModActivity :
                 }
 
                 else -> {
-                    viewModel.postNewProfileToServer()
+                    univModDialog = UnivModDialog()
+                    univModDialog?.show(supportFragmentManager, DIALOG_MOD)
                 }
             }
         }
@@ -161,11 +163,13 @@ class UnivProfileModActivity :
         super.onDestroy()
         if (univModSearchBottomSheet != null) univModSearchBottomSheet?.dismiss()
         if (univModSelectBottomSheet != null) univModSelectBottomSheet?.dismiss()
+        if (univModDialog != null) univModDialog?.dismiss()
     }
 
     private companion object {
         const val DIALOG_SCHOOL = "school"
         const val DIALOG_SUBGROUP = "subgroup"
         const val DIALOG_YEAR = "year"
+        const val DIALOG_MOD = "mod"
     }
 }

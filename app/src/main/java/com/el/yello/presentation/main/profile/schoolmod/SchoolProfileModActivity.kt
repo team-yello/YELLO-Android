@@ -12,14 +12,14 @@ import com.el.yello.R
 import com.el.yello.databinding.ActivityProfileSchoolModBinding
 import com.el.yello.presentation.main.profile.detail.ProfileDetailActivity
 import com.el.yello.presentation.main.profile.detail.ProfileDetailActivity.Companion.RESULT_PROFILE_MODIFY_FAILURE
-import com.el.yello.presentation.main.profile.univmod.UnivProfileModViewModel.Companion.TEXT_NONE
 import com.el.yello.presentation.main.profile.univmod.UnivProfileModActivity
+import com.el.yello.presentation.main.profile.univmod.UnivProfileModViewModel.Companion.TEXT_NONE
 import com.el.yello.util.extension.yelloSnackbar
-import com.example.ui.extension.navigateTo
 import com.example.ui.base.BindingActivity
 import com.example.ui.extension.drawableOf
-import com.example.ui.state.UiState
+import com.example.ui.extension.navigateTo
 import com.example.ui.extension.setOnSingleClickListener
+import com.example.ui.state.UiState
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -33,6 +33,7 @@ class SchoolProfileModActivity :
     private var schoolModSearchBottomSheet: SchoolModSearchBottomSheet? = null
     private var schoolModGradeBottomSheet: SchoolModGradeBottomSheet? = null
     private var schoolModClassroomBottomSheet: SchoolModClassroomBottomSheet? = null
+    private var schoolModDialog: SchoolModDialog? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -86,7 +87,8 @@ class SchoolProfileModActivity :
                 }
 
                 else -> {
-                    viewModel.getSchoolGroupIdFromServer()
+                    schoolModDialog = SchoolModDialog()
+                    schoolModDialog?.show(supportFragmentManager, DIALOG_MOD)
                 }
             }
         }
@@ -196,11 +198,13 @@ class SchoolProfileModActivity :
         if (schoolModSearchBottomSheet != null) schoolModSearchBottomSheet?.dismiss()
         if (schoolModGradeBottomSheet != null) schoolModGradeBottomSheet?.dismiss()
         if (schoolModClassroomBottomSheet != null) schoolModClassroomBottomSheet?.dismiss()
+        if (schoolModDialog != null) schoolModDialog?.dismiss()
     }
 
     private companion object {
         const val DIALOG_SCHOOL = "school"
         const val DIALOG_GRADE = "grade"
         const val DIALOG_CLASSROOM = "classroom"
+        const val DIALOG_MOD = "mod"
     }
 }

@@ -16,6 +16,7 @@ class ProfileFriendAdapter(
     private val shopClick: (Unit) -> (Unit),
     private val modClick: (Unit) -> (Unit),
     private val bannerClick: (String) -> (Unit),
+    private val setHeight: (Int) -> (Unit)
 ) : ListAdapter<ProfileUserModel, RecyclerView.ViewHolder>(diffUtil) {
 
     private var itemList = mutableListOf<ProfileUserModel>()
@@ -84,6 +85,15 @@ class ProfileFriendAdapter(
             this.itemList.removeAt(position)
             notifyItemRemoved(position + HEADER_COUNT)
             notifyItemRangeChanged(position + HEADER_COUNT, itemCount)
+        }
+    }
+
+    override fun onViewAttachedToWindow(holder: RecyclerView.ViewHolder) {
+        super.onViewAttachedToWindow(holder)
+        if (holder is ProfileUserInfoViewHolder) {
+            holder.itemView.post {
+                setHeight(holder.itemView.height)
+            }
         }
     }
 

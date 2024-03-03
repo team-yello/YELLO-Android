@@ -80,14 +80,28 @@
             android:id="@+id/iv_profile_loading"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:layout_marginBottom="180dp"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:lottie_autoPlay="true"
             app:lottie_loop="true"
-            app:lottie_rawRes="@raw/lottie_spinner_loading_profile" />
+            app:lottie_rawRes="@raw/lottie_spinner_loading_profile"
+            tools:visibility="visible" />
+
+        <TextView
+            android:id="@+id/tv_profile_no_friend"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/profile_no_friend"
+            android:textAppearance="@style/TextAppearance.Yello.LabelLarge"
+            android:textColor="@color/grayscales_600"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:visibility="visible" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

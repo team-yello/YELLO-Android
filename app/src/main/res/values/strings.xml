@@ -237,6 +237,8 @@
     <string name="profile_mod_tv_school_grade_one">1학년</string>
     <string name="profile_mod_tv_school_grade_two">2학년</string>
     <string name="profile_mod_tv_school_grade_three">3학년</string>
+    <string name="profile_mod_dialog_tv_title">올해 안에 한 번만 수정할 수 있어요.\n정말 변경하실 건가요?</string>
+    <string name="profile_mod_dialog_tv_yes">변경할게요</string>
 
     <string name="recommend_tv_title">추천친구</string>
     <string name="recommend_dialog_tv_title">친구 초대하기</string>

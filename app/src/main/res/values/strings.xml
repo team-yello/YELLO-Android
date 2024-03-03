@@ -338,7 +338,7 @@
 
     <string name="pay_tv_vote_for_point">투표하고 포인트 얻기</string>
     <string name="pay_tv_vote_for_point_reward">최대 200p</string>
-    <string name="pay_tv_ad_for_point">광고 보고 포인트 얻기</string>
+    <string name="pay_tv_ad_for_point">광고 보고 무료 포인트 얻기</string>
     <string name="pay_tv_ad_for_point_time">1시간에 한 번</string>
     <string name="pay_ad_vote_for_point_reward">10p</string>
     <string name="pay_ad_not_available_yet">1시간에 한 번 재생할 수 있어요.</string>

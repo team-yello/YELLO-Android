@@ -211,6 +211,7 @@
 
     <string name="profile_tv_title">프로필</string>
     <string name="profile_btn_manage">설정</string>
+    <string name="profile_no_friend">아직 친구가 없네요, 친구를 초대해 보세요!</string>
     <string name="profile_delete_bottom_sheet_tv_subtitle">정말로 친구를 끊으실 건가요?</string>
     <string name="profile_delete_bottom_sheet_btn_return">취소</string>
     <string name="profile_delete_bottom_sheet_btn_resume">네, 친구를 끊을게요</string>

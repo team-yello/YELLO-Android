@@ -180,6 +180,7 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
                 is UiState.Success -> {
                     binding.ivProfileLoading.isVisible = false
                     friendsList = state.data.friends
+                    binding.tvProfileNoFriend.isVisible = friendsList.isEmpty()
                     adapter.addItemList(friendsList)
                 }
 
@@ -231,6 +232,7 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
                         delay(450)
                         binding.rvProfileFriendsList.addItemDecoration(itemDivider)
                         viewModel.myFriendCount -= 1
+                        binding.tvProfileNoFriend.isVisible = viewModel.myFriendCount == 0
                         adapter.notifyDataSetChanged()
                     }
                     AmplitudeManager.trackEventWithProperties("complete_profile_delete_friend")

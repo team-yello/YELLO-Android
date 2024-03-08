@@ -3,7 +3,7 @@ package com.example.data.repository
 import androidx.core.content.edit
 import com.example.data.datasource.NoticeDataSource
 import com.example.data.local.YelloDataStoreImpl
-import com.example.data.local.YelloDataStoreImpl.Companion.FORMAT_NOTICE_DATE
+import com.example.data.local.YelloDataStoreImpl.Companion.FORMAT_NOTICE_DISABLED_DATE
 import com.example.domain.YelloDataStore
 import com.example.domain.entity.notice.Banner
 import com.example.domain.entity.notice.Notice
@@ -33,14 +33,15 @@ class NoticeRepositoryImpl @Inject constructor(
 
     override fun isDisabledNoticeUrl(url: String): Boolean {
         if (yelloDataStore.disabledNoticeUrl != url) return false
-        val dateFormat = SimpleDateFormat(FORMAT_NOTICE_DATE, Locale.KOREA)
+        val dateFormat = SimpleDateFormat(FORMAT_NOTICE_DISABLED_DATE, Locale.KOREA)
         val todayDate = dateFormat.format(Date())
-        Timber.d("url : $url , currentDate : $todayDate, storedDate : ${yelloDataStore.disabledNoticeDate}")
         return todayDate == yelloDataStore.disabledNoticeDate
     }
 
     override fun setDisabledNoticeUrl(url: String) {
         yelloDataStore.disabledNoticeUrl = url
-        yelloDataStore.disabledNoticeDate = Date().toString()
+        SimpleDateFormat(FORMAT_NOTICE_DISABLED_DATE, Locale.KOREA).apply {
+            yelloDataStore.disabledNoticeDate = format(Date())
+        }
     }
 }

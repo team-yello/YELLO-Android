@@ -61,13 +61,7 @@ class YelloDataStoreImpl @Inject constructor(
 
     override var disabledNoticeDate: String?
         get() = appPref.getString(PREF_DISABLED_NOTICE_DATE, "")
-        set(value) {
-            val dateFormat = SimpleDateFormat(FORMAT_NOTICE_DATE, Locale.KOREA)
-            val todayDate = dateFormat.format(value)
-            appPref.edit {
-                putString(PREF_DISABLED_NOTICE_DATE, todayDate)
-            }
-        }
+        set(value) = appPref.edit { putString(PREF_DISABLED_NOTICE_DATE, value) }
 
     override fun clearLocalPref() = userPref.edit { clear() }
 
@@ -82,6 +76,6 @@ class YelloDataStoreImpl @Inject constructor(
         private const val PREF_DISABLED_NOTICE_URL = "DISABLED_NOTICE_URL"
         private const val PREF_DISABLED_NOTICE_DATE = "DISABLED_NOTICE_DATE"
 
-        const val FORMAT_NOTICE_DATE = "yyyy-MM-dd"
+        const val FORMAT_NOTICE_DISABLED_DATE = "yyyy-MM-dd"
     }
 }

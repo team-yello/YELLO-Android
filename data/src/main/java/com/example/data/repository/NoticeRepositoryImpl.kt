@@ -44,4 +44,8 @@ class NoticeRepositoryImpl @Inject constructor(
             yelloDataStore.disabledNoticeDate = format(Date())
         }
     }
+
+    companion object {
+        private const val FORMAT_NOTICE_DISABLED_DATE = "yyyy-MM-dd"
+    }
 }

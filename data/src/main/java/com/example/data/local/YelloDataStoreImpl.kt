@@ -75,7 +75,5 @@ class YelloDataStoreImpl @Inject constructor(
         private const val PREF_STORED_VOTE = "STORED_VOTE"
         private const val PREF_DISABLED_NOTICE_URL = "DISABLED_NOTICE_URL"
         private const val PREF_DISABLED_NOTICE_DATE = "DISABLED_NOTICE_DATE"
-
-        const val FORMAT_NOTICE_DISABLED_DATE = "yyyy-MM-dd"
     }
 }

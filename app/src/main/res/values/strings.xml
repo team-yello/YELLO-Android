@@ -375,7 +375,7 @@
     <string name="profile_quit_reason_button">완료</string>
     <string name="profile_quit_reason_hint">사유를 적어주세요.(최대 30자)</string>
 
-    <string name="notice_do_not_see_it_again">다시 보지 않기</string>
+    <string name="notice_do_not_see_it_today">오늘 하루 보지 않기</string>
     <string name="notice_close">닫기</string>
     <string name="notice_do_not_see_it_again_icon">다시 보지 않기 아이콘</string>
 

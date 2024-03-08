@@ -8,6 +8,9 @@ import com.example.domain.YelloDataStore
 import com.example.domain.entity.vote.StoredVote
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 import javax.inject.Inject
 
 class YelloDataStoreImpl @Inject constructor(
@@ -56,6 +59,16 @@ class YelloDataStoreImpl @Inject constructor(
         get() = appPref.getString(PREF_DISABLED_NOTICE_URL, "")
         set(value) = appPref.edit { putString(PREF_DISABLED_NOTICE_URL, value) }
 
+    override var disabledNoticeDate: String?
+        get() = appPref.getString(PREF_DISABLED_NOTICE_DATE, "")
+        set(value) {
+            val dateFormat = SimpleDateFormat(FORMAT_NOTICE_DATE, Locale.KOREA)
+            val todayDate = dateFormat.format(value)
+            appPref.edit {
+                putString(PREF_DISABLED_NOTICE_DATE, todayDate)
+            }
+        }
+
     override fun clearLocalPref() = userPref.edit { clear() }
 
     companion object {
@@ -67,5 +80,8 @@ class YelloDataStoreImpl @Inject constructor(
         private const val PREF_IS_FIRST_LOGIN = "IS_FIRST_LOGIN"
         private const val PREF_STORED_VOTE = "STORED_VOTE"
         private const val PREF_DISABLED_NOTICE_URL = "DISABLED_NOTICE_URL"
+        private const val PREF_DISABLED_NOTICE_DATE = "DISABLED_NOTICE_DATE"
+
+        const val FORMAT_NOTICE_DATE = "yyyy-MM-dd"
     }
 }

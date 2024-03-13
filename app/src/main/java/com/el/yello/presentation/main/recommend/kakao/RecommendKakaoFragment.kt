@@ -19,12 +19,12 @@ import com.el.yello.presentation.main.recommend.list.RecommendItemDecoration
 import com.el.yello.presentation.main.recommend.list.RecommendViewHolder
 import com.el.yello.util.extension.BaseLinearRcvItemDeco
 import com.el.yello.util.extension.setPullToScrollColor
-import com.el.yello.util.manager.AmplitudeManager
 import com.el.yello.util.extension.yelloSnackbar
+import com.el.yello.util.manager.AmplitudeManager
 import com.example.domain.entity.RecommendListModel
 import com.example.ui.base.BindingFragment
-import com.example.ui.state.UiState
 import com.example.ui.extension.setOnSingleClickListener
+import com.example.ui.state.UiState
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.launchIn
@@ -165,9 +165,15 @@ class RecommendKakaoFragment :
 
     private fun observeKakaoError() {
         viewModel.getKakaoErrorResult.flowWithLifecycle(lifecycle).onEach { result ->
-            if (result) {
-                yelloSnackbar(requireView(), getString(R.string.internet_connection_error_msg))
-                showShimmerView(isLoading = true, hasList = true)
+            when (result) {
+                0 -> return@onEach
+
+                3 -> {
+                    yelloSnackbar(requireView(), getString(R.string.kakao_connection_error_msg))
+                    showShimmerView(isLoading = false, hasList = false)
+                }
+
+                else -> viewModel.getIdListFromKakao()
             }
         }.launchIn(lifecycleScope)
     }

@@ -24,8 +24,8 @@ class RecommendKakaoViewModel @Inject constructor(
     private val authRepository: AuthRepository,
 ) : ViewModel() {
 
-    private val _getKakaoErrorResult = MutableStateFlow(false)
-    val getKakaoErrorResult: StateFlow<Boolean> = _getKakaoErrorResult
+    private val _getKakaoErrorResult = MutableStateFlow(0)
+    val getKakaoErrorResult: StateFlow<Int> = _getKakaoErrorResult
 
     private val _postFriendsListState = MutableStateFlow<UiState<RecommendListModel>>(UiState.Empty)
     val postFriendsListState: StateFlow<UiState<RecommendListModel>> = _postFriendsListState
@@ -65,7 +65,7 @@ class RecommendKakaoViewModel @Inject constructor(
         totalPage = Int.MAX_VALUE
         _postFriendsListState.value = UiState.Empty
         _addFriendState.value = UiState.Empty
-        _getKakaoErrorResult.value = false
+        _getKakaoErrorResult.value = 0
     }
 
     fun getIdListFromKakao() {
@@ -76,9 +76,10 @@ class RecommendKakaoViewModel @Inject constructor(
             _postFriendsListState.value = UiState.Loading
             isFirstFriendsListPage = false
         }
+        if (currentOffset <= 0) currentOffset = 0
         TalkApiClient.instance.friends(offset = currentOffset, limit = 100) { friends, error ->
             if (error != null) {
-                _getKakaoErrorResult.value = true
+                _getKakaoErrorResult.value += 1
             } else if (friends != null) {
                 totalPage = ceil((friends.totalCount * 0.01)).toInt() - 1
                 if (totalPage == currentPage) isPagingFinish = true

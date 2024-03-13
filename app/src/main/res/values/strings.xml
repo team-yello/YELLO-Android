@@ -7,6 +7,7 @@
 
     <string name="token_expire_error_msg">로그인 상태를 확인해주세요!</string>
     <string name="internet_connection_error_msg">인터넷 연결을 확인해주세요!</string>
+    <string name="kakao_connection_error_msg">카카오톡 연동에 문제가 발생했습니다.</string>
     <string name="adapter_not_initialized_error_msg">Adapter is not initialized</string>
     <string name="manager_not_initialized_error_msg">Billing Manager is not initialized</string>
 

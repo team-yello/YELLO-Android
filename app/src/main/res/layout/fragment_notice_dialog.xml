@@ -61,7 +61,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
-                    android:text="@string/notice_do_not_see_it_again"
+                    android:text="@string/notice_do_not_see_it_today"
                     android:textAppearance="@style/TextAppearance.Yello.Body02"
                     android:textColor="@color/white"
                     app:layout_constraintBottom_toBottomOf="parent"

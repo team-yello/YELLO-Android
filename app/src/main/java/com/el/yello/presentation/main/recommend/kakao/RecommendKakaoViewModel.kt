@@ -98,6 +98,7 @@ class RecommendKakaoViewModel @Inject constructor(
                 .onSuccess {
                     it ?: return@launch
                     _postFriendsListState.value = UiState.Success(it)
+                    _postFriendsListState.value = UiState.Empty
                 }
                 .onFailure {
                     _postFriendsListState.value = UiState.Failure(it.message.toString())

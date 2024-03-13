@@ -59,6 +59,7 @@ class SearchViewModel @Inject constructor(
                     totalPage = ceil((it.totalCount * 0.1)).toInt() - 1
                     if (totalPage == currentPage) isPagingFinish = true
                     _postFriendsListState.value = UiState.Success(it)
+                    _postFriendsListState.value = UiState.Empty
                 }
                 .onFailure { t ->
                     _postFriendsListState.value = UiState.Failure(t.message.toString())

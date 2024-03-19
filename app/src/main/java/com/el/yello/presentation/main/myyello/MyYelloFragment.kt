@@ -26,12 +26,12 @@ import com.el.yello.presentation.main.myyello.read.MyYelloReadActivity.Companion
 import com.el.yello.presentation.pay.PayActivity
 import com.el.yello.util.extension.BaseLinearRcvItemDeco
 import com.el.yello.util.extension.setPullToScrollColor
-import com.el.yello.util.manager.AmplitudeManager
 import com.el.yello.util.extension.yelloSnackbar
+import com.el.yello.util.manager.AmplitudeManager
 import com.example.domain.entity.Yello
 import com.example.ui.base.BindingFragment
-import com.example.ui.state.UiState
 import com.example.ui.extension.setOnSingleClickListener
+import com.example.ui.state.UiState
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.FullScreenContentCallback
 import com.google.android.gms.ads.LoadAdError
@@ -120,8 +120,11 @@ class MyYelloFragment : BindingFragment<FragmentMyYelloBinding>(R.layout.fragmen
 
     private fun loadRewardAd() {
         val adRequest = AdRequest.Builder().build()
-        InterstitialAd.load(requireContext(),
-            ADMOB_FULLSCREEN_KEY, adRequest, object : InterstitialAdLoadCallback() {
+        InterstitialAd.load(
+            requireContext(),
+            ADMOB_FULLSCREEN_KEY,
+            adRequest,
+            object : InterstitialAdLoadCallback() {
 
                 override fun onAdLoaded(ad: InterstitialAd) {
                     interstitialAd = ad
@@ -131,7 +134,8 @@ class MyYelloFragment : BindingFragment<FragmentMyYelloBinding>(R.layout.fragmen
                 override fun onAdFailedToLoad(adError: LoadAdError) {
                     interstitialAd = null
                 }
-            })
+            },
+        )
     }
 
     private fun InterstitialAd.setRewardAdFinishCallback() {
@@ -146,7 +150,7 @@ class MyYelloFragment : BindingFragment<FragmentMyYelloBinding>(R.layout.fragmen
 
     private fun loadThirdReadWithAd() {
         viewModel.addReadCount()
-        if(viewModel.readCount % 5 == 3 && interstitialAd != null && !viewModel.isSubscribed) {
+        if (viewModel.readCount % 5 == 3 && interstitialAd != null && !viewModel.isSubscribed) {
             interstitialAd?.show(requireActivity())
         } else {
             navigateToMyYelloReadActivity()
@@ -202,6 +206,7 @@ class MyYelloFragment : BindingFragment<FragmentMyYelloBinding>(R.layout.fragmen
                                 return@onEach
                             }
                             binding.layoutMyYelloBanner.setOnSingleClickListener {
+                                AmplitudeManager.trackEventWithProperties(EVENT_CLICK_MESSAGE_BANNER)
                                 startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(redirectUrl)))
                             }
                             binding.tvMyYelloBanner.setOnSingleClickListener {
@@ -216,14 +221,14 @@ class MyYelloFragment : BindingFragment<FragmentMyYelloBinding>(R.layout.fragmen
                     is UiState.Failure -> {
                         yelloSnackbar(
                             binding.root,
-                            getString(R.string.internet_connection_error_msg)
+                            getString(R.string.internet_connection_error_msg),
                         )
                     }
 
                     is UiState.Empty -> {
                         yelloSnackbar(
                             binding.root,
-                            getString(R.string.internet_connection_error_msg)
+                            getString(R.string.internet_connection_error_msg),
                         )
                     }
 
@@ -353,6 +358,7 @@ class MyYelloFragment : BindingFragment<FragmentMyYelloBinding>(R.layout.fragmen
         private const val VALUE_CTA_MAIN = "cta_main"
         private const val VALUE_MESSAGE_SHOP = "message_shop"
         private const val EVENT_SCROLL_ALL_MESSAGES = "scroll_all_messages"
+        private const val EVENT_CLICK_MESSAGE_BANNER = "click_message_banner"
         private const val DELAY_MY_YELLO_SWIPE = 200L
     }
 }

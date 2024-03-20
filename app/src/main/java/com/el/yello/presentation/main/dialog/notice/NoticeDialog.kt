@@ -12,6 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import com.el.yello.R
 import com.el.yello.databinding.FragmentNoticeDialogBinding
 import com.el.yello.util.extension.loadUrl
+import com.el.yello.util.manager.AmplitudeManager
 import com.example.ui.base.BindingDialogFragment
 import com.example.ui.extension.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
@@ -63,6 +64,7 @@ class NoticeDialog :
 
             if (redirectUrl.isBlank()) return
             setOnSingleClickListener {
+                AmplitudeManager.trackEventWithProperties(EVENT_CLICK_POP_UP)
                 startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(redirectUrl)))
             }
         }
@@ -70,12 +72,15 @@ class NoticeDialog :
 
     private fun initDoNotSeeItAgainBtnClickListener() {
         binding.btnNoticeDoNotSeeItAgain.setOnSingleClickListener {
+            AmplitudeManager.trackEventWithProperties(EVENT_CLICK_POP_UP_NO)
             viewModel.switchNoticeDisabledState()
         }
         binding.icNoticeDoNotSeeItAgain.setOnSingleClickListener {
+            AmplitudeManager.trackEventWithProperties(EVENT_CLICK_POP_UP_NO)
             viewModel.switchNoticeDisabledState()
         }
         binding.tvNoticeDoNotSeeItAgain.setOnSingleClickListener {
+            AmplitudeManager.trackEventWithProperties(EVENT_CLICK_POP_UP_NO)
             viewModel.switchNoticeDisabledState()
         }
     }
@@ -103,6 +108,8 @@ class NoticeDialog :
     companion object {
         private const val ARGS_IMAGE_URL = "IMAGE_URL"
         private const val ARGS_REDIRECT_URL = "REDIRECT_URL"
+        private const val EVENT_CLICK_POP_UP = "click_notice_popup"
+        private const val EVENT_CLICK_POP_UP_NO = "click_notice_popup_no"
 
         @JvmStatic
         fun newInstance(

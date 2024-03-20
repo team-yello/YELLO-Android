@@ -14,9 +14,10 @@ import com.el.yello.presentation.main.profile.schoolmod.SchoolProfileModActivity
 import com.el.yello.presentation.main.profile.univmod.UnivProfileModActivity
 import com.el.yello.util.extension.setImageOrBasicThumbnail
 import com.el.yello.util.extension.yelloSnackbar
+import com.el.yello.util.manager.AmplitudeManager
 import com.example.ui.base.BindingActivity
-import com.example.ui.state.UiState
 import com.example.ui.extension.setOnSingleClickListener
+import com.example.ui.state.UiState
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.launchIn
@@ -35,12 +36,12 @@ class ProfileDetailActivity :
             when (result.resultCode) {
                 RESULT_OK -> yelloSnackbar(
                     binding.root,
-                    getString(R.string.profile_mod_success)
+                    getString(R.string.profile_mod_success),
                 )
 
                 RESULT_PROFILE_MODIFY_FAILURE -> yelloSnackbar(
                     binding.root,
-                    getString(R.string.internet_connection_error_msg)
+                    getString(R.string.internet_connection_error_msg),
                 )
             }
         }
@@ -70,6 +71,7 @@ class ProfileDetailActivity :
     }
 
     private fun navigateToModActivity() {
+        AmplitudeManager.trackEventWithProperties(EVENT_CLICK_PROFILE_CHANGE)
         if (isUnivProfile) {
             profileModifyResultLauncher.launch(Intent(this, UnivProfileModActivity::class.java))
         } else {
@@ -150,5 +152,6 @@ class ProfileDetailActivity :
 
     companion object {
         const val RESULT_PROFILE_MODIFY_FAILURE = 2
+        private const val EVENT_CLICK_PROFILE_CHANGE = "click_profile_change"
     }
 }

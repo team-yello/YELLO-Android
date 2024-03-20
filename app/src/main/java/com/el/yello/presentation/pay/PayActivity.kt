@@ -20,22 +20,22 @@ import com.el.yello.databinding.ActivityPayBinding
 import com.el.yello.presentation.main.MainActivity
 import com.el.yello.presentation.pay.banner.PayBannerAdapter
 import com.el.yello.presentation.pay.banner.PayBannerAdapter.Companion.TOTAL_BANNER_COUNT
-import com.el.yello.presentation.setting.SettingActivity
 import com.el.yello.presentation.pay.dialog.PayInAppDialog
 import com.el.yello.presentation.pay.dialog.PayPointDialog
 import com.el.yello.presentation.pay.dialog.PaySubsDialog
-import com.el.yello.util.manager.AmplitudeManager
+import com.el.yello.presentation.setting.SettingActivity
 import com.el.yello.util.extension.yelloSnackbar
+import com.el.yello.util.manager.AmplitudeManager
 import com.el.yello.util.manager.BillingCallback
 import com.el.yello.util.manager.BillingManager
 import com.example.data.model.request.pay.toRequestPayModel
-import com.example.ui.extension.navigateTo
 import com.example.ui.base.BindingActivity
 import com.example.ui.extension.colorOf
 import com.example.ui.extension.drawableOf
+import com.example.ui.extension.navigateTo
+import com.example.ui.extension.setOnSingleClickListener
 import com.example.ui.extension.toast
 import com.example.ui.state.UiState
-import com.example.ui.extension.setOnSingleClickListener
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.FullScreenContentCallback
 import com.google.android.gms.ads.LoadAdError
@@ -130,6 +130,10 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
     private fun initAdBtnListener() {
         binding.layoutAdForPoint.setOnSingleClickListener {
             if (viewModel.isAdAvailable) {
+                AmplitudeManager.trackEventWithProperties(
+                    EVENT_CLICK_ADSENSE,
+                    JSONObject().put(NAME_ADSENSE_VIEW, VALUE_MESSAGE),
+                )
                 startLoadingScreen(AD)
                 loadRewardAd()
             } else {
@@ -143,31 +147,32 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
         val adRequest = AdRequest.Builder().build()
         RewardedAd.load(this, ADMOB_REWARD_KEY, adRequest, object : RewardedAdLoadCallback() {
 
-            override fun onAdLoaded(ad: RewardedAd) {
-                rewardedAd = ad
-                rewardedAd?.apply {
-                    setSSV()
-                    setRewardAdFinishCallback()
+                override fun onAdLoaded(ad: RewardedAd) {
+                    rewardedAd = ad
+                    rewardedAd?.apply {
+                        setSSV()
+                        setRewardAdFinishCallback()
+                    }
+                    stopLoadingScreen(AD)
+
+                    rewardedAd?.show(this@PayActivity) {}
+                        ?: toast(getString(R.string.pay_ad_fail_to_load))
                 }
-                stopLoadingScreen(AD)
 
-                rewardedAd?.show(this@PayActivity) {}
-                    ?: toast(getString(R.string.pay_ad_fail_to_load))
-            }
-
-            override fun onAdFailedToLoad(adError: LoadAdError) {
-                rewardedAd = null
-                toast(getString(R.string.pay_ad_fail_to_load))
-                stopLoadingScreen(AD)
-            }
-        })
+                override fun onAdFailedToLoad(adError: LoadAdError) {
+                    rewardedAd = null
+                    toast(getString(R.string.pay_ad_fail_to_load))
+                    stopLoadingScreen(AD)
+                }
+            },
+        )
     }
 
     private fun RewardedAd.setSSV() {
         setServerSideVerificationOptions(
             ServerSideVerificationOptions.Builder()
                 .setCustomData(viewModel.idempotencyKey.toString())
-                .build()
+                .build(),
         )
     }
 
@@ -185,6 +190,10 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
         viewModel.postRewardAdState.flowWithLifecycle(lifecycle).onEach { state ->
             when (state) {
                 is UiState.Success -> {
+                    AmplitudeManager.trackEventWithProperties(
+                        EVENT_COMPLETE_ADSENSE,
+                        JSONObject().put(NAME_ADSENSE_VIEW, VALUE_MESSAGE),
+                    )
                     stopLoadingScreen(AD)
                     payPointDialog = PayPointDialog()
                     payPointDialog?.show(supportFragmentManager, DIALOG_POINT)
@@ -449,20 +458,20 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
 
     private fun setClickShopBuyAmplitude(buyType: String) {
         AmplitudeManager.trackEventWithProperties(
-            "click_shop_buy",
-            JSONObject().put("buy_type", buyType),
+            EVENT_CLICK_SHOP_BUY,
+            JSONObject().put(NAME_BUY_TYPE, buyType),
         )
     }
 
     private fun setCompleteShopBuyAmplitude(buyType: String, buyPrice: String) {
         AmplitudeManager.trackEventWithProperties(
-            "complete_shop_buy",
-            JSONObject().put("buy_type", buyType).put("buy_price", buyPrice),
+            EVENT_COMPLETE_SHOP_BUY,
+            JSONObject().put(NAME_BUY_TYPE, buyType).put(NAME_BUY_PRICE, buyPrice),
         )
     }
 
     private fun updateBuyDateAmplitude() {
-        AmplitudeManager.setUserDataProperties("user_buy_date")
+        AmplitudeManager.setUserDataProperties(PROPERTY_USER_BUY_DATE)
     }
 
     override fun finish() {
@@ -508,5 +517,15 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
 
         const val AD = "AD"
         const val PAY = "PAY"
+
+        private const val EVENT_CLICK_SHOP_BUY = "click_shop_buy"
+        private const val EVENT_COMPLETE_SHOP_BUY = "complete_shop_buy"
+        private const val EVENT_CLICK_ADSENSE = "click_adsense"
+        private const val EVENT_COMPLETE_ADSENSE = "complete_adsense"
+        private const val NAME_BUY_TYPE = "buy_type"
+        private const val NAME_BUY_PRICE = "buy_price"
+        private const val NAME_ADSENSE_VIEW = "adsense_view"
+        private const val VALUE_MESSAGE = "shop"
+        private const val PROPERTY_USER_BUY_DATE = "user_buy_date"
     }
 }

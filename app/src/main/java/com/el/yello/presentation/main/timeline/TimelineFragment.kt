@@ -91,9 +91,11 @@ class TimelineFragment : BindingFragment<FragmentTimelineBinding>(R.layout.fragm
             observeTimelinePagingList(isFilterSelected)
             with(binding) {
                 if (isFilterSelected) {
+                    AmplitudeManager.trackEventWithProperties(EVENT_VIEW_TIMELINE_MY_MESSAGE)
                     tvLookFilterType.text = TYPE_MINE
                     tvLookNoFriendTitle.text = stringOf(R.string.look_invite_no_title_mine)
                 } else {
+                    AmplitudeManager.trackEventWithProperties(EVENT_VIEW_TIMELINE)
                     tvLookFilterType.text = TYPE_ALL
                     tvLookNoFriendTitle.text = stringOf(R.string.look_invite_no_title)
                 }
@@ -199,9 +201,10 @@ class TimelineFragment : BindingFragment<FragmentTimelineBinding>(R.layout.fragm
         const val TYPE_ALL = "모든 쪽지"
         const val TYPE_MINE = "내가 보낸 쪽지"
         const val IS_FILTER_SELECTED = "isFilterSelected"
-        const val EVENT_VIEW_TIMELINE = "view_timeline"
-        const val EVENT_SCROLL_FRIENDS = "scroll_profile_friends"
-        const val EVENT_CLICK_INVITE = "click_invite"
-        const val NAME_INVITE_VIEW = "invite_view"
+        private const val EVENT_VIEW_TIMELINE = "view_timeline"
+        private const val EVENT_SCROLL_FRIENDS = "scroll_profile_friends"
+        private const val EVENT_CLICK_INVITE = "click_invite"
+        private const val NAME_INVITE_VIEW = "invite_view"
+        private const val EVENT_VIEW_TIMELINE_MY_MESSAGE = "view_timeline_myMessage"
     }
 }

@@ -141,6 +141,10 @@ class MyYelloFragment : BindingFragment<FragmentMyYelloBinding>(R.layout.fragmen
     private fun InterstitialAd.setRewardAdFinishCallback() {
         fullScreenContentCallback = object : FullScreenContentCallback() {
             override fun onAdDismissedFullScreenContent() {
+                AmplitudeManager.trackEventWithProperties(
+                    EVENT_COMPLETE_ADSENSE,
+                    JSONObject().put(NAME_ADSENSE_VIEW, VALUE_MESSAGE),
+                )
                 navigateToMyYelloReadActivity()
                 interstitialAd = null
                 loadRewardAd()
@@ -151,6 +155,10 @@ class MyYelloFragment : BindingFragment<FragmentMyYelloBinding>(R.layout.fragmen
     private fun loadThirdReadWithAd() {
         viewModel.addReadCount()
         if (viewModel.readCount % 5 == 3 && interstitialAd != null && !viewModel.isSubscribed) {
+            AmplitudeManager.trackEventWithProperties(
+                EVENT_CLICK_ADSENSE,
+                JSONObject().put(NAME_ADSENSE_VIEW, VALUE_MESSAGE),
+            )
             interstitialAd?.show(requireActivity())
         } else {
             navigateToMyYelloReadActivity()
@@ -360,5 +368,10 @@ class MyYelloFragment : BindingFragment<FragmentMyYelloBinding>(R.layout.fragmen
         private const val EVENT_SCROLL_ALL_MESSAGES = "scroll_all_messages"
         private const val EVENT_CLICK_MESSAGE_BANNER = "click_message_banner"
         private const val DELAY_MY_YELLO_SWIPE = 200L
+
+        private const val EVENT_CLICK_ADSENSE = "click_adsense"
+        private const val EVENT_COMPLETE_ADSENSE = "complete_adsense"
+        private const val NAME_ADSENSE_VIEW = "adsense_view"
+        private const val VALUE_MESSAGE = "message"
     }
 }

@@ -14,8 +14,8 @@ import com.el.yello.presentation.main.MainActivity.Companion.EXTRA_REWARD_LIST
 import com.el.yello.presentation.main.ParcelableEvent
 import com.el.yello.presentation.main.ParcelableReward
 import com.example.ui.base.BindingActivity
-import com.example.ui.extension.getVibrator
 import com.example.ui.extension.getCompatibleParcelableExtra
+import com.example.ui.extension.getVibrator
 import com.example.ui.extension.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -69,8 +69,8 @@ class EventActivity : BindingActivity<ActivityEventBinding>(R.layout.activity_ev
                 vib.vibrate(
                     VibrationEffect.createOneShot(
                         DURATION_EVENT_VIBRATE,
-                        VibrationEffect.DEFAULT_AMPLITUDE
-                    )
+                        VibrationEffect.DEFAULT_AMPLITUDE,
+                    ),
                 )
 
                 lottieEventOpen.playAnimation()

@@ -10,6 +10,7 @@ import android.view.WindowManager
 import com.el.yello.R
 import com.el.yello.databinding.FragmentNoticeResubscribeBinding
 import com.el.yello.presentation.pay.PayActivity
+import com.el.yello.util.manager.AmplitudeManager
 import com.example.ui.base.BindingDialogFragment
 import com.example.ui.extension.setOnSingleClickListener
 
@@ -41,6 +42,7 @@ class PayReSubsNoticeDialog :
             dismiss()
         }
         binding.btnYelloplusSubscribe.setOnSingleClickListener {
+            AmplitudeManager.trackEventWithProperties(EVENT_CLICK_RESUBSCRIBE)
             Intent(requireContext(), PayActivity::class.java).apply {
                 startActivity(this)
             }
@@ -63,6 +65,8 @@ class PayReSubsNoticeDialog :
 
     companion object {
         private const val ARG_EXPIRED_DATE = "arg_expired_date"
+        private const val EVENT_CLICK_RESUBSCRIBE = "click_resubscribe"
+
         @JvmStatic
         fun newInstance(expiredDate: String): PayReSubsNoticeDialog {
             return PayReSubsNoticeDialog().apply {

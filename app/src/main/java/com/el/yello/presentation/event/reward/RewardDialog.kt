@@ -11,9 +11,10 @@ import com.el.yello.R
 import com.el.yello.databinding.FragmentRewardDialogBinding
 import com.el.yello.presentation.event.EventViewModel
 import com.el.yello.util.extension.loadUrl
+import com.el.yello.util.manager.AmplitudeManager
 import com.example.ui.base.BindingDialogFragment
-import com.example.ui.state.UiState
 import com.example.ui.extension.setOnSingleClickListener
+import com.example.ui.state.UiState
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -37,6 +38,7 @@ class RewardDialog :
             .onEach { state ->
                 when (state) {
                     is UiState.Success -> {
+                        AmplitudeManager.trackEventWithProperties(EVENT_COMPLETE_LUNCH_EVENT)
                         binding.tvRewardTitle.text = state.data.title
                         binding.ivReward.loadUrl(state.data.imageUrl)
                     }
@@ -81,6 +83,8 @@ class RewardDialog :
     }
 
     companion object {
+        private const val EVENT_COMPLETE_LUNCH_EVENT = "complete_lunch_event"
+
         @JvmStatic
         fun newInstance() = RewardDialog()
     }

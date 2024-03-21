@@ -55,7 +55,7 @@ class TimelineFragment : BindingFragment<FragmentTimelineBinding>(R.layout.fragm
         setPullToScrollListener()
         observePagingLoadingState()
         catchScrollForAmplitude()
-        AmplitudeManager.trackEventWithProperties("view_timeline")
+        AmplitudeManager.trackEventWithProperties(EVENT_VIEW_TIMELINE)
     }
 
     private fun initAdapter() {
@@ -76,8 +76,8 @@ class TimelineFragment : BindingFragment<FragmentTimelineBinding>(R.layout.fragm
             inviteFriendDialog =
                 InviteFriendDialog.newInstance(viewModel.getYelloId(), TIMELINE_NO_FRIEND)
             AmplitudeManager.trackEventWithProperties(
-                "click_invite",
-                JSONObject().put("invite_view", TIMELINE_NO_FRIEND),
+                EVENT_CLICK_INVITE,
+                JSONObject().put(NAME_INVITE_VIEW, TIMELINE_NO_FRIEND),
             )
             inviteFriendDialog?.show(parentFragmentManager, INVITE_DIALOG)
         }
@@ -91,9 +91,11 @@ class TimelineFragment : BindingFragment<FragmentTimelineBinding>(R.layout.fragm
             observeTimelinePagingList(isFilterSelected)
             with(binding) {
                 if (isFilterSelected) {
+                    AmplitudeManager.trackEventWithProperties(EVENT_VIEW_TIMELINE_MY_MESSAGE)
                     tvLookFilterType.text = TYPE_MINE
                     tvLookNoFriendTitle.text = stringOf(R.string.look_invite_no_title_mine)
                 } else {
+                    AmplitudeManager.trackEventWithProperties(EVENT_VIEW_TIMELINE)
                     tvLookFilterType.text = TYPE_ALL
                     tvLookNoFriendTitle.text = stringOf(R.string.look_invite_no_title)
                 }
@@ -163,7 +165,7 @@ class TimelineFragment : BindingFragment<FragmentTimelineBinding>(R.layout.fragm
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
                 if (newState == RecyclerView.SCROLL_STATE_IDLE && !isScrolled) {
-                    AmplitudeManager.trackEventWithProperties("scroll_profile_friends")
+                    AmplitudeManager.trackEventWithProperties(EVENT_SCROLL_FRIENDS)
                     isScrolled = true
                 }
             }
@@ -196,9 +198,13 @@ class TimelineFragment : BindingFragment<FragmentTimelineBinding>(R.layout.fragm
     companion object {
         const val INVITE_DIALOG = "inviteDialog"
         const val TIMELINE_NO_FRIEND = "timeline_0friend"
-
         const val TYPE_ALL = "모든 쪽지"
         const val TYPE_MINE = "내가 보낸 쪽지"
         const val IS_FILTER_SELECTED = "isFilterSelected"
+        private const val EVENT_VIEW_TIMELINE = "view_timeline"
+        private const val EVENT_SCROLL_FRIENDS = "scroll_profile_friends"
+        private const val EVENT_CLICK_INVITE = "click_invite"
+        private const val NAME_INVITE_VIEW = "invite_view"
+        private const val EVENT_VIEW_TIMELINE_MY_MESSAGE = "view_timeline_myMessage"
     }
 }

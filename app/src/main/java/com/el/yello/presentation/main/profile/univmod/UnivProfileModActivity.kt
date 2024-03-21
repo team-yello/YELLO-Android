@@ -15,6 +15,7 @@ import com.el.yello.presentation.main.profile.detail.ProfileDetailActivity.Compa
 import com.el.yello.presentation.main.profile.schoolmod.SchoolProfileModActivity
 import com.el.yello.presentation.main.profile.univmod.UnivProfileModViewModel.Companion.TEXT_NONE
 import com.el.yello.util.extension.yelloSnackbar
+import com.el.yello.util.manager.AmplitudeManager
 import com.example.ui.base.BindingActivity
 import com.example.ui.extension.drawableOf
 import com.example.ui.extension.navigateTo
@@ -106,10 +107,12 @@ class UnivProfileModActivity :
 
     private fun observeGetUserDataResult() {
         viewModel.getUserDataResult.flowWithLifecycle(lifecycle).onEach { result ->
-            if (!result) yelloSnackbar(
-                binding.root,
-                getString(R.string.internet_connection_error_msg)
-            )
+            if (!result) {
+                yelloSnackbar(
+                    binding.root,
+                    getString(R.string.internet_connection_error_msg),
+                )
+            }
         }.launchIn(lifecycleScope)
     }
 
@@ -126,7 +129,7 @@ class UnivProfileModActivity :
 
                 is UiState.Failure -> yelloSnackbar(
                     binding.root,
-                    getString(R.string.internet_connection_error_msg)
+                    getString(R.string.internet_connection_error_msg),
                 )
 
                 is UiState.Loading -> return@onEach
@@ -137,6 +140,7 @@ class UnivProfileModActivity :
     private fun observePostNewProfileResult() {
         viewModel.postToModProfileResult.flowWithLifecycle(lifecycle).onEach { isModified ->
             if (isModified) {
+                AmplitudeManager.trackEventWithProperties(EVENT_COMPLETE_PROFILE_CHANGE)
                 Intent(this, ProfileDetailActivity::class.java).apply {
                     setResult(Activity.RESULT_OK, this)
                     if (!isFinishing) finish()
@@ -171,5 +175,6 @@ class UnivProfileModActivity :
         const val DIALOG_SUBGROUP = "subgroup"
         const val DIALOG_YEAR = "year"
         const val DIALOG_MOD = "mod"
+        private const val EVENT_COMPLETE_PROFILE_CHANGE = "complete_profile_change"
     }
 }

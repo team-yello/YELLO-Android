@@ -146,7 +146,9 @@
 
     <string name="look_title">타임라인</string>
     <string name="look_invite_no_title">친구들이 받은 쪽지가 궁금하다면\n친구를 초대해볼까요?</string>
-    <string name="look_invite_no_title_mine">쪽지를 보낼 친구가 없다면\n친구를 초대하세요!</string>
+    <string name="look_invite_no_title_mine">전하고 싶은 말이 있는 친구에게\n쪽지를 보내 보세요!</string>
+    <string name="look_btn_invite">친구 초대하고 리워드 받기</string>
+    <string name="look_btn_vote">지금 바로 쪽지 보내기</string>
     <string name="look_tv_info">쪽지를 보낸 사람의 이름은 공개되지 않아요.</string>
     <string name="look_tv_filter_basic">모든 쪽지</string>
 

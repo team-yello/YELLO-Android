@@ -208,7 +208,7 @@
                 android:gravity="center"
                 android:paddingHorizontal="30dp"
                 android:paddingVertical="17dp"
-                android:text="@string/recommend_invite_no_subtitle"
+                android:text="@string/look_btn_invite"
                 android:textAppearance="?textAppearanceButton"
                 android:textColor="@color/yello_main_500"
                 android:textSize="15sp"

@@ -204,6 +204,13 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
         }
     }
 
+    fun navigateToVote() {
+        supportFragmentManager.commit {
+            replace<YelloFragment>(R.id.fcv_main)
+        }
+        initBnvItemIconTintList()
+    }
+
     private fun setupGetUserSubsState() {
         userSubsStateJob = viewModel.getUserSubsState.flowWithLifecycle(lifecycle).onEach { state ->
             when (state) {

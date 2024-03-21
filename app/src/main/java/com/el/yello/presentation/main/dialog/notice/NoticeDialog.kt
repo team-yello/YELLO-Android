@@ -72,19 +72,15 @@ class NoticeDialog :
 
     private fun initDoNotSeeItAgainBtnClickListener() {
         binding.btnNoticeDoNotSeeItAgain.setOnSingleClickListener {
-            AmplitudeManager.trackEventWithProperties(EVENT_CLICK_POP_UP_NO)
             viewModel.switchNoticeDisabledState()
         }
         binding.icNoticeDoNotSeeItAgain.setOnSingleClickListener {
-            AmplitudeManager.trackEventWithProperties(EVENT_CLICK_POP_UP_NO)
             viewModel.switchNoticeDisabledState()
         }
         binding.tvNoticeDoNotSeeItAgain.setOnSingleClickListener {
-            AmplitudeManager.trackEventWithProperties(EVENT_CLICK_POP_UP_NO)
             viewModel.switchNoticeDisabledState()
         }
     }
-
     private fun setupIsNoticeDisabled() {
         viewModel.isNoticeDisabled.flowWithLifecycle(viewLifecycleOwner.lifecycle)
             .onEach { isNoticeDisabled ->
@@ -96,6 +92,9 @@ class NoticeDialog :
 
     private fun initCloseBtnClickListener() {
         binding.tvNoticeClose.setOnSingleClickListener {
+            if (viewModel.isNoticeDisabled.value) {
+                AmplitudeManager.trackEventWithProperties(EVENT_CLICK_POP_UP_NO)
+            }
             dismiss()
         }
     }

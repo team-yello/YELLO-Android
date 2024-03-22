@@ -12,6 +12,7 @@ import androidx.paging.LoadState
 import androidx.recyclerview.widget.RecyclerView
 import com.el.yello.R
 import com.el.yello.databinding.FragmentTimelineBinding
+import com.el.yello.presentation.main.MainActivity
 import com.el.yello.presentation.main.dialog.invite.InviteFriendDialog
 import com.el.yello.util.extension.BaseLinearRcvItemDeco
 import com.el.yello.util.extension.setPullToScrollColor
@@ -73,13 +74,17 @@ class TimelineFragment : BindingFragment<FragmentTimelineBinding>(R.layout.fragm
 
     private fun initInviteBtnListener() {
         binding.btnLookNoFriend.setOnSingleClickListener {
-            inviteFriendDialog =
-                InviteFriendDialog.newInstance(viewModel.getYelloId(), TIMELINE_NO_FRIEND)
-            AmplitudeManager.trackEventWithProperties(
-                EVENT_CLICK_INVITE,
-                JSONObject().put(NAME_INVITE_VIEW, TIMELINE_NO_FRIEND),
-            )
-            inviteFriendDialog?.show(parentFragmentManager, INVITE_DIALOG)
+            if (isFilterSelected) {
+                (requireActivity() as MainActivity).navigateToVote()
+            } else {
+                inviteFriendDialog =
+                    InviteFriendDialog.newInstance(viewModel.getYelloId(), TIMELINE_NO_FRIEND)
+                AmplitudeManager.trackEventWithProperties(
+                    "click_invite",
+                    JSONObject().put("invite_view", TIMELINE_NO_FRIEND),
+                )
+                inviteFriendDialog?.show(parentFragmentManager, INVITE_DIALOG)
+            }
         }
     }
 
@@ -89,25 +94,28 @@ class TimelineFragment : BindingFragment<FragmentTimelineBinding>(R.layout.fragm
             adapter.refresh()
             viewModel.setFirstLoading(true)
             observeTimelinePagingList(isFilterSelected)
-            with(binding) {
-                if (isFilterSelected) {
-                    AmplitudeManager.trackEventWithProperties(EVENT_VIEW_TIMELINE_MY_MESSAGE)
-                    tvLookFilterType.text = TYPE_MINE
-                    tvLookNoFriendTitle.text = stringOf(R.string.look_invite_no_title_mine)
-                } else {
-                    AmplitudeManager.trackEventWithProperties(EVENT_VIEW_TIMELINE)
-                    tvLookFilterType.text = TYPE_ALL
-                    tvLookNoFriendTitle.text = stringOf(R.string.look_invite_no_title)
-                }
-            }
+            setEmptyViewByFilter(isFilterSelected)
         }
     }
 
     private fun initFromPushNotification() {
         isFilterSelected = arguments?.getBoolean(IS_FILTER_SELECTED, false) ?: false
-        if (isFilterSelected) {
-            binding.tvLookFilterType.text = TYPE_MINE
-            binding.tvLookNoFriendTitle.text = stringOf(R.string.look_invite_no_title_mine)
+        setEmptyViewByFilter(isFilterSelected)
+    }
+
+    private fun setEmptyViewByFilter(isFilterSelected: Boolean) {
+        with(binding) {
+            if (isFilterSelected) {
+                AmplitudeManager.trackEventWithProperties(EVENT_VIEW_TIMELINE_MY_MESSAGE)
+                tvLookFilterType.text = TYPE_MINE
+                tvLookNoFriendTitle.text = stringOf(R.string.look_invite_no_title_mine)
+                btnLookNoFriend.text = stringOf(R.string.look_btn_vote)
+            } else {
+                AmplitudeManager.trackEventWithProperties(EVENT_VIEW_TIMELINE)
+                tvLookFilterType.text = TYPE_ALL
+                tvLookNoFriendTitle.text = stringOf(R.string.look_invite_no_title)
+                btnLookNoFriend.text = stringOf(R.string.look_btn_invite)
+            }
         }
     }
 

@@ -91,12 +91,7 @@ class NoticeDialog :
     }
 
     private fun initCloseBtnClickListener() {
-        binding.tvNoticeClose.setOnSingleClickListener {
-            if (viewModel.isNoticeDisabled.value) {
-                AmplitudeManager.trackEventWithProperties(EVENT_CLICK_POP_UP_NO)
-            }
-            dismiss()
-        }
+        binding.tvNoticeClose.setOnSingleClickListener { dismiss() }
     }
 
     override fun onDestroyView() {
@@ -108,7 +103,6 @@ class NoticeDialog :
         private const val ARGS_IMAGE_URL = "IMAGE_URL"
         private const val ARGS_REDIRECT_URL = "REDIRECT_URL"
         private const val EVENT_CLICK_POP_UP = "click_notice_popup"
-        private const val EVENT_CLICK_POP_UP_NO = "click_notice_popup_no"
 
         @JvmStatic
         fun newInstance(

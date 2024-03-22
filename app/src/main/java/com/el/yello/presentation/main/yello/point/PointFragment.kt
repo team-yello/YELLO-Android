@@ -13,10 +13,11 @@ import com.el.yello.databinding.FragmentPointBinding
 import com.el.yello.presentation.main.yello.YelloViewModel
 import com.el.yello.presentation.main.yello.vote.VoteViewModel
 import com.el.yello.util.extension.yelloSnackbar
+import com.el.yello.util.manager.AmplitudeManager
 import com.example.ui.base.BindingFragment
+import com.example.ui.extension.setOnSingleClickListener
 import com.example.ui.extension.toast
 import com.example.ui.state.UiState
-import com.example.ui.extension.setOnSingleClickListener
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.FullScreenContentCallback
 import com.google.android.gms.ads.LoadAdError
@@ -25,6 +26,7 @@ import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback
 import com.google.android.gms.ads.rewarded.ServerSideVerificationOptions
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import org.json.JSONObject
 
 class PointFragment : BindingFragment<FragmentPointBinding>(R.layout.fragment_point) {
 
@@ -90,6 +92,10 @@ class PointFragment : BindingFragment<FragmentPointBinding>(R.layout.fragment_po
 
     private fun initAdBtnListener() {
         binding.btnPointAdToDouble.setOnSingleClickListener {
+            AmplitudeManager.trackEventWithProperties(
+                EVENT_CLICK_ADSENSE,
+                JSONObject().put(NAME_ADSENSE_VIEW, VALUE_MESSAGE),
+            )
             startLoadingScreen()
             loadRewardAd()
         }
@@ -118,14 +124,15 @@ class PointFragment : BindingFragment<FragmentPointBinding>(R.layout.fragment_po
                     yelloSnackbar(binding.root, getString(R.string.pay_ad_fail_to_load))
                     stopLoadingScreen()
                 }
-            })
+            },
+        )
     }
 
     private fun RewardedAd.setSSV() {
         setServerSideVerificationOptions(
             ServerSideVerificationOptions.Builder()
                 .setCustomData(voteViewModel.idempotencyKey.toString())
-                .build()
+                .build(),
         )
     }
 
@@ -143,6 +150,10 @@ class PointFragment : BindingFragment<FragmentPointBinding>(R.layout.fragment_po
         voteViewModel.postRewardAdState.flowWithLifecycle(lifecycle).onEach { state ->
             when (state) {
                 is UiState.Success -> {
+                    AmplitudeManager.trackEventWithProperties(
+                        EVENT_COMPLETE_ADSENSE,
+                        JSONObject().put(NAME_ADSENSE_VIEW, VALUE_MESSAGE),
+                    )
                     stopLoadingScreen()
                     showDoubleConfirm(true)
                     val originalPoint = voteViewModel.totalPoint
@@ -184,6 +195,11 @@ class PointFragment : BindingFragment<FragmentPointBinding>(R.layout.fragment_po
     }
 
     companion object {
+        private const val EVENT_CLICK_ADSENSE = "click_adsense"
+        private const val EVENT_COMPLETE_ADSENSE = "complete_adsense"
+        private const val NAME_ADSENSE_VIEW = "adsense_view"
+        private const val VALUE_MESSAGE = "vote"
+
         @JvmStatic
         fun newInstance() = PointFragment()
     }

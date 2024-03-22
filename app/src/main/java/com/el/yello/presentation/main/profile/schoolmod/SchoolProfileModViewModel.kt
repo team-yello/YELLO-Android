@@ -23,7 +23,7 @@ import kotlin.math.ceil
 @HiltViewModel
 class SchoolProfileModViewModel @Inject constructor(
     private val profileRepository: ProfileRepository,
-    private val onboardingRepository: OnboardingRepository
+    private val onboardingRepository: OnboardingRepository,
 ) : ViewModel() {
 
     private val _getUserDataResult = MutableSharedFlow<Boolean>()
@@ -91,7 +91,7 @@ class SchoolProfileModViewModel @Inject constructor(
                         profile.email,
                         profile.profileImageUrl,
                         profile.groupId,
-                        profile.groupAdmissionYear
+                        profile.groupAdmissionYear,
                     )
                     _getUserDataResult.emit(true)
                 }
@@ -130,7 +130,7 @@ class SchoolProfileModViewModel @Inject constructor(
         viewModelScope.launch {
             onboardingRepository.getHighSchoolList(
                 searchText,
-                ++currentPage
+                ++currentPage,
             )
                 .onSuccess { schoolList ->
                     if (schoolList == null) {

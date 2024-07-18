@@ -21,10 +21,10 @@ class YelloStartShadowView @JvmOverloads constructor(
         xfermode = PorterDuffXfermode(PorterDuff.Mode.CLEAR)
     }
 
-    override fun onDraw(canvas: Canvas?) {
+    override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
 
-        drawHole(requireNotNull(canvas))
+        drawHole(canvas)
     }
 
     private fun drawHole(canvas: Canvas) {

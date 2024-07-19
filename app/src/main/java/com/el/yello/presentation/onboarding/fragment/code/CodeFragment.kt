@@ -89,13 +89,20 @@ class CodeFragment : BindingFragment<FragmentCodeBinding>(R.layout.fragment_code
                 }
 
                 is UiState.Failure -> {
-                    yelloSnackbar(binding.root, getString(R.string.internet_connection_error_msg))
+                    val errorMessage = if (state.errorCode != null) {
+                        "${getString(R.string.internet_connection_error_msg)} code: ${state.errorCode}"
+                    } else {
+                        getString(R.string.internet_connection_error_msg)
+                    }
+                    yelloSnackbar(binding.root, errorMessage)
                 }
 
                 is UiState.Loading -> {}
                 is UiState.Empty -> {
                     yelloSnackbar(binding.root, getString(R.string.internet_connection_error_msg))
                 }
+
+                else -> {}
             }
         }
     }
@@ -111,11 +118,18 @@ class CodeFragment : BindingFragment<FragmentCodeBinding>(R.layout.fragment_code
                 }
 
                 is UiState.Failure -> {
-                    yelloSnackbar(binding.root, getString(R.string.internet_connection_error_msg))
+                    val errorMessage = if (state.errorCode != null) {
+                        "${getString(R.string.internet_connection_error_msg)} code: ${state.errorCode}"
+                    } else {
+                        getString(R.string.internet_connection_error_msg)
+                    }
+                    yelloSnackbar(binding.root, errorMessage)
+                }
+                is UiState.Loading -> {
                 }
 
-                is UiState.Loading -> {}
-                is UiState.Empty -> {}
+                is UiState.Empty -> {
+                }
             }
         }
     }

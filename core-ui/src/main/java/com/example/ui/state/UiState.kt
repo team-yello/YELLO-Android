@@ -11,6 +11,8 @@ sealed interface UiState<out T> {
 
     data class Failure(
         val msg: String,
+        val error: Throwable? = null,
+        val errorCode: Int? = null,
     ) : UiState<Nothing>
 
     fun getUiStateModel(): UiStateModel {

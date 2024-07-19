@@ -30,5 +30,4 @@ data class UiStateModel(
     val isLoading: Boolean = true,
     val isSuccess: Boolean = false,
     val isFailure: Boolean = false,
-    val isFailureCode: Boolean = false,
 )

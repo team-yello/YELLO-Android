@@ -27,7 +27,7 @@ class AndroidApplicationComposePlugin : Plugin<Project> {
                 }
 
                 composeOptions {
-                    kotlinCompilerExtensionVersion = "1.4.6"
+                    kotlinCompilerExtensionVersion = "1.5.11"
                 }
             }
             val libs = extensions.getVersionCatalog()

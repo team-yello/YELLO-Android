@@ -10,9 +10,10 @@ import com.el.yello.R
 
 fun ImageView.loadUrl(url: String) {
     if (url.endsWith(".svg")) {
-        val imageLoader = ImageLoader.Builder(this.context)
-            .componentRegistry { add(SvgDecoder(this@loadUrl.context)) }
-            .build()
+        val imageLoader = ImageLoader.Builder(context)
+            .components {
+                add(SvgDecoder.Factory())
+            }.build()
 
         val request = ImageRequest.Builder(this.context)
             .crossfade(true)
@@ -36,9 +37,11 @@ fun ImageView.loadUrlWithCircleCrop(url: String) {
         return
     }
 
-    val imageLoader = ImageLoader.Builder(this.context)
-        .componentRegistry { add(SvgDecoder(this@loadUrlWithCircleCrop.context)) }
-        .build()
+    val imageLoader = ImageLoader.Builder(context)
+        .components {
+            add(SvgDecoder.Factory())
+        }.build()
+
 
     val request = ImageRequest.Builder(this.context)
         .crossfade(true)

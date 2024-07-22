@@ -23,10 +23,21 @@ pagingVersion = "3.1.1"
 lifecycleVersion = "2.6.1"
 ossVersion = "17.0.0"
 splashVersion = "1.0.0-beta01"
-composeVersion = "1.4.3"
 workManagerVersion = "2.8.1"
 billingVersion = "6.0.1"
 admobVersion = "21.5.0"
+
+## Compose
+composeActivityVersion = "1.9.0"
+composeAnimationVersion = "1.6.8"
+composeViewModelVersion = "2.7.0"
+composeBom = "2024.06.00"
+composeCoil = "2.6.0"
+composeConstraintLayoutVersion = "1.0.1"
+composeLottieVersion = "6.0.1"
+composeCompilerVersion = "1.5.11"
+composeNavigation = "2.7.7"
+composeHiltVersion= "1.2.0"
 
 ## Firebase
 firebaseVersion = "30.4.0"
@@ -148,20 +159,28 @@ firebase-crashlytics = { group = "com.google.firebase", name = "firebase-crashly
 firebase-analytics = { group = "com.google.firebase", name = "firebase-analytics-ktx"}
 firebase-remoteConfig = { group = "com.google.firebase", name = "firebase-config-ktx"}
 
-compose-activity = { group = "androidx.activity", name = "activity-compose", version.ref = "activityKtxVersion" }
-compose-material = { group = "androidx.compose.material", name = "material", version.ref = "composeVersion" }
-compose-animation = { group = "androidx.compose.animation", name = "animation", version.ref = "composeVersion" }
-compose-ui = { group = "androidx.compose.ui", name = "ui", version.ref = "composeVersion" }
-compose-ui-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview", version.ref = "composeVersion" }
-compose-foundation = { group = "androidx.compose.foundation", name = "foundation", version.ref = "composeVersion" }
-compose-material-core = { group = "androidx.compose.material", name = "material-icons-core", version.ref = "composeVersion" }
-compose-material-extended = { group = "androidx.compose.material", name = "material-icons-extended", version.ref = "composeVersion" }
-compose-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout-compose", version.ref = "composeVersion" }
-compose-lifecycle = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-compose", version.ref = "composeVersion" }
-compose-hilt= { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "composeVersion" }
-compose-paging = { group = "androidx.paging", name = "paging-compose", version.ref = "composeVersion" }
-compose-coil = { group = "io.coil-kt", name = "coil-compose", version.ref = "composeVersion" }
-compose-lottie = { group = "com.airbnb.android", name = "lottie-compose", version.ref = "lottieVersion" }
+## Compose
+compose-activity = { group = "androidx.activity", name = "activity-compose", version.ref = "composeActivityVersion" }
+compose-animation = { group = "androidx.compose.animation", name = "animation", version.ref = "composeAnimationVersion" }
+compose-viewModel = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-compose", version.ref = "composeViewModelVersion" }
+compose-coil = {group = "io.coil-kt", name = "coil-compose", version.ref = "composeCoil"}
+compose-constraintLayout = { group = "androidx.constraintlayout", name = "constraintlayout-compose", version.ref = "composeConstraintLayoutVersion"}
+compose-lottie = { group = "com.airbnb.android", name = "lottie-compose", version.ref = "composeLottieVersion"}
+compose-navigation = { group = "androidx.navigation", name = "navigation-compose", version.ref = "composeNavigation"}
+compose-hilt= { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "composeHiltVersion" }
+compose-compiler-extension = { module = "org.jetbrains.kotlin:compose-compiler-gradle-plugin", version.ref = "kotlinVersion" }
+
+## Compose Bom
+compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
+compose-bom-material3 = {group = "androidx.compose.material3", name = "material3"}
+compose-bom-material2 = {group = "androidx.compose.material", name = "material"}
+compose-bom-ui = {group = "androidx.compose.ui", name = "ui"}
+compose-ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }
+compose-bom-preview = {group = "androidx.compose.ui", name = "ui-tooling-preview"}
+compose-bom-debug-ui-tooling = {group = "androidx.compose.ui", name = "ui-tooling"}
+compose-bom-ui-test = {group = "androidx.compose.ui", name = "ui-test-junit4"}
+compose-bom-debug-ui-test-manifest = {group = "androidx.compose.ui", name="ui-test-manifest"}
+compose-runtime = {group = "androidx.compose.runtime", name="runtime"}
 
 
 ## Test
@@ -200,21 +219,25 @@ androidx = [
     "admob"
 ]
 
+## Compose
 compose = [
     "compose-activity",
     "compose-animation",
-    "compose-foundation",
-    "compose-material",
-    "compose-material-core",
-    "compose-material-extended",
-    "compose-ui",
-    "compose-ui-preview",
-    "compose-constraintlayout",
-    "compose-hilt",
-    "compose-lifecycle",
-    "compose-paging",
+    "compose-viewModel",
     "compose-coil",
-    "compose-lottie"
+    "compose-hilt",
+    "compose-constraintLayout",
+    "compose-lottie",
+    "compose-navigation"]
+
+## Compose Bom
+compose-bom-bundle = [
+    "compose-bom-material3",
+    "compose-bom-material2",
+    "compose-ui-graphics",
+    "compose-bom-ui",
+    "compose-bom-preview",
+    "compose-runtime"
 ]
 
 kakao = [

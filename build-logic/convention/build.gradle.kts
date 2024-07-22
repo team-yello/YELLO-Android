@@ -18,6 +18,10 @@ gradlePlugin {
             id = "yello.android.application"
             implementationClass = "plugins.AndroidApplicationPlugin"
         }
+        register("androidApplicationCompose") {
+            id = "yello.android.application.compose"
+            implementationClass = "plugins.AndroidApplicationComposePlugin"
+        }
         register("androidLibrary") {
             id = "yello.android.library"
             implementationClass = "plugins.AndroidLibraryPlugin"

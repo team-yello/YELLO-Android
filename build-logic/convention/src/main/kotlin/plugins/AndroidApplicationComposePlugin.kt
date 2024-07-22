@@ -2,6 +2,7 @@ package plugins
 
 import com.android.build.api.dsl.ApplicationExtension
 import ext.androidTestImplementation
+import ext.configureAndroidCompose
 import ext.debugImplementation
 import ext.getBundle
 import ext.getLibrary
@@ -21,25 +22,7 @@ import org.gradle.kotlin.dsl.getByType
 class AndroidApplicationComposePlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
-            extensions.getByType<ApplicationExtension>().apply {
-                buildFeatures {
-                    compose = true
-                }
-
-                composeOptions {
-                    kotlinCompilerExtensionVersion = "1.5.11"
-                }
-            }
-            val libs = extensions.getVersionCatalog()
-            dependencies {
-                val composeBom = platform(libs.getLibrary("compose-bom"))
-                implementation(composeBom)
-                androidTestImplementation(composeBom)
-                implementation(libs.getBundle("compose-bom-bundle"))
-                debugImplementation(libs.getLibrary("compose-bom-debug-ui-tooling"))
-                androidTestImplementation(libs.getLibrary("compose-bom-debug-ui-test-manifest"))
-                implementation(libs.getBundle("compose"))
-            }
+            configureAndroidCompose(extensions.getByType<ApplicationExtension>())
         }
     }
 }

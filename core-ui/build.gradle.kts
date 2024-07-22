@@ -1,5 +1,6 @@
 plugins {
     id("yello.android.library")
+    id("yello.android.library.compose")
 }
 
 android {

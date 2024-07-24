@@ -26,6 +26,10 @@ gradlePlugin {
             id = "yello.android.library"
             implementationClass = "plugins.AndroidLibraryPlugin"
         }
+        register("androidLibraryCompose") {
+            id = "yello.android.library.compose"
+            implementationClass = "plugins.AndroidLibraryComposePlugin"
+        }
         register("androidHilt") {
             id = "yello.android.androidHilt"
             implementationClass = "plugins.AndroidHiltPlugin"

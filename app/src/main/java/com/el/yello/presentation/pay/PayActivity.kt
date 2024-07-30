@@ -206,7 +206,7 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
 
                 is UiState.Failure -> {
                     stopLoadingScreen(AD)
-                    toast(getString(R.string.internet_connection_error_msg))
+                    toast(getString(R.string.pay_ad_error_msg))
                 }
 
                 is UiState.Loading -> startLoadingScreen(AD)
@@ -450,7 +450,7 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
         window?.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
     }
 
-    private fun setBackPressedWhenLoading(){
+    private fun setBackPressedWhenLoading() {
         val callback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 if (!manager.isPurchasing.value) {

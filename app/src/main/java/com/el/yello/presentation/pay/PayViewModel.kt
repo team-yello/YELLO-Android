@@ -140,11 +140,7 @@ class PayViewModel @Inject constructor(
                 )
             )
                 .onSuccess { reward ->
-                    if (reward == null) {
-                        _postRewardAdState.value = UiState.Failure(toString())
-                    } else {
-                        _postRewardAdState.value = UiState.Success(reward)
-                    }
+                    _postRewardAdState.value = UiState.Success(reward)
                 }
                 .onFailure {
                     _postRewardAdState.value = UiState.Failure(it.message.orEmpty())

@@ -64,7 +64,7 @@ class SearchDialogUniversityFragment :
 
     private fun initUniversityDialogView() {
         setHideKeyboard()
-        binding.etSchoolSearch.doAfterTextChanged { input ->
+        binding.etUnivSearch.doAfterTextChanged { input ->
             searchJob?.cancel()
             searchJob = viewModel.viewModelScope.launch {
                 delay(Companion.debounceTime)

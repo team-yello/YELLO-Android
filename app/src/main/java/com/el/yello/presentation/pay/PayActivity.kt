@@ -206,7 +206,12 @@ class PayActivity : BindingActivity<ActivityPayBinding>(R.layout.activity_pay) {
 
                 is UiState.Failure -> {
                     stopLoadingScreen(AD)
-                    toast(getString(R.string.pay_ad_error_msg))
+//                    toast(getString(R.string.pay_ad_error_msg))
+                    payPointDialog = PayPointDialog()
+                    payPointDialog?.show(supportFragmentManager, DIALOG_POINT)
+                    viewModel.addPointCount(10)
+                    binding.tvPointAmount.text = viewModel.pointCount.toString()
+                    viewModel.getRewardAdPossible()
                 }
 
                 is UiState.Loading -> startLoadingScreen(AD)

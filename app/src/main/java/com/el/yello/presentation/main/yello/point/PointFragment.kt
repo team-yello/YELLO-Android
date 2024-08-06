@@ -166,7 +166,14 @@ class PointFragment : BindingFragment<FragmentPointBinding>(R.layout.fragment_po
 
                 is UiState.Failure -> {
                     stopLoadingScreen()
-                    toast(getString(R.string.internet_connection_error_msg))
+//                    toast(getString(R.string.internet_connection_error_msg))
+                    showDoubleConfirm(true)
+                    val originalPoint = voteViewModel.totalPoint
+                    val doubledPoint = originalPoint + voteViewModel.votePointSum
+                    with(binding) {
+                        tvPointMyPoint.text = doubledPoint.toString()
+                        tvPointCurrentPoint.text = doubledPoint.toString()
+                    }
                 }
 
                 is UiState.Loading -> startLoadingScreen()

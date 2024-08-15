@@ -18,10 +18,6 @@ class SplashViewModel @Inject constructor(
     private val _isLatestVersion = MutableStateFlow<UiState<Boolean>>(UiState.Empty)
     val isLatestVersion get() = _isLatestVersion.asStateFlow()
 
-    init {
-        checkLatestUpdate()
-    }
-
     fun getIsAutoLogin(): Boolean = authRepository.getAutoLogin()
 
     fun checkLatestUpdate() {
@@ -30,7 +26,7 @@ class SplashViewModel @Inject constructor(
                 val updateVersion = snapshot.value.toString().toFloat()
                 val currentVersion = VERSION_NAME.toFloat()
 
-                val isLatestVersion = currentVersion < updateVersion
+                val isLatestVersion = currentVersion >= updateVersion
                 _isLatestVersion.value = UiState.Success(isLatestVersion)
             }
             .addOnFailureListener { e ->

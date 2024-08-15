@@ -10,6 +10,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
+import com.el.yello.BuildConfig.DEBUG
 import com.el.yello.R
 import com.el.yello.databinding.ActivitySplashBinding
 import com.el.yello.presentation.auth.SignInActivity
@@ -33,6 +34,7 @@ class SplashActivity : BindingActivity<ActivitySplashBinding>(R.layout.activity_
         super.onCreate(savedInstanceState)
 
         initView()
+        initObserver()
     }
 
     private fun initView() {
@@ -46,7 +48,11 @@ class SplashActivity : BindingActivity<ActivitySplashBinding>(R.layout.activity_
 
     private fun checkNetworkUpdateState() {
         if (NetworkManager.checkNetworkState(this)) {
-            observeIsLatestVersion()
+            if (DEBUG) {
+                initSplashView()
+            } else {
+                viewModel.checkLatestUpdate()
+            }
         } else {
             AlertDialog.Builder(this)
                 .setTitle(getString(R.string.splash_guide))
@@ -58,6 +64,10 @@ class SplashActivity : BindingActivity<ActivitySplashBinding>(R.layout.activity_
                 .create()
                 .show()
         }
+    }
+
+    private fun initObserver() {
+        observeIsLatestVersion()
     }
 
     private fun observeIsLatestVersion() {
@@ -137,7 +147,12 @@ class SplashActivity : BindingActivity<ActivitySplashBinding>(R.layout.activity_
 
     override fun onResume() {
         super.onResume()
-        viewModel.checkLatestUpdate()
+
+        if (DEBUG) {
+            initSplashView()
+        } else {
+            viewModel.checkLatestUpdate()
+        }
     }
 
     companion object {

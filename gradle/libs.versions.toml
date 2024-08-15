@@ -14,7 +14,7 @@ materialDesignVersion = "1.9.0"
 constraintLayoutVersion = "2.1.4"
 appStartUpVersion = "1.1.1"
 legacySupportVersion = "1.0.0"
-securityVersion ="1.1.0-alpha06"
+securityVersion = "1.1.0-alpha06"
 hiltVersion = "2.46.1"
 hiltWorkManagerVersion = "1.0.0"
 activityKtxVersion = "1.7.2"
@@ -37,7 +37,7 @@ composeConstraintLayoutVersion = "1.0.1"
 composeLottieVersion = "6.0.1"
 composeCompilerVersion = "1.5.11"
 composeNavigation = "2.7.7"
-composeHiltVersion= "1.2.0"
+composeHiltVersion = "1.2.0"
 
 ## Firebase
 firebaseVersion = "30.4.0"
@@ -57,8 +57,6 @@ circleIndicatorVersion = "2.1.6"
 shimmerVersion = "0.5.0"
 navigationVersion = "2.6.0"
 amplitudeVersion = "2.23.2"
-
-inAppUpdateVersion = "2.1.0"
 
 gradlePlugin = "8.1.4"
 googleServicePlugin = "4.3.15"
@@ -149,39 +147,37 @@ shimmer = { group = "com.facebook.shimmer", name = "shimmer", version.ref = "shi
 amplitude = { group = "com.amplitude", name = "android-sdk", version.ref = "amplitudeVersion" }
 gson = { group = "com.google.code.gson", name = "gson", version.ref = "gsonVersion" }
 ossLicense = { group = "com.google.android.gms", name = "play-services-oss-licenses", version.ref = "ossVersion" }
-admob = { group = "com.google.android.gms", name= "play-services-ads", version.ref = "admobVersion"}
-
-inAppUpdate = { group = "com.google.android.play", name = "app-update-ktx", version.ref = "inAppUpdateVersion" }
+admob = { group = "com.google.android.gms", name = "play-services-ads", version.ref = "admobVersion" }
 
 firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version.ref = "firebaseVersion" }
-firebase-messaging = { group = "com.google.firebase", name = "firebase-messaging-ktx"}
-firebase-crashlytics = { group = "com.google.firebase", name = "firebase-crashlytics-ktx"}
-firebase-analytics = { group = "com.google.firebase", name = "firebase-analytics-ktx"}
-firebase-remoteConfig = { group = "com.google.firebase", name = "firebase-config-ktx"}
+firebase-messaging = { group = "com.google.firebase", name = "firebase-messaging-ktx" }
+firebase-crashlytics = { group = "com.google.firebase", name = "firebase-crashlytics-ktx" }
+firebase-analytics = { group = "com.google.firebase", name = "firebase-analytics-ktx" }
+firebase-remoteConfig = { group = "com.google.firebase", name = "firebase-config-ktx" }
 firebase-database = { group = "com.google.firebase", name = "firebase-database" }
 
 ## Compose
 compose-activity = { group = "androidx.activity", name = "activity-compose", version.ref = "composeActivityVersion" }
 compose-animation = { group = "androidx.compose.animation", name = "animation", version.ref = "composeAnimationVersion" }
 compose-viewModel = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-compose", version.ref = "composeViewModelVersion" }
-compose-coil = {group = "io.coil-kt", name = "coil-compose", version.ref = "composeCoil"}
-compose-constraintLayout = { group = "androidx.constraintlayout", name = "constraintlayout-compose", version.ref = "composeConstraintLayoutVersion"}
-compose-lottie = { group = "com.airbnb.android", name = "lottie-compose", version.ref = "composeLottieVersion"}
-compose-navigation = { group = "androidx.navigation", name = "navigation-compose", version.ref = "composeNavigation"}
-compose-hilt= { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "composeHiltVersion" }
+compose-coil = { group = "io.coil-kt", name = "coil-compose", version.ref = "composeCoil" }
+compose-constraintLayout = { group = "androidx.constraintlayout", name = "constraintlayout-compose", version.ref = "composeConstraintLayoutVersion" }
+compose-lottie = { group = "com.airbnb.android", name = "lottie-compose", version.ref = "composeLottieVersion" }
+compose-navigation = { group = "androidx.navigation", name = "navigation-compose", version.ref = "composeNavigation" }
+compose-hilt = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "composeHiltVersion" }
 compose-compiler-extension = { module = "org.jetbrains.kotlin:compose-compiler-gradle-plugin", version.ref = "kotlinVersion" }
 
 ## Compose Bom
 compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
-compose-bom-material3 = {group = "androidx.compose.material3", name = "material3"}
-compose-bom-material2 = {group = "androidx.compose.material", name = "material"}
-compose-bom-ui = {group = "androidx.compose.ui", name = "ui"}
+compose-bom-material3 = { group = "androidx.compose.material3", name = "material3" }
+compose-bom-material2 = { group = "androidx.compose.material", name = "material" }
+compose-bom-ui = { group = "androidx.compose.ui", name = "ui" }
 compose-ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }
-compose-bom-preview = {group = "androidx.compose.ui", name = "ui-tooling-preview"}
-compose-bom-debug-ui-tooling = {group = "androidx.compose.ui", name = "ui-tooling"}
-compose-bom-ui-test = {group = "androidx.compose.ui", name = "ui-test-junit4"}
-compose-bom-debug-ui-test-manifest = {group = "androidx.compose.ui", name="ui-test-manifest"}
-compose-runtime = {group = "androidx.compose.runtime", name="runtime"}
+compose-bom-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
+compose-bom-debug-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
+compose-bom-ui-test = { group = "androidx.compose.ui", name = "ui-test-junit4" }
+compose-bom-debug-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
+compose-runtime = { group = "androidx.compose.runtime", name = "runtime" }
 
 ## Test
 jUnit = { group = "junit", name = "junit", version.ref = "junitVersion" }

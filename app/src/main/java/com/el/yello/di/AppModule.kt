@@ -2,8 +2,9 @@ package com.el.yello.di
 
 import android.app.Application
 import android.content.Context
-import com.example.data.util.FileParser
 import com.el.yello.presentation.main.ResolutionMetrics
+import com.example.data.util.FileParser
+import com.google.firebase.database.FirebaseDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -29,4 +30,8 @@ object AppModule {
     @Singleton
     fun provideResolutionMetrics(@ApplicationContext context: Application) =
         ResolutionMetrics(context)
+
+    @Provides
+    @Singleton
+    fun provideDatabaseReference() = FirebaseDatabase.getInstance().reference
 }

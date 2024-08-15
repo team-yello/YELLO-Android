@@ -1,15 +1,15 @@
 package com.el.yello.presentation.splash
 
-import android.content.DialogInterface
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import com.el.yello.BuildConfig
+import androidx.lifecycle.flowWithLifecycle
+import androidx.lifecycle.lifecycleScope
 import com.el.yello.R
 import com.el.yello.databinding.ActivitySplashBinding
 import com.el.yello.presentation.auth.SignInActivity
@@ -17,67 +17,76 @@ import com.el.yello.presentation.main.MainActivity
 import com.el.yello.util.extension.yelloSnackbar
 import com.el.yello.util.manager.NetworkManager
 import com.example.ui.base.BindingActivity
-import com.example.ui.extension.toast
-import com.google.android.play.core.appupdate.AppUpdateInfo
-import com.google.android.play.core.appupdate.AppUpdateManagerFactory
-import com.google.android.play.core.appupdate.AppUpdateOptions
-import com.google.android.play.core.install.model.AppUpdateType.IMMEDIATE
-import com.google.android.play.core.install.model.UpdateAvailability
+import com.example.ui.state.UiState
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import timber.log.Timber
+
 
 @AndroidEntryPoint
 class SplashActivity : BindingActivity<ActivitySplashBinding>(R.layout.activity_splash) {
     private val viewModel by viewModels<SplashViewModel>()
 
-    private val appUpdateManager by lazy { AppUpdateManagerFactory.create(this) }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()
         super.onCreate(savedInstanceState)
 
+        initView()
+    }
+
+    private fun initView() {
         showExtraToastMsg()
-        initAppUpdate()
+        checkNetworkUpdateState()
     }
 
     private fun showExtraToastMsg() {
         yelloSnackbar(binding.root, intent.getStringExtra(EXTRA_TOAST_MSG) ?: return)
     }
 
-    private fun initAppUpdate() {
+    private fun checkNetworkUpdateState() {
         if (NetworkManager.checkNetworkState(this)) {
-            if (BuildConfig.DEBUG) {
-                initSplash()
-            } else {
-                val appUpdateInfoTask = appUpdateManager.appUpdateInfo
-                appUpdateInfoTask.addOnSuccessListener { appUpdateInfo ->
-                    if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE) {
-                        appUpdateInfo.isUpdateTypeAllowed(IMMEDIATE)
-                        requestUpdate(appUpdateInfo)
-                    } else {
-                        initSplash()
-                    }
-                }.addOnFailureListener {
-                    initSplash()
-                }
-            }
+            observeIsLatestVersion()
         } else {
             AlertDialog.Builder(this)
-                .setTitle("안내")
-                .setMessage("인터넷 연결을 확인해주세요.")
+                .setTitle(getString(R.string.splash_guide))
+                .setMessage(getString(R.string.splash_network_description))
                 .setCancelable(false)
-                .setPositiveButton(
-                    "확인",
-                    DialogInterface.OnClickListener { dialog, _ ->
-                        finishAffinity()
-                    },
-                )
+                .setPositiveButton(getString(R.string.splash_confirm)) { _, _ ->
+                    finishAffinity()
+                }
                 .create()
                 .show()
         }
     }
 
-    private fun initSplash() {
+    private fun observeIsLatestVersion() {
+        viewModel.isLatestVersion.flowWithLifecycle(lifecycle)
+            .onEach { state ->
+                when (state) {
+                    is UiState.Empty, is UiState.Loading -> {
+                        return@onEach
+                    }
+
+                    is UiState.Success -> {
+                        val isLatestVersion = state.data
+
+                        if (isLatestVersion) {
+                            initSplashView()
+                        } else {
+                            showInAppUpdateDialog()
+                        }
+                    }
+
+                    is UiState.Failure -> {
+                        // TODO : 인앱 업데이트 필요 여부 조회 실패 시 UI 처리
+                        Timber.e(state.msg)
+                    }
+                }
+            }.launchIn(lifecycleScope)
+    }
+
+    private fun initSplashView() {
         Handler(Looper.getMainLooper()).postDelayed({
             if (viewModel.getIsAutoLogin()) {
                 navigateToMainScreen()
@@ -85,20 +94,6 @@ class SplashActivity : BindingActivity<ActivitySplashBinding>(R.layout.activity_
                 navigateToSignInScreen()
             }
         }, 3000)
-    }
-
-    private fun requestUpdate(appUpdateInfo: AppUpdateInfo) {
-        runCatching {
-            appUpdateManager.startUpdateFlowForResult(
-                appUpdateInfo,
-                activityResultLauncher,
-                AppUpdateOptions.newBuilder(IMMEDIATE)
-                    .setAllowAssetPackDeletion(true)
-                    .build(),
-            )
-        }.onFailure {
-            Timber.e(it)
-        }
     }
 
     private fun navigateToMainScreen() {
@@ -123,36 +118,30 @@ class SplashActivity : BindingActivity<ActivitySplashBinding>(R.layout.activity_
         finish()
     }
 
-    private val activityResultLauncher =
-        registerForActivityResult(ActivityResultContracts.StartIntentSenderForResult()) {
-            if (it.resultCode != RESULT_OK) {
-                toast(getString(R.string.splash_update_error))
-                finishAffinity()
+    private fun showInAppUpdateDialog() {
+        AlertDialog.Builder(this)
+            .setTitle(getString(R.string.splash_guide))
+            .setMessage(getString(R.string.slash_update_description))
+            .setCancelable(false)
+            .setPositiveButton(getString(R.string.splash_confirm)) { _, _ ->
+                navigateToMarket()
             }
-        }
+            .create()
+            .show()
+    }
+
+    private fun navigateToMarket() {
+        val uri = Uri.parse(URI_MARKET + packageName)
+        startActivity(Intent(Intent.ACTION_VIEW, uri))
+    }
 
     override fun onResume() {
         super.onResume()
-
-        if (!BuildConfig.DEBUG) {
-            appUpdateManager.appUpdateInfo.addOnSuccessListener { appUpdateInfo ->
-                if (appUpdateInfo.updateAvailability() == UpdateAvailability.DEVELOPER_TRIGGERED_UPDATE_IN_PROGRESS) {
-                    runCatching {
-                        appUpdateManager.startUpdateFlowForResult(
-                            appUpdateInfo,
-                            activityResultLauncher,
-                            AppUpdateOptions.newBuilder(IMMEDIATE)
-                                .build(),
-                        )
-                    }.onFailure {
-                        Timber.e(it)
-                    }
-                }
-            }
-        }
+        viewModel.checkLatestUpdate()
     }
 
     companion object {
         private const val EXTRA_TOAST_MSG = "TOAST_MSG"
+        private const val URI_MARKET = "market://details?id="
     }
 }

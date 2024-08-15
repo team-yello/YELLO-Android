@@ -158,6 +158,7 @@ firebase-messaging = { group = "com.google.firebase", name = "firebase-messaging
 firebase-crashlytics = { group = "com.google.firebase", name = "firebase-crashlytics-ktx"}
 firebase-analytics = { group = "com.google.firebase", name = "firebase-analytics-ktx"}
 firebase-remoteConfig = { group = "com.google.firebase", name = "firebase-config-ktx"}
+firebase-database = { group = "com.google.firebase", name = "firebase-database" }
 
 ## Compose
 compose-activity = { group = "androidx.activity", name = "activity-compose", version.ref = "composeActivityVersion" }
@@ -181,7 +182,6 @@ compose-bom-debug-ui-tooling = {group = "androidx.compose.ui", name = "ui-toolin
 compose-bom-ui-test = {group = "androidx.compose.ui", name = "ui-test-junit4"}
 compose-bom-debug-ui-test-manifest = {group = "androidx.compose.ui", name="ui-test-manifest"}
 compose-runtime = {group = "androidx.compose.runtime", name="runtime"}
-
 
 ## Test
 jUnit = { group = "junit", name = "junit", version.ref = "junitVersion" }
@@ -258,6 +258,6 @@ appModuleLibraryEtc = [
 ]
 
 okhttp = ["okhttp", "okhttp-logging-interceptor"]
-firebase = ["firebase-analytics", "firebase-crashlytics", "firebase-messaging", "firebase-remoteConfig"]
+firebase = ["firebase-analytics", "firebase-crashlytics", "firebase-messaging", "firebase-remoteConfig", "firebase-database"]
 flipper = ["flipper", "soloader", "flipper-network", "flipper-leakcanary"]
 retrofit = ["retrofit", "retrofit-json-converter"]

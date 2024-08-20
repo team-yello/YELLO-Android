@@ -12,6 +12,10 @@
     <string name="manager_not_initialized_error_msg">Billing Manager is not initialized</string>
 
     <string name="splash_title">지금 누군가 당신을 생각하고 있어요!</string>
+    <string name="splash_guide">안내</string>
+    <string name="slash_update_description">이 앱을 사용하려면 최신 버전을 다운로드하세요.</string>
+    <string name="splash_confirm">확인</string>
+    <string name="splash_network_description">인터넷 연결을 확인해주세요.</string>
 
     <string name="sign_in_tv_title">Yell:o에 오신 걸 환영해요!</string>
     <string name="sign_in_tv_subtitle">가입을 시작해볼까요?</string>

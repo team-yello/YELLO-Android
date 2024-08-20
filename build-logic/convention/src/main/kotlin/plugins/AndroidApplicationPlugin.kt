@@ -159,7 +159,6 @@ class AndroidApplicationPlugin : Plugin<Project> {
                 androidTestImplementation(libs.getLibrary("espresso"))
 
                 // google
-                implementation(libs.getLibrary("inAppUpdate"))
                 implementation(libs.getLibrary("ossLicense"))
                 implementation(libs.getLibrary("gson"))
 

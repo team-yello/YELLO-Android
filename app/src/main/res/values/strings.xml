@@ -402,6 +402,8 @@
     <string name="reward_subtitle">다음 점심 시간에 또 만나요!</string>
     <string name="reward_confirm">확인</string>
 
+    <string name="tv_repairing_message">상점뷰를 개선 중이에요!\n조금만 기다려 주세요.</string>
+
     <string-array name="quit_reasons">
         <item>앱에 아는 사람들이 없어서</item>
         <item>구독권과 열람권의 가격이 비싸서</item>

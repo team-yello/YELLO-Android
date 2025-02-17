@@ -23,7 +23,7 @@ import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import com.el.yello.R
 import com.el.yello.databinding.ActivityMyYelloReadBinding
-import com.el.yello.presentation.pay.PayActivity
+import com.el.yello.presentation.repairing.RepairingActivity
 import com.el.yello.util.manager.AmplitudeManager
 import com.example.domain.entity.YelloDetail
 import com.example.domain.enum.PointEnum
@@ -136,9 +136,10 @@ class MyYelloReadActivity :
                 }
                 AmplitudeManager.trackEventWithProperties(EVENT_CLICK_OPEN_FULL_NAME)
             }
-            Intent(this, PayActivity::class.java).apply {
-                startActivity(this)
-            }
+//            Intent(this, PayActivity::class.java).apply {
+//                startActivity(this)
+//            }
+            startActivity(Intent(this, RepairingActivity::class.java))
         }
 
         binding.clSendOpen.setOnSingleClickListener {

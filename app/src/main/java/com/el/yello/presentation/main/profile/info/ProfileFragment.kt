@@ -17,7 +17,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.el.yello.R
 import com.el.yello.databinding.FragmentProfileBinding
 import com.el.yello.presentation.main.profile.detail.ProfileDetailActivity
-import com.el.yello.presentation.pay.PayActivity
+import com.el.yello.presentation.repairing.RepairingActivity
 import com.el.yello.presentation.setting.SettingActivity
 import com.el.yello.util.extension.setPullToScrollColor
 import com.el.yello.util.extension.yelloSnackbar
@@ -126,7 +126,8 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(R.layout.fragmen
             EVENT_CLICK_GO_SHOP,
             JSONObject().put(NAME_SHOP_BUTTON, VALUE_PROFILE_SHOP),
         )
-        activity?.navigateTo<PayActivity>()
+        // activity?.navigateTo<PayActivity>()
+        startActivity(Intent(requireContext(), RepairingActivity::class.java))
         viewModel.resetStateVariable()
     }
 

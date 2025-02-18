@@ -23,7 +23,7 @@ import com.el.yello.presentation.main.myyello.read.MyYelloReadActivity.Companion
 import com.el.yello.presentation.main.myyello.read.MyYelloReadActivity.Companion.EXTRA_NAME_INDEX
 import com.el.yello.presentation.main.myyello.read.MyYelloReadActivity.Companion.EXTRA_TICKET_COUNT
 import com.el.yello.presentation.main.myyello.read.MyYelloReadActivity.Companion.JSON_SHOP_BUTTON
-import com.el.yello.presentation.pay.PayActivity
+import com.el.yello.presentation.repairing.RepairingActivity
 import com.el.yello.util.extension.BaseLinearRcvItemDeco
 import com.el.yello.util.extension.setPullToScrollColor
 import com.el.yello.util.extension.yelloSnackbar
@@ -96,9 +96,7 @@ class MyYelloFragment : BindingFragment<FragmentMyYelloBinding>(R.layout.fragmen
     private fun initEvent() {
         binding.btnSendCheck.setOnSingleClickListener {
             setClickGoShopAmplitude(VALUE_CTA_MAIN)
-            Intent(requireContext(), PayActivity::class.java).apply {
-                payActivityLauncher.launch(this)
-            }
+            goToPayActivity()
         }
 
         binding.clSendOpen.setOnSingleClickListener {
@@ -281,9 +279,10 @@ class MyYelloFragment : BindingFragment<FragmentMyYelloBinding>(R.layout.fragmen
     }
 
     private fun goToPayActivity() {
-        Intent(requireContext(), PayActivity::class.java).apply {
-            payActivityLauncher.launch(this)
-        }
+//        Intent(requireContext(), PayActivity::class.java).apply {
+//            payActivityLauncher.launch(this)
+//        }
+        startActivity(Intent(requireContext(), RepairingActivity::class.java))
     }
 
     private val myYelloReadActivityLauncher = registerForActivityResult(

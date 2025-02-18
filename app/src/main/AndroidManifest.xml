@@ -4,7 +4,9 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="com.google.android.gms.permission.AD_ID" />
     <uses-permission android:name="com.google.android.play.billingclient.version" />
@@ -69,8 +71,8 @@
         <activity
             android:name=".presentation.onboarding.activity.EditNameActivity"
             android:exported="false"
-            android:windowSoftInputMode="adjustResize"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize" />
 
         <activity
             android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"
@@ -91,8 +93,8 @@
         <activity
             android:name=".presentation.onboarding.activity.OnBoardingActivity"
             android:exported="false"
-            android:windowSoftInputMode="adjustResize"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize" />
 
         <activity
             android:name=".presentation.onboarding.activity.GetAlarmActivity"
@@ -186,6 +188,11 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustNothing" />
 
+        <activity
+            android:name=".presentation.repairing.RepairingActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+
         <service
             android:name=".config.YelloMessagingService"
             android:exported="false">
@@ -200,7 +207,7 @@
 
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="${ADMOB_APP_ID}"/>
+            android:value="${ADMOB_APP_ID}" />
 
     </application>
 

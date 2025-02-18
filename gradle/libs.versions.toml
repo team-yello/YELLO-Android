@@ -35,7 +35,6 @@ composeBom = "2024.06.00"
 composeCoil = "2.6.0"
 composeConstraintLayoutVersion = "1.0.1"
 composeLottieVersion = "6.0.1"
-composeCompilerVersion = "1.5.11"
 composeNavigation = "2.7.7"
 composeHiltVersion = "1.2.0"
 
@@ -55,7 +54,7 @@ circularProgressBar = "3.1.0"
 kakaoVersion = "2.14.0"
 circleIndicatorVersion = "2.1.6"
 shimmerVersion = "0.5.0"
-navigationVersion = "2.7.7"
+navigationVersion = "2.8.7"
 amplitudeVersion = "2.23.2"
 
 gradlePlugin = "8.1.4"
@@ -165,7 +164,6 @@ compose-constraintLayout = { group = "androidx.constraintlayout", name = "constr
 compose-lottie = { group = "com.airbnb.android", name = "lottie-compose", version.ref = "composeLottieVersion" }
 compose-navigation = { group = "androidx.navigation", name = "navigation-compose", version.ref = "composeNavigation" }
 compose-hilt = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "composeHiltVersion" }
-compose-compiler-extension = { module = "org.jetbrains.kotlin:compose-compiler-gradle-plugin", version.ref = "kotlinVersion" }
 
 ## Compose Bom
 compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }

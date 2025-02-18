@@ -7,6 +7,10 @@ java {
     targetCompatibility = JavaVersion.VERSION_18
 }
 
+kotlin {
+    jvmToolchain(18)
+}
+
 dependencies {
     compileOnly(libs.android.build)
     compileOnly(libs.kotlin.gradle)

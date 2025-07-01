@@ -14,32 +14,24 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.SnackbarHost
-import androidx.compose.material.SnackbarHostState
-import androidx.compose.material.rememberScaffoldState
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.core.content.ContextCompat.getString
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.el.yello.BuildConfig
 import com.el.yello.R
-import com.el.yello.presentation.setting.SettingsActivity.Companion.CLICK_PROFILE_LOGOUT
-import com.el.yello.util.manager.AmplitudeManager
 import com.example.ui.compose.component.YelloSnackbar
 import com.example.ui.compose.theme.Black
 import com.example.ui.compose.theme.Grayscale600
@@ -47,23 +39,58 @@ import com.example.ui.compose.theme.Grayscale900
 import com.example.ui.compose.theme.PretendardFontFamily
 import com.example.ui.compose.theme.White
 import com.example.ui.compose.theme.YelloTheme
-import com.example.ui.state.UiState
-import com.example.ui.util.Utils
-import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+import org.orbitmvi.orbit.compose.collectSideEffect
+
+@Composable
+fun SettingRoute(
+    viewModel: SettingsViewModel = hiltViewModel(),
+    successLogout: () -> Unit,
+    navigateBack: () -> Unit,
+    navigateCustomerSupport: () -> Unit,
+    navigatePrivacyPolicy: () -> Unit,
+    navigateTermsOfService: () -> Unit,
+    navigateAccountDeletion: () -> Unit
+) {
+    val snackbarHostState = remember { SnackbarHostState() }
+
+    viewModel.collectSideEffect {
+        when(it) {
+            is SettingSideEffect.SuccessLogout -> {
+                successLogout()
+            }
+            is SettingSideEffect.FailureLogout -> {
+                snackbarHostState.showSnackbar(it.msg)
+            }
+            is SettingSideEffect.NavigateAccountDeletion -> { navigateAccountDeletion() }
+            is SettingSideEffect.NavigateBack -> { navigateBack() }
+            is SettingSideEffect.NavigateCustomerSupport -> { navigateCustomerSupport() }
+            is SettingSideEffect.NavigatePrivacyPolicy -> { navigatePrivacyPolicy() }
+            is SettingSideEffect.NavigateTermsOfService -> { navigateTermsOfService() }
+        }
+    }
+
+    SettingScreen(
+        snackbarHostState = snackbarHostState,
+        onLogoutClick = viewModel::logout,
+        onClickBack = viewModel::onClickBack,
+        onCustomerSupportClick = viewModel::onCustomerSupportClick,
+        onClickPrivacyPolicyClick = viewModel::onClickPrivacyPolicyClick,
+        onClickTermsOfServiceClick = viewModel::onClickTermsOfServiceClick,
+        onAccountDeletionClick = viewModel::onAccountDeletionClick
+    )
+}
 
 @Composable
 fun SettingScreen(
-    viewModel: SettingViewModel = hiltViewModel(),
+    snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
+    onLogoutClick: () -> (Unit) = {},
     onClickBack: () -> (Unit) = {},
     onCustomerSupportClick: () -> (Unit) = {},
     onClickPrivacyPolicyClick: () -> (Unit) = {},
     onClickTermsOfServiceClick: () -> (Unit) = {},
     onAccountDeletionClick: () -> Unit = {}
 ) {
-    val snackbarHostState = remember { androidx.compose.material3.SnackbarHostState() }
-    val kakaoLogoutState = viewModel.kakaoLogoutState.collectAsState()
+
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {
@@ -73,8 +100,8 @@ fun SettingScreen(
             SettingBottomBar(onAccountDeletionClick)
         },
         snackbarHost = {
-            androidx.compose.material3.SnackbarHost(
-                modifier = Modifier.padding(bottom = 70.dp, start = 40.dp, end = 40.dp),
+            SnackbarHost(
+                modifier = Modifier.padding(bottom = 24.dp, start = 40.dp, end = 40.dp),
                 hostState = snackbarHostState,
                 snackbar = {
                     YelloSnackbar(data = it)
@@ -101,22 +128,8 @@ fun SettingScreen(
             }
             Spacer(modifier = Modifier.height(4.dp))
             SettingCard("로그아웃") {
-                AmplitudeManager.trackEventWithProperties(CLICK_PROFILE_LOGOUT)
-                viewModel.logoutKakaoAccount()
+                onLogoutClick()
             }
-        }
-        when (kakaoLogoutState.value) {
-            is UiState.Success -> {
-                AmplitudeManager.trackEventWithProperties(SettingsActivity.COMPLETE_PROFILE_LOGOUT)
-                Utils.restartApp(LocalContext.current, null)
-            }
-
-            is UiState.Failure -> {
-                LaunchedEffect(key1 = true) {
-                    snackbarHostState.showSnackbar("오류가 발생했습니다. 잠시 후 다시 시도해주세요.")
-                }
-            }
-            else -> { }
         }
     }
 }

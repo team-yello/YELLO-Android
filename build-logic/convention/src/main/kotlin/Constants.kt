@@ -5,5 +5,5 @@ object Constants {
     const val targetSdk = 34
     const val versionCode = 54
     const val versionName = "2.4"
-    const val jvmVersion = "18"
+    const val jvmVersion = "17"
 }

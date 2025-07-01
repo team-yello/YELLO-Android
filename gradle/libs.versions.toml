@@ -57,6 +57,9 @@ shimmerVersion = "0.5.0"
 navigationVersion = "2.8.7"
 amplitudeVersion = "2.23.2"
 
+## orbit
+orbitVersion = "6.1.1"
+
 gradlePlugin = "8.1.4"
 googleServicePlugin = "4.4.2"
 googleAppdistributionPlugin = "5.0.0"
@@ -155,6 +158,12 @@ firebase-analytics = { group = "com.google.firebase", name = "firebase-analytics
 firebase-remoteConfig = { group = "com.google.firebase", name = "firebase-config-ktx" }
 firebase-database = { group = "com.google.firebase", name = "firebase-database" }
 
+## oribit
+orbit-core = { group = "org.orbit-mvi", name = "orbit-core", version.ref = "orbitVersion" }
+orbit-viewmodel = { group = "org.orbit-mvi", name = "orbit-viewmodel", version.ref = "orbitVersion" }
+orbit-compose = { group = "org.orbit-mvi", name = "orbit-compose", version.ref = "orbitVersion" }
+orbit-test = { group = "org.orbit-mvi", name = "orbit-test", version.ref = "orbitVersion" }
+
 ## Compose
 compose-activity = { group = "androidx.activity", name = "activity-compose", version.ref = "composeActivityVersion" }
 compose-animation = { group = "androidx.compose.animation", name = "animation", version.ref = "composeAnimationVersion" }
@@ -252,6 +261,7 @@ appModuleLibraryEtc = [
 ]
 
 okhttp = ["okhttp", "okhttp-logging-interceptor"]
+orbit = ["orbit-core", "orbit-viewmodel", "orbit-compose"]
 firebase = ["firebase-analytics", "firebase-crashlytics", "firebase-messaging", "firebase-remoteConfig", "firebase-database"]
 flipper = ["flipper", "soloader", "flipper-network", "flipper-leakcanary"]
 retrofit = ["retrofit", "retrofit-json-converter"]

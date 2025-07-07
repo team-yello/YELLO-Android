@@ -1,19 +1,20 @@
-package com.el.yello.presentation.tutorial
+package com.el.yello.presentation.tutorial.viewmodel
 
 import androidx.lifecycle.ViewModel
+import com.el.yello.presentation.tutorial.contract.TutorialSideEffect
+import com.el.yello.presentation.tutorial.contract.TutorialState
 import com.el.yello.util.manager.AmplitudeManager
 import dagger.hilt.android.lifecycle.HiltViewModel
-import org.json.JSONObject
 import org.orbitmvi.orbit.ContainerHost
 import org.orbitmvi.orbit.syntax.simple.intent
 import org.orbitmvi.orbit.syntax.simple.postSideEffect
 import org.orbitmvi.orbit.syntax.simple.reduce
 import org.orbitmvi.orbit.viewmodel.container
+import org.json.JSONObject
 import javax.inject.Inject
 
 @HiltViewModel
-class TutorialViewModel @Inject constructor() : ContainerHost<TutorialState, TutorialSideEffect>,
-    ViewModel() {
+class TutorialViewModel @Inject constructor() : ContainerHost<TutorialState, TutorialSideEffect>, ViewModel() {
 
     override val container = container<TutorialState, TutorialSideEffect>(TutorialState())
 
@@ -39,11 +40,7 @@ class TutorialViewModel @Inject constructor() : ContainerHost<TutorialState, Tut
 
     private fun handleLastScreen(state: TutorialState) = intent {
         val sideEffect = if (state.isFromOnBoarding) {
-            if (state.isCodeTextEmpty) {
-                TutorialSideEffect.NavigateToTutorialEnd
-            } else {
-                TutorialSideEffect.NavigateToTutorialEndPlus
-            }
+            TutorialSideEffect.NavigateToTutorialEnd
         } else {
             TutorialSideEffect.NavigateToMainActivity
         }

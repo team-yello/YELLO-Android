@@ -1,4 +1,4 @@
-package com.el.yello.presentation.tutorial
+package com.el.yello.presentation.tutorial.contract
 
 import androidx.annotation.DrawableRes
 import androidx.compose.runtime.Immutable
@@ -26,6 +26,5 @@ data class TutorialState(
 
 sealed interface TutorialSideEffect {
     data object NavigateToTutorialEnd : TutorialSideEffect
-    data object NavigateToTutorialEndPlus : TutorialSideEffect
     data object NavigateToMainActivity : TutorialSideEffect
 }

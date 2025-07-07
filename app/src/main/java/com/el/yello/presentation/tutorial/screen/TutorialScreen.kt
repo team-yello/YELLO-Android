@@ -1,10 +1,11 @@
-package com.el.yello.presentation.tutorial
+package com.el.yello.presentation.tutorial.screen
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -13,6 +14,9 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.el.yello.presentation.tutorial.contract.TutorialSideEffect
+import com.el.yello.presentation.tutorial.contract.TutorialState
+import com.el.yello.presentation.tutorial.viewmodel.TutorialViewModel
 import com.example.ui.compose.theme.Black
 import com.example.ui.compose.theme.YelloTheme
 import org.orbitmvi.orbit.compose.collectAsState
@@ -24,7 +28,6 @@ fun TutorialRoute(
     isCodeTextEmpty: Boolean,
     isFromOnBoarding: Boolean,
     navigateToTutorialEnd: () -> Unit,
-    navigateToTutorialEndPlus: () -> Unit,
     navigateToMainActivity: () -> Unit
 ) {
     val uiState by viewModel.collectAsState()
@@ -36,7 +39,6 @@ fun TutorialRoute(
     viewModel.collectSideEffect { sideEffect ->
         when (sideEffect) {
             TutorialSideEffect.NavigateToTutorialEnd -> navigateToTutorialEnd()
-            TutorialSideEffect.NavigateToTutorialEndPlus -> navigateToTutorialEndPlus()
             TutorialSideEffect.NavigateToMainActivity -> navigateToMainActivity()
         }
     }
@@ -52,17 +54,19 @@ fun TutorialScreen(
     uiState: TutorialState,
     onScreenClicked: () -> Unit = {}
 ) {
-    Box(
+    Scaffold(
         modifier = Modifier
             .fillMaxSize()
             .background(Black)
-            .clickable { onScreenClicked() }
-    ) {
+    ) { paddingValues ->
         Image(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(paddingValues)
+                .clickable { onScreenClicked() },
             painter = painterResource(id = uiState.getCurrentTutorialImage()),
             contentDescription = "Tutorial Step ${uiState.currentScreen + 1}",
             contentScale = ContentScale.FillBounds,
-            modifier = Modifier.fillMaxSize()
         )
     }
 }

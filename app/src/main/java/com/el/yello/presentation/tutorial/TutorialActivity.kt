@@ -7,6 +7,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import com.el.yello.presentation.main.MainActivity
 import com.el.yello.presentation.onboarding.activity.OnBoardingActivity.Companion.EXTRA_CODE_TEXT_EMPTY
+import com.el.yello.presentation.tutorial.screen.TutorialRoute
 import com.example.ui.compose.theme.YelloTheme
 import com.example.ui.extension.boolExtra
 import dagger.hilt.android.AndroidEntryPoint
@@ -27,11 +28,8 @@ class TutorialActivity : ComponentActivity() {
                     isCodeTextEmpty = isCodeTextEmpty,
                     isFromOnBoarding = isFromOnBoarding,
                     navigateToTutorialEnd = {
-                        startActivity(Intent(this@TutorialActivity, TutorialEndActivity::class.java))
-                        finish()
-                    },
-                    navigateToTutorialEndPlus = {
-                        startActivity(Intent(this@TutorialActivity, TutorialEndPlusActivity::class.java))
+                        val intent = TutorialEndActivity.newIntent(this@TutorialActivity, isPlus = !isCodeTextEmpty)
+                        startActivity(intent)
                         finish()
                     },
                     navigateToMainActivity = {

@@ -1,36 +1,41 @@
 package com.el.yello.presentation.tutorial
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import com.el.yello.R
-import com.el.yello.databinding.ActivityTutorialEndPointBinding
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
 import com.el.yello.presentation.main.MainActivity
-import com.el.yello.util.manager.AmplitudeManager
-import com.example.ui.base.BindingActivity
-import com.example.ui.extension.setOnSingleClickListener
+import com.el.yello.presentation.tutorial.screen.TutorialEndRoute
+import com.example.ui.compose.theme.YelloTheme
+import dagger.hilt.android.AndroidEntryPoint
 
-class TutorialEndActivity :
-    BindingActivity<ActivityTutorialEndPointBinding>(R.layout.activity_tutorial_end_point) {
+@AndroidEntryPoint
+class TutorialEndActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        initEndClickListener()
-    }
-
-    override fun onPause() {
-        super.onPause()
-        overridePendingTransition(NONE_ANIMATION, NONE_ANIMATION)
-    }
-    private fun initEndClickListener() {
-        binding.btnEndTutorial.setOnSingleClickListener {
-            AmplitudeManager.trackEventWithProperties(EVENT_CLICK_ONBOARDING_YELLO_START)
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
+        val isPlus = intent.getBooleanExtra(EXTRA_IS_PLUS, false)
+        setContent {
+            YelloTheme {
+                TutorialEndRoute(
+                    isPlus = isPlus,
+                    navigateToMainActivity = {
+                        val intent = Intent(this@TutorialEndActivity, MainActivity::class.java)
+                        startActivity(intent)
+                        finish()
+                    }
+                )
+            }
         }
     }
 
     companion object {
-        private const val NONE_ANIMATION = 0
-        private const val EVENT_CLICK_ONBOARDING_YELLO_START = "click_onboarding_yellostart"
+        @JvmStatic
+        fun newIntent(context: Context, isPlus: Boolean) =
+            Intent(context, TutorialEndActivity::class.java).apply {
+                putExtra(EXTRA_IS_PLUS, isPlus)
+            }
+        private const val EXTRA_IS_PLUS = "IS_PLUS"
     }
 }

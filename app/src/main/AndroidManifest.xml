@@ -109,14 +109,6 @@
             android:name=".presentation.tutorial.TutorialEndActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
-        <activity
-            android:name=".presentation.tutorial.TutorialEndActivity"
-            android:exported="false"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".presentation.tutorial.TutorialEndPlusActivity"
-            android:exported="false"
-            android:screenOrientation="portrait" />
 
         <activity
             android:name=".presentation.main.MainActivity"

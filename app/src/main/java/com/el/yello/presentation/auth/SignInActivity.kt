@@ -13,7 +13,7 @@ import com.el.yello.presentation.main.MainActivity
 import com.el.yello.presentation.onboarding.activity.EditNameActivity
 import com.el.yello.presentation.onboarding.activity.GetAlarmActivity
 import com.el.yello.presentation.onboarding.fragment.checkName.CheckNameDialog
-import com.el.yello.presentation.tutorial.TutorialAActivity
+import com.el.yello.presentation.tutorial.TutorialActivity
 import com.el.yello.util.extension.yelloSnackbar
 import com.el.yello.util.manager.AmplitudeManager
 import com.example.ui.base.BindingActivity
@@ -111,7 +111,7 @@ class SignInActivity : BindingActivity<ActivitySignInBinding>(R.layout.activity_
                 is UiState.Success -> {
                     if (viewModel.getIsFirstLoginData()) {
                         if (viewModel.isResigned) {
-                            startActivity(TutorialAActivity.newIntent(this, false))
+                            startActivity(TutorialActivity.newIntent(this, false))
                         } else {
                             startMainActivity()
                         }

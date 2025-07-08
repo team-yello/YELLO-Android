@@ -10,7 +10,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import com.el.yello.R
 import com.el.yello.databinding.ActivityGetAlarmBinding
-import com.el.yello.presentation.tutorial.TutorialAActivity
+import com.el.yello.presentation.tutorial.TutorialActivity
 import com.el.yello.util.manager.AmplitudeManager
 import com.example.ui.base.BindingActivity
 import com.example.ui.extension.boolExtra
@@ -39,10 +39,10 @@ class GetAlarmActivity :
     private fun startTutorialActivity() {
         val isCodeTextEmpty =
             intent.getBooleanExtra(OnBoardingActivity.EXTRA_CODE_TEXT_EMPTY, false)
-        val intent = TutorialAActivity.newIntent(this, false).apply {
+        val intent = TutorialActivity.newIntent(this, false).apply {
             addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
             putExtra(OnBoardingActivity.EXTRA_CODE_TEXT_EMPTY, isCodeTextEmpty)
-            putExtra(TutorialAActivity.EXTRA_FROM_ONBOARDING, isFromOnBoarding)
+            putExtra(TutorialActivity.EXTRA_FROM_ONBOARDING, isFromOnBoarding)
         }
         startActivity(intent)
         finish()

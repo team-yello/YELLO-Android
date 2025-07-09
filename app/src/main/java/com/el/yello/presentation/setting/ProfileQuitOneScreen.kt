@@ -77,7 +77,7 @@ fun ProfileQuitOneScreen(
             .fillMaxSize()
             .background(Black),
         topBar = {
-            ProfileQuitOneTopBar(onBackClick)
+            ProfileQuitTopBar(onBackClick)
         }
     ) { paddingValues ->
         Column(
@@ -320,7 +320,7 @@ fun ProfileQuitOneScreen(
 }
 
 @Composable
-private fun ProfileQuitOneTopBar(
+fun ProfileQuitTopBar(
     onBackClick: () -> Unit
 ) {
     Row(

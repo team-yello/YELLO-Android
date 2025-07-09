@@ -79,7 +79,7 @@ fun ProfileQuitTwoScreen(
             .fillMaxSize()
             .background(Black),
         topBar = {
-            ProfileQuitTwoTopBar(onBackClick)
+            ProfileQuitTopBar(onBackClick)
         }
     ) { paddingValues ->
         Column(
@@ -176,33 +176,6 @@ fun ProfileQuitTwoScreen(
                 )
             }
         }
-    }
-}
-
-@Composable
-private fun ProfileQuitTwoTopBar(
-    onBackClick: () -> Unit
-) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .background(Black)
-            .padding(vertical = 15.dp),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Image(
-            painter = painterResource(id = R.drawable.ic_arrow_left),
-            contentDescription = "Back",
-            modifier = Modifier
-                .padding(start = 16.dp, end = 8.dp)
-                .clickable { onBackClick() }
-        )
-
-        Text(
-            text = stringResource(id = R.string.profile_quit_tv_title),
-            style = yTypography.subtitle01,
-            color = White
-        )
     }
 }
 

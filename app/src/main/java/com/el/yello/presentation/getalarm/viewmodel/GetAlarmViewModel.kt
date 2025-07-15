@@ -28,11 +28,10 @@ class GetAlarmViewModel @Inject constructor()
     }
 
     fun onPermissionResult(isGranted: Boolean) = intent {
-        if (isGranted) {
-            AmplitudeManager.updateUserProperties(EVENT_PUSH_NOTIFICATION, VALUE_ENABLED)
-        } else {
-            AmplitudeManager.updateUserProperties(EVENT_PUSH_NOTIFICATION, VALUE_DISABLED)
-        }
+        AmplitudeManager.updateUserProperties(
+            EVENT_PUSH_NOTIFICATION,
+            if (isGranted) VALUE_ENABLED else VALUE_DISABLED
+        )
         postSideEffect(GetAlarmSideEffect.NavigateToTutorial)
     }
 

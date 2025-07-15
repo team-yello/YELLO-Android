@@ -1,44 +1,48 @@
 package com.el.yello.presentation.onboarding.activity
 
-import android.Manifest
 import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
-import android.os.Build
 import android.os.Bundle
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.content.ContextCompat
-import com.el.yello.R
-import com.el.yello.databinding.ActivityGetAlarmBinding
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.ui.Modifier
+import com.el.yello.presentation.getalarm.screen.GetAlarmRoute
 import com.el.yello.presentation.tutorial.TutorialActivity
-import com.el.yello.util.manager.AmplitudeManager
-import com.example.ui.base.BindingActivity
+import com.example.ui.compose.theme.YelloTheme
 import com.example.ui.extension.boolExtra
-import com.example.ui.extension.setOnSingleClickListener
+import dagger.hilt.android.AndroidEntryPoint
 
-class GetAlarmActivity :
-    BindingActivity<ActivityGetAlarmBinding>(R.layout.activity_get_alarm) {
+@AndroidEntryPoint
+class GetAlarmActivity : ComponentActivity() {
 
     private val isFromOnBoarding by boolExtra()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        askNotificationPermission()
-    }
+        val isCodeTextEmpty = intent.getBooleanExtra(OnBoardingActivity.EXTRA_CODE_TEXT_EMPTY, false)
 
-    private val requestPermissionLauncher =
-        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
-            if (isGranted) {
-                AmplitudeManager.updateUserProperties(EVENT_PUSH_NOTIFICATION, VALUE_ENABLED)
-                startTutorialActivity()
-            } else {
-                AmplitudeManager.updateUserProperties(EVENT_PUSH_NOTIFICATION, VALUE_DISABLED)
-                startTutorialActivity()
+        setContent {
+            YelloTheme {
+                Surface(
+                    modifier = Modifier.fillMaxSize(),
+                    color = MaterialTheme.colorScheme.background
+                ) {
+                    GetAlarmRoute(
+                        isFromOnBoarding = isFromOnBoarding,
+                        isCodeTextEmpty = isCodeTextEmpty,
+                        navigateToTutorial = ::startTutorialActivity
+                    )
+                }
             }
         }
+    }
 
     private fun startTutorialActivity() {
-        val isCodeTextEmpty =
-            intent.getBooleanExtra(OnBoardingActivity.EXTRA_CODE_TEXT_EMPTY, false)
+        val isCodeTextEmpty = intent.getBooleanExtra(OnBoardingActivity.EXTRA_CODE_TEXT_EMPTY, false)
+
         val intent = TutorialActivity.newIntent(this, false).apply {
             addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
             putExtra(OnBoardingActivity.EXTRA_CODE_TEXT_EMPTY, isCodeTextEmpty)
@@ -48,42 +52,11 @@ class GetAlarmActivity :
         finish()
     }
 
-    private fun askNotificationPermission() {
-        binding.btnStartYello.setOnSingleClickListener {
-            AmplitudeManager.trackEventWithProperties(EVENT_CLICK_ONBOARDING_NOTIFICATION)
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                if (ContextCompat.checkSelfPermission(
-                        this,
-                        Manifest.permission.POST_NOTIFICATIONS,
-                    ) == PackageManager.PERMISSION_GRANTED
-                ) {
-                    startTutorialActivity()
-                } else if (shouldShowRequestPermissionRationale(Manifest.permission.POST_NOTIFICATIONS)) {
-                    requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
-                } else {
-                    requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
-                }
-            } else {
-                startTutorialActivity()
-            }
-        }
-    }
-
-    override fun onPause() {
-        super.onPause()
-        overridePendingTransition(NONE_ANIMATION, NONE_ANIMATION)
-    }
-
     companion object {
         @JvmStatic
         fun newIntent(context: Context, isFromOnBoarding: Boolean) =
             Intent(context, GetAlarmActivity::class.java).apply {
                 putExtra("isFromOnBoarding", isFromOnBoarding)
             }
-        private const val NONE_ANIMATION = 0
-        private const val EVENT_PUSH_NOTIFICATION = "user_pushnotification"
-        private const val VALUE_ENABLED = "enabled"
-        private const val VALUE_DISABLED = "disabled"
-        private const val EVENT_CLICK_ONBOARDING_NOTIFICATION = "click_onboarding_notification"
     }
 }

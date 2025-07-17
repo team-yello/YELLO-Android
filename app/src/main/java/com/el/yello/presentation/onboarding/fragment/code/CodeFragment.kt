@@ -9,7 +9,7 @@ import androidx.lifecycle.viewModelScope
 import com.el.yello.R
 import com.el.yello.databinding.FragmentCodeBinding
 import com.el.yello.presentation.onboarding.OnBoardingViewModel
-import com.el.yello.presentation.onboarding.activity.GetAlarmActivity
+import com.el.yello.presentation.getalarm.GetAlarmActivity
 import com.el.yello.presentation.onboarding.activity.OnBoardingActivity
 import com.el.yello.util.extension.yelloSnackbar
 import com.el.yello.util.manager.AmplitudeManager

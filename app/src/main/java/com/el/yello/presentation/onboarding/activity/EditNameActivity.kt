@@ -17,7 +17,6 @@ class EditNameActivity : ComponentActivity() {
         // TODO: OnBoardingActivity Compose 전환 후 EditNameActivity -> OnBoardingActivity 통합 예정
         // 현재: EditNameActivity → OnBoardingActivity (별도 Activity 2개)
         // 변경: OnBoardingActivity 내부에서 EditName부터 전체 온보딩 플로우 처리 (EditNameActivity 삭제)
-        // Intent 기반 데이터 전달 → SharedViewModel + Compose Navigation 데이터 전달
 
         setContent {
             YelloTheme {

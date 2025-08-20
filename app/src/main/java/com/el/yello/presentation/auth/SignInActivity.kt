@@ -11,7 +11,7 @@ import com.el.yello.databinding.ActivitySignInBinding
 import com.el.yello.presentation.auth.SignInViewModel.Companion.FRIEND_LIST
 import com.el.yello.presentation.main.MainActivity
 import com.el.yello.presentation.onboarding.activity.EditNameActivity
-import com.el.yello.presentation.onboarding.activity.GetAlarmActivity
+import com.el.yello.presentation.getalarm.GetAlarmActivity
 import com.el.yello.presentation.onboarding.fragment.checkName.CheckNameDialog
 import com.el.yello.presentation.tutorial.TutorialActivity
 import com.el.yello.util.extension.yelloSnackbar

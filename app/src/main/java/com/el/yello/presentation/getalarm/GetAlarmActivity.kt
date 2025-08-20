@@ -1,4 +1,4 @@
-package com.el.yello.presentation.onboarding.activity
+package com.el.yello.presentation.getalarm
 
 import android.content.Context
 import android.content.Intent
@@ -10,6 +10,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import com.el.yello.presentation.getalarm.screen.GetAlarmRoute
+import com.el.yello.presentation.onboarding.activity.OnBoardingActivity
 import com.el.yello.presentation.tutorial.TutorialActivity
 import com.example.ui.compose.theme.YelloTheme
 import com.example.ui.extension.boolExtra

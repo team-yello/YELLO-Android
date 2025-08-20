@@ -97,7 +97,7 @@
             android:windowSoftInputMode="adjustResize" />
 
         <activity
-            android:name=".presentation.onboarding.activity.GetAlarmActivity"
+            android:name=".presentation.getalarm.GetAlarmActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
 

@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.enableEdgeToEdge
 import com.el.yello.presentation.onboarding.screen.EditNameRoute
 import com.example.ui.compose.theme.YelloTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -13,6 +14,7 @@ class EditNameActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
 
         // TODO: OnBoardingActivity Compose 전환 후 EditNameActivity -> OnBoardingActivity 통합 예정
         // 현재: EditNameActivity → OnBoardingActivity (별도 Activity 2개)

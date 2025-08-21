@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -23,7 +24,10 @@ class GetAlarmActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val isCodeTextEmpty = intent.getBooleanExtra(OnBoardingActivity.EXTRA_CODE_TEXT_EMPTY, false)
+        enableEdgeToEdge()
+
+        val isCodeTextEmpty =
+            intent.getBooleanExtra(OnBoardingActivity.EXTRA_CODE_TEXT_EMPTY, false)
 
         setContent {
             YelloTheme {
@@ -42,7 +46,8 @@ class GetAlarmActivity : ComponentActivity() {
     }
 
     private fun startTutorialActivity() {
-        val isCodeTextEmpty = intent.getBooleanExtra(OnBoardingActivity.EXTRA_CODE_TEXT_EMPTY, false)
+        val isCodeTextEmpty =
+            intent.getBooleanExtra(OnBoardingActivity.EXTRA_CODE_TEXT_EMPTY, false)
 
         val intent = TutorialActivity.newIntent(this, false).apply {
             addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)

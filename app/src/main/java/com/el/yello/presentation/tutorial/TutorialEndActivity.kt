@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.enableEdgeToEdge
 import com.el.yello.presentation.main.MainActivity
 import com.el.yello.presentation.tutorial.screen.TutorialEndRoute
 import com.example.ui.compose.theme.YelloTheme
@@ -15,7 +16,10 @@ class TutorialEndActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
+
         val isPlus = intent.getBooleanExtra(EXTRA_IS_PLUS, false)
+
         setContent {
             YelloTheme {
                 TutorialEndRoute(
@@ -36,6 +40,7 @@ class TutorialEndActivity : ComponentActivity() {
             Intent(context, TutorialEndActivity::class.java).apply {
                 putExtra(EXTRA_IS_PLUS, isPlus)
             }
+
         private const val EXTRA_IS_PLUS = "IS_PLUS"
     }
 }

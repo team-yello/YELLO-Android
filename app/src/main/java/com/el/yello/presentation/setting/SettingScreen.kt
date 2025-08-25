@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -54,18 +55,34 @@ fun SettingRoute(
     val snackbarHostState = remember { SnackbarHostState() }
 
     viewModel.collectSideEffect {
-        when(it) {
+        when (it) {
             is SettingSideEffect.SuccessLogout -> {
                 successLogout()
             }
+
             is SettingSideEffect.FailureLogout -> {
                 snackbarHostState.showSnackbar(it.msg)
             }
-            is SettingSideEffect.NavigateAccountDeletion -> { navigateAccountDeletion() }
-            is SettingSideEffect.NavigateBack -> { navigateBack() }
-            is SettingSideEffect.NavigateCustomerSupport -> { navigateCustomerSupport() }
-            is SettingSideEffect.NavigatePrivacyPolicy -> { navigatePrivacyPolicy() }
-            is SettingSideEffect.NavigateTermsOfService -> { navigateTermsOfService() }
+
+            is SettingSideEffect.NavigateAccountDeletion -> {
+                navigateAccountDeletion()
+            }
+
+            is SettingSideEffect.NavigateBack -> {
+                navigateBack()
+            }
+
+            is SettingSideEffect.NavigateCustomerSupport -> {
+                navigateCustomerSupport()
+            }
+
+            is SettingSideEffect.NavigatePrivacyPolicy -> {
+                navigatePrivacyPolicy()
+            }
+
+            is SettingSideEffect.NavigateTermsOfService -> {
+                navigateTermsOfService()
+            }
         }
     }
 
@@ -92,7 +109,9 @@ fun SettingScreen(
 ) {
 
     Scaffold(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier
+            .fillMaxSize()
+            .systemBarsPadding(),
         topBar = {
             SettingTopBar(onClickBack)
         },
@@ -133,7 +152,6 @@ fun SettingScreen(
         }
     }
 }
-
 
 @Composable
 private fun SettingCard(
@@ -224,10 +242,11 @@ private fun SettingBottomBar(
             fontSize = 13.sp,
             color = Grayscale600,
             fontWeight = FontWeight.Normal,
-            modifier = Modifier.padding(8.dp)
+            modifier = Modifier
+                .padding(8.dp)
                 .clickable {
                     onAccountDeletionClick()
-            }
+                }
         )
     }
 }

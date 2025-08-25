@@ -4,10 +4,12 @@ import android.graphics.Rect
 import android.os.Bundle
 import android.view.MotionEvent
 import android.view.View
+import androidx.activity.enableEdgeToEdge
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
+import com.example.ui.extension.applyEdgeToEdgeInsets
 import com.example.ui.extension.hideKeyboard
 
 abstract class BindingActivity<T : ViewDataBinding>(
@@ -18,14 +20,16 @@ abstract class BindingActivity<T : ViewDataBinding>(
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
         binding = DataBindingUtil.setContentView(this, layoutResId)
+        applyEdgeToEdgeInsets()
         binding.lifecycleOwner = this
     }
 
     override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
-        if (ev?.action == MotionEvent.ACTION_UP){
+        if (ev?.action == MotionEvent.ACTION_UP) {
             val currentFocus = currentFocus
-            if (currentFocus != null && isTouchOutsideView(currentFocus, ev)){
+            if (currentFocus != null && isTouchOutsideView(currentFocus, ev)) {
                 hideKeyboard(currentFocus)
                 currentFocus.clearFocus()
             }

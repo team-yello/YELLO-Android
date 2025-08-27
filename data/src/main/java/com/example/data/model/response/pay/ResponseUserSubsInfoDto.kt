@@ -1,7 +1,7 @@
 package com.example.data.model.response.pay
 
 import com.example.domain.entity.PayUserSubsInfoModel
-import com.example.domain.enum.toSubscribeType
+import com.example.domain.enums.toSubscribeType
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 

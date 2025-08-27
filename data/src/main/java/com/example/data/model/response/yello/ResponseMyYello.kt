@@ -3,7 +3,7 @@ package com.example.data.model.response.yello
 import com.example.domain.entity.MyYello
 import com.example.domain.entity.Vote
 import com.example.domain.entity.Yello
-import com.example.domain.enum.Gender
+import com.example.domain.enums.Gender
 import kotlinx.serialization.Serializable
 
 @Serializable

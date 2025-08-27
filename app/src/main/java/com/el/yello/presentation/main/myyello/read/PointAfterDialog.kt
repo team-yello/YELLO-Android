@@ -11,7 +11,7 @@ import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import com.el.yello.R
 import com.el.yello.databinding.DialogPointAfterBinding
-import com.example.domain.enum.PointEnum
+import com.example.domain.enums.PointEnum
 import com.example.ui.base.BindingDialogFragment
 import com.example.ui.extension.toast
 import com.example.ui.state.UiState

@@ -1,4 +1,4 @@
-package com.example.domain.enum
+package com.example.domain.enums
 
 enum class Grade {
     First, Second, Third;

@@ -1,7 +1,7 @@
 package com.el.yello.presentation.onboarding.contract
 
 import androidx.compose.runtime.Immutable
-import com.example.domain.enum.StudentType
+import com.example.domain.enums.StudentType
 
 @Immutable
 data class SelectStudentState(

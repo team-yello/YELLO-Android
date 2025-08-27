@@ -12,7 +12,7 @@ import com.el.yello.presentation.onboarding.fragment.highschoolinfo.group.GroupD
 import com.el.yello.presentation.onboarding.fragment.highschoolinfo.school.SearchDialogHighSchoolFragment
 import com.el.yello.util.manager.AmplitudeManager
 import com.el.yello.util.extension.yelloSnackbar
-import com.example.domain.enum.Grade
+import com.example.domain.enums.Grade
 import com.example.ui.base.BindingFragment
 import com.example.ui.extension.colorOf
 import com.example.ui.extension.setOnSingleClickListener

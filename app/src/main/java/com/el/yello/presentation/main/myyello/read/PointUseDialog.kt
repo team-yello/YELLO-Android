@@ -11,7 +11,7 @@ import com.el.yello.R
 import com.el.yello.databinding.DialogPointUseBinding
 import com.el.yello.presentation.main.MainActivity
 import com.el.yello.util.manager.AmplitudeManager
-import com.example.domain.enum.PointEnum
+import com.example.domain.enums.PointEnum
 import com.example.ui.base.BindingDialogFragment
 import com.example.ui.extension.setOnSingleClickListener
 

@@ -7,7 +7,7 @@ import com.example.domain.entity.CheckKeyword
 import com.example.domain.entity.CheckName
 import com.example.domain.entity.FullName
 import com.example.domain.entity.YelloDetail
-import com.example.domain.enum.PointEnum
+import com.example.domain.enums.PointEnum
 import com.example.domain.repository.YelloRepository
 import com.example.ui.state.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel

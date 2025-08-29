@@ -8,7 +8,7 @@ import com.el.yello.util.manager.AmplitudeManager
 import com.example.domain.entity.MyYello
 import com.example.domain.entity.notice.Banner
 import com.example.domain.entity.vote.VoteCount
-import com.example.domain.enum.SubscribeType
+import com.example.domain.enums.SubscribeType
 import com.example.domain.repository.NoticeRepository
 import com.example.domain.repository.PayRepository
 import com.example.domain.repository.YelloRepository

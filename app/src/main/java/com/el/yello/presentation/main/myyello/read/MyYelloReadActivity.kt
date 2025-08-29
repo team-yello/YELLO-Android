@@ -26,7 +26,7 @@ import com.el.yello.databinding.ActivityMyYelloReadBinding
 import com.el.yello.presentation.repairing.RepairingActivity
 import com.el.yello.util.manager.AmplitudeManager
 import com.example.domain.entity.YelloDetail
-import com.example.domain.enum.PointEnum
+import com.example.domain.enums.PointEnum
 import com.example.ui.base.BindingActivity
 import com.example.ui.extension.boolExtra
 import com.example.ui.extension.dpToPx

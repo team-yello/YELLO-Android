@@ -28,7 +28,7 @@ import com.el.yello.util.extension.dp
 import com.el.yello.util.extension.yelloSnackbar
 import com.el.yello.util.manager.AmplitudeManager
 import com.example.domain.entity.event.Event
-import com.example.domain.enum.SubscribeType.CANCELED
+import com.example.domain.enums.SubscribeType.CANCELED
 import com.example.ui.base.BindingActivity
 import com.example.ui.extension.colorOf
 import com.example.ui.extension.stringExtra

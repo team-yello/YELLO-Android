@@ -14,6 +14,7 @@ import com.example.domain.entity.onboarding.RequestAddFriendModel
 import com.example.domain.entity.onboarding.SchoolList
 import com.example.domain.entity.onboarding.SignupInfo
 import com.example.domain.entity.onboarding.UserInfo
+import com.example.domain.enums.StudentType
 import com.example.domain.repository.AuthRepository
 import com.example.domain.repository.OnboardingRepository
 import com.example.ui.state.UiState
@@ -36,13 +37,10 @@ class OnBoardingViewModel @Inject constructor(
 
     var currentPercent = 17
     val nameText = MutableLiveData("")
-    val isValidName: LiveData<Boolean> = nameText.map { name -> checkName(name) }
 
-    val checkNameLength: LiveData<Boolean> = nameText.map { name ->
-        (name?.trim()?.length ?: 0) >= 2
-    }
+    private val _selectedStudentType = MutableLiveData<StudentType?>()
+    val selectedStudentType: LiveData<StudentType?> = _selectedStudentType
 
-    val studentType = MutableLiveData("")
     val university: String get() = universityText.value?.trim() ?: ""
     val universityText = MutableLiveData("")
     val highSchool: String get() = highSchoolText.value?.trim() ?: ""
@@ -113,9 +111,9 @@ class OnBoardingViewModel @Inject constructor(
     fun resetGetValidYelloId() {
         _getValidYelloIdState.value = UiState.Loading
     }
-
-    fun selectStudentType(student: String) {
-        studentType.value = student
+    
+    fun selectStudentType(type: StudentType) {
+        _selectedStudentType.value = type
     }
 
     fun setUniversity(university: String) {
